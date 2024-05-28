@@ -1,4 +1,4 @@
-package com.cowork.employee.notice;
+package com.cowork.admin.notice;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,8 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("employee/notice")
-public class NoticeController {
+@RequestMapping("admin/notice")
+public class AdminNoticeController {
 
 	/** 공지사항 목록
 	 * @return
@@ -17,7 +17,7 @@ public class NoticeController {
 	@GetMapping("noticeList")
 	public String noticeList() {
 		
-		return "employee/notice/noticeList";
+		return "admin/notice/noticeList";
 	}
 	
 	/** 공지사항 등록
@@ -26,6 +26,6 @@ public class NoticeController {
 	@GetMapping("noticeInsert")
 	public String noticeInsert() {
 		
-		return "employee/notice/noticeInsert";
+		return "admin/notice/noticeInsert";
 	}
 }
