@@ -1,0 +1,59 @@
+/* 등록버튼 */
+.defaultBtn {
+    display: flex;
+    justify-content: flex-end;
+    width: 80%;
+}
+
+/* 목록 화면 버튼 */
+.listBtn {
+    width: 80%;
+}
+
+/************************** 등록 화면 */
+/* 등록 화면 버튼 */
+.insBtn {
+    width: 59%;
+}
+
+button#cancelBtn {
+    margin-left: 10px;
+}
+
+.insertForm > label {
+    margin-right: 55px;
+}
+
+.insertForm input {
+    width: 400px;
+}
+
+/* 첨부파일 */
+.fileUploadForm {
+    margin-top: 50px !important;
+}
+
+.fa-solid, .fas::before {
+    margin-right: 10px;
+}
+
+.colorGray {
+    color: #bbb;
+    margin-left: 10px;
+}
+
+table.default-line {
+    width: 100%;
+}
+
+table.default-line td {
+    padding: 10px;
+}
+
+table.default-line td:nth-child(1) {
+    width: 95%;
+}
+
+.insertCombo {
+    display: flex;
+}
