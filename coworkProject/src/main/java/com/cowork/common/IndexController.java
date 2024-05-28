@@ -11,4 +11,7 @@ public class IndexController {
 		
 		return "common/index";
 	}
+	
+	
+	
 }
