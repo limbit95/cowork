@@ -30,17 +30,17 @@
                 <div class="row">
                     <!-- 이름, 성 영역 -->
                     <div class="nameDiv">
-                        <div>
+                        <div class="subRow">
                             <span>이름</span>
                             <input class="default-line" type="text">
                         </div>
     
-                        <div>
+                        <div class="subRow">
                             <span>성</span>
                             <input class="default-line" type="text">
                         </div>
     
-                        <div>
+                        <div class="subRow">
                             <span>아이디</span>
                             <input class="default-line" type="text">
                         </div>
@@ -49,7 +49,7 @@
                     </div>
                     
                     <!-- 프로필 사진 영역 -->
-                    <div class="profileImgDiv">
+                    <div class="profileImgDiv subRow">
                         <!-- 변경된 이미지 보여줄 영역 -->
                         <div>
                             <img class="profileImg" src="" alt="">
@@ -59,7 +59,7 @@
                         <!-- type="file"인 input 태그 클릭 효과주기 위해 라벨로 묶음 -->
                         <input type="file" id="imageInput" accept="image/*" hidden>
                         <!-- 이미지 변경 버튼9카메라 아이콘) -->
-                        <div class="profileImgBtnDiv"><label for="imageInput"><i class="fa-solid fa-camera profileImgBtn"></i></label></div>
+                        <label for="imageInput"><div class="profileImgBtnDiv"><i class="fa-solid fa-camera profileImgBtn"></i></div></label>
                     </div>
                 </div>
                 
@@ -71,7 +71,7 @@
                         <span>이메일</span>
                         <input class="default-line" type="text">
                     </div>
-                    <div class="btnDiv" >
+                    <div class="btnDiv">
                         <button class="default-btn glucose-btn" type="button">변경하기</button>
                     </div>
                 </div>
@@ -81,12 +81,12 @@
                 <!-- 생일, 연락처 영역 -->
                 <div class="row">
                     <div class="birthAndPhone">
-                        <div>
+                        <div class="subRow">
                             <span>생일</span>
                             <input class="default-line" type="text">
                         </div>
     
-                        <div>
+                        <div class="subRow">
                             <span>연락처</span>
                             <input class="default-line" type="text">
                         </div>
@@ -96,7 +96,7 @@
 
 
                 <!-- 주소 영역 -->
-                <div class="row">
+                <div class="row subRow">
                     <div class="addrDiv">
                         <span>우편번호</span>
                         <input class="default-line" type="text" name="memberAddress" placeholder="우편번호" id="postcode">
@@ -106,17 +106,15 @@
                     </div>
                 </div>
                         
-                <div class="row">
-                    <div class="">
-                        <div>
-                            <span>도로명/지번</span>
-                            <input class="default-line" type="text" name="memberAddress" placeholder="도로명/지번 주소" id="address">
-                        </div>
-                        
-                        <div>
-                            <span>상세주소</span>
-                            <input class="default-line" type="text" name="memberAddress" placeholder="상세 주소" id="detailAddress">
-                        </div>
+                <div class="row column">
+                    <div class="addrDiv2 subRow">
+                        <span>도로명/지번</span>
+                        <input class="default-line" type="text" name="memberAddress" placeholder="도로명/지번 주소" id="address">
+                    </div>
+                    
+                    <div class="addrDiv2 subRow">
+                        <span>상세주소</span>
+                        <input class="default-line" type="text" name="memberAddress" placeholder="상세 주소" id="detailAddress">
                     </div>
                 </div>
     
