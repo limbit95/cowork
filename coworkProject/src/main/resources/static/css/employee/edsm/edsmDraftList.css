@@ -1,0 +1,9 @@
+/* 타이틀 */
+.baby-blue-span {
+    background: var(--main5-color);
+    border: 1px solid var(--main5-color);
+    font-size: 16px;
+    color: black !important;
+    font-weight: 300 !important;
+    padding: 10px 83px;
+}
