@@ -1,0 +1,33 @@
+<footer>
+    <div id="footerBorder">
+        <div class="footerArea">
+            <!-- 로고 -->
+            <div id="coworkLogo">
+                <img src="/images/logo3.png" id="blueLogo">
+                <span id="letterLogo">CoWork</span>
+            </div>
+
+            <!-- 약관 연결 페이지-->
+            <div id="terms">
+                <a href="#">개인정보 처리방침</a> 
+                <span>|</span>
+                <a href="#">이용 약관</a>
+            </div>
+
+            <!-- 회사 정보 영역 -->
+            <div id="coworkInfo">
+                <p>CoWork   서울특별시 중구 남대문로 120</p>
+            </div>
+
+        </div>
+    </div>
+    
+</footer>
+
+<script th:inline="javascript">
+	const message = /*[[${message}]]*/ "전달 메세지";
+	
+	if(message != null){
+		alert(message);
+	}
+</script>

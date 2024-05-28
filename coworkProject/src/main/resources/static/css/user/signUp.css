@@ -1,0 +1,174 @@
+@font-face {
+    font-family: 'NanumBarunGothic';
+    font-style: normal;
+    font-weight: 300;
+    src: url('//fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot');
+    src: url('//fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot?#iefix') format('embedded-opentype'), url('//fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.woff') format('woff'), url('//fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.ttf') format('truetype');
+}
+   
+* {
+    font-family: 'NanumBarunGothic', sans-serif;
+    margin: 0;
+}
+
+:root {	
+	--main-color: #426DA7;
+    --main2-color: #3667A6;
+    --main3-color: #214177;
+    --main4-color: #E5F2FE;
+    --main5-color: #BDD8F1;
+    --main6-color: #82A6CB;
+
+	--sub-color: #CEEEC3;
+    --sub2-color: #B8E2AA;
+    --sub3-color: #FFE0E6;
+    --sub4-color: #F1B8B8;
+
+    --gray-color: #D9D9D9;
+}
+
+/* main 영역 */
+main{
+    margin: 5% 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 메인 글씨 */
+
+#termLetter{
+    font-size: 25px;
+    font-weight: bold;
+    color: #214177;
+    margin: 30px 0;
+}
+
+#signUpLetter, #companyInfoLetter{
+    font-size: 25px;
+    font-weight: bold;
+    color: #214177;
+    margin-bottom: 60px;
+    margin-top: 30px;
+}
+
+/* -------------------약관동의 페이지-------------------*/
+
+/* 약관 영역*/
+.termArea{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 740px;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+    min-height: 600px;
+    margin-top: 50px;
+    padding: 50px 0;
+}
+
+/* textarea 영역 */
+textarea{
+    border: none;
+    background-color: #f7f7f7;
+    width: 600px;
+    height: 200px;
+    resize: none;
+    padding: 20px;
+}
+
+/* 개인정보 */
+#personalInfo{
+    margin-top: 50px;
+}
+
+
+
+/*-------------회원가입 폼 / 회사 정보 입력 페이지---------------*/
+
+.formArea{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 740px;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+    min-height: 600px;
+    margin-top: 50px;
+    padding: 50px 0;
+}
+
+/* 폼 input */
+.inputInfo, .inputAddr {
+    display: flex;
+    flex-direction: column;
+}
+.inputInfo input , .inputAddr input, #registrationNum {
+    margin: 5px 0;
+    border: 0px;
+    border-bottom: 1px solid var(--gray-color);
+    padding: 10px;
+    width: 450px;
+}
+
+.inputInfo input:hover , .inputAddr input:hover, #registrationNum:hover {
+    border-bottom: 2px solid var(--main-color);
+}
+
+#postcodeArea {
+    display: flex;
+    justify-content: space-between;
+}
+
+#postcode, #registrationNum{
+    width: 320px;
+}
+
+
+
+
+
+/*---------------- 버튼 ------------------*/
+
+
+/* 동의 버튼 & 가입 버튼*/
+#agreeBtn, #signUpBtn, #registerBtn{
+    margin-top: 50px;
+    background: var(--main5-color);
+    border: 1px solid var(--main5-color);
+    border-radius: 5px;
+    width: 400px;
+    height: 50px;
+    font-size: 16px;
+}
+
+#agreeBtn:hover, #signUpBtn:hover{
+    background: white;
+    border: 2px solid var(--main5-color);
+    cursor: pointer;
+}
+
+/* 우편번호 찾기 / 인증 버튼 */
+#searchBtn, #authBtn{
+    margin-top: 7px;
+    height: 28px;
+    width: 60px;
+    background: var(--main-color);
+    color: white;
+    border: 1px solid var(--main-color);
+    border-radius: 5px;
+}
+
+#searchBtn:hover, #authBtn:hover{
+    background: white;
+    color: var(--main-color);
+    border: 2px solid var(--main-color);
+    cursor: pointer;
+}
+
+#authBtn{
+    margin-left: 60px;
+}
