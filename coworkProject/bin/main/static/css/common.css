@@ -93,7 +93,6 @@ i.fa-solid.fa-magnifying-glass {
     width: 250px;
     height: 28px;
     padding: 0px 15px;
-    padding-bottom: 10px;
 }
 
 .search div {
@@ -258,6 +257,7 @@ i.fa-solid.fa-magnifying-glass {
     margin: 10px 0;
     border: 0px;
     border-bottom: 1px solid var(--gray-color);
+    padding-bottom: 10px;
 }
 
 .login-css input:hover {
