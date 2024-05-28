@@ -11,9 +11,21 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("employee/notice")
 public class NoticeController {
 
+	/** 공지사항 목록
+	 * @return
+	 */
 	@GetMapping("noticeList")
 	public String noticeList() {
 		
 		return "employee/notice/noticeList";
+	}
+	
+	/** 공지사항 등록
+	 * @return
+	 */
+	@GetMapping("noticeInsert")
+	public String noticeInsert() {
+		
+		return "employee/notice/noticeInsert";
 	}
 }

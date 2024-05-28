@@ -1,14 +1,24 @@
-# Created by https://www.toptal.com/developers/gitignore/api/java,eclipse
-# Edit at https://www.toptal.com/developers/gitignore?templates=java,eclipse
-
 .springBeans
 MANIFEST.MF
 settings.json
 *.log
 config.properties
-
+workbench.xmi
 
 driver.xml
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+**/metadata/*
+**/.metadata/*
+.metadata
+/.metadata
+/.metadata/*
+.metadata/
+
 
 .classpath
 .project
@@ -17,6 +27,7 @@ META-INF
 
 ### Eclipse ###
 .metadata
+.metadata/**
 bin/
 tmp/
 *.tmp
@@ -59,7 +70,42 @@ local.properties
 .texlipse
 
 # STS (Spring Tool Suite)
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
 .springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+.metadata
+.metadata/**
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+src/main/resources/application.properties
+
+.metadata/**
+.metadata
+/.metadata
 
 # Code Recommenders
 .recommenders/
@@ -106,5 +152,3 @@ local.properties
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
-
-# End of https://www.toptal.com/developers/gitignore/api/java,eclipse
