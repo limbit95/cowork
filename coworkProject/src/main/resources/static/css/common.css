@@ -7,8 +7,12 @@
 }
    
 * {
+<<<<<<< HEAD
+    /* font-family: 'NanumBarunGothic', sans-serif; */
+=======
     font-family: 'NanumBarunGothic', sans-serif;
     margin: 0;
+>>>>>>> 9c94d4f0283ea358c91f914551e0000170830b86
 }
 
 :root {	

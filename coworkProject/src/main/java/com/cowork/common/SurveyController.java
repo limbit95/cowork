@@ -4,12 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class IndexController {
+public class SurveyController {
 
-	@GetMapping("common/index")
-	public String indexPage() {
-		
-		return "common/index";
+	@GetMapping("survey")
+	public String servey() {
+		return "survey/surveyList";
 	}
-	
 }
