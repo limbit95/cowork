@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 정보 수정</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/employee/myInfo/myInfoUpdate.css">
+</head>
+<body>
+    
+    <section class="container">
+
+        <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
+        <div class="title">
+            <span class="">기본 정보</span>
+        </div>
+
+        <!-- 기본 정보 수정 form 태그 영역 -->
+        <form action="">
+            <!-- 수정하기 버튼 -->
+            <div class="myInfoUpdateBtnDiv">
+                <button class="default-btn sapphire-btn">수정하기</button>
+            </div>
+    
+            <!-- 기본 정보 -->
+            <div class="myInfo">
+    
+                <!-- 이름과 성, 프로필 사진 정렬을 위한 div -->
+                <div class="row">
+                    <!-- 이름, 성 영역 -->
+                    <div class="nameDiv">
+                        <div>
+                            <span>이름</span>
+                            <input class="default-line" type="text">
+                        </div>
+    
+                        <div>
+                            <span>성</span>
+                            <input class="default-line" type="text">
+                        </div>
+    
+                        <div>
+                            <span>아이디</span>
+                            <input class="default-line" type="text">
+                        </div>
+                        <!-- 중복된 아이디 입력 시 비동기로 중복여부 메시지 띄울 spna 태그 -->
+                        <span class="idCheckMessage">이미 사용중인 아이디입니다.</span>
+                    </div>
+                    
+                    <!-- 프로필 사진 영역 -->
+                    <div class="profileImgDiv">
+                        <!-- 변경된 이미지 보여줄 영역 -->
+                        <div>
+                            <img class="profileImg" src="" alt="">
+                        </div>
+    
+                        <!-- 인풋태그 히든으로 숨기고-->
+                        <!-- type="file"인 input 태그 클릭 효과주기 위해 라벨로 묶음 -->
+                        <input type="file" id="imageInput" accept="image/*" hidden>
+                        <!-- 이미지 변경 버튼9카메라 아이콘) -->
+                        <div class="profileImgBtnDiv"><label for="imageInput"><i class="fa-solid fa-camera profileImgBtn"></i></label></div>
+                    </div>
+                </div>
+                
+
+
+                <!-- 이메일 영역 -->
+                <div class="row">
+                    <div class="email">
+                        <span>이메일</span>
+                        <input class="default-line" type="text">
+                    </div>
+                    <div class="btnDiv" >
+                        <button class="default-btn glucose-btn" type="button">변경하기</button>
+                    </div>
+                </div>
+
+
+
+                <!-- 생일, 연락처 영역 -->
+                <div class="row">
+                    <div class="birthAndPhone">
+                        <div>
+                            <span>생일</span>
+                            <input class="default-line" type="text">
+                        </div>
+    
+                        <div>
+                            <span>연락처</span>
+                            <input class="default-line" type="text">
+                        </div>
+                    </div>
+                </div>
+                
+
+
+                <!-- 주소 영역 -->
+                <div class="row">
+                    <div class="addrDiv">
+                        <span>우편번호</span>
+                        <input class="default-line" type="text" name="memberAddress" placeholder="우편번호" id="postcode">
+                    </div>
+                    <div class="btnDiv">
+                        <button class="default-btn glucose-btn" id="searchAddress" type="button">검색</button>
+                    </div>
+                </div>
+                        
+                <div class="row">
+                    <div class="">
+                        <div>
+                            <span>도로명/지번</span>
+                            <input class="default-line" type="text" name="memberAddress" placeholder="도로명/지번 주소" id="address">
+                        </div>
+                        
+                        <div>
+                            <span>상세주소</span>
+                            <input class="default-line" type="text" name="memberAddress" placeholder="상세 주소" id="detailAddress">
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+        </form>
+
+        
+    </section>
+
+    <!-- 추후 폰트어썸 지원 스크립트 레프트 메뉴에 넣으면 될듯 -->
+    <script src="https://kit.fontawesome.com/4a8589de03.js" crossorigin="anonymous"></script>
+
+    <script src="/js/employee/myInfo/myInfoUpdate.js"></script>
+    <!-- 다음 주소 API -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</body>
+</html>
