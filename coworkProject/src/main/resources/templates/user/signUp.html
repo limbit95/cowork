@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CoWork Sign up Form</title>
+
+       <link rel="stylesheet" href="/css/user/signUp.css"> 
+
+        <th:block th:replace="~{common/common}"></th:block>  
+    </head>
+    <body>
+        <th:block th:replace="~{common/header}"></th:block>
+        
+        <main>
+            <section class="formArea">
+                <span id="signUpLetter">회원 가입</span> 
+                <div class="inputInfo">
+                    <input placeholder="아이디">
+                    <input placeholder="개인 이메일">
+                    <input placeholder="비밀번호">
+                    <input placeholder="비밀번호 확인">
+                    <input placeholder="이름">
+                    <input placeholder="성">
+                    <input placeholder="휴대전화">
+                </div>
+                <div class="inputAddr">
+                    <div id="postcodeArea">
+                        <input placeholder="우편번호" id="postcode" readonly>
+                        <button id="searchBtn">찾기</button>
+                    </div>
+                        <input placeholder="도로명/지번" readonly>
+                        <input placeholder="상세주소">
+                </div>     
+                <button id="signUpBtn">가입하기</button>
+            </section>
+        </main>
+
+        <th:block th:replace="~{common/footer}"></th:block>
+    </body>
+</html>
