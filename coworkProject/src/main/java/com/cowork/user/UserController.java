@@ -42,4 +42,20 @@ public class UserController {
 		return "user/login"; 
 	}
 	
+	/** 아이디 찾기 페이지
+	 * @return
+	 */
+	@GetMapping("findId")
+	public String findId() {
+		return "user/findId"; 
+	}
+	
+	/** 비밀번호 찾기 페이지 
+	 * @return
+	 */
+	@GetMapping("findPw")
+	public String findPw() {
+		return "user/findPw";
+	}
+	
 }
