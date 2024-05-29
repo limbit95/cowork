@@ -1,0 +1,106 @@
+:root {	
+	--main-color: #426DA7;
+    --main2-color: #3667A6;
+    --main3-color: #214177;
+    --main4-color: #E5F2FE;
+    --main5-color: #BDD8F1;
+    --main6-color: #82A6CB;
+
+	--sub-color: #CEEEC3;
+    --sub2-color: #B8E2AA;
+    --sub3-color: #FFE0E6;
+    --sub4-color: #F1B8B8;
+
+    --gray-color: #D9D9D9;
+}
+
+/****************** 타이틀 ************************/
+.container .title span {
+    color: var(--main-color);
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.container .title {
+    margin: 0 0 70px 0 !important;
+}
+
+/****************** 전체 영역 ************************/
+section.container {
+    margin: 5% 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section.container div {
+    margin: 15px 0;
+}
+
+/****************** 타이틀 ************************/
+
+.container .title span {
+    color: var(--main-color);
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.container .title {
+    margin: 0 0 70px 0 !important;
+}
+
+/* 버튼 CSS */
+.default-btn {
+    border-radius: 5px;
+    padding: 5px 20px;
+}
+
+.gray-border-btn {
+    background: white;
+    border: 1px solid #D0D0D0;
+}
+
+.gray-border-btn:hover {
+    background: #D0D0D0;
+    border: 1px solid #D0D0D0;
+    color: white;
+}
+
+/* common.css div  */
+section.container {
+    margin-bottom: 0;
+}
+
+/* 캘린더 버튼 영역 감싸는 div */
+.calendarBtnTop {
+    display: flex;
+    width: 75%;
+    justify-content: flex-end;
+}
+
+.default-btn {
+    margin-left: 1vw;
+}
+
+/* 캘린더 크기 축소 및 가운데 정렬 */
+.calendarSection {
+    display: flex;
+    justify-content: center; /* 가로로 가운데 정렬 */
+    align-items: center; /* 세로로 가운데 정렬 (옵션) */
+    min-height: 100vh; /* 페이지 전체 높이를 차지하도록 설정 */
+}
+
+.calendarBox {
+    width: 60%; /* 캘린더 너비를 80%로 설정 */
+    max-width: 1200px; /* 최대 너비 설정 (옵션) */
+    margin: 0 auto; /* 수평 가운데 정렬 */
+}
+
+#calendar {
+    width: 100%; /* 부모 요소의 너비에 맞게 설정 */
+}
+
+/* 캘린더 년, 월 글씨 색 지정 */
+#fc-dom-1 {
+    color: #426DA7;
+}
