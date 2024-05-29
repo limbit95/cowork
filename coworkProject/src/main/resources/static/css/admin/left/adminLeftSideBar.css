@@ -73,93 +73,62 @@ body {
 	color: #426DA7;
 }
 #noticeLink{
-	margin-top: 30px;
 }
 
-#noticeLink, #boardLink, #addrLink, #calendarLink, #todoLink,
-#chattingLink, #mailLink, #attendanceLink, #surveyLink{
-	flex-basis: 6%;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-weight:  bold;
-	transition: background-color 0.3s;
-	cursor: pointer;
-}
-
-
-
-#noticeLink:hover, #boardLink:hover, #addrLink:hover, #calendarLink:hover, #todoLink:hover,
-#chattingLink:hover, #mailLink:hover, #attendanceLink:hover, #surveyLink:hover{
-		background-color: 	#426DA7;
-}
-
-/*=========================================================*/
-#userMainFullContainer{
-	width: 100vw; 
-	display: flex; 
-	flex-direction: column;
-}
-#attendanceRegisterBtn{
-	display: flex; 
-	justify-content: flex-end;
-	margin-top: 10px; 
-	margin-right: 10px; 
-}
-#calendarTodoContainer{
-	display:flex;
-	margin-top: 100px;
-}
-#leftBarSpace{
-	flex-basis: 15%; 
-}
-#rightSpace{
-	flex-basis: 85%; 
-	display: flex;
-	justify-content: space-around;
-}
-#calendarSection{
-	flex-basis: 30%;	
-}
-#todoSection{
-	flex-basis: 30%;	
-}
-#calendarId{
-	font-size: 25px;
-}
-#calendarSpan{
-	
-	color: #3667A6; 
-	font-weight: bold;
-	font-size: 25px;
-}
-#noticeContainer{
-	width: 100vw;
-	display: flex; 
-	background-color: red;
-	margin-top: 50px;
-
-}
-#noticeSection{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
 /* 드롭 다운 */
 .dropdown{
-	
+	padding: 0;
+	margin: 0;
 }
 
 .dropbtn{
 	display: block;
 	width: 15vw; 
 	border: none; 
+	background-color: #ECF2FA;
+	transition: background-color 0.3s;
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: bold;
+	height: 5vh;
+}
+.dropbtn:hover{
+	background-color: #3667A6;
 }
 
-.dropdown-content{
+.dropdownContent{
+	position: relative;
+	opacity: 0;
+	transition: opacity 0.3s ease; 
+	margin-top: 10px;
 	display: none;
+	padding: 0;
+	bottom: 10px;
 }
+.dropdownContent > a {
+	color : black; 
+	text-decoration: none;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	padding-top: 0px;
+	padding-bottom: 5px;
+	font-size: 14px;
+	height: 3vh;
+}
+.dropdownContent > a:hover{
+	background-color: #82A6CB;
+	
+}
+
+.show{
+	opacity: 1;
+}
+.hide{
+	opacity: 0.3s;
+}
+
+
 
 
 

@@ -1,193 +1,98 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+	
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>권한 관리</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        .container {
-            display: flex;
-            height: 100vh;
-        }
-        .sidebar {
-            width: 250px;
-            background-color: #f0f4fb;
-            padding: 20px;
-            border-right: 1px solid #ddd;
-        }
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        .sidebar ul li {
-            padding: 8px 0;
-            font-weight: bold;
-        }
-        .sidebar ul li ul {
-            margin-left: 20px;
-            font-weight: normal;
-        }
-        .sidebar ul li ul li {
-            padding: 5px 0;
-        }
-        .content {
-            flex-grow: 1;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            background-color: #fff;
-        }
-        .content h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #3366cc;
-            text-align: center;
-        }
-        .search-bar {
-            display: flex;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .search-bar input {
-            padding: 8px 8px 8px 32px;
-            width: 300px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .search-bar .fa-search {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #aaa;
-        }
-        .button-container {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 10px;
-        }
-        .button-container button {
-            padding: 10px 20px;
-            font-size: 14px;
-            margin-left: 10px;
-            background-color: #3366cc;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .button-container button:hover {
-            background-color: #254a99;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #f0f4fb;
-            color: #333;
-        }
-        .checkbox-container {
-            text-align: center;
-        }
-        .checkbox-container input {
-            margin: 0;
-        }
-    </style>
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="	/css/admin/authority/authorityManager.css">
+	
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-            <ul>
-                <li>(주)HS애드
-                    <ul>
-                        <li>본부팀</li>
-                        <li>운영팀</li>
-                        <li>인사팀</li>
-                        <li>재무팀</li>
-                        <li>전략기획팀</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+	<div th:replace="~{common/main/leftSideBar}"></div>
+
+	
+	
+ 
         <div class="content">
-            <h1>권한 관리</h1>
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="이름, 전화번호 검색">
-            </div>
-            <div class="button-container">
-                <button class="grantAuthority-by-position">직책별 권한 추가</button>
-                <button class="grantAuthority">권한 추가</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th class="checkbox-container"><input type="checkbox" class="whole"></th>
-                        <th>부서</th>
-                        <th>이름</th>
-                        <th>직책</th>
-                        <th>권한</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="checkbox-container"><input type="checkbox"></td>
-                        <td>운영팀</td>
-                        <td>박은별</td>
-                        <td>팀장</td>
-                        <td>게시판, 메신저</td>
-                    </tr>
-                    <tr>
-                        <td class="checkbox-container"><input type="checkbox"></td>
-                        <td>운영팀</td>
-                        <td>정윤희</td>
-                        <td>과장</td>
-                        <td>게시판</td>
-                    </tr>
-                    <tr>
-                        <td class="checkbox-container"><input type="checkbox"></td>
-                        <td>운영팀</td>
-                        <td>최재준</td>
-                        <td>차장</td>
-                        <td>게시판</td>
-                    </tr>
-                    <tr>
-                        <td class="checkbox-container"><input type="checkbox"></td>
-                        <td>운영팀</td>
-                        <td>송지윤</td>
-                        <td>대리</td>
-                        <td>없음</td>
-                    </tr>
-                    <tr>
-                        <td class="checkbox-container"><input type="checkbox"></td>
-                        <td>운영팀</td>
-                        <td>임성혁</td>
-                        <td>사원</td>
-                        <td>없음</td>
-                    </tr>
-                </tbody>
-            </table>
+			<div id="contentFirstChild"></div>
+			<div id="contentSecondChild">
+				<div id="scOne">
+					<h1>권한 관리</h1>
+				</div>
+				<div id="scTwo" >
+						<div style="background-color: red;">
+											<div id="scTwoFirstChild" >
+																		<div class="search-bar">
+														                <i class="fas fa-search"></i>
+														                <input type="text" placeholder="이름, 전화번호 검색">
+														           	    </div>
+														                <div class="button-container">
+														                <button class="grantAuthority-by-position">직책별 권한 추가</button>
+														                <button class="grantAuthority">권한 추가</button>
+														                </div>
+														                <table>
+														                <thead>
+														                    <tr>
+														                        <th class="checkbox-container"><input type="checkbox" class="whole"></th>
+														                        <th>부서</th>
+														                        <th>이름</th>
+														                        <th>직책</th>
+														                        <th>권한</th>
+														                    </tr>
+														                </thead>
+														                <tbody>
+														                    <tr>
+														                        <td class="checkbox-container"><input type="checkbox"></td>
+														                        <td>운영팀</td>
+														                        <td>박은별</td>
+														                        <td>팀장</td>
+														                        <td>게시판, 메신저</td>
+														                    </tr>
+														                    <tr>
+														                        <td class="checkbox-container"><input type="checkbox"></td>
+														                        <td>운영팀</td>
+														                        <td>정윤희</td>
+														                        <td>과장</td>
+														                        <td>게시판</td>
+														                    </tr>
+														                    <tr>
+														                        <td class="checkbox-container"><input type="checkbox"></td>
+														                        <td>운영팀</td>
+														                        <td>최재준</td>
+														                        <td>차장</td>
+														                        <td>게시판</td>
+														                    </tr>
+														                    <tr>
+														                        <td class="checkbox-container"><input type="checkbox"></td>
+														                        <td>운영팀</td>
+														                        <td>송지윤</td>
+														                        <td>대리</td>
+														                        <td>없음</td>
+														                    </tr>
+														                    <tr>
+														                        <td class="checkbox-container"><input type="checkbox"></td>
+														                        <td>운영팀</td>
+														                        <td>임성혁</td>
+														                        <td>사원</td>
+														                        <td>없음</td>
+														                    </tr>
+														                </tbody>
+														            </table>
+												</div>
+												<div id="scTwoSecondChild" >
+												</div>
+							</div>
+								
+						</div>
+						
+								
+				</div>
+				            
+			</div>
+            
         </div>
-    </div>
 
     <script>
     
