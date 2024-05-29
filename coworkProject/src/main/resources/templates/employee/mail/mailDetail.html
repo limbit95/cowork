@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전체메일</title>
+
+    <th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/employee/board/board.css">
+    <link rel="stylesheet" href="/css/employee/mail/mail.css">
+
+</head>
+<body>
+    
+    <section class="container">
+
+        <div class="mailTitle">
+            <div class="mailLabel">
+                <label>전체메일</label>
+                <div><label class="cntLabel">0</label><label>/300</label></div>
+                <div><button class="default-btn glucose-btn">메일쓰기</button></div>
+            </div>
+            <div class="search">
+                <select class="default-line">
+                    <option>제목</option>
+                    <option>내용</option>
+                    <option>작성자</option>
+                </select>
+    
+                <div class="default-line">
+                    <input >
+    
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-----------------------------------------------   테이블  ------------------------------------------------------------------>
+
+        <div class="board">
+
+            <!--<div class="table-head">
+                <div>부서명</div>
+                <div>제목</div>
+                <div>작성자</div>
+                <div>작성일</div>
+            </div>-->
+
+            <div class="table-body">
+                <div class="checkDiv">
+                    <label class="delBtn">답장</label>
+                    <label class="delBtn">전달</label>
+                    <label class="delBtn">삭제</label>
+                </div>
+                <div></div>
+                <div></div>
+                <div class="menuDiv">
+                    <div><label>목록</label></div>
+                    <i class="fa-solid fa-angle-up"></i>
+                    <i class="fa-solid fa-angle-down"></i>
+                </div>
+            </div>
+
+            <div class="table-body2">
+                <!-- 제목 -->
+                <div class="ins-css insertForm">
+                    <label class="mailTitile">[수강 승인 안내] 중간 만족도 조사</label>
+                </div>
+
+                <!-- 보낸사람 -->
+                <div class="ins-css insertForm">
+                    <div><label>보낸사람</label></div>
+                    <div class="insert100"><label>송윤지</label></div>
+                </div>
+
+                <!-- 참조 -->
+                <div class="ins-css insertForm">
+                    <div><label>참조</label></div>
+                    <div class="insert100"><label>송윤지</label></div>
+                </div>
+
+                <!-- 받는사람 -->
+                <div class="ins-css insertForm">
+                    <div><label>받는사람</label></div>
+                    <div class="insert100"><label>송윤지</label></div>
+                </div>
+            </div>
+
+            <div class="default-line smarteditorDetail">에디터에 기본으로 삽입할 글(수정 모드)이 없다면 이 value 값을 지정하지 않으시면 됩니다.</div>
+
+            <div class="table-body row">
+                <div class="checkDiv">
+                    <i class="fa-solid fa-caret-up"></i>
+                    <div>개발팀</div>
+                </div>
+                <div>[받은 메일함] 중간 만족도 조사</div>
+                <div></div>
+                <div>2024-05-22 12:20</div>
+            </div>
+
+            <div class="table-body row">
+                <div class="checkDiv">
+                    <i class="fa-solid fa-caret-down"></i>
+                    <div>개발팀</div>
+                </div>
+                <div>[받은 메일함] 중간 만족도 조사</div>
+                <div></div>
+                <div>2024-05-22 12:20</div>
+            </div>
+
+
+        </div>
+    </section>
+</body>
+</html>

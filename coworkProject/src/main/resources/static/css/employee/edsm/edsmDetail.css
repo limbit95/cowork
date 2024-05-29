@@ -1,0 +1,33 @@
+/* 승인버튼 */
+.approveBtn {
+    width: 100% !important;
+}
+
+/* 결재인 정보 */
+.approveDiv {
+    display: flex;
+}
+
+.approveDiv div {
+    width: 150px;
+    height: 70px;
+    margin-right: 20px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.posisionLabel {
+    font-size: smaller;
+}
+
+/* 진행중 */
+.proceeding {
+    border: 2px solid var(--sub2-color);
+}
+
+.proceeding .gade-label {
+    position: absolute;
+    margin-bottom: 70px;
+}
