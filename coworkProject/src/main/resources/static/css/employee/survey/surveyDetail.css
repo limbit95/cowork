@@ -1,0 +1,6 @@
+#surveyBtnTop {
+    background-color: red;
+    width: 60%;
+    display: flex;
+    justify-content: flex-end;
+}

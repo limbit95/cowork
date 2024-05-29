@@ -1,4 +1,4 @@
-package com.cowork.common;
+package com.cowork.employee.reservation;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +8,6 @@ public class ReservationController {
 
 	@GetMapping("reservation")
 	public String reservation() {
-		return "reservation/reservation";
+		return "employee/reservation/reservation";
 	}
 }
