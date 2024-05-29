@@ -3,22 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/common/main/leftSideBar.css">
+<!--    <link rel="stylesheet" href="/css/common/main/adminLeftSideBar.css">-->
     <title>leftSideBar</title>
-	<style>
-		.dropbtn{
-			display: block;
-			width: 15vw; 
-			border: none; 
-		}
-		.dropdown-content{
-			display: none; 
-		}
-	</style>
+
 	
 	<div th:replace="~{common/main/leftSideBar}"></div>
 </head>
 <body>
+	
+	
     <div id="leftSideBar">
 		<div id="CompanyLogo"></div>
 		<div id="businessCard">
@@ -29,22 +22,57 @@
 		<!-- 직급 관리 -->
 		<div class="dropdown">
 		    <button class="dropbtn">직급 관리</button>
-		    <div class="dropdown-content">
-		        <a href="#">Link 1</a>
-		        <a href="#">Link 2</a>
-		        <a href="#">Link 3</a>
+		    <div class="dropdownContent">
+		        <a href="#">				직급 관리1 </a>
+		        <a href="#">				직급 관리2</a>
+		        <a href="#">				직급 관리3</a>
+		        <a href="#">				직급 관리4</a>
 		    </div>
 		</div>
 		<!-- 직급 관리 -->
-		
-		
-		<a id="noticeLink">직급 관리</a>
-		<a id="boardLink">권한 관리</a>
-		<a id="addrLink">근태 관리</a>
-		<a id="calendarLink">근태 내역 조회</a>
-		<div id="todoLink">근태 수정 요청 내역</div>
-		<div id="chattingLink">기능 관리</div>
-		<div id="mailLink">회사 정보</div>
+		<!-- 권한 관리 -->
+		<div class="dropdown">
+		    <button class="dropbtn">권한 관리</button>
+		    <div class="dropdownContent">
+		        <a href="#">	직급 관리1 </a>
+		        <a href="#">	직급 관리2</a>
+		        <a href="#">	직급 관리3</a>
+		        <a href="#">	직급 관리4</a>
+		    </div>
+		</div>
+		<!-- 권한 관리 -->
+		<!-- 근태 관리 -->
+		<div class="dropdown">
+		    <button class="dropbtn">근태 관리</button>
+		    <div class="dropdownContent">
+		        <a href="#">	근태 내역 조회 </a>
+		        <a href="#">	근태 수정 요청 내역</a>
+		    </div>
+		</div>
+		<!-- 근태 관리 -->
+		<!-- 기능 관리 -->
+		<div class="dropdown">
+		    <button class="dropbtn">기능 관리</button>
+		    <div class="dropdownContent">
+		        <a href="#">	게시판 </a>
+		        <a href="#">	공지사항 </a>
+		        <a href="#">	주소록 </a>
+		        <a href="#">	회의실 예약 </a>
+		        <a href="#">	설문 </a>
+		        <a href="#">	메일 </a>
+		    </div>
+		</div>
+		<!-- 기능 관리 -->
+		<!-- 회사 관리 -->
+		<div class="dropdown">
+		    <button class="dropbtn">회사 정보</button>
+		    <div class="dropdownContent">
+		        <a href="#">	1 </a>
+		    </div>
+		</div>		
+		<!-- 회사 관리 -->
+
+
     </div>
 	
 
@@ -52,28 +80,8 @@
 
 	
     
-    <script src="/js/common/main/leftSideBar.js"></script>
+    <script src="/js/admin/left/adminLeftSideBar.js"></script>
 	
-	<script>
-		document.addEventListener("DOMContentLoaded", function() {
-			
-		    var dropdown = document.querySelector(".dropdown");
-		    var dropbtn = document.querySelector(".dropbtn");
-		    var dropdownContent = document.querySelector(".dropdown-content");
-		
-		    dropbtn.addEventListener("click", function() {
-		        dropdownContent.classList.toggle("show");
-		    });
-		
-		    window.onclick = function(event) { // window.onclick : 화면 어디를 클릭하든 동작하는 이벤트리스너
-		        if (!event.target.matches('.dropbtn')) { // 클릭한게 dropbtn 이 아니라면 
-		            if (dropdownContent.classList.contains('show')) { // 보여지고 있다면  
-		                dropdownContent.classList.remove('show'); // 안보이게 해라 
-		            }
-		        }
-		    }
-			
-		});
-	</script>
+
 </body>
 </html>
