@@ -24,5 +24,5 @@ modal.addEventListener("click", e => {
   div.classList.toggle('larger');
   setTimeout(function() {
       div.classList.toggle('larger');
-  }, 120);
+  }, 150);
 });
