@@ -12,7 +12,8 @@ section.container div {
 form {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    /* width: 80%; */
+    width: 1200px;
 }
 
 /* 수정하기 버튼을 감싸는 div */
@@ -175,7 +176,7 @@ section.container .idCheckMessage {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80%;
+    width: 1200px;
     border: 1px solid #d9d9d9;
     border-radius: 5px;
     height: 720px;
@@ -201,7 +202,7 @@ section.container .workInfoDiv .row {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    width: 80%;
+    width: 1200px;
     border: 1px solid #d9d9d9;
     border-radius: 5px;
     height: 300px;
@@ -209,7 +210,7 @@ section.container .workInfoDiv .row {
 
 /* 다운로드 버튼 감싸는 div */
 section.container .download {
-    width: 80%;
+    width: 1200px;
     display: flex;
     justify-content: end;
     margin-bottom: 10px;
