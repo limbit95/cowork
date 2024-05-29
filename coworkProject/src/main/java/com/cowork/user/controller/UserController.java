@@ -1,4 +1,4 @@
-package com.cowork.user;
+package com.cowork.user.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

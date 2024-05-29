@@ -1,6 +1,73 @@
 #surveyBtnTop {
-    background-color: red;
     width: 60%;
     display: flex;
     justify-content: flex-end;
+}
+
+#surveyTitleBtn {
+    margin-bottom: 0;
+}
+
+#surveyDelete {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.submitForm {
+    margin: 1% 10% 5% 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.selectRadio {
+    width: 60%;
+    border: solid 1px #d9d9d9;
+    margin-bottom: 5%;
+}
+
+.selectRadio div {
+    margin: 10px 10px;
+}
+
+.selectRadio div input {
+    margin-right: 10px;
+}
+
+.selectSection {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.answerDiv {
+    display: flex;
+    flex-basis: 60%;
+    border: 1px solid var(--main4-color);
+    background-color: var(--main4-color);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 45px;
+    font-size: 20px;
+}
+
+.answerTitle {
+    margin: 10px 10px;
+}
+
+.surveySubmitBtnSection {
+    /* background-color: red; */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.surveySubmitBtn {
+    flex-basis: 60%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.surveySubmitBtn button {
+    margin-left: 10px;
 }
