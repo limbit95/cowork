@@ -17,12 +17,12 @@
         </div>
 
         <!-- 기본 정보 수정 form 태그 영역 -->
-        <form action="">
+        <form action="" method="post" enctype="multipart/form-data">
             <!-- 수정하기 버튼 -->
             <div class="myInfoUpdateBtnDiv">
                 <button class="default-btn sapphire-btn">수정하기</button>
             </div>
-    
+            
             <!-- 기본 정보 -->
             <div class="myInfo">
     
@@ -32,17 +32,17 @@
                     <div class="nameDiv">
                         <div class="subRow">
                             <span>이름</span>
-                            <input class="default-line" type="text">
+                            <input class="default-line" type="text" name="empFirstName">
                         </div>
     
                         <div class="subRow">
                             <span>성</span>
-                            <input class="default-line" type="text">
+                            <input class="default-line" type="text" name="empLastName">
                         </div>
     
                         <div class="subRow">
                             <span>아이디</span>
-                            <input class="default-line" type="text">
+                            <input class="default-line" type="text" name="empId">
                         </div>
                         <!-- 중복된 아이디 입력 시 비동기로 중복여부 메시지 띄울 spna 태그 -->
                         <span class="idCheckMessage">이미 사용중인 아이디입니다.</span>
@@ -57,7 +57,7 @@
     
                         <!-- 인풋태그 히든으로 숨기고-->
                         <!-- type="file"인 input 태그 클릭 효과주기 위해 라벨로 묶음 -->
-                        <input type="file" id="imageInput" accept="image/*" hidden>
+                        <input type="file" id="imageInput" accept="image/*" hidden name="profileImg">
                         <!-- 이미지 변경 버튼9카메라 아이콘) -->
                         <label for="imageInput"><div class="profileImgBtnDiv"><i class="fa-solid fa-camera profileImgBtn"></i></div></label>
                     </div>
@@ -69,7 +69,7 @@
                 <div class="row">
                     <div class="email">
                         <span>이메일</span>
-                        <input class="default-line" type="text">
+                        <input class="default-line" type="text" name="empEmail">
                     </div>
                     <div class="btnDiv">
                         <button class="default-btn glucose-btn" type="button">변경하기</button>
@@ -83,12 +83,12 @@
                     <div class="birthAndPhone">
                         <div class="subRow">
                             <span>생일</span>
-                            <input class="default-line" type="text">
+                            <input class="default-line" type="text" name="empBirth">
                         </div>
     
                         <div class="subRow">
                             <span>연락처</span>
-                            <input class="default-line" type="text">
+                            <input class="default-line" type="text" name="phone">
                         </div>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                 <div class="row subRow">
                     <div class="addrDiv">
                         <span>우편번호</span>
-                        <input class="default-line" type="text" name="memberAddress" placeholder="우편번호" id="postcode">
+                        <input class="default-line" type="text" name="empAddress" placeholder="우편번호" id="postcode">
                     </div>
                     <div class="btnDiv">
                         <button class="default-btn glucose-btn" id="searchAddress" type="button">검색</button>
@@ -109,20 +109,104 @@
                 <div class="row column">
                     <div class="addrDiv2 subRow">
                         <span>도로명/지번</span>
-                        <input class="default-line" type="text" name="memberAddress" placeholder="도로명/지번 주소" id="address">
+                        <input class="default-line" type="text" name="empAddress" placeholder="도로명/지번 주소" id="address">
                     </div>
                     
                     <div class="addrDiv2 subRow">
                         <span>상세주소</span>
-                        <input class="default-line" type="text" name="memberAddress" placeholder="상세 주소" id="detailAddress">
+                        <input class="default-line" type="text" name="empAddress" placeholder="상세 주소" id="detailAddress">
                     </div>
                 </div>
     
             </div>
         </form>
-
         
     </section>
+
+
+    <!-- 회사 정보 -->
+    <section class="container">
+
+        <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
+        <div class="title">
+            <span class="">직장 정보</span>
+        </div>
+
+        <div class="workInfoDiv">
+
+            <div class="row subRow">
+                <span>사번</span>
+                <input class="default-line" readonly>
+            </div>
+
+            <div class="row subRow">
+                <span>부서</span>
+                <input class="default-line" readonly>
+            </div>
+
+            <div class="row subRow">
+                <span>직급</span>
+                <input class="default-line" readonly>
+            </div>
+
+            <div class="row subRow">
+                <span>근무처</span>
+                <input class="default-line" readonly>
+            </div>
+
+            <div class="row subRow">
+                <span>계약 형태</span>
+                <input class="default-line" readonly>
+            </div>
+
+            <div class="row subRow">
+                <span>내선 번호</span>
+                <input class="default-line" readonly>
+            </div>
+
+            <div class="row subRow">
+                <span>입사일</span>
+                <input class="default-line" readonly>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- 모바일 명함 -->
+    <section class="container">
+
+        <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
+        <div class="title">
+            <span class="">모바일 명함</span>
+        </div>
+
+        <div class="download">
+            <a href="">다운로드</a>
+        </div>
+
+        <div class="mobileCardDiv">
+
+            <div>
+                <input type="radio" name="mobileCard">
+                <div class="mobileCard"></div>
+            </div>
+
+            <div>
+                <input type="radio" name="mobileCard">
+                <div class="mobileCard"></div>
+            </div>
+
+            <div>
+                <input type="radio" name="mobileCard">
+                <div class="mobileCard"></div>
+            </div>
+
+        </div>
+
+    </section>
+
 
     <!-- 추후 폰트어썸 지원 스크립트 레프트 메뉴에 넣으면 될듯 -->
     <script src="https://kit.fontawesome.com/4a8589de03.js" crossorigin="anonymous"></script>
