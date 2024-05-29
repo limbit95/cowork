@@ -1,4 +1,4 @@
-package com.cowork.employee.edsm;
+package com.cowork.employee.edsm.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,5 +37,14 @@ public class EdsmController {
 	public String edsmDetail() {
 		
 		return "employee/edsm/edsmDetail";
+	}
+	
+	/** 전자결재 내역
+	 * @return
+	 */
+	@GetMapping("edsmHistory")
+	public String edsmHistory() {
+		
+		return "employee/edsm/edsmHistory";
 	}
 }

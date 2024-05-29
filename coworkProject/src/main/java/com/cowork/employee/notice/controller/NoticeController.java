@@ -1,4 +1,4 @@
-package com.cowork.employee.notice;
+package com.cowork.employee.notice.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,5 +27,23 @@ public class NoticeController {
 	public String noticeInsert() {
 		
 		return "employee/notice/noticeInsert";
+	}
+	
+	/** 공지사항 등록
+	 * @return
+	 */
+	@GetMapping("noticeUpdate")
+	public String noticeUpdate() {
+		
+		return "employee/notice/noticeUpdate";
+	}
+	
+	/** 공지사항 상세
+	 * @return
+	 */
+	@GetMapping("noticeDetail")
+	public String noticeDetail() {
+		
+		return "employee/notice/noticeDetail";
 	}
 }

@@ -1,4 +1,4 @@
-package com.cowork.admin.notice;
+package com.cowork.admin.notice.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,5 +27,23 @@ public class AdminNoticeController {
 	public String noticeInsert() {
 		
 		return "admin/notice/noticeInsert";
+	}
+	
+	/** 공지사항 수정
+	 * @return
+	 */
+	@GetMapping("noticeUpdate")
+	public String noticeUpdate() {
+		
+		return "admin/notice/noticeUpdate";
+	}
+	
+	/** 공지사항 수정
+	 * @return
+	 */
+	@GetMapping("noticeDetail")
+	public String noticeDetail() {
+		
+		return "admin/notice/noticeDetail";
 	}
 }
