@@ -5,7 +5,6 @@ section.container div {
     margin: 0;
 }
 
-
 header {
     display: flex;
     justify-content: space-between;
@@ -228,7 +227,6 @@ main > :last-child {
 /* 모달 닫기 버튼 스타일 */
 .close {
     color: black;
-    float: right;
     font-size: 26px;
     font-weight: bold;
 }
@@ -242,14 +240,12 @@ main > :last-child {
 
 /* 모달 내용 스타일 */
 .modal-content {
-    /* 모달 초기에는 숨김 상태 */
-    /* display: none;  */
+    display: none;  /* 모달 초기에는 숨김 상태 */
     position: relative;
-    bottom: 600px;
     z-index: 2;
     background-color: #fefefe;
-    margin: 15% auto;
     padding: 20px;
+    bottom: 300px;
     border: 1px solid #888;
     width: 500px;
     height: 400px;
@@ -263,5 +259,36 @@ main > :last-child {
 }
 
 * {
-    border: 1px solid red;
+    /* border: 1px solid red; */
+}
+
+.contentHead {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--main6-color);
+}
+.contentHead > div {
+    display: flex;
+    align-items: end;
+    width: 140px;
+    height: 40px;
+}
+.contentHead > div > span {
+    width: 70px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+}
+.contentHead > div > :nth-child(1) {
+    border-left: 1px solid var(--main6-color);
+    border-right: 1px solid var(--main6-color);
+    border-top: 1px solid var(--main6-color);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.contentBody {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
 }
