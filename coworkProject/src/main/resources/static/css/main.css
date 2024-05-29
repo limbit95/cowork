@@ -104,8 +104,18 @@ main{
     font-family: "Inter", sans-serif;
 }
 
+
 /* 회사 정보 영역 */
-#coworkInfo{
+#coworkInfo {
     margin-left: 100px;
-    font-family: "Inter", sans-serif;
+    font-family: "Inter", sans-serif !important;
 }
+
+
+
+/* ---------------------- main 영역 -------------------------- */
+
+/* ------ 메인 배너 영역 ------ */
+/* ------ 네비바 영역 ------ */
+/* ------ 메인 배너 영역 ------ */
+

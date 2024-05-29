@@ -15,8 +15,8 @@
             </div>
 
             <!-- 회사 정보 영역 -->
-            <div id="coworkInfo">
-                <p>CoWork   서울특별시 중구 남대문로 120</p>
+            <div>
+                <p id="coworkInfo">CoWork   서울특별시 중구 남대문로 120</p>
             </div>
 
         </div>
@@ -30,4 +30,10 @@
 	if(message != null){
 		alert(message);
 	}
+
+    const coworkLogo = document.querySelector("#coworkLogo"); 
+
+    coworkLogo.addEventListener('click', ()=> {
+        location.href = "/"; 
+    })
 </script>
