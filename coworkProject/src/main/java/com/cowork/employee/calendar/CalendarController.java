@@ -1,4 +1,4 @@
-package com.cowork.common;
+package com.cowork.employee.calendar;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +8,6 @@ public class CalendarController {
 
 	@GetMapping("calendar")
 	public String calendar() {
-		return "calendar/calendar";
+		return "employee/calendar/calendar";
 	}
 }
