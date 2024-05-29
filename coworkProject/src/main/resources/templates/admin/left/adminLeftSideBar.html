@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/common/main/leftSideBar.css">
+    <title>leftSideBar</title>
+	<style>
+		.dropbtn{
+			display: block;
+			width: 15vw; 
+			border: none; 
+		}
+		.dropdown-content{
+			display: none; 
+		}
+	</style>
+	
+	<div th:replace="~{common/main/leftSideBar}"></div>
+</head>
+<body>
+    <div id="leftSideBar">
+		<div id="CompanyLogo"></div>
+		<div id="businessCard">
+			<div></div>
+		</div>
+		<a id="logOutLink">로그아웃</a>
+		
+		<!-- 직급 관리 -->
+		<div class="dropdown">
+		    <button class="dropbtn">직급 관리</button>
+		    <div class="dropdown-content">
+		        <a href="#">Link 1</a>
+		        <a href="#">Link 2</a>
+		        <a href="#">Link 3</a>
+		    </div>
+		</div>
+		<!-- 직급 관리 -->
+		
+		
+		<a id="noticeLink">직급 관리</a>
+		<a id="boardLink">권한 관리</a>
+		<a id="addrLink">근태 관리</a>
+		<a id="calendarLink">근태 내역 조회</a>
+		<div id="todoLink">근태 수정 요청 내역</div>
+		<div id="chattingLink">기능 관리</div>
+		<div id="mailLink">회사 정보</div>
+    </div>
+	
+
+
+
+	
+    
+    <script src="/js/common/main/leftSideBar.js"></script>
+	
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			
+		    var dropdown = document.querySelector(".dropdown");
+		    var dropbtn = document.querySelector(".dropbtn");
+		    var dropdownContent = document.querySelector(".dropdown-content");
+		
+		    dropbtn.addEventListener("click", function() {
+		        dropdownContent.classList.toggle("show");
+		    });
+		
+		    window.onclick = function(event) { // window.onclick : 화면 어디를 클릭하든 동작하는 이벤트리스너
+		        if (!event.target.matches('.dropbtn')) { // 클릭한게 dropbtn 이 아니라면 
+		            if (dropdownContent.classList.contains('show')) { // 보여지고 있다면  
+		                dropdownContent.classList.remove('show'); // 안보이게 해라 
+		            }
+		        }
+		    }
+			
+		});
+	</script>
+</body>
+</html>
