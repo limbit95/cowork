@@ -64,4 +64,13 @@ public class MailController {
 		
 		return "employee/mail/mailInsert";
 	}
+	
+	/** 메일상세
+	 * @return
+	 */
+	@GetMapping("mailDetail")
+	public String mailDetail() {
+		
+		return "employee/mail/mailDetail";
+	}
 }
