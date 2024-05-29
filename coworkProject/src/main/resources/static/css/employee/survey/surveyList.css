@@ -1,0 +1,41 @@
+.surveyListContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    margin-bottom: 0;
+}
+
+#surveyBtnTop {
+    display: flex;
+    width: 800px;
+    margin-bottom: 30px;
+    justify-content: flex-end;
+}
+
+#surveyBtnTop a{
+    text-decoration: none;
+}
+
+#surveyContainer {
+    margin-bottom: 0;
+}
+
+.board {
+    width: 800px;
+}
+
+.table-head div:nth-child(1), .table-body div:nth-child(1){
+    width: 60%;
+}
+
+.table-head div:nth-child(2), .table-body div:nth-child(2) {
+    width: 20%;
+}
+
+.table-body a {
+    text-decoration: none;
+    color: black;
+}
