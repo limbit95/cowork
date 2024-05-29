@@ -1,29 +1,6 @@
-:root {	
-	--main-color: #426DA7;
-    --main2-color: #3667A6;
-    --main3-color: #214177;
-    --main4-color: #E5F2FE;
-    --main5-color: #BDD8F1;
-    --main6-color: #82A6CB;
-
-	--sub-color: #CEEEC3;
-    --sub2-color: #B8E2AA;
-    --sub3-color: #FFE0E6;
-    --sub4-color: #F1B8B8;
-
-    --gray-color: #D9D9D9;
-}
-
-.container {
-    margin: 5% 10%;
+#surveyBtnTop {
+    background-color: red;
+    width: 60%;
     display: flex;
-    /* background-color: red; */
-    justify-content: center;
-    margin-bottom: 5%;
-}
-
-.container .title span {
-    color: var(--main-color);
-    font-size: 25px;
-    font-weight: bold;
+    justify-content: flex-end;
 }
