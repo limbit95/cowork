@@ -11,7 +11,7 @@
     margin: 0;
 }
 
-:root {	
+:root {
 	--main-color: #426DA7;
     --main2-color: #3667A6;
     --main3-color: #214177;
@@ -198,7 +198,8 @@ i.fa-solid.fa-magnifying-glass {
 .sapphire-btn, .sapphire-border-btn:hover {
     background: var(--main-color);
     color: white;
-    border: 1px solid var(--main-color);
+    /* 성혁 수정 - 사유 : 기존 1px 이어서 호버 할 때마다 버튼이 꿀럭거림 */
+    border: 2px solid var(--main-color);
     /*width: 160px;*/
 }
 
