@@ -103,6 +103,10 @@
 
 }
 
+.selectSubjectiveBox {
+    border: 1px solid #d9d9d9;
+}
+
 .answerDiv input {
     border: none;
     background-color: var(--main4-color);
@@ -151,4 +155,14 @@
 
 .surveyBtn div {
     margin-left: 10px;
+}
+
+.btnHidden {
+    display: none !important;
+}
+
+.titleContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
