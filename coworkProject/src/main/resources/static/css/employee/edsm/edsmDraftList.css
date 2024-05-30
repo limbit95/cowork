@@ -7,3 +7,94 @@
     font-weight: 300 !important;
     padding: 10px 83px;
 }
+
+/***************** 기안서 메뉴 */
+.draftMenu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.draftMenu select {
+    text-align: center;
+    padding: 41px 0;
+    height: 102px !important;
+    margin-right: 20px;
+}
+
+.draftBtn {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--gray-color);
+}
+
+/* 기안서 이미지 크기 */
+.draftImg {
+    font-size: xx-large;
+}
+
+/***************** 기안서 목록 */
+.draftList2 .default-line {
+    width: 795px;
+    height: 100px;
+    margin: 0px !important;
+    display: flex;
+    align-items: center;
+    padding: 5px 20px !important;
+    margin-bottom: 20px !important;
+}
+
+/* 기안서 이미지 */
+.draftDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.draftList2 .default-line:hover {
+    background: var(--gray-color);
+}
+
+.draftList2 .default-line div {
+    margin: 8px !important;
+}
+
+/* 버튼 */
+.draftMenu .draftBtn {
+    display: flex;
+    flex-direction: column;
+}
+
+.draftList2 .draftBtn {
+    display: flex;
+    flex-direction: row;
+    border : none;
+}
+
+
+.draftList2 .draftBtn label:nth-child(2) {
+    margin-left: 10px;
+}
+
+.draftList2 .draftBtn label:hover {
+    border-bottom: 1px solid black;
+}
+
+/* 기안서 내용 */
+.draftLabel {
+    width: 580px;
+}
+
+.draftLabel2 {
+    width: 475px;
+}
+
+.draftLabel3 {
+    width: 125px;
+}
+

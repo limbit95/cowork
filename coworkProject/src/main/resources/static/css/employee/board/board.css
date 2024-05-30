@@ -16,16 +16,30 @@
     width: 59%;
 }
 
-button#cancelBtn {
+.margin10 {
     margin-left: 10px;
 }
 
-.insertForm > label {
+.insertForm div:td:nth-child(1) {
     margin-right: 55px;
 }
 
-.insertForm input {
-    width: 400px;
+.ins-css.insertForm {
+    display: flex;
+}
+
+/* 등록 라벨 */
+.ins-css.insertForm div {
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+    width: 100px;
+}
+
+/* 버튼있는 input */
+.inputBtn {
+    width: 70%;
+    margin-right: 10px !important;
 }
 
 /* 첨부파일 */
@@ -56,4 +70,10 @@ table.default-line td:nth-child(1) {
 
 .insertCombo {
     display: flex;
+}
+
+/* 에디터 */
+.default-line.smarteditorDetail {
+    height: 500px;
+    padding: 15px;
 }
