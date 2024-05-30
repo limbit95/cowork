@@ -1,7 +1,105 @@
-* {
-    border: 1px solid blue;
-}
-
 section.container {
     margin-bottom: 0;
 }
+section.container div {
+    margin: 0;
+}
+section.container > :nth-child(2) {
+    width: 80%;
+    display: flex;
+    justify-content: end;
+}
+section.container > :nth-child(2) > button {
+    margin-left: 10px;
+}
+
+main {
+    display: flex;
+    width: 80%;
+    border: 1px solid var(--main6-color);
+    margin: 0 10%;
+}
+
+.left {
+    display: flex;
+    flex-basis: 30%;
+}
+
+
+
+.right {
+    display: flex;
+    flex-direction: column;
+    /* flex-basis: 70%; */
+    flex-basis: 68%;
+    padding: 15px;
+}
+
+
+/* input 영역 */
+.right > :nth-child(1) {
+    display: flex;
+    margin-bottom: 15px;
+}
+.right > :nth-child(1) > div {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    height: 35px;
+}
+.right > :nth-child(1) > div > i {
+    font-size: 18px;
+    margin: 8px;
+}
+.right > :nth-child(1) input {
+    width: 260px;
+    border: none;
+    font-size: 15   px;
+}
+
+
+/* 이동, 삭제 버튼 영역 */
+.right > :nth-child(2) {
+    display: flex;
+    height: 30px;
+    margin-bottom: 15px;
+}
+.right > :nth-child(2) button {
+    /* display: none; */
+}
+.right > :nth-child(2) > :nth-child(1) {
+    margin-right: 10px;
+}
+
+
+/* 구성원 정보 항목(헤드) */
+.right > :nth-child(3) {
+    display: flex;
+    margin-bottom: 15px;
+    flex-direction: column;
+    background-color: var(--main5-color);
+}
+.right > :nth-child(3) > div {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+
+/* 구성원 목록 */
+.right > :nth-child(4) {
+    display: flex;
+}
+
+
+* {
+    /* border: 1px solid blue; */
+}
+
+/* --------------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------------- */
+
+
+/* --------------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------------- */
