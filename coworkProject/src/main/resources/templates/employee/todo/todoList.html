@@ -63,10 +63,13 @@
                     </div>
                     <!-- 할 일 상세 -->
                     <div class="todoDetailArea">
+                        <div id="insertBtn2Area">
+                            <button id="insertBtn2">등록</button>
+                        </div>
                         <div>
                             <div class="detailTitle">기한</div>
                             <div class="detailContent">
-                                <input type="date">
+                                <input type="date" >
                             </div>
                         </div>
                         <div>
@@ -76,24 +79,24 @@
                             </div>
                         </div>
                         <div class="inCharge">
-                            <div class="detailTitle">총 1명</div>
+                            <div class="detailTitle">담당자</div>
                             <div class="detailContent">
                                 <input>
                             </div>
                         </div>
                         <div class="detailTitle">요청 내용</div>
                         <div class="detailContent">
-                            <input>
+                            <textarea id="requestContent"></textarea>
                         </div>
                         <div>
-                        <div class="detailTitle" id="fileArea">첨부파일</div>
+                            <div class="detailTitle" id="fileArea">첨부파일</div>
                             <div class="fileBox">
                                 <input type="file" id="uploadFile" multiple style="display: none;">
                                 <label for="uploadFile" class="uploadFileLabel">내 PC</label>
                             </div>
                         </div>
-                        <div>
-                            <ul class="fileList" id="fileList">
+                        <div class="fileList">
+                            <ul id="fileList">
                             </ul>
                         </div>
                     </div>
