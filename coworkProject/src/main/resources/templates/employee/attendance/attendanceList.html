@@ -12,7 +12,7 @@
     <section class="container">
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
 
-        <div class="title"><span>근태관리</span></div>
+        <div class="title"><span>근태 관리</span></div>
 
         <!-- 연도, 월 설정 select 태그 / 승인요청 버튼 -->
         <header>
@@ -39,7 +39,7 @@
                 </select>
             </div>
             
-            <div><button class="default-btn sapphire-btn" id="myBtn">승인요청</button></div>
+            <div><button class="default-btn sapphire-btn" id="ApprovalBtn">승인요청</button></div>
         </header>
 
         <!-- 나의 근무시간현황 -->
@@ -126,6 +126,7 @@
         </main>
 
         <th:block th:replace="~{employee/attendance/attendanceRequest}"></th:block>
+        <th:block th:replace="~{employee/attendance/attendanceRequestList}"></th:block>
     </section>
 
 
