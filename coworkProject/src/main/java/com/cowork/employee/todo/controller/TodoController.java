@@ -8,14 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class TodoController {
 
+	/** 투 두 페이지 이동 
+	 * @return
+	 */
 	@GetMapping("todoList")
 	public String todoList() {
 		return "employee/todo/todoList"; 
 	}
 	
-	@GetMapping("todoInsert")
-	public String todoInsert() {
-		return "employee/todo/todoInsert"; 
-	}
 	
 }

@@ -1,3 +1,4 @@
+
 /* 검색 */
 #searchTodo{
     margin-top: 0 !important;
@@ -20,58 +21,6 @@
 .todoList{
     margin: 0 !important;
 }
-
-/* 할 일 상세 */
-.todoDetailArea{
-    border: 1px solid #d9d9d9;
-    width: 270px;
-    min-height: 620px;
-    margin: 15px 0 15px 15px !important;
-    display: flex;
-    flex-direction: column;
-    padding: 15px;
-}
-
-/* ------------ 상세 내부 ------------*/
-.todoDetailArea div {
-    display: flex;
-    height: 30px;
-    margin: 10px !important;
-}
-
-.todoDetailArea div:nth-of-type(4), .todoDetailArea div:nth-of-type(6) {
-    margin-left: 20px !important;
-    align-items: center;
-    margin-bottom: 0 !important;
-}
-.todoDetailArea div:nth-of-type(5) {
-    border: 1px solid #d9d9d9;
-    min-height: 140px;
-    padding: 10px;
-}
-
-.todoDetailArea div div:nth-of-type(1) {
-    width: 80px;
-    margin-right: 15px;
-}
-
-/* 목록 내부 제목 부분 */
-.detailTitle {
-    font-weight: bold;
-    font-size: 14px;
-    color: #214177;
-}
-
-/* 목록 내부 내용 부분 */
-.detailContent {
-    font-size: 13px;
-}
-
-.inCharge > div {
-    min-height: 30px !important;
-}
-
-
 
 
 /* ------ 할 일 헤드 영역 ------ */
@@ -121,7 +70,7 @@
 }
 .todo div:nth-of-type(2){
     margin-left: 10px;
-    width: 75%;
+    width: 77%;
 }
 .todo div:nth-of-type(3){
     margin-left: 30px;
@@ -138,7 +87,7 @@ ul{
 .select{
     position: relative;
     padding: 5px 10px;
-    width: 50px !important;
+    width: 40px !important;
     border-radius: 20px;
     border: 1px solid #d9d9d9;
     background-repeat: no-repeat;
@@ -168,6 +117,104 @@ ul{
 }
 
 
+/* ----------------할 일 상세---------------- */
+.todoDetailArea{
+    border: 1px solid #d9d9d9;
+    width: 270px;
+    height: 690px;
+    margin: 15px 0 15px 15px !important;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+/* ------------ 상세 내부 ------------ */
+.todoDetailArea div {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    margin: 10px !important;
+}
+
+/* 할 일 상세 내부 input창 */
+.todoArea input {
+    margin: 10px 0;
+    border: 0px;
+    border-bottom: 1px solid var(--gray-color);
+    padding-bottom: 10px;
+}
+
+.todoArea input:hover {
+    border-bottom: 1px solid #214177;
+}
+
+
+/* 등록 버튼  영역 */
+#insertBtn2Area {
+    margin-bottom: 0 !important;
+}
+
+/* 요청 내용 박스 부분 */
+#requestContent {
+    border: 1px solid #d9d9d9;
+    padding: 10px;
+    resize: none;
+    min-height: 140px;
+    width: 240px;
+}
+
+#requestContent:focus {
+    outline: none;
+}
+
+.todoDetailArea div:nth-of-type(6) {
+    height: 170px;
+}
+
+/* 요청 내용, 첨부 파일  + 박스 */
+.todoDetailArea div:nth-of-type(5), 
+.todoDetailArea div:nth-of-type(6), 
+.todoDetailArea div:nth-of-type(8) {
+    margin-left: 20px !important;
+    align-items: center;
+    margin-bottom: 0 !important;
+}
+.todoDetailArea div:nth-of-type(8) {
+    border: 1px solid #d9d9d9;
+    min-height: 140px;
+    padding: 10px;
+}
+
+.todoDetailArea div div:nth-of-type(1) {
+    width: 80px;
+    margin-right: 15px;
+}
+
+/* 목록 내부 제목 부분 */
+.detailTitle {
+    font-weight: bold;
+    font-size: 14px;
+    color: #214177;
+}
+
+/* 목록 내부 내용 부분 */
+.detailContent {
+    font-size: 13px;
+}
+
+.inCharge > div {
+    min-height: 30px !important;
+}
+
+/* 기한 input */
+input[type="date"] {
+    border: none;
+    padding: 10px;
+}
+
+
+
+
 
 /* ------ 파일 업로드 영역 ----- */
 
@@ -186,14 +233,13 @@ ul{
 
 /* 파일 리스트 보여주는 영역 */
 
+/*
 .fileList {
     list-style-type: none;
-    padding: 0; 
-    width: 260px;
-    height: 140px;
+    width: 240px;
+    height: 140px !important;
     border: 1px solid #ccc;
-    padding: 10px;
-}
+}*/
 
 .fileList li {
     display: flex;
@@ -216,16 +262,28 @@ ul{
 
 
 /* --------- 버튼 ---------*/
+
 /* 등록 버튼 */
 #btnArea{
     margin: 0 !important;
 }
+
 #insertBtn {
     margin-left: 70px;
 }
 
-
-/* ----- 체크박스 -----*/
-.todoHead input[type="checkbox"] {
-    color: #f3f3f3;
+#insertBtn2 {
+    margin-left: 210px;
+    border: none;
+    background-color: transparent;
+    color: #214177;
+    font-weight: bold;
+    margin-top: 0;
 }
+
+#insertBtn2:hover {
+    border-bottom: 1px solid ;
+    padding: 6px;
+}
+
+

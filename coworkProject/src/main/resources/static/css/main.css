@@ -16,30 +16,33 @@
 
 
 main{
-    min-height: 800px;
+    min-height: 1200px;
+    display: flex;
+    flex-direction: column;
 }
 
 
 /* ------------- Header 영역 ------------- */
-#headerMain{
+#headerMain {
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #426DA7;
+    min-width: 700px;
 }
 
 /* 로고 */
-#coworkLogoW{
+#coworkLogoW {
     margin-left: 50px;
 }
 
-#whiteLogo{
+#whiteLogo {
     width: 40px;
     height: 35px;
 }
 
-#letterLogoW{
+#letterLogoW {
     font-family: "Inter", sans-serif;
     font-size: 26px;
     font-weight: bold;
@@ -47,18 +50,18 @@ main{
 }
 
 /* 버튼 */
-.buttons{
+.buttons {
     margin-right: 25px;
 }
 
-.buttons a{
+.buttons a {
     text-decoration: none;
     font-weight: bold;
     color: white;
     font-size: 16px;
 }
 
-#signupBtn{
+#signupBtn {
     margin-right: 10px;
 }
 
@@ -67,12 +70,13 @@ main{
 
 /* -------------Footer 영역--------------*/
 
-#footerBorder{
+#footerBorder {
    /* border-top: 1px solid #d9d9d9;*/
     background-color: #ECF2FA;
+    min-width: 1110px;
 }
 
-.footerArea{
+.footerArea {
     margin-top: 10px;
     height: 80px;
     display: flex;
@@ -85,13 +89,13 @@ main{
 }
 
 /* 로고 */
-#blueLogo{
+#blueLogo {
     margin-left: 50px;
     width: 40px;
     height: 35px;
 }
 
-#letterLogo{
+#letterLogo {
     font-family: "Inter", sans-serif;
     font-size: 28px;
     font-weight: bold;
@@ -143,7 +147,7 @@ main{
     color: #426DA7;
 }
 
-#coworkPhrase{
+#coworkPhrase {
     width: 700px;
 }
 
@@ -154,14 +158,12 @@ main{
 
 
 /* ------ 네비바 영역 ------ */
-.mainNav{
+.mainNav {
     display: flex;
     height: 50px;
     background-color: #BDD8F1;
     align-items: center;
-    font-size: 16px;
-    font-weight: bold;
-    color: #494949;
+    min-width: 770px;
 }
 
 .mainNav div {
@@ -170,7 +172,59 @@ main{
 
 .mainNav div:nth-of-type(1) {
     margin-left: 60px;
+    margin-right: 10px;
 }
 
-/* ------ 메인 배너 영역 ------ */
+.navBtn {
+    font-size: 16px;
+    font-weight: bold;
+    color: #494949;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
 
+.navBtn:hover {
+    border-bottom: 1px solid #426DA7;
+    padding: 3px;
+    color: #426DA7;
+}
+
+/* ------ 기능 소개 영역 ------ */
+
+.functionArea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 1200px;
+}
+
+.functionArea section {
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+    min-width: 1200px;
+}
+
+/* 캘린더 */
+#calendarSection {
+
+}
+
+#calendarSection div {
+    display: flex;
+    justify-content: space-between;
+}
+
+#calendarImg {
+    width: 300px;
+}
+
+.description {
+    margin-left: 200px;
+}
+
+.description h1 {
+    color: #426DA7;
+    font-weight: bold;
+}
