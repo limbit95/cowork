@@ -1,7 +1,9 @@
 .surveyListContainer {
-    width: 100%;
+    padding: 5% 10%;
     display: flex;
     justify-content: center;
+    align-items: center;
+    padding-bottom: 0;
 }
 
 .container {
@@ -23,6 +25,30 @@
     margin-bottom: 0;
 }
 
+/* 설문 목록, 투표 현황 Button 부분 */
+.surveyListDiv {
+    width: 800px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.baby-blue-btn-survey {
+    background: var(--main5-color);
+    border: 1px solid var(--main5-color);
+}
+
+.baby-blue-boarder-btn {
+    background: white;
+    border: 2px solid var(--main5-color);
+}
+
+#surveyListBtn, #voteCurrentBtn {
+    width: 49%;
+    height: 50px;
+    font-size: 16px;
+    padding: 0;
+}
+
 .board {
     width: 800px;
 }
@@ -38,4 +64,17 @@
 .table-body a {
     text-decoration: none;
     color: black;
+}
+
+/* 투표현황 보여지는 곳 */
+.tableTitle {
+    flex-basis: 80%;
+}
+
+.tableIcon {
+    flex-basis: 5%;
+}
+
+.tableVote {
+    flex-basis: 15%;
 }

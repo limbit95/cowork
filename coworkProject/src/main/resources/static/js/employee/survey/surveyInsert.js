@@ -14,6 +14,12 @@ let i = 1;
 
 multipleAdd.addEventListener("click", () => {
 
+    multipleAdd.classList.add("baby-blue-btn");
+    multipleAdd.classList.remove("baby-blue-boarder-btn");
+
+    subjectiveAdd.classList.remove("baby-blue-btn");
+    subjectiveAdd.classList.add("baby-blue-boarder-btn");
+
     i=1;
 
     const selectAnswerBox = document.querySelector(".selectAnswerBox");
@@ -59,9 +65,6 @@ multipleAdd.addEventListener("click", () => {
     surveyQuestionAdd.classList.remove("btnHidden");
 });
 
-
-
-
 if(surveyQuestionAdd != null) {
 
     surveyQuestionAdd.addEventListener("click", () => {
@@ -95,10 +98,18 @@ const subjectiveAdd = document.querySelector("#subjectiveAdd");
 
 subjectiveAdd.addEventListener("click", () => {
 
+    multipleAdd.classList.remove("baby-blue-btn");
+    multipleAdd.classList.add("baby-blue-boarder-btn");
+
+    subjectiveAdd.classList.add("baby-blue-btn");
+    subjectiveAdd.classList.remove("baby-blue-boarder-btn");
+
     // 주관식을 눌렀을 때 객관식 문항에 class를 삭제
     // 객관식을 눌렀을 때 다시 생성될 수 있게
     const selectAnswerBox = document.querySelector(".selectAnswerBox");
-    selectAnswerBox.classList.remove("selectAnswerBox");
+    if(selectAnswerBox != null) {
+        selectAnswerBox.classList.remove("selectAnswerBox");
+    }
 
     // 새로운 <div class="littleTitle"> 요소 생성
     const littleTitleDiv = document.createElement("div");
