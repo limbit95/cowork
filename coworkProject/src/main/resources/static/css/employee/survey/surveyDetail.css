@@ -1,29 +1,73 @@
-:root {	
-	--main-color: #426DA7;
-    --main2-color: #3667A6;
-    --main3-color: #214177;
-    --main4-color: #E5F2FE;
-    --main5-color: #BDD8F1;
-    --main6-color: #82A6CB;
-
-	--sub-color: #CEEEC3;
-    --sub2-color: #B8E2AA;
-    --sub3-color: #FFE0E6;
-    --sub4-color: #F1B8B8;
-
-    --gray-color: #D9D9D9;
+#surveyBtnTop {
+    width: 60%;
+    display: flex;
+    justify-content: flex-end;
 }
 
-.container {
-    margin: 5% 10%;
+#surveyTitleBtn {
+    margin-bottom: 0;
+}
+
+#surveyDelete {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.submitForm {
+    margin: 1% 10% 5% 10%;
     display: flex;
-    /* background-color: red; */
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.selectRadio {
+    width: 60%;
+    border: solid 1px #d9d9d9;
     margin-bottom: 5%;
 }
 
-.container .title span {
-    color: var(--main-color);
-    font-size: 25px;
-    font-weight: bold;
+.selectRadio div {
+    margin: 10px 10px;
+}
+
+.selectRadio div input {
+    margin-right: 10px;
+}
+
+.selectSection {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.answerDiv {
+    display: flex;
+    flex-basis: 60%;
+    border: 1px solid var(--main4-color);
+    background-color: var(--main4-color);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 45px;
+    font-size: 20px;
+}
+
+.answerTitle {
+    margin: 10px 10px;
+}
+
+.surveySubmitBtnSection {
+    /* background-color: red; */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.surveySubmitBtn {
+    flex-basis: 60%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.surveySubmitBtn button {
+    margin-left: 10px;
 }

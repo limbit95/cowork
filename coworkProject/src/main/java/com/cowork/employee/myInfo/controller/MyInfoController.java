@@ -16,4 +16,9 @@ public class MyInfoController {
 		return "employee/myInfo/myInfoUpdate";
 	}
 	
+	@GetMapping("myInfoPwUpdate")
+	public String myInfoPwUpdate() {
+		return "employee/myInfo/myInfoPwUpdate";
+	}
+	
 }

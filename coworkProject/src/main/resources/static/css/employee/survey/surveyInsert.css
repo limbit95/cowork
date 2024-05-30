@@ -17,7 +17,6 @@
 .container {
     margin: 5% 10%;
     display: flex;
-    /* background-color: red; */
     justify-content: center;
     margin-bottom: 5%;
 }
@@ -111,14 +110,45 @@
 }
 
 .answerInput {
-    padding: 10px 10px;
+    padding: 15px 15px;
     display: flex;
 }
 
 .answerInput p {
     margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--main3-color);
 }
 
 .answerInput input {
+    margin-left: 10px;
+    width: 90%;
+}
+
+/* 질문 추가, 설문 등록 버튼 */
+.glucose-btn, .glucose-border-btn:hover {
+    background: var(--main6-color);
+    color: white;
+    border: 1px solid var(--main6-color);;
+}
+
+.glucose-border-btn, .glucose-btn:hover {
+    background: white;
+    color: var(--main6-color);
+    border: 2px solid var(--main6-color);
+}
+
+.containerSide {
+    display: flex;
+}
+
+.surveyBtn {
+    display: flex;
+    justify-content: flex-end;
+    flex-basis: 60%;
+}
+
+.surveyBtn div {
     margin-left: 10px;
 }

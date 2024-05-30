@@ -1,0 +1,56 @@
+* {
+    /* border: 1px solid red; */
+}
+
+/* 공통 css에서 정의한 스타일 속성 재정의 */
+/* 수정하기 버튼 margin-bottom 때문에 */
+section.container {
+    margin-bottom: 0;
+}
+section.container div {
+    margin: 0;
+}
+
+hr {
+    border: 1px solid #d9d9d9;
+}
+
+.pwUpdateContainer {
+    display: flex;
+    width: 80%;
+    height: 100%;
+    border: 1px solid red;
+}
+
+/* 비밀번호 안내 */
+.pwUpdateContainer > :nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    height: 100%;
+    border: 1px solid blue;
+}
+.pwUpdateContainer > :nth-child(1) > :nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    width: 96%;
+    border-bottom: 1px solid #d9d9d9;
+    padding: 2%;
+    font-size: 22px;
+}
+.pwUpdateContainer > :nth-child(1) > :nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    width: 86%;
+    border-bottom: 1px solid #d9d9d9;
+    padding: 2%;
+    font-size: 16px;
+    line-height: 25px;
+}
+
+/* 비밀번호 변경 */
+.pwUpdateContainer > :nth-child(2) {
+    width: 55%;
+    height: 100%;
+    border: 1px solid green;
+}
