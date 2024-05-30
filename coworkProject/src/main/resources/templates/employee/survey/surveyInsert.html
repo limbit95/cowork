@@ -15,7 +15,7 @@
         <div class="questionDiv">
             <div class="questionBox">
                 <i class="fa-solid fa-asterisk"></i>
-                <input value="제목을 입력해주세요.">
+                <input id="questionBoxInput" placeholder="설문 제목을 입력해주세요.">
             </div>
         </div>
 
@@ -24,47 +24,33 @@
     <section class="container">
 
         <div class="surveyAdd">
-            <button class="default-btn baby-blue-btn">객관식</button>
-            <button class="default-btn baby-blue-btn">주관식</button>
+            <button class="default-btn baby-blue-btn" id="multipleAdd">객관식 질문 추가</button>
+            <button class="default-btn baby-blue-btn" id="subjectiveAdd">주관식 질문 추가</button>
         </div>
 
     </section>
 
-    <section class="container">
+    <!-- 객관식 클릭하면 소제목 입력하는 부분, 생성됨 -->
+    <!-- 추가하기 버튼을 누르면 객관식 항목이 늘어남 -->
+    <section class="container titleContainer">
+
+    </section>
+
+
+    <!-- <section class="container">
         <div class="littleTitle">
-            <!-- 설문조사 소제목 -->
             <div class="answerDiv">
                 <div class="answerTitle">Q. <input value="명절 선물 투표"></div>
             </div>
-            <!-- 객관식일 경우 -->
-            <div class="selectAnswerBox">
-                <div class="answerInput">
-                    <p>1.</p>
-                    <input value="값을 작성해주세요.">
-                </div>
-            </div>
-            <!-- 주관식일 경우 -->
-            <!-- 주관식 질문 작성하는 부분 -->
-            <div class="answerDiv">
-                <div class="answerTitle">Q. <input value="명절 선물 투표"></div>
-            </div>
-
-            <!-- 답변일 경우에 필요한 textArea -->
-            <!-- <div class="selectAnswerBox">
-                <div class="answerInput">
-                    <textarea rows="20" cols="100" value="주관식 질문을 작성해주세요.">
-                </div>
-            </div> -->
-
         </div>
-    </section>
+    </section> -->
 
     <section class="container containerSide">
 
         <div class="surveyBtn">
             <!-- 질문 추가 버튼 -->
             <div>
-                <button class="default-btn glucose-border-btn">추가하기</button>
+                <button class="default-btn glucose-border-btn surveyQuestionAdd btnHidden">객관식 문항 추가</button>
             </div>
     
             <!-- 설문 등록하기 버튼 -->
@@ -76,6 +62,7 @@
     </section>
 
     
+    <script src="/js/employee/survey/surveyInsert.js"> </script>
 
     <script src="https://kit.fontawesome.com/247c6d7026.js" crossorigin="anonymous"></script>
 
