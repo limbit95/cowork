@@ -126,7 +126,6 @@ body {
 	font-size: 25px;
 }
 #calendarSpan{
-	
 	color: #3667A6; 
 	font-weight: bold;
 	font-size: 25px;
@@ -134,7 +133,6 @@ body {
 #noticeContainer{
 	width: 100vw;
 	display: flex; 
-	background-color: red;
 	margin-top: 50px;
 
 }

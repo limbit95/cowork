@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>leftSideBar</title>
+	<link rel="stylesheet" href="/css/admin/meeting/meetingRoom.css">
+	<link rel="stylesheet" href="/css/common.css">
+
+</head>
+<body>
+	<div th:replace="~{admin/left/adminLeftSideBar}"></div>
+	<div th:replace="~{common/common}"></div>
+
+	<div id="fullContainer">
+		<div id="leftEmptySpace">
+		</div>
+		<div id="rightSection22">
+			<div>
+				 회의실
+			</div>
+			<div>
+				<form action="#" method="post" id="meetingRoomAddInputForm">
+					<input type="text" id="meetingRoomAddInput">
+					<button class="default-btn glucose-btn">추가</button>
+					<button class="default-btn glucose-btn">수정</button>
+				</form>
+			</div>
+			<div id="contentContainerInMeeting">
+				<div id="contentContainerInMeetingInner">
+					<div id="firstLoop">
+						<div>1층 00실</div>
+						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
+					</div>
+					<div id="secondLoop">
+						<div>1층 00실</div>
+						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
+					</div>
+					<div id="thirdLoop">
+						<div>1층 00실</div>
+						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
+					</div>
+					<div id="fourthLoop">
+						<div>1층 00실</div>
+						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+		
+	<script src="/js/admin/meeting/meetingRoom"></script>
+</body>
+</html>
