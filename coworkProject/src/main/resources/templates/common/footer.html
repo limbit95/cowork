@@ -16,7 +16,10 @@
 
             <!-- 회사 정보 영역 -->
             <div>
-                <p id="coworkInfo">CoWork   서울특별시 중구 남대문로 120</p>
+                <span class="coworkInfo">(주)CoWork</span>
+                <span class="coworkInfo">대표자 : 박은별 </span>
+                <span class="coworkInfo">주소 : 서울특별시 중구 남대문로 120</span>
+                <span class="coworkInfo">대표 번호 : 1234-1234</span>
             </div>
 
         </div>
@@ -27,7 +30,7 @@
 <script th:inline="javascript">
 	const message = /*[[${message}]]*/ "전달 메세지";
 	
-	if(message != null){
+	if (message != null) {
 		alert(message);
 	}
 

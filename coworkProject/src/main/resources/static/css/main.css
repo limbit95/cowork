@@ -16,7 +16,7 @@
 
 
 main{
-    min-height: 600px;
+    min-height: 800px;
 }
 
 
@@ -36,7 +36,7 @@ main{
 
 #whiteLogo{
     width: 40px;
-    height: 40px;
+    height: 35px;
 }
 
 #letterLogoW{
@@ -74,41 +74,49 @@ main{
 
 .footerArea{
     margin-top: 10px;
-    height: 100px;
+    height: 80px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+}
+
+#coworkLogo {
+    width: 300px;
 }
 
 /* 로고 */
 #blueLogo{
-    width: 50px;
-    height: 50px;
+    margin-left: 50px;
+    width: 40px;
+    height: 35px;
 }
 
 #letterLogo{
     font-family: "Inter", sans-serif;
-    font-size: 30px;
+    font-size: 28px;
     font-weight: bold;
     color: #426DA7;
 }
 
 /* 약관 영역 */
-#terms{
-    margin-left: 120px;
-}
 
 #terms a {
     color: black;
     text-decoration: none;
     font-family: "Inter", sans-serif;
+    font-size: 13px;
 }
 
 
 /* 회사 정보 영역 */
-#coworkInfo {
-    margin-left: 100px;
+.coworkInfo {
+    margin-right: 10px;
     font-family: "Inter", sans-serif !important;
+    font-size: 13px;
+}
+
+.coworkInfo:last-child {
+    margin-right: 50px;
 }
 
 
@@ -116,6 +124,53 @@ main{
 /* ---------------------- main 영역 -------------------------- */
 
 /* ------ 메인 배너 영역 ------ */
+.mainBanner {
+    display: flex;
+    padding: 10px 50px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.phraseArea {
+    display: flex;
+    flex-direction: column;
+}
+
+#coworkLetter {
+    font-size: 50px;
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+    color: #426DA7;
+}
+
+#coworkPhrase{
+    width: 700px;
+}
+
+#bannerImg {
+    width: 440px;
+    margin-left: 20px;
+}
+
+
 /* ------ 네비바 영역 ------ */
+.mainNav{
+    display: flex;
+    height: 50px;
+    background-color: #BDD8F1;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #494949;
+}
+
+.mainNav div {
+    width: 100px;
+}
+
+.mainNav div:nth-of-type(1) {
+    margin-left: 60px;
+}
+
 /* ------ 메인 배너 영역 ------ */
 
