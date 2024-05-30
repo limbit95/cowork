@@ -1,8 +1,11 @@
 // 모달 창과 버튼 관련 스크립트
-var modal = document.getElementById("myModal");
-var modalContent = document.querySelector('.modal-content');
-var btn = document.getElementById("myBtn");
-var span = document.getElementsByClassName("close")[0];
+const modal = document.getElementById("myModal");
+const modalContent = document.querySelector('.modal-content');
+const btn = document.getElementById("myBtn");
+const span = document.getElementsByClassName("close")[0];
+
+// 수정 요청 내용 요소
+const inputList = document.querySelectorAll(".default-line");
 
 // 모달 열기
 btn.onclick = function() {
@@ -14,6 +17,9 @@ btn.onclick = function() {
 span.onclick = function() {
   modal.style.display = "none";
   modalContent.style.display = "none";
+  inputList.forEach((i) => {
+    i.innerHTML = "";
+  });
 }
 
 modal.addEventListener("click", e => {
@@ -24,5 +30,5 @@ modal.addEventListener("click", e => {
   div.classList.toggle('larger');
   setTimeout(function() {
       div.classList.toggle('larger');
-  }, 120);
+  }, 150);
 });

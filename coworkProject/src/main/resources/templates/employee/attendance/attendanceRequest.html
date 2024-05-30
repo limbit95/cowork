@@ -1,16 +1,48 @@
-<div>
-    <div div id="myModal" class="modal" onclick="changeSize()"></div>
-    <!-- 모달 내용 -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
+<div div id="myModal" class="modal" onclick="changeSize()"></div>
+
+<!-- 모달 내용 -->
+<div class="modal-content">
+    <div class="contentHead">
         <div>
             <span>승인요청</span>
             <span>요청내역</span>
         </div>
-        <div class="">
+        <div></div>
+        <span class="close">&times;</span>
+    </div>
 
-            
+    <!--  -->
+    <div class="contentBody">
+        <div>
+            <span>요청자</span>
+            <div>임성혁(202405290001)</div>
+        </div>
 
+        <div>
+            <span>수정요청시간</span>
+            <div>
+                <input class="default-line" type="date">
+                <input class="default-line" type="time">
+                <input class="default-line" type="time">
+            </div>
+        </div>
+
+        <div>
+            <span>사유</span>
+            <div>
+                <textarea class="default-line" name="" id=""></textarea>
+            </div>
+        </div>
+
+        <div>
+            <span>결재자</span>
+            <div>
+                <input class="default-line" type="text" readonly>
+                <button class="default-btn glucose-btn">검색</button>
+            </div>
         </div>
     </div>
+
+    <div><button class="default-btn glucose-btn">요청</button></div>
+
 </div>
