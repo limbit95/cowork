@@ -4,33 +4,33 @@
 <div class="modal-content">
     <div class="contentHead">
         <div>
-            <span>승인요청</span>
-            <span>요청내역</span>
+            <span id="ApprovalRequestBtn">승인요청</span>
+            <span id="RequestDetailsBtn">요청내역</span>
         </div>
         <div></div>
         <span class="close">&times;</span>
     </div>
 
-    <!--  -->
     <div class="contentBody">
         <div>
             <span>요청자</span>
-            <div>임성혁(202405290001)</div>
+            <!-- Thymeleaf -->
+            <div>임성혁(202405290001@company)</div>
         </div>
 
         <div>
             <span>수정요청시간</span>
             <div>
-                <input class="default-line" type="date">
+                <input class="default-line" type="date" >
                 <input class="default-line" type="time">
-                <input class="default-line" type="time">
+                <input class="default-line" type="time" min="12:00" max="18:00">
             </div>
         </div>
 
         <div>
             <span>사유</span>
             <div>
-                <textarea class="default-line" name="" id=""></textarea>
+                <textarea class="default-line" name="" id="" maxlength="500" placeholder="500자 이내 작성"></textarea>
             </div>
         </div>
 
@@ -43,6 +43,6 @@
         </div>
     </div>
 
-    <div><button class="default-btn glucose-btn">요청</button></div>
+    <div><button class="default-btn glucose-btn" id="reqeust">요청</button></div>
 
 </div>
