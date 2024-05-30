@@ -1,0 +1,1 @@
+console.log("admin meetingRoom.js 연결 확인");

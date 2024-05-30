@@ -1,0 +1,1 @@
+console.log("admin teamBoard.js 연결 확인");

@@ -1,4 +1,4 @@
-package com.cowork.employee.calendar;
+package com.cowork.employee.calendar.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
