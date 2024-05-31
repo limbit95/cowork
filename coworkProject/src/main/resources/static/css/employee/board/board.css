@@ -20,7 +20,7 @@
     margin-left: 10px;
 }
 
-.insertForm div:td:nth-child(1) {
+.insertForm div:nth-child(1) {
     margin-right: 55px;
 }
 
@@ -38,7 +38,7 @@
 
 /* 버튼있는 input */
 .inputBtn {
-    width: 70%;
+    width: 452px;
     margin-right: 10px !important;
 }
 
@@ -76,4 +76,15 @@ table.default-line td:nth-child(1) {
 .default-line.smarteditorDetail {
     height: 500px;
     padding: 15px;
+}
+
+/* 상세 */
+.ins-css.detailForm {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.ins-css.detailForm div {
+    margin: 0 20px 0 15px;
 }

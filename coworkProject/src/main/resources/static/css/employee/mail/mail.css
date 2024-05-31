@@ -2,6 +2,8 @@
 .checkDiv {
     display: flex;
     align-content: center;
+    align-items: center;
+    /*width: 315px !important;*/
 }
 
 .checkDiv input {
@@ -13,7 +15,7 @@ label.delBtn {
     margin-left: 15px;
     color: var(--gray-color);
 }
-label.delBtn:hover {
+.checkDiv label.delBtn:hover {
     color: black;
 }
 
@@ -37,7 +39,7 @@ label.delBtn:hover {
 }
 
 .mailTitle {
-    width: 80%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid var(--gray-color);
@@ -75,7 +77,7 @@ label.delBtn:hover {
 }
 
 /*  상세 */
-.ins-css.updateForm {
+/*.ins-css.updateForm {
     display: flex;
     width: 100%;
     margin-left: 30px;
@@ -97,7 +99,7 @@ label.delBtn:hover {
 
 .updateForm .insertBtn {
     width: 74%;
-}
+}*/
 
 input.insertMail {
     border: 0;
@@ -111,13 +113,21 @@ input.insertMail {
     border-bottom: 1px solid var(--gray-color);
 }
 
-.table-body2 div {
+.table-body2 .ins-css {
     margin-left: 30px !important;
 }
 
 .table-body2 .ins-css.insertForm {
     margin: 10px;
 }
+
+.lavenderLabel {
+    background: var(--main4-color);
+    margin-right: 10px;
+    border-bottom: 1px solid var(--gray-color);
+}
+
+
 
 /* 메일제목 */
 .table-body2 label.mailTitile {

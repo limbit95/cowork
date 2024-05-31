@@ -32,6 +32,38 @@
     border: 1px solid var(--gray-color);
 }
 
+.drftScroll {
+    width: 630px;
+    display: ruby;
+    overflow: scroll;
+    overflow: auto;
+    white-space: nowrap;
+    margin-right: 10px !important;
+    height: 103px;
+    overflow-y: hidden;
+}
+
+.drftScroll .draftBtn {
+    margin: 0 !important;
+}
+
+/* 아래의 모든 코드는 영역::코드로 사용 */
+.drftScroll::-webkit-scrollbar {
+    width: 10px;  /* 스크롤바의 너비 */
+    height: 5px;
+}
+
+.drftScroll::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: var(--main6-color); /* 스크롤바의 색상 */
+    
+    border-radius: 10px;
+}
+
+.drftScroll::-webkit-scrollbar-track {
+    background: var(--gray-color);  /*스크롤바 뒷 배경 색상*/
+}
+
 /* 기안서 이미지 크기 */
 .draftImg {
     font-size: xx-large;
@@ -39,13 +71,14 @@
 
 /***************** 기안서 목록 */
 .draftList2 .default-line {
-    width: 795px;
+    width: 819px;
     height: 100px;
     margin: 0px !important;
     display: flex;
     align-items: center;
     padding: 5px 20px !important;
     margin-bottom: 20px !important;
+    justify-content: space-around;
 }
 
 /* 기안서 이미지 */
@@ -98,3 +131,67 @@
     width: 125px;
 }
 
+@media (max-width: 576px) {
+    .drftScroll {
+        max-width: 207px;
+    }  
+    
+    .draftList2 .default-line {
+        max-width: 399px;
+    }
+
+    .draftLabel3 {
+        width: 195px;
+    }
+}
+
+@media (min-width: 576px) {
+    .drftScroll {
+        max-width: 207px;
+    }  
+    
+    .draftList2 .default-line {
+        max-width: 399px;
+    }
+
+    .draftLabel3 {
+        width: 195px;
+    }
+}
+
+@media (min-width: 600px) {
+    /* 기안서 즐겨찾기 목록 */
+    .drftScroll {
+        max-width: 420px;
+    } 
+
+    /* 기안서 목록 */
+    .draftList2 .default-line {
+        max-width: 610px;
+    }
+
+    /* 기안서 부서명 */
+    .draftLabel3 {
+        width: 125px;
+    }
+}
+
+@media (min-width: 768px) {
+    .drftScroll {
+        max-width: 525px;
+    } 
+
+    .draftList2 .default-line {
+        max-width: 718px;
+    }
+}
+
+@media (min-width: 992px) {
+    .drftScroll {
+        max-width: 630px;
+    } 
+
+    .draftList2 .default-line {
+        max-width: 819px;
+    }
+}

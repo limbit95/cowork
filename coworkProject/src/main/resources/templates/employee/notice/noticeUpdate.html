@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>팀 게시판</title>
+    <title>공지사항</title>
 
     <th:block th:replace="~{common/common}"></th:block>
     <link rel="stylesheet" href="/css/employee/board/board.css">
@@ -12,14 +12,7 @@
     <section class="container">
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
 
-        <div class="title"><span class="">경영 1팀 게시판</span></div>
-
-        <div class="insBtn">
-            <select class="default-line">
-                <option>공지</option>
-                <option>전달사항</option>
-            </select>
-        </div>
+        <div class="title"><span class="">공지사항</span></div>
         
         <div class="default-line default-padding">
 
@@ -57,7 +50,7 @@
 
         <!-- 버튼 -->
         <div class="defaultBtn insBtn">
-            <button class="default-btn glucose-btn">등록</button>
+            <button class="default-btn glucose-btn">수정</button>
             <button class="default-btn glucose-btn margin10">취소</button>
         </div>
 
@@ -70,7 +63,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/lib/smarteditor2/se/js/service/HuskyEZCreator.js" data-cfasync="false"></script>
 
-    <script src="/js/employee/teamBoard/teamBoardInsert.js"></script>
+    <script src="/js/employee/notice/noticeUpdate.js"></script>
     <script src="https://kit.fontawesome.com/247c6d7026.js" crossorigin="anonymous"></script>
 </body>
 </html>

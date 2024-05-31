@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메일쓰기</title>
+
+    <th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/employee/board/board.css">
+    <link rel="stylesheet" href="/css/employee/mail/mail.css">
+    <link rel="stylesheet" href="/css/employee/mail/mailInsert.css">
+</head>
+<body>
+    <section class="container">
+
+        <div class="mailTitle">
+            <div class="mailLabel">
+                <label>메일쓰기</label>
+                <label class="delBtn">임시 보관 메일 0</label>
+            </div>
+            <div class="search">
+                <select class="default-line">
+                    <option>제목</option>
+                    <option>내용</option>
+                    <option>작성자</option>
+                </select>
+    
+                <div class="default-line">
+                    <input >
+    
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="mailTitle">
+            <div class="checkDiv">
+                <button class="default-btn sapphire-border-btn">보내기</button>
+                <label class="delBtn">임시저장</label>
+            </div>
+        </div>
+
+        <div class="board">
+            <div class="table-body2">
+                <!-- 받는사람 -->
+                <div class="ins-css insertForm mailInfo">
+                    <div><label>받는사람</label></div>
+                    <div class="">
+                        <label class="default-label lavenderLabel">final@home.com</label>
+                        <label class="default-label lavenderLabel">songfianl@home.com</label>
+                    </div>
+                    <button class="default-btn glucose-btn">검색</button>
+                </div>
+
+                <!-- 참조 -->
+                <div class="ins-css insertForm mailInfo">
+                    <div><label>참조</label></div>
+                    <div class="">
+                        <label class="default-label lavenderLabel">songfianl@home.com</label>
+                    </div>
+                    <button class="default-btn glucose-btn">검색</button>
+                </div>
+
+                <!-- 제목 -->
+                <div class="ins-css insertForm">
+                    <div><label>제목</label></div>
+                    <input class="default-line listBtn">
+                </div>
+
+
+                <!-- 파일 -->
+                <div class="fileUploadForm">
+                    <button class="default-btn gray-border-btn">파일첨부</button>
+
+
+                    <div><i class="fa-solid fa-chevron-down"></i><label>첨부파일</label><label>3</label><label>개</label><label class="colorGray">(12.1KB)</label></div>
+                    <table class="default-line">
+                        <tr>
+                            <td><i class="fa-solid fa-image"></i><label>검색.png</label><label class="colorGray">3.09KB</label></td>
+                            <td><a class="fa-solid fa-xmark"></a></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-image"></i><label>검색.png</label><label class="colorGray">3.09KB</label></td>
+                            <td><a class="fa-solid fa-xmark"></a></td>
+                        </tr>
+                    </table>
+                    
+                </div>
+    
+            </div>
+
+            <div id="smarteditor">
+                <textarea name="ir1" id="ir1" rows="10" cols="100">에디터에 기본으로 삽입할 글(수정 모드)이 없다면 이 value 값을 지정하지 않으시면 됩니다.</textarea>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- 스마트 에디터 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/lib/smarteditor2/se/js/service/HuskyEZCreator.js" data-cfasync="false"></script>
+
+    <script src="/js/employee/mail/mailInsert.js"></script>
+    <script src="https://kit.fontawesome.com/247c6d7026.js" crossorigin="anonymous"></script>
+</body>
+</html>

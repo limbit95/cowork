@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>결재상세</title>
 
-    <link rel="stylesheet" href="/css/common.css">
+    <th:block th:replace="~{common/common}"></th:block>
     <link rel="stylesheet" href="/css/employee/board/board.css">
     <link rel="stylesheet" href="/css/employee/edsm/edsmDetail.css">
 </head>
@@ -14,6 +14,11 @@
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
 
         <div class="title"><span class="">결재상세</span></div>
+
+        <!-- 버튼 -->
+        <div class="defaultBtn insBtn">
+            <button class="default-btn glucose-btn">목록</button>
+        </div>
         
         <div class="default-line default-padding">
 
@@ -79,10 +84,7 @@
 
         </div>
 
-        <!-- 버튼 -->
-        <div class="defaultBtn insBtn">
-            <button class="default-btn glucose-btn">목록</button>
-        </div>
+        
 
 
         
