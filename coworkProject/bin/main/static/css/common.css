@@ -50,7 +50,7 @@ section.container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 5% 0;
+    /*margin: 5% 0;*/
 
     
 }
@@ -67,7 +67,7 @@ section.container div {
 }
 
 .container .title {
-    margin: 0 0 70px 0 !important;
+    margin: 5% 0 70px 0 !important;
 }
 
 /****************** 선 ************************/
