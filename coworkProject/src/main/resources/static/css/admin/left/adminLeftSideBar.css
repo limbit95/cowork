@@ -17,6 +17,30 @@ body {
 
     --gray-color: #D9D9D9;
 }
+/* 왼쪽 네비바 조그만 거 */
+#leftSideBarMini{
+	width: 5vw;
+	height: 100vh;
+	position: fixed;
+	z-index: 10;
+	display: flex;
+	flex-direction: column;
+	background-color: #ECF2FA;
+	transition: transform 0.5s ease, opacity 0.3s;
+}
+#leftSideBarMini>div:nth-child(1){
+	flex-basis: 10%;
+	display: flex;
+	justify-content: center;
+	justify-content: center;
+	align-items: center;
+	background-color: #ECF2FA;
+}
+#showLeftSideBarBtn{
+	cursor: pointer;
+}
+/* 왼쪽 네비바 조그만 거 */
+
 
 #leftSideBar{
 	width: 15vw;
@@ -26,8 +50,15 @@ body {
 	align-items: center;
 	flex-direction: column;
 	background-color: #ECF2FA;
-
+	transition: transform 0.5s ease, opacity 0.3s;
+	transform: translateX(-100%);
 }
+#closeLeftSideBar{
+	margin-top: 50px;
+	margin-bottom: 50px;
+	cursor: pointer;
+}
+
 #CompanyLogo{
 	flex-basis: 10%;
 	width: 100%;

@@ -9,14 +9,36 @@ body {
     --main4-color: #E5F2FE;
     --main5-color: #BDD8F1;
     --main6-color: #82A6CB;
-
 	--sub-color: #CEEEC3;
     --sub2-color: #B8E2AA;
     --sub3-color: #FFE0E6;
     --sub4-color: #F1B8B8;
-
     --gray-color: #D9D9D9;
 }
+/* 왼쪽 네비바 조그만 거 */
+#leftSideBarMini{
+	width: 5vw;
+	height: 100vh;
+	position: fixed;
+	z-index: 10;
+	display: flex;
+	flex-direction: column;
+	background-color: #ECF2FA;
+	transition: transform 0.5s ease, opacity 0.3s;
+}
+#leftSideBarMini>div:nth-child(1){
+	flex-basis: 10%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #ECF2FA;
+}
+#showLeftSideBarBtn{
+	cursor: pointer;
+}
+/* 왼쪽 네비바 조그만 거 */
+
+
 
 #leftSideBar{
 	width: 15vw;
@@ -26,8 +48,19 @@ body {
 	align-items: center;
 	flex-direction: column;
 	background-color: #ECF2FA;
-
+	transition: transform 0.5s ease, opacity 0.3s;
+	transform: translateX(-100%);
 }
+#closeLeftSideBar{
+	margin-top: 10px;
+	margin-bottom: 50px;
+	cursor: pointer;
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+	margin-right: 20px;
+}
+
 #CompanyLogo{
 	flex-basis: 10%;
 	width: 100%;

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="	/css/common.css">
+	<link rel="stylesheet" href="	/css/employee/chatting/chatting.css">
+    <title>leftSideBar</title>
+</head>
+<body>
+	<div th:replace="~{employee/userMain/leftSideBar}"></div>
+	<div id="entireContainer">
+		<div id="emptySpace"></div>
+		<!-- 왼쪽 첫번째 큰 컨테이너 시작  -->
+		<div id="makeChatContainer">
+			<!-- 맨 위 -->
+			<div id="searchDiv">
+				<div id="searchDivChild">
+					<input type="text" placeholder="부서, 팀, 이름" id="searchInput">	
+					<i class="fa-solid fa-magnifying-glass"></i>
+				</div>	
+			</div>
+			
+			<div>	
+			</div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>			
+		</div>
+		<!-- 왼쪽 첫번째 큰 컨테이너 끝  -->
+		
+		
+		<div id="chattingRoomsContainer">
+			
+			
+		</div>
+		<div id="chattingsContainer">
+			
+		</div>
+		
+	</div>
+	
+	
+	<script src="/js/employee/chatting/chatting.js"></script>
+	
+</body>
+</html>
