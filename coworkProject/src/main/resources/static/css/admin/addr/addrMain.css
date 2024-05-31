@@ -1,7 +1,309 @@
-* {
-    border: 1px solid blue;
-}
-
 section.container {
     margin-bottom: 0;
 }
+section.container div {
+    margin: 0;
+}
+section.container > :nth-child(2) {
+    width: 70%;
+    display: flex;
+    justify-content: end;
+    margin-bottom: 10px;
+}
+section.container > :nth-child(2) > button {
+    margin-left: 10px;
+}
+
+main {
+    display: flex;
+    width: 70%;
+    border: 1px solid var(--main6-color);
+    margin: 0 10%;
+    border-radius: 5px;
+    margin-bottom: 50px;
+}
+
+
+/* 주소록 그룹 */
+.left {
+    display: flex;
+    flex-basis: 27%;
+    background-color: var(--main5-color);
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.left ul {
+    list-style: none;
+    padding-left: 0px;
+}
+.left li {
+    margin-left: 30px;
+}
+.left > ul ul {
+    list-style: none;
+}
+
+.fa-building, .fa-network-wired, .fa-people-group {
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+/* li hover */
+.left .li-hover {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    height: 35px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+.left .li-hover:hover {
+    color: white;
+}
+/* 그룹명 변경 시 생성되는 input 속성 */
+.left .li-hover > span { 
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* 주소록 그룹을 마우스 오른쪽 클릭 시 나타나는 드롭다운 */
+.dropdown-menu {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: none;
+    z-index: 1000;
+}
+.dropdown-menu > :nth-child(1) {
+    display: none;
+}
+.dropdown-menu div {
+    padding: 10px;
+    cursor: pointer;
+}
+.dropdown-menu div:hover {
+    background-color: var(--main4-color);
+    border-radius: 5px;
+}
+
+
+
+
+* {
+    /* border: 1px solid blue; */
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 68%;
+    padding: 15px;
+}
+
+
+/* input 영역 */
+.right > :nth-child(1) {
+    display: flex;
+    margin-bottom: 15px;
+}
+.right > :nth-child(1) > div {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    height: 35px;
+}
+.right > :nth-child(1) > div > i {
+    font-size: 18px;
+    margin: 8px;
+}
+.right > :nth-child(1) input {
+    width: 260px;
+    border: none;
+    font-size: 15px;
+}
+
+
+/* 이동, 삭제 버튼 영역 */
+.right > :nth-child(2) {
+    display: flex;
+    height: 30px;
+    margin-bottom: 15px;
+}
+.right > :nth-child(2) button {
+    display: none;
+}
+.right > :nth-child(2) > :nth-child(1) {
+    margin-right: 10px;
+}
+
+
+/* 구성원 리스트 */
+.right > .employeeList {
+    display: flex;
+    margin-bottom: 15px;
+    flex-direction: column;
+}
+.right > .employeeList > div {
+    display: flex;
+    align-items: center;
+}
+/* 구성원 정보 항목(헤드) */
+.right > .employeeList > :first-child {
+    height: 40px;
+    background-color: var(--main5-color);
+    font-weight: bold;
+}
+.right > .employeeList > :first-child > div {
+    display: flex;
+    margin-left: 5px;
+}
+.employeeList > :first-child > :nth-child(1) {  
+    justify-content: center;
+    flex-basis: 6%;
+}
+.employeeList > :first-child > :nth-child(1) > input {
+    justify-content: start;
+}
+.employeeList > :first-child > :nth-child(2) {
+    justify-content: start;
+    flex-basis: 15%;
+}
+.employeeList > :first-child > :nth-child(3) {
+    justify-content: start;
+    flex-basis: 13%;
+}
+.employeeList > :first-child > :nth-child(4) {
+    justify-content: start;
+    flex-basis: 10%;
+}
+.employeeList > :first-child > :nth-child(5) {
+    justify-content: start;
+    flex-basis: 30%;
+}
+.employeeList > :first-child > :nth-child(6) {
+    justify-content: start;
+    flex-basis: 20%;
+}
+
+/* 구성원 정보 */
+.right > .employeeList > .employee {
+    height: 60px;
+    border-bottom: 1px solid #d9d9d9;
+}
+.right > .employeeList > .employee:hover {
+    background-color: var(--main4-color);
+    cursor: pointer;
+}
+.employeeList > .employee > :nth-child(1) {
+    display: flex;
+    justify-content: center;
+    flex-basis: 6%;
+    margin-left: 5px;
+}
+.employeeList > .employee > :nth-child(1) > input {
+    justify-content: start;
+}
+
+.employeeList > .employee > :nth-child(2) {
+    display: flex;
+    flex-basis: 93%;
+}
+.right > .employeeList > .employee > :nth-child(2) > div {
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+}
+.employeeList > .employee > :nth-child(2) > :nth-child(1) {
+    justify-content: start;
+    flex-basis: 16%;
+}
+.employeeList > .employee > :nth-child(2) > :nth-child(2) {
+    justify-content: start;
+    flex-basis: 14%;
+}
+.employeeList > .employee > :nth-child(2) > :nth-child(3) {
+    justify-content: start;
+    flex-basis: 10.7%;
+}
+.employeeList > .employee > :nth-child(2) > :nth-child(4) {
+    justify-content: start;
+    flex-basis: 32.4%;
+}
+.employeeList > .employee > :nth-child(2) > :nth-child(5) {
+    justify-content: start;
+    flex-basis: 21.5%;
+}
+
+/* 페이지네이션 */
+.right > :nth-child(4) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+}
+
+
+
+
+/* --------------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------------- */
+
+
+/* --------------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------------- */
+/* 구성원 정보 */
+/* .right > .employeeList > .employee {
+    height: 60px;
+    border-bottom: 1px solid #d9d9d9;
+}
+.right > .employeeList > .employee:hover {
+    background-color: var(--main4-color);
+    cursor: pointer;
+}
+.right > .employeeList > .employee > div {
+    display: flex;
+    margin-left: 5px;
+}
+.employeeList > .employee > :nth-child(1) {
+    justify-content: center;
+    flex-basis: 6%;
+}
+.employeeList > .employee > :nth-child(1) > input {
+    justify-content: start;
+}
+.employeeList > .employee > :nth-child(2) {
+    justify-content: start;
+    flex-basis: 15%;
+}
+.employeeList > .employee > :nth-child(3) {
+    justify-content: start;
+    flex-basis: 13%;
+}
+.employeeList > .employee > :nth-child(4) {
+    justify-content: start;
+    flex-basis: 10%;
+}
+.employeeList > .employee > :nth-child(5) {
+    justify-content: start;
+    flex-basis: 30%;
+}
+.employeeList > .employee > :nth-child(6) {
+    justify-content: start;
+    flex-basis: 20%;
+} */
