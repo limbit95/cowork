@@ -1,4 +1,4 @@
-package com.cowork.employee.survey;
+package com.cowork.employee.survey.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
