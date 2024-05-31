@@ -11,13 +11,32 @@
             <a id="signupBtn" href="/user/term">회원가입</a>
             <a id="loginBtn" href="#">로그인</a>
         </div>
-
+    </div>
 </header>
 
 <script th:inline="javascript">
-	const coworkLogoW = document.querySelector("#coworkLogoW"); 
 
-    coworkLogoW.addEventListener('click', ()=> {
-        location.href = "/"; 
-    })
+    document.addEventListener('DOMContentLoaded', (event) => {
+
+        const coworkLogoW = document.querySelector("#coworkLogoW"); 
+        const header = document.getElementById('headerMain');
+        let prevScroll = window.pageYOffset;
+
+        /* 로고 클릭시 메인페이지 이동 */
+        coworkLogoW.addEventListener('click', () => {
+            location.href = "/"; 
+        });
+
+        /* 스크롤시 반응 */
+        window.addEventListener('scroll', () => {
+            let currentScroll = window.pageYOffset;
+            if (prevScroll > currentScroll) {
+                header.style.top = "0"; 
+            } else {
+                header.style.top = "-60px";
+            }
+            prevScroll = currentScroll;
+        });
+    });
+
 </script>
