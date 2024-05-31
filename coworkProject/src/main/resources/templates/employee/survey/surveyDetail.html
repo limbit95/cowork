@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="/css/employee/survey/surveyDetail.css">
 </head>
 <body>
+    <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
+
     <section class="container" id="surveyTitleBtn">
         <!-- 설문조사 상세 대제목 -->
         <div class="title"><span>명절 선물 설문 조사</span></div>

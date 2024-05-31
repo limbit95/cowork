@@ -40,7 +40,6 @@
 
 /****************** 전체 영역 ************************/
 section.container {
-    margin: 5% 10%;
     display: flex;
     flex-direction: column;
     align-items: center;
