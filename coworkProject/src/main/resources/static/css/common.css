@@ -31,9 +31,9 @@
 }
 
 body {
-    display: flex;
+    /*display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center;*/
 }
 
 input, select {
@@ -50,10 +50,9 @@ section.container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 5% 0;
 
-    /* 240531 PEB 수정 */
-    width: 1200px;
-    margin: 100px 0;
+    
 }
 
 section.container div {
@@ -122,7 +121,10 @@ i.fa-solid.fa-magnifying-glass {
 .board {
     /* 240531 PEB 수정 */
     /*width: 80%;*/
-    width: 100%;
+    /*width: 100%;*/
+    
+    width: 1200px;
+    margin: 100px 0;
 }
 
 /* 테이블 헤드 */
@@ -297,31 +299,31 @@ i.fa-solid.fa-magnifying-glass {
 /****************** 사이즈 조절 ************************/
 /* 240531 PEB 수정 */
 @media (max-width: 576px) {
-    .container {
+    .board {
       max-width: 540px;
     }
 }
 
 @media (min-width: 576px) {
-    .container {
+    .board {
       max-width: 540px;
     }
 }
 
 @media (min-width: 768px) {
-    .container {
+    .board {
       max-width: 720px;
     }
 }
 
 @media (min-width: 992px) {
-    .container {
+    .board {
       max-width: 900px;
     }
 }
 
 @media (min-width : 1200px) {
-    section.container {
+    .board {
         max-width: 1200px;
     }
 }
