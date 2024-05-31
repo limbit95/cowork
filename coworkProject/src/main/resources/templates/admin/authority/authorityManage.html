@@ -8,15 +8,22 @@
     <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="	/css/admin/authority/authorityManager.css">
 	
+	<style>
+		
+		
+	</style>
+	
 </head>
 <body>
-	<div th:replace="~{common/main/leftSideBar}"></div>
+	
 
+	
+	<div th:replace="~{admin/left/adminLeftSideBar}"></div>
+	<div th:replace="~{common/common}"></div>
 	
 	
  
         <div class="content">
-			<div id="contentFirstChild"></div>
 			<div id="contentSecondChild">
 				<div id="scOne">
 					<h1>권한 관리</h1>
@@ -102,27 +109,7 @@
 													    <td>사원</td>
 													    <td>없음</td>
 													</tr>
-													<tr>
-													    <td class="checkbox-container"><input type="checkbox"></td>
-													    <td>운영팀</td>
-													    <td>임성혁</td>
-													    <td>사원</td>
-													    <td>없음</td>
-													</tr>
-													<tr>
-													    <td class="checkbox-container"><input type="checkbox"></td>
-													    <td>운영팀</td>
-													    <td>임성혁</td>
-													    <td>사원</td>
-													    <td>없음</td>
-													</tr>
-													<tr>
-													    <td class="checkbox-container"><input type="checkbox"></td>
-													    <td>운영팀</td>
-													    <td>임성혁</td>
-													    <td>사원</td>
-													    <td>없음</td>
-													</tr>
+												
 								                </tbody>
 								            </table>
 											</div>
@@ -138,7 +125,6 @@
         </div>
 
     <script>
-    
         document.addEventListener('DOMContentLoaded', function () {
             const wholeCheckbox = document.querySelector('.whole');
             const otherCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]');
@@ -149,7 +135,6 @@
                 });
             });
         });
-        
     </script>
     
 </body>

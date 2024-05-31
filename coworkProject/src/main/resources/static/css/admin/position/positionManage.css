@@ -5,17 +5,22 @@ body {
 }
 #titleContainer{
 	display: flex; 
-	padding-top: 100px;
 	
 }
 #titleContainer>div:nth-child(1){
-	flex-basis: 15%;
 }
 #titleContainer>div:nth-child(2){
-	flex-basis: 85%;
+	flex-basis: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-top: 200px;
+
+}
+#titleContainer>div:nth-child(2)>h1{
+    text-align: center;
+    color: #426DA7;
+    font-size: 25px;
 }
 #fullContainer{
 	display: flex; 
@@ -24,23 +29,17 @@ body {
 	flex-basis: 15%; 
 }
 #innerRightContainer{
-	flex-basis: 85%;
+	flex-basis: 100%;
 }
-
 .container {
-    width: 80%;
+    width: 60%;
     margin: 20px auto;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-
 }
-h1 {
-    text-align: center;
-    color: #1a73e8;
-}
-table {
+#positionTable {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;

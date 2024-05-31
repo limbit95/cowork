@@ -1,0 +1,51 @@
+#entireContainer{
+	display: flex; 
+}
+#emptySpace{
+	flex-basis: 5%;
+	background-color: red;
+}
+#makeChatContainer{
+	display: flex; 
+	flex-direction: column; 
+	flex-basis: 20%;
+}
+#searchDiv{
+	display: flex; 
+	background-color: red;
+}
+#searchDivChild{
+	width: 100%; 
+	height: 5vh;
+	display: flex; 
+	background-color: aqua;
+
+}
+#searchInput{
+	height: 5vh;
+}
+
+
+#chattingRoomsContainer{
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

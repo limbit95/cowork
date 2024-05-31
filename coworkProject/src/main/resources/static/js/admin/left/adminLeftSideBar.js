@@ -1,3 +1,21 @@
+   //mini 가 사라지고 사이드바가 튀어나오는 효과 
+let showLeftSideBarBtn = document.querySelector('#showLeftSideBarBtn');
+let leftSideBarMini = document.querySelector('#leftSideBarMini');
+let leftSideBar = document.querySelector('#leftSideBar');
+showLeftSideBarBtn.addEventListener('click', function(){
+	leftSideBarMini.style.opacity = '0';
+    leftSideBarMini.style.transform = "translateX(-100%)";
+    leftSideBar.style.transform = "translateX(0%)";
+})
+let closeLeftSideBar = document.querySelector('#closeLeftSideBar');
+closeLeftSideBar.addEventListener('click', function(){
+	leftSideBarMini.style.opacity = '1';
+    leftSideBarMini.style.transform = "translateX(0%)";
+    leftSideBar.style.transform = "translateX(-100%)";
+})
+//mini 가 사라지고 사이드바가 튀어나오는 효과 
+
+   
    let dropBtns = document.querySelectorAll('.dropbtn');
 
     dropBtns.forEach(btn => {
@@ -18,3 +36,7 @@
             }
         });
     });
+    
+    
+    
+

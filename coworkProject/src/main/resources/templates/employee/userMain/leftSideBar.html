@@ -3,12 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/common/main/leftSideBar.css">
+    <link rel="stylesheet" href="/css/employee/userMain/leftSideBar.css">
     <title>leftSideBar</title>
+    <th:block th:replace="~{common/common}"></th:block>
 </head>
 <body>
 	
+	<div id="leftSideBarMini">
+		<div>
+			<i class="fa-solid fa-bars" id="showLeftSideBarBtn"></i>
+		</div>
+	</div>
+	
     <div id="leftSideBar">
+		<div id="closeLeftSideBar">
+			<i class="fa-solid fa-x"></i>
+		</div>
+		
 		<div id="CompanyLogo"></div>
 		<div id="businessCard">
 			<div></div>
@@ -25,6 +36,6 @@
 		<div id="surveyLink">설문</div>
     </div>
     
-    <script src="/js/common/main/leftSideBar.js"></script>
+    <script src="/js/employee/userMain/leftSideBar.js"></script>
 </body>
 </html>
