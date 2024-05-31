@@ -45,22 +45,22 @@
                             <span>아이디</span>
                             <input class="default-line" type="text" name="empId">
                         </div>
+                        
                         <!-- 중복된 아이디 입력 시 비동기로 중복여부 메시지 띄울 spna 태그 -->
-                        <span class="idCheckMessage">이미 사용중인 아이디입니다.</span>
+                        <div>
+                            <div></div>
+                            <div class="idCheckMessage">이미 사용중인 아이디입니다.</div>
+                        </div>
                     </div>
                     
                     <!-- 프로필 사진 영역 -->
                     <div class="profileImgDiv subRow">
                         <!-- 변경된 이미지 보여줄 영역 -->
-                        <div>
-                            <img class="profileImg" src="" alt="">
-                        </div>
+                        <img class="profileImg" src="" alt="">
     
-                        <!-- 인풋태그 히든으로 숨기고-->
-                        <!-- type="file"인 input 태그 클릭 효과주기 위해 라벨로 묶음 -->
                         <input type="file" id="imageInput" accept="image/*" hidden name="profileImg">
-                        <!-- 이미지 변경 버튼9카메라 아이콘) -->
-                        <label for="imageInput"><div class="profileImgBtnDiv"><i class="fa-solid fa-camera profileImgBtn"></i></div></label>
+                        <!-- 이미지 변경 버튼 카메라 아이콘) -->
+                        <label for="imageInput"><i class="fa-solid fa-camera profileImgBtn"></i></label>
                     </div>
                 </div>
                 
@@ -100,7 +100,7 @@
                 <div class="row subRow">
                     <div class="addrDiv">
                         <span>우편번호</span>
-                        <input class="default-line" type="text" name="empAddress" placeholder="우편번호" id="postcode">
+                        <input class="default-line" type="text" name="empAddress" placeholder="우편번호" id="postcode" readonly>
                     </div>
                     <div class="btnDiv">
                         <button class="default-btn glucose-btn" id="searchAddress" type="button">검색</button>
@@ -110,7 +110,7 @@
                 <div class="row column">
                     <div class="addrDiv2 subRow">
                         <span>도로명/지번</span>
-                        <input class="default-line" type="text" name="empAddress" placeholder="도로명/지번 주소" id="address">
+                        <input class="default-line" type="text" name="empAddress" placeholder="도로명/지번 주소" id="address" readonly>
                     </div>
                     
                     <div class="addrDiv2 subRow">

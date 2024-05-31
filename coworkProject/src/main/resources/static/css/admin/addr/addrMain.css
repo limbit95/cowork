@@ -1,3 +1,8 @@
+* {
+    /* border: 1px solid blue; */
+    /* font-size: 18px; */
+}
+
 section.container {
     margin-bottom: 0;
 }
@@ -5,7 +10,7 @@ section.container div {
     margin: 0;
 }
 section.container > :nth-child(2) {
-    width: 70%;
+    width: 50%;
     display: flex;
     justify-content: end;
     margin-bottom: 10px;
@@ -16,7 +21,7 @@ section.container > :nth-child(2) > button {
 
 main {
     display: flex;
-    width: 70%;
+    width: 50%;
     border: 1px solid var(--main6-color);
     margin: 0 10%;
     border-radius: 5px;
@@ -34,7 +39,6 @@ main {
     padding-top: 30px;
     padding-right: 30px;
     padding-bottom: 30px;
-    font-size: 18px;
     font-weight: bold;
     
     display: inline-block;
@@ -101,11 +105,6 @@ main {
 }
 
 
-
-
-* {
-    /* border: 1px solid blue; */
-}
 
 .right {
     display: flex;
