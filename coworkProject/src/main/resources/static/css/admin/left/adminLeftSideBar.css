@@ -27,6 +27,8 @@ body {
 	flex-direction: column;
 	background-color: #ECF2FA;
 	transition: transform 0.5s ease, opacity 0.3s;
+	justify-content: center;/*240531 PEB*/
+
 }
 #leftSideBarMini>div:nth-child(1){
 	flex-basis: 10%;
@@ -38,6 +40,8 @@ body {
 }
 #showLeftSideBarBtn{
 	cursor: pointer;
+    font-size: 26px;/*240531 PEB*/
+	color: #426da7;/*240531 PEB*/
 }
 /* 왼쪽 네비바 조그만 거 */
 
