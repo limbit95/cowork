@@ -1,40 +1,6 @@
-:root {	
-	--main-color: #426DA7;
-    --main2-color: #3667A6;
-    --main3-color: #214177;
-    --main4-color: #E5F2FE;
-    --main5-color: #BDD8F1;
-    --main6-color: #82A6CB;
-
-	--sub-color: #CEEEC3;
-    --sub2-color: #B8E2AA;
-    --sub3-color: #FFE0E6;
-    --sub4-color: #F1B8B8;
-
-    --gray-color: #D9D9D9;
-}
-
-@font-face {
-    font-family: 'NanumBarunGothic';
-    font-style: normal;
-    font-weight: 300;
-    src: url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot');
-    src: url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot?#iefix') format('embedded-opentype'), url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.woff') format('woff'), url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.ttf') format('truetype');
-}
-   
-* {
-    font-family: 'NanumBarunGothic', sans-serif;
-    margin: 0;
-}
-
-.container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 5%;
-}
-
 .questionDiv {
-    flex-basis: 60%;
+    display: flex;
+    width: 45%;
 }
 
 .questionBox {
@@ -42,13 +8,16 @@
     border: solid 1px black;
     padding: 5px;
     padding-left: 10px;
-    width: 400px;
+    flex-basis: 60%;
     border-radius: 5px;
+    flex-basis: 100%;
 }
 
 .questionBox i {
     font-size: 25px;
     padding-top: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
     color: coral;
     margin: 0;
     text-align: center;
@@ -59,30 +28,21 @@
     border: none;
     padding-left: 5px;
     font-size: 20px;
+    flex-basis: 90%;
     /* background-color: red; */
 }
 
 .surveyAdd {
-    flex-basis: 60%;
     display: flex;
+    width: 45%;
     justify-content: space-between;
-}
-
-.default-btn {
-    border-radius: 5px;
-    padding: 5px 20px;
 }
 
 /* 객관식 질문 추가, 주관식 질문 추가 버튼 */
 #multipleAdd, #subjectiveAdd {
-    width: 49%;
+    flex-basis: 49%;
     height: 50px;
     font-size: 16px;
-}
-
-.baby-blue-btn {
-    background: var(--main5-color);
-    border: 1px solid var(--main5-color);
 }
 
 .baby-blue-boarder-btn {
@@ -90,11 +50,16 @@
     border: 2px solid var(--main5-color);
 }
 
-.answerDiv {
-    flex-basis: 60%;
-    /* background-color: red; */
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+/* 소제목 부분 */
+.titleContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.littleTitle {
+    flex-direction: column;
+    width: 45%;
 }
 
 .answerTitle {
@@ -107,26 +72,23 @@
     padding-top: 15px;
 }
 
-.littleTitle {
-    flex-direction: column;
-    width: 60%;
+.multipleInput, .subjectiveInput {
+    margin-left: 10px;
+    width: 80%;
+    height: 25px;
+    border-radius: 5px;
+    font-size: 20px;
+    border: 1px solid var(--main4-color);;
 }
 
 .selectAnswerBox {
     border-left: 1px solid #d9d9d9;
     border-right: 1px solid #d9d9d9;
     border-bottom: 1px solid #d9d9d9;
-
 }
 
 .selectSubjectiveBox {
     border: 1px solid #d9d9d9;
-}
-
-.answerDiv input {
-    border: none;
-    background-color: var(--main4-color);
-    font-size: 20px;
 }
 
 .answerInput {
@@ -146,27 +108,16 @@
     width: 90%;
 }
 
-/* 질문 추가, 설문 등록 버튼 */
-.glucose-btn, .glucose-border-btn:hover {
-    background: var(--main6-color);
-    color: white;
-    border: 1px solid var(--main6-color);;
-}
-
-.glucose-border-btn, .glucose-btn:hover {
-    background: white;
-    color: var(--main6-color);
-    border: 2px solid var(--main6-color);
-}
-
 .containerSide {
     display: flex;
+    justify-content: center;
 }
 
 .surveyBtn {
     display: flex;
+    width: 45%;
     justify-content: flex-end;
-    flex-basis: 60%;
+    padding-top: 10px;
 }
 
 .surveyBtn div {
@@ -175,10 +126,4 @@
 
 .btnHidden {
     display: none !important;
-}
-
-.titleContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
