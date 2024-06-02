@@ -1,3 +1,7 @@
+.spaceDiv {
+    padding-top: 70px;
+}
+
 .questionDiv {
     display: flex;
     width: 45%;
