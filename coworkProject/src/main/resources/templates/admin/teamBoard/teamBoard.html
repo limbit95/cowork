@@ -10,21 +10,19 @@
 </head>
 <body>
     <!-- leftBar -->
-    <div th:replace="~{admin/left/adminLeftSideBar}"></div>
+    <th:block th:replace="~{admin/left/adminLeftSideBar}"></th:block>
 
     <div id="fullContainer">
-		<div id="leftEmptySpace">
-		</div>
-		<div id="rightSection22">
+		<div id="innerContainer">
 			<div>
 				 팀 게시판
 			</div>
-			<div>
+			<div class="teamBoardDiv">
                 <!-- 팀 게시판 추가 수정 버튼 -->
 				<form action="#" method="post" id="teamBoardAddInputForm">
 					<input type="text" id="teamBoardAddInput">
 					<button class="default-btn glucose-btn">추가</button>
-					<button class="default-btn glucose-btn">수정</button>
+					<!-- <button class="default-btn glucose-btn">수정</button> -->
 				</form>
 			</div>
 			<div id="contentContainerInteamBoard">
