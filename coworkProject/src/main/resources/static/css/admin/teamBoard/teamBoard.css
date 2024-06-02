@@ -54,6 +54,7 @@
 
 #teamBoardAddInputForm > button {
 	flex-basis: 10%;
+	height: 4vh;
 }
 
 #contentContainerInteamBoard{
@@ -70,29 +71,14 @@
 	display: flex;
 	flex-direction: column;
 }
-#firstLoop{
+
+.teamBoardLoop {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 20px;
 	font-weight: bold;
 }
-#secondLoop{
-	display: flex;
-	justify-content: space-between;	
-	margin-bottom: 20px;
-	font-weight: bold;
-}
-#thirdLoop{
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 20px;
-	font-weight: bold;
-}
-#fourthLoop{
-	display: flex;
-	justify-content: space-between;
-	font-weight: bold;
-}
+
 .deleteXBtn{
 	border: none;
 	font-weight: bold;	

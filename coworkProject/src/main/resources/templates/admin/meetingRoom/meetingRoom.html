@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>leftSideBar</title>
+    <title>AdminMeetingRoom</title>
 	<link rel="stylesheet" href="/css/admin/meeting/meetingRoom.css">
-	<link rel="stylesheet" href="/css/common.css">
+	<th:block th:replace="~{common/common}"></th:block>
 
 </head>
 <body>
-	<div th:replace="~{admin/left/adminLeftSideBar}"></div>
-	<div th:replace="~{common/common}"></div>
+	<!-- leftSideBar -->
+	<th:block th:replace="~{admin/left/adminLeftSideBar}"></th:block>
 
 	<div id="fullContainer">
 
@@ -18,7 +18,7 @@
 			<div>
 				 회의실
 			</div>
-			<div>
+			<div class="MeetingRoomDiv">
 				<form action="#" method="post" id="meetingRoomAddInputForm">
 					<input type="text" id="meetingRoomAddInput">
 					<button class="default-btn glucose-btn" style="font-size: 16px;">추가</button>

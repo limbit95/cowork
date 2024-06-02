@@ -4,7 +4,6 @@
     box-sizing: border-box;
 }
 
-
 #fullContainer{
 	display: flex; 
 	width: 100vw;
@@ -32,15 +31,32 @@
 	justify-content: center;
 	align-items: center;
 	margin-bottom: 60px;
-}	
+}
+
+.MeetingRoomDiv {
+	display: flex;
+	justify-content: center;
+}
+
+#meetingRoomAddInputForm {
+	flex-basis: 40%;
+	display: flex;
+	justify-content: space-between;
+}
 
 #meetingRoomAddInput{
-	width: 30vw;
+	flex-basis: 85%;
 	height: 4vh; 
 	border: none;
 	border-radius: 5px;
 	border: 1px solid lightgray;
 }
+
+#meetingRoomAddInputForm > button {
+	flex-basis: 10%;
+	height: 4vh;
+}
+
 #contentContainerInMeeting{
 	margin-top: 20px;
 	width: 100%; 
@@ -50,7 +66,7 @@
 	align-items: center;
 }
 #contentContainerInMeetingInner{
-	width: 60%;
+	flex-basis: 40%;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -83,10 +99,3 @@
 	font-weight: bold;	
 	background-color: white;
 }
-
-
-
-
-
-
-
