@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 public class NLPModel {
 	
 	
-	 private static final Logger log = LoggerFactory.getLogger(NLPModel.class);
+		private static final Logger log = LoggerFactory.getLogger(NLPModel.class);
 
 	    private final String trainingDataPath;
 
