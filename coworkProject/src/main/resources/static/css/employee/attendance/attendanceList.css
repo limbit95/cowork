@@ -43,7 +43,7 @@ section.container .monthly {
 /* 나의 근무시간현황 텍스트 */
 .monthly > :nth-child(1) {
     display: flex;
-    flex-basis: 30%;
+    flex-basis: 35%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -65,7 +65,7 @@ section.container .monthly {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    flex-basis: 70%;
+    flex-basis: 65%;
 }
 .monthly > :nth-child(2) > div {
     display: flex;

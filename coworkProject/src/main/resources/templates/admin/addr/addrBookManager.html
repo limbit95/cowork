@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 -주소록 관리</title>
+
+    <th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/admin/addr/adminAddr.css">
+</head>
+<body>
+
+    <section class="container">
+        <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
+
+        <div class="title"><span>주소록 관리</span></div>
+
+        <div class="mainBtnList">
+            <button class="default-btn glucose-btn" id="saveGroup">그룹 저장</button>
+            <button class="default-btn glucose-btn" id="addEmployeeInBulk">구성원 일괄 추가</button>
+            <button class="default-btn glucose-btn" id="addEmployee">구성원 추가</button>
+        </div>
+
+        <main>
+
+            <!-- 왼쪽 영역(주소록 그룹) -->
+            <div class="left">
+                
+                <ul>
+                    <li class="company">
+                        
+                        <div class="li-hover">
+                            <i hidden></i>
+                            <div>
+                                <i class="fa-solid fa-building"></i>
+                                <span>(주)HS애드</span>
+                            </div>
+                        </div>
+
+                        <ul>    
+
+                            <li class="department">
+
+                                <div class="li-hover">
+                                    <i class="fa-solid fa-angle-down"></i>
+                                    <div>
+                                        <i class="fa-solid fa-network-wired"></i>
+                                        <span>운영본부</span>
+                                    </div>
+                                </div>
+
+                                <ul>
+                                    
+                                    <li class="team">
+                                        <div class="li-hover"> 
+                                            <i class="fa-solid fa-angle-down"></i>
+                                            <div>
+                                                <i class="fa-solid fa-people-group"></i>
+                                                <span>운영1팀</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="team">
+                                        <div class="li-hover"> 
+                                            <i class="fa-solid fa-angle-down"></i>
+                                            <div>
+                                                <i class="fa-solid fa-people-group"></i>
+                                                <span>운영2팀</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="team">
+                                        <div class="li-hover"> 
+                                            <i class="fa-solid fa-angle-down"></i>
+                                            <div>
+                                                <i class="fa-solid fa-people-group"></i>
+                                                <span>운영3팀</span>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+
+                            </li>
+
+                            
+                            <li class="department">
+                                
+                                <div class="li-hover">
+                                    <i class="fa-solid fa-angle-down"></i>
+                                    <div>
+                                        <i class="fa-solid fa-network-wired"></i>
+                                        <span>재무부</span>
+                                    </div>
+                                </div>
+
+                                <ul>
+                                    
+                                    <li class="team">
+                                        <div class="li-hover">
+                                            <i class="fa-solid fa-angle-down"></i>
+                                            <div>
+                                                <i class="fa-solid fa-people-group"></i>
+                                                <span>재무 기획팀</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="team">
+                                        <div class="li-hover">
+                                            <i class="fa-solid fa-angle-down"></i>
+                                            <div>
+                                                <i class="fa-solid fa-people-group"></i>
+                                                <span>재무 분석팀</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="team">
+                                        <div class="li-hover">
+                                            <i class="fa-solid fa-angle-down"></i>
+                                            <div>
+                                                <i class="fa-solid fa-people-group"></i>
+                                                <span>투자 관리팀</span>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+
+                            </li>
+
+                        </ul>
+
+
+                    </li>
+                </ul>
+
+            </div>
+
+            <!-- 오른쪽 영역(구성원 목록) -->
+            <div class="right">
+
+                <!-- 검색창 -->
+                <div>
+                    <div class="default-line">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" placeholder="이름, 전화번호 검색">
+                    </div>
+                </div>
+
+                <!-- 체크박스 체크 시 노출되는 버튼(이동, 삭제) -->
+                <div class="subBtnDiv">
+                    <button class="default-btn glucose-btn" id="moveEmployee">이동</button>
+                    <button class="default-btn glucose-btn" id="deleteEmployee">삭제</button>
+                </div>
+                
+                <!-- 구성원 목록 -->
+                <div class="employeeList">
+
+                    <div>
+                        <div><input id="wholeCheck" type="checkbox"></div>
+                        <div>부서</div>
+                        <div>이름</div>
+                        <div>직급</div>
+                        <div>이메일</div>
+                        <div>전화번호</div>
+                    </div>
+
+                    <div class="employee">
+                        <div><input id="check" type="checkbox"></div>
+                        <div class="info">
+                            <div><span>운영팀</span></div>
+                            <div><span>박은별</span></div>
+                            <div><span>팀장</span></div>
+                            <div><span>park@naver.com</span></div>
+                            <div><span>010-1234-1234</span></div>
+                        </div>
+                    </div>
+
+                    <div class="employee">
+                        <div><input id="check" type="checkbox"></div>
+                        <div class="info">
+                            <div><span>운영팀</span></div>
+                            <div><span>정윤희</span></div>
+                            <div><span>과장</span></div>
+                            <div><span>jung@naver.com</span></div>
+                            <div><span>010-1234-1234</span></div>
+                        </div>
+                    </div>
+
+                    <div class="employee">
+                        <div><input id="check" type="checkbox"></div>
+                        <div class="info">
+                            <div><span>운영팀</span></div>
+                            <div><span>최재준</span></div>
+                            <div><span>차장</span></div>
+                            <div><span>choi@naver.com</span></div>
+                            <div><span>010-1234-1234</span></div>
+                        </div>
+                    </div>
+
+                    <div class="employee">
+                        <div><input id="check" type="checkbox"></div>
+                        <div class="info">
+                            <div><span>운영팀</span></div>
+                            <div><span>송지윤</span></div>
+                            <div><span>대리</span></div>
+                            <div><span>song@naver.com</span></div>
+                            <div><span>010-1234-1234</span></div>
+                        </div>
+                    </div>
+
+                    <div class="employee">
+                        <div><input id="check" type="checkbox"></div>
+                        <div class="info">
+                            <div><span>운영팀</span></div>
+                            <div><span>임성혁</span></div>
+                            <div><span>사원</span></div>
+                            <div><span>lim@naver.com</span></div>
+                            <div><span>010-1234-1234</span></div>
+                        </div>
+                    </div>
+
+                    <div class="employee">
+                        <div><input id="check" type="checkbox"></div>
+                        <div class="info">
+                            <div><span>운영팀</span></div>
+                            <div><span>임성혁</span></div>
+                            <div><span>사원</span></div>
+                            <div><span>lim@naver.com</span></div>
+                            <div><span>010-1234-1234</span></div>
+                        </div>
+                    </div>
+
+                    <div class="employee">
+                        <div><input id="check" type="checkbox"></div>
+                        <div class="info">
+                            <div><span>운영팀</span></div>
+                            <div><span>임성혁</span></div>
+                            <div><span>사원</span></div>
+                            <div><span>lim@naver.com</span></div>
+                            <div><span>010-1234-1234</span></div>
+                        </div>
+                    </div>
+
+                    <div class="employee">
+                        <div><input id="check" type="checkbox"></div>
+                        <div class="info">
+                            <div><span>운영팀</span></div>
+                            <div><span>임성혁</span></div>
+                            <div><span>사원</span></div>
+                            <div><span>lim@naver.com</span></div>
+                            <div><span>010-1234-1234</span></div>
+                        </div>
+                    </div>
+
+                    <div class="employee">
+                        <div><input id="check" type="checkbox"></div>
+                        <div class="info">
+                            <div><span>운영팀</span></div>
+                            <div><span>임성혁</span></div>
+                            <div><span>사원</span></div>
+                            <div><span>lim@naver.com</span></div>
+                            <div><span>010-1234-1234</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="employee">
+                        <div><input id="check" type="checkbox"></div>
+                        <div class="info">
+                            <div><span>운영팀</span></div>
+                            <div><span>임성혁</span></div>
+                            <div><span>사원</span></div>
+                            <div><span>lim@naver.com</span></div>
+                            <div><span>010-1234-1234</span></div>
+                        </div>
+                    </div>
+
+                    <div class="employee">
+                        <div><input id="check" type="checkbox"></div>
+                        <div class="info">
+                            <div><span>운영팀</span></div>
+                            <div><span>임성혁</span></div>
+                            <div><span>사원</span></div>
+                            <div><span>lim@naver.com</span></div>
+                            <div><span>010-1234-1234</span></div>
+                        </div>
+                    </div>
+
+                    <div class="employee">
+                        <div><input id="check" type="checkbox"></div>
+                        <div class="info">
+                            <div><span>운영팀</span></div>
+                            <div><span>임성혁</span></div>
+                            <div><span>사원</span></div>
+                            <div><span>lim@naver.com</span></div>
+                            <div><span>010-1234-1234</span></div>
+                        </div>
+                    </div>
+
+                    <div class="employee">
+                        <div><input id="check" type="checkbox"></div>
+                        <div class="info">
+                            <div><span>운영팀</span></div>
+                            <div><span>임성혁</span></div>
+                            <div><span>사원</span></div>
+                            <div><span>lim@naver.com</span></div>
+                            <div><span>010-1234-1234</span></div>
+                        </div>
+                    </div>
+
+                    <div class="employee">
+                        <div><input id="check" type="checkbox"></div>
+                        <div class="info">
+                            <div><span>운영팀</span></div>
+                            <div><span>임성혁</span></div>
+                            <div><span>사원</span></div>
+                            <div><span>lim@naver.com</span></div>
+                            <div><span>010-1234-1234</span></div>
+                        </div>
+                    </div>
+
+                    <div class="employee">
+                        <div><input id="check" type="checkbox"></div>
+                        <div class="info">
+                            <div><span>운영팀</span></div>
+                            <div><span>임성혁</span></div>
+                            <div><span>사원</span></div>
+                            <div><span>lim@naver.com</span></div>
+                            <div><span>010-1234-1234</span></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 페이지네이션 -->
+                <div class="pagination-area">
+        
+                    <ul class="pagination">
+    
+                        <!-- 첫 페이지로 이동 -->
+                        <li><a>&lt;&lt;</a></li>
+    
+                        <!-- 이전 목록 마지막 번호로 이동 -->
+                        <li><a>&lt;</a></li>
+    
+                        <!-- 특정 페이지로 이동 -->
+                        <th:block>
+                            
+                        <!-- 현재 보고있는 페이지 -->
+                            <li>
+                                <a class="current" >1</a>
+                            </li>
+                            
+                            <!-- 보고있지 않은 페이지 -->
+                            <li>
+                                <a>2</a>
+                            </li>
+    
+                        </th:block>
+    
+                        <!-- 다음 목록 시작 번호로 이동 -->
+                        <li><a>&gt;</a></li>
+    
+                        <!-- 끝 페이지로 이동 -->
+                        <li><a>&gt;&gt;</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- <th:block th:replace="~{admin/addr/addrEmployee}"></th:block> -->
+
+        </main>
+
+    </section>
+
+    <!-- 드롭다운 -->
+    <div class="dropdown-menu" id="contextMenu">
+        <div id="addDeptgroup">부서 추가</div>
+        <div id="addTeamgroup">팀 추가</div>
+        <div id="groupNameChange">그룹명 변경</div>
+        <div id="deleteGroup">그룹 삭제</div>
+    </div>
+
+    <script src="/js/admin/addr/adminAddr.js"></script>
+</body>
+</html>

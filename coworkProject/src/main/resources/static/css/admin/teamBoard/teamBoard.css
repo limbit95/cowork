@@ -4,44 +4,59 @@
     box-sizing: border-box;
 }
 
-
 #fullContainer{
 	display: flex; 
 	width: 100vw;
 	height: 100vh;
 }
-#leftEmptySpace{
-	flex-basis: 15%;
-}
-#rightSection22{
-	flex-basis: 85%;
+
+#innerContainer{
+	flex-basis: 100%;
 	display: flex; 
 	flex-direction: column;
 }
 
-#rightSection22 > div:nth-child(1){
+#innerContainer > div:nth-child(1){
 	display: flex; 
 	justify-content: center;
 	align-items: center;
 	margin-top: 200px;
-	font-size: 25px;
 	font-weight: bold;
+    color: #426DA7;
+    font-size: 25px;
 }
-#rightSection22 > div:nth-child(2){
+#innerContainer > div:nth-child(2){
 	margin-top: 30px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	margin-bottom: 60px;
-}	
+}
+
+.teamBoardDiv {
+	display: flex;
+	justify-content: center;
+}
+
+#teamBoardAddInputForm {
+	flex-basis: 40%;
+	display: flex;
+	justify-content: space-between;
+}
 
 #teamBoardAddInput{
-	width: 30vw;
+	flex-basis: 85%;
 	height: 4vh; 
 	border: none;
 	border-radius: 5px;
 	border: 1px solid lightgray;
 }
+
+#teamBoardAddInputForm > button {
+	flex-basis: 10%;
+	height: 4vh;
+}
+
 #contentContainerInteamBoard{
 	margin-top: 20px;
 	width: 100%; 
@@ -51,34 +66,19 @@
 	align-items: center;
 }
 #contentContainerInteamBoardInner{
-	width: 50%;
+	flex-basis: 40%;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 }
-#firstLoop{
+
+.teamBoardLoop {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 20px;
 	font-weight: bold;
 }
-#secondLoop{
-	display: flex;
-	justify-content: space-between;	
-	margin-bottom: 20px;
-	font-weight: bold;
-}
-#thirdLoop{
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 20px;
-	font-weight: bold;
-}
-#fourthLoop{
-	display: flex;
-	justify-content: space-between;
-	font-weight: bold;
-}
+
 .deleteXBtn{
 	border: none;
 	font-weight: bold;	

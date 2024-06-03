@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 - 근태관리</title>
+
+    <th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/admin/attendance/attendanceDetail.css">
+</head>
+<body>
+
+    <section class="container">
+        <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
+
+        <div class="title"><span>근태 관리</span></div>
+
+        <!-- 연도, 월 설정 select 태그 / 승인요청 버튼 -->
+        <header>
+            <div>
+                <!-- 연도 -->
+                <select class="year" name="" id="">
+                    <option value="">2024</option>
+                </select>
+                
+                <!-- 월 -->
+                <select class="month" name="" id="">
+                    <option value="">1</option>
+                    <option value="">2</option>
+                    <option value="">3</option>
+                    <option value="">4</option>
+                    <option value="">5</option>
+                    <option value="">6</option>
+                    <option value="">7</option>
+                    <option value="">8</option>
+                    <option value="">9</option>
+                    <option value="">10</option>
+                    <option value="">11</option>
+                    <option value="">12</option>
+                </select>
+            </div>
+            
+            <div><button class="default-btn glucose-btn" id="backPage">이전으로 돌아가기</button></div>
+        </header>
+
+        <!-- 나의 근무시간현황 -->
+        <div class="monthly">
+
+            <div>
+                <img src="" alt="">
+                <div>
+                    <span>임성혁 대리</span>
+                    <span>운영본부 / 운영팀</span>
+                </div>
+            </div>
+
+            <!-- 월간 근태 현황 요약 -->
+            <div>
+                <div>
+                    <div class="circle">
+                        <span>1</span>
+                    </div>
+
+                    <span>정상근로</span>
+                </div>
+
+                <div>
+                    <div class="circle">
+                        <span>4</span>
+                    </div>
+
+                    <span>잔여연차</span>
+                </div>
+
+                <div>
+                    <div class="circle">
+                        <span>0</span>
+                    </div>
+
+                    <span>지각</span>
+                </div>
+
+                <div>
+                    <div class="circle">
+                        <span>0</span>
+                    </div>
+
+                    <span>조퇴</span>
+                </div>
+
+                <div>
+                    <div class="circle">
+                        <span>0</span>
+                    </div>
+
+                    <span>결근</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 월별 근태기록 목록 -->
+        <div class="attendanceListHead">
+            <span>날짜</span>
+            <span>계획근로시간</span>
+            <span>근태기록시간</span>
+            <span>근태정보</span>
+            <span>초과근무시간</span>
+            <span>비고</span>
+        </div>
+        
+        <main>
+            <div class="attendanceDetail">
+                <span>5월 28일 (화)</span>
+                <span>09:00 ~ 18:00</span>
+                <span>08:53 ~ 18:02</span>
+                <span>정상</span>
+                <span>00:02</span>
+                <span>-</span>
+            </div>
+
+            <div class="attendanceDetail">
+                <span>5월 29일 (수)</span>
+                <span>09:00 ~ 18:00</span>
+                <span>08:54 ~ </span>
+                <span>정상</span>
+                <span>00:00</span>
+                <span>-</span>
+            </div>
+        </main>
+
+    </section>
+
+    <script src="/js/admin/attendance/attendanceManager.js"></script>
+</body>
+</html>

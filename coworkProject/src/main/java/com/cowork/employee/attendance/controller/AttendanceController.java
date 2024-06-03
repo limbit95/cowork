@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("attendance")
+@RequestMapping("employee/attendance")
 public class AttendanceController {
 	
 	@GetMapping("list")

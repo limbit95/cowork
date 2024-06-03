@@ -9,8 +9,12 @@
     <link rel="stylesheet" href="/css/employee/survey/surveyInsert.css">
 </head>
 <body>
+    <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
 
-    <section class="container">
+    <section class="container sectionContainer">
+
+        <!-- 공간 주기 위한 div -->
+        <div class="spaceDiv"></div>
 
         <!-- 설문조사 대제목 -->
         <div class="questionDiv">
@@ -33,20 +37,19 @@
 
     <!-- 객관식 클릭하면 소제목 입력하는 부분, 생성됨 -->
     <!-- 추가하기 버튼을 누르면 객관식 항목이 늘어남 -->
-    <section class="container titleContainer">
+    <section class="titleContainer">
 
     </section>
 
-
-    <!-- <section class="container">
+    <!-- <section class="titleContainer">
         <div class="littleTitle">
             <div class="answerDiv">
-                <div class="answerTitle">Q. <input value="명절 선물 투표"></div>
+                <div class="answerTitle">Q. <input class="multipleInput" value="명절 선물 투표"></div>
             </div>
         </div>
     </section> -->
 
-    <section class="container containerSide">
+    <section class="containerSide">
 
         <div class="surveyBtn">
             <!-- 질문 추가 버튼 -->
@@ -62,7 +65,6 @@
         </div>
     </section>
 
-    
     <script src="/js/employee/survey/surveyInsert.js"> </script>
 
     <script src="https://kit.fontawesome.com/247c6d7026.js" crossorigin="anonymous"></script>

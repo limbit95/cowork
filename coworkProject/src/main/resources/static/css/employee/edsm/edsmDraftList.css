@@ -6,6 +6,11 @@
     color: black !important;
     font-weight: 300 !important;
     padding: 10px 83px;
+    
+}
+
+.margin5 {
+    margin-top: 5% !important;
 }
 
 /***************** 기안서 메뉴 */
