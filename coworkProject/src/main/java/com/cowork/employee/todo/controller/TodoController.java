@@ -21,8 +21,8 @@ public class TodoController {
 	}
 	
 
-	@PostMapping
+	@PostMapping("insert")
 	public String todoInsert() {
-		
+		return "employee/todo/todoList"; 
 	}
 }

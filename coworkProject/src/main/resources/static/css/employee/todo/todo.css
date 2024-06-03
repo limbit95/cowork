@@ -213,7 +213,11 @@ input[type="date"] {
 }
 
 
-
+/* 기한 부분 */
+#endDate:hover {
+    border: none !important;
+    cursor: pointer;
+}
 
 
 /* ------ 파일 업로드 영역 ----- */
