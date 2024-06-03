@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="	/css/common.css">
-	<link rel="stylesheet" href="	/css/employee/chatting/chatting.css">
+	<link rel="stylesheet" href="/css/common.css">
+	<link rel="stylesheet" href="/css/employee/chatting/chatting.css">
     <title>leftSideBar</title>
 </head>
 <body>
 	<div th:replace="~{employee/userMain/leftSideBar}"></div>
+	
+	<div id="forMariginTop"></div>
+	
 	<div id="entireContainer">
 		<div id="emptySpace"></div>
 		<!-- 왼쪽 첫번째 큰 컨테이너 시작  -->
@@ -16,27 +19,39 @@
 			<!-- 맨 위 -->
 			<div id="searchDiv">
 				<div id="searchDivChild">
-					<input type="text" placeholder="부서, 팀, 이름" id="searchInput">	
-					<i class="fa-solid fa-magnifying-glass"></i>
+					<input type="text" placeholder="부서, 팀, 이름 을 입력해주세요" id="searchInput">	
 				</div>	
 			</div>
 			
-			<div>	
+			<div id="findEmpAndAddedEmpContainer">
+				<div id="findEmpContainer">
+					<div id="findEmpTitle">					<i class="fa-solid fa-magnifying-glass"					style="color:#214177;"></i></div>
+					<div id="findEmpContent"></div> <!-- 여기 -->
+				</div>	
+				<div id="addedEmpContainer">
+					<div id="addedEmpTitle">					<i class="fa-solid fa-plus" ></i></div>
+					<div id="addedEmpContent"></div>
+				</div>
 			</div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>			
+			<div id="makeChatButton">
+				<button>
+					<i class="fa-regular fa-comment"></i> &nbsp;
+					새로운 채팅방 만들기
+				</button>
+			</div>	
 		</div>
 		<!-- 왼쪽 첫번째 큰 컨테이너 끝  -->
 		
 		
 		<div id="chattingRoomsContainer">
-			
+			<div id="chattingRoomsTitle">			
+				<i class="fa-regular fa-comment"></i> &nbsp; 채팅방
+			</div>
+			<div id="chattingRoomsContent"></div>
 			
 		</div>
 		<div id="chattingsContainer">
-			
+			<div id="chattingsArea"></div>
 		</div>
 		
 	</div>
