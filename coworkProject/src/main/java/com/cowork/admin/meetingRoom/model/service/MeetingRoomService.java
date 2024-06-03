@@ -12,4 +12,10 @@ public interface MeetingRoomService {
 	 */
 	List<MeetingRoom> meetingRoomList(int comNo);
 
+	/** 회의실 insert
+	 * @param meetingRoom
+	 * @return result
+	 */
+	int meetingRoomInsert(MeetingRoom meetingRoom);
+
 }
