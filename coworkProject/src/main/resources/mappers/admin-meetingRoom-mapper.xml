@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.admin.meetingRoom.model.mapper.MeetingRoomMapper">
+	
+	<select id="meetingRoomList">
+		SELECT MEETING_ROOM_NO, MEETING_ROOM_NM
+		FROM MEETING_ROOM
+		WHERE COM_NO = #{comNo}
+	</select>
+
+</mapper>
