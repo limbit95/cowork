@@ -15,33 +15,54 @@
 	<div id="fullContainer">
 
 		<div id="innerContainer">
+			<!-- 제목 부분 -->
 			<div>
 				 회의실
 			</div>
+
+			<!-- 회의실 추가 버튼 -->
 			<div class="MeetingRoomDiv">
-				<form action="#" method="post" id="meetingRoomAddInputForm">
+				<!-- 추가 버튼 클릭시 input 값, controller에 들고 감 -->
+				<form action="meetingRoomInsert" method="post" id="meetingRoomAddInputForm">
 					<input type="text" id="meetingRoomAddInput">
-					<button class="default-btn glucose-btn" style="font-size: 16px;">추가</button>
+					<button class="default-btn glucose-btn" id="nonePaddingBtn" style="font-size: 16px;">추가</button>
 				</form>
 			</div>
+
+			<!-- x 버튼 클릭 시 DB에서도 삭제해줘야함 -->
 			<div id="contentContainerInMeeting">
 				<div id="contentContainerInMeetingInner">
-					<div id="firstLoop">
+
+					<!-- 회의실이 존재하지 않을 때 -->
+					<th:block th:if="${#lists.isEmpty(meetingRoomList)}">
+						<div>
+							회의실이 존재하지 않습니다.
+						</div>
+					</th:block>
+
+					<!-- 회의실이 존재할 때 -->
+					<th:block th:unless="${#lists.isEmpty(meetingRoomList)}">
+						<div class="meetingRoomLoop" th:each="meetingRoom : ${meetingRoomList}" th:object="${meetingRoom}">
+							<div th:text="*{meetingRoomNm}">회의실 이름</div>
+							<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
+						</div>
+					</th:block>
+					<!-- <div class="meetingRoomLoop">
 						<div>1층 00실</div>
 						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
 					</div>
-					<div id="secondLoop">
+					<div class="meetingRoomLoop">
 						<div>1층 00실</div>
 						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
 					</div>
-					<div id="thirdLoop">
+					<div class="meetingRoomLoop">
 						<div>1층 00실</div>
 						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
 					</div>
-					<div id="fourthLoop">
+					<div class="meetingRoomLoop">
 						<div>1층 00실</div>
 						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
-					</div>
+					</div> -->
 				</div>
 			</div>
 			
