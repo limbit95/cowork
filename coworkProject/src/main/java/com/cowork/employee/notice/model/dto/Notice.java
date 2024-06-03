@@ -23,4 +23,6 @@ public class Notice {
 	private String noticeUpdateDate;
 	private String noticeDelFl;
 	private int empCode;
+	
+	private String empName; // 부서명 + 작성자
 }
