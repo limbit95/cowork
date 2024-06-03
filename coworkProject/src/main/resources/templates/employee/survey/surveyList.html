@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SurveyList</title>
 
     <link rel="icon" href="/images/favicon.png">
-    <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/employee/survey/surveyList.css">
     
 </head>
 <body>
+    <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
+    
     <section class="container" id="surveyContainer">
         <!-- 설문조사 목록 제목 -->
         <div class="title"><span>설문조사</span></div>
@@ -34,7 +35,7 @@
     <!-- 설문 목록 보여질 곳 -->
     <section class="container">
 
-        <div class="board">
+        <div class="boardDiv">
 
             <div class="table-head">
                 <div>제목</div>
@@ -55,7 +56,7 @@
     <!-- 투표현황 보여질 곳 -->
     <section class="container">
 
-        <div class="board">
+        <div class="boardDiv">
 
             <div class="table-body">
                 <div class="tableTitle">

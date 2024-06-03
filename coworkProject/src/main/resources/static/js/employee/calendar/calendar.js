@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    let draggableEl = document.getElementById('mydraggable');
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -12,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
         timeZone: 'UTC',
         droppable: true,
         dayMaxEvents: true,
-        events: 'https://fullcalendar.io/api/demo-feeds/events.json?overload-day',
         events: 'https://fullcalendar.io/api/demo-feeds/events.json',
         select: function(info) {
             alert('selected' + info.startStr + ' to ' + info.endStr);
@@ -29,11 +27,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     calendar.render();
-    let draggable = new Draggable(draggableEl);
 
-    new Draggable(containerEl, {
-        itemSelector: '.item-class'
-    });
-
-    draggable.destroy();
 });
