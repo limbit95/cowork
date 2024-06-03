@@ -38,13 +38,51 @@ public class ChatServiceImpl implements ChatService{
 	}
 
 	// 새로운 채팅방을 만들어. 
-	
 	@Override
 	public String makeChat(List<String> empNoList, String empNo) {
-		// TODO Auto-generated method stub
+		
+		
 		return null;
 	}
-
+	
+	/*
+	@Override
+	public String makeChat(List<String> memberNoList, String memberNo) {
+		
+		
+		Integer size = memberNoList.size();
+		
+		//chat_room 테이블에 행을 삽입
+		ChatRoom chatRoom = new ChatRoom();	
+		chatMapper.addChatRoom(chatRoom);
+		// chatRoom 이라는 객체의 roomId 에 마이바티스에 의해 삽입된 행의 pk 값이 들어가 있음. 
+		
+		// CHAT_PARTICIPANT 테이블에 행을 삽입 
+		// 1) 본인을 삽입 
+		ChatParticipant part1 = new ChatParticipant();
+		part1.setMemberNo(memberNo);
+		part1.setRoomId(chatRoom.getRoomId());
+		chatMapper.addParticipantMaker(part1);
+		
+		// 2) 본인 제외 나머지 놈들 삽입 
+		for(int i=0; i<size; i++) {
+			String participantMemberNo = memberNoList.get(i);
+			ChatParticipant part2 = new ChatParticipant();
+			part2.setMemberNo(participantMemberNo);
+			part2.setRoomId(chatRoom.getRoomId());
+			chatMapper.addParticipantInvited(part2);
+		}
+		
+		// 난수 생성 및 SUBSCRIBE_ADDR 에 행 삽입. 그리고 그 난수(구독주소)를 리턴
+        String subscribeAddr = UUID.randomUUID().toString();
+        SubscribeAddr subscribeAddrDTO = new SubscribeAddr();
+        subscribeAddrDTO.setRoomId(chatRoom.getRoomId());
+        subscribeAddrDTO.setSubscribeAddr(subscribeAddr);
+        
+        chatMapper.addSubscribeAddr(subscribeAddrDTO);
+        return subscribeAddr;
+	}
+	*/
 	
 	
 }
