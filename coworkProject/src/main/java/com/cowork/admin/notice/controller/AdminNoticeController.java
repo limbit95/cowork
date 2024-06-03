@@ -15,7 +15,9 @@ public class AdminNoticeController {
 	 * @return
 	 */
 	@GetMapping("noticeList")
-	public String noticeList() {
+	public String noticeList(
+				
+			) {
 		
 		return "admin/notice/noticeList";
 	}
