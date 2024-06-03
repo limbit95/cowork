@@ -3,13 +3,12 @@
     <div id="headerMain">
         <!-- CoWork 로고 -->
         <div id="coworkLogoW"> 
-            <img src="/images/logo6.png" id="whiteLogo">
-            <span id="letterLogoW">CoWork</span>
+            <img src="/images/whiteLogo.png" id="whiteLogo">
         </div>
 
         <div class="buttons"> 
             <a id="signupBtn" href="/user/term">회원가입</a>
-            <a id="loginBtn" href="#">로그인</a>
+            <a id="loginBtn" href="/user/login">로그인</a>
         </div>
     </div>
 </header>
@@ -33,7 +32,7 @@
             if (prevScroll > currentScroll) {
                 header.style.top = "0"; 
             } else {
-                header.style.top = "-60px";
+                header.style.top = "-65px";
             }
             prevScroll = currentScroll;
         });

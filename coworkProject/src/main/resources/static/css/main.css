@@ -40,7 +40,7 @@ a {
     right: 0;
     width: 100%;
     min-width: 700px;
-    height: 60px;
+    height: 65px;
 
     display: flex;
     justify-content: space-between;
@@ -56,31 +56,24 @@ a {
 }
 
 #whiteLogo {
-    width: 40px;
-    height: 35px;
-}
-
-#letterLogoW {
-    font-family: "Inter", sans-serif;
-    font-size: 26px;
-    font-weight: bold;
-    color: white;
+    width: 170px;
+    cursor: pointer;
 }
 
 /* 버튼 */
 .buttons {
-    margin-right: 25px;
+    margin-right: 50px;
 }
 
 .buttons a {
     text-decoration: none;
     font-weight: bold;
     color: white;
-    font-size: 16px;
+    font-size: 17px;
 }
 
 #signupBtn {
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
 
@@ -88,15 +81,19 @@ a {
 
 /* -------------Footer 영역--------------*/
 
+footer {
+    position: relative;
+    transform: translateY(0%);
+}
+
 #footerBorder {
-   /* border-top: 1px solid #d9d9d9;*/
-    background-color: #ECF2FA;
+    background-color: #E5F2FE;
     min-width: 1110px;
 }
 
 .footerArea {
     margin-top: 10px;
-    height: 80px;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -109,16 +106,11 @@ a {
 /* 로고 */
 #blueLogo {
     margin-left: 50px;
-    width: 40px;
-    height: 35px;
+    margin-top: 10px;
+    width: 180px;
+    cursor: pointer;
 }
 
-#letterLogo {
-    font-family: "Inter", sans-serif;
-    font-size: 28px;
-    font-weight: bold;
-    color: #426DA7;
-}
 
 /* 약관 영역 */
 
@@ -145,19 +137,45 @@ a {
 
 /* ---------------------- main 영역 -------------------------- */
 
+/* VIDEO */
+.videoArea {
+    margin-top: 65px;
+}
+
+.thumbnail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/images/coworkThumbnail.jpg') center center / cover no-repeat;
+    cursor: pointer;
+    display: none; 
+}
+
+video {
+    width: 100%;
+    display: block;
+}
+
 /* ------ 메인 배너 영역 ------ */
 .mainBanner {
     display: flex;
-    margin-top: 60px;
-    padding: 10px 50px;
+    margin: 60px 10px;
+    padding: 10px 100px;
+    padding-right: 50px; 
     justify-content: center;
     align-items: center;
     min-height: 400px;
+    width: 100%;
+
 }
 
 .phraseArea {
     display: flex;
     flex-direction: column;
+    width: 100%;
+
 }
 
 #coworkLetter {
@@ -172,10 +190,8 @@ a {
 }
 
 #bannerImg {
-    width: 440px;
-    margin-left: 500px;
+    width: 500px;
 }
-
 
 .carousel1, .carousel2 {
     display: flex;
@@ -187,7 +203,7 @@ a {
 }
 
 #intranetImage2 {
-    width: 700px;
+    width: 1000px;
 }
 
 #intranetImage2Description {
@@ -205,14 +221,14 @@ a {
 /* ------ 네비바 영역 ------ */
 .mainNav {
     display: flex;
-    height: 50px;
+    height: 65px;
     background-color: #BDD8F1;
     align-items: center;
     min-width: 770px;
 }
 
 .mainNav div {
-    width: 100px;
+    width: 110px;
 }
 
 .mainNav div:nth-of-type(1) {
@@ -221,7 +237,7 @@ a {
 }
 
 .navBtn {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     color: #494949;
     border: none;
@@ -292,11 +308,170 @@ a {
     height: 480px;
 }
 
-
+/* section */
+.contentSection {
+    display: none;
+}
 
 /* 전자결재 */
-
-
 .edsmInsertArea {
     background-color: #f1f1f1;
+}
+
+
+
+
+
+
+/* ----------- 챗봇 영역 ------------ */
+
+/* 아이콘 컨테이너 스타일 */
+.icon-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f2f2f2;
+    border-radius: 20px;
+    padding: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* 챗봇 아이콘 스타일 */
+.chatbot-icon {
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* 챗봇 모달 스타일 */
+.chatbot-modal {
+    display: none; 
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.chat-container {
+    width: 90%;
+    max-width: 400px;
+    height: 60vh; 
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 20vh;
+}
+
+.chat-header {
+    background-color: #82A6CB;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.chat-main {
+    flex: 1;
+    padding: 15px;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-box {
+    display: flex;
+    flex-direction: column;
+    height: 45vh;
+    overflow-y: auto; 
+}
+
+.chat-bubble {
+    background: #BDD8F1;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.chat-bubble.user {
+    background: #E5F2FE;
+    align-self: flex-end;
+    font-size: 12px;
+}
+
+.chat-bubble.bot {
+    background: #BDD8F1;
+    align-self: flex-start;
+    font-size: 12px;
+}
+
+.chat-bubble.question {
+    font-size: 12px;
+    background: #f4f4f4;
+    cursor: pointer;
+    text-align: left;
+}
+
+.chat-footer {
+    display: flex;
+    padding: 10px;
+    background: #FFF;
+    border-top: 1px solid #CCC;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+}
+
+.chat-footer input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 12px;
+}
+
+.chat-footer input:focus {
+    outline: none;
+}
+
+.chat-footer button {
+    padding: 10px 15px;
+    background: #82A6CB;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.chat-footer button:hover {
+    background: #3667A6;
 }
