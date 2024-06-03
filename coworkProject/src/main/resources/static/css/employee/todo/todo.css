@@ -265,11 +265,15 @@ input[type="date"] {
 
 /* 등록 버튼 */
 #btnArea{
-    margin: 0 !important;
+    margin: 0 0 0 770px;
 }
 
 #insertBtn {
     margin-left: 70px;
+}
+
+#deleteBtn {
+    margin-left: 10px;
 }
 
 #insertBtn2 {
