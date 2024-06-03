@@ -54,7 +54,6 @@ body {
 	background-color: #ECF2FA;
 	transition: transform 0.5s ease, opacity 0.3s;
 	transform: translateX(-100%);
-	
 }
 #closeLeftSideBar{
 	margin-top: 10px;
