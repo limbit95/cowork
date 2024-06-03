@@ -15,7 +15,12 @@ public class AddrController {
 	
 	@GetMapping("")
 	public String addr() {
-		return "";
+		return "employee/addr/addrBook";
+	}
+	
+	@GetMapping("employeeDetail")
+	public String employeeDetail() {
+		return "employee/addr/userEmployeeDetail";
 	}
 	
 }
