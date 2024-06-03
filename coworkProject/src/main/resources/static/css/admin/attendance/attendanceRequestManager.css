@@ -1,0 +1,170 @@
+* {
+    /* border: 1px solid blue; */
+}
+
+section.container div {
+    margin: 0;
+}
+
+
+
+
+/* ------------------------------------------------------------------------------------------- */
+/* 모달 내용 스타일 */
+.modal-content2 {
+    display: block;  
+    background-color: #fefefe;
+    padding: 20px;
+    bottom: 250px;
+    border: 1px solid #888;
+    width: 500px;
+    height: 390px;
+    border-radius: 5px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+
+* {
+    /* border: 1px solid red; */
+}
+
+.contentHead2 {
+    display: flex;
+    justify-content: space-between;
+}
+.contentHead2 > :nth-child(1) {
+    display: flex;
+    align-items: end;
+    width: 140px;
+    height: 40px;
+}
+.contentHead2 > :nth-child(2) {
+    display: flex;
+    align-items: end;
+    width: 100%;
+    border-bottom: 1.5px solid var(--main6-color);
+}
+.contentHead2 > div > span {
+    width: 70px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.contentHead2 > div > :nth-child(1) {
+    border-bottom: 1.5px solid var(--main6-color);
+}
+.contentHead2 > div > :nth-child(2) {
+    border-left: 1.5px solid var(--main6-color);
+    border-right: 1.5px solid var(--main6-color);
+    border-top: 1.5px solid var(--main6-color);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.year2 {
+    width: 60px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #d9d9d9;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+.month2 {
+    width: 40px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #d9d9d9;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+
+
+section.container .contentBody2 {
+    display: flex;
+    flex-direction: column;
+    height: 340px;
+    margin-top: 10px;
+}
+
+.contentBody2 > :nth-child(1) {
+    display: flex;
+    height: 30px;
+    text-align: center;
+    line-height: 32px;
+}
+.contentBody2 > :nth-child(1) > span {
+    background-color: var(--main6-color);
+    color: white;
+    font-size: 14px;
+    border-right: 1.5px solid white;
+}
+.contentBody2 > :nth-child(1) > :nth-child(1) {
+    border-left: 1.5px solid var(--main6-color);
+    flex-basis: 23%;
+}
+.contentBody2 > :nth-child(1) > :nth-child(2) {
+    flex-basis: 15%;
+}
+.contentBody2 > :nth-child(1) > :nth-child(3) {
+    flex-basis: 23%;
+}
+.contentBody2 > :nth-child(1) > :nth-child(4) {
+    flex-basis: 23%;
+}
+.contentBody2 > :nth-child(1) > :nth-child(5) {
+    flex-basis: 16%;
+    border-right: 1.5px solid var(--main6-color);
+}
+
+
+/* 요청 내역 리스트 디테일 */
+.RequestDetail  {
+    display: flex;
+    height: 40px;
+    text-align: center;
+    line-height: 42px;
+}
+.RequestDetail > span {
+    border-bottom: 1.5px solid var(--main6-color);
+    border-right: 1.5px solid var(--main6-color);
+    color: black;
+    font-size: 14px;
+}
+.RequestDetail > :nth-child(1) {
+    border-left: 1.5px solid var(--main6-color);
+    flex-basis: 23%;
+}
+.RequestDetail > :nth-child(2) {
+    flex-basis: 15%;
+}
+.RequestDetail > :nth-child(3) {
+    flex-basis: 23%;
+}
+.RequestDetail > :nth-child(4) {
+    flex-basis: 23%;
+}
+.RequestDetail > :nth-child(5) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-basis: 16%;
+}
+.default-label {
+    display: inline-block;
+    cursor: pointer;
+    width: 35px;
+    height: 15px;
+    line-height: 17px;
+}
+.proceeding {
+    background-color: var(--sub-color);
+}
+.complete {
+    background-color: var(--sub3-color);
+}
+.reject {
+    background-color: var(--main5-color);
+}
