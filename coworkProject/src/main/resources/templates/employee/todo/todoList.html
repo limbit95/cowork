@@ -16,17 +16,23 @@
             <div class="title"><span>할 일</span></div>
 
             <!-- 검색창 -->
-            <div class="search" id="searchTodo">
-                <div class="default-line">
-                    <input>   
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </div> 
-            </div>
+            <form>
+                <div class="search" id="searchTodo">
+                    <div class="default-line">
+                        <input>   
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div> 
+                </div>
+            </form>
 
             <!-- 등록/삭제 버튼 -->
             <div id="btnArea">
-                <button class="default-btn glucose-btn" id="insertBtn">등록</button>
-                <button class="default-btn glucose-btn" id="deleteBtn">삭제</button>
+                <form>
+                    <button class="default-btn glucose-btn" id="insertBtn">등록</button>
+                </form>
+                <form>
+                    <button class="default-btn glucose-btn" id="deleteBtn">삭제</button>
+                </form>
             </div>
 
             <div class="todoArea">
@@ -66,46 +72,47 @@
                         </div>
                     </div>
                     <!-- 할 일 상세 -->
-                    <div class="todoDetailArea">
-                        <div id="insertBtn2Area">
-                            <button id="insertBtn2">등록</button>
-                        </div>
-                        <div>
-                            <div class="detailTitle">기한</div>
+                    <form action="insert" method="post" enctype="multipart/form-data">
+                        <div class="todoDetailArea">
+                            <div id="insertBtn2Area">
+                                <button id="insertBtn2">등록</button>
+                            </div>
+                            <div>
+                                <div class="detailTitle">기한</div>
+                                <div class="detailContent">
+                                    <input type="date">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="detailTitle">요청자</div>
+                                <div class="detailContent">
+                                    <input>
+                                </div>
+                            </div>
+                            <div class="inCharge">
+                                <div class="detailTitle">담당자</div>
+                                <div class="detailContent">
+                                    <input>
+                                </div>
+                            </div>
+                            <div class="detailTitle">요청 내용</div>
                             <div class="detailContent">
-                                <input type="date" >
+                                <textarea id="requestContent"></textarea>
+                            </div>
+                            <div>
+                                <div class="detailTitle" id="fileArea">첨부파일</div>
+                                <div class="fileBox">
+                                    <input type="file" id="uploadFile" multiple style="display: none;">
+                                    <label for="uploadFile" class="uploadFileLabel">내 PC</label>
+                                </div>
+                            </div>
+                            <div class="fileList">
+                                <ul id="fileList">
+                                </ul>
                             </div>
                         </div>
-                        <div>
-                            <div class="detailTitle">요청자</div>
-                            <div class="detailContent">
-                                <input>
-                            </div>
-                        </div>
-                        <div class="inCharge">
-                            <div class="detailTitle">담당자</div>
-                            <div class="detailContent">
-                                <input>
-                            </div>
-                        </div>
-                        <div class="detailTitle">요청 내용</div>
-                        <div class="detailContent">
-                            <textarea id="requestContent"></textarea>
-                        </div>
-                        <div>
-                            <div class="detailTitle" id="fileArea">첨부파일</div>
-                            <div class="fileBox">
-                                <input type="file" id="uploadFile" multiple style="display: none;">
-                                <label for="uploadFile" class="uploadFileLabel">내 PC</label>
-                            </div>
-                        </div>
-                        <div class="fileList">
-                            <ul id="fileList">
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
+                    </form>
+                </div>    
             </div> 
         </section>
     </body>
