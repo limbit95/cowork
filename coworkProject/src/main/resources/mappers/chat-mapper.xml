@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.employee.chatting.model.mapper.ChatMapper"> 
+
+	<select id="empList"> 
+	    SELECT * 
+	    FROM EMPLOYEE 
+	    WHERE CONCAT(EMP_LAST_NAME, EMP_FIRST_NAME) LIKE '%' || #{inputData} || '%'
+	    AND EMP_CODE != #{empCode}
+	</select>
+	
+
+
+	
+	
+	<!--
+	<insert id="addChatRoom" useGeneratedKeys="true" keyProperty="roomId" keyColumn="ROOM_ID">
+		INSERT INTO CHAT_ROOM VALUES 
+		(SEQ_CHAT_ROOM.NEXTVAL, NULL, SYSDATE)
+	</insert>
+
+	<insert id="addParticipantMaker">
+		INSERT INTO CHAT_PARTICIPANT VALUES
+		(SEQ_CHAT_PARTICIPANT.NEXTVAL, #{roomId}, #{memberNo}, DEFAULT)
+	</insert>
+	
+	<insert id="addParticipantInvited">
+		INSERT INTO CHAT_PARTICIPANT VALUES
+		(SEQ_CHAT_PARTICIPANT.NEXTVAL, #{roomId}, #{memberNo}, DEFAULT)
+	</insert>
+	
+	<insert id="addSubscribeAddr">
+		INSERT INTO SUBSCRIBE_ADDR VALUES
+		(SEQ_SUBSCRIBE_ADDR.NEXTVAL, #{roomId}, #{subscribeAddr})
+	</insert>
+	
+	<select id="getChattingRooms">
+		SELECT CR.*, SA.SUBSCRIBE_ADDR
+		FROM CHAT_PARTICIPANT CP
+		LEFT JOIN CHAT_ROOM CR ON (CP.ROOM_ID = CR.ROOM_ID)
+		LEFT JOIN SUBSCRIBE_ADDR SA ON (CP.ROOM_ID = SA.ROOM_ID)
+		WHERE CP.MEMBER_NO = #{memberNo}
+	</select>
+	
+	<select id="getLastSentAt">
+        SELECT CONTENT, SENT_AT
+        FROM CHAT_MESSAGE
+        WHERE ROOM_ID = #{roomId}
+        ORDER BY MESSAGE_ID ASC
+        FETCH FIRST 1 ROW ONLY
+	</select>
+	
+	<select id="findFirstInvited">
+		SELECT M.MEMBER_NICKNAME, M.PROFILE_IMG
+		FROM CHAT_PARTICIPANT CP
+		LEFT JOIN MEMBER M ON CP.MEMBER_NO = M.MEMBER_NO
+		WHERE CP.PARTICIPANT_NO = (
+		    SELECT MIN(CP2.PARTICIPANT_NO)
+		    FROM CHAT_PARTICIPANT CP2
+		    WHERE CP2.ROOM_ID = #{roomId}
+		)
+	</select>
+	
+	<select id="findMessageIds"> 
+		SELECT MESSAGE_ID FROM CHAT_MESSAGE
+		WHERE ROOM_ID = #{roomId}
+	</select>
+	
+	<select id="findAllMessageByRoomId">
+		SELECT * FROM CHAT_MESSAGE 
+		WHERE ROOM_ID = #{roomId}
+		ORDER BY MESSAGE_ID 
+	</select>
+
+	
+	<insert id="insertMessage">
+		INSERT INTO CHAT_MESSAGE
+		VALUES (SEQ_CHAT_MESSAGE.NEXTVAL, #{roomId}, #{senderId}, #{messageType}, #{content}, NULL,SYSDATE)
+	</insert>
+	
+	<insert id="insertFileMessage">
+		INSERT INTO CHAT_MESSAGE 
+		VALUES (SEQ_CHAT_MESSAGE.NEXTVAL, #{roomId}, #{sender}, 2, NULL, #{filePath}, SYSDATE )
+	</insert>
+-->
+
+
+
+	<!--
+	<update id="updateReadFl">
+		UPDATE CHAT_MESSAGE_READ 
+		SET READ_FL = 'Y'
+		WHERE MESSAGE_ID = #{messageId}
+		AND MEMBER_NO = #{memberNo}
+	</update>
+	-->
+	
+	
+		
+	<!--
+	<select id="findUnreadCount">
+		SELECT COUNT(*) FROM CHAT_MESSAGE_READ
+		WHERE READ_FL = 'N'
+		AND MESSAGE_ID = #{messageId}
+	</select>
+	-->
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

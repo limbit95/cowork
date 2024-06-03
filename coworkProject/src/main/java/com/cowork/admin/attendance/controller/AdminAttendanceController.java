@@ -28,4 +28,14 @@ public class AdminAttendanceController {
 		return "admin/attendance/attendanceRequestManager";
 	}
 	
+	@GetMapping("approvalManager")
+	public String attendanceApprovalManager() {
+		return "admin/attendance/attendanceApprovalManager";
+	}
+	
+	@GetMapping("RejectManager")
+	public String attendanceRejectManager() {
+		return "admin/attendance/attendanceRejectManager";
+	}
+	
 }

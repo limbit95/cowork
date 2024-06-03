@@ -44,11 +44,7 @@ main > :nth-child(2) > :nth-child(1) {
     height: 30px;
     line-height: 30px;
     text-align: center;
-    border-left: 1.5px solid var(--main5-color);
-    border-top: 1.5px solid var(--main5-color);
-    border-right: 1.5px solid var(--main5-color);
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    border-bottom: 1.5px solid var(--main5-color);
 }
 main > :nth-child(2) > :nth-child(2) {
     width: 65px; 
@@ -62,7 +58,11 @@ main > :nth-child(2) > :nth-child(3) {
     height: 30px;
     line-height: 30px;
     text-align: center;
-    border-bottom: 1.5px solid var(--main5-color);
+    border-left: 1.5px solid var(--main5-color);
+    border-top: 1.5px solid var(--main5-color);
+    border-right: 1.5px solid var(--main5-color);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 main > :nth-child(2) > :nth-child(4) {
     flex-basis: 74.5%;
@@ -87,6 +87,7 @@ main > :nth-child(3) > :nth-child(1) {
 main > :nth-child(3) > :nth-child(1) div {
     display: flex;
     align-items: center;
+    background-color: var(--main5-color);
 }
 
 main > :nth-child(3) > :nth-child(1) > :nth-child(1) {
