@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (todoDetailArea.style.display === "none" || todoDetailArea.style.display === "") {
             todoDetailArea.style.display = "block";
+            setTimeout(() => todoDetailArea.classList.add('show'), 10);
 
             // 모든 .todo 요소의 스타일 변경
             todos.forEach(function(todo) {
@@ -32,7 +33,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
             });
         } else {
-            todoDetailArea.style.display = "none";
+            todoDetailArea.classList.remove('show');
+            setTimeout(() => todoDetailArea.style.display = "none", 500); 
 
             // 모든 .todo 요소의 스타일 복구
             todos.forEach(function(todo) {
