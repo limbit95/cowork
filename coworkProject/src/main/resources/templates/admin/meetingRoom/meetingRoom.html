@@ -44,25 +44,10 @@
 					<th:block th:unless="${#lists.isEmpty(meetingRoomList)}">
 						<div class="meetingRoomLoop" th:each="meetingRoom : ${meetingRoomList}" th:object="${meetingRoom}">
 							<div th:text="*{meetingRoomNm}">회의실 이름</div>
+							<input type="hidden" th:value="*{meetingRoomNo}" class="meetingRoomNo">
 							<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
 						</div>
 					</th:block>
-					<!-- <div class="meetingRoomLoop">
-						<div>1층 00실</div>
-						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
-					</div>
-					<div class="meetingRoomLoop">
-						<div>1층 00실</div>
-						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
-					</div>
-					<div class="meetingRoomLoop">
-						<div>1층 00실</div>
-						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
-					</div>
-					<div class="meetingRoomLoop">
-						<div>1층 00실</div>
-						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
-					</div> -->
 				</div>
 			</div>
 			

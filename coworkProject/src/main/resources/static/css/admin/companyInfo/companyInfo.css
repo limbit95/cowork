@@ -1,108 +1,50 @@
-#companyInfoTitle{
-	display: flex; 
+#fullContainer {
+	display: flex;
 	justify-content: center;
-	align-items: center;
-	font-size: 25px;
-}
-#fullContainer{
-	display: flex; 
 }
 
-#rightSideSpace{
-	flex-basis: 100%;	
-}   
-#companyTitle{
-	display: flex; 
-	justify-content: center;
-	font-size: 25px;
-	font-weight: bold;
-	margin-top: 200px;
-	margin-left: 50px;
-    color: #426DA7;
-
-}
-#btnContainerInCompanyInfo{
+#rightSideSpace {
 	display: flex;
-	justify-content: flex-end;
-	margin-right: 30vw;
-}
-#contentContainerInCompanyInfo{
-	display: flex;
-	width: 100%;
 	flex-direction: column;
 	align-items: center;
-	margin-bottom: 50px;
+	width: 40%;
 }
-#companyLogo{
-	width: 20%;
-	border-radius: 30px;
+
+#companyTitle {
+	padding-top: 70px;
+	color: var(--main-color);
+    font-size: 25px;
+    font-weight: bold;
 }
-#companyNameContainer{
-	display: flex; 
-	margin-left:700px;
-	align-items: center;
-	font-weight: bold;
-	margin-bottom: 20px;
+
+#btnContainerInCompanyInfo {
+	margin-top: 25px;
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
 }
-.inputClass1{
-	margin-left: 100px;
-	width: 300px;
-	height: 35px;
-	font-weight: bold;
-	border: 1px solid lightgray;
+
+.saveBtn {
+	margin-left: 5px;
+}
+
+.companyNameContainer {
+	width: 100%;
+	background-color: aliceblue;
+	display: flex;
+	margin-bottom: 25px;
+}
+
+.companyNameContainer > div:nth-child(1) {
+	width: 70px;
+	height: 25px;
+	text-align: center;
+	padding-top: 7px;
+}
+
+.companyNameContainer > input:nth-child(2) {
+	flex-basis: 70%;
+	height: 25px;
+	border: 1px solid var(--main6-color);
 	border-radius: 5px;
 }
-.inputClass2{
-	margin-left: 85px;
-	width: 300px;
-	height: 35px;
-	font-weight: bold;
-	border: 1px solid lightgray;
-	border-radius: 5px;
-}
-.inputClass3{
-	margin-left: 113px;
-	width: 300px;
-	height: 35px;
-	font-weight: bold;
-	border: 1px solid lightgray;
-	border-radius: 5px;	
-}
-.findPostCodeBtn{
-	width: 100px;
-	height: 40px;
-	margin-left: 30px;
-	cursor:pointer;
-	font-weight: bold;
-	background-color: #3667A6;
-	border-radius: 5px;
-	border: none;
-	color: white;
-	transition: background-color 0.3s, color 0.3s;
-}
-.findPostCodeBtn:hover{
-	background-color: white;
-	color: #3667A6;
-	border: 1px solid #3667A6;
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
