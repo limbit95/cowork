@@ -13,7 +13,7 @@
     <section class="container">
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
 
-        <div class="title"><span>근태 수정 요청 내역</span></div>
+        <div class="title"><span>요청 내역</span></div>
 
         <main>
 
@@ -76,9 +76,9 @@
     
             <div>
     
-                <div class="request">요청내역</div>
-                <div class="approval">승인내역</div>
-                <div class="reject">반려내역</div>
+                <div class="requestList">요청내역</div>
+                <div class="approvalList">승인내역</div>
+                <div class="rejectList">반려내역</div>
                 <div></div>
     
             </div>
@@ -94,7 +94,7 @@
                     <div>근태정보</div>
                     <div>근태기록시간</div>
                     <div>수정요청시간</div>
-                    <div>사유</div>
+                    <div>상세내용</div>
     
                 </div>
     
@@ -107,7 +107,7 @@
                     <div>지각</div>
                     <div>09:02 ~ 18:00</div>
                     <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn">상세조회</button></div>
+                    <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
     
                 </div>
     
@@ -120,10 +120,10 @@
                     <div>지각</div>
                     <div>09:02 ~ 18:00</div>
                     <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn">상세조회</button></div>
+                    <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
     
                 </div>
-    
+                
                 <div class="body">
 
                     <div>운영팀</div>
@@ -133,10 +133,10 @@
                     <div>지각</div>
                     <div>09:02 ~ 18:00</div>
                     <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn">상세조회</button></div>
+                    <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
     
                 </div>
-    
+                
                 <div class="body">
 
                     <div>운영팀</div>
@@ -146,10 +146,10 @@
                     <div>지각</div>
                     <div>09:02 ~ 18:00</div>
                     <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn">상세조회</button></div>
+                    <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
     
                 </div>
-    
+                
                 <div class="body">
 
                     <div>운영팀</div>
@@ -159,10 +159,10 @@
                     <div>지각</div>
                     <div>09:02 ~ 18:00</div>
                     <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn">상세조회</button></div>
+                    <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
     
                 </div>
-    
+                
                 <div class="body">
 
                     <div>운영팀</div>
@@ -172,59 +172,7 @@
                     <div>지각</div>
                     <div>09:02 ~ 18:00</div>
                     <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn">상세조회</button></div>
-    
-                </div>
-    
-                <div class="body">
-
-                    <div>운영팀</div>
-                    <div>임성혁</div>
-                    <div>대리</div>
-                    <div>010-1234-1234</div>
-                    <div>지각</div>
-                    <div>09:02 ~ 18:00</div>
-                    <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn">상세조회</button></div>
-    
-                </div>
-    
-                <div class="body">
-
-                    <div>운영팀</div>
-                    <div>임성혁</div>
-                    <div>대리</div>
-                    <div>010-1234-1234</div>
-                    <div>지각</div>
-                    <div>09:02 ~ 18:00</div>
-                    <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn">상세조회</button></div>
-    
-                </div>
-    
-                <div class="body">
-
-                    <div>운영팀</div>
-                    <div>임성혁</div>
-                    <div>대리</div>
-                    <div>010-1234-1234</div>
-                    <div>지각</div>
-                    <div>09:02 ~ 18:00</div>
-                    <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn">상세조회</button></div>
-    
-                </div>
-    
-                <div class="body">
-
-                    <div>운영팀</div>
-                    <div>임성혁</div>
-                    <div>대리</div>
-                    <div>010-1234-1234</div>
-                    <div>지각</div>
-                    <div>09:02 ~ 18:00</div>
-                    <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn">상세조회</button></div>
+                    <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
     
                 </div>
 
@@ -266,57 +214,10 @@
 
         </main>
         
-
-        <!-- <div class="modal-content2">
-            <div class="contentHead2">
-                <div>
-                    <span id="ApprovalRequestBtn2">요청내역</span>
-                    <span id="RequestDetailsBtn2">승인내역</span>
-                </div>
-            </div>
-    
-            <div class="contentBody2">
-                <div>
-                    <span>날짜</span>
-                    <span>근태정보</span>
-                    <span>근태기록시간</span>
-                    <span>수정요청시간</span>
-                    <span>승인여부</span>
-                </div>
-    
-                <div class="RequestList">
-                    <div class="RequestDetail">
-                        <span>2024-05-26</span>
-                        <span>지각</span>
-                        <span>09:04~18:00</span>
-                        <span>08:55~18:00</span>
-                        <span><label class="default-label proceeding">진행중</label></span>
-                    </div>
-    
-                    <div class="RequestDetail">
-                        <span>2024-05-26</span>
-                        <span>지각</span>
-                        <span>09:04~18:00</span>
-                        <span>08:55~18:00</span>
-                        <span><label class="default-label reject">반려</label></span>
-                    </div>
-                    
-                    <div class="RequestDetail">
-                        <span>2024-05-26</span>
-                        <span>지각</span>
-                        <span>09:04~18:00</span>
-                        <span>08:55~18:00</span>
-                        <span><label class="default-label complete">승인</label></span>
-                    </div>
-    
-                </div>
-    
-            </div>
-    
-        </div> -->
-
+        <th:block th:replace="~{admin/attendance/requestDetail}"></th:block>
+        
     </section>
-
+    
     <script src="/js/admin/attendance/attendanceRequestManager.js"></script>
 </body>
 </html>

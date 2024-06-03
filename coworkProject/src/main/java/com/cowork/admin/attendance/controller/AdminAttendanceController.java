@@ -33,7 +33,7 @@ public class AdminAttendanceController {
 		return "admin/attendance/attendanceApprovalManager";
 	}
 	
-	@GetMapping("RejectManager")
+	@GetMapping("rejectManager")
 	public String attendanceRejectManager() {
 		return "admin/attendance/attendanceRejectManager";
 	}
