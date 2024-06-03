@@ -83,7 +83,8 @@ a {
 
 footer {
     position: relative;
-    transform: translateY(0%);
+    transform: translateY(0%) !important;
+    bottom: 0px;
 }
 
 #footerBorder {
@@ -156,6 +157,13 @@ footer {
 video {
     width: 100%;
     display: block;
+    outline: none;
+    border: none;
+}
+
+video:hover {
+    outline: none;
+    border: none;
 }
 
 /* ------ 메인 배너 영역 ------ */
