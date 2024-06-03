@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.employee.todo.model.mapper.TodoMapper"> 
+
+	<select id="selectTodoList"> 
+	    SELECT * FROM TODO
+	    WHERE EMP_CODE = 1
+	</select>
+	
+<!-- <select id="todoDetail">
+		SELECT 
+		    t.TODO_NO,
+		    t.TODO_TITLE,
+		    t.TODO_CONTENT,
+		    t.TODO_WRITE_DATE,
+		    t.TODO_END_DATE,
+		    t.TODO_COMPLETE,
+		    t.EMP_CODE,
+		    tf.FILE_NO,
+		    tf.FILE_PATH,
+		    tf.FILE_ORIGIN_NAME,
+		    tf.FILE_RENAME,
+		    tf.FILE_UPLOAD_DATE,
+		    tf.FILE_ORDER,
+		    tm.TODO_MGR_NO,
+		    tm.EMP_CODE AS MGR_EMP_CODE
+		FROM 
+		    todo t
+		LEFT JOIN 
+		    todo_file tf ON t.TODO_NO = tf.TODO_NO
+		LEFT JOIN 
+		    todo_manager tm ON t.TODO_NO = tm.TODO_NO
+		WHERE 
+		    t.TODO_NO = #{todoNo}
+	</select>  -->	
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

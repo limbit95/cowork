@@ -57,9 +57,9 @@
                     <!-- 할 일 목록 -->
                     <div class="todoList">
                         <!-- 하나 -->
-                        <div class="todo">
+                        <div class="todo" th:each="todo : ${todo}">
                             <div><input type="checkbox"></div>
-                            <div>할 일 제목이지롱</div>
+                            <div class="todoTitle" th:text="${todo.todoTitle}">할 일 제목</div>
                             <div class="select">
                                 <div class="selected"></div>
 
@@ -71,16 +71,16 @@
                             </div>
                         </div>
                     </div>
-                    <!-- 할 일 상세 -->
-                    <form action="insert" method="post" enctype="multipart/form-data">
-                        <div class="todoDetailArea">
+                    <!-- 할 일 등록창 -->
+                    <form>
+                        <div class="todoDetailArea" style="display: none;">
                             <div id="insertBtn2Area">
                                 <button id="insertBtn2">등록</button>
                             </div>
                             <div>
                                 <div class="detailTitle">기한</div>
                                 <div class="detailContent">
-                                    <input type="date" id="endDate">
+                                    <input type="date">
                                 </div>
                             </div>
                             <div>
@@ -112,8 +112,9 @@
                             </div>
                         </div>
                     </form>
-                </div>    
             </div> 
         </section>
+
+        <script src="/js/employee/todo/todo.js"></script>
     </body>
 </html>
