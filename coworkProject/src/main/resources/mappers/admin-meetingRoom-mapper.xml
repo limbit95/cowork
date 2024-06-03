@@ -8,4 +8,11 @@
 		WHERE COM_NO = #{comNo}
 	</select>
 
+	<insert id="meetingRoomInsert">
+		INSERT INTO MEETING_ROOM VALUES (
+			SEQ_MEETING_ROOM.NEXTVAL,
+			#{meetingRoomNm},
+			#{comNo}
+		)
+	</insert>
 </mapper>

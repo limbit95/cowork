@@ -15,4 +15,10 @@ public interface MeetingRoomMapper {
 	 */
 	List<MeetingRoom> meetingRoomList(int comNo);
 
+	/** 회의실 추가
+	 * @param meetingRoom
+	 * @return result
+	 */
+	int meetingRoomInsert(MeetingRoom meetingRoom);
+
 }
