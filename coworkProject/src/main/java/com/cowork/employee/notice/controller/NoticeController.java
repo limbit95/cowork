@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.cowork.admin.notice.service.NoticeService;
+import com.cowork.admin.notice.service.AdminNoticeService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("employee/notice")
 public class NoticeController {
 	
-	private final NoticeService service;
+	//private final NoticeService service;
 
 	/** 공지사항 목록
 	 * @return
