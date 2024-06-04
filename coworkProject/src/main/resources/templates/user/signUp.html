@@ -16,24 +16,46 @@
             <section class="formArea">
                 <span id="signUpLetter">회원 가입</span> 
 
-                <div class="inputInfo">
-                    <input placeholder="아이디" id="empId">
-                    <input placeholder="개인 이메일" id="empEmail">
-                    <input placeholder="비밀번호" id="empPw">
-                    <input placeholder="비밀번호 확인" id="empPwConfirm">
-                    <input placeholder="이름" id="empFirstName">
-                    <input placeholder="성" id="empLastName">
-                    <input placeholder="휴대전화" id="phone">
-                </div>
-                <div class="inputAddr">
-                    <div id="postcodeArea">
-                        <input placeholder="우편번호" id="postcode" readonly name="empAddress">
-                        <button id="searchBtn">찾기</button>
+                <form action="/user/signUp" method="post">
+
+                    <div class="inputInfo">
+                        <input placeholder="아이디 *" id="empId" name="empId">
+                        <span id="empIdMessage">영어 대·소문자, 숫자 조합 4~12글자</span>
+                        <div class="emailDiv">
+                            <input placeholder="개인 이메일 *" id="empEmail" name="empEmail">
+                            <div id="checkEmailBtnDiv"><button id="checkEmailBtn" type="button">인증</button></div>
+                        </div>
+                        <span id="emailMessage"></span>
+    
+                        <div id="authKeyDiv">
+                            <input placeholder="인증 번호 *" id="authKey">
+                            <div id="checkAuthKeyBtnDiv"><button id="checkAuthKeyBtn" type="button">확인</button></div>
+                        </div>
+                        <span id="authKeyMessage">인증번호 받을 메일을 입력해주세요</span>
+    
+                        <input type="password" placeholder="비밀번호 *" id="empPw" name="empPw">
+                        <input type="password" placeholder="비밀번호 확인 *" id="empPwConfirm">
+                        <span id="pwMessage">영어,숫자,특수문자( !@#$%^&*() ) 포함 8~16글자 사이로 입력해주세요.</span>
+                        
+                        <input placeholder="이름 *" id="empFirstName" name="empFirstName">
+                        <input placeholder="성 *" id="empLastName" name="empLastName">
+                        <input placeholder="휴대전화 *" id="phone" name="phone">
+                        <span id="telMessage">전화번호를 입력해주세요.(- 제외)</span>
                     </div>
-                        <input id="address" placeholder="도로명/지번" readonly name="empAddress">
-                        <input id="detailAddress" placeholder="상세주소" name="empAddress">
-                </div>     
-                <button id="signUpBtn">가입하기</button>
+                    <div class="inputAddr">
+                        <div id="postcodeArea">
+                            <input placeholder="우편번호" id="postcode" readonly name="empAddress">
+                            <button id="searchBtn" type="button">찾기</button>
+                        </div>
+                            <input id="address" placeholder="도로명/지번" readonly name="empAddress">
+                            <input id="detailAddress" placeholder="상세주소" name="empAddress">
+                    </div>     
+
+                    <div class="submitBtnDiv">
+                        <button id="signUpBtn">가입하기</button>
+                    </div>
+                </form>
+                
                 
             </section>
         </main>
