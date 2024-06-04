@@ -93,16 +93,16 @@ document.querySelectorAll('.li-hover').forEach(item => {
             addTeamgroup.style.display = 'block'; 
             groupNameChange.style.display = 'block'; 
             deleteGroup.style.display = 'block';  
-        }
-        if(targetLi.classList.contains('company')){
+        } else {
+        // if(targetLi.classList.contains('company')){
             addDeptgroup.style.display = 'block'; 
-            addTeamgroup.style.display = 'none'; 
+            addTeamgroup.style.display = 'none';
             groupNameChange.style.display = 'none'; 
-            deleteGroup.style.display = 'none';  
+            deleteGroup.style.display = 'none';
         }
 
         addDeptgroup.onclick = () => {
-            if (targetLi) { // Ensure targetLi is not a team
+            if (targetLi) { 
                 let subUl = targetLi.querySelector('ul');
                 if (!subUl) {
                     subUl = document.createElement('ul');
