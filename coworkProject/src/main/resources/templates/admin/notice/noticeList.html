@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="/css/employee/board/board.css">
 </head>
 <body>
+
+    <div th:replace="~{admin/left/adminLeftSideBar}"></div>
     
     <section class="container">
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
@@ -41,82 +43,99 @@
             </div>
 
             <div class="table-head">
+                <div></div>
                 <div>제목</div>
                 <div>작성자</div>
                 <div>작성일</div>
             </div>
 
-            <div class="table-body">
+            <div class="noticeZero" th:if="${#lists.isEmpty(noticeList)}">
+                <div>게시글이 존재하지 않습니다.</div>
+            </div>
+
+            <div class="table-body" th:unless="${#lists.isEmpty(noticeList)}">
+                <div></div>
                 <div>안녕하세요 공지사항입니다</div>
-                <div>경영팀 정희윤</div>
+                <div>정희윤</div>
+                <div>2024-05-22</div>
+            </div>
+
+            <!--<div class="table-body">
+                <div>경영1팀</div>
+                <div>안녕하세요 공지사항입니다</div>
+                <div>정희윤</div>
                 <div>2024-05-22</div>
             </div>
 
             <div class="table-body">
+                <div>경영1팀</div>
                 <div>안녕하세요 공지사항입니다</div>
-                <div>경영팀 정희윤</div>
+                <div>정희윤</div>
                 <div>2024-05-22</div>
             </div>
 
             <div class="table-body">
+                <div>경영1팀</div>
                 <div>안녕하세요 공지사항입니다</div>
-                <div>경영팀 정희윤</div>
+                <div>정희윤</div>
                 <div>2024-05-22</div>
             </div>
 
             <div class="table-body">
+                <div>경영1팀</div>
                 <div>안녕하세요 공지사항입니다</div>
-                <div>경영팀 정희윤</div>
+                <div>정희윤</div>
                 <div>2024-05-22</div>
             </div>
 
             <div class="table-body">
+                <div>경영1팀</div>
                 <div>안녕하세요 공지사항입니다</div>
-                <div>경영팀 정희윤</div>
+                <div>정희윤</div>
                 <div>2024-05-22</div>
             </div>
 
             <div class="table-body">
+                <div>경영1팀</div>
                 <div>안녕하세요 공지사항입니다</div>
-                <div>경영팀 정희윤</div>
+                <div>정희윤</div>
                 <div>2024-05-22</div>
             </div>
 
             <div class="table-body">
+                <div>경영1팀</div>
                 <div>안녕하세요 공지사항입니다</div>
-                <div>경영팀 정희윤</div>
+                <div>정희윤</div>
                 <div>2024-05-22</div>
             </div>
 
             <div class="table-body">
+                <div>경영1팀</div>
                 <div>안녕하세요 공지사항입니다</div>
-                <div>경영팀 정희윤</div>
+                <div>정희윤</div>
                 <div>2024-05-22</div>
             </div>
 
             <div class="table-body">
+                <div>경영1팀</div>
                 <div>안녕하세요 공지사항입니다</div>
-                <div>경영팀 정희윤</div>
+                <div>정희윤</div>
                 <div>2024-05-22</div>
             </div>
 
             <div class="table-body">
+                <div>경영1팀</div>
                 <div>안녕하세요 공지사항입니다</div>
-                <div>경영팀 정희윤</div>
-                <div>2024-05-22</div>
-            </div>
-
-            <div class="table-body">
-                <div>안녕하세요 공지사항입니다</div>
-                <div>경영팀 정희윤</div>
+                <div>정희윤</div>
                 <div>2024-05-22</div>
             </div>
             
             <div class="table-body">
+                <div>경영1팀</div>
                 <div>안녕하세요 공지사항입니다</div>
-                <div>경영팀 정희윤</div>
+                <div>정희윤</div>
                 <div>2024-05-22</div>
-            </div>
+            </div>-->
 
             <!-----------------------------------------------   페이지  ------------------------------------------------------------------>
 

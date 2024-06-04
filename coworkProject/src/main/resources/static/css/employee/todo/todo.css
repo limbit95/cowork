@@ -19,6 +19,7 @@
 
 /* ! 목록 !*/
 .todoList{
+
     margin: 0 !important;
 }
 
@@ -57,10 +58,25 @@
 
 
 /* ------ 할 일 목록 영역 ----- */
+/* 할 일 목록 영역 등록이나 수정 등 옆에 창 생기기 전에는 넓이 1000px 줄어들때 680px */
+/* 영역은 옆에 창 생길 때 
+.todo div:nth-of-type(1){
+    margin-left: 20px;
+    width: 20px;
+}
+.todo div:nth-of-type(2){
+    margin-left: 10px;
+    width: 77%;
+}
+.todo div:nth-of-type(3){
+    margin-left: 30px;
+    width: 100px;
+}
+*/
 .todo{
+    width: 998px;
     display: flex;
     align-items: center;
-    width: 680px;
     border: 1px solid #D9D9D9;
 }
 
@@ -73,7 +89,7 @@
     width: 77%;
 }
 .todo div:nth-of-type(3){
-    margin-left: 30px;
+    margin-left: 100px;
     width: 100px;
 }
 
@@ -117,7 +133,7 @@ ul{
 }
 
 
-/* ----------------할 일 상세---------------- */
+/* ---------------- 할 일 등록 ---------------- */
 .todoDetailArea{
     border: 1px solid #d9d9d9;
     width: 270px;
@@ -126,6 +142,13 @@ ul{
     display: flex;
     flex-direction: column;
     padding: 15px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.todoDetailArea.show {
+    display: block;
+    opacity: 1;
 }
 
 /* ------------ 상세 내부 ------------ */
@@ -149,10 +172,7 @@ ul{
 }
 
 
-/* 등록 버튼  영역 */
-#insertBtn2Area {
-    margin-bottom: 0 !important;
-}
+
 
 /* 요청 내용 박스 부분 */
 #requestContent {
@@ -213,7 +233,11 @@ input[type="date"] {
 }
 
 
-
+/* 기한 부분 */
+#endDate:hover {
+    border: none !important;
+    cursor: pointer;
+}
 
 
 /* ------ 파일 업로드 영역 ----- */
@@ -284,6 +308,11 @@ input[type="date"] {
     color: #214177;
     font-weight: bold;
     margin-top: 0;
+}
+
+/* 등록 버튼  영역 */
+#insertBtn2Area {
+    margin-bottom: 0 !important;
 }
 
 #insertBtn2:hover {

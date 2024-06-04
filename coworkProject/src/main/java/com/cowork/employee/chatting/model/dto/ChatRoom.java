@@ -14,9 +14,15 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder // 인스턴스 쉽게 만들게해줌.
 public class ChatRoom {
-	private Integer roomId;
+	private Integer roomNo;
 	private String roomName;
 	private String createdAt;
+	private Integer empCode;
+	
+	
+	
+	
+	
 	
 	//------------------------
 	private String sentAt; // 마지막 채팅 시각 

@@ -21,4 +21,10 @@ public interface MeetingRoomMapper {
 	 */
 	int meetingRoomInsert(MeetingRoom meetingRoom);
 
+	/** 회의실 삭제
+	 * @param meetingRoomNo
+	 * @return result
+	 */
+	int meetingRoomDelete(MeetingRoom meetingRoom);
+
 }
