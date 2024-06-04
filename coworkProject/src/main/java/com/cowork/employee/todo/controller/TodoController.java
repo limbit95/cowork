@@ -52,9 +52,9 @@ public class TodoController {
         return "employee/todo/todoDetail";
     }
 	
-
 	@PostMapping("insert")
 	public String todoInsert() {
 		return "employee/todo/todoList"; 
 	} */
+
 }

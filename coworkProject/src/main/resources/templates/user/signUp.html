@@ -15,27 +15,32 @@
         <main>
             <section class="formArea">
                 <span id="signUpLetter">회원 가입</span> 
+
                 <div class="inputInfo">
-                    <input placeholder="아이디">
-                    <input placeholder="개인 이메일">
-                    <input placeholder="비밀번호">
-                    <input placeholder="비밀번호 확인">
-                    <input placeholder="이름">
-                    <input placeholder="성">
-                    <input placeholder="휴대전화">
+                    <input placeholder="아이디" id="empId">
+                    <input placeholder="개인 이메일" id="empEmail">
+                    <input placeholder="비밀번호" id="empPw">
+                    <input placeholder="비밀번호 확인" id="empPwConfirm">
+                    <input placeholder="이름" id="empFirstName">
+                    <input placeholder="성" id="empLastName">
+                    <input placeholder="휴대전화" id="phone">
                 </div>
                 <div class="inputAddr">
                     <div id="postcodeArea">
-                        <input placeholder="우편번호" id="postcode" readonly>
+                        <input placeholder="우편번호" id="postcode" readonly name="empAddress">
                         <button id="searchBtn">찾기</button>
                     </div>
-                        <input placeholder="도로명/지번" readonly>
-                        <input placeholder="상세주소">
+                        <input id="address" placeholder="도로명/지번" readonly name="empAddress">
+                        <input id="detailAddress" placeholder="상세주소" name="empAddress">
                 </div>     
                 <button id="signUpBtn">가입하기</button>
+                
             </section>
         </main>
 
+        <script src="/js/user/signUp.js"></script>
+        <!-- 다음 주소 API -->
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <th:block th:replace="~{common/footer}"></th:block>
     </body>
 </html>

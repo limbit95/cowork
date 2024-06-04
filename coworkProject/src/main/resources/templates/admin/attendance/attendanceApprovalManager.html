@@ -13,7 +13,7 @@
     <section class="container">
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
 
-        <div class="title"><span>근태 수정 승인 내역</span></div>
+        <div class="title"><span>승인 내역</span></div>
 
         <main>
 
@@ -76,9 +76,9 @@
     
             <div>
     
-                <div class="request">요청내역</div>
-                <div class="approval">승인내역</div>
-                <div class="reject">반려내역</div>
+                <div class="requestList">요청내역</div>
+                <div class="approvalList">승인내역</div>
+                <div class="rejectList">반려내역</div>
                 <div></div>
     
             </div>
@@ -94,7 +94,7 @@
                     <div>근태정보</div>
                     <div>수정전 근태시간</div>
                     <div>수정된 근태시간</div>
-                    <div>사유</div>
+                    <div>상세내용</div>
     
                 </div>
     
@@ -107,7 +107,7 @@
                     <div>정상</div>
                     <div>09:02 ~ 18:00</div>
                     <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn">상세조회</button></div>
+                    <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
     
                 </div>
     
@@ -120,7 +120,7 @@
                     <div>정상</div>
                     <div>09:02 ~ 18:00</div>
                     <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn">상세조회</button></div>
+                    <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
     
                 </div>
 
@@ -161,6 +161,8 @@
             </div>
 
         </main>
+        
+        <th:block th:replace="~{admin/attendance/approvalDetail}"></th:block>
 
     </section>
 
