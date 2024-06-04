@@ -27,7 +27,7 @@
 	
 	<!-- 파일 업로드시 등록 -->
 	<insert id="insertUploadList" parameterType="list">
-		INSERT INTO TODO_FILE
+		INSERT INTO "TODO_FILE"
 	    <foreach collection="list" item="file" 
 	    		open ="(" close=")" separator=" UNION ">
 	       SELECT NEXT_TODO_FILE_NO(), 
@@ -36,8 +36,7 @@
 	       FROM DUAL 
 	    </foreach>
 	</insert>
-		
-		
+				
 	<!-- 담당자 지정시 등록 -->
 	<insert id="insertTodoManager" parameterType="Todo">
 	        INSERT INTO "TODO_MANAGER" 
@@ -51,16 +50,17 @@
 	            CONCAT(emp.EMP_LAST_NAME, emp.EMP_FIRST_NAME) = #{inChargeEmp}
 	</insert>
 
-	
-<!-- <select id="todoDetail">
+	<!-- 할 일 상세 -->
+	<select id="todoDetail">
 		SELECT 
 		    t.TODO_NO,
 		    t.TODO_TITLE,
 		    t.TODO_CONTENT,
-		    t.TODO_WRITE_DATE,
-		    t.TODO_END_DATE,
+		    TO_CHAR(t.TODO_WRITE_DATE, 'YYYY-MM-DD') AS TODO_WRITE_DATE,
+		    TO_CHAR(t.TODO_END_DATE, 'YYYY-MM-DD') AS TODO_END_DATE,
 		    t.TODO_COMPLETE,
 		    t.EMP_CODE,
+		    CONCAT(e.EMP_LAST_NAME, e.EMP_FIRST_NAME) AS requestEmp,
 		    tf.FILE_NO,
 		    tf.FILE_PATH,
 		    tf.FILE_ORIGIN_NAME,
@@ -68,17 +68,41 @@
 		    tf.FILE_UPLOAD_DATE,
 		    tf.FILE_ORDER,
 		    tm.TODO_MGR_NO,
-		    tm.EMP_CODE AS MGR_EMP_CODE
+		    tm.EMP_CODE AS MGR_EMP_CODE,
+		    CONCAT(m.EMP_LAST_NAME, m.EMP_FIRST_NAME) AS inChargeEmp
 		FROM 
-		    todo t
+		    TODO t
 		LEFT JOIN 
-		    todo_file tf ON t.TODO_NO = tf.TODO_NO
+		    TODO_FILE tf ON t.TODO_NO = tf.TODO_NO
 		LEFT JOIN 
-		    todo_manager tm ON t.TODO_NO = tm.TODO_NO
+		    TODO_MANAGER tm ON t.TODO_NO = tm.TODO_NO
+		LEFT JOIN 
+		    EMPLOYEE e ON t.EMP_CODE = e.EMP_CODE
+		LEFT JOIN 
+		    EMPLOYEE m ON tm.EMP_CODE = m.EMP_CODE
 		WHERE 
-		    t.TODO_NO = #{todoNo}
-	</select>  -->	
-
+	    t.TODO_NO = #{todoNo}
+	</select>  
+	
+	<!-- 할 일 수정 -->
+	<update id="todoUpdate">
+		UPDATE "TODO"
+		SET 
+		TODO_TITLE = #{todoTitle}
+		TODO_CONTENT = #{todoContent}
+		TODO_END_DATE = #{todoEndDate}
+		WHERE TODO_NO = #{todoNo}
+	</update>
+	
+	<!-- 담당자 수정 -->
+	<update id="todoManagerUpdate">
+	        UPDATE "TODO_MANAGER" 
+	        SET EMP_CODE =(
+	        	SELECT EMP_CODE
+	        	FROM Employee
+	        	WHERE CONCAT(EMP_LAST_NAME, EMP_FIRST_NAME) = #{inChargeEmp} )
+	        WHERE TODO_NO = #{todoNo} 
+	</update>
 
 </mapper>
 

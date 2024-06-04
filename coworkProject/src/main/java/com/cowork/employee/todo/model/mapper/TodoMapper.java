@@ -35,9 +35,22 @@ public interface TodoMapper {
 	void insertTodoManager(Todo inputTodo);
 
 	/** 할 일 상세 조회 
-	 * @param todoNo
+	 * @param map
 	 * @return
 	 */
-/*	Todo todoDetail(int todoNo); */
+	Todo todoDetail(Map<String, Integer> map);
+
+	/** 할 일 수정 
+	 * @param inputTodo
+	 * @return
+	 */
+	int todoUpdate(Todo inputTodo);
+
+	/** 담당자 수정 
+	 * @param inputTodo
+	 */
+	void todoManagerUpdate(Todo inputTodo);
+
+	
 
 }
