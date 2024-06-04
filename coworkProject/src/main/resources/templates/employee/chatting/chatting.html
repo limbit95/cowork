@@ -57,6 +57,18 @@
 	</div>
 	
 	
+	<script th:inline="javascript">
+		let empCode = /*[[${session.loginMember.empCode}]]*/ "test username";	
+		let empFirstName = /*[[${session.loginMember.empFirstName}]]*/ "test username";	
+		let empLastName = /*[[${session.loginMember.EmpLastName}]]*/ "test username";	
+		
+		let empNickname = empFirstName + empLastName;
+		
+	</script>
+	<!-- SockJS 및 STOMP 라이브러리 추가 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+	
 	<script src="/js/employee/chatting/chatting.js"></script>
 	
 </body>
