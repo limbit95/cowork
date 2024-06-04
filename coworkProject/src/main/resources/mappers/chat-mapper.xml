@@ -9,9 +9,11 @@
 	    AND EMP_CODE != #{empCode}
 	</select>
 	
-	<insert id="makeChat" useGeneratedKeys="true" keyProperty="roomId" keyColumn="ROOM_ID">
+
+	
+	<insert id="makeChat" useGeneratedKeys="true" keyProperty="roomNo" keyColumn="ROOM_NO">
 		INSERT INTO CHAT_ROOM VALUES 
-		(SEQ_CHAT_ROOM.NEXTVAL, #{roomName}, SYSDATE, #{empNo})
+		(SEQ_CHAT_ROOM.NEXTVAL, #{roomName}, SYSDATE, #{empCode})
 	</insert>
 	
 	<select id="EmpNicknameDetail">
@@ -19,47 +21,50 @@
 		WHERE EMP_CODE = #{invitedEmpNo}
 	</select>
 	
+	<!-- 여기 -->
 	<insert id="addParticipant">
 		INSERT INTO CHAT_PARTICIPANT 
 		VALUES 
-		(SEQ_CHAT_PARTICIPANT.NEXTVAL, #{roomNo}, #{empCode}, SYSDATE)
+		(SEQ_CHAT_PARTICIPANT.NEXTVAL, SYSDATE, #{roomNo}, #{empCode})
 	</insert>
 	
-	<insert id="addSubscribeAddr">
-		INSERT INTO SUBSCRIBE_ADDR VALUES 
-		(SEQ_SUBSCRIBE_ADDR.NEXTVAL, #{subAddr}, #{roomNo})
-	</insert>
+<insert id="addSubscribeAddr">
+	INSERT INTO SUBSCRIBE_ADDR VALUES 
+	(SEQ_SUBSCRIBE_ADDR.NEXTVAL, #{subAddr}, #{roomNo})
+</insert>
 
 <select id="getChattingRooms">
-	SELECT CR.*, SA.SUBSCRIBE_ADDR
-	FROM CHAT_PARTICIPANT CP                                                                            
-	
-	LEFT JOIN CHAT_ROOM CR ON (CP.ROOM_ID = CR.ROOM_ID)                            
-	
-	LEFT JOIN SUBSCRIBE_ADDR SA ON (CP.ROOM_ID = SA.ROOM_ID)                
-	
-	WHERE CP.MEMBER_NO = #{empCode}
+	SELECT CR.*, SA.SUB_ADDR
+	FROM CHAT_PARTICIPANT CP                                                                           
+	LEFT JOIN CHAT_ROOM CR ON (CP.ROOM_NO = CR.ROOM_NO)                            
+	LEFT JOIN SUBSCRIBE_ADDR SA ON (CP.ROOM_NO = SA.ROOM_NO)                
+	WHERE CP.EMP_CODE = #{empCode}
 </select>
 
 <select id="getLastSentAt">
        SELECT CONTENT, SENT_AT
        FROM CHAT_MESSAGE
-       WHERE ROOM_ID = #{roomId}
-       ORDER BY MESSAGE_ID ASC
+       WHERE ROOM_NO = #{roomNo}
+       ORDER BY MESSAGE_NO ASC
        FETCH FIRST 1 ROW ONLY
 </select>
 
 <select id="findFirstInvited">
-	SELECT E.EMP_LAST_NAME || E.EMP_FIRST_NAME, E.PROFILE_IMG
+	SELECT E.EMP_LAST_NAME, E.EMP_FIRST_NAME, E.PROFILE_IMG
 	FROM CHAT_PARTICIPANT CP
-	LEFT JOIN EMPLOYEE E ON CP.MEMBER_NO = M.MEMBER_NO
+	LEFT JOIN EMPLOYEE E ON CP.EMP_CODE = E.EMP_CODE
 	WHERE CP.PARTICIPANT_NO = (
 	    SELECT MIN(CP2.PARTICIPANT_NO)
 	    FROM CHAT_PARTICIPANT CP2
-	    WHERE CP2.ROOM_ID = #{roomId}
+	    WHERE CP2.ROOM_NO = #{roomNo}
 	)
 </select>
 
+<select id="findAllMessageByRoomNo">
+	SELECT * FROM CHAT_MESSAGE 
+	WHERE ROOM_NO = #{roomNo}
+	ORDER BY MESSAGE_NO  
+</select>
 
 	
 	<!--	

@@ -1,7 +1,10 @@
 package com.cowork.employee.todo.model.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.employee.todo.model.dto.Todo;
 
@@ -12,6 +15,13 @@ public interface TodoService {
 	 * @return
 	 */
 	List<Todo> selectTodoList();
+
+	/** 할 일 등록 
+	 * @param inputTodo
+	 * @param files 
+	 * @return
+	 */
+	int todoInsert(Todo inputTodo, List<MultipartFile> files) throws IllegalStateException, IOException;
 
 	/** 할 일 상세 조회 
 	 * @param todoNo

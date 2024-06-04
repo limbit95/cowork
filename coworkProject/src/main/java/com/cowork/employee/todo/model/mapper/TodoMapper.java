@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.employee.todo.model.dto.Todo;
+import com.cowork.employee.todo.model.dto.TodoFile;
 
 @Mapper
 public interface TodoMapper {
@@ -14,6 +16,23 @@ public interface TodoMapper {
 	 * @return
 	 */
 	List<Todo> selectTodoList();
+
+	/** 할 일 등록 
+	 * @param inputTodo
+	 * @return
+	 */
+	int todoInsert(Todo inputTodo);
+
+	/** 파일 등록 
+	 * @param uploadList
+	 * @return 
+	 */
+	int insertUploadList(List<TodoFile> files);
+
+	/** 담당자 지정시 등록 
+	 * @param inputTodo
+	 */
+	void insertTodoManager(Todo inputTodo);
 
 	/** 할 일 상세 조회 
 	 * @param todoNo

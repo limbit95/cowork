@@ -24,5 +24,6 @@ public class Notice {
 	private String noticeDelFl;
 	private int empCode;
 	
-	private String empName; // 부서명 + 작성자
+	private String empName; // 작성자
+	private String deptNm;  // 부서명
 }

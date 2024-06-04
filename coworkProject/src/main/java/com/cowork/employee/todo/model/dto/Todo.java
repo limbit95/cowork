@@ -1,5 +1,7 @@
 package com.cowork.employee.todo.model.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,12 +26,9 @@ public class Todo {
 	private int empCode;
 	
 	private int todoMgrNo; 
+	private String requestEmp; 
+	private String inChargeEmp; 
 	
-	private int fileNo; 
-	private String filePath; 
-	private String fileOriginName; 
-	private String fileRename; 
-	private String fileUploadDate; 
-	private int fileOrder; 
-	
+	private List<TodoFile> fileList; 
+		
 }

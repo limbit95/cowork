@@ -5,6 +5,8 @@ let findEmpContent = document.querySelector('#findEmpContent');
 let empCodeList = new Array(); // 추가된 member들의 Member테이블 memberNo 값들이 저장될 배열 
 let addedEmpContent = document.querySelector('#addedEmpContent'); // 채팅방들이 보여질 영역 
 
+
+
 searchInput.addEventListener('input', function(){
 	let inputData = this.value; 
 	fetch('/chat/empList',{
@@ -47,7 +49,7 @@ searchInput.addEventListener('input', function(){
 			newDiv.addEventListener('click', function(){
 			
 				// 일단, 그 놈의 이름과 member테이블 memberNo 컬럼값을 가져오기 
-				let empCode = this.children[0].value; // 1(memberNo) 
+				let empCode2 = this.children[0].value; // 1(memberNo) 
 				let empNickname = this.innerText; // 최재준(memberNickname)
 				
 				let divTag = document.createElement('div');
@@ -60,7 +62,7 @@ searchInput.addEventListener('input', function(){
 				// hidden 타입 input 태그에 value 로 empNo 추가 
 				let inputTag = document.createElement('input');
 				inputTag.type = 'hidden';
-				inputTag.value = empCode;
+				inputTag.value = empCode2;
 				divTag.append(inputTag);
 
 				// x버튼 추가 
@@ -75,7 +77,7 @@ searchInput.addEventListener('input', function(){
 					// divTag 를 지워버림 == 선택해서 추가된 거 지워버림 
 					this.parentElement.parentNode.removeChild(this.parentElement);
 					// memberNoList(채팅방 만들기 버튼 누를 때 전달할 파라미터임) 에서 지워버림 
-					let index =  empCodeList.indexOf(empCode);
+					let index =  empCodeList.indexOf(empCode2);
 					if(index != -1){
 						empCodeList.splice(index, 1);
 					}
@@ -85,16 +87,19 @@ searchInput.addEventListener('input', function(){
 							
 				// html 에 보이게 함 			
 				addedEmpContent.appendChild(divTag);
-
+				
+				console.log('aaa');
 				// 배열에 값(memberNo) 추가 
-				if(!empCodeList.includes(empCode)){
-					empNoList.push(empCode);							
+				if(!empCodeList.includes(empCode2)){
+					empCodeList.push(empCode2);							
+								console.log('bbb');
 				}
+				console.log(empCodeList);
 				
 				// 조회된 놈들 다 지워줘야지 
 				findEmpContent.innerHTML = '';
 					
-				alert('hey~');
+				console.log('hey~');
 			});
 			
         var maxHeight = 440; // 스크롤바가 생기게 할 최대 높이
@@ -116,7 +121,6 @@ searchInput.addEventListener('input', function(){
 
 
 /* 채팅만들기 버튼을 누르는 경우 시작 */
-
 
 // 채팅창 전체 영역 
 let chattingsArea = document.querySelector('#chattingsArea');
@@ -143,7 +147,7 @@ makeChatButton.addEventListener('click', function(){
 	
 	let obj = {
 		'empCodeList': empCodeList,
-		'makeEmpCode': memberNo,					
+		'makeEmpCode': empCode,					
 	};
 	fetch('makeChat', {
 		method: 'POST',
@@ -171,6 +175,9 @@ makeChatButton.addEventListener('click', function(){
 // 이 메서드만 실행시키면 채팅방들이 보여져야 할 공간(chattingRoomCollection)에 로그인한 해당 사용자와 관련된 
 // 모든 채팅방들이 가져와져서 렌더링되도록 할거임. 
 // + 이벤트리스너로 특정 채팅방 클릭시 해당 채팅방에 쓰여진 글들이 보여지도록 해두었음. 
+let chattingRoomsContent = document.querySelector('#chattingRoomsContent'); // 채팅방들이 보여질 div 태그
+let roomNoOriginal;
+
 getChattingRooms(empCode);
 
 function getChattingRooms(empCode){	
@@ -190,16 +197,19 @@ function getChattingRooms(empCode){
 		return response.json();
 	})
 	.then(roomList => {
-		chattingRoomCollection.innerHTML = ''; // 보이던 채팅방 다 지워버리기 
-		messageArea.innerHTML = ''; // 메세지 공간 다 지워버리기 
+		
+		
+		chattingRoomsContent.innerHTML = ''; // 보이던 채팅방 다 지워버리기 
+		chattingsArea.innerHTML = ''; // 메세지 공간 다 지워버리기 
 		
 	    console.log(roomList);
 		
 		roomList.forEach(room => {
-
+			/* <div> </div> */
 			let newDiv = document.createElement('div'); // 이 div 태그가 채팅방 하나하나야 
 
 			// 최초 초대자의 프로필이미지 부터.
+			/* <div> <img> </div>*/
 			let newImg = document.createElement('img');
 			let profileImgFlag = room.profileImgFlag;
 			if(profileImgFlag == '0'){
@@ -212,15 +222,25 @@ function getChattingRooms(empCode){
 			newImg.classList.add('newImg');
 			newDiv.appendChild(newImg);
 			
+			// 이게 대체 무슨 의미지?
 			let abc = document.createElement('abc');
 			newDiv.appendChild(abc);
 			
-			// 최초 초대자의 이름 
+			// 최초 초대자의 이름 !!!여기야 여기!!!
+			/* <div> 
+					<img> 
+					이름 
+				</div> */
 			let memberNickname = room.memberNickname; //최초 초대자 이름 
        	    let memberNicknameNode = document.createTextNode(memberNickname); // TextNode 는 그냥 html 파일에 아무런 태그 안에도 속하지 않는 텍스트임 
 			newDiv.appendChild(memberNicknameNode);
 		
 			// 최신 내용
+				/* <div> 
+					<img> 
+					이름
+					내용 
+				</div> */
 			let content = room.content;
 			if(content != null){
 				let contentNode = document.createTextNode(content);
@@ -228,6 +248,12 @@ function getChattingRooms(empCode){
 			}
 
 			// 마지막채팅시각
+				/* <div> 
+					<img> 
+					이름
+					내용
+					20240604 
+				</div> */
 			let sentAt = room.sentAt;
 			if(sentAt != null){
 				let sentAtNode = document.createTextNode(sentAt);
@@ -235,9 +261,18 @@ function getChattingRooms(empCode){
 			}
 
 			// roomId 을 hidden 타입 input 태그의 값으로 숨겨둘거임 
+			/* 
+					<div> 
+					<img> 
+					이름
+					내용
+					20240604
+					<input type="hidden" value="roomNo"/> 
+				</div> 
+			*/
 			let hiddenInput = document.createElement('input');
 			hiddenInput.type = 'hidden';
-			hiddenInput.value = room.roomId;
+			hiddenInput.value = room.roomNo;
 			newDiv.appendChild(hiddenInput);	
 			
 			let subscribeAddr = room.subscribeAddr;
@@ -250,18 +285,18 @@ function getChattingRooms(empCode){
 				// 읽은지 여부를 어떻게 조회해야하지? 이를 기록할 테이블 만듦. 
 				
 				// 채팅창 지워줘야지
-				messageArea.innerHTML = '';
+				chattingsArea.innerHTML = '';
 				
 				// connect 해주는 부분이 빠졌음.
 				// 채팅창을 클릭했을 때 웹소켓을 연결시켜줘야 함.
 				connect(subscribeAddr);
 				
-				let roomId2 = String(room.roomId);
+				let roomNo2 = String(room.roomNo);
 				
 				// 메세지를 보낼때, CHAT_MESSAGE 테이블에 행을 삽입하려면 
-				// ROOM_ID 컬럼이 필요한데, 전역변수로 ROOM_ID 를 둔 다음 
+				// ROOM_NO 컬럼이 필요한데, 전역변수로 ROOM_NO 를 둔 다음 
 				// 채팅방을 클릭할때마다 그 값이 바뀌도록 하기 위해 바로 아래 한줄의 코드를 추가했다. 
-				roomIdOriginal = String(room.roomId);
+				roomNoOriginal = String(room.roomNo);
 				
 				fetch('getChatMessage', {
 					method: 'POST',
@@ -272,9 +307,16 @@ function getChattingRooms(empCode){
 				})
 				.then(response => {return response.json();})
 				.then(messageList => {					
+					
+					// 일단, 상단바에 "말풍선" + "채팅방의 제목" 이 있어야 함. 
+					let topAreaInChattingsContainer = document.querySelector('#topAreaInChattingsContainer'); 
+					
+					
+					
 					// 채팅창을 띄워줘야 함
-					chat.style.display = 'block';	
-					/*let count = messageList.length;
+					chat.style.display = 'block';
+					/* 지웠던 곳 시작  */
+					let count = messageList.length;
 						messageList.forEach(message => {
 							
 							let senderId = message.senderId;
@@ -317,16 +359,15 @@ function getChattingRooms(empCode){
 							}
 							
 
-						})		*/				
-			
+						})
+						/* 지웠던 곳 끝  */
 					
 				})
 				
 			})	
-			chattingRoomCollection.appendChild(newDiv);
+			chattingRoomsContent.appendChild(newDiv);
 		})
 	})
-	
 }
 
 
@@ -377,9 +418,9 @@ function connect(subscribeAddr2) {
 // 새로운 귀를 만들어준것 
 let stompClient2 = null; 
 
-connect2(memberNo);
+connect2(empCode);
 
-function connect2(memberNo) { 
+function connect2(empNo) { 
 
     if (stompClient2 !== null && stompClient2.connected) {
         stompClient2.disconnect();
@@ -394,12 +435,12 @@ function connect2(memberNo) {
 	// STOMP 클라이언트 : 파티의 안내원. 사람들이 올바른 방에 가도록 안내하고 이야기를 나누는 방식을 도와준다.  
     stompClient2.connect({}, function (frame) {
         console.log('Connected: ' + frame); // 로그를 보면, 잘 연결됬다는 게 콘솔에 찍힘. 별내용 없음.
-        stompClient2.subscribe('/topic/newRoom/' + memberNo, function (chatMessage) { // 클라이언트들의 주소. 서버는 이 주소를 가진 클라이언트를 고무호스로 연결하고 있음. 
+        stompClient2.subscribe('/topic/newRoom/' + empNo, function (chatMessage) { // 클라이언트들의 주소. 서버는 이 주소를 가진 클라이언트를 고무호스로 연결하고 있음. 
 			// 현재 chatMessage 는 메세지를 보낼때마다 클 -> 서 -> 클 을 다시 거쳐서 온 거임.
 
 			// 서버에서는 뭘 줬어야 될까?
 			// 채팅방을 표시해주기 위해서 뭐가 필요한데? 그거부터 찾아보자.  
-		    getChattingRooms(memberNo);
+		    getChattingRooms(empNo);
 			  
         });
     });

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.cowork.employee.chatting.model.dto.ChatMessageMe;
 import com.cowork.employee.chatting.model.dto.ChatRoom;
 import com.cowork.employee.chatting.model.dto.Employee;
 import com.cowork.employee.chatting.model.dto.MakeChat;
@@ -80,6 +81,9 @@ public class ChattingController {
     	List<String> empCodeList = makeChat.getEmpCodeList(); // 채팅방 구성원 
     	String empCode = makeChat.getMakeEmpCode(); // 채팅방 만드는 놈
     	
+    	log.debug("empCodeList", empCodeList);
+    	log.debug("empCode", empCode);
+    	
         String subscribeAddr = chatService.makeChat(empCodeList, empCode);
         
         // 초대된 사용자들에게 실시간으로 새로운 채팅방 정보를 전달
@@ -102,11 +106,16 @@ public class ChattingController {
     	// 이 멤버와 관련된 모든 채팅방들의 모음을 가져와서 List 자료구조에 담은 다음에 return 해줘야 함. 
     	List<ChatRoom> roomList = chatService.getChattingRooms(empCode);
     	for(ChatRoom room: roomList) {
-    		
     		log.debug("room======={}", room);
-    	
     	}
     	return roomList;    	
+    }
+    
+    @PostMapping("getChatMessage")
+    @ResponseBody
+    public List<ChatMessageMe> getChatMessage(@RequestBody Map<String, String> paramMap, @SessionAttribute("loginMember") Employee emp) {
+    	List<ChatMessageMe> messageList = chatService.getChatMessage(paramMap, emp.getEmpNo());
+    	return messageList;
     }
     
     
