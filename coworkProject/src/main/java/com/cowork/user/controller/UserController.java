@@ -4,16 +4,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cowork.user.model.dto.Employee2;
+import com.cowork.user.model.service.UserService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequestMapping("user")
 @Controller
+@RequiredArgsConstructor
 public class UserController {
 
+	private final UserService service;
 	
 	/** 이용약관 페이지
 	 * @return
@@ -32,11 +39,47 @@ public class UserController {
 		return "user/signUp"; 
 	}
 	
-	@PostMapping("signUp")
-	public String signUp(
-						 RedirectAttributes ra) {
-		return "redirect:/"; 
+	/** 아이디 중복 검사
+	 * @param empId
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("checkId")
+	public int checkId(@RequestParam("empId") String empId) {
+		return service.checkId(empId);
 	}
+	
+	/** 회원가입
+	 * @param inpuEmp
+	 * @param empAddress
+	 * @param ra
+	 * @return
+	 */
+	@PostMapping("signUp")
+	public String signUp(Employee2 inputEmp,
+						 @RequestParam("empAddress") String[] empAddress,
+						 RedirectAttributes ra) {
+		
+		log.info("test : " + inputEmp);
+
+		int result = service.signup(inputEmp, empAddress);
+		
+		String path = null;
+		String message = null;
+		
+		if(result > 0) {
+			message = "가입이 완료되었습니다.";
+			path = "/user/companyInfo";
+		} else {
+			message = "회원 가입 실패..";
+			path = "signup";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:" + path;
+	}
+	
 	
 	/** 회사 정보 입력 페이지 
 	 * @return
