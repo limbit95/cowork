@@ -3,44 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>leftSideBar</title>
+    <title>Company</title>
 	<link rel="stylesheet" href="/css/admin/companyInfo/companyInfo.css">
-	<link rel="stylesheet" href="/css/common.css">
 
+	<th:block th:replace="~{common/common}"></th:block>
 </head>
 <body>
-	<div th:replace="~{admin/left/adminLeftSideBar}"></div>
-	<div th:replace="~{common/common}"></div>
+	<th:block th:replace="~{admin/left/adminLeftSideBar}"></th:block>
 	
 	<div id="fullContainer">
 		<div id="rightSideSpace">
 			<div id="companyTitle">회사 정보</div>
 			<div id="btnContainerInCompanyInfo">
-					<button class="default-btn glucose-btn"  style="margin-right: 5px;">수정</button>
-					<button class="default-btn glucose-btn">저장</button>
+					<button class="default-btn glucose-btn">수정</button>
+					<button class="default-btn glucose-btn saveBtn">저장</button>
 			</div>
 			<div id="contentContainerInCompanyInfo">
 					<img src="images/naverLogo.png" id="companyLogo">
 			</div>
-			<div id="companyNameContainer" >
+			<div class="companyNameContainer">
 				<div>회사명</div>
-				<input type="text" class="inputClass1" >
+				<input type="text" class="inputClass1">
 			</div>
-			<div id="companyNameContainer">
+			<div class="companyNameContainer">
 				<div>전화번호</div>
-				<input type="text" class="inputClass2" 	>
+				<input type="text" class="inputClass2">
 			</div>
-			<div id="companyNameContainer">
+			<div class="companyNameContainer">
 				<div>우편번호</div>
 				<input type="text" id="sample2_postcode" placeholder="우편번호" class="inputClass2" 	readonly>
 				<input type="button" onclick="sample2_execDaumPostcode()" value="우편번호 찾기" class="findPostCodeBtn"><br>
 			</div>
 
-			<div id="companyNameContainer">
+			<div class="companyNameContainer">
 				<div>주소</div>
 				<input type="text" id="sample2_address" placeholder="주소" 	class="inputClass3" readonly><br>
 			</div>
-			<div id="companyNameContainer">
+			<div class="companyNameContainer">
 				<div>상세주소</div>
 				<input type="text" id="sample2_detailAddress" placeholder="상세주소" class="inputClass2" >
 			</div>

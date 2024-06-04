@@ -18,4 +18,10 @@ public interface MeetingRoomService {
 	 */
 	int meetingRoomInsert(MeetingRoom meetingRoom);
 
+	/** 회의실 삭제
+	 * @param meetingRoomNo
+	 * @return result
+	 */
+	int meetingRoomDelete(MeetingRoom meetingRoom);
+
 }

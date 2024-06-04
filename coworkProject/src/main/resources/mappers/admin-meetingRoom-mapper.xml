@@ -2,12 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cowork.admin.meetingRoom.model.mapper.MeetingRoomMapper">
 	
+	<!-- 회의실 목록 조회 -->
 	<select id="meetingRoomList">
 		SELECT MEETING_ROOM_NO, MEETING_ROOM_NM
 		FROM MEETING_ROOM
 		WHERE COM_NO = #{comNo}
 	</select>
 
+	<!-- 회의실 추가 -->
 	<insert id="meetingRoomInsert">
 		INSERT INTO MEETING_ROOM VALUES (
 			SEQ_MEETING_ROOM.NEXTVAL,
@@ -15,4 +17,9 @@
 			#{comNo}
 		)
 	</insert>
+	
+	<!-- 회의실 삭제 -->
+	<delete id="meetingRoomDelete">
+		DELETE FROM MEETING_ROOM WHERE MEETING_ROOM_NO = #{meetingRoomNo} AND COM_NO = #{comNo}
+	</delete>
 </mapper>
