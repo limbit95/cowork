@@ -21,8 +21,8 @@ public class TodoController {
 	}
 	
 
-	@PostMapping
-	public String todoInsert() {
-		
-	}
+//	@PostMapping
+//	public String todoInsert() {
+//		
+//	}
 }

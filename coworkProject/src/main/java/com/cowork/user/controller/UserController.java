@@ -2,7 +2,10 @@ package com.cowork.user.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +30,12 @@ public class UserController {
 	@GetMapping("signUp")
 	public String signUp() {
 		return "user/signUp"; 
+	}
+	
+	@PostMapping("signUp")
+	public String signUp(
+						 RedirectAttributes ra) {
+		return "redirect:/"; 
 	}
 	
 	/** 회사 정보 입력 페이지 
