@@ -40,6 +40,12 @@ public class FileConfig implements WebMvcConfigurer {
 	    @Value("${todo.file.resource-location}")
 	    private String todoFileResourceLocation; 
 
+	    // logo
+	    @Value("${logo.file.resource-handler}")
+	    private String logoFileResourceHandler;
+	    
+	    @Value("${logo.file.resource-location}")
+	    private String logoFileResourceLocation;
 	    
 	    @Override
 	    public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -50,6 +56,11 @@ public class FileConfig implements WebMvcConfigurer {
 	        registry
 	            .addResourceHandler(todoFileResourceHandler) 
 	            .addResourceLocations(todoFileResourceLocation);
+	        
+	        // 로고
+	        registry
+	        	.addResourceHandler(logoFileResourceHandler)
+	        	.addResourceLocations(logoFileResourceLocation);
 	    }
 		
 
