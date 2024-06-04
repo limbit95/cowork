@@ -16,6 +16,29 @@
     width: 100%;
 }
 
+/* 검색 */
+.table-head {
+    margin-bottom: 0px !important;
+}
+
+.table-body {
+    margin: 0px !important;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.table-body:hover {
+    background: var(--gray-color);
+    /* margin: 0px !important; */
+}
+
+.search button {
+    border: none;
+    background: transparent;
+    margin: 0 10px;
+    color: #c7c5c5;
+}
+
 /************************** 등록 화면 */
 /* 등록 화면 버튼 */
 .insBtn {

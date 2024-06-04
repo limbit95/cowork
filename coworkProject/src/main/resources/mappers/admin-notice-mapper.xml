@@ -6,7 +6,26 @@
 	<select id="getNoticeListCount">
 		SELECT COUNT(*)
 		FROM NOTICE
+		JOIN EMPLOYEE USING(EMP_CODE)
+		JOIN TEAM USING(TEAM_NO)
+		JOIN DEPARTMENT USING(DEPT_NO)
 		WHERE NOTICE_DEL_FL = 'N'
+		<if test='query != null'>
+			<choose>
+				<when test='key == "1"'> <!--  부서명 -->
+					AND DEPT_NM LIKE '%' || #{query} || '%'
+				</when>
+				<when test='key == "2"'> <!-- 제목 -->
+					AND NOTICE_TITLE LIKE '%' || #{query} || '%'
+				</when>
+				<when test='key == "3"'> <!-- 내용 -->
+					AND NOTICE_CONTENT LIKE '%' || #{query} || '%'
+				</when>
+				<otherwise> <!-- 작성자 -->
+					AND DEPT_NM || ' ' || EMP_LAST_NAME || EMP_FIRST_NAME LIKE '%' || #{query} || '%'
+				</otherwise>
+			</choose>
+		</if>
 	</select>
 	
 	<!-- 공지사항 조회 -->
@@ -28,12 +47,65 @@
 				ELSE TO_CHAR(NOTICE_WRITE_DATE, '')
 			 END NOTICE_WRITE_DATE
 			 ]]>
+			,DEPT_NM 
+			,NOTICE_CONTENT
 		FROM NOTICE
 		JOIN EMPLOYEE USING(EMP_CODE)
 		JOIN TEAM USING(TEAM_NO)
 		JOIN DEPARTMENT USING(DEPT_NO)
 		WHERE NOTICE_DEL_FL = 'N'
+		<if test='query != null'>
+			<choose>
+				<when test='key == "1"'> <!--  부서명 -->
+					AND DEPT_NM LIKE '%' || #{query} || '%'
+				</when>
+				<when test='key == "2"'> <!-- 제목 -->
+					AND NOTICE_TITLE LIKE '%' || #{query} || '%'
+				</when>
+				<when test='key == "3"'> <!-- 내용 -->
+					AND NOTICE_CONTENT LIKE '%' || #{query} || '%'
+				</when>
+				<otherwise> <!-- 작성자 -->
+					AND DEPT_NM || ' ' || EMP_LAST_NAME || EMP_FIRST_NAME LIKE '%' || #{query} || '%'
+				</otherwise>
+			</choose>
+		</if>
 		ORDER BY NOTICE_NO DESC
 	</select>
+	
+	<!-- 공지사항 상세 -->
+	<select id="noticeDetail">
+		SELECT 
+			 NOTICE_NO
+			,NOTICE_TITLE
+			,EMP_LAST_NAME || EMP_FIRST_NAME AS EMP_NAME
+			,DEPT_NM
+			,TO_CHAR(NOTICE_WRITE_DATE, 'YYYY-MM-DD') NOTICE_WRITE_DATE
+			,NOTICE_CONTENT
+			,EMP_CODE 
+			,DEPT_NO
+		FROM NOTICE
+		JOIN EMPLOYEE USING(EMP_CODE)
+		JOIN TEAM USING(TEAM_NO)
+		JOIN DEPARTMENT USING(DEPT_NO)
+		WHERE NOTICE_NO = #{noticeNo}
+	</select>
+	
+	<insert id="noticeInsert" useGeneratedKeys="true" parameterType="Notice">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="noticeNo">
+			SELECT SEQ_BOARD_FILE.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO NOTICE
+		VALUES(
+			 #{noticeNo}
+			,#{noticeTitle}
+			,#{NOTICE_CONTENT}
+			,DEFAULT
+			,NULL
+			,DEFAULT
+			,#{empCode}
+		)
+	</insert>
 
 </mapper>

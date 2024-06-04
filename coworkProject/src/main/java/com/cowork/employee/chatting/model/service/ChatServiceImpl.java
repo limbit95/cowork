@@ -25,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatServiceImpl implements ChatService{
 	
 	private final ChatMapper chatMapper;
-	
 	/**
 	 * 부서, 팀, 이름 으로 사원들 조회 
 	 */
@@ -60,7 +59,7 @@ public String makeChat(List<String> empCodeList, String empCode) {
 	
 	// CHAT_ROOM 테이블에 행을 삽입. 이때, PK 값 가져와야 함. 
 	ChatRoom chatRoom = new ChatRoom();
-	chatRoom.setEmpNo(Integer.parseInt(empCode));
+	chatRoom.setEmpCode(Integer.parseInt(empCode));
 	chatRoom.setRoomName(roomName);
 	chatMapper.makeChat(chatRoom); 
 	
@@ -118,37 +117,50 @@ public List<ChatRoom> getChattingRooms(String empCode) {
 		
 		// CHAT_PARTICIPANT 테이블에서 해당 채팅방과관련된 놈들을 모두 조회해서 그 중 PARTICIPANT_NO 값이 두번째로 작은놈의 
 		// 이름과 프로필사진을 가져올거임. 첫번째는 방을 만든 놈이니까. 
-		Employee emp = chatMapper.findFirstInvited(chatRoom.getRoomNo());
-		if(emp != null) {
-			chatRoom.setMemberNickname(emp.getMemberNickname());
-			if(emp.getProfileImg() == null) {
-				chatRoom.setProfileImg(emp.getMemberNickname().substring(0, 1));
+		Employee firstInvited = chatMapper.findFirstInvited(chatRoom.getRoomNo());
+		if(firstInvited != null) {
+			chatRoom.setMemberNickname(firstInvited.getEmpLastName() + firstInvited.getEmpFirstName());
+			if(firstInvited.getProfileImg() == null) {			
+				chatRoom.setProfileImg(firstInvited.getEmpLastName());
 				chatRoom.setProfileImgFlag(0);
-			
 			}else {
-				chatRoom.setProfileImg(emp.getProfileImg());			
+				chatRoom.setProfileImg(firstInvited.getProfileImg());			
 				chatRoom.setProfileImgFlag(1);
-
 			}
-
-			
 		}
-		if(chatRoom.getRoomName() == null || chatRoom.getRoomName().equals("")) {
-			chatRoom.setRoomName(member.getMemberNickname());
-		}
-		
-		
-		
 	}
 	
-	
-	
-	
 	return roomList;
+}
+
+@Override
+public List<ChatMessageMe> getChatMessage(Map<String, String> paramMap, String empNo) {
 	
+	// 현재 로그인한 멤버의 해당 채팅방 현재 시각 이전의 메세지들은 읽은거로 처리해야함.
+	String roomNo = paramMap.get("roomNo");
 	
+	// 만약, 해당 채팅방에 글이 있다면,(chat_message 테이블에 해당 채팅방과 관련된 행이 존재하는지 확인)
+	// 해당 채팅방의 모든 글을 현재 fetch 요청 보낸 사용자가 읽었다고 표시해줘야 함. 
 	
-	
+//	List<String> messageIdList = chatMapper.findMessageIds(roomNo); //현재 클릭된 채팅방과 관련된 메세지들의 MESSSGE_ID 값을 List자료구조에 담아옴 
+//	if(messageIdList.size() != 0) {// 그 채팅방에 쓰여진 글이 있다면 
+//		for(String messageId : messageIdList) { // 메세지 아이디를 하나씩 돌면서 
+//			Map<String, Object> paramMap2 = new HashMap<>();
+//			paramMap2.put("messageId", messageId);
+//			paramMap2.put("memberNo", memberNo);
+//			int result = chatMapper.updateReadFl(paramMap2); //현재 채팅방을 클릭한 멤버가 모든 글을 봤다고 표시함 
+//		}
+//	}
+//	
+	// 해당 채팅방에 쓰여진 메세지들을 모두 가져온다. List<ChatMessage> 타입으로 가져오면 되고,
+	// 그걸 return 해주면 됨. 
+	// 각 메세지들을 몇명이 읽었는지를 조회해와야 함 
+	List<ChatMessageMe> messageList = chatMapper.findAllMessageByRoomNo(roomNo);
+//	for(ChatMessageMe message: messageList) {
+//		String count = chatMapper.findUnreadCount(message.getMessageId());
+//		message.setUnreadCount(count);
+//	}
+	return messageList;
 }
 	
 	
