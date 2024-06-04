@@ -28,7 +28,7 @@
             <!-- 등록/삭제 버튼 -->
             <div id="btnArea">
                 <form>
-                    <button class="default-btn glucose-btn" id="insertBtn">등록</button>
+                    <button class="default-btn glucose-btn" id="insertBtn" type="button">등록</button>
                 </form>
                 <form>
                     <button class="default-btn glucose-btn" id="deleteBtn">삭제</button>
@@ -72,37 +72,43 @@
                         </div>
                     </div>
                     <!-- 할 일 등록창 -->
-                    <form>
+                    <form action="insert" method="post" enctype="multipart/form-data" name="todoInsertForm" id="todoInsertForm">
                         <div class="todoDetailArea" style="display: none;">
                             <div id="insertBtn2Area">
-                                <button id="insertBtn2">등록</button>
+                                <button id="insertBtn2" type="submit">등록</button>
                             </div>
                             <div>
                                 <div class="detailTitle">기한</div>
                                 <div class="detailContent">
-                                    <input type="date">
+                                    <input type="date" name="todoEndDate">
                                 </div>
                             </div>
                             <div>
                                 <div class="detailTitle">요청자</div>
                                 <div class="detailContent">
-                                    <input>
+                                    <input name="requestEmp">
                                 </div>
                             </div>
                             <div class="inCharge">
                                 <div class="detailTitle">담당자</div>
                                 <div class="detailContent">
-                                    <input>
+                                    <input name="inChargeEmp">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="detailTitle">요청 제목</div>
+                                <div class="detailContent">
+                                    <input name="todoTitle">
                                 </div>
                             </div>
                             <div class="detailTitle">요청 내용</div>
                             <div class="detailContent">
-                                <textarea id="requestContent"></textarea>
+                                <textarea id="requestContent" name="todoContent"></textarea>
                             </div>
-                            <div>
+                           <div>
                                 <div class="detailTitle" id="fileArea">첨부파일</div>
                                 <div class="fileBox">
-                                    <input type="file" id="uploadFile" multiple style="display: none;">
+                                    <input type="file" id="uploadFile" multiple name="files" style="display: none;">
                                     <label for="uploadFile" class="uploadFileLabel">내 PC</label>
                                 </div>
                             </div>

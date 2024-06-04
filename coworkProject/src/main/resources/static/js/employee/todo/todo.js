@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", function() {
     todoDetailArea.style.display = "none";
 
     // 등록 버튼 클릭 시
-    insertBtn.addEventListener("click", function(event) {
-        event.preventDefault(); 
+    insertBtn.addEventListener("click", function(e) {
+        e.preventDefault(); 
 
         if (todoDetailArea.style.display === "none" || todoDetailArea.style.display === "") {
             todoDetailArea.style.display = "block";

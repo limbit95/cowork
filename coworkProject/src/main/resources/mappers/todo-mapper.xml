@@ -2,10 +2,51 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cowork.employee.todo.model.mapper.TodoMapper"> 
 
+	<!-- 할 일 목록 조회 -->
 	<select id="selectTodoList"> 
 	    SELECT * FROM TODO
 	    WHERE EMP_CODE = 1
 	</select>
+	
+	<!-- 할 일 등록 -->
+	<insert id="todoInsert">
+	    <selectKey order="BEFORE" resultType="int" keyProperty="todoNo">
+	        SELECT SEQ_TODO.NEXTVAL FROM DUAL
+	    </selectKey>
+	    INSERT INTO "TODO"
+	    VALUES (
+	        #{todoNo},
+	        #{todoTitle},
+	        #{todoContent},
+	        DEFAULT,
+	        #{todoEndDate},
+	        DEFAULT,
+	        1
+	    )
+	</insert>
+	
+	<!-- 파일 업로드시 등록 -->
+	<insert id="insertUploadList" parameterType="list">
+    <foreach collection="list" item="file" separator=";">
+        INSERT INTO "TODO_FILE" (FILE_NO, FILE_PATH, FILE_ORIGIN_NAME, FILE_RENAME, FILE_UPLOAD_DATE, FILE_ORDER, TODO_NO)
+        VALUES (NEXT_TODO_FILE_NO(), #{file.filePath}, #{file.fileOriginName}, #{file.fileRename}, DEFAULT, #{file.fileOrder}, #{file.todoNo})
+    </foreach>
+</insert>
+		
+		
+	<!-- 담당자 지정시 등록 -->
+	<insert id="insertTodoManager" parameterType="Todo">
+	        INSERT INTO "TODO_MANAGER" 
+	        SELECT 
+	            NEXT_TODO_MGR_NO(), 
+	            emp.EMP_CODE, 
+	            #{todoNo}
+	        FROM 
+	            Employee emp
+	        WHERE 
+	            CONCAT(emp.EMP_LAST_NAME, emp.EMP_FIRST_NAME) = #{inChargeEmp}
+	</insert>
+
 	
 <!-- <select id="todoDetail">
 		SELECT 
