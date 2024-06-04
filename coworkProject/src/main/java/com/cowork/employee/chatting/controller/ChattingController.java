@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.cowork.employee.chatting.model.dto.ChatRoom;
 import com.cowork.employee.chatting.model.dto.Employee;
 import com.cowork.employee.chatting.model.dto.MakeChat;
 import com.cowork.employee.chatting.model.service.ChatService;
@@ -76,25 +77,37 @@ public class ChattingController {
     @ResponseBody
     public String makeChat(@RequestBody MakeChat makeChat, Model model) {
     	
-    	List<String> empNoList = makeChat.getEmpNoList(); // 채팅방 구성원 
-    	String empNo = makeChat.getMakeEmpNo(); // 채팅방 만드는 놈
+    	List<String> empCodeList = makeChat.getEmpCodeList(); // 채팅방 구성원 
+    	String empCode = makeChat.getMakeEmpCode(); // 채팅방 만드는 놈
     	
-        String subscribeAddr = chatService.makeChat(empNoList, empNo);
+        String subscribeAddr = chatService.makeChat(empCodeList, empCode);
         
         // 초대된 사용자들에게 실시간으로 새로운 채팅방 정보를 전달
         // 만약 각 사용자가 이 실시간 전송을 들을 수 있는 귀가 있다면 되지 않을까?
         // 그럼 그 실시간전송을 듣는 귀의 subscribe addr 은 뭐가 되어야 할까?
         // 대충 생각해보면, /topic/ + 자신의 memberNo 인 subscribeaddr 을 가진 귀(connect) 가 있으면 되지 않을까?
         
-        
-        empNoList.forEach(memberNo2 -> {
+        empCodeList.forEach(memberNo2 -> {
             messagingTemplate.convertAndSend("/topic/newRoom/" + memberNo2, subscribeAddr);
         });
     	
     	return subscribeAddr;
     }
 	
-    
+    @PostMapping("getChattingRooms")
+    @ResponseBody
+    public List<ChatRoom> getChattingRooms(@RequestBody Map<String, String> paramMap) {
+    	String empCode = paramMap.get("empCode");    	
+    	// 데이터베이스에서 뭘 가져와야 해? 
+    	// 이 멤버와 관련된 모든 채팅방들의 모음을 가져와서 List 자료구조에 담은 다음에 return 해줘야 함. 
+    	List<ChatRoom> roomList = chatService.getChattingRooms(empCode);
+    	for(ChatRoom room: roomList) {
+    		
+    		log.debug("room======={}", room);
+    	
+    	}
+    	return roomList;    	
+    }
     
     
 	
