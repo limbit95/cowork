@@ -1,4 +1,5 @@
 
+
 /* 검색 */
 #searchTodo{
     margin-top: 0 !important;
@@ -8,7 +9,7 @@
 .todoArea{
     display: flex;
     flex-direction: column;
-    width: 1000px;
+    min-width: 1000px;
 }
 
 /* 목록 + 상세 전체 감싸는 div */
@@ -19,8 +20,9 @@
 
 /* ! 목록 !*/
 .todoList{
-
     margin: 0 !important;
+    max-height: 740px;
+    overflow-y: auto;
 }
 
 
@@ -74,7 +76,7 @@
 }
 */
 .todo{
-    width: 998px;
+    width: 980px;
     display: flex;
     align-items: center;
     border: 1px solid #D9D9D9;
@@ -138,7 +140,7 @@ ul{
     border: 1px solid #d9d9d9;
     width: 270px;
     height: 690px;
-    margin: 15px 0 15px 15px !important;
+    margin: 15px 0 15px 20px !important;
     display: flex;
     flex-direction: column;
     padding: 15px;
@@ -302,7 +304,7 @@ input[type="date"]:hover {
     margin-left: 10px;
 }
 
-#insertBtn2 {
+#insertBtn2, #updateBtn {
     margin-left: 210px;
     border: none;
     background-color: transparent;
@@ -312,7 +314,7 @@ input[type="date"]:hover {
 }
 
 /* 등록 버튼  영역 */
-#insertBtn2Area {
+#insertBtn2Area, #updateBtnArea {
     margin-bottom: 0 !important;
 }
 

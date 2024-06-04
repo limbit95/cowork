@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // 모든 .todo 요소의 스타일 변경
             todos.forEach(function(todo) {
-                todo.style.width = "680px";
+                todo.style.width = "660px";
 
                 todo.querySelectorAll("div:nth-of-type(1)").forEach(function(element) {
                     element.style.marginLeft = "20px";
@@ -34,11 +34,11 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         } else {
             todoDetailArea.classList.remove('show');
-            setTimeout(() => todoDetailArea.style.display = "none", 500); 
+            setTimeout(() => todoDetailArea.style.display = "none", 300); 
 
             // 모든 .todo 요소의 스타일 복구
             todos.forEach(function(todo) {
-                todo.style.width = "998px";
+                todo.style.width = "980px";
 
 
                 todo.querySelectorAll("div:nth-of-type(1)").forEach(function(element) {

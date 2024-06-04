@@ -34,6 +34,7 @@ body {
     /*display: flex;
     flex-direction: column;
     align-items: center;*/
+    margin-bottom: 120px; /*0604윤희 수정*/
 }
 
 input, select {

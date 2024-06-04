@@ -39,9 +39,9 @@
                 <!-- 할 일 헤드 -->
                 <div class="todoHead">
                     <div><input type="checkbox"></div>
-                    <div>전체</div>
-                    <div>내 담당</div>
-                    <div>요청</div>
+                    <div id="selectAll">전체</div>
+                    <div id="meInCharge">내 담당</div>
+                    <div id="request">요청</div>
                     <div>
                         <input type="checkbox" id="doneList">완료한 일 보기
                         <label for="doneList"></label>
@@ -114,6 +114,56 @@
                             </div>
                             <div class="fileList">
                                 <ul id="fileList">
+
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                     <!-- 할 일 상세/수정 -->
+                     <form action="update" method="post" enctype="multipart/form-data" name="todoUpdateForm" id="todoUpdateForm">
+                        <div class="todoDetailArea" style="display: none;">
+                            <div id="updateBtnArea">
+                                <!--th:if문 처리해야함-->
+                                <button id="updateBtn" type="submit">수정</button>
+                            </div>
+                            <div>
+                                <div class="detailTitle">기한</div>
+                                <div class="detailContent">
+                                    <input type="date" name="todoEndDate">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="detailTitle">요청자</div>
+                                <div class="detailContent">
+                                    <input name="requestEmp">
+                                </div>
+                            </div>
+                            <div class="inCharge">
+                                <div class="detailTitle">담당자</div>
+                                <div class="detailContent">
+                                    <input name="inChargeEmp">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="detailTitle">요청 제목</div>
+                                <div class="detailContent">
+                                    <input name="todoTitle">
+                                </div>
+                            </div>
+                            <div class="detailTitle">요청 내용</div>
+                            <div class="detailContent">
+                                <textarea id="requestContent" name="todoContent"></textarea>
+                            </div>
+                           <div>
+                                <div class="detailTitle" id="fileArea">첨부파일</div>
+                                <div class="fileBox">
+                                    <input type="file" id="uploadFile" multiple name="files" style="display: none;">
+                                    <label for="uploadFile" class="uploadFileLabel">내 PC</label>
+                                </div>
+                            </div>
+                            <div class="fileList">
+                                <ul id="fileList">
+                                    
                                 </ul>
                             </div>
                         </div>

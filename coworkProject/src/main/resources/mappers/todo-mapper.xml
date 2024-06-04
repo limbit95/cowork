@@ -27,11 +27,15 @@
 	
 	<!-- 파일 업로드시 등록 -->
 	<insert id="insertUploadList" parameterType="list">
-    <foreach collection="list" item="file" separator=";">
-        INSERT INTO "TODO_FILE" (FILE_NO, FILE_PATH, FILE_ORIGIN_NAME, FILE_RENAME, FILE_UPLOAD_DATE, FILE_ORDER, TODO_NO)
-        VALUES (NEXT_TODO_FILE_NO(), #{file.filePath}, #{file.fileOriginName}, #{file.fileRename}, DEFAULT, #{file.fileOrder}, #{file.todoNo})
-    </foreach>
-</insert>
+		INSERT INTO TODO_FILE
+	    <foreach collection="list" item="file" 
+	    		open ="(" close=")" separator=" UNION ">
+	       SELECT NEXT_TODO_FILE_NO(), 
+	       #{file.filePath}, #{file.fileOriginName}, 
+	       #{file.fileRename}, SYSDATE, #{file.fileOrder}, #{file.todoNo}
+	       FROM DUAL 
+	    </foreach>
+	</insert>
 		
 		
 	<!-- 담당자 지정시 등록 -->
