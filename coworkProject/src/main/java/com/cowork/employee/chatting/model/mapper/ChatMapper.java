@@ -30,4 +30,7 @@ public interface ChatMapper {
 
 	Employee findFirstInvited(Integer roomNo);
 
+
+	List<ChatMessageMe> findAllMessageByRoomNo(String roomNo);
+
 }

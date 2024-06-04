@@ -199,7 +199,7 @@ body {
 }
 #chattingRoomsTitle{
 	width: 100%; 
-	height: 3%;
+	height: 6%;
 	background-color: #214177;
 	color: white;
 	display: flex;
@@ -211,6 +211,106 @@ body {
 
 /*====================  채팅방들 끝 ======================*/
 
+
+/* chatting Container 시작  */
+#chattingsContainer{
+	flex-basis: 50%;
+	height: 80vh;
+	margin-left: 1.5vw;
+	border: 1px solid black;
+	display: flex; 
+	flex-direction:column;
+}
+#topAreaInChattingsContainer{
+	width: 100%;
+	height: 10%;	
+	background-color: #214177;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #E5F2FE;
+	font-size: 20px;
+}
+
+
+#chattingsArea{
+	height: 80%;
+	
+}
+#messageContainer{
+	width: 100%; 
+	height: 5vh;
+	display: flex; 
+	flex-basis: 10%;
+	align-items: center;
+	
+}
+#fileClip{
+	border-radius: 50%; 
+	background-color: #BDD8F1;
+	color:#E5F2FE;
+	width: 40px;
+	height: 40px;
+	font-size: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: color 0.3s, background-color 0.3s;
+	cursor: pointer;
+}
+#fileClip:hover{
+	background-color: #BDD8F1;
+	color: gray;
+}
+
+#messageContainer > div:nth-child(1){
+	flex-basis: 10%;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	font-size: 20px;
+}
+#messageContainer > textarea:nth-child(2){
+	flex-basis: 80%;
+	height: 50%;
+	outline: none;
+	margin-right: 1.5vw;
+	font-size: 15px;
+	font-weight: bold;
+	resize: none; 
+	border: none;
+	background-color: #E5F2FE;
+	border-radius: 10px;
+	color:#214177;
+}
+#messageContainer > input:nth-child(3){
+	display: none;
+}
+#messageContainer > button:nth-child(4){
+	flex-basis:8%;
+	margin-right: 1vw;
+}
+
+#sendBtn{
+	border: none;
+	background-color: #E5F2FE;
+	color: #214177;
+	border-radius: 5px;
+	transition: color 0.3s, background-color 0.3s;
+	height: 80%;
+}
+#sendBtn:hover{
+	background-color:#214177;
+	color: #E5F2FE;
+	border-radius: 5px;
+}
+
+#sendBtnIcon{
+	font-size: 20px;
+	
+}
+
+/* chatting Container 끝  */
 
 
 

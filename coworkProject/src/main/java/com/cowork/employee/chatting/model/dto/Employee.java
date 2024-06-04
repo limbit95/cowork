@@ -12,6 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Employee {
+	
 	private Integer empCode;
 	private String empNo; // 사번 
 	private String empId; 
