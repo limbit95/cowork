@@ -1,5 +1,6 @@
 const oEditors = []; /* 스마트에디터 */
-let filesArr = new Array();
+const preview = document.querySelector('.preview');
+const formData = new FormData(); // 초기에 빈 FormData 객체를 생성합니다.
 
 
 /* 스마트에디터 */
@@ -30,13 +31,16 @@ smartEditor = function() {
 const handler = {
     init() {
         const fileInput = document.querySelector('#fileInput');
-        const preview = document.querySelector('.preview');
+
         fileInput.addEventListener('change', () => {  
             //console.dir(fileInput)                  
             const files = Array.from(fileInput.files)
             files.forEach(file => {
+                //formData.append('files', file); 
+                formData.append(file.name, file); // 파일을 추가할 때마다 FormData에 파일을 추가합니다.
 
                 const fileTr = document.createElement('tr');
+                fileTr.id = `${file.lastModified}`;
 
                 /* 1번째 row : 파일명 */
                 const fileTd = document.createElement('td');
@@ -47,8 +51,6 @@ const handler = {
                 const fileLabel = document.createElement('label');
                 fileLabel.innerText = `${file.name}`;
 
-                //console.log(`${file.name}`);
-
                 fileTd.appendChild(fileIcon);
                 fileTd.appendChild(fileLabel);
 
@@ -57,7 +59,9 @@ const handler = {
 
                 const fileXIcon = document.createElement('button');
                 fileXIcon.classList.add('fa-solid', 'fa-xmark', 'fileRemove');
+                fileXIcon.dataset.name = `${file.name}`; // 파일 이름을 dataset에 저장
                 fileXIcon.dataset.index = `${file.lastModified}`;
+                fileXIcon.type = 'button';
 
                 fileTd2.appendChild(fileXIcon);
 
@@ -65,12 +69,11 @@ const handler = {
                 fileTr.appendChild(fileTd2);
 
                 preview.appendChild(fileTr);
-
-                // 파일 개수
-                document.querySelector('#fileCnt').innerText = preview.childElementCount;
-
-                filesArr.push(file); // 파일 담기
             });
+
+            // 파일 개수
+            document.querySelector('#fileCnt').innerText = preview.childElementCount;
+
         });
     },
 
@@ -80,23 +83,15 @@ const handler = {
             if(e.target.className !== 'fa-solid fa-xmark fileRemove') return;
             const removeTargetId = e.target.dataset.index;
             const removeTarget = document.getElementById(removeTargetId);
-            const files = document.querySelector('#fileInput').files;
-            const dataTranster = new DataTransfer();
-
-        
-            Array.from(files)
-                .filter(file => file.lastModified != removeTargetId)
-                .forEach(file => {
-                dataTranster.items.add(file);
-            });
-
-            console.log(filesArr);
-            console.log(removeTarget);
+            const removeTargetName = e.target.dataset.name;
             
-            //filesArr[index].is_delete = true;
+            // FormData 객체에서 해당 파일을 삭제합니다.
+            formData.delete(removeTargetName);
 
-            document.querySelector('#fileInput').files = dataTranster.files;
+            // 파일을 제거한 후에 FormData 객체의 파일 개수를 업데이트합니다.
+            document.querySelector('#fileCnt').innerText = preview.childElementCount;
 
+            // DOM에서 파일을 제거합니다.
             removeTarget.remove();
         })
     }
@@ -105,45 +100,41 @@ const handler = {
 // 공지사항 등록
 document.querySelector("#noticeInsert").addEventListener("click", () => {
 
-    const formData = new FormData();
-    const fileInput = document.querySelector('#fileInput');
+    //const formData = new FormData();
+    const files = document.querySelector('#fileInput').files;
+    const clone = new FormData();
 
-    for (let i = 0; i < fileInput.files.length; i++) {
+    // 에디터의 내용을 textarea에 적용
+    oEditors.getById["noticeContent"].exec("UPDATE_CONTENTS_FIELD", []);
 
-      formData.append("files", fileInput.files[i].name); // name과 value
+    const noticeTitle = document.getElementById('noticeTitle').value;
+    const noticeContent = document.getElementById('noticeContent').value;
 
-      console.log("files : "  + fileInput.files[i].name);
+    // 제목과 내용을 FormData에 추가
+    clone.append('noticeTitle', noticeTitle);
+    clone.append('noticeContent', noticeContent);
 
+    for (const pair of formData.entries()) {
+        clone.append('files', pair[1]);
     }
-
-    console.log("formData : " + formData);
-
-    /*const param = {
-        "mtmAnswer" : mtmAnswer.value,
-        "mtmNo" : mtmNo
-    };*/
 
 
     fetch("/admin/notice/noticeInsert" , {
         method : "POST",
-        /*headers : {"Content-Type" : "application/json"},*/
-        body : formData/*JSON.stringify(param)*/
+        body : clone
     })
     .then(resp => resp.text())
     .then(result => {
 
+        console.log(result);
+
         if(result > 0) {
-            alert("답변이 정상적으로 등록되었습니다.");
+            alert("게시글이 작성되었습니다" + result);
 
-            const urlSearch = new URLSearchParams(location.search);
-            const cp = urlSearch.get('cp');
-
-            opener.location.reload();
-
-            location.href = location.pathname.replace('mtmUpdate', 'mtmDetail') + "?cp=" + cp;
+            location.href = "/admin/notice/noticeDetail/" + result +  + "?cp=1";
 
         } else {
-            alert("답변 등록 실패!");
+            alert("게시글 작성 실패" + result);
         }
     });
 

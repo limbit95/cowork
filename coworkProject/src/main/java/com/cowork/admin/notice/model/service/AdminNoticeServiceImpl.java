@@ -22,11 +22,14 @@ import com.cowork.employee.notice.model.dto.BoardFile;
 import com.cowork.employee.notice.model.dto.Notice;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(rollbackFor = Exception.class)
 @PropertySource("classpath:/config.properties")
+@Slf4j
 public class AdminNoticeServiceImpl implements AdminNoticeService {
 	
 	private final AdminNoticeMapper mapper;
@@ -83,41 +86,49 @@ public class AdminNoticeServiceImpl implements AdminNoticeService {
 		if(result == 0) return 0;
 		
 		int noticeNo = inputNotice.getNoticeNo(); // 삽입된 공시사항 번호를 변수로 저장
-		List<BoardFile> uploadList = new ArrayList<>(); // 실제 업로드된 파일의 정보를 모아둘 List 생성
 		
-		for(int i=0; i<files.size(); i++) {
+		if(files != null) {
+			List<BoardFile> uploadList = new ArrayList<>(); // 실제 업로드된 파일의 정보를 모아둘 List 생성
 			
-			if(!files.get(i).isEmpty()) {
-				String originalName = files.get(i).getOriginalFilename(); // 원본명
-				String rename = Utility.fileRename(originalName);
+			
+			for(int i=0; i<files.size(); i++) {
 				
-				BoardFile file = BoardFile.builder()
-							.filePath(webPath)
-							.fileOriginName(originalName)
-							.fileRename(rename)
-							.fileOrder(i)
-							.boardNo(noticeNo)
-							.boardNm("NOTICE")
-							.build();
-				
-				uploadList.add(file);
+				if(!files.get(i).isEmpty()) {
+					String originalName = files.get(i).getOriginalFilename(); // 원본명
+					String rename = Utility.fileRename(originalName);
+					
+					BoardFile file = BoardFile.builder()
+								.filePath(webPath)
+								.fileOriginName(originalName)
+								.fileRename(rename)
+								.fileOrder(i)
+								.boardNo(noticeNo)
+								.boardNm("NOTICE")
+								.uploadFile(files.get(i))
+								.build();
+					
+					uploadList.add(file);
+				}
 			}
+			
+			if(uploadList.isEmpty()) return noticeNo;
+			
+			result = mapper.boardFileinsert(uploadList);
+			
+			// 다중 파일 성공확인
+			if(result == uploadList.size()) {
+				
+				// 서버에 파일 저장
+				for(BoardFile file : uploadList) {
+					file.getUploadFile().transferTo(new File(folderPath + file.getFileRename()));
+				}
+			} else {
+				throw new BoardInsertException("이미지가 정상 삽입되지 않음");
+			}
+		
 		}
 		
-		if(uploadList.isEmpty()) return noticeNo;
-		
-		result = mapper.boardFileinsert(uploadList);
-		
-		// 다중 파일 성공확인
-		if(result == uploadList.size()) {
-			
-			// 서버에 파일 저장
-			for(BoardFile file : uploadList) {
-				file.getUploadFile().transferTo(new File(folderPath + file.getFileRename()));
-			}
-		} else {
-			throw new BoardInsertException("이미지가 정상 삽입되지 않음");
-		}
+		log.info("서비스 게시글 번호 : " + noticeNo);
 		
 		return noticeNo;
 	}

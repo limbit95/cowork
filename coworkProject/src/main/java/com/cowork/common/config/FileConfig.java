@@ -47,6 +47,13 @@ public class FileConfig implements WebMvcConfigurer {
 	    @Value("${logo.file.resource-location}")
 	    private String logoFileResourceLocation;
 	    
+	    // 게시판
+	    @Value("${board.file.resource-handler}")
+	    private String boardFileResourceHandler;
+	    
+	    @Value("${board.file.resource-location}")
+	    private String boardFileResourceLocation;
+	    
 	    @Override
 	    public void addResourceHandlers(ResourceHandlerRegistry registry) {
 	        registry
@@ -61,6 +68,11 @@ public class FileConfig implements WebMvcConfigurer {
 	        registry
 	        	.addResourceHandler(logoFileResourceHandler)
 	        	.addResourceLocations(logoFileResourceLocation);
+	        
+	        // 게시판
+	        registry
+        		.addResourceHandler(boardFileResourceHandler)
+        		.addResourceLocations(boardFileResourceLocation);
 	    }
 		
 

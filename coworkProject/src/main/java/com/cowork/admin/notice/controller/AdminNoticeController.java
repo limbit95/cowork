@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.notice.model.service.AdminNoticeService;
-import com.cowork.employee.chatting.model.dto.Employee;
 import com.cowork.employee.notice.model.dto.Notice;
 
 import lombok.RequiredArgsConstructor;
@@ -90,34 +89,25 @@ public class AdminNoticeController {
 	 * @return
 	 */
 	@PostMapping("noticeInsert")
-	public String noticeInsert(
-				@ModelAttribute Notice inputNotice,
+	public int noticeInsert(
+				@RequestParam("noticeTitle") String noticeTitle,
+	            @RequestParam("noticeContent") String noticeContent,
 				/*@SeesionAttribute("loginEmployee") Employee loginEmployee,*/
-				@RequestParam("files") List<MultipartFile> files,
+				@RequestParam(value="files", required=false) List<MultipartFile> files,
 				RedirectAttributes ra
 			) throws IllegalStateException, IOException {
 		
-		log.info("파일 : ",files);
+		Notice inputNotice = new Notice();
 		
-		/*inputNotice.setEmpCode(1); /*loginEmployee.getEmpCode()*/
+		inputNotice.setEmpCode(1); /*loginEmployee.getEmpCode()*/
+		inputNotice.setNoticeTitle(noticeTitle);
+		inputNotice.setNoticeContent(noticeContent);
 		
-		/*int noticeNo = service.noticeInsert(inputNotice, files);
+		int result = service.noticeInsert(inputNotice, files);
 		
-		String path = null;
-		String message = null;
+		log.info("게시글 번호 : " + result);
 		
-		if(noticeNo > 0) {
-			
-			path = "noticeDetail/" + noticeNo;
-			message = "게시글이 작성되었습니다!";
-		} else {
-			
-			path = "noticeInsert";
-			message = "게시글 작성 실패";
-		}*/
-		
-		//return "redirect:/admin/notice/" + path;
-		return "redirect:/admin/notice/" + "noticeInsert";
+		return result;
 	}
 	
 	/** 공지사항 수정
