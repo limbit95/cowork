@@ -15,5 +15,6 @@ public class MyInfoController {
 	public String myInfoUpdate() {
 		return "employee/myInfo/myInfoUpdate";
 	}
+	//반가워요~ 최재준입니다.
 	
 }
