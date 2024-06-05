@@ -1,12 +1,13 @@
-package com.cowork.admin.notice.service;
+package com.cowork.admin.notice.model.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
-import org.eclipse.angus.mail.imap.Utility;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.admin.notice.mapper.AdminNoticeMapper;
+import com.cowork.admin.notice.model.exception.BoardInsertException;
+import com.cowork.common.utility.Utility;
 import com.cowork.common.utility.model.dto.Pagination;
 import com.cowork.employee.notice.model.dto.BoardFile;
 import com.cowork.employee.notice.model.dto.Notice;
@@ -67,10 +70,12 @@ public class AdminNoticeServiceImpl implements AdminNoticeService {
 	}
 
 	/** 공지사항 등록
+	 * @throws IOException 
+	 * @throws IllegalStateException 
 	 *
 	 */
 	@Override
-	public int noticeInsert(Notice inputNotice, List<MultipartFile> files) {
+	public int noticeInsert(Notice inputNotice, List<MultipartFile> files) throws IllegalStateException, IOException {
 		
 		// 공지사항 등록
 		int result = mapper.noticeInsert(inputNotice);
@@ -84,7 +89,7 @@ public class AdminNoticeServiceImpl implements AdminNoticeService {
 			
 			if(!files.get(i).isEmpty()) {
 				String originalName = files.get(i).getOriginalFilename(); // 원본명
-				String rename = ""; //Utility.fileRename(originalName);
+				String rename = Utility.fileRename(originalName);
 				
 				BoardFile file = BoardFile.builder()
 							.filePath(webPath)
@@ -103,7 +108,18 @@ public class AdminNoticeServiceImpl implements AdminNoticeService {
 		
 		result = mapper.boardFileinsert(uploadList);
 		
-		return 0;
+		// 다중 파일 성공확인
+		if(result == uploadList.size()) {
+			
+			// 서버에 파일 저장
+			for(BoardFile file : uploadList) {
+				file.getUploadFile().transferTo(new File(folderPath + file.getFileRename()));
+			}
+		} else {
+			throw new BoardInsertException("이미지가 정상 삽입되지 않음");
+		}
+		
+		return noticeNo;
 	}
 
 }

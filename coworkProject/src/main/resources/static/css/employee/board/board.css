@@ -71,6 +71,30 @@
     margin-right: 10px !important;
 }
 
+/* 첨부파일 버튼 */
+.fileType {
+    position: relative;
+    width: 48px;
+}
+
+span.fileSelect {
+    position: absolute;
+    top: -4px;
+    left: 0;
+    width: 89px;
+    overflow: hidden;
+}
+
+span.fileSelect input {
+    width: 89px;
+    opacity: 0;
+}
+
+/* 업로드파일 리스트 기본 높이 */
+table.preview {
+    height: 50px;
+}
+
 /* 첨부파일 */
 .fileUploadForm {
     margin-top: 50px !important;
