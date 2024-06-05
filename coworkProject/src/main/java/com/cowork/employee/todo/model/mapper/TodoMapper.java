@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.employee.todo.model.dto.Todo;
@@ -48,8 +49,19 @@ public interface TodoMapper {
 
 	/** 담당자 수정 
 	 * @param inputTodo
+	 * @return 
 	 */
-	void todoManagerUpdate(Todo inputTodo);
+	int todoManagerUpdate(Todo inputTodo);
+
+
+
+	void deleteTodoFiles(@Param("todoIds") List<Integer> todoNos);
+
+	int deleteTodos(@Param("todoIds") List<Integer> todoNos);
+
+	void deleteTodoManager(@Param("todoIds") List<Integer> todoNos);
+
+	
 
 	
 

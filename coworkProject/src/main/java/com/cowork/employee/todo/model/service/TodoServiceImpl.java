@@ -113,10 +113,13 @@ public class TodoServiceImpl implements TodoService{
 	public int todoUpdate(Todo inputTodo, List<MultipartFile> files) throws IllegalStateException, IOException {
 		
 		int todoNo = inputTodo.getTodoNo(); 
+		int empCode = inputTodo.getEmpCode(); 
 		
 		int result = mapper.todoUpdate(inputTodo); 
 		
 		if(result == 0) return 0; 
+		
+        result = mapper.todoManagerUpdate(inputTodo);
 		
 		List<TodoFile> uploadList = new ArrayList<>();
 		
@@ -147,17 +150,43 @@ public class TodoServiceImpl implements TodoService{
 			for(TodoFile file : uploadList) {
                 files.get(file.getFileOrder())
                     .transferTo(new File(folderPath + file.getFileRename()));
+               
             }
+			
+			return result; 
+			
 		} else {
 			return 0; 
 		}
+			
 		
-		if (inputTodo.getInChargeEmp() != null && !inputTodo.getInChargeEmp().isEmpty()) {
-            mapper.todoManagerUpdate(inputTodo);
-        }
-	
-		return result; 
 	}
+
+
+	// 할 일 삭제 
+	@Override
+	public int todoDelete(List<Integer> todoNos) {
+		
+		log.info("todoNos :::: " + todoNos.toString());
+		
+		  try {
+	            // 순서대로 각 테이블에서 데이터 삭제
+	            mapper.deleteTodoFiles(todoNos);
+	            mapper.deleteTodoManager(todoNos);
+	            return mapper.deleteTodos(todoNos);
+	            
+	        } catch (Exception e) {
+	            // 예외 메시지와 스택 트레이스를 로그에 출력
+	            System.err.println("Error deleting todos: " + e.getMessage());
+	            e.printStackTrace();
+	            return 0;
+	        }
+	}
+
+
+
+
+	
 
 
 	

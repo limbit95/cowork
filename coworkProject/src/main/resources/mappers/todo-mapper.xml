@@ -88,21 +88,64 @@
 	<update id="todoUpdate">
 		UPDATE "TODO"
 		SET 
-		TODO_TITLE = #{todoTitle}
-		TODO_CONTENT = #{todoContent}
+		TODO_TITLE = #{todoTitle},
+		TODO_CONTENT = #{todoContent},
 		TODO_END_DATE = #{todoEndDate}
 		WHERE TODO_NO = #{todoNo}
 	</update>
 	
 	<!-- 담당자 수정 -->
-	<update id="todoManagerUpdate">
-	        UPDATE "TODO_MANAGER" 
-	        SET EMP_CODE =(
-	        	SELECT EMP_CODE
-	        	FROM Employee
-	        	WHERE CONCAT(EMP_LAST_NAME, EMP_FIRST_NAME) = #{inChargeEmp} )
-	        WHERE TODO_NO = #{todoNo} 
+	  <update id="todoManagerUpdate">
+        UPDATE "TODO_MANAGER" 
+        SET EMP_CODE =(
+        	SELECT EMP_CODE
+        	FROM Employee
+        	WHERE CONCAT(EMP_LAST_NAME, EMP_FIRST_NAME) = #{inChargeEmp} )
+        WHERE TODO_NO = #{todoNo} 
 	</update>
+	
+	<delete id="deleteTodos" parameterType="java.util.List">
+    DELETE FROM TODO
+    WHERE TODO_NO IN
+    <foreach item="todoId" index="index" collection="todoIds" open="(" separator="," close=")">
+        #{todoId}
+    </foreach>
+</delete>
+
+<delete id="deleteTodoManager" parameterType="java.util.List">
+    DELETE FROM TODO_MANAGER
+    WHERE TODO_NO IN
+    <foreach item="todoId" index="index" collection="todoIds" open="(" separator="," close=")">
+        #{todoId}
+    </foreach>
+</delete>
+
+<delete id="deleteTodoFiles" parameterType="java.util.List">
+    DELETE FROM TODO_FILE
+    WHERE TODO_NO IN
+    <foreach item="todoId" index="index" collection="todoIds" open="(" separator="," close=")">
+        #{todoId}
+    </foreach>
+</delete>
+	
+ 	<!--<update id="todoManagerUpdate">
+		UPDATE TODO_MANAGER
+		    SET EMP_CODE = (
+		        CASE 
+		            WHEN #{inChargeEmp} = '' THEN (
+		                SELECT CONCAT(EMP_LAST_NAME, EMP_FIRST_NAME)
+		                FROM Employee
+		                WHERE EMP_CODE = #{empCode}
+		            )
+		            ELSE (
+		                SELECT EMP_CODE
+		                FROM Employee
+		                WHERE CONCAT(EMP_LAST_NAME, EMP_FIRST_NAME) = #{inChargeEmp}
+		            )
+		        END
+		    )
+		    WHERE TODO_NO = #{todoNo};
+	</update>-->
 
 </mapper>
 
