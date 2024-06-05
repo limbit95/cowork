@@ -16,5 +16,11 @@ public interface UserService {
 	 * @return
 	 */
 	int signup(Employee2 inputEmp, String[] empAddress);
+
+	/** 로그인 서비스
+	 * @param inputEmp
+	 * @return
+	 */
+	Employee2 login(Employee2 inputEmp);
 	
 }

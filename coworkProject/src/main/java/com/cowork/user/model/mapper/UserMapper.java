@@ -19,6 +19,15 @@ public interface UserMapper {
 	 */
 	int signup(Employee2 inputEmp);
 
-	
+	/** 로그인 서비스
+	 * @param empId
+	 * @return
+	 */
+	Employee2 login(String empId);
+
+	/** 회사명, 도메인 등록되어 있는지 확인
+	 * @return
+	 */
+	int domainExist();
 	
 }
