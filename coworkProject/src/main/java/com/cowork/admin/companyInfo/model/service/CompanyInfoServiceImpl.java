@@ -73,4 +73,26 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 		}
 		return result;
 	}
+
+	/** 회사 정보 수정
+	 * @return result
+	 */
+	@Override
+	public int companyInfoUpdate(Company inputCompany, String[] comAddr) {
+		
+		// JS 에서 주소 입력 안하면 안 넘어오게 막아놓음
+		String address = String.join("^^^", comAddr);
+		inputCompany.setComAddr(address);
+		
+		// 정보 update mapper 호출
+		return mapper.companyInfoUpdate(inputCompany);
+	}
+
+	/** 회사 정보 조회
+	 * @return myCompany
+	 */
+	@Override
+	public Company selectCompany(int comNo) {
+		return mapper.selectCompany(comNo);
+	}
 }

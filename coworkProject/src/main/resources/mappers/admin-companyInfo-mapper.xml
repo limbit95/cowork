@@ -8,5 +8,20 @@
 		COM_LOGO = #{comLogo}
 		WHERE COM_NO = #{comNo}
 	</update>
+	
+	<!-- 회사 정보 수정 -->
+	<update id="companyInfoUpdate">
+		UPDATE "COMPANY" SET
+		COM_NM = #{comNm},
+		COM_TEL = #{comTel},
+		COM_ADDR = #{comAddr}
+		WHERE COM_NO = #{comNo}
+	</update>
 
+	<!-- 회사 정보 조회 -->
+	<select id="selectCompany">
+		SELECT COM_NO, COM_NM, COM_TEL, COM_ADDR, COM_LOGO
+		FROM COMPANY
+		WHERE COM_NO = #{comNo}
+	</select>
 </mapper>

@@ -101,3 +101,72 @@ companyLogoUpdate.addEventListener("submit", e => {
         alert("이미지 변경 후 클릭하세요.")
     }
 });
+
+// 회사 정보 수정
+// 회사명, 전화번호, 우편번호, 주소, 상세 주소 NULL 일 수 없음
+// 처음 로그인 시 myCompany 에 정보를 넣어둔 다음에 화면에 보여줄 거
+// -> session loginFilter 필요함
+// 유효성 검사는 제출 시 빈문자열 안됨, 전화번호는 숫자만 입력 가능
+// 상세주소만 수정되게 -> 모두 빈 문자열 안됨
+
+// 회사 정보 수정 form 얻어오기
+const companyInfoUpdateForm = document.querySelector("#companyInfoUpdateForm");
+
+// form 제출 시
+companyInfoUpdateForm.addEventListener("submit", e => {
+
+    // 수정된 정보에 관한 요소 얻어오기
+    const inputCompanyName = document.querySelector(".inputCompanyName");
+    const inputCompanyTel = document.querySelector(".inputCompanyTel");
+    const comAddr = document.querySelectorAll("[name='comAddr']");
+
+    // 회사명
+    if(inputCompanyName.value.trim().length === 0) {
+        alert("회사명을 입력해주세요.");
+        inputCompanyName.focus();
+        e.preventDefault();
+        return;
+    }
+
+    // 전화번호 숫자만 입력 가능
+    let regExp = /^\d*$/;
+
+    if(!regExp.test(inputCompanyTel.value)) {
+        alert("전화번호는 숫자만 입력 가능합니다.");
+        inputCompanyTel.focus();
+        e.preventDefault();
+        return;
+    }
+
+    if(inputCompanyTel.value.trim().length < 9) {
+        alert("전화번호를 정확하게 입력해주세요.");
+        inputCompanyTel.focus();
+        e.preventDefault();
+        return;
+    }
+
+    // 주소 유효성 검사
+    // addr 에 true 나 false 값이 들어올 거임
+    const addr0 = comAddr[0].value.trim().length == 0;
+    const addr1 = comAddr[1].value.trim().length == 0;
+    const addr2 = comAddr[2].value.trim().length == 0;
+
+    if(addr2) {
+        alert("상세 주소를 입력해주세요.");
+        comAddr[2].focus();
+        e.preventDefault();
+        return;
+    }
+
+    // 모두 true 인 경우만 true 저장
+    const result = addr0 && addr1 && addr2; // 아무것도 입력 안한 경우
+
+    if(result) {
+        alert("주소를 입력해주세요.");
+        const postcode = document.querySelector("#postcode");
+        postcode.focus();
+        e.preventDefault();
+        return;
+    }
+
+});

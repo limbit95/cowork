@@ -50,34 +50,38 @@
 
 		<!-- 회사 정보 수정 -->
 		<!-- 상대 경로 작성 -->
-		<!-- admin/companyInfo/companyUpdate -->
-		<form action="companyUpdate" class="companyInfoUpdate">
+		<!-- admin/companyInfo/companyInfoUpdate -->
+		<form action="companyInfoUpdate" method="POST" class="companyInfoUpdate" id="companyInfoUpdateForm">
 			<div class="companyContainer">
 				<div>회사명</div>
-				<input type="text" class="inputCompanyName">
+				<input type="text" class="inputCompanyName" name="comNm" th:value="${session.myCompany.comNm}">
 			</div>
 			<div class="companyContainer">
 				<div>전화번호</div>
-				<input type="text" class="inputCompanyTel">
+				<input type="text" class="inputCompanyTel" placeholder="'-' 를 빼고 입력해주세요" name="comTel" th:value="${session.myCompany.comTel}">
 			</div>
-			
-			<label for="memberAddress"></label>
 
 			<div class="companyContainer">
 				<div>우편번호</div>
-				<input type="text" name="memberAddress" placeholder="우편번호" maxlength="6"  id="postcode" readonly>                       
+				<input type="text" name="comAddr"
+				placeholder="우편번호" maxlength="6" 
+				id="postcode" readonly th:value="${comPostCode}">                       
 				
 				<button type="button" id="searchAddress">검색</button>
 			</div>
 	
 			<div class="companyContainer">
 				<div>주소</div>
-				<input type="text" name="memberAddress" placeholder="도로명/지번 주소" id="address" readonly>
+				<input type="text" name="comAddr" 
+				placeholder="도로명/지번 주소" id="address" 
+				readonly th:value="${comAddress}">
 			</div>
 	
 			<div class="companyContainer">
 				<div>상세 주소</div>
-				<input type="text" name="memberAddress" placeholder="상세 주소" id="detailAddress">
+				<input type="text" name="comAddr" 
+				placeholder="상세 주소" id="detailAddress" 
+				th:value="${comDetailAddress}">
 			</div>
 			<div id="btnContainerInCompanyInfo">
 				<button class="default-btn glucose-btn saveBtn">저장</button>

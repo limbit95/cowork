@@ -65,12 +65,14 @@
 	width: 90%;
 	border-radius: 5px;
 	border: 1px solid var(--main6-color);
+	padding-left: 10px;
 }
 
 #postcode {
 	width: 75%;
 	border-radius: 5px;
 	border: 1px solid var(--main6-color);
+	padding-left: 10px;
 }
 
 #searchAddress {
@@ -80,6 +82,7 @@
     color: white;
     border: 2px solid var(--main6-color);
 	border-radius: 5px;
+	padding-left: 10px;
 }
 
 #searchAddress:hover {
@@ -89,8 +92,8 @@
     color: var(--main6-color);
     border: 2px solid var(--main6-color);
 	border-radius: 5px;
+	padding-left: 10px;
 }
-
 
 /* 회사 정보 수정 버튼 */
 #btnContainerInCompanyInfo {
