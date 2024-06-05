@@ -76,7 +76,7 @@
 }
 */
 .todo{
-    width: 980px;
+    width: 1000px;
     display: flex;
     align-items: center;
     border: 1px solid #D9D9D9;
@@ -88,12 +88,11 @@
 }
 .todo div:nth-of-type(2){
     margin-left: 10px;
-    width: 77%;
+    width: 86%;
 }
-.todo div:nth-of-type(3){
+/*.todo div:nth-of-type(3){
     margin-left: 100px;
-    width: 100px;
-}
+}*/
 
 
 /* ! select ! */
@@ -104,20 +103,46 @@ ul{
 
 .select{
     position: relative;
-    padding: 5px 10px;
-    width: 40px !important;
-    border-radius: 20px;
+    border-radius: 15px;
     border: 1px solid #d9d9d9;
-    background-repeat: no-repeat;
-    background-position: center;
     cursor: pointer;
+    user-select: none;
+    text-align: center;
+}
+
+.selected {
+    border-radius: 10px;
+    text-align: center;
+    width: 50px !important;
+    margin: 0 !important;
+    padding: 8px;
 }
 
 .optionList {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
+    background-color: #fff;
     display: none;
+    z-index: 1;
+    overflow: hidden;
 }
 
-.select ul {
+.optionItem {
+    padding: 5px 10px;
+    text-align: center;
+    cursor: pointer;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.optionItem:hover {
+    background-color: #f1f1f1;
+}
+
+/*.select ul {
     position: absolute;
     width: 100%;
     cursor: pointer;
@@ -132,7 +157,7 @@ ul{
 
 .selected{
     font-size: 12px;
-}
+} */
 
 
 /* ---------------- 할 일 등록 ---------------- */
@@ -198,18 +223,18 @@ ul{
 .todoDetailArea div:nth-of-type(7), 
 .todoDetailArea div:nth-of-type(9),
 .todoInsertArea div:nth-of-type(6), 
-.todoInsertArea div:nth-of-type(7), 
+.todoInsertArea div:nth-of-type(7) 
 .todoInsertArea div:nth-of-type(9) {
     margin-left: 20px !important;
     align-items: center;
     margin-bottom: 0 !important;
 }
 
-.todoDetailArea div:nth-of-type(9), .todoInsertArea div:nth-of-type(9) {
+/*.todoDetailArea div:nth-of-type(9), .todoInsertArea div:nth-of-type(9) {
     border: 1px solid #d9d9d9;
     min-height: 140px;
     padding: 10px;
-}
+}*/
 
 .todoDetailArea div div:nth-of-type(1), .todoInsertArea div div:nth-of-type(1) {
     width: 80px;
@@ -262,32 +287,51 @@ input[type="date"]:hover {
 }
 
 /* 파일 리스트 보여주는 영역 */
-
-/*
-.fileList {
+.fileList, .detailFileList {
     list-style-type: none;
     width: 240px;
     height: 140px !important;
     border: 1px solid #ccc;
-}*/
+    overflow-y: auto; /* 스크롤바 추가 */
+}
+.fileList {
+    width: 250px;
+}
 
-.fileList li {
+.fileList ul, .detailFileList ul {
+    padding: 0;
+    margin: 0;
+}
+
+.fileList li, .detailFileList li {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 5px;
-    border-bottom: 1px solid #D9D9D9;
 }
 
-.fileList li:last-child{
-    border-bottom: none;
+.fileList button, .detailFileList button {
+    background-color: #82A6CB;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 3px 6px;
+    margin-left: 10px;
 }
+
+.fileList button:hover, .detailFileList button:hover {
+    background-color: #d9d9d9;
+}
+
+.show {
+    display: block !important;
+}
+
 
 /* 첨부파일 div */
 #fileArea {
     align-items: center;
 }
-
 
 
 

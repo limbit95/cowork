@@ -84,6 +84,19 @@
 	    t.TODO_NO = #{todoNo}
 	</select>  
 	
+	<!-- 파일 조회 -->
+	<select id="todoFiles">
+	SELECT 
+		FILE_NO,
+		FILE_PATH,
+		FILE_ORIGIN_NAME,
+		FILE_RENAME,
+		FILE_UPLOAD_DATE,
+		FILE_ORDER
+	FROM "TODO_FILE"	
+	WHERE TODO_NO = #{todoNo}	
+	</select>
+	
 	<!-- 할 일 수정 -->
 	<update id="todoUpdate">
 		UPDATE "TODO"
@@ -104,29 +117,39 @@
         WHERE TODO_NO = #{todoNo} 
 	</update>
 	
+	<!-- 할 일 완료 여부 수정 -->
+	<update id="updateTodoComplete" parameterType="map">
+	    UPDATE "TODO"
+	    SET TODO_COMPLETE = #{todoComplete}
+	    WHERE TODO_NO = #{todoNo}
+	</update>
+	
+	<!-- 할 일 삭제 -->
 	<delete id="deleteTodos" parameterType="java.util.List">
-    DELETE FROM TODO
-    WHERE TODO_NO IN
-    <foreach item="todoId" index="index" collection="todoIds" open="(" separator="," close=")">
-        #{todoId}
-    </foreach>
-</delete>
+	    DELETE FROM TODO
+	    WHERE TODO_NO IN
+	    <foreach item="todoId" index="index" collection="todoIds" open="(" separator="," close=")">
+	        #{todoId}
+	    </foreach>
+	</delete>
 
-<delete id="deleteTodoManager" parameterType="java.util.List">
-    DELETE FROM TODO_MANAGER
-    WHERE TODO_NO IN
-    <foreach item="todoId" index="index" collection="todoIds" open="(" separator="," close=")">
-        #{todoId}
-    </foreach>
-</delete>
-
-<delete id="deleteTodoFiles" parameterType="java.util.List">
-    DELETE FROM TODO_FILE
-    WHERE TODO_NO IN
-    <foreach item="todoId" index="index" collection="todoIds" open="(" separator="," close=")">
-        #{todoId}
-    </foreach>
-</delete>
+	<!-- 담당자 삭제 -->
+	<delete id="deleteTodoManager" parameterType="java.util.List">
+	    DELETE FROM TODO_MANAGER
+	    WHERE TODO_NO IN
+	    <foreach item="todoId" index="index" collection="todoIds" open="(" separator="," close=")">
+	        #{todoId}
+	    </foreach>
+	</delete>
+	
+	<!-- 파일 삭제 -->
+	<delete id="deleteTodoFiles" parameterType="java.util.List">
+	    DELETE FROM TODO_FILE
+	    WHERE TODO_NO IN
+	    <foreach item="todoId" index="index" collection="todoIds" open="(" separator="," close=")">
+	        #{todoId}
+	    </foreach>
+	</delete>
 	
  	<!--<update id="todoManagerUpdate">
 		UPDATE TODO_MANAGER

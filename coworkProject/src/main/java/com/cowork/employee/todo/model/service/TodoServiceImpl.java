@@ -51,12 +51,28 @@ public class TodoServiceImpl implements TodoService{
 	@Override
 	public int todoInsert(Todo inputTodo, List<MultipartFile> files) throws IllegalStateException, IOException {
 		
-		int todoNo = inputTodo.getTodoNo(); 
+		
 		int result = mapper.todoInsert(inputTodo); 
 		
-		if(result == 0) return 0; 
+		if(result == 0) {
+			
+			log.error("todo등록 실패!!");
+			return 0; 
+		}
 		
+		log.info("투두 등록 완료 : " + result);
+	    log.info("투두 등록 완 번호!! : " + inputTodo.getTodoNo());
+		
+	    int todoNo = inputTodo.getTodoNo(); 
+	    
 		result =  mapper.insertTodoManager(inputTodo);
+		
+		if(result == 0) {
+			log.error("투두 담당자 등록 실패!!");
+			return 0;
+		}
+		
+		log.info("투두 담당자 등록 완료 : " + result);
 		
 		List<TodoFile> uploadList = new ArrayList<>();
 		
@@ -78,9 +94,12 @@ public class TodoServiceImpl implements TodoService{
 		}
 		
 		if(uploadList.isEmpty()) {
+			
+			log.info("등록된 파일 없음!! : " + result);
 			return result; 
 		}
 		
+		log.info("등록할 파일리스트 : " + uploadList.size());
 		result = mapper.insertUploadList(uploadList);
 		
 		if(result == uploadList.size()) {
@@ -89,7 +108,11 @@ public class TodoServiceImpl implements TodoService{
                     .transferTo(new File(folderPath + file.getFileRename()));
             }
 			
+			log.info("투두 파일들 등록 완료!!");
+			
 		} else {
+			
+			log.error("파일 등록 실패.. : " + uploadList.size() + ", !! 얻은 결과 !! : " + result);
 			return 0; 
 		}
 		
@@ -168,17 +191,35 @@ public class TodoServiceImpl implements TodoService{
 		log.info("todoNos :::: " + todoNos.toString());
 		
 		  try {
-	            // 순서대로 각 테이블에서 데이터 삭제
+	            // 순서대로 삭제
 	            mapper.deleteTodoFiles(todoNos);
 	            mapper.deleteTodoManager(todoNos);
 	            return mapper.deleteTodos(todoNos);
 	            
 	        } catch (Exception e) {
-	            // 예외 메시지와 스택 트레이스를 로그에 출력
 	            System.err.println("Error deleting todos: " + e.getMessage());
+	            
 	            e.printStackTrace();
 	            return 0;
 	        }
+	}
+
+
+	// 파일 조회 
+	@Override
+	public List<TodoFile> todoFiles(int todoNo) {
+		
+		return mapper.todoFiles(todoNo);
+	}
+
+
+	// 할 일 완료 여부 변경 
+	@Override
+	public boolean updateTodoComplete(int todoNo, String todoComplete) {
+		
+		int result = mapper.updateTodoComplete(todoNo, todoComplete);
+		
+		return result > 0;
 	}
 
 

@@ -63,13 +63,11 @@
                                         th:attr="data-todo-id=${todo.todoNo}"></div>
                             <div class="todoTitle" th:text="${todo.todoTitle}"
                                     th:attr="data-todo-id=${todo.todoNo}">할 일 제목</div>
-                            <div class="select">
-                                <div class="selected"></div>
-
+                            <div class="select" th:attr="data-todo-id=${todo.todoNo}">
+                                <div class="selected">진행중</div>
                                 <ul class="optionList">
-                                    <li class="optionItem" id="ongoing">시작하기</li>
-                                    <li class="optionItem" id="ongoing">진행중</li>
-                                    <li class="optionItem" id="complete">완료</li>
+                                    <li class="optionItem" data-value="1">진행중</li>
+                                    <li class="optionItem" data-value="2">완료</li>
                                 </ul>
                             </div>
                         </div>
@@ -111,19 +109,15 @@
                             <div class="detailContent">
                                 <textarea id="requestContent" name="todoContent"></textarea>
                             </div>
-                           <div>
-                                <div class="detailTitle" id="fileArea">첨부파일</div>
+                            <div>
+                                <div class="detailTitle" id="detailFileArea">첨부파일</div>
                                 <div class="fileBox">
-                                    <input type="file" id="uploadFile" multiple name="files" style="display: none;">
-                                    <label for="uploadFile" class="uploadFileLabel">내 PC</label>
+                                    <input type="file" id="detailUploadFile" multiple name="files" style="display: none;">
+                                    <label for="detailUploadFile" class="uploadFileLabel">내 PC</label>
                                 </div>
                             </div>
-                            <div class="fileList">
-                                <ul id="fileList">
-                                    <li>
-                                        <a>파일 이름</a>
-                                    </li>
-                                </ul>
+                            <div class="detailFileList">
+                                <ul id="detailFileList"></ul>
                             </div>
                         </div>
                     </form>
@@ -161,7 +155,19 @@
                             <div class="detailContent">
                                 <textarea id="requestContent" name="todoContent"></textarea>
                             </div>
-                           <div>
+                            <div>
+                                <div class="detailTitle" id="fileArea">첨부파일</div>
+                                <div class="fileBox">
+                                    <input type="file" id="uploadFile" multiple name="files" style="display: none;">
+                                    <label for="uploadFile" class="uploadFileLabel">내 PC</label>
+                                </div>
+                            </div>
+                            <div class="fileList">
+                                <ul id="fileList"></ul>
+                            </div>
+                            
+
+                           <!--<div>
                                 <div class="detailTitle" id="fileArea">첨부파일</div>
                                 <div class="fileBox">
                                     <input type="file" id="uploadFile" multiple name="files" style="display: none;">
@@ -174,7 +180,7 @@
                                         <a >파일 이름</a>
                                     </li>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                     </form>
                     

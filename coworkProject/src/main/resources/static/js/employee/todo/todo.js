@@ -1,4 +1,61 @@
 document.addEventListener("DOMContentLoaded", function() {
+
+    /* todo 진행 상태 */
+    const selects = document.querySelectorAll('.select');
+
+    selects.forEach(select => {
+        const selected = select.querySelector('.selected');
+        const optionList = select.querySelector('.optionList');
+        const optionItems = optionList.querySelectorAll('.optionItem');
+        const todoId = select.getAttribute('data-todo-id');
+
+        select.addEventListener('click', function(event) {
+            optionList.style.display = optionList.style.display === 'block' ? 'none' : 'block';
+            event.stopPropagation(); // 이벤트 전파 중지
+        });
+
+        optionItems.forEach(function(optionItem) {
+            optionItem.addEventListener('click', function() {
+                selected.textContent = this.textContent;
+                selected.setAttribute('data-value', this.getAttribute('data-value'));
+                // 선택된 값 서버로 전송
+                updateTodoComplete(todoId, this.getAttribute('data-value'));
+                optionList.style.display = 'none';
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!select.contains(event.target)) {
+                optionList.style.display = 'none';
+            }
+        });
+    });
+
+    function updateTodoComplete(todoId, todoCompleteValue) {
+        fetch('/todo/updateTodoComplete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                todoNo: todoId,
+                todoComplete: todoCompleteValue
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
     const insertBtn = document.getElementById("insertBtn");
     const todoDetailArea = document.getElementById('todoDetailArea');
     const todoInsertArea = document.getElementById('todoInsertArea');
@@ -17,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // 모든 .todo 요소의 스타일 변경
             todos.forEach(function(todo) {
-                todo.style.width = "660px";
+                todo.style.width = "680px";
 
                 todo.querySelectorAll("div:nth-of-type(1)").forEach(function(element) {
                     element.style.marginLeft = "20px";
@@ -26,13 +83,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 todo.querySelectorAll("div:nth-of-type(2)").forEach(function(element) {
                     element.style.marginLeft = "10px";
-                    element.style.width = "77%";
+                    element.style.width = "80%";
                 });
 
-                todo.querySelectorAll("div:nth-of-type(3)").forEach(function(element) {
-                    element.style.marginLeft = "30px";
-                    element.style.width = "100px";
-                });
             });
         } else {
             todoInsertArea.classList.remove('show');
@@ -40,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // 모든 .todo 요소의 스타일 복구
             todos.forEach(function(todo) {
-                todo.style.width = "980px";
+                todo.style.width = "1000px";
 
 
                 todo.querySelectorAll("div:nth-of-type(1)").forEach(function(element) {
@@ -50,16 +103,48 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 todo.querySelectorAll("div:nth-of-type(2)").forEach(function(element) {
                     element.style.marginLeft = "10px";
-                    element.style.width = "77%";
+                    element.style.width = "86%";
                 });
 
-                todo.querySelectorAll("div:nth-of-type(3)").forEach(function(element) {
-                    element.style.marginLeft = "100px";
-                    element.style.width = "100px";
-                });
             });
         }
     });
+
+    /* 첨부파일 시작 */
+    document.querySelector('.uploadFileLabel').addEventListener('click', function() {
+        console.log('Label clicked');
+        document.getElementById('uploadFile').click();
+    });
+    
+    document.getElementById('uploadFile').addEventListener('change', function(event) {
+        console.log('File input changed');
+        const fileList = document.getElementById('fileList');
+        const files = Array.from(event.target.files);
+    
+        console.log('Selected files:', files);
+    
+        files.forEach(file => {
+            const li = document.createElement('li');
+            const fileName = document.createElement('span');
+            const removeButton = document.createElement('button');
+    
+            fileName.textContent = file.name;
+            removeButton.textContent = 'x';
+            removeButton.style.marginLeft = '10px';
+    
+            console.log('Appending elements for file:', file.name);
+            li.appendChild(fileName);
+            li.appendChild(removeButton);
+            fileList.appendChild(li);
+    
+            removeButton.addEventListener('click', function() {
+                console.log('Remove button clicked for:', file.name);
+                fileList.removeChild(li);
+            });
+        });
+    });
+    /* 첨부파일 끝 */
+    
 
     const todoNoInput = document.getElementById('todoNo');
 
@@ -78,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 .catch(error => console.error('Error:', error));
 
                 todos.forEach(function(todo) {
-                    todo.style.width = "660px";
+                    todo.style.width = "680px";
     
                     todo.querySelectorAll("div:nth-of-type(1)").forEach(function(element) {
                         element.style.marginLeft = "20px";
@@ -87,13 +172,9 @@ document.addEventListener("DOMContentLoaded", function() {
     
                     todo.querySelectorAll("div:nth-of-type(2)").forEach(function(element) {
                         element.style.marginLeft = "10px";
-                        element.style.width = "77%";
+                        element.style.width = "80%";
                     });
     
-                    todo.querySelectorAll("div:nth-of-type(3)").forEach(function(element) {
-                        element.style.marginLeft = "30px";
-                        element.style.width = "100px";
-                    });
                 });
         });
     });
@@ -112,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // 모든 .todo 요소의 스타일 복구
             todos.forEach(function(todo) {
-                todo.style.width = "980px";
+                todo.style.width = "1000px";
 
 
                 todo.querySelectorAll("div:nth-of-type(1)").forEach(function(element) {
@@ -122,12 +203,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 todo.querySelectorAll("div:nth-of-type(2)").forEach(function(element) {
                     element.style.marginLeft = "10px";
-                    element.style.width = "77%";
-                });
-
-                todo.querySelectorAll("div:nth-of-type(3)").forEach(function(element) {
-                    element.style.marginLeft = "100px";
-                    element.style.width = "100px";
+                    element.style.width = "86%";
                 });
             });
         });
@@ -230,15 +306,16 @@ function showTodoDetail(todo) {
             requestContentField.value = todo.todoContent || '';
         }
 
-        var fileListElement = document.getElementById('fileList');
+        var fileListElement = document.getElementById('detailFileList');
         if (fileListElement) {
             fileListElement.innerHTML = ''; 
             if (todo.fileList && todo.fileList.length > 0) {
                 todo.fileList.forEach(function(file) {
                     var li = document.createElement('li');
                     var a = document.createElement('a');
-                    a.href = file.url;
-                    a.textContent = file.name;
+                    a.href = "/files/" + file.fileRename; // 파일 경로 설정
+                    a.textContent = file.fileOriginName; // 파일 이름 설정
+                    a.setAttribute('download', file.fileOriginName); // 파일 다운로드 속성 추가
                     li.appendChild(a);
                     fileListElement.appendChild(li);
                 });
@@ -278,8 +355,5 @@ selectAllCheckbox.addEventListener("change", function() {
         checkbox.checked = isChecked;
     });
 });
-
-
-
 
 

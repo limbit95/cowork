@@ -7,11 +7,13 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.employee.todo.model.dto.Todo;
+import com.cowork.employee.todo.model.dto.TodoFile;
 
 public interface TodoService {
 
 
 	/** todo 목록 조회 
+	 * @param empCode 
 	 * @return
 	 */
 	List<Todo> selectTodoList();
@@ -41,6 +43,19 @@ public interface TodoService {
 	 * @return
 	 */
 	int todoDelete(List<Integer> todoNoList);
+
+	/** 파일 조회 
+	 * @param todoNo
+	 * @return
+	 */
+	List<TodoFile> todoFiles(int todoNo);
+
+	/** 할 일 완료 여부 수정 
+	 * @param todoNo
+	 * @param todoComplete
+	 * @return
+	 */
+	boolean updateTodoComplete(int todoNo, String todoComplete);
 
 
 
