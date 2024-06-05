@@ -46,7 +46,8 @@ public class TodoServiceImpl implements TodoService{
 		
 	}
 
-
+	
+	// 할 일 등록 
 	@Override
 	public int todoInsert(Todo inputTodo, List<MultipartFile> files) throws IllegalStateException, IOException {
 		
@@ -100,10 +101,65 @@ public class TodoServiceImpl implements TodoService{
 
 
 	// 할 일 상세 조회 
-	/*	@Override
-	public Todo todoDetail(int todoNo) {
+	@Override
+	public Todo todoDetail(Map<String, Integer> map) {
 		
-		return mapper.todoDetail(todoNo);
-	} */
+		return mapper.todoDetail(map);
+	}
+
+
+	// 할 일 수정 
+	@Override
+	public int todoUpdate(Todo inputTodo, List<MultipartFile> files) throws IllegalStateException, IOException {
+		
+		int todoNo = inputTodo.getTodoNo(); 
+		
+		int result = mapper.todoUpdate(inputTodo); 
+		
+		if(result == 0) return 0; 
+		
+		List<TodoFile> uploadList = new ArrayList<>();
+		
+		for(int i=0; i<files.size(); i++) {
+			if(!files.get(i).isEmpty()) {
+				String originalName = files.get(i).getOriginalFilename(); 
+				String rename = Utility.fileRename(originalName); 
+				TodoFile todoFile = TodoFile.builder()
+									.fileOriginName(originalName)
+									.fileRename(rename)
+									.filePath(webPath)
+									.todoNo(todoNo)
+									.fileOrder(i)
+									.uploadFile(files.get(i))
+									.build(); 
+									
+				uploadList.add(todoFile); 
+			}
+		}
+		
+		if(uploadList.isEmpty()) {
+			return result; 
+		}
+		
+		result = mapper.insertUploadList(uploadList);
+		
+		if(result == uploadList.size()) {
+			for(TodoFile file : uploadList) {
+                files.get(file.getFileOrder())
+                    .transferTo(new File(folderPath + file.getFileRename()));
+            }
+		} else {
+			return 0; 
+		}
+		
+		if (inputTodo.getInChargeEmp() != null && !inputTodo.getInChargeEmp().isEmpty()) {
+            mapper.todoManagerUpdate(inputTodo);
+        }
+	
+		return result; 
+	}
+
+
+	
 
 }

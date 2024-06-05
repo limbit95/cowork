@@ -18,7 +18,7 @@ body {
 /* 왼쪽 네비바 조그만 거 */
 #leftSideBarMini{
 	/*width: 5vw;*/
-	width: 3vw; /*240531 PEB*/
+	width: 60px; /*0605 yoon*/
 	height: 100vh;
 	position: fixed;
 	z-index: 10;
@@ -45,7 +45,7 @@ body {
 
 
 #leftSideBar{
-	width: 15vw;
+	width: 300px; /*0605 yoon*/
 	height: 100vh;
 	position: fixed;
 	display: flex;
