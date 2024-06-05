@@ -278,7 +278,6 @@ function getChattingRooms(empCode){
 			let subscribeAddr = room.subscribeAddr;
 			
 			newDiv.addEventListener('click', function(){
-				
 				// 클릭하면 채팅창이 보여지고, 그 안에 전에 나눴던 대화들이 표시되어야 함. 
 				// 클릭하면, fetch 로 서버에 roomId 를 넘겨준다. 
 				// 서버에서 해당 roomId 에 해당하는 메세지들을 CHAT_MESSAGE 테이블에서 조회한다. 
@@ -303,18 +302,34 @@ function getChattingRooms(empCode){
 					headers: {
 						'Content-Type': 'application/json'
 					},
-					body: JSON.stringify({'roomId': roomId2})
+					body: JSON.stringify({'roomNo': roomNo2})
 				})
 				.then(response => {return response.json();})
 				.then(messageList => {					
 					
 					// 일단, 상단바에 "말풍선" + "채팅방의 제목" 이 있어야 함. 
-					let topAreaInChattingsContainer = document.querySelector('#topAreaInChattingsContainer'); 
+					let topAreaInChattingsContainer = document.querySelector('#topAreaInChattingsContainer');
+
+					// 일단, 기존에 만약에 존재한다면 그걸 다지워줌 
+					topAreaInChattingsContainer.innerHTML = '';
+					
+					/* 말풍선 */
+					let newChatBalloon = document.createElement('i');
+					newChatBalloon.classList.add('fa-regular', 'fa-comment');
+					newChatBalloon.style.marginRight = '3px';
+					newChatBalloon.style.fontSize = '20px';
+					newChatBalloon.style.color = '#F1B8B8';
+					topAreaInChattingsContainer.appendChild(newChatBalloon);
+					
+					/*채팅방의 제목*/
+					let roomName = document.createTextNode(room.roomName);
+					topAreaInChattingsContainer.appendChild(roomName);
+					
 					
 					
 					
 					// 채팅창을 띄워줘야 함
-					chat.style.display = 'block';
+					chattingsArea.style.display = 'block';
 					/* 지웠던 곳 시작  */
 					let count = messageList.length;
 						messageList.forEach(message => {
@@ -461,15 +476,14 @@ function sendMessage() {
 	// 이렇게 꺼냈던거 같은데 경로 같은거 
     var file = fileInput.files[0];
 	        
-	
-    if (messageContent && stompClient) { // 메세지 내용도 뭐가 입력되 있고, stompClient 라는 프로토콜도 준비되어 있다면 ~ 
+    if (messageContent  &&  stompClient) { // 메세지 내용도 뭐가 입력되 있고, stompClient 라는 프로토콜도 준비되어 있다면 ~ 
         var chatMessage = {
-			sender: memberNo, // 실제 사용자 이름으로 변경해야 함
-			senderNick: memberNickname,                    
+			sender: empCode, // 실제 사용자 이름으로 변경해야 함
+			senderNick: empNickname,                    
 			content: messageContent,
             type: 'CHAT',
 			subAddr: subscribeAddr,
-			'roomId' : roomIdOriginal
+			'roomNo' : roomIdOriginal
         };
         stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
         document.getElementById('message').value = '';

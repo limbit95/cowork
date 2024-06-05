@@ -55,7 +55,7 @@ public String makeChat(List<String> empCodeList, String empCode) {
 	String empNickname = chatMapper.EmpNicknameDetail(invitedEmpNo);
 	log.debug("empNickname == {}", empNickname);
 	
-	String roomName = empNickname + "외 " + (size+1) + "명";
+	String roomName = empNickname + "외 " + (size) + "명";
 	
 	// CHAT_ROOM 테이블에 행을 삽입. 이때, PK 값 가져와야 함. 
 	ChatRoom chatRoom = new ChatRoom();

@@ -2,6 +2,7 @@ package com.cowork.employee.todo.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.cowork.employee.todo.model.dto.Todo;
 import com.cowork.employee.todo.model.dto.TodoFile;
 import com.cowork.employee.todo.model.service.TodoService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,22 +46,41 @@ public class TodoController {
 		return "employee/todo/todoList"; 
 	}
 	
+
 	/** 할 일 상세 조회 
 	 * @param todoNo
 	 * @param model
 	 * @return
 	 */
-	/*@GetMapping("detail/{todoNo}")
-    public String todoDetail(@PathVariable int todoNo, Model model) {
-        Todo todo = service.todoDetail(todoNo);
-        log.info("todo 상세 정보 :: " + todo.toString());
-        model.addAttribute("todoDetail", todo);
-        return "employee/todo/todoDetail";
+	@ResponseBody
+	@GetMapping("{todoNo:[0-9]+}")
+    public Todo todoDetail(@PathVariable("todoNo") int todoNo,
+    						Model model) {	
+		
+		Map<String, Integer> map = new HashMap<>(); 
+		
+		map.put("todoNo", todoNo); 
+		
+		Todo todo = service.todoDetail(map); 
+		
+		model.addAttribute("todo", todo); 
+		
+		log.info("todo 상세 : " + todo); 
+		
+		return todo; 
     }
-	 */
-	
+
 	
 
+	/** 할 일 등록하기 
+	 * @param files
+	 * @param model
+	 * @param inputTodo
+	 * @param ra
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
 	@PostMapping("insert")
 	public String todoInsert(@RequestParam("files") List<MultipartFile> files, 
 								Model model, 
@@ -85,5 +104,42 @@ public class TodoController {
 		
 		return "redirect:/todo/todoList"; 
 	} 
+	
+	/** 할 일 수정 
+	 * @param files
+	 * @param model
+	 * @param inputTodo
+	 * @param ra
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
+	@PostMapping("update/{todoNo:[0-9]+}")
+	public String todoUpdate(@RequestParam("files") List<MultipartFile> files, 
+							@PathVariable("todoNo") int todoNo,
+							Model model,
+							Todo inputTodo, 
+							RedirectAttributes ra) throws IllegalStateException, IOException {
+		
+		log.info("todoNo ::: " + todoNo);
+
+
+		int result = service.todoUpdate(inputTodo, files); 
+		
+		model.addAttribute("todo", inputTodo); 
+		
+		String message; 
+		
+		if(result > 0) {
+			message = "수정 완료"; 
+		} else {
+			message = "수정 실패"; 
+		}
+		
+		ra.addFlashAttribute("message", message); 
+		
+		
+		return "redirect:/todo/todoList"; 
+	}
 
 }
