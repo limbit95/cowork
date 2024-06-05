@@ -49,4 +49,56 @@
 		AND EMP_ID = #{empId}
 	</select>
 	
+	<!-- 기업 등록 안한 관리자 로그인 -->
+	<select id="adminLogin">
+		SELECT EMP_NO, EMP_ID, EMP_PW, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_ADDRESS, 
+		EMP_BIRTH, HIRE_DATE, CONTRACT_TYPE, EMP_TEL, WORK_PLACE, EMP_EMAIL, PROFILE_IMG, GENERAL_MANAGER, 
+		COM_NM
+		FROM EMPLOYEE
+		JOIN COMPANY USING(COM_NO)
+		WHERE EMP_DEL_FL = 'N'
+		AND EMP_ID = #{empId}
+	</select>
+	
+	<!-- 사용자 유형 확인 -->
+	<select id="selectUserType" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE
+		WHERE EMP_ID = #{empId}
+		AND EMP_DEL_FL = 'N'
+		AND GENERAL_MANAGER = 1
+	</select>
+
+	<!-- 회사명, 도메인 등록 여부 확인 -->
+	<select id="domainExist" resultType="_int">
+		SELECT COUNT(*)
+		FROM COMPANY
+		JOIN EMPLOYEE USING(COM_NO)
+		WHERE EMP_ID = #{empId}
+		AND EMP_DEL_FL = 'N'
+	</select>
+	
+	<!-- 도메인 중복 검사 -->
+	<select id="checkDomain" resultType="_int">
+		SELECT COUNT(*)
+		FROM COMPANY
+		WHERE DOMAIN = #{inputDomain}
+	</select>
+	
+	<!-- 기업 정보 등록 -->
+	<insert id="registCompanyInfo">
+		INSERT INTO COMPANY VALUES(
+			SEQ_COMPANY.NEXTVAL,
+			#{comNm},
+			#{comTel},
+			#{licenseNo},
+			#{ceoNm},
+			#{comAddr},
+			#{comLogo},
+			#{licenseImg},
+			#{comEmail},
+			#{domain}
+		)
+	</insert>
+	
 </mapper>

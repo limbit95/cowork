@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cowork.admin.companyInfo.model.dto.Company;
 import com.cowork.user.model.dto.Employee2;
 import com.cowork.user.model.mapper.UserMapper;
 
@@ -63,14 +64,22 @@ public class UserServiceImpl implements UserService {
 	// 로그인 서비스
 	@Override
 	public Employee2 login(Employee2 inputEmp) {
-		Employee2 loginEmp = null;
+
+		Employee2 loginEmp = new Employee2();
 		
-		int domainExist = mapper.domainExist();
+		int userType = mapper.selectUserType(inputEmp);
 		
-		if(domainExist == 0) {
-			loginEmp.setComNm("null");
-			return loginEmp;
-		}
+		// 관리자용 로그인
+		if(userType == 1) {
+			int domainExist = mapper.domainExist(inputEmp);
+			
+			if(domainExist == 0) {
+				loginEmp.setComNm("없음");
+				return loginEmp;
+			} 
+
+			return loginEmp = mapper.adminLogin(inputEmp.getEmpId());
+		} 
 		
 		// 아이디가 일치하면서 탈퇴하지 않은 회원 조회
 		loginEmp = mapper.login(inputEmp.getEmpId());
@@ -84,11 +93,32 @@ public class UserServiceImpl implements UserService {
 		if( !bcrypt.matches(inputEmp.getEmpPw(), loginEmp.getEmpPw()) ) {
 			return null;
 		} 
-
+		
 		// 로그인 결과에서 비밀번호 제거
 		loginEmp.setEmpPw(null);
+		
 
 		return loginEmp;
+	}
+
+	// 도메인 중복 검사
+	@Override
+	public int checkDomain(String inputDomain) {
+		return mapper.checkDomain(inputDomain);
+	}
+
+	// 기업 정보 등록
+	@Override
+	public int registCompanyInfo(Company inputCompany, String[] comAddr) {
+		if(!inputCompany.getComAddr().equals(",,")) {
+			String address = String.join("^^^", comAddr);
+			
+			inputCompany.setComAddr(address);
+		} else { 
+			inputCompany.setComAddr(null); 
+		}
+		
+		return mapper.registCompanyInfo(inputCompany);
 	}
 
 }

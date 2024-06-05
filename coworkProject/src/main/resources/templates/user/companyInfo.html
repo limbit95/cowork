@@ -16,28 +16,40 @@
         <main>
             <section class="formArea">
                 <span id="companyInfoLetter">기업 정보 등록</span>
-                <div class="inputInfo">
-                    <input placeholder="회사명">
-                    <input placeholder="회사 대표 번호">
-                    <input placeholder="이메일">
-                    <input placeholder="사용할 도메인(영어만 입력 가능)">
-                </div>
-                <div class="inputAddr">
-                    <div id="postcodeArea">
-                        <input placeholder="우편번호" id="postcode" readonly>
-                        <button id="searchBtn">찾기</button>
+                <form action="/user/companyInfo" method="post" id="companyInfoForm">
+
+                    <div class="inputInfo">
+                        <input placeholder="* 회사명" autocomplete="off" id="comNm" name="comNm" maxlength="40">
+                        <input placeholder="회사 대표 번호" autocomplete="off" id="comTel" name="comTel">
+                        <input placeholder="이메일" autocomplete="off" id="comEmail" name="comEmail">
+                        <input placeholder="* 사용할 도메인" autocomplete="off" id="domain" name="domain">
+                        <span id="domainMessage">영어 대·소문자 4~30글자</span>
                     </div>
-                        <input placeholder="도로명/지번" readonly>
-                        <input placeholder="상세주소">
-                </div>     
-                <div id="registrationNumArea">
-                    <input placeholder="사업자 등록 번호" id="registrationNum"> 
-                    <button id="authBtn">인증</button>
-                </div>
-                <button id="registerBtn">등록</button>
+                    <div class="inputAddr">
+                        <div id="postcodeArea">
+                            <input placeholder="우편번호" id="postcode" readonly name="comAddr">
+                            <button type="button" id="searchBtn">찾기</button>
+                        </div>
+                            <input placeholder="도로명/지번" readonly id="address" name="comAddr">
+                            <input placeholder="상세주소" autocomplete="off" id="detailAddress" name="comAddr">
+                    </div>     
+                    <div id="registrationNumArea">
+                        <input placeholder="사업자 등록 번호" id="registrationNum" autocomplete="off" name="licenseNo"> 
+                        <button type="button" id="authBtn">인증</button>
+                    </div>
+
+                    <input  th:value="${session.loginEmp.empId}">
+                    
+                    <div class="submitBtnDiv">
+                        <button id="registerBtn">등록</button>
+                    </div>
+                </form>
             </section>
         </main>
 
+        <!-- 다음 주소 API -->
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script src="/js/user/companyInfo.js"></script>
         <th:block th:replace="~{common/footer}"></th:block>
     </body>
 </html>
