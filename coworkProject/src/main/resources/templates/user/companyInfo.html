@@ -38,7 +38,7 @@
                         <button type="button" id="authBtn">인증</button>
                     </div>
 
-                    <input  th:value="${session.loginEmp.empId}">
+                    <input hidden th:value="${session.loginEmp.empCode}" name="empCode">
                     
                     <div class="submitBtnDiv">
                         <button id="registerBtn">등록</button>

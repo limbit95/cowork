@@ -111,10 +111,11 @@ public class UserController {
 	@PostMapping("companyInfo")
 	public String companyInfo(Company inputCompany,
 			 				  @RequestParam("comAddr") String[] comAddr,
+			 				  @RequestParam("empCode") int empCode,
 							  RedirectAttributes ra,
  							  Model model) {
 		
-		int result = service.registCompanyInfo(inputCompany, comAddr);
+		int result = service.registCompanyInfo(inputCompany, comAddr, empCode);
 		
 		String message = null;
 		String path = null;

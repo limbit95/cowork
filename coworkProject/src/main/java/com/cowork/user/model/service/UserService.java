@@ -33,8 +33,9 @@ public interface UserService {
 	/** 기업 정보 등록
 	 * @param inputCompany
 	 * @param comAddr 
+	 * @param empCode 
 	 * @return
 	 */
-	int registCompanyInfo(Company inputCompany, String[] comAddr);
+	int registCompanyInfo(Company inputCompany, String[] comAddr, int empCode);
 	
 }

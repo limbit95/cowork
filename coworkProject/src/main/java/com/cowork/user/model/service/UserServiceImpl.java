@@ -1,5 +1,8 @@
 package com.cowork.user.model.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -72,6 +75,7 @@ public class UserServiceImpl implements UserService {
 		// 관리자용 로그인
 		if(userType == 1) {
 			int domainExist = mapper.domainExist(inputEmp);
+			loginEmp = mapper.tempEmp(inputEmp.getEmpId());
 			
 			if(domainExist == 0) {
 				loginEmp.setComNm("없음");
@@ -109,7 +113,7 @@ public class UserServiceImpl implements UserService {
 
 	// 기업 정보 등록
 	@Override
-	public int registCompanyInfo(Company inputCompany, String[] comAddr) {
+	public int registCompanyInfo(Company inputCompany, String[] comAddr, int empCode) {
 		if(!inputCompany.getComAddr().equals(",,")) {
 			String address = String.join("^^^", comAddr);
 			
@@ -118,7 +122,19 @@ public class UserServiceImpl implements UserService {
 			inputCompany.setComAddr(null); 
 		}
 		
-		return mapper.registCompanyInfo(inputCompany);
+		int result = mapper.registCompanyInfo(inputCompany);
+		
+		if(result == 0) {
+			return 0;
+		} 
+
+		int comNo = mapper.selectCompany(inputCompany.getDomain());
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("comNo", comNo);
+		map.put("empCode", empCode);
+		
+		return mapper.registAdminCompany(map);
 	}
 
 }
