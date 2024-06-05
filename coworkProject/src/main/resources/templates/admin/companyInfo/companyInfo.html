@@ -54,11 +54,43 @@
 		<form action="companyInfoUpdate" method="POST" class="companyInfoUpdate" id="companyInfoUpdateForm">
 			<div class="companyContainer">
 				<div>회사명</div>
-				<input type="text" class="inputCompanyName" name="comNm" th:value="${session.myCompany.comNm}">
+				<input type="text" class="inputCompanyName" 
+				name="comNm" th:value="${session.myCompany.comNm}">
 			</div>
 			<div class="companyContainer">
 				<div>전화번호</div>
-				<input type="text" class="inputCompanyTel" placeholder="'-' 를 빼고 입력해주세요" name="comTel" th:value="${session.myCompany.comTel}">
+				<input type="text" class="inputCompanyTel" 
+				placeholder="'-' 를 빼고 입력해주세요" name="comTel" 
+				th:value="${session.myCompany.comTel}">
+			</div>
+			<!-- 이메일 인증 -->
+			<div class="companyContainer">
+				<div>이메일</div>
+				<input type="text" name="comEmail" class="comEmail"
+				placeholder="이메일 입력" maxlength="30" autocomplete="off"
+				th:value="${session.myCompany.comEmail}">
+
+				<button type="button" id="comEmailBtn">인증하기</button>
+			</div>
+
+			<!-- 이메일 관련 메세지 -->
+			<div class="companyContainer emailMessageDiv div-hidden">
+				<span id="emailMessage">메일을 받을 수 있는 이메일을 입력해주세요.</span>
+			</div>
+			
+			<!-- 인증번호 입력할 부분 -->
+			<div class="companyContainer">
+				<div>인증 번호</div>
+				<input type="text" name="comAuthKey" class="authKey"
+				placeholder="인증번호 입력" maxlength="6" autocomplete="off">
+
+				<button type="button" id="comEmailAuthBtn">인증하기</button>
+			</div>
+
+			<!-- 인증 시간 및 인증번호 일치 여부 보여줄 곳 -->
+			<div class="companyContainer authKeyMessageDiv  div-hidden">
+				<!-- 인증번호 일치 여부 보여줄 곳 -->
+				<span id="authKeyMessage"></span>
 			</div>
 
 			<div class="companyContainer">

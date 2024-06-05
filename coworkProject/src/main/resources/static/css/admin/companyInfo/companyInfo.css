@@ -68,14 +68,14 @@
 	padding-left: 10px;
 }
 
-#postcode {
+#postcode, .comEmail, .authKey {
 	width: 75%;
 	border-radius: 5px;
 	border: 1px solid var(--main6-color);
 	padding-left: 10px;
 }
 
-#searchAddress {
+#searchAddress, #comEmailAuthBtn, #comEmailBtn {
 	width: 15%;
 	margin-left: 10px;
 	background: var(--main6-color);
@@ -85,7 +85,7 @@
 	padding-left: 10px;
 }
 
-#searchAddress:hover {
+#searchAddress:hover, #comEmailAuthBtn:hover, #comEmailBtn:hover {
 	width: 15%;
 	margin-left: 10px;
     background: white;
@@ -107,3 +107,12 @@
 	margin-left: 5px;
 	width: 30%;
 }
+
+/* hidden */
+.div-hidden {
+	display: none !important;
+}
+
+/* 메세지 색상 지정 */
+.confirm{ color : var(--main-color); }
+.error{ color : coral; }
