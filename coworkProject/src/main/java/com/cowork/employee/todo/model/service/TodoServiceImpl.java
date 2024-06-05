@@ -51,11 +51,12 @@ public class TodoServiceImpl implements TodoService{
 	@Override
 	public int todoInsert(Todo inputTodo, List<MultipartFile> files) throws IllegalStateException, IOException {
 		
+		int todoNo = inputTodo.getTodoNo(); 
 		int result = mapper.todoInsert(inputTodo); 
 		
 		if(result == 0) return 0; 
 		
-		int todoNo = inputTodo.getTodoNo(); 
+		result =  mapper.insertTodoManager(inputTodo);
 		
 		List<TodoFile> uploadList = new ArrayList<>();
 		
@@ -87,14 +88,11 @@ public class TodoServiceImpl implements TodoService{
                 files.get(file.getFileOrder())
                     .transferTo(new File(folderPath + file.getFileRename()));
             }
+			
 		} else {
 			return 0; 
 		}
 		
-		if (inputTodo.getInChargeEmp() != null && !inputTodo.getInChargeEmp().isEmpty()) {
-            mapper.insertTodoManager(inputTodo);
-        }
-	
 		return result; 
 		
 	}

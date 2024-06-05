@@ -32,8 +32,9 @@ public interface TodoMapper {
 
 	/** 담당자 지정시 등록 
 	 * @param inputTodo
+	 * @return 
 	 */
-	void insertTodoManager(Todo inputTodo);
+	int insertTodoManager(Todo inputTodo);
 
 	/** 할 일 상세 조회 
 	 * @param map
