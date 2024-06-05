@@ -40,26 +40,6 @@ if(agreeBtn != null) {
     })
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // ***** 회원 가입 유효성 검사 *****
 
 // 필수 입력 항목의 유효성 검사 여부를 체크하기 위한 객체
@@ -389,10 +369,21 @@ const checkPw = () => {
     checkObj.empPwConfirm = false;
 }
 
+// Capslock 여부 검사
+const checkCapsLock = (event) => {
+    if (event.getModifierState("CapsLock")) {
+        document.getElementById("pwMessage").innerText = "Caps Lock이 켜져 있습니다."
+        document.getElementById("pwMessage").classList.add("error");
+        document.getElementById("pwMessage").classList.remove("confirm");
+    }else {
+        document.getElementById("pwMessage").innerText = "영어,숫자,특수문자( !@#$%^&*() ) 포함 8~16글자 사이로 입력해주세요."
+        document.getElementById("pwMessage").classList.remove("confirm", "error");
+    }
+}
 
 // 2) 비밀번호 유효성 검사
 empPw.addEventListener("input", e => {
-
+    checkCapsLock(e);
     // 입력받은 비밀번호 값
     const inputPw = e.target.value;
 
@@ -445,8 +436,6 @@ empPwConfirm.addEventListener("input", e => {
 
 
 // ================================================================================================
-{/* <input placeholder="이름 *" id="empFirstName">
-                    <input placeholder="성 *" id="empLastName"></input> */}
 // 이름, 성 유효성 검사
 const empFirstName = document.querySelector("#empFirstName");
 const empLastName = document.querySelector("#empLastName");
@@ -515,15 +504,20 @@ phone.addEventListener("input", e => {
     console.log(checkObj);
 });
 
-
 // ================================================================================================
+const signUpForm = document.getElementById("signUpForm"); 
+
+signUpForm.addEventListener("submit", e => {
+    e.preventDefault();
+    // Your code here
+});
 
 // 회원 가입 버튼 클릭 시 전체 유효성 검사 여부 확인
-
 const signUpBtn = document.querySelector("#signUpBtn");
 
 // 회원 가입 폼 제출 시
-signUpBtn.addEventListener("submit", e => {
+signUpForm.addEventListener("submit", e => {
+    console.log('test')
     // checkObj의 저장된 값(value) 중 
     // 하나라도 false가 있으면 제출 X
 

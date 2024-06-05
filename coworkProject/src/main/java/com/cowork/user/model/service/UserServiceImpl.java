@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 		return mapper.checkId(empId);
 	}
 
-	// 
+	// 회원가입 서비스
 	@Override
 	public int signup(Employee2 inputEmp, String[] empAddress) {
 		// 주소가 입력되지 않으면
@@ -58,6 +58,37 @@ public class UserServiceImpl implements UserService {
 		
 		// 회원 가입 mapper 메서드 호출
 		return mapper.signup(inputEmp);
+	}
+
+	// 로그인 서비스
+	@Override
+	public Employee2 login(Employee2 inputEmp) {
+		Employee2 loginEmp = null;
+		
+		int domainExist = mapper.domainExist();
+		
+		if(domainExist == 0) {
+			loginEmp.setComNm("null");
+			return loginEmp;
+		}
+		
+		// 아이디가 일치하면서 탈퇴하지 않은 회원 조회
+		loginEmp = mapper.login(inputEmp.getEmpId());
+		
+		// 일치하는 아이디가 없어서 조회 결과가 null 인 경우
+		if(loginEmp == null) {
+			return null;
+		} 
+		
+		// 일치하지 않으면
+		if( !bcrypt.matches(inputEmp.getEmpPw(), loginEmp.getEmpPw()) ) {
+			return null;
+		} 
+
+		// 로그인 결과에서 비밀번호 제거
+		loginEmp.setEmpPw(null);
+
+		return loginEmp;
 	}
 
 }

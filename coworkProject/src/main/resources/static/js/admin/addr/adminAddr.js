@@ -88,17 +88,23 @@ document.querySelectorAll('.li-hover').forEach(item => {
         const groupNameChange = document.getElementById('groupNameChange');
         const deleteGroup = document.getElementById('deleteGroup');
 
-        if(!targetLi.classList.contains('company')){
-            addDeptgroup.style.display = 'none'; 
-            addTeamgroup.style.display = 'block'; 
-            groupNameChange.style.display = 'block'; 
-            deleteGroup.style.display = 'block';  
-        } else {
-        // if(targetLi.classList.contains('company')){
+        if(targetLi.classList.contains('company')){
             addDeptgroup.style.display = 'block'; 
             addTeamgroup.style.display = 'none';
             groupNameChange.style.display = 'none'; 
             deleteGroup.style.display = 'none';
+        }
+        if(targetLi.classList.contains('department')){
+            addDeptgroup.style.display = 'none'; 
+            addTeamgroup.style.display = 'block'; 
+            groupNameChange.style.display = 'block'; 
+            deleteGroup.style.display = 'block';  
+        }
+        if(targetLi.classList.contains('team')){
+            addDeptgroup.style.display = 'none'; 
+            addTeamgroup.style.display = 'none'; 
+            groupNameChange.style.display = 'block'; 
+            deleteGroup.style.display = 'block';  
         }
 
         addDeptgroup.onclick = () => {
@@ -118,6 +124,18 @@ document.querySelectorAll('.li-hover').forEach(item => {
                             <span>New Department</span>
                         </div>
                     </div>
+                    
+                    <ul>
+                        <li class="team">
+                            <div class="li-hover">
+                                <i class="fa-solid fa-angle-down"></i>
+                                <div>
+                                    <i class="fa-solid fa-people-group"></i>
+                                    <span>New Team</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 `;
                 subUl.appendChild(newLi);
                 newLi.querySelector('.fa-angle-down').addEventListener('click', function(event) {
@@ -133,12 +151,26 @@ document.querySelectorAll('.li-hover').forEach(item => {
                     contextMenu.style.display = 'block';
                     contextMenu.style.left = `${event.pageX}px`;
                     contextMenu.style.top = `${event.pageY}px`;
+                    
+                    addDeptgroup.style.display = 'none'; 
+                    addTeamgroup.style.display = 'block'; 
+                    groupNameChange.style.display = 'block'; 
+                    deleteGroup.style.display = 'block'; 
+                });
+                newLi.querySelector('.team').addEventListener('contextmenu', function(event) {
+                    event.preventDefault();
+                    targetLi = this.closest('li');
+                    const contextMenu = document.getElementById('contextMenu');
+                    contextMenu.style.display = 'block';
+                    contextMenu.style.left = `${event.pageX}px`;
+                    contextMenu.style.top = `${event.pageY}px`;
+                    
+                    addDeptgroup.style.display = 'none'; 
+                    addTeamgroup.style.display = 'none'; 
+                    groupNameChange.style.display = 'block'; 
+                    deleteGroup.style.display = 'block'; 
                 });
             }
-            addDeptgroup.style.display = 'none'; 
-            addTeamgroup.style.display = 'block'; 
-            groupNameChange.style.display = 'block'; 
-            deleteGroup.style.display = 'block'; 
             contextMenu.style.display = 'none';
         };
 
@@ -174,11 +206,12 @@ document.querySelectorAll('.li-hover').forEach(item => {
                     contextMenu.style.display = 'block';
                     contextMenu.style.left = `${event.pageX}px`;
                     contextMenu.style.top = `${event.pageY}px`;
+                    
+                    addDeptgroup.style.display = 'none'; 
+                    addTeamgroup.style.display = 'none'; 
+                    groupNameChange.style.display = 'block'; 
+                    deleteGroup.style.display = 'block'; 
                 });
-
-                // 여기서 부서 추가 메뉴를 숨깁니다.
-                // const addDeptgroup = document.getElementById('addDeptgroup');
-                addDeptgroup.style.display = 'none';
             }
             contextMenu.style.display = 'none';
         };
