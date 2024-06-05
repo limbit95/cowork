@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.cowork.employee.todo.model.dto.Todo;
 import com.cowork.employee.todo.model.dto.TodoFile;
 import com.cowork.employee.todo.model.service.TodoService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -114,12 +118,13 @@ public class TodoController {
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 */
-	@PostMapping("update/{todoNo:[0-9]+}")
+	@PostMapping("update")
 	public String todoUpdate(@RequestParam("files") List<MultipartFile> files, 
-							@PathVariable("todoNo") int todoNo,
 							Model model,
 							Todo inputTodo, 
 							RedirectAttributes ra) throws IllegalStateException, IOException {
+		
+		int todoNo = inputTodo.getTodoNo(); 
 		
 		log.info("todoNo ::: " + todoNo);
 
@@ -141,5 +146,28 @@ public class TodoController {
 		
 		return "redirect:/todo/todoList"; 
 	}
+	
+	
+	 @PostMapping("delete")
+	    public ResponseEntity<Map<String, Object>> todoDelete(@RequestBody Map<String, List<Integer>> payload) {
+		 
+	        List<Integer> todoNos = payload.get("todoNos");
+	        int result = service.todoDelete(todoNos);
+	        
+	        log.info("todoNos :: " + todoNos.toString());
+
+	        Map<String, Object> response = new HashMap<>();
+	        if (result > 0) {
+	            response.put("success", true);
+	            response.put("message", "삭제 되었습니다.");
+	        } else {
+	            response.put("success", false);
+	            response.put("message", "삭제 실패");
+	        }
+
+	        return ResponseEntity.ok(response);
+	    }
+	    
+	
 
 }
