@@ -51,7 +51,7 @@
 .companyContainer {
 	width: 100%;
 	display: flex;
-	margin-bottom: 35px;
+	margin-top: 35px;
 }
 
 .companyContainer > div:nth-child(1) {
@@ -111,6 +111,16 @@
 /* hidden */
 .div-hidden {
 	display: none !important;
+}
+
+/* 메세지 태그 */
+.mailDiv {
+	width: 100%;
+	height: 0;
+}
+
+#emailMessage, #authKeyMessage {
+	padding-left: 10%;
 }
 
 /* 메세지 색상 지정 */

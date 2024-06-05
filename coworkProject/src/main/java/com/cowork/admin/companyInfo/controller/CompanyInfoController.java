@@ -55,11 +55,9 @@ public class CompanyInfoController {
 			model.addAttribute("comPostCode", arr[0]);
 			model.addAttribute("comAddress", arr[1]);
 			model.addAttribute("comDetailAddress", arr[2]);
-			
-			log.info("회사 우편 번호 ====== {}",arr[0]);
+
 		}
 
-		log.info("회사 주소 보여주기 == {}", comAddr);
 		return "/admin/companyInfo/companyInfo";
 	}
 	
@@ -75,8 +73,6 @@ public class CompanyInfoController {
 		// session scope 에 myCompany 실어주기 myCompany 에서 comLogo 꺼내오기
 		// myCompany는 Company 사용자 정의 자료형
 		// leftBar에 보여줘야함. 회사 로고 수정 페이지에서도 comLogo 경로 보여줘야함
-		
-		log.info("MyCompany == {}", myCompany.getComNo());
 		
 		int result = service.companyLogoUpdate(comLogo, myCompany);
 		
@@ -103,6 +99,8 @@ public class CompanyInfoController {
 		// myCompany 안에 있는 comNo 를 inputCompany에 넣어줌
 		inputCompany.setComNo(myCompany.getComNo());
 		
+		log.info("회사 이메일 ===== {}", inputCompany.getComEmail());
+		
 		// 회사 정보 수정 서비스 호출
 		int result = service.companyInfoUpdate(inputCompany, comAddr);
 		
@@ -110,6 +108,7 @@ public class CompanyInfoController {
 			ra.addFlashAttribute("message", "회사 정보 수정 성공");
 			myCompany.setComNm(inputCompany.getComNm());
 			myCompany.setComTel(inputCompany.getComTel());
+			myCompany.setComEmail(inputCompany.getComEmail());
 			myCompany.setComAddr(myCompany.getComAddr());
 		} else {
 			ra.addAttribute("message", "회원 정보 수정 실패");
