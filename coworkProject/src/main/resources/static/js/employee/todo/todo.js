@@ -62,6 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
+    /* 제목 클릭 시 */
     todos.forEach(function(todo) {
         todo.querySelector('.todoTitle').addEventListener('click', function() {
             var todoId = this.getAttribute('data-todo-id');
@@ -93,6 +94,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
         });
     });
+
+
+    /* 수정 버튼 클릭 시 */
+
+
    
 });
 

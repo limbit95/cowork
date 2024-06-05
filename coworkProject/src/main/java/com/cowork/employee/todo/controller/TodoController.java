@@ -114,12 +114,14 @@ public class TodoController {
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 */
-	@PostMapping("{todoNo:[0-9]+}/update")
+	@PostMapping("update/{todoNo:[0-9]+}")
 	public String todoUpdate(@RequestParam("files") List<MultipartFile> files, 
 							@PathVariable("todoNo") int todoNo,
 							Model model,
 							Todo inputTodo, 
 							RedirectAttributes ra) throws IllegalStateException, IOException {
+		
+		log.info("todoNo ::: " + todoNo);
 
 
 		int result = service.todoUpdate(inputTodo, files); 
