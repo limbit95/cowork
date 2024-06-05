@@ -1,13 +1,20 @@
 package com.cowork.employee.chatting.model.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cowork.common.utility.Utility;
+import com.cowork.employee.chatting.model.dto.ChatMessage;
 import com.cowork.employee.chatting.model.dto.ChatMessageMe;
 import com.cowork.employee.chatting.model.dto.ChatParticipant;
 import com.cowork.employee.chatting.model.dto.ChatRoom;
@@ -22,7 +29,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@PropertySource("classpath:/config.properties")
 public class ChatServiceImpl implements ChatService{
+	
+	@Value("${chatting.file.web-path}")
+	private String webPath; // 앞에 붙이는 조각
+	
+	@Value("${chatting.file.folder-path}")
+	private String folderPath; //찐 저장소
 	
 	private final ChatMapper chatMapper;
 	/**
@@ -105,6 +119,8 @@ public List<ChatRoom> getChattingRooms(String empCode) {
 	// 그리고 그 채팅방의 마지막 채팅 시각
 	List<ChatRoom> roomList = chatMapper.getChattingRooms(empCode); // memberNo 가 참여한 채팅방들을 가져옴 
 	
+	log.debug("roomList==={}", roomList);
+	
 	// 여기에는 채팅방이 생성된 시각이 들어있지. 
 	// 근데 지금 필요한 건 그 시각이 아니라, 마지막 채팅의 시각이야. 
 	for(ChatRoom chatRoom : roomList) {
@@ -134,7 +150,7 @@ public List<ChatRoom> getChattingRooms(String empCode) {
 }
 
 @Override
-public List<ChatMessageMe> getChatMessage(Map<String, String> paramMap, String empNo) {
+public List<ChatMessageMe> getChatMessage(Map<String, String> paramMap) {
 	
 	// 현재 로그인한 멤버의 해당 채팅방 현재 시각 이전의 메세지들은 읽은거로 처리해야함.
 	String roomNo = paramMap.get("roomNo");
@@ -160,7 +176,53 @@ public List<ChatMessageMe> getChatMessage(Map<String, String> paramMap, String e
 //		String count = chatMapper.findUnreadCount(message.getMessageId());
 //		message.setUnreadCount(count);
 //	}
+	
+	
 	return messageList;
+}
+
+
+
+/**
+ * 메세지 쓰면 그 메세지를 저장하는 역할을 하는 메서드 
+ */
+@Override
+public void insertTextMessage(ChatMessage chatMessage) {
+	//ROOM_ID 필요
+	String roomNo = chatMessage.getRoomNo();
+	String senderEmpCode = chatMessage.getSenderEmpCode();
+	String content = chatMessage.getContent();
+	
+	Map<String, Object> paramMap = new HashMap<>();
+	paramMap.put("roomId", roomNo);
+	paramMap.put("senderId", senderEmpCode);
+	paramMap.put("content", content);
+	paramMap.put("messageType", 1);
+	chatMapper.insertMessage(paramMap);	
+}
+
+@Override
+public String insertFileMessage(ChatMessage chatMessage) throws IllegalStateException, IOException {
+	
+	MultipartFile file = chatMessage.getFile();
+	
+	String updatePath = null; 
+	String rename = null;
+	
+	if(!file.isEmpty()) {
+		rename = Utility.fileRename(file.getOriginalFilename());
+		updatePath = webPath + rename; // 고유키 앞에 조각을 붙임 
+	}
+	
+	chatMessage.setFilePath(updatePath);
+	int result = chatMapper.insertFileMessage(chatMessage);
+	
+	if(result >  0) {
+		if(!file.isEmpty()) {
+			file.transferTo(new File(folderPath + rename));
+		}
+	}
+	return updatePath; 
 }
 	
 	

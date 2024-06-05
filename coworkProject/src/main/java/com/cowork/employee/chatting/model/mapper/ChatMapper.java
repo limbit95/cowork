@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.cowork.employee.chatting.model.dto.ChatMessage;
 import com.cowork.employee.chatting.model.dto.ChatMessageMe;
 import com.cowork.employee.chatting.model.dto.ChatParticipant;
 import com.cowork.employee.chatting.model.dto.ChatRoom;
@@ -32,5 +33,10 @@ public interface ChatMapper {
 
 
 	List<ChatMessageMe> findAllMessageByRoomNo(String roomNo);
+
+	void insertMessage(Map<String, Object> paramMap);
+
+	int insertFileMessage(ChatMessage chatMessage);
+
 
 }
