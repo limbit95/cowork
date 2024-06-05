@@ -107,5 +107,24 @@
 			,#{empCode}
 		)
 	</insert>
+	
+	<!-- 게시판 다중 이미지 등록 -->
+	<insert id="boardFileinsert" parameterType="list">
+		INSERT INTO BOARD_FILE
+		
+		<foreach collection="list" item="file" 
+			open="(" close=")" separator=" UNION ">
+			SELECT
+				 NEXT_BOARD_FILE()
+				,#{file.filePath}
+				,#{file.fileOriginName}
+				,#{file.fileRename}
+				,SYSDATE
+				,#{file.fileOrder}
+				,#{file.boardNo}
+				,#{file.boardNm}
+			FROM DUAL	
+		</foreach>
+	</insert>
 
 </mapper>
