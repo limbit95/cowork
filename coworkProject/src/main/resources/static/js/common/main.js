@@ -53,6 +53,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 */
 
+
+/* 챗봇 */
 document.addEventListener('DOMContentLoaded', function () {
     const inputChat = document.getElementById('inputChat');
     const buttonChat = document.getElementById('buttonChat');
@@ -158,4 +160,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const chatMain = document.getElementById('chatMain');
         chatMain.scrollTop = chatMain.scrollHeight;
     }
+});
+
+
+
+/* 비디오 우클릭 막기 */
+document.getElementById('mainVid').addEventListener('contextmenu', function(e) {
+    e.preventDefault();
 });
