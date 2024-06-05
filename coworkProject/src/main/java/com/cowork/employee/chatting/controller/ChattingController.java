@@ -1,8 +1,13 @@
 package com.cowork.employee.chatting.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,9 +15,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cowork.employee.chatting.model.dto.ChatMessage;
+import com.cowork.employee.chatting.model.dto.ChatMessage.MessageType;
 import com.cowork.employee.chatting.model.dto.ChatMessageMe;
 import com.cowork.employee.chatting.model.dto.ChatRoom;
 import com.cowork.employee.chatting.model.dto.Employee;
@@ -26,16 +35,15 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("chat")
 @RequiredArgsConstructor
 public class ChattingController {
 	
 	private final ChatService chatService;
 	
-	private final SimpMessagingTemplate messagingTemplate;
+	private final SimpMessagingTemplate  messagingTemplate;
 
 	
-	@GetMapping("wowns590")
+	@GetMapping("/chat/wowns590")
 	public String chattingWowns590(HttpServletRequest request) {
 		Employee emp = new Employee();
 		emp.setEmpCode(1);
@@ -48,7 +56,7 @@ public class ChattingController {
 		return "/employee/chatting/chatting";
 	}
 	
-	@GetMapping("wowns5902")
+	@GetMapping("/chat/wowns5902")
 	public String chattingWowns5902(HttpServletRequest request) {
 		Employee emp = new Employee();
 		emp.setEmpCode(2);
@@ -63,7 +71,7 @@ public class ChattingController {
 	
 	
 	/* 이름, 부서, 팀 조회으로 사원조회 */
-    @PostMapping("empList")
+    @PostMapping("/chat/empList")
     @ResponseBody
     public List<Employee> empList(@SessionAttribute("loginMember") Employee loginMember,
     									@RequestBody Map<String, String> paramMap) {
@@ -74,7 +82,7 @@ public class ChattingController {
     }
     
     // 채팅방을 만드는 것 
-    @PostMapping("makeChat")
+    @PostMapping("/chat/makeChat")
     @ResponseBody
     public String makeChat(@RequestBody MakeChat makeChat, Model model) {
     	
@@ -98,7 +106,7 @@ public class ChattingController {
     	return subscribeAddr;
     }
 	
-    @PostMapping("getChattingRooms")
+    @PostMapping("/chat/getChattingRooms")
     @ResponseBody
     public List<ChatRoom> getChattingRooms(@RequestBody Map<String, String> paramMap) {
     	String empCode = paramMap.get("empCode");    	
@@ -111,12 +119,61 @@ public class ChattingController {
     	return roomList;    	
     }
     
-    @PostMapping("getChatMessage")
+    @PostMapping("/chat/getChatMessage")
     @ResponseBody
-    public List<ChatMessageMe> getChatMessage(@RequestBody Map<String, String> paramMap, @SessionAttribute("loginMember") Employee emp) {
-    	List<ChatMessageMe> messageList = chatService.getChatMessage(paramMap, emp.getEmpNo());
+    public List<ChatMessageMe> getChatMessage(@RequestBody Map<String, String> paramMap) {
+    	List<ChatMessageMe> messageList = chatService.getChatMessage(paramMap);
+    	
     	return messageList;
     }
+    
+    
+ // 채팅을 받는 메서드 
+    @MessageMapping("/chat.sendMessage")
+    public void sendMessage(@Payload ChatMessage chatMessage) {
+    	    	
+    	log.debug("컨트롤러까지는 무사히 도착!");
+    	
+    	String senderEmpCode= chatMessage.getSenderEmpCode();
+    	String empNickname = chatMessage.getEmpNickname();
+    	String content = chatMessage.getContent();
+    	MessageType type = chatMessage.getType();
+    	String subscribeAddr = chatMessage.getSubscribeAddr();
+    	String roomNo = chatMessage.getRoomNo(); 
+    	
+    	// 현재 해줘야 할건, CHAT_MESSAGE 테이블에 행을 삽입하는 것.
+    	if(chatMessage.getType() == ChatMessage.MessageType.CHAT) {        	
+        	chatService.insertTextMessage(chatMessage);
+    	} 
+    	// 동적으로 응답해줄 클라이언트의 구독주소가 변경되므로 아래와 같이 한다 
+    	String destination = "/topic/" + chatMessage.getSubscribeAddr();    	
+    	messagingTemplate.convertAndSend(destination, chatMessage);
+    }
+    
+    @PostMapping("/chat/upload")
+    @ResponseBody
+    public void handleFileUpload(@RequestParam("senderEmpCode") String senderEmpCode,
+            @RequestParam("empNickname") String empNickname,
+            @RequestParam("filePath") MultipartFile file,
+            @RequestParam("subscribeAddr") String subscribeAddr,
+            @RequestParam("roomNo") String roomNo
+    		 ) throws IllegalStateException, IOException {
+    		 
+    	ChatMessage chatMessage = new ChatMessage();
+    	chatMessage.setType(ChatMessage.MessageType.FILE);
+    	chatMessage.setSenderEmpCode(senderEmpCode);
+    	chatMessage.setEmpNickname(empNickname);
+    	chatMessage.setSubscribeAddr(subscribeAddr);
+    	chatMessage.setRoomNo(roomNo);
+    	chatMessage.setFile(file);
+    	String updatePath = chatService.insertFileMessage(chatMessage);
+    	chatMessage.setFilePath(updatePath);
+    	// 동적으로 응답해줄 클라이언트의 구독주소가 변경되므로 아래와 같이 한다 
+    	String destination = "/topic/" + chatMessage.getSubscribeAddr();    	
+    	messagingTemplate.convertAndSend(destination, chatMessage);
+    }
+    
+    
     
     
 	
