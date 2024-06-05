@@ -26,18 +26,40 @@ public class CompanyInfoController {
 
 	private final CompanyInfoService service;
 	
+	@GetMapping("company")
+	public String company(Model model) {
+		Company temp = Company.builder()
+				.comNo(1)
+				.build();
+		
+		Company myCompany = service.selectCompany(temp.getComNo());
+		
+		model.addAttribute("myCompany", myCompany);
+		
+		return "redirect:companyInfo";
+	}
+	
 	/** 관리자 회사 정보 메인페이지
 	 * @return companyInfo.html
 	 */
 	@GetMapping("companyInfo")
-	public String companyInfo(Model model) {
-		// session scope 에 회사 정보 실어주기
-		Company myCompany = Company.builder()
-				.comNo(1)
-				.build();
+	public String companyInfo(Model model,
+			@SessionAttribute("myCompany") Company myCompany) {
 		
-		model.addAttribute("myCompany", myCompany);
+		// 기본 정보 보여줘야함
+		String comAddr = myCompany.getComAddr();
 		
+		// 주소가 있을 경우에만 보여주기
+		if(comAddr != null) {
+			String[] arr = comAddr.split("\\^\\^\\^");
+			model.addAttribute("comPostCode", arr[0]);
+			model.addAttribute("comAddress", arr[1]);
+			model.addAttribute("comDetailAddress", arr[2]);
+			
+			log.info("회사 우편 번호 ====== {}",arr[0]);
+		}
+
+		log.info("회사 주소 보여주기 == {}", comAddr);
 		return "/admin/companyInfo/companyInfo";
 	}
 	
@@ -65,7 +87,34 @@ public class CompanyInfoController {
 		
 		ra.addFlashAttribute("message", message);
 		
-		return "redirect:companyInfo";
+		return "redirect:company";
 	}
 	
+	/** 관리자 회사 정보 수정
+	 * @return 
+	 */
+	@PostMapping("companyInfoUpdate")
+	public String companyInfoUpdate(Company inputCompany,
+			@SessionAttribute("myCompany") Company myCompany,
+			@RequestParam("comAddr") String[] comAddr,
+			RedirectAttributes ra) {
+		// 로그인 구현 완료 후 session comNo 꺼내와야하는 거 마찬가지
+		// inputCompany 에 회사명, 회사 번호 들어있음
+		// myCompany 안에 있는 comNo 를 inputCompany에 넣어줌
+		inputCompany.setComNo(myCompany.getComNo());
+		
+		// 회사 정보 수정 서비스 호출
+		int result = service.companyInfoUpdate(inputCompany, comAddr);
+		
+		if(result > 0) {
+			ra.addFlashAttribute("message", "회사 정보 수정 성공");
+			myCompany.setComNm(inputCompany.getComNm());
+			myCompany.setComTel(inputCompany.getComTel());
+			myCompany.setComAddr(myCompany.getComAddr());
+		} else {
+			ra.addAttribute("message", "회원 정보 수정 실패");
+		}
+		
+		return "redirect:company";
+	}
 }

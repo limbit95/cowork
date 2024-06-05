@@ -50,34 +50,70 @@
 
 		<!-- 회사 정보 수정 -->
 		<!-- 상대 경로 작성 -->
-		<!-- admin/companyInfo/companyUpdate -->
-		<form action="companyUpdate" class="companyInfoUpdate">
+		<!-- admin/companyInfo/companyInfoUpdate -->
+		<form action="companyInfoUpdate" method="POST" class="companyInfoUpdate" id="companyInfoUpdateForm">
 			<div class="companyContainer">
 				<div>회사명</div>
-				<input type="text" class="inputCompanyName">
+				<input type="text" class="inputCompanyName" 
+				name="comNm" th:value="${session.myCompany.comNm}">
 			</div>
 			<div class="companyContainer">
 				<div>전화번호</div>
-				<input type="text" class="inputCompanyTel">
+				<input type="text" class="inputCompanyTel" 
+				placeholder="'-' 를 빼고 입력해주세요" name="comTel" 
+				th:value="${session.myCompany.comTel}">
+			</div>
+			<!-- 이메일 인증 -->
+			<div class="companyContainer">
+				<div>이메일</div>
+				<input type="text" name="comEmail" class="comEmail"
+				placeholder="이메일 입력" maxlength="30" autocomplete="off"
+				th:value="${session.myCompany.comEmail}">
+
+				<button type="button" id="comEmailBtn">인증하기</button>
+			</div>
+
+			<!-- 이메일 관련 메세지 -->
+			<div class="companyContainer emailMessageDiv div-hidden">
+				<span id="emailMessage">메일을 받을 수 있는 이메일을 입력해주세요.</span>
 			</div>
 			
-			<label for="memberAddress"></label>
+			<!-- 인증번호 입력할 부분 -->
+			<div class="companyContainer">
+				<div>인증 번호</div>
+				<input type="text" name="comAuthKey" class="authKey"
+				placeholder="인증번호 입력" maxlength="6" autocomplete="off">
+
+				<button type="button" id="comEmailAuthBtn">인증하기</button>
+			</div>
+
+			<!-- 인증 시간 및 인증번호 일치 여부 보여줄 곳 -->
+			<div class="companyContainer authKeyMessageDiv  div-hidden">
+				<!-- 인증번호 일치 여부 보여줄 곳 -->
+				<span id="authKeyMessage"></span>
+			</div>
 
 			<div class="companyContainer">
 				<div>우편번호</div>
-				<input type="text" name="memberAddress" placeholder="우편번호" maxlength="6"  id="postcode" readonly>                       
+				<input type="text" name="comAddr"
+				placeholder="우편번호" maxlength="6" 
+				id="postcode" readonly th:value="${comPostCode}">                       
 				
 				<button type="button" id="searchAddress">검색</button>
 			</div>
 	
 			<div class="companyContainer">
 				<div>주소</div>
-				<input type="text" name="memberAddress" placeholder="도로명/지번 주소" id="address" readonly>
+				<input type="text" name="comAddr" 
+				placeholder="도로명/지번 주소" id="address" 
+				readonly th:value="${comAddress}">
 			</div>
 	
 			<div class="companyContainer">
 				<div>상세 주소</div>
-				<input type="text" name="memberAddress" placeholder="상세 주소" id="detailAddress">
+				<input type="text" name="comAddr" 
+				placeholder="상세 주소" id="detailAddress" 
+				th:value="${comDetailAddress}">
 			</div>
 			<div id="btnContainerInCompanyInfo">
 				<button class="default-btn glucose-btn saveBtn">저장</button>
@@ -92,6 +128,8 @@
 		const companyInfoLogo = /*[[${session.myCompany.comLogo}]]*/ "회사로고이미지";
 	</script>
 
+
+<!-- git 수정 -->
 	<script src="/js/admin/companyInfo/companyInfo.js"></script>
 </body>
 </html>
