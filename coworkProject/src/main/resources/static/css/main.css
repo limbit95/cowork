@@ -166,21 +166,12 @@ video:hover {
 }
 
 /* ------ 메인 배너 영역 ------ */
+
 .mainBanner {
     display: flex;
     margin: 60px 10px;
-    padding: 10px 100px;
-    padding-right: 50px; 
     justify-content: center;
     align-items: center;
-    min-height: 400px;
-    width: 100%;
-    background-image: url('/images/bgImg1.png');
-    background-size: 800px;
-    background-position: right;
-    background-repeat: no-repeat;
-    background-attachment: scroll;
-
 }
 
 .phraseArea {
@@ -274,10 +265,11 @@ video:hover {
 .functionArea section {
     display: flex;
     flex-direction: column;
-    margin-top: 100px;
+    margin-top: 50px;
     width: 100%;
 }
 
+/*
 .functionArea section div {
     margin-bottom: 100px;
     display: flex;
@@ -290,7 +282,7 @@ video:hover {
     width: 360px;
     height: 280px;
 }
-
+*/
 .description {
     flex-direction: column;
     text-align: end;
@@ -325,13 +317,10 @@ video:hover {
 }
 
 /* 전자결재 */
+
 .edsmInsertArea {
     background-color: #f1f1f1;
 }
-
-
-
-
 
 
 /* ----------- 챗봇 영역 ------------ */
