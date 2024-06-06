@@ -13,11 +13,10 @@
     margin: 0;
 }
 
-
-main{
-    min-height: 1200px;
+.container {
     display: flex;
     flex-direction: column;
+    min-height: 100vh; 
 }
 
 pre {
@@ -81,14 +80,9 @@ a {
 /* -------------Footer 영역--------------*/
 
 footer {
-    position: relative;
-    transform: translateY(0%) !important;
-    bottom: 0px;
-}
-
-#footerBorder {
     background-color: #E5F2FE;
     min-width: 1110px;
+    margin: 0 !important;
 }
 
 .footerArea {
@@ -98,7 +92,23 @@ footer {
     align-items: center;
     justify-content: space-between;
 }
+/*
+footer {
+    position: relative;
+    transform: translateY(0%) !important;
+    bottom: 0px;
+    min-width: 1110px;
+}
 
+.footerArea {
+    margin-top: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #E5F2FE;
+    height: 100px;
+}
+*/
 #coworkLogo {
     width: 300px;
 }
@@ -174,51 +184,6 @@ video:hover {
     align-items: center;
 }
 
-.phraseArea {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-#coworkLetter {
-    font-size: 50px;
-    font-family: "Inter", sans-serif;
-    font-weight: bold;
-    color: #426DA7;
-}
-
-#coworkPhrase {
-    width: 700px;
-}
-
-#bannerImg {
-    width: 500px;
-}
-
-.carousel1, .carousel2 {
-    display: flex;
-}
-
-.carousel2 {
-    justify-content: center;
-    align-items: center;
-}
-
-#intranetImage2 {
-    width: 1000px;
-}
-
-#intranetImage2Description {
-    margin-left: 200px;
-    margin-top: 30px;
-}
-
-#intranetImage2Description h1 {
-    color: #214177;
-    font-weight: bold;
-}
-
-
 
 /* ------ 네비바 영역 ------ */
 .mainNav {
@@ -259,30 +224,21 @@ video:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 1200px;
+    justify-content: center;
 }
 
 .functionArea section {
     display: flex;
     flex-direction: column;
     margin-top: 50px;
-    width: 100%;
 }
 
-/*
-.functionArea section div {
-    margin-bottom: 100px;
+.images {
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 40px;
+    justify-content: center;
 }
 
-.functionArea img {
-    width: 360px;
-    height: 280px;
-}
-*/
 .description {
     flex-direction: column;
     text-align: end;
@@ -294,22 +250,6 @@ video:hover {
 }
 
 
-
-/* 배너 영역 */
-.bannerArea {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 100px;
-   /* background-image: url(/images/Frame3.png); */
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 100%;
-    min-width: 700px;
-    height: 480px;
-}
 
 /* section */
 .contentSection {
