@@ -1,4 +1,11 @@
-
+a{
+    text-decoration: none;
+    text-decoration-style: none;
+    color: #000;
+}
+a:hover {
+    color: #fff;
+}
 
 /* 검색 */
 #searchTodo{
@@ -89,6 +96,7 @@
 .todo div:nth-of-type(2){
     margin-left: 10px;
     width: 86%;
+    cursor: pointer;
 }
 /*.todo div:nth-of-type(3){
     margin-left: 100px;
@@ -104,7 +112,6 @@ ul{
 .select{
     position: relative;
     border-radius: 15px;
-    border: 1px solid #d9d9d9;
     cursor: pointer;
     user-select: none;
     text-align: center;
@@ -116,6 +123,14 @@ ul{
     width: 50px !important;
     margin: 0 !important;
     padding: 8px;
+}
+
+.select .selected.in-progress {
+    background-color: #CEEEC3; /* 진행중 색상 */
+}
+
+.select .selected.completed {
+    background-color: #FFE0E6; /* 완료 색상 */
 }
 
 .optionList {

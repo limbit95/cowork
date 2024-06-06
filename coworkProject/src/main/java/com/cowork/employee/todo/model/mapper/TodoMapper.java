@@ -85,6 +85,14 @@ public interface TodoMapper {
 	 */
 	int updateTodoComplete(@Param("todoNo") int todoNo, @Param("todoComplete") String todoComplete);
 
+	List<Todo> todoInCharge(String sortBy);
+
+	List<Todo> todoRequested(String sortBy);
+
+	List<Todo> todoCompleted(String sortBy);
+
+	List<Todo> todoInProgress(String sortBy);
+
 	
 
 	

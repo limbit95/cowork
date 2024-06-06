@@ -223,6 +223,34 @@ public class TodoServiceImpl implements TodoService{
 	}
 
 
+	@Override
+	public List<Todo> getInChargeTodo(String sortBy) {
+		
+		return mapper.todoInCharge(sortBy);
+	}
+
+
+	@Override
+	public List<Todo> getRequestedTodo(String sortBy) {
+		
+		return mapper.todoRequested(sortBy);
+	}
+
+
+	@Override
+	public List<Todo> getCompletedTodo(String sortBy) {
+		
+		return mapper.todoCompleted(sortBy);
+	}
+
+
+	@Override
+	public List<Todo> getInProgressTodo(String sortBy) {
+		
+		return mapper.todoInProgress(sortBy);
+	}
+
+
 
 
 	

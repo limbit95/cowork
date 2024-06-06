@@ -1,16 +1,15 @@
 @font-face {
-    font-family: 'NanumBarunGothic';
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
     font-style: normal;
-    font-weight: 300;
-    src: url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot');
-    src: url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot?#iefix') format('embedded-opentype'), url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.woff') format('woff'), url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.ttf') format('truetype');
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
    
 * {
-    font-family: 'NanumBarunGothic', sans-serif;
+    font-family: 'Pretendard-Regular';
     margin: 0;
 }
 
@@ -176,6 +175,11 @@ video:hover {
     align-items: center;
     min-height: 400px;
     width: 100%;
+    background-image: url('/images/bgImg1.png');
+    background-size: 800px;
+    background-position: right;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
 
 }
 
@@ -183,7 +187,6 @@ video:hover {
     display: flex;
     flex-direction: column;
     width: 100%;
-
 }
 
 #coworkLetter {

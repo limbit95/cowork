@@ -6,7 +6,64 @@
 	<select id="selectTodoList"> 
 	    SELECT * FROM TODO
 	    WHERE EMP_CODE = 1
+	    ORDER BY TODO_WRITE_DATE DESC
 	</select>
+	
+	<select id="todoInCharge">
+		 SELECT T.TODO_NO, T.TODO_TITLE, T.TODO_CONTENT, T.TODO_WRITE_DATE, T.TODO_END_DATE, T.TODO_COMPLETE, T.EMP_CODE
+        FROM TODO T
+        JOIN TODO_MANAGER TM ON T.TODO_NO = TM.TODO_NO
+        WHERE T.EMP_CODE = TM.EMP_CODE
+        <if test="sortBy == 'latest'">
+            ORDER BY T.TODO_WRITE_DATE DESC
+        </if>
+        <if test="sortBy == 'registration'">
+            ORDER BY T.TODO_WRITE_DATE ASC
+        </if>
+	</select>
+	
+	<!-- 요청 부분 수정 필요!! -->
+	<select id="todoRequested"> 
+		SELECT T.TODO_NO, T.TODO_TITLE, T.TODO_CONTENT, T.TODO_WRITE_DATE, T.TODO_END_DATE, T.TODO_COMPLETE, T.EMP_CODE
+	    FROM TODO T
+	    LEFT JOIN TODO_MANAGER TM ON T.TODO_NO = TM.TODO_NO
+	    WHERE T.EMP_CODE = TM.EMP_CODE
+	    OR T.EMP_CODE = #{requestEmpCode}
+	    <if test="sortBy == 'latest'">
+	        ORDER BY T.TODO_WRITE_DATE DESC
+	    </if>
+	    <if test="sortBy == 'registration'">
+	        ORDER BY T.TODO_WRITE_DATE ASC
+	    </if>
+	</select>
+	
+	<select id="todoCompleted">
+		SELECT T.TODO_NO, T.TODO_TITLE, T.TODO_CONTENT, T.TODO_WRITE_DATE, T.TODO_END_DATE, T.TODO_COMPLETE, T.EMP_CODE
+        FROM TODO T
+        WHERE T.TODO_COMPLETE = '2'
+        <if test="sortBy == 'latest'">
+            ORDER BY T.TODO_WRITE_DATE DESC
+        </if>
+        <if test="sortBy == 'registration'">
+            ORDER BY T.TODO_WRITE_DATE ASC
+        </if>
+	</select>
+	
+	<select id="todoInProgress">
+		SELECT T.TODO_NO, T.TODO_TITLE, T.TODO_CONTENT, T.TODO_WRITE_DATE, T.TODO_END_DATE, T.TODO_COMPLETE, T.EMP_CODE
+        FROM TODO T
+        WHERE T.TODO_COMPLETE = '1'
+        <if test="sortBy == 'latest'">
+            ORDER BY T.TODO_WRITE_DATE DESC
+        </if>
+        <if test="sortBy == 'registration'">
+            ORDER BY T.TODO_WRITE_DATE ASC
+        </if>
+	</select>
+	 
+	
+	
+	
 	
 	<!-- 할 일 등록 -->
 	<insert id="todoInsert">

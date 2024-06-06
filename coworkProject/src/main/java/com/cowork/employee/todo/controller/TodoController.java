@@ -55,6 +55,31 @@ public class TodoController {
 		return "employee/todo/todoList"; 
 	}
 	
+	
+	@GetMapping("todos")
+    @ResponseBody
+    public List<Todo> getTodos(@RequestParam(value = "todoComplete", required = false) String todoComplete,
+                               @RequestParam(value = "inCharge", required = false) Boolean inCharge,
+                               @RequestParam(value = "request", required = false) Boolean request,
+                               @RequestParam(value = "sortBy", required = false) String sortBy) {
+        if (inCharge != null && inCharge) {
+        	
+            return service.getInChargeTodo(sortBy);
+            
+        } else if (request != null && request) {
+        	
+            return service.getRequestedTodo(sortBy);
+            
+        } else if (todoComplete != null && "2".equals(todoComplete)) {
+        	
+            return service.getCompletedTodo(sortBy);
+            
+        } else {
+        	
+            return service.getInProgressTodo(sortBy);
+        }
+    }
+	
 
 	/** 할 일 상세 조회 
 	 * @param todoNo
@@ -72,7 +97,7 @@ public class TodoController {
 	    // 할 일 상세 조회
 	    Todo todo = service.todoDetail(map);
 	    
-	    // 첨부파일 목록 조회
+	    // 첨부 파일 목록 조회
 	    List<TodoFile> fileList = service.todoFiles(todoNo);
 	    todo.setFileList(fileList);
 	    
@@ -188,17 +213,27 @@ public class TodoController {
 	        return ResponseEntity.ok(response);
 	    }
 	 	
-	 	 @PostMapping("/updateTodoComplete")
+	 	 /** 할 일 완료 여부 수정 
+	 	 * @param request
+	 	 * @return
+	 	 */
+	 	@PostMapping("/updateTodoComplete")
 	     public ResponseEntity<String> updateTodoComplete(@RequestBody Todo request) {
+	 		
 	         try {
+	        	 
 	             boolean success = service.updateTodoComplete(request.getTodoNo(), request.getTodoComplete());
+	             
 	             if (success) {
+	            	 
 	                 return ResponseEntity.ok("{\"message\": \"Update successful\"}");
+	                 
 	             } else {
+	            	 
 	                 return ResponseEntity.status(500).body("{\"message\": \"Update failed\"}");
 	             }
 	         } catch (Exception e) {
-	             // 예외를 처리하고 상세 메시지를 반환
+	             // 예외 처리, 메시지 반환
 	             e.printStackTrace();
 	             return ResponseEntity.status(500).body("{\"message\": \"Internal Server Error: " + e.getMessage() + "\"}");
 	         }

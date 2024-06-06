@@ -57,6 +57,14 @@ public interface TodoService {
 	 */
 	boolean updateTodoComplete(int todoNo, String todoComplete);
 
+	List<Todo> getInChargeTodo(String sortBy);
+
+	List<Todo> getRequestedTodo(String sortBy);
+
+	List<Todo> getCompletedTodo(String sortBy);
+
+	List<Todo> getInProgressTodo(String sortBy); 
+
 
 
 	
