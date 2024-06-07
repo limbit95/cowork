@@ -1,5 +1,7 @@
 package com.cowork.user.model.mapper;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cowork.admin.companyInfo.model.dto.Company;
@@ -51,5 +53,33 @@ public interface UserMapper {
 	 * @return
 	 */
 	int registCompanyInfo(Company inputCompany);
+
+	/** 
+	 * 기업 정보 등록하지 않은 관리자가 나중에 로그인 후 기업 정보 등록 페이지로 갔을 때
+	 * 그 페이지에서 등록하는 회원을 식별하기 위해 조회해오는 쿼리문
+	 * @param empId
+	 * @return
+	 */
+	Employee2 tempEmp(String empId);
+
+	/** 기업 정보 등록하지 않은 관리자 기업 등록과 동시에
+	 * 관리자 DB EMPLOYEE 테이블 COM_NO 컬럼에 등록한 기업 정보 삽입
+	 * @param map
+	 * @return
+	 */
+	int registAdminCompany(Map<String, Object> map);
+
+	/** 등록한 기업의 식별키 조회
+	 * @param domain
+	 * @return
+	 */
+	int selectCompany(String domain);
+
+	/** 아이디 찾기
+	 * @param map
+	 * @return
+	 */
+	int findId(Map<String, Object> map);
+
 	
 }

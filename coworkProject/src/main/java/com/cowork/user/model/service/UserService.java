@@ -1,5 +1,7 @@
 package com.cowork.user.model.service;
 
+import java.util.Map;
+
 import com.cowork.admin.companyInfo.model.dto.Company;
 import com.cowork.user.model.dto.Employee2;
 
@@ -33,8 +35,15 @@ public interface UserService {
 	/** 기업 정보 등록
 	 * @param inputCompany
 	 * @param comAddr 
+	 * @param empCode 
 	 * @return
 	 */
-	int registCompanyInfo(Company inputCompany, String[] comAddr);
+	int registCompanyInfo(Company inputCompany, String[] comAddr, int empCode);
+
+	/** 아이디 찾기 서비스
+	 * @param map
+	 * @return
+	 */
+	int findId(Map<String, Object> map);
 	
 }

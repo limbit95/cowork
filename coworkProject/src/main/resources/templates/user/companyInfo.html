@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="/css/user/signUp.css"> 
 
         <th:block th:replace="~{common/mainCommon}"></th:block>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
     <body>
         <th:block th:replace="~{common/header}"></th:block>
@@ -34,11 +35,13 @@
                             <input placeholder="상세주소" autocomplete="off" id="detailAddress" name="comAddr">
                     </div>     
                     <div id="registrationNumArea">
-                        <input placeholder="사업자 등록 번호" id="registrationNum" autocomplete="off" name="licenseNo"> 
+                        <input placeholder="사업자 등록 번호" id="registrationNum" autocomplete="off" name="licenseNo" maxlength="10"> 
                         <button type="button" id="authBtn">인증</button>
                     </div>
 
-                    <input  th:value="${session.loginEmp.empId}">
+                    <th:block th:if="${session.loginEmp}">
+                        <input hidden th:value="${session.loginEmp.empCode}" name="empCode">
+                    </th:block>
                     
                     <div class="submitBtnDiv">
                         <button id="registerBtn">등록</button>

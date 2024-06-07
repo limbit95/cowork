@@ -1,5 +1,8 @@
 package com.cowork.user.controller;
 
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.companyInfo.model.dto.Company;
+import com.cowork.email.model.service.EmailService;
 import com.cowork.user.model.dto.Employee2;
 import com.cowork.user.model.service.UserService;
 
@@ -26,6 +30,13 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 
 	private final UserService service;
+	
+	private final EmailService emailService;
+	
+	@Value("${my.public.data.service.key.decode}")
+	private String decodeServiceKey;
+	@Value("${my.public.data.service.key.encode}")
+	private String encodeServiceKey;
 	
 	/** 이용약관 페이지
 	 * @return
@@ -111,10 +122,11 @@ public class UserController {
 	@PostMapping("companyInfo")
 	public String companyInfo(Company inputCompany,
 			 				  @RequestParam("comAddr") String[] comAddr,
+			 				  @RequestParam("empCode") int empCode,
 							  RedirectAttributes ra,
  							  Model model) {
 		
-		int result = service.registCompanyInfo(inputCompany, comAddr);
+		int result = service.registCompanyInfo(inputCompany, comAddr, empCode);
 		
 		String message = null;
 		String path = null;
@@ -130,6 +142,14 @@ public class UserController {
 		ra.addFlashAttribute("message", message);
 		
 		return "redirect:" + path;
+	}
+	
+	// 공공데이터 사업자등록정보 진위확인 및 상태조회 서비스
+	// 서비스키 리턴하기
+	@ResponseBody 
+	@GetMapping("/getServiceKey")
+	public String getServiceKey() {
+		return encodeServiceKey;
 	}
 	
 	/** 로그인 페이지 
@@ -175,6 +195,29 @@ public class UserController {
 	@GetMapping("findId")
 	public String findId() {
 		return "user/findId"; 
+	}
+	
+	@ResponseBody
+	@PostMapping("findId")
+	public int findId(@RequestBody Map<String, Object> map,
+						 RedirectAttributes ra) {
+
+		int result = service.findId(map);
+		
+		String authKey = null;
+		
+		if(result > 0) {
+			String email = (String)map.get("empEmail");
+			authKey = emailService.sendEmail("findId", email);
+		} else {
+			return 0;
+		}
+		
+		if(authKey != null) { 
+			return 1;
+		}
+		
+		return 1; 
 	}
 	
 	/** 비밀번호 찾기 페이지 

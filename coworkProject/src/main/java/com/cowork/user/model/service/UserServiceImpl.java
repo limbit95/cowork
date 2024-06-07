@@ -1,5 +1,8 @@
 package com.cowork.user.model.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -72,13 +75,26 @@ public class UserServiceImpl implements UserService {
 		// 관리자용 로그인
 		if(userType == 1) {
 			int domainExist = mapper.domainExist(inputEmp);
+			loginEmp = mapper.tempEmp(inputEmp.getEmpId());
 			
 			if(domainExist == 0) {
 				loginEmp.setComNm("없음");
 				return loginEmp;
 			} 
+			
+			loginEmp = mapper.adminLogin(inputEmp.getEmpId());
+			
+			// 일치하는 아이디가 없어서 조회 결과가 null 인 경우
+			if(loginEmp == null) {
+				return null;
+			} 
+			
+			// 일치하지 않으면
+			if( !bcrypt.matches(inputEmp.getEmpPw(), loginEmp.getEmpPw()) ) {
+				return null;
+			} 
 
-			return loginEmp = mapper.adminLogin(inputEmp.getEmpId());
+			return loginEmp;
 		} 
 		
 		// 아이디가 일치하면서 탈퇴하지 않은 회원 조회
@@ -109,7 +125,7 @@ public class UserServiceImpl implements UserService {
 
 	// 기업 정보 등록
 	@Override
-	public int registCompanyInfo(Company inputCompany, String[] comAddr) {
+	public int registCompanyInfo(Company inputCompany, String[] comAddr, int empCode) {
 		if(!inputCompany.getComAddr().equals(",,")) {
 			String address = String.join("^^^", comAddr);
 			
@@ -118,7 +134,25 @@ public class UserServiceImpl implements UserService {
 			inputCompany.setComAddr(null); 
 		}
 		
-		return mapper.registCompanyInfo(inputCompany);
+		int result = mapper.registCompanyInfo(inputCompany);
+		
+		if(result == 0) {
+			return 0;
+		} 
+
+		int comNo = mapper.selectCompany(inputCompany.getDomain());
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("comNo", comNo);
+		map.put("empCode", empCode);
+		
+		return mapper.registAdminCompany(map);
+	}
+
+	// 아이디 찾기 서비스
+	@Override
+	public int findId(Map<String, Object> map) {
+		return mapper.findId(map);
 	}
 
 }

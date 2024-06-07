@@ -43,6 +43,8 @@ public class EmailServiceImpl implements EmailService{
 			switch(htmlName) {
 				case "signup" : 
 					subject = "[boardProject] 회원 가입 인증번호 입니다."; break;
+				case "findId" : 
+					subject = "[boardProject] 아이디 찾기 인증번호 입니다."; break;
 			}
 			
 			// 인증 메일 보내기

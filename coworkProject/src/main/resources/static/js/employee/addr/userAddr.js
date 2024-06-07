@@ -83,7 +83,6 @@ document.querySelectorAll('.li-hover').forEach(item => {
             addTeamgroup.style.display = 'none'; 
             groupNameChange.style.display = 'none'; 
             deleteGroup.style.display = 'none';  
-            deleteGroup.style.display = 'addAll';  
             return;
         }
         if(targetLi.classList.contains('department')){
@@ -107,17 +106,15 @@ document.querySelectorAll('.li-hover').forEach(item => {
         const addAll = document.getElementById('addAll');
 
         // 개인 주소록에만 보여질 드롭다운
-        if(!targetLi.classList.contains('myAddr')){
-            addDeptgroup.style.display = 'none'; 
-            // addTeamgroup.style.display = 'block'; 
-            groupNameChange.style.display = 'block'; 
-            deleteGroup.style.display = 'block';  
-        }
         if(targetLi.classList.contains('myAddr')){
             addDeptgroup.style.display = 'block'; 
-            // addTeamgroup.style.display = 'none'; 
             groupNameChange.style.display = 'none'; 
             deleteGroup.style.display = 'none';  
+        }
+        if(targetLi.classList.contains('favorite')){
+            addDeptgroup.style.display = 'none'; 
+            groupNameChange.style.display = 'block'; 
+            deleteGroup.style.display = 'block';  
         }
 
         addDeptgroup.onclick = () => {
@@ -152,12 +149,12 @@ document.querySelectorAll('.li-hover').forEach(item => {
                     contextMenu.style.display = 'block';
                     contextMenu.style.left = `${event.pageX}px`;
                     contextMenu.style.top = `${event.pageY}px`;
+
+                    addDeptgroup.style.display = 'none'; 
+                    groupNameChange.style.display = 'block'; 
+                    deleteGroup.style.display = 'block'; 
                 });
             }
-            addDeptgroup.style.display = 'none'; 
-            addTeamgroup.style.display = 'block'; 
-            groupNameChange.style.display = 'block'; 
-            deleteGroup.style.display = 'block'; 
             contextMenu.style.display = 'none';
         };
 

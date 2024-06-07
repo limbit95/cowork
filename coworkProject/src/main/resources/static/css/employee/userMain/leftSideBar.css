@@ -182,8 +182,13 @@ body {
 }
 
 
-
-
+/* 2024-06-06 임성혁 */
+#leftSideBar a {
+	text-decoration: none;
+}
+#leftSideBar a:visited {
+	color: black;
+}
 
 
 

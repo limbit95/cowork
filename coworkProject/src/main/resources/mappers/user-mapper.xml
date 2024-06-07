@@ -38,7 +38,7 @@
 	
 	<!-- 로그인 서비스 -->
 	<select id="login">
-		SELECT EMP_NO, EMP_ID, EMP_PW, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_ADDRESS, 
+		SELECT EMP_CODE, EMP_NO, EMP_ID, EMP_PW, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_ADDRESS, 
 		EMP_BIRTH, HIRE_DATE, CONTRACT_TYPE, EMP_TEL, WORK_PLACE, EMP_EMAIL, PROFILE_IMG, GENERAL_MANAGER, 
 		COM_NM, TEAM_NM, POSITION_NM
 		FROM EMPLOYEE
@@ -51,7 +51,7 @@
 	
 	<!-- 기업 등록 안한 관리자 로그인 -->
 	<select id="adminLogin">
-		SELECT EMP_NO, EMP_ID, EMP_PW, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_ADDRESS, 
+		SELECT EMP_CODE, EMP_NO, EMP_ID, EMP_PW, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_ADDRESS, 
 		EMP_BIRTH, HIRE_DATE, CONTRACT_TYPE, EMP_TEL, WORK_PLACE, EMP_EMAIL, PROFILE_IMG, GENERAL_MANAGER, 
 		COM_NM
 		FROM EMPLOYEE
@@ -100,5 +100,37 @@
 			#{domain}
 		)
 	</insert>
+	
+	<!-- 기업 등록하지 않은 관리자 정보 조회 -->
+	<select id="tempEmp">
+		SELECT EMP_CODE, EMP_NO, EMP_ID, EMP_PW, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_ADDRESS, 
+		EMP_BIRTH, HIRE_DATE, CONTRACT_TYPE, EMP_TEL, WORK_PLACE, EMP_EMAIL, PROFILE_IMG, GENERAL_MANAGER
+		FROM EMPLOYEE
+		WHERE EMP_DEL_FL = 'N'
+		AND EMP_ID = #{empId}
+	</select>
+	
+	<!-- 기업 등록한 관리자 자신 DB의 EMPLOYEE 테이블 중 COM_NO 컬럼에 정보 업데이트 -->
+	<update id="registAdminCompany">
+		UPDATE EMPLOYEE SET
+		COM_NO = #{comNo}
+		WHERE EMP_CODE = #{empCode}
+	</update>
+	
+	<!-- 등록한 기업의 식별키만 조회 -->
+	<select id="selectCompany">
+		SELECT COM_NO
+		FROM COMPANY
+		WHERE DOMAIN = #{domain}
+	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="findId" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE
+		WHERE EMP_DEL_FL = 'N'
+		AND EMP_FIRST_NAME = #{empName}
+		AND EMP_EMAIL = #{empEmail}
+	</select>
 	
 </mapper>
