@@ -31,6 +31,71 @@ if(document.querySelector("#searchBtn") != null){
     document.querySelector("#searchBtn").addEventListener("click", execDaumPostcode);
 };
 
+
+
+const authBtn = document.querySelector("#authBtn");
+
+authBtn.addEventListener("click", e => {
+    fetchData();
+})
+
+// 사업자등록번호 인증 로직
+async function getServiceKey() {
+    try {
+        const response = await fetch("/user/getServiceKey"); 
+        return response.text();
+    } catch(err) {
+        console.log("getServiceKey의 에러 : " + err);
+        throw err; // 에러를 다시 던지면 .catch() 블록에서 처리될 수 있습니다.
+    }
+}
+
+async function fetchData() {
+    const serviceKey = await getServiceKey();
+
+    var data = {
+        "b_no": [document.querySelector("#registrationNum").value] // 사업자번호 "xxxxxxx" 로 조회 시,
+    }; 
+
+    // var data = {
+    //     "businesses": [
+    //         {
+    //             "b_no": "2148813306",
+    //             "start_dt": "20070816",
+    //             "p_nm": "임호범",
+    //             "p_nm2": "",
+    //             "b_nm": "",
+    //             "corp_no": "",
+    //             "b_sector": "",
+    //             "b_type": "",
+    //             "b_adr": ""
+    //         }
+    //     ]
+    // }; 
+    
+       
+    $.ajax({ 
+      url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=" + serviceKey,  // serviceKey 값을 xxxxxx에 입력
+      type: "POST",
+      data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+      dataType: "JSON",
+      contentType: "application/json",
+      accept: "application/json",
+      success: function(result) {
+          console.log(result);
+      },
+      error: function(result) {
+          console.log(result.responseText); //responseText의 에러메세지 확인
+      }
+    });
+}
+
+
+
+
+
+
+
 const checkObj = {
     "domain" : false
 }
@@ -47,7 +112,12 @@ domain.addEventListener("input", e => {
     const regExp = /^[A-Za-z]{4,30}$/;
     
     if (!englishOnly.test(domain.value)) {
+        domainMessage.innerText = "영어만 입력 가능합니다";
+        domainMessage.classList.add("error");
+        domainMessage.classList.remove("confirm");
         inputDomain.value = domain.value.replace(/[^A-Za-z]/g, '');
+        checkObj.domain = false;
+        return;
     }
 
     if(domain.value.trim().length === 0){
@@ -90,7 +160,7 @@ const comEmail = document.querySelector("#comEmail");
 const postcode = document.querySelector("#postcode");
 const address = document.querySelector("#address");
 const detailAddress = document.querySelector("#detailAddress");
-const registrationNum = document.querySelector("#registrationNum");
+// const registrationNum = document.querySelector("#registrationNum");
 
 
 
@@ -101,7 +171,7 @@ companyInfoForm.addEventListener("submit", e => {
         "postcode" : document.querySelector("#postcode").value,
         "address" : document.querySelector("#address").value,
         "detailAddress" : document.querySelector("#detailAddress").value,
-        "registrationNum" : document.querySelector("#registrationNum").value
+        // "registrationNum" : document.querySelector("#registrationNum").value
     }
     
     const subInfoArray = Object.keys(subInfo).map(key => ({

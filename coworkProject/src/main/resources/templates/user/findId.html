@@ -19,13 +19,13 @@
             <section class="formArea">
                 <span id="findId">아이디 찾기</span>
                 <div class="inputInfoArea">
-                    <input placeholder="이름">
+                    <input placeholder="이름 (성 제외하고 입력)" id="empName">
                     <div>
-                        <input placeholder="이메일">
+                        <input placeholder="이메일" id="empEmail">
                         <button id="authMailBtn">인증메일</button>
                     </div>
                     <div>
-                        <input placeholder="인증번호">
+                        <input placeholder="인증번호" id="authkey">
                         <button id="authBtn">인증</button>
                     </div>
                     <div class="message">
@@ -35,15 +35,7 @@
             </section>
         </main>
 
-        <!-- 로고 클릭시 메인페이지 이동 -->
-        <script th:inline="javascript">
-            const coworkLogoB = document.querySelector(".coworkLogoB"); 
-
-            coworkLogoB.addEventListener('click', () => {
-                location.href = "/"; 
-        })
-
-        </script>
+        <script src="/js/user/login.js"></script>
 
     </body>
 </html>

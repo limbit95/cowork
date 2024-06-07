@@ -81,8 +81,20 @@ public class UserServiceImpl implements UserService {
 				loginEmp.setComNm("없음");
 				return loginEmp;
 			} 
+			
+			loginEmp = mapper.adminLogin(inputEmp.getEmpId());
+			
+			// 일치하는 아이디가 없어서 조회 결과가 null 인 경우
+			if(loginEmp == null) {
+				return null;
+			} 
+			
+			// 일치하지 않으면
+			if( !bcrypt.matches(inputEmp.getEmpPw(), loginEmp.getEmpPw()) ) {
+				return null;
+			} 
 
-			return loginEmp = mapper.adminLogin(inputEmp.getEmpId());
+			return loginEmp;
 		} 
 		
 		// 아이디가 일치하면서 탈퇴하지 않은 회원 조회
@@ -135,6 +147,12 @@ public class UserServiceImpl implements UserService {
 		map.put("empCode", empCode);
 		
 		return mapper.registAdminCompany(map);
+	}
+
+	// 아이디 찾기 서비스
+	@Override
+	public int findId(Map<String, Object> map) {
+		return mapper.findId(map);
 	}
 
 }

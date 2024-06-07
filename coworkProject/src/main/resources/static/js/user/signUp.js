@@ -370,20 +370,40 @@ const checkPw = () => {
 }
 
 // Capslock 여부 검사
-const checkCapsLock = (event) => {
-    if (event.getModifierState("CapsLock")) {
+empPw.addEventListener("keydown", e => {
+    if (e.getModifierState("CapsLock")) {
         document.getElementById("pwMessage").innerText = "Caps Lock이 켜져 있습니다."
         document.getElementById("pwMessage").classList.add("error");
         document.getElementById("pwMessage").classList.remove("confirm");
-    }else {
-        document.getElementById("pwMessage").innerText = "영어,숫자,특수문자( !@#$%^&*() ) 포함 8~16글자 사이로 입력해주세요."
-        document.getElementById("pwMessage").classList.remove("confirm", "error");
+        return;
+    } else {
+        if(empPw.value.trim().length === 0){
+            document.getElementById("pwMessage").innerText = "영어,숫자,특수문자( !@#$%^&*() ) 포함 8~16글자 사이로 입력해주세요."
+            document.getElementById("pwMessage").classList.remove("confirm", "error");
+        } else {
+            if(!checkObj.empPw){
+                pwMessage.innerText = "비밀번호가 유효하지 않습니다";
+                pwMessage.classList.add("error");
+                pwMessage.classList.remove("confirm");
+                checkObj.empPw = false;
+                return;
+            } else { 
+                pwMessage.innerText = "유효한 비밀번호 형식입니다";
+                pwMessage.classList.add("confirm");
+                pwMessage.classList.remove("error");
+                checkObj.empPw = true;
+            }
+        }
     }
-}
+})
+
 
 // 2) 비밀번호 유효성 검사
 empPw.addEventListener("input", e => {
-    checkCapsLock(e);
+    if(document.querySelector("#pwMessage").innerText == "Caps Lock이 켜져 있습니다."){
+        empPw.value = '';
+        return;
+    }
     // 입력받은 비밀번호 값
     const inputPw = e.target.value;
 
@@ -421,9 +441,49 @@ empPw.addEventListener("input", e => {
     }
 });
 
+// Capslock 여부 검사
+empPwConfirm.addEventListener("keydown", e => {
+    if (e.getModifierState("CapsLock")) {
+        document.getElementById("pwMessage").innerText = "Caps Lock이 켜져 있습니다."
+        document.getElementById("pwMessage").classList.add("error");
+        document.getElementById("pwMessage").classList.remove("confirm");
+        return;
+    }else {
+        if(empPw.value.trim().length === 0) {
+            document.getElementById("pwMessage").innerText = "영어,숫자,특수문자( !@#$%^&*() ) 포함 8~16글자 사이로 입력해주세요."
+            document.getElementById("pwMessage").classList.remove("confirm", "error");
+            return;
+        } 
+        if(!checkObj.empPw){
+            pwMessage.innerText = "비밀번호가 유효하지 않습니다";
+            pwMessage.classList.add("error");
+            pwMessage.classList.remove("confirm");
+            checkObj.empPw = false;
+            return;
+        } else {
+            checkPw();
+        }
+    }
+})
+
 // 6) 비밀번호 확인 유효성 검사
 //    단, 비밀번호가 유효할 때만 검사 수행
 empPwConfirm.addEventListener("input", e => {
+    if(document.querySelector("#pwMessage").innerText == "Caps Lock이 켜져 있습니다."){
+        empPwConfirm.value = '';
+        return;
+    }
+
+    if(empPw.value.trim().length === 0){
+        pwMessage.innerText = "비밀번호를 먼저 입력해주세요";
+        pwMessage.classList.add("error");
+        pwMessage.classList.remove("confirm");
+        checkObj.empPwConfirm = false;
+        empPwConfirm.value = '';
+        empPw.focus();
+        return;
+    }
+
     if(checkObj.empPw){ // memberPw가 유효한 경우
         checkPw();
         return;
@@ -507,17 +567,11 @@ phone.addEventListener("input", e => {
 // ================================================================================================
 const signUpForm = document.getElementById("signUpForm"); 
 
-signUpForm.addEventListener("submit", e => {
-    e.preventDefault();
-    // Your code here
-});
-
 // 회원 가입 버튼 클릭 시 전체 유효성 검사 여부 확인
 const signUpBtn = document.querySelector("#signUpBtn");
 
 // 회원 가입 폼 제출 시
 signUpForm.addEventListener("submit", e => {
-    console.log('test')
     // checkObj의 저장된 값(value) 중 
     // 하나라도 false가 있으면 제출 X
 

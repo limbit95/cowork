@@ -75,5 +75,11 @@ public interface UserMapper {
 	 */
 	int selectCompany(String domain);
 
+	/** 아이디 찾기
+	 * @param map
+	 * @return
+	 */
+	int findId(Map<String, Object> map);
+
 	
 }
