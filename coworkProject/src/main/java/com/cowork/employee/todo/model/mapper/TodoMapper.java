@@ -100,6 +100,19 @@ public interface TodoMapper {
 	 */
 	void deleteOriginTodoFiles(int todoNo);
 
+	/** 검색한 경우 투두리스트 
+	 * @param todoQuery
+	 * @return
+	 */
+	List<Todo> todoQueryList(String todoQuery);
+
+	/** 검색한 투두 개수 
+	 * @param todoQuery
+	 * @return
+	 */
+//	int getSearchCount(String todoQuery);
+
+
 	
 
 	

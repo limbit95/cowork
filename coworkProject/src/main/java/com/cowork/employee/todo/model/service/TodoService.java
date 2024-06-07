@@ -63,7 +63,13 @@ public interface TodoService {
 
 	List<Todo> getCompletedTodo(String sortBy);
 
-	List<Todo> getInProgressTodo(String sortBy); 
+	List<Todo> getInProgressTodo(String sortBy);
+
+	/** 검색한 경우 투두리스트 
+	 * @param todoQuery
+	 * @return
+	 */
+	List<Todo> todoQueryList(String todoQuery); 
 
 
 

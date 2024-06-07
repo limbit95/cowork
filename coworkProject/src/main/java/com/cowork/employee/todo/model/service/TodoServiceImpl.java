@@ -181,7 +181,7 @@ public class TodoServiceImpl implements TodoService{
 		
 		
 		mapper.deleteOriginTodoFiles(todoNo);
-		result = mapper.updateUploadList(uploadList);
+		result = mapper.insertUploadList(uploadList);
 		
 		if(result == uploadList.size()) {
 			
@@ -268,6 +268,19 @@ public class TodoServiceImpl implements TodoService{
 	public List<Todo> getInProgressTodo(String sortBy) {
 		
 		return mapper.todoInProgress(sortBy);
+	}
+
+
+	@Override
+	public List<Todo> todoQueryList(String todoQuery) {
+		
+		//int listCount = mapper.getSearchCount(todoQuery); 
+		
+		
+		
+		List<Todo> todoList = mapper.todoQueryList(todoQuery);
+		
+		return todoList;
 	}
 
 

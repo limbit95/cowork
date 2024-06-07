@@ -167,6 +167,7 @@ public class UserController {
 	public String login(Employee2 inputEmp,
 			 			RedirectAttributes ra,
 			 			Model model) {
+		
 
 		Employee2 loginEmp = service.login(inputEmp);
 		
@@ -183,6 +184,9 @@ public class UserController {
 		
 		model.addAttribute("loginEmp", loginEmp);
 		ra.addFlashAttribute("message", loginEmp.getEmpLastName() + loginEmp.getEmpFirstName() + "님 환영합니다.");
+		
+
+		log.info("empCode : " + loginEmp.getEmpCode());
 		
 		return "redirect:/userMain";
 	}

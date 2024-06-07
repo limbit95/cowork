@@ -41,16 +41,23 @@ public class TodoController {
 	 * @return
 	 */
 	@GetMapping("todoList")
-	public String todoList(Model model) {
+	public String todoList(Model model, @RequestParam(value="todoQuery", required = false) String todoQuery) {
 		
 		/*int empCode = loginEmp.getEmpCode(); 
 		
 		log.info("empCode 는?? : " + empCode);*/
 		
-		List<Todo> todoList = service.selectTodoList(); 
-		model.addAttribute("todo", todoList); 	
-
-		log.info("todo 목록 : " + todoList);
+		 if (todoQuery == null || todoQuery.isEmpty()) {
+			 
+		        List<Todo> todoList = service.selectTodoList();
+		        model.addAttribute("todoList", todoList);
+		        
+		    } else {
+		    	
+		        List<Todo> todoList = service.todoQueryList(todoQuery);
+		        model.addAttribute("todoList", todoList);
+		    }
+		  	 	
 		
 		return "employee/todo/todoList"; 
 	}
@@ -61,23 +68,38 @@ public class TodoController {
     public List<Todo> getTodos(@RequestParam(value = "todoComplete", required = false) String todoComplete,
                                @RequestParam(value = "inCharge", required = false) Boolean inCharge,
                                @RequestParam(value = "request", required = false) Boolean request,
-                               @RequestParam(value = "sortBy", required = false) String sortBy) {
-        if (inCharge != null && inCharge) {
-        	
-            return service.getInChargeTodo(sortBy);
-            
-        } else if (request != null && request) {
-        	
-            return service.getRequestedTodo(sortBy);
-            
-        } else if (todoComplete != null && "2".equals(todoComplete)) {
-        	
-            return service.getCompletedTodo(sortBy);
-            
-        } else {
-        	
-            return service.getInProgressTodo(sortBy);
-        }
+                               @RequestParam(value = "sortBy", required = false) String sortBy,
+                               @RequestParam(value = "todoQuery", required = false) String todoQuery) {
+		
+		log.info("Received parameters - todoComplete: " + todoComplete + ", inCharge: " + inCharge + ", request: " + request + ", sortBy: " + sortBy + ", todoQuery: " + todoQuery);
+       
+		// 검색한 경우 
+		 if (todoQuery != null && !todoQuery.isEmpty()) {
+			 
+			  log.info("Returning search results for query: " + todoQuery); // 디버그 로그 추가
+		        return service.todoQueryList(todoQuery);
+		      
+		      // 내 담당인 경우   
+		    } else if (inCharge != null && inCharge) {
+		    	
+		        return service.getInChargeTodo(sortBy);
+		        
+		       // 요청하거나 받은 경우  
+		    } else if (request != null && request) {
+		    	
+		        return service.getRequestedTodo(sortBy);
+		        
+		      // 완료한 경우   
+		    } else if (todoComplete != null && "2".equals(todoComplete)) {
+		    	
+		        return service.getCompletedTodo(sortBy);
+		        
+		    } else {
+		    	
+		    	// 진행중인 경우 
+		        return service.getInProgressTodo(sortBy);
+		    }
+
     }
 	
 
@@ -168,7 +190,7 @@ public class TodoController {
 		int todoNo = inputTodo.getTodoNo(); 
 		
 		log.info("todoNo ::: " + todoNo);
-
+		log.info("파일 개수 : " + files.size());
 
 		int result = service.todoUpdate(inputTodo, files); 
 		

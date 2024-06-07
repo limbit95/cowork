@@ -16,11 +16,11 @@
             <div class="title"><span>할 일</span></div>
 
             <!-- 검색창 -->
-            <form>
+            <form th:action="@{/todo/todoList}"  method="get" id="todoSearch">
                 <div class="search" id="searchTodo">
                     <div class="default-line">
-                        <input>   
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" name="todoQuery" id="todoSearchQuery" placeholder="검색">   
+                        <button style="border: none; background-color: transparent;"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div> 
                 </div>
             </form>
@@ -58,7 +58,7 @@
                     <!-- 할 일 목록 -->
                     <div class="todoList" id="todoList">
                         <!-- 하나 -->
-                        <div class="todo" th:each="todo : ${todo}" 
+                        <div class="todo" th:each="todo : ${todoList}" 
                             th:data-todo-complete="${todo.todoComplete}">
                                 <div>
                                     <input type="checkbox" class="todoCheckbox" 
