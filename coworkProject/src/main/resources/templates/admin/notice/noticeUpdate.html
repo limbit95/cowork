@@ -34,9 +34,9 @@
                     <div>
                         <div><button type="button" class="fa-solid fa-chevron-up btnBoarder fileListInfo"></button><label>첨부파일</label>&nbsp;<label id="fileCnt" th:text="*{fileCnt}">0</label><label>개</label><!--<label class="colorGray">(12.1KB)</label>--></div>
                         <table class="default-line preview">
-                            <tr th:each="file : ${fileList}" th:object="${file}">
+                            <tr th:each="file : ${fileList}" th:object="${file}" th:id="|fileOrder*{fileOrder}|">
                                 <td><i class="fa-solid fa-paperclip"></i><label th:text="*{fileOriginName}">검색.png</label></td>
-                                <td><button type="button" class="fa-solid fa-xmark fileRemove btnBoarder" th:name="*{fileRename}"></button><label th:text="*{fileOrder}" hidden></label></td>
+                                <td><button type="button" class="fa-solid fa-xmark fileRemove btnBoarder" th:name="*{fileRename}" th:data-index="|fileOrder*{fileOrder}|"></button><label th:text="*{fileOrder}" hidden></label></td>
                             </tr>
                             <!--<tr>
                                 <td><i class="fa-solid fa-image"></i><label>검색.png</label><label class="colorGray">3.09KB</label></td>
@@ -55,7 +55,7 @@
 
         <!-- 버튼 -->
         <div class="defaultBtn insBtn">
-            <button class="default-btn glucose-btn">수정</button>
+            <button type="button" class="default-btn glucose-btn" id="noticeUpdate">수정</button>
             <button class="default-btn glucose-btn margin10">취소</button>
         </div>
 
@@ -64,9 +64,10 @@
     <script th:inline="javascript">
         const noticeContent = /*[[${notice.noticeContent}]]*/"공지사항 내용";
         const noticeFileList = /*[[${fileList}]]*/[]; /* 파일 정보 */
-        const orderList = []; // 기존파일 저장
+        const noticeNo = /*[[${notice.noticeNo}]]*/"공지사항 번호";
+        /*const orderList = []; // 기존파일 저장
 
-        for(let file of noticeFileList) orderList.push(file.fileOrder);
+        for(let file of noticeFileList) orderList.push(file.fileOrder);*/
     </script>
 
     <!-- 스마트 에디터 -->
