@@ -84,6 +84,17 @@ public class EmailController {
 		return service.selectId(map);
 	}
 	
+	
+	/** 아이디와 이메일 검사(비밀번호 찾기(이메일))
+	 * @param map
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("checkIdAndEmail")
+	public int checkIdAndEmail(@RequestBody Map<String, Object> map) {
+		return service.findPwByEmail(map);
+	}
+	
 	/** 비밀번호 찾기(이메일)
 	 * @param map
 	 * @return
@@ -91,13 +102,7 @@ public class EmailController {
 	@ResponseBody
 	@PostMapping("findPwByEmail")
 	public int findPwByEmail(@RequestBody Map<String, Object> map) {
-		int result = service.findPwByEmail(map);
-		
-		if(result == 0) {
-			return 0;
-		}
-		
-		return result = service.sendEmail("findPwByEmail", map);
+		return service.sendEmail("findPwByEmail", map);
 	}
 	
 }

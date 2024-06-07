@@ -18,10 +18,12 @@ import com.cowork.user.model.dto.Employee2;
 
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
 @RequiredArgsConstructor
+@Slf4j
 public class EmailServiceImpl implements EmailService{
 	
 	// EmailConfig 설정이 적용된 객체(메일 보내기 기능)
@@ -129,7 +131,6 @@ public class EmailServiceImpl implements EmailService{
 	@Override
 	public int findPwByEmail(Map<String, Object> map) {
 		int result = mapper.findPwByEmail(map);
-		
 		if(result == 0) {
 			return 0;
 		}
@@ -140,6 +141,8 @@ public class EmailServiceImpl implements EmailService{
 	// 이메일 보내기
 	@Override
 	public int sendEmail(String htmlName, Map<String, Object> map) {
+		String empInfo = (String)map.get("empId") + "^^^" + (String)map.get("empEmail");
+		
 		try {
 			// 메일 제목
 			String subject = null;
@@ -164,8 +167,6 @@ public class EmailServiceImpl implements EmailService{
 			helper.setTo((String)map.get("empEmail")); // 받는 사람 이메일 지정
 			helper.setSubject(subject); // 이메일 제목 지정
 			
-			String empInfo = (String)map.get("empId") + "^^^" + (String)map.get("empEmail");
-			
 			helper.setText( loadHtml(empInfo, htmlName), true ); // html 보내기 (변경예정)
 			// HTML 코드 해석 여부 true (innerHTML 해석)
 			
@@ -180,7 +181,7 @@ public class EmailServiceImpl implements EmailService{
 			mailSender.send(mimeMessgae);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return -1;
+			return 0;
 		}
 		
 		return 1;
@@ -190,12 +191,12 @@ public class EmailServiceImpl implements EmailService{
 	
 	
 	// HTML 파일을 읽어와 String 으로 변환 (thymeleaf 적용)
-	private String loadHtml(String authKey, String htmlName) {
+	private String loadHtml(String item, String htmlName) {
 		// org.thymeleaf.Context 선택
 		Context context = new Context();
 		
 		// thymeleaf 가 적용된 HTML에서 사용할 값 추가
-		context.setVariable("authKey", authKey);
+		context.setVariable("item", item);
 		
 		// templates/email 폴더에서 htmlName과 같은 
 		// ~.html 파일 내용을 읽어와 String으로 변환
