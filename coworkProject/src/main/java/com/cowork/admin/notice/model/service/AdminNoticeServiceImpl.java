@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.admin.notice.mapper.AdminNoticeMapper;
+import com.cowork.admin.notice.model.exception.BoardFileDeleteException;
 import com.cowork.admin.notice.model.exception.BoardInsertException;
 import com.cowork.common.utility.Utility;
 import com.cowork.common.utility.model.dto.Pagination;
@@ -40,6 +41,7 @@ public class AdminNoticeServiceImpl implements AdminNoticeService {
 	@Value("${board.file.folder-path}")
 	private String folderPath;
 
+	// 공지사항 목록
 	@Override
 	public Map<String, Object> noticeList(Map<String, Object> paramMap, int cp) {
 		// 게시글 수 조회
@@ -63,9 +65,7 @@ public class AdminNoticeServiceImpl implements AdminNoticeService {
 		return map;
 	}
 
-	/** 공지사항 상세
-	 *
-	 */
+	// 공지사항 상세
 	@Override
 	public Map<String, Object> noticeDetail(int noticeNo) {
 		
@@ -84,11 +84,7 @@ public class AdminNoticeServiceImpl implements AdminNoticeService {
 		return map;
 	}
 
-	/** 공지사항 등록
-	 * @throws IOException 
-	 * @throws IllegalStateException 
-	 *
-	 */
+	// 공지사항 등록
 	@Override
 	public int noticeInsert(Notice inputNotice, List<MultipartFile> files) throws IllegalStateException, IOException {
 		
@@ -140,9 +136,116 @@ public class AdminNoticeServiceImpl implements AdminNoticeService {
 		
 		}
 		
-		log.info("서비스 게시글 번호 : " + noticeNo);
+		//log.info("서비스 게시글 번호 : " + noticeNo);
 		
 		return noticeNo;
+	}
+
+	// 공지사항 삭제
+	@Override
+	public int noticeDelete(int noticeNo) {
+		
+		return mapper.noticeDelete(noticeNo);
+	}
+
+	// 공지사항 수정
+	@Override
+	public int noticeUpdate(Notice inputNotice, List<MultipartFile> files, String deleteOrder, String updateOrder) throws IllegalStateException, IOException {
+		// 공지사항 수정
+		int result = mapper.noticeUpdate(inputNotice);
+		
+		if(result == 0) return 0;
+		
+		int noticeNo = inputNotice.getNoticeNo();
+		
+		// 삭제된 파일이 있는 경우
+		if(deleteOrder != null && deleteOrder.equals("")) {
+			
+			Map<String, Object> map = new HashMap<>();
+			
+			map.put("deleteOrder", deleteOrder);
+			map.put("noticeNo", noticeNo);
+			map.put("boardNm", "NOTICE");
+			
+			result = mapper.boardFileDelete(map);
+			
+			if(result == 0) throw new BoardFileDeleteException();
+			
+			// 기존 파일이 있는 경우
+			if(updateOrder != null && updateOrder.equals("")) {
+				
+				String[] updateArr = updateOrder.split(",");
+				
+				for(int i=0; i<updateArr.length; i++) {
+					
+					BoardFile updFile = BoardFile.builder()
+							.fileOrder(i)
+							.boardNo(noticeNo)
+							.boardNm("NOTICE")
+							.fileOrderUpd(updateArr[i])
+							.build();
+					
+					result = mapper.BoardFileUpdate(updFile);
+				}
+				
+			}
+			
+		}
+		
+		// 파일 업로드
+		if(files != null) {
+			List<BoardFile> uploadList = new ArrayList<>();
+			
+			// 기존 파일이 있는 경우
+			int fileOrder = 0;
+			
+			if(updateOrder != null && updateOrder.equals("")) {
+				
+				String[] updateArr = updateOrder.split(",");
+				
+				fileOrder = updateArr.length;
+			}
+			
+			for(int i=0; i<files.size(); i++) {
+				
+				if(fileOrder > 0 ) fileOrder += 1;
+				
+				if(!files.get(i).isEmpty()) {
+					String originalName = files.get(i).getOriginalFilename(); // 원본명
+					String rename = Utility.fileRename(originalName);
+					
+					BoardFile file = BoardFile.builder()
+								.filePath(webPath)
+								.fileOriginName(originalName)
+								.fileRename(rename)
+								.fileOrder(fileOrder)
+								.boardNo(noticeNo)
+								.boardNm("NOTICE")
+								.uploadFile(files.get(i))
+								.build();
+					
+					uploadList.add(file);
+				}
+			}
+			
+			if(uploadList.isEmpty()) return noticeNo;
+			
+			result = mapper.boardFileinsert(uploadList);
+			
+			// 다중 파일 성공확인
+			if(result == uploadList.size()) {
+				
+				// 서버에 파일 저장
+				for(BoardFile file : uploadList) {
+					file.getUploadFile().transferTo(new File(folderPath + file.getFileRename()));
+				}
+			} else {
+				throw new BoardInsertException("이미지가 정상 삽입되지 않음");
+			}
+		
+		}
+		
+		return result;
 	}
 
 }
