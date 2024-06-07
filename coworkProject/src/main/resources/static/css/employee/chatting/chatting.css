@@ -41,6 +41,8 @@ body {
 	display: flex; 
 	border: none;
 	border-radius: 5px;
+	border-radius: 30px;
+
 
 }
 #searchInput{
@@ -52,6 +54,7 @@ body {
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
     background-color: #214177;
     color: white;
+    	border-radius: 10px;
 	
 }
 #searchInput::placeholder{
@@ -158,6 +161,78 @@ body {
 
 }
 
+.newImgDiv{
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-left: 3.5%;
+	margin-right: 3.5%;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.deptNmDiv{
+	margin-left: 3%;
+	font-size: 10px;
+	color: gray;
+}
+.teamNmDiv{
+	margin-left: 3%;
+	font-size: 10px;
+	color: gray;
+}
+.chattingRoomDivContainer{
+	width: 100%;
+	height: 8vh;
+	display: flex;
+	border-radius: 10px;
+	transition: background-color 0.3s;
+	cursor: pointer;
+}
+.chattingRoomDivContainer:hover{
+	background-color: #e6e6e6;
+
+}
+.leftNewDiv{
+	flex-basis: 5%;
+}
+.chattingRoomDiv{
+	flex-basis: 90%;
+	display: flex;
+	align-items: center;
+	height: 8vh;
+	border-bottom: 0.1px solid lightgray;
+	width: 90%;
+}
+.rightNewDiv{
+	flex-basis: 5%;
+}
+
+.firstEmpImg{
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 3%;
+}
+.contentNodeDiv{
+	font-size: 10px;
+	margin-top: 5px;
+	color: #454545;
+
+}
+.chattingAtDiv{
+	font-size: 8px;
+	margin-top: 3px;
+	color: darkgray;
+}
+
 
 /*====================  찾은 멤버들 컨테이너 끝 ======================*/
 
@@ -190,11 +265,14 @@ body {
 #chattingRoomsContainer{
 	display: flex; 
 	flex-direction: column; 
+	align-items: center;
 	flex-basis: 17%;
 	margin-left: 1.5%;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+
+	border-radius: 30px;
+
+    
 
 }
 #chattingRoomsTitle{
@@ -205,7 +283,17 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
 
+}
+#chattingRoomsContent{
+	width: 100%; 
+	min-height: 94%; 
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 2vh;
 }
 
 
@@ -217,25 +305,36 @@ body {
 	flex-basis: 50%;
 	height: 80vh;
 	margin-left: 1.5vw;
-	border: 1px solid black;
 	display: flex; 
 	flex-direction:column;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
 }
 #topAreaInChattingsContainer{
 	width: 100%;
-	height: 10%;	
+	height: 6%;	
 	background-color: #214177;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	color: #E5F2FE;
 	font-size: 20px;
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
+
 }
-
-
 #chattingsArea{
 	height: 80%;
-	
+	transition: background-color 0.3s;
+	padding-right: 40px;
+	background-color: #E5F2FE;
+}
+#chattingsArea > img {
+    max-width: 100px;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
 }
 #messageContainer{
 	width: 100%; 
@@ -313,12 +412,11 @@ body {
 /* chatting Container 끝  */
 
 
-
-
-
-
-
-
+.secondDiv{
+	display: inline-block;
+	width: auto;
+	
+}
 
 
 

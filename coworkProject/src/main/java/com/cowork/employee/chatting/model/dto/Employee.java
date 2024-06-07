@@ -33,4 +33,10 @@ public class Employee {
 	private Integer positionNo;
 	private String profileImg;
 	
+	// Team 테이블 
+	private String teamNm;
+	
+	// Department 테이블 
+	private String deptNm;
+	
 }
