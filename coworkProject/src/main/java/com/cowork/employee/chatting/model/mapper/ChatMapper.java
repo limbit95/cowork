@@ -38,5 +38,11 @@ public interface ChatMapper {
 
 	int insertFileMessage(ChatMessage chatMessage);
 
+	Employee DeptNameTeamNameDetail(Integer teamNo);
+
+	List<String> chatRoomEmpCodeList(Integer roomNo);
+
+	Employee empDetail(String exposedEmpCode);
+
 
 }

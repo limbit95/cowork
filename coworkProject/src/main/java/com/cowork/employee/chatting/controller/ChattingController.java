@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -14,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -39,9 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ChattingController {
 	
 	private final ChatService chatService;
-	
 	private final SimpMessagingTemplate  messagingTemplate;
-
 	
 	@GetMapping("/chat/wowns590")
 	public String chattingWowns590(HttpServletRequest request) {
@@ -124,37 +119,45 @@ public class ChattingController {
     public List<ChatMessageMe> getChatMessage(@RequestBody Map<String, String> paramMap) {
     	List<ChatMessageMe> messageList = chatService.getChatMessage(paramMap);
     	
+    	for(ChatMessageMe m : messageList) {
+    		log.debug("asd={}",m);
+    	}
+    	
     	return messageList;
+    	
     }
     
-    
- // 채팅을 받는 메서드 
+    // 채팅을 받는 메서드 
     @MessageMapping("/chat.sendMessage")
     public void sendMessage(@Payload ChatMessage chatMessage) {
     	    	
     	log.debug("컨트롤러까지는 무사히 도착!");
+    	log.debug("chatMessage=={}", chatMessage);
+    	log.debug("chatMessage.getSubscribeAddr()=={}", chatMessage.getSubscribeAddr());
     	
     	String senderEmpCode= chatMessage.getSenderEmpCode();
     	String empNickname = chatMessage.getEmpNickname();
     	String content = chatMessage.getContent();
     	MessageType type = chatMessage.getType();
     	String subscribeAddr = chatMessage.getSubscribeAddr();
-    	String roomNo = chatMessage.getRoomNo(); 
+    	String roomNo = chatMessage.getRoomNo();
     	
     	// 현재 해줘야 할건, CHAT_MESSAGE 테이블에 행을 삽입하는 것.
-    	if(chatMessage.getType() == ChatMessage.MessageType.CHAT) {        	
+    	if(chatMessage.getType() == ChatMessage.MessageType.CHAT) {
         	chatService.insertTextMessage(chatMessage);
-    	} 
+    	}
+    	
     	// 동적으로 응답해줄 클라이언트의 구독주소가 변경되므로 아래와 같이 한다 
     	String destination = "/topic/" + chatMessage.getSubscribeAddr();    	
     	messagingTemplate.convertAndSend(destination, chatMessage);
+    	
     }
     
     @PostMapping("/chat/upload")
     @ResponseBody
     public void handleFileUpload(@RequestParam("senderEmpCode") String senderEmpCode,
             @RequestParam("empNickname") String empNickname,
-            @RequestParam("filePath") MultipartFile file,
+            @RequestParam("file") MultipartFile file,
             @RequestParam("subscribeAddr") String subscribeAddr,
             @RequestParam("roomNo") String roomNo
     		 ) throws IllegalStateException, IOException {
@@ -169,7 +172,11 @@ public class ChattingController {
     	String updatePath = chatService.insertFileMessage(chatMessage);
     	chatMessage.setFilePath(updatePath);
     	// 동적으로 응답해줄 클라이언트의 구독주소가 변경되므로 아래와 같이 한다 
-    	String destination = "/topic/" + chatMessage.getSubscribeAddr();    	
+    	String destination = "/topic/" + chatMessage.getSubscribeAddr(); 
+    	
+    	chatMessage.setFile(null); // 파일은 안보내도 되기도 하고, MultipartFile 을 json 으로 바꾸려고 하면 에러남.
+    	// 파일 데이터를 Base64 문자열로 인코딩하여 JSON에 포함시킬 수 있습니다. 이는 파일 데이터를 텍스트 형식으로 변환하여 직렬화할 수 있도록 합니다.
+    	
     	messagingTemplate.convertAndSend(destination, chatMessage);
     }
     

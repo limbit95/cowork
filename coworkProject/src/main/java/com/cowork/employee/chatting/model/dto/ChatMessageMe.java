@@ -18,12 +18,14 @@ import lombok.ToString;
 public class ChatMessageMe {
 	private Integer messageId;
 	private Integer roomId;
-	private Integer senderId; 
+	private Integer senderEmpCode; 
 	private String messageType; 
 	private String content; 
 	private String filePath; 
 	private String sentAt; 
 
-	// 안 읽은 놈의 개수 
-	private String unreadCount;
+	// 메세지를 작성한 사람의 프로필 사진과 이름도 필요함. 
+	private String empLastName;
+	private String empFirstName;
+	private String profileImg;
 }
