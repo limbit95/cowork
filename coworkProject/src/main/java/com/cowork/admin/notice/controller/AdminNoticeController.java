@@ -179,6 +179,8 @@ public class AdminNoticeController {
 	            @RequestParam(value="queryString", required = false, defaultValue="") String querystring
 			) throws IllegalStateException, IOException {
 		
+		log.info("dfdfdfdfdfd");
+		
 		Notice inputNotice = new Notice();
 		
 		inputNotice.setNoticeNo(noticeNo);

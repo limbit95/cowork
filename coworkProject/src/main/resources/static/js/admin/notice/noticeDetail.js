@@ -42,6 +42,6 @@ document.getElementById("noticeDelete").addEventListener("click", () => {
 /* 공지사항 수정 */
 document.getElementById("noticeUpdate").addEventListener("click", () => {
 
-    location.href = "../noticeUpdate/" + noticeNo;
+    location.href = location.pathname.replace('noticeDetail', 'noticeUpdate') + location.search;
 });
 

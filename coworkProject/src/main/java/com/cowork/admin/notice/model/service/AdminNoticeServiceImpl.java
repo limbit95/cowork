@@ -151,17 +151,23 @@ public class AdminNoticeServiceImpl implements AdminNoticeService {
 	// 공지사항 수정
 	@Override
 	public int noticeUpdate(Notice inputNotice, List<MultipartFile> files, String deleteOrder, String updateOrder) throws IllegalStateException, IOException {
+		
+		log.info("공지사항 수정안함");
 		// 공지사항 수정
 		int result = mapper.noticeUpdate(inputNotice);
 		
-		if(result == 0) return 0;
+		//if(result == 0) return 0;
 		
 		int noticeNo = inputNotice.getNoticeNo();
 		
+		log.info("deleteOrder : " + deleteOrder);
+		
 		// 삭제된 파일이 있는 경우
-		if(deleteOrder != null && deleteOrder.equals("")) {
+		if(deleteOrder != null && !deleteOrder.equals("")) {
 			
 			Map<String, Object> map = new HashMap<>();
+			
+			log.info("deleteOrder2 : " + deleteOrder);
 			
 			map.put("deleteOrder", deleteOrder);
 			map.put("noticeNo", noticeNo);
@@ -199,16 +205,18 @@ public class AdminNoticeServiceImpl implements AdminNoticeService {
 			// 기존 파일이 있는 경우
 			int fileOrder = 0;
 			
+			String[] updateArr = null;
+			
 			if(updateOrder != null && updateOrder.equals("")) {
 				
-				String[] updateArr = updateOrder.split(",");
-				
+				updateArr = updateOrder.split(",");
 				fileOrder = updateArr.length;
 			}
 			
 			for(int i=0; i<files.size(); i++) {
 				
-				if(fileOrder > 0 ) fileOrder += 1;
+				if(updateOrder != null ) fileOrder += 1;
+				else fileOrder = i;
 				
 				if(!files.get(i).isEmpty()) {
 					String originalName = files.get(i).getOriginalFilename(); // 원본명

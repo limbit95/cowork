@@ -101,6 +101,13 @@ const handler = {
     }
 }
 
+// 스마트에디터 적용
+smartEditor(); 
+
+// 첨부파일 업로드
+handler.init();
+handler.removeFile();
+
 // 공지사항 등록
 document.querySelector("#noticeInsert").addEventListener("click", () => {
 
@@ -154,9 +161,3 @@ document.querySelector("#noticeInsert").addEventListener("click", () => {
 
 });
 
-// 스마트에디터 적용
-smartEditor(); 
-
-// 첨부파일 업로드
-handler.init();
-handler.removeFile();

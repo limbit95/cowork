@@ -5,7 +5,8 @@ const fileListBtn = document.querySelector('.fileListInfo'); /* 파일 목록 �
 const preview = document.querySelector('.preview'); /* 파일 목록 보기 */
 const formData = new FormData(); // 초기에 빈 FormData 객체를 생성합니다.
 
-const deleteOrder = new Set();
+const deleteOrder = new Set(); // 삭제 파일 순서 번호
+const updateOrder = new Set(); // 삭제이외에 기존 파일 순서 번호 (순서 업데이트 위해)
 
 smartEditor = function() {
     nhn.husky.EZCreator.createInIFrame({
@@ -96,10 +97,17 @@ const handler = {
     removeFile: () => {
         document.addEventListener('click', (e) => {
             console.log(e.target.className);
-            if(e.target.className !== 'fa-solid fa-xmark fileRemove') return;
+            if(e.target.className !== 'fa-solid fa-xmark fileRemove btnBoarder') return;
             const removeTargetId = e.target.dataset.index;
             const removeTarget = document.getElementById(removeTargetId);
             const removeTargetName = e.target.dataset.name;
+
+            const fileOrder = e.target.nextSibling;  // 기존 파일 삭제 순서
+
+            //console.log(fileOrder.innerText);
+            //console.log(removeTarget);    
+
+            if(fileOrder.innerText != "") deleteOrder.add(fileOrder.innerText); // 기존파일 순서 저장
             
             // FormData 객체에서 해당 파일을 삭제합니다.
             formData.delete(removeTargetName);
@@ -118,3 +126,88 @@ smartEditor(); //스마트에디터 적용
 // 첨부파일 업로드
 handler.init();
 handler.removeFile();
+
+// 공지사항 수정
+document.querySelector("#noticeUpdate").addEventListener("click", () => {
+
+    console.log("???? 와이???");
+
+    //const formData = new FormData();
+    const files = document.querySelector('#fileInput').files;
+    const clone = new FormData();
+
+    // 에디터의 내용을 textarea에 적용
+    oEditors.getById["noticeContent"].exec("UPDATE_CONTENTS_FIELD", []);
+
+    const noticeTitle = document.getElementById('noticeTitle').value;
+    const noticeContent = document.getElementById('noticeContent').value;
+
+    // 기존파일 순서
+    for (let file of noticeFileList) {
+        let isToDelete = false;
+    
+        if (deleteOrder.length > 0) {
+            for (let i = 0; i < deleteOrder.length; i++) {
+                if (deleteOrder[i] === file.fileOrder) {
+                    isToDelete = true;
+                    break; // 해당 파일이 deleteOrder 배열에 포함되면 삭제 대상임을 표시하고 루프 종료
+                }
+            }
+        }
+    
+        if (!isToDelete) {
+            updateOrder.add(file.fileOrder); // deleteOrder 배열에 포함되지 않은 경우에만 updateOrder에 추가
+        }
+    }
+
+    console.log("???? 와이???22222");
+
+    // 기존파일 순서와 삭제파일 순서 FormData에 추가
+    clone.append('updateOrder', Array.from( updateOrder ));
+    clone.append('deleteOrder', Array.from( deleteOrder ));
+
+
+    console.log(Array.from( updateOrder ) + "!!!!!");
+
+    // 제목과 내용을 FormData에 추가
+    clone.append('noticeTitle', noticeTitle);
+    clone.append('noticeContent', noticeContent);
+
+    for (const pair of formData.entries()) {
+        clone.append('files', pair[1]);
+    }
+
+    if(noticeTitle.trim().length == 0){
+        alert("제목을 작성해주세요.");
+        noticeTitle.focus();
+        return;
+    }
+
+    if(noticeContent == '<p><br></p>' || noticeContent == '<br>') {
+        alert("내용을 작성해주세요.");
+        noticeContent.focus();
+        return;
+    }
+
+    console.log(Array.from( deleteOrder ) + " ~!!!");
+
+
+   /* fetch("/admin/notice/noticeUpdate/" + noticeNo , {
+        method : "POST",
+        body : clone
+    })
+    .then(resp => resp.text())
+    .then(result => {
+
+        if(result > 0) {
+            alert("게시글이 수정되었습니다");
+
+            location.href = location.pathname.replace('noticeUpdate', 'noticeDetail') + location.search;
+
+        } else {
+            alert("게시글 작성 실패");
+        }
+    });*/
+
+});
+
