@@ -16,15 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.employee.todo.model.dto.Todo;
 import com.cowork.employee.todo.model.dto.TodoFile;
 import com.cowork.employee.todo.model.service.TodoService;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.cowork.user.model.dto.Employee2;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,6 +43,10 @@ public class TodoController {
 	@GetMapping("todoList")
 	public String todoList(Model model) {
 		
+		/*int empCode = loginEmp.getEmpCode(); 
+		
+		log.info("empCode 는?? : " + empCode);*/
+		
 		List<Todo> todoList = service.selectTodoList(); 
 		model.addAttribute("todo", todoList); 	
 
@@ -49,6 +54,31 @@ public class TodoController {
 		
 		return "employee/todo/todoList"; 
 	}
+	
+	
+	@GetMapping("todos")
+    @ResponseBody
+    public List<Todo> getTodos(@RequestParam(value = "todoComplete", required = false) String todoComplete,
+                               @RequestParam(value = "inCharge", required = false) Boolean inCharge,
+                               @RequestParam(value = "request", required = false) Boolean request,
+                               @RequestParam(value = "sortBy", required = false) String sortBy) {
+        if (inCharge != null && inCharge) {
+        	
+            return service.getInChargeTodo(sortBy);
+            
+        } else if (request != null && request) {
+        	
+            return service.getRequestedTodo(sortBy);
+            
+        } else if (todoComplete != null && "2".equals(todoComplete)) {
+        	
+            return service.getCompletedTodo(sortBy);
+            
+        } else {
+        	
+            return service.getInProgressTodo(sortBy);
+        }
+    }
 	
 
 	/** 할 일 상세 조회 
@@ -62,16 +92,20 @@ public class TodoController {
     						Model model) {	
 		
 		Map<String, Integer> map = new HashMap<>(); 
-		
-		map.put("todoNo", todoNo); 
-		
-		Todo todo = service.todoDetail(map); 
-		
-		model.addAttribute("todo", todo); 
-		
-		log.info("todo 상세 : " + todo); 
-		
-		return todo; 
+	    map.put("todoNo", todoNo); 
+	    
+	    // 할 일 상세 조회
+	    Todo todo = service.todoDetail(map);
+	    
+	    // 첨부 파일 목록 조회
+	    List<TodoFile> fileList = service.todoFiles(todoNo);
+	    todo.setFileList(fileList);
+	    
+	    model.addAttribute("todo", todo); 
+	    
+	    log.info("todo 상세 : " + todo); 
+	    
+	    return todo; 
     }
 
 	
@@ -89,11 +123,18 @@ public class TodoController {
 	public String todoInsert(@RequestParam("files") List<MultipartFile> files, 
 								Model model, 
 								Todo inputTodo, 
-								RedirectAttributes ra) throws IllegalStateException, IOException {
+								RedirectAttributes ra /*,
+								@SessionAttribute("loginEmp") Employee2 loginEmp, 
+								HttpSession session*/) throws IllegalStateException, IOException {
+		
+		/*	int empCode = loginEmp.getEmpCode(); 
+			inputTodo.setEmpCode(empCode); */
 			
 			int result = service.todoInsert(inputTodo, files); 
 
 			model.addAttribute("todo", inputTodo);
+		/*	session.setAttribute("todo", inputTodo); */
+			
 			
 			String message; 
 			
@@ -148,14 +189,18 @@ public class TodoController {
 	}
 	
 	
-	 @PostMapping("delete")
+	 	/** 할 일 삭제 
+	 	 * @param payload
+	 	 * @return
+	 	 */
+	 	@PostMapping("delete")
 	    public ResponseEntity<Map<String, Object>> todoDelete(@RequestBody Map<String, List<Integer>> payload) {
 		 
 	        List<Integer> todoNos = payload.get("todoNos");
 	        int result = service.todoDelete(todoNos);
 	        
 	        log.info("todoNos :: " + todoNos.toString());
-
+	
 	        Map<String, Object> response = new HashMap<>();
 	        if (result > 0) {
 	            response.put("success", true);
@@ -164,9 +209,35 @@ public class TodoController {
 	            response.put("success", false);
 	            response.put("message", "삭제 실패");
 	        }
-
+	
 	        return ResponseEntity.ok(response);
 	    }
+	 	
+	 	 /** 할 일 완료 여부 수정 
+	 	 * @param request
+	 	 * @return
+	 	 */
+	 	@PostMapping("/updateTodoComplete")
+	     public ResponseEntity<String> updateTodoComplete(@RequestBody Todo request) {
+	 		
+	         try {
+	        	 
+	             boolean success = service.updateTodoComplete(request.getTodoNo(), request.getTodoComplete());
+	             
+	             if (success) {
+	            	 
+	                 return ResponseEntity.ok("{\"message\": \"Update successful\"}");
+	                 
+	             } else {
+	            	 
+	                 return ResponseEntity.status(500).body("{\"message\": \"Update failed\"}");
+	             }
+	         } catch (Exception e) {
+	             // 예외 처리, 메시지 반환
+	             e.printStackTrace();
+	             return ResponseEntity.status(500).body("{\"message\": \"Internal Server Error: " + e.getMessage() + "\"}");
+	         }
+	     }
 	    
 	
 

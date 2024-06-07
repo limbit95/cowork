@@ -1,24 +1,22 @@
 @font-face {
-    font-family: 'NanumBarunGothic';
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
     font-style: normal;
-    font-weight: 300;
-    src: url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot');
-    src: url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot?#iefix') format('embedded-opentype'), url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.woff') format('woff'), url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.ttf') format('truetype');
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
    
 * {
-    font-family: 'NanumBarunGothic', sans-serif;
+    font-family: 'Pretendard-Regular';
     margin: 0;
 }
 
-
-main{
-    min-height: 1200px;
+.container {
     display: flex;
     flex-direction: column;
+    min-height: 100vh; 
 }
 
 pre {
@@ -82,14 +80,9 @@ a {
 /* -------------Footer 영역--------------*/
 
 footer {
-    position: relative;
-    transform: translateY(0%) !important;
-    bottom: 0px;
-}
-
-#footerBorder {
     background-color: #E5F2FE;
     min-width: 1110px;
+    margin: 0 !important;
 }
 
 .footerArea {
@@ -99,7 +92,23 @@ footer {
     align-items: center;
     justify-content: space-between;
 }
+/*
+footer {
+    position: relative;
+    transform: translateY(0%) !important;
+    bottom: 0px;
+    min-width: 1110px;
+}
 
+.footerArea {
+    margin-top: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #E5F2FE;
+    height: 100px;
+}
+*/
 #coworkLogo {
     width: 300px;
 }
@@ -167,63 +176,13 @@ video:hover {
 }
 
 /* ------ 메인 배너 영역 ------ */
+
 .mainBanner {
     display: flex;
     margin: 60px 10px;
-    padding: 10px 100px;
-    padding-right: 50px; 
-    justify-content: center;
-    align-items: center;
-    min-height: 400px;
-    width: 100%;
-
-}
-
-.phraseArea {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-
-}
-
-#coworkLetter {
-    font-size: 50px;
-    font-family: "Inter", sans-serif;
-    font-weight: bold;
-    color: #426DA7;
-}
-
-#coworkPhrase {
-    width: 700px;
-}
-
-#bannerImg {
-    width: 500px;
-}
-
-.carousel1, .carousel2 {
-    display: flex;
-}
-
-.carousel2 {
     justify-content: center;
     align-items: center;
 }
-
-#intranetImage2 {
-    width: 1000px;
-}
-
-#intranetImage2Description {
-    margin-left: 200px;
-    margin-top: 30px;
-}
-
-#intranetImage2Description h1 {
-    color: #214177;
-    font-weight: bold;
-}
-
 
 
 /* ------ 네비바 영역 ------ */
@@ -265,27 +224,19 @@ video:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 1200px;
+    justify-content: center;
 }
 
 .functionArea section {
     display: flex;
     flex-direction: column;
-    margin-top: 100px;
-    width: 100%;
+    margin-top: 50px;
 }
 
-.functionArea section div {
-    margin-bottom: 100px;
+.images {
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 40px;
-}
-
-.functionArea img {
-    width: 360px;
-    height: 280px;
+    justify-content: center;
 }
 
 .description {
@@ -300,35 +251,16 @@ video:hover {
 
 
 
-/* 배너 영역 */
-.bannerArea {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 100px;
-   /* background-image: url(/images/Frame3.png); */
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 100%;
-    min-width: 700px;
-    height: 480px;
-}
-
 /* section */
 .contentSection {
     display: none;
 }
 
 /* 전자결재 */
+
 .edsmInsertArea {
     background-color: #f1f1f1;
 }
-
-
-
-
 
 
 /* ----------- 챗봇 영역 ------------ */
