@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -58,19 +59,20 @@ public class AdminNoticeController {
 				RedirectAttributes ra
 			) {
 		
-		Notice notice = service.noticeDetail(noticeNo);
+		Map<String, Object> map = service.noticeDetail(noticeNo);
 		
 		String path = null;
 		
-		if(notice == null) {
+		if(map.get("notice") == null) {
 			
-			path = "redirect:admin/notice/noticeList";
+			path = "redirect:/noticeList";
 			ra.addAttribute("message", "게시글이 존재하지 않습니다");
 		} else {
 			
 			path = "admin/notice/noticeDetail";
 			
-			model.addAttribute("notice", notice);
+			model.addAttribute("notice", map.get("notice"));
+			model.addAttribute("fileList", map.get("fileList"));
 		}
 		
 		return path;
@@ -89,6 +91,7 @@ public class AdminNoticeController {
 	 * @return
 	 */
 	@PostMapping("noticeInsert")
+	@ResponseBody
 	public int noticeInsert(
 				@RequestParam("noticeTitle") String noticeTitle,
 	            @RequestParam("noticeContent") String noticeContent,
@@ -105,9 +108,20 @@ public class AdminNoticeController {
 		
 		int result = service.noticeInsert(inputNotice, files);
 		
-		log.info("게시글 번호 : " + result);
+		//log.error("게시글 번호 : " + result);
 		
 		return result;
+	}
+	
+	/** 공지사항 삭제
+	 * @return
+	 */
+	@GetMapping("noticeDelete")
+	public String noticeDelete(@RequestParam("noticeNo") int noticeNo) {
+		
+		log.info("noticeNo : " + noticeNo);
+		
+		return "";
 	}
 	
 	/** 공지사항 수정

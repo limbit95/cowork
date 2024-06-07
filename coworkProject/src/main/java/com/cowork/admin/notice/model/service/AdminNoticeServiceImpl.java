@@ -67,9 +67,21 @@ public class AdminNoticeServiceImpl implements AdminNoticeService {
 	 *
 	 */
 	@Override
-	public Notice noticeDetail(int noticeNo) {
-		// TODO Auto-generated method stub
-		return mapper.noticeDetail(noticeNo);
+	public Map<String, Object> noticeDetail(int noticeNo) {
+		
+		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> boardFileMap = new HashMap<>();
+		
+		boardFileMap.put("noticeNo", noticeNo);
+		boardFileMap.put("boardNm", "NOTICE");
+		
+		Notice notice = mapper.noticeDetail(noticeNo);
+		List<BoardFile> fileList = mapper.boardFileList(boardFileMap);
+		
+		map.put("notice", notice);
+		map.put("fileList", fileList);
+		
+		return map;
 	}
 
 	/** 공지사항 등록

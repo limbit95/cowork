@@ -21,7 +21,7 @@ public interface AdminNoticeService {
 	 * @param noticeNo
 	 * @return
 	 */
-	Notice noticeDetail(int noticeNo);
+	Map<String, Object> noticeDetail(int noticeNo);
 
 	/** 공지사항 등록
 	 * @param inputNotice
