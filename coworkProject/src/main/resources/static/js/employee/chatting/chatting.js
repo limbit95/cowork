@@ -214,7 +214,7 @@ function getChattingRooms(empCode){
 			let profileImgFlag = room.profileImgFlag;
 			if(profileImgFlag == '0'){
 				// 프로필 이미지가 없는 경우 
-				newImg.src='user.png';
+				newImg.src='chatting.png';
 			}else if(profileImgFlag == '1'){
 				// 프로필 이미지가 있는 경우
 				newImg.src=room.profileImg; // 최초 초대자 프로필 
@@ -275,10 +275,9 @@ function getChattingRooms(empCode){
 			hiddenInput.value = room.roomNo;
 			newDiv.appendChild(hiddenInput);	
 			
-			let subscribeAddr = room.subscribeAddr;
+			let subscribeAddr = room.subAddr;
 			
 			newDiv.addEventListener('click', function(){
-				
 				// 클릭하면 채팅창이 보여지고, 그 안에 전에 나눴던 대화들이 표시되어야 함. 
 				// 클릭하면, fetch 로 서버에 roomId 를 넘겨준다. 
 				// 서버에서 해당 roomId 에 해당하는 메세지들을 CHAT_MESSAGE 테이블에서 조회한다. 
@@ -303,18 +302,34 @@ function getChattingRooms(empCode){
 					headers: {
 						'Content-Type': 'application/json'
 					},
-					body: JSON.stringify({'roomId': roomId2})
+					body: JSON.stringify({'roomNo': roomNo2})
 				})
 				.then(response => {return response.json();})
-				.then(messageList => {					
-					
+				.then(messageList => {
+										
 					// 일단, 상단바에 "말풍선" + "채팅방의 제목" 이 있어야 함. 
-					let topAreaInChattingsContainer = document.querySelector('#topAreaInChattingsContainer'); 
+					let topAreaInChattingsContainer = document.querySelector('#topAreaInChattingsContainer');
+
+					// 일단, 기존에 만약에 존재한다면 그걸 다지워줌 
+					topAreaInChattingsContainer.innerHTML = '';
+					
+					/* 말풍선 */
+					let newChatBalloon = document.createElement('i');
+					newChatBalloon.classList.add('fa-regular', 'fa-comment');
+					newChatBalloon.style.marginRight = '3px';
+					newChatBalloon.style.fontSize = '20px';
+					newChatBalloon.style.color = '#F1B8B8';
+					topAreaInChattingsContainer.appendChild(newChatBalloon);
+					
+					/*채팅방의 제목*/
+					let roomName = document.createTextNode(room.roomName);
+					topAreaInChattingsContainer.appendChild(roomName);
+					
 					
 					
 					
 					// 채팅창을 띄워줘야 함
-					chat.style.display = 'block';
+					chattingsArea.style.display = 'block';
 					/* 지웠던 곳 시작  */
 					let count = messageList.length;
 						messageList.forEach(message => {
@@ -381,6 +396,8 @@ var stompClient = null;
 // 연결 
 function connect(subscribeAddr2) { 
 	
+	alert("connect 됨!");
+	
 	if (stompClient !== null && stompClient.connected) {
         stompClient.disconnect();
     }
@@ -395,7 +412,7 @@ function connect(subscribeAddr2) {
 									  // "STOMP 클라이언트"가 생성되게 되는데 
 									  // 이게 뭐냐면, WebSocket 서버와 연결하고 메세지를 주고받을 수 있게 되는거임.
 									  
-	subscribeAddr = subscribeAddr2;
+	subscribeAddr = subscribeAddr2; // 전역 구독주소로 매개변수로 받은 구독주소를 설정 
 									
 	// Websocket 서버(실시간 양방향 통신을 처리하는 서버) : 파티 장소. 모든 사람들이 여기서 이야기를 나눔
 	// SockJS : 파티 장소까지 가는 셔틀버스 
@@ -416,6 +433,7 @@ function connect(subscribeAddr2) {
 //======================================================================================================
 // 다른 사람이 채팅방을 만들어서 메세지를 보냈을 떄, 이를 받는 놈에게 실시간으로 그걸 보여주기 위해서 
 // 새로운 귀를 만들어준것 
+/*
 let stompClient2 = null; 
 
 connect2(empCode);
@@ -425,7 +443,6 @@ function connect2(empNo) {
     if (stompClient2 !== null && stompClient2.connected) {
         stompClient2.disconnect();
     }
-	
 	
     var socket = new SockJS('/ws');
     stompClient2 = Stomp.over(socket); 
@@ -445,74 +462,78 @@ function connect2(empNo) {
         });
     });
 }
+*/
 //======================================================================================================
 
 
 		
 // 메세지 보내기 
+// 메세지 보내기 
 function sendMessage() {	
-	
-	
+	alert(subscribeAddr);
+
 	// 채팅입력 input 태그의 내용 
-    var messageContent = document.getElementById('message').value.trim(); 
-    
+    var messageContent = document.getElementById('message').value.trim();
+
 	// 파일 input 태그 
 	var fileInput = document.getElementById('file'); 
-	// 이렇게 꺼냈던거 같은데 경로 같은거 
-    var file = fileInput.files[0];
+	var file = fileInput.files[0];
 	        
-	
-    if (messageContent && stompClient) { // 메세지 내용도 뭐가 입력되 있고, stompClient 라는 프로토콜도 준비되어 있다면 ~ 
+    if (messageContent && stompClient) { 
         var chatMessage = {
-			sender: memberNo, // 실제 사용자 이름으로 변경해야 함
-			senderNick: memberNickname,                    
-			content: messageContent,
-            type: 'CHAT',
-			subAddr: subscribeAddr,
-			'roomId' : roomIdOriginal
+			'senderEmpCode': empCode, 
+			'empNickname': empNickname,                    
+			'content': messageContent,
+            'messageType': 'CHAT',
+			'subscribeAddr': subscribeAddr,
+			'roomNo': roomNoOriginal
         };
+        
+        console.log(empCode);
+        console.log(empNickname);
+        console.log(messageContent);
+        console.log(subscribeAddr);
+        console.log(roomNoOriginal);
+        
         stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
         document.getElementById('message').value = '';
     }
 
     if (file && stompClient) {
         var formData = new FormData();
-        formData.append('sender', memberNo);
-        formData.append('senderNick', memberNickname);
+        formData.append('senderEmpCode', empCode);
+        formData.append('empNickname', empNickname);
         formData.append('file', file);
         formData.append('type', 'FILE');
-        formData.append('subAddr', subscribeAddr);
-        formData.append('roomId', roomIdOriginal);
+        formData.append('subscribeAddr', subscribeAddr);
+        formData.append('roomNo', roomNoOriginal);
         
-        // 첫번째 fetch 는 서버컴퓨터에 파일을 저장하기 위함임 + CHAT_MESSAGE 테이블에 삽입하기 위함임 
         fetch('/upload', {
             method: 'POST',
             body: formData
         })
         .then(response => response.json())
-        .then(updatePath => { // 첫번째 fetch 의 결과 MultipartFile 을 넘겨줘야 하나봐 
+        .then(chatMessage => { 
             var chatMessage = {
-                sender: memberNo, // 실제 사용자 이름으로 변경해야 함
-				senderNick: memberNickname,
-                content: updatePath,
+                senderEmpCode: chatMessage.senderEmpCode,
+				empNickname: chatMessage.empNickname,
+                content: chatMessage.filePath,
                 type: 'FILE'
             };
-            // 이건 다른 사용자에게도 보여주기 위함임 
             stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
         })
         .catch(error => console.error('Error uploading file:', error));
         
         fileInput.value = '';
     }
-	
 }
 
 // 메세지 보여주게 하기 
 function showMessage(message) {
 	
-    let messageArea = document.getElementById('messageArea'); // ul 태그임 
+    let chattingsArea = document.getElementById('chattingsArea'); // ul 태그임 
     let messageElement = document.createElement('li'); // li 태그 생성
-    messageElement.classList.add('chat-message'); //css 붙여주고 
+    //messageElement.classList.add('chat-message'); //css 붙여주고 
 
     if (message.type === 'CHAT') { // 현재 매개변수로 넘어온 message 라는 js 객체 안 type 에 든 값이 'CHAT' 인 경우 
         var textElement = document.createElement('p'); // p태그 하나 만듦
@@ -542,15 +563,15 @@ function showMessage(message) {
 		
     }
 
-    messageArea.appendChild(messageElement); // ul 태그에 li 태그 삽입함 
+    chattingsArea.appendChild(messageElement); // ul 태그에 li 태그 삽입함 
 
-    if(message.sender == memberNo){
+    if(message.senderEmpCode == empCode){
 		messageElement.style.display = 'flex';
 		messageElement.style.justifyContent = 'flex-end';
 	}
 
     
-    messageArea.scrollTop = messageArea.scrollHeight; // 스크롤 관련한 거 같은데 
+    chattingsArea.scrollTop = chattingsArea.scrollHeight; // 스크롤 관련한 거 같은데 
 }
 
 

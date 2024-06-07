@@ -52,13 +52,12 @@
 		
 		<div id="chattingsContainer">
 			<div id="topAreaInChattingsContainer">
-					<i class="fa-regular fa-comment" style="font-size: 20px;"></i> &nbsp;
 
 
 				
 			</div>
-			<div id="chattingsArea">
-			</div>
+			<ul id="chattingsArea">
+			</ul>
 			<div id="messageContainer">
 					<div>
 						<label for="file">
@@ -66,7 +65,7 @@
 						</label>
 					
 					</div>
-					<textarea	id="message"></textarea>
+					<textarea id="message"></textarea>
 				    <input type="file" id="file" />
 					<button onclick="sendMessage()" id="sendBtn">	
 						<i class="fa-regular fa-paper-plane" id="sendBtnIcon"></i>
@@ -81,7 +80,6 @@
 		let empCode = /*[[${session.loginMember.empCode}]]*/ "test username";	
 		let empFirstName = /*[[${session.loginMember.empFirstName}]]*/ "test username";	
 		let empLastName = /*[[${session.loginMember.EmpLastName}]]*/ "test username";	
-		
 		let empNickname = empFirstName + empLastName;
 		
 	</script>

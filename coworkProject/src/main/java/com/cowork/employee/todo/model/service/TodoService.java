@@ -24,9 +24,26 @@ public interface TodoService {
 	int todoInsert(Todo inputTodo, List<MultipartFile> files) throws IllegalStateException, IOException;
 
 	/** 할 일 상세 조회 
-	 * @param todoNo
+	 * @param map
 	 * @return
 	 */
-	/*Todo todoDetail(int todoNo); */
+	Todo todoDetail(Map<String, Integer> map);
+
+	/** 할 일 수정 
+	 * @param inputTodo
+	 * @param files
+	 * @return
+	 */
+	int todoUpdate(Todo inputTodo, List<MultipartFile> files) throws IllegalStateException, IOException;
+
+	/** 할 일 삭제 
+	 * @param todoNoList
+	 * @return
+	 */
+	int todoDelete(List<Integer> todoNoList);
+
+
+
+	
 
 }

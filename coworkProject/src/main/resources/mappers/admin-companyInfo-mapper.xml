@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.admin.companyInfo.model.mapper.CompanyInfoMapper">
+
+	<!-- 로고 이미지 변경 -->
+	<update id="companyLogoUpdate">
+		UPDATE "COMPANY" SET
+		COM_LOGO = #{comLogo}
+		WHERE COM_NO = #{comNo}
+	</update>
+	
+	<!-- 회사 정보 수정 -->
+	<update id="companyInfoUpdate">
+		UPDATE "COMPANY" SET
+		COM_NM = #{comNm},
+		COM_TEL = #{comTel},
+		COM_EMAIL = #{comEmail},
+		COM_ADDR = #{comAddr}
+		WHERE COM_NO = #{comNo}
+	</update>
+
+	<!-- 회사 정보 조회 -->
+	<select id="selectCompany">
+		SELECT COM_NO, COM_NM, COM_TEL, COM_ADDR, COM_LOGO, COM_EMAIL
+		FROM COMPANY
+		WHERE COM_NO = #{comNo}
+	</select>
+</mapper>

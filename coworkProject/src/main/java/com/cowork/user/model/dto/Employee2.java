@@ -27,7 +27,6 @@ public class Employee2 {
 	private String phone;
 	private String empAddress;
 	private String empBirth;
-	private String language;
 	private String hireDate;
 	private String contractType;
 	private String empTel;

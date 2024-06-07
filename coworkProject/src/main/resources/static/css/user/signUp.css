@@ -153,7 +153,7 @@ textarea{
     font-size: 16px;
 }
 
-#agreeBtn:hover, #signUpBtn:hover{
+#agreeBtn:hover, #signUpBtn:hover, #registerBtn:hover {
     background: white;
     border: 2px solid var(--main5-color);
     cursor: pointer;

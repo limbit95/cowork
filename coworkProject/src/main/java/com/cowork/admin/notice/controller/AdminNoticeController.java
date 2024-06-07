@@ -1,5 +1,6 @@
 package com.cowork.admin.notice.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.cowork.admin.notice.service.AdminNoticeService;
-import com.cowork.employee.chatting.model.dto.Employee;
+import com.cowork.admin.notice.model.service.AdminNoticeService;
 import com.cowork.employee.notice.model.dto.Notice;
 
 import lombok.RequiredArgsConstructor;
@@ -89,18 +89,25 @@ public class AdminNoticeController {
 	 * @return
 	 */
 	@PostMapping("noticeInsert")
-	public String noticeInsert(
-				@ModelAttribute Notice inputNotice,
+	public int noticeInsert(
+				@RequestParam("noticeTitle") String noticeTitle,
+	            @RequestParam("noticeContent") String noticeContent,
 				/*@SeesionAttribute("loginEmployee") Employee loginEmployee,*/
-				@RequestParam("files") List<MultipartFile> files,
+				@RequestParam(value="files", required=false) List<MultipartFile> files,
 				RedirectAttributes ra
-			) {
+			) throws IllegalStateException, IOException {
+		
+		Notice inputNotice = new Notice();
 		
 		inputNotice.setEmpCode(1); /*loginEmployee.getEmpCode()*/
+		inputNotice.setNoticeTitle(noticeTitle);
+		inputNotice.setNoticeContent(noticeContent);
 		
-		int empNo = service.noticeInsert(inputNotice, files);
+		int result = service.noticeInsert(inputNotice, files);
 		
-		return "admin/notice/noticeInsert";
+		log.info("게시글 번호 : " + result);
+		
+		return result;
 	}
 	
 	/** 공지사항 수정

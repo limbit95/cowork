@@ -1,5 +1,6 @@
-package com.cowork.admin.notice.service;
+package com.cowork.admin.notice.model.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,6 @@ public interface AdminNoticeService {
 	 * @param files
 	 * @return
 	 */
-	int noticeInsert(Notice inputNotice, List<MultipartFile> files);
+	int noticeInsert(Notice inputNotice, List<MultipartFile> files) throws IllegalStateException, IOException;
 
 }

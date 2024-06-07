@@ -1,9 +1,11 @@
 #fullContainer {
 	display: flex;
 	justify-content: center;
+	flex-direction: column;
+	align-items: center;
 }
 
-#rightSideSpace {
+.companyInfoUpdate{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -17,34 +19,110 @@
     font-weight: bold;
 }
 
+/* 회사 로고 부분 */
+#contentContainerInCompanyInfo {
+	height: 170px;
+	width: 600px;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+}
+
+/* 로고 이미지 부분 */
+#companyLogoImg {
+	height: 100%;
+}
+
+/* 로고 버튼 부분 */
+.logoImgBtnDiv {
+	margin-top: 20px;
+	margin-bottom: 50px;
+}
+
+.logoImgBtn {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#imageInput{ display: none;}
+
+/* 회사 정보 수정 부분 */
+.companyContainer {
+	width: 100%;
+	display: flex;
+	margin-top: 35px;
+}
+
+.companyContainer > div:nth-child(1) {
+	width: 10%;
+	height: 25px;
+	text-align: center;
+	padding-top: 9px;
+}
+
+.inputCompanyName, .inputCompanyTel, #address, #detailAddress {
+	width: 90%;
+	border-radius: 5px;
+	border: 1px solid var(--main6-color);
+	padding-left: 10px;
+}
+
+#postcode, .comEmail, .authKey {
+	width: 75%;
+	border-radius: 5px;
+	border: 1px solid var(--main6-color);
+	padding-left: 10px;
+}
+
+#searchAddress, #comEmailAuthBtn, #comEmailBtn {
+	width: 15%;
+	margin-left: 10px;
+	background: var(--main6-color);
+    color: white;
+    border: 2px solid var(--main6-color);
+	border-radius: 5px;
+	padding-left: 10px;
+}
+
+#searchAddress:hover, #comEmailAuthBtn:hover, #comEmailBtn:hover {
+	width: 15%;
+	margin-left: 10px;
+    background: white;
+    color: var(--main6-color);
+    border: 2px solid var(--main6-color);
+	border-radius: 5px;
+	padding-left: 10px;
+}
+
+/* 회사 정보 수정 버튼 */
 #btnContainerInCompanyInfo {
 	margin-top: 25px;
 	width: 100%;
 	display: flex;
-	justify-content: flex-end;
+	justify-content: center;
 }
 
 .saveBtn {
 	margin-left: 5px;
+	width: 30%;
 }
 
-.companyNameContainer {
+/* hidden */
+.div-hidden {
+	display: none !important;
+}
+
+/* 메세지 태그 */
+.mailDiv {
 	width: 100%;
-	background-color: aliceblue;
-	display: flex;
-	margin-bottom: 25px;
+	height: 0;
 }
 
-.companyNameContainer > div:nth-child(1) {
-	width: 70px;
-	height: 25px;
-	text-align: center;
-	padding-top: 7px;
+#emailMessage, #authKeyMessage {
+	padding-left: 10%;
 }
 
-.companyNameContainer > input:nth-child(2) {
-	flex-basis: 70%;
-	height: 25px;
-	border: 1px solid var(--main6-color);
-	border-radius: 5px;
-}
+/* 메세지 색상 지정 */
+.confirm{ color : var(--main-color); }
+.error{ color : coral; }

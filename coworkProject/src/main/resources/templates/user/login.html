@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login</title>
 
+        <link rel="icon" href="/images/favicon.png">
         <link rel="stylesheet" href="/css/user/login.css">
     </head>
     <body>
@@ -16,28 +17,32 @@
 
             <section class="formArea">
                 <span id="loginLetter">로그인</span>
-                <div class="loginInput">
-                    <input placeholder="아이디">
-                    <input placeholder="비밀번호">
-                </div>
-                <button id="loginBtn">로그인</button>
-                <div class="findArea">
-                    <a href="/user/findId">아이디 찾기</a>
-                    <span>|</span>
-                    <a href="/user/findPw">비밀번호 찾기</a>
-                </div>
+                <form action="/user/login" method="post" id="loginForm">
+
+                    <div class="loginInput">
+                        <input autocomplete="off" placeholder="아이디" id="empId" name="empId">
+                        <input type="password" placeholder="비밀번호" id="empPw" name="empPw">
+                    </div>
+                    <button id="loginBtn">로그인</button>
+                    <div class="findArea">
+                        <a href="/user/findId">아이디 찾기</a>
+                        <span>|</span>
+                        <a href="/user/findPw">비밀번호 찾기</a>
+                    </div>
+                    
+                </form>
             </section>
         </main>
 
-        <!-- 로고 클릭시 메인페이지 이동 -->
-        <script th:inline="javascript">
-            const coworkLogoB = document.querySelector(".coworkLogoB"); 
-    
-            coworkLogoB.addEventListener('click', () => {
-                location.href = "/"; 
-            })
-    
-        </script>
+       
+        <script src="/js/user/login.js"></script>
 
+        <script th:inline="javascript">
+            const message = /*[[${message}]]*/ "전달 메세지";
+            
+            if (message != null) {
+                alert(message);
+            }
+        </script>
     </body>
 </html>
