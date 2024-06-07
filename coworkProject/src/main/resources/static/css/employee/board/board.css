@@ -112,7 +112,7 @@ table.preview {
 }
 
 .fa-solid, .fas::before {
-    margin-right: 10px;
+    margin-right: 10px !important;
 }
 
 .colorGray {

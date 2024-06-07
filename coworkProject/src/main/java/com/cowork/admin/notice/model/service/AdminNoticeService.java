@@ -30,4 +30,21 @@ public interface AdminNoticeService {
 	 */
 	int noticeInsert(Notice inputNotice, List<MultipartFile> files) throws IllegalStateException, IOException;
 
+	/** 공지사항 삭제
+	 * @param noticeNo
+	 * @return
+	 */
+	int noticeDelete(int noticeNo);
+
+	/** 공지사항 수정
+	 * @param inputNotice
+	 * @param files
+	 * @param deleteOrder
+	 * @param updateOrder 
+	 * @return
+	 * @throws IOException 
+	 * @throws IllegalStateException 
+	 */
+	int noticeUpdate(Notice inputNotice, List<MultipartFile> files, String deleteOrder, String updateOrder) throws IllegalStateException, IOException;
+
 }

@@ -43,10 +43,10 @@
 
                 <div>
                     <!-- 파일 -->
-                    <div><button type="button" class="fa-solid fa-chevron-up btnBoarder fileListInfo"><label th:text="|첨부파일 *{fileCnt}개|">첨부파일</label><!--<label class="colorGray">(12.1KB)</label>--></div>
+                    <div><button type="button" class="fa-solid fa-chevron-up btnBoarder fileListInfo"></button><label th:text="|첨부파일 *{fileCnt}개|">첨부파일</label><!--<label class="colorGray">(12.1KB)</label>--></div>
                     <table class="default-line preview">
                         <tr th:each="file : ${fileList}" th:object="${file}">
-                            <td><i class="fa-solid fa-image"></i><label th:text="*{fileOriginName}">검색.png</label></td>
+                            <td><i class="fa-solid fa-paperclip"></i><label th:text="*{fileOriginName}">검색.png</label></td>
                             <td><a class="fa-solid fa-download" th:href="|*{filePath}*{fileRename}|" th:download="*{fileOriginName}"></a></td>
                         </tr>
                         <!--<tr>
@@ -64,17 +64,17 @@
         
         <!-- 버튼 -->
         <div class="defaultBtn insBtn">
-            <button class="default-btn glucose-btn">수정</button>
+            <button class="default-btn glucose-btn" id="noticeUpdate">수정</button>
             <button class="default-btn glucose-btn margin10" id="noticeDelete">삭제</button>
         </div>
 
-        <script th:inline="javascript">
-            const noticeNo = /*[[${notice.noticeNo}]]*/ "공지사항 번호";
-        </script>
-
-        <script src="/js/admin/notice/noticeDetail.js"></script>
-        
-
     </section>
+
+    <script th:inline="javascript">
+        const noticeNo = /*[[${notice.noticeNo}]]*/ "공지사항 번호";
+        const fileCnt = /*[[${notice.fileCnt}]]*/"파일개수";
+    </script>
+
+    <script src="/js/admin/notice/noticeDetail.js"></script>
 </body>
 </html>

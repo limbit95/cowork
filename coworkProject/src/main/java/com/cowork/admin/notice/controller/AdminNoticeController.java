@@ -66,7 +66,7 @@ public class AdminNoticeController {
 		if(map.get("notice") == null) {
 			
 			path = "redirect:/noticeList";
-			ra.addAttribute("message", "게시글이 존재하지 않습니다");
+			ra.addFlashAttribute("message", "게시글이 존재하지 않습니다");
 		} else {
 			
 			path = "admin/notice/noticeDetail";
@@ -78,7 +78,7 @@ public class AdminNoticeController {
 		return path;
 	}
 	
-	/** 공지사항 등록
+	/** 공지사항 등록 화면
 	 * @return
 	 */
 	@GetMapping("noticeInsert")
@@ -90,8 +90,8 @@ public class AdminNoticeController {
 	/** 공지사항 등록
 	 * @return
 	 */
-	@PostMapping("noticeInsert")
 	@ResponseBody
+	@PostMapping("noticeInsert")
 	public int noticeInsert(
 				@RequestParam("noticeTitle") String noticeTitle,
 	            @RequestParam("noticeContent") String noticeContent,
@@ -117,21 +117,79 @@ public class AdminNoticeController {
 	 * @return
 	 */
 	@GetMapping("noticeDelete")
-	public String noticeDelete(@RequestParam("noticeNo") int noticeNo) {
+	public String noticeDelete(
+			@RequestParam("noticeNo") int noticeNo,
+			RedirectAttributes ra
+			) {
 		
-		log.info("noticeNo : " + noticeNo);
+		int result = service.noticeDelete(noticeNo);
 		
-		return "";
+		String path = null;
+		String message = null;
+		
+		if(result > 0) {
+			path = "redirect:noticeList";
+			message = "게시글이 삭제되었습니다.";
+		} else {
+			path = "admin/notice/noticeDetail";
+			message = "게시글 삭제 실패";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return path;
 	}
 	
-	/** 공지사항 수정
+	/** 공지사항 수정 화면
 	 * @return
 	 */
-	@GetMapping("noticeUpdate")
-	public String noticeUpdate() {
+	@GetMapping("noticeUpdate/{noticeNo:[0-9]+}")
+	public String noticeUpdate(
+				@PathVariable("noticeNo") int noticeNo,
+				Model model
+			) {
+		
+		Map<String, Object> map = service.noticeDetail(noticeNo);
+		
+		model.addAttribute("notice", map.get("notice"));
+		model.addAttribute("fileList", map.get("fileList"));
 		
 		return "admin/notice/noticeUpdate";
 	}
 	
+	/** 공지사항 수정
+	 * @param noticeNo
+	 * @param noticeTitle
+	 * @param noticeContent
+	 * @param files
+	 * @return
+	 * @throws IOException 
+	 * @throws IllegalStateException 
+	 */
+	@ResponseBody
+	@PostMapping("noticeUpdate/{noticeNo:[0-9]+}")
+	public int noticeUpdate(
+				@PathVariable("noticeNo") int noticeNo,
+				@RequestParam("noticeTitle") String noticeTitle,
+	            @RequestParam("noticeContent") String noticeContent,
+	            /*@SeesionAttribute("loginEmployee") Employee loginEmployee,*/
+	            @RequestParam(value="files", required=false) List<MultipartFile> files,
+	            @RequestParam(value="deleteOrder", required = false) String deleteOrder, /* 삭제 */
+	            @RequestParam(value="updateOrder", required=false) String updateOrder, /* 기존 */
+	            @RequestParam(value="queryString", required = false, defaultValue="") String querystring
+			) throws IllegalStateException, IOException {
+		
+		Notice inputNotice = new Notice();
+		
+		inputNotice.setNoticeNo(noticeNo);
+		inputNotice.setNoticeTitle(noticeTitle);
+		inputNotice.setNoticeContent(noticeContent);
+		inputNotice.setEmpCode(1); /*loginEmployee.getEmpCode()*/
+		
+		// 서비스 호출 후 결과 받기
+		int result = service.noticeUpdate(inputNotice, files, deleteOrder, updateOrder);
+		
+		return result;
+	}
 	
 }

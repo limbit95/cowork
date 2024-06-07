@@ -49,4 +49,28 @@ public interface AdminNoticeMapper {
 	 */
 	List<BoardFile> boardFileList(Map<String, Object> boardFileMap);
 
+	/** 공지사항 삭제
+	 * @param noticeNo
+	 * @return
+	 */
+	int noticeDelete(int noticeNo);
+
+	/** 공지사항 수정
+	 * @param inputNotice
+	 * @return
+	 */
+	int noticeUpdate(Notice inputNotice);
+
+	/** 게시판 파일 삭제
+	 * @param map
+	 * @return
+	 */
+	int boardFileDelete(Map<String, Object> map);
+
+	/** 게시판 파일 순서 수정
+	 * @param updMap
+	 * @return
+	 */
+	int BoardFileUpdate(BoardFile updFile);
+
 }

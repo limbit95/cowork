@@ -1,5 +1,7 @@
 package com.cowork.employee.notice.model.dto;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
@@ -28,4 +30,5 @@ public class BoardFile {
 	
 	// 게시글 파일 삽입/수정 때 사용
 	private MultipartFile uploadFile;
+	private String fileOrderUpd; /* 파일순서 변경 */
 }
