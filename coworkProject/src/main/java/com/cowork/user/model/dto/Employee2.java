@@ -32,6 +32,7 @@ public class Employee2 {
 	private String empTel;
 	private String workPlace;
 	private String profileImg;
+	private String enrollDate;
 	
 	private String comNm; // 회사명
 	private String deptNm; // 부서명

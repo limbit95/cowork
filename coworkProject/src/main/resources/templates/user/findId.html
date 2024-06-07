@@ -22,15 +22,29 @@
                     <input placeholder="이름 (성 제외하고 입력)" id="empName">
                     <div>
                         <input placeholder="이메일" id="empEmail">
-                        <button id="authMailBtn">인증메일</button>
+                        <button id="authMailBtn">메일 인증</button>
                     </div>
                     <div>
-                        <input placeholder="인증번호" id="authkey">
+                        <input placeholder="인증번호" id="authKey">
                         <button id="authBtn">인증</button>
                     </div>
-                    <div class="message">
-                        아이디 : 000 입니다.
+                    
+                    <!-- 인증 성공 시 보일 아이디 리스트 -->
+                    <div id="resultDiv">
+                        <!-- <div id="divOne">
+                            <input type="radio" id="selectId" name="select">
+                            <div id="selectedId">limbit</div>
+                            <span id="signUpDate">가입 : 2024-06-05</span>
+                        </div> -->
                     </div>
+
+                    <div id="btnDiv">
+                        <div>
+                            <button id="loginPageMove">로그인</button>
+                            <button id="findPwOfSelectedId">비밀번호 찾기</button>
+                        </div>
+                    </div>
+
                 </div>
             </section>
         </main>

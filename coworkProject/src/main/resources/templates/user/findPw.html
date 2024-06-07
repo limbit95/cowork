@@ -19,26 +19,31 @@
             <section class="findPwFormArea">
                 <span id="findPw">비밀번호 찾기</span>
                 <div class="inputInfoArea">
-                    <div>
-                        <input type="radio" class="radio">
+                    <div class="findTypeDiv">
+                        <input type="radio" class="radio1" name="findType">
                         <span>이메일</span>
                     </div>
-                    <div class="findBox">
-                        <input placeholder="아이디">
+
+                    <div class="findBox1">
+                        <input placeholder="아이디" autocomplete="off" id="findPwByEmail">
                         <div>
-                            <input placeholder="이메일">
-                            <button class="findBtn">찾기</button>
+                            <input placeholder="이메일" id="empEmailOfFindPw">
+                            <button class="findBtn1">인증</button>
                         </div>
                     </div>
-                    <div>
-                        <input type="radio" class="radio">
+
+                    <div class="findTypeDiv">
+                        <input type="radio" class="radio2" name="findType">
                         <span>휴대폰 번호</span>
                     </div>
-                    <div class="findBox">
-                        <input placeholder="아이디">
+
+                    <div class="findBox2">
+                        <input placeholder="아이디" autocomplete="off" id="findPwByPhone">
                         <div>
-                            <input placeholder="휴대폰 번호">
-                            <button class="findBtn">찾기</button>
+                            <input placeholder="휴대폰 번호" id="phoneOfFindPw">
+                            <button class="findBtn2">인증번호 받기</button>
+                            <input placeholder="인증번호" id="authKey">
+                            <button class="findBtn3">인증</button>
                         </div>
                     </div>                  
                 </div>
@@ -46,13 +51,6 @@
         </main>
         
         <!-- 로고 클릭시 메인페이지 이동 -->
-        <script th:inline="javascript">
-            const coworkLogoB = document.querySelector(".coworkLogoB"); 
-
-            coworkLogoB.addEventListener('click', () => {
-                location.href = "/"; 
-        })
-
-        </script>
+        <script src="/js/user/login.js"> </script>
     </body>
 </html>
