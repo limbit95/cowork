@@ -40,6 +40,7 @@ if(calendarModal != null) {
             
             // span 요소 생성 및 텍스트 설정
             const span = document.createElement('span');
+            span.classList.add('selectCancel');
             span.textContent = '×';
             
             // 내부 div 요소에 p와 span 요소 추가
@@ -78,6 +79,7 @@ if(calendarModal != null) {
                 
                 // span 요소 생성 및 텍스트 설정
                 const span = document.createElement('span');
+                span.classList.add('selectCancel');
                 span.textContent = '×';
                 
                 // 내부 div 요소에 p와 span 요소 추가
@@ -92,12 +94,32 @@ if(calendarModal != null) {
                 selectView.scrollLeft = selectView.scrollWidth;
             }
 
-
         })
     }
 }
 
-// selectView 안에서 span 태그 안에 값들을 가져와서
+// selectView 안에서 span 태그 안에 x 값들을 가져와서 타겟팅된 값만 삭제
+// .selectCancel
+const selectView = document.querySelector(".selectView");
+
+if(selectView != null) {
+    selectView.addEventListener('click', function(event) {
+        if(event.target.classList.contains('selectCancel')) {
+            const selectedDiv = event.target.closest('.selectedDiv');
+            if(selectedDiv) {
+                selectedDiv.remove();
+            }
+        }
+
+        if(selectView.innerHTML == "") {
+            selectView.classList.add("calendarHidden");
+            const selectDept = document.querySelector(".selectDept");
+            const selectTeam = document.querySelector(".selectTeam");
+            selectDept.classList.remove("calendarHidden");
+            selectTeam.classList.remove("calendarHidden");
+        }
+    })
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
