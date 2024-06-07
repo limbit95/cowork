@@ -42,9 +42,8 @@ public interface ChatMapper {
 
 	List<String> chatRoomEmpCodeList(Integer roomNo);
 
-	Employee empDetail(String exposedEmpCode);
+	Employee empDetail(String empCode);
 
-	String senderProfileDetail(String senderEmpCode);
 
 
 }

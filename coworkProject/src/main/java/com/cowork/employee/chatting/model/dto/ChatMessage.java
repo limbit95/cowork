@@ -38,5 +38,8 @@ public class ChatMessage {
     // 그 채팅메세지를 쓴 사람의 프로필사진에 대한 게 없음. 
     private String profileImg;
     
+    private String empLastName; 
+    private String empFirstName;
+    
 
 }

@@ -225,7 +225,7 @@ public List<ChatMessageMe> getChatMessage(Map<String, String> paramMap) {
  * 메세지 쓰면 그 메세지를 저장하는 역할을 하는 메서드 
  */
 @Override
-public String insertTextMessage(ChatMessage chatMessage) {
+public Employee insertTextMessage(ChatMessage chatMessage) {
 	//ROOM_ID 필요
 	String roomNo = chatMessage.getRoomNo();
 	String senderEmpCode = chatMessage.getSenderEmpCode();
@@ -238,8 +238,8 @@ public String insertTextMessage(ChatMessage chatMessage) {
 	paramMap.put("messageType", 1);
 	chatMapper.insertMessage(paramMap);	
 	
-	String profileImg = chatMapper.senderProfileDetail(senderEmpCode);
-	return profileImg;
+	Employee findEmp = chatMapper.empDetail(senderEmpCode);
+	return findEmp;
 }
 
 @Override

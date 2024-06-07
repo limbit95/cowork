@@ -899,7 +899,6 @@ function showMessage(message) {
 	 */
 	
 	
-	
     let chattingsArea = document.getElementById('chattingsArea'); // ul 태그임 
     let messageElement = document.createElement('li'); // li 태그 생성
     //messageElement.classList.add('chat-message'); //css 붙여주고 
@@ -950,10 +949,50 @@ function showMessage(message) {
 		let firstDiv = document.createElement('div');
 		let secondDiv = document.createElement('div');			
 		
+		let profileDiv; 
+		
 		// 프로필사진부터 처리
-		let profileImgSrc = message.profileImg; // 현재 메세지를 쓴 놈의 프로필 이미지 가져옴. 
-		let profileImg = document.createElement('img');
-		profileImg.src = profileImgSrc; // 이미지가 바인딩된 img 태그 생성 
+		if(message.profileImg == null){
+			// 프로필 이미지가 없는 경우 
+			profileDiv = document.createElement('div');
+			let empLastNameNode = document.createTextNode(message.empLastName);
+			profileDiv.appendChild(empLastNameNode);	
+
+			profileDiv.style.width = '30px';		
+			profileDiv.style.height = '30px';					
+			profileDiv.style.borderRadius = '50%';
+			
+    	    const lastNameColors = {
+   	   		    '김': '#FFCDD2',
+        	    '이': '#C8E6C9',
+        	    '박': '#BBDEFB',
+        	    '최': '#D1C4E9',
+        	    '정': '#FFECB3',
+         	    '송': '#BBDEFB',
+                '임': '#D1C4E9'
+         		// 필요에 따라 더 추가할 수 있음
+       	 	};			
+			
+			if(lastNameColors[message.empLastName]){
+				profileDiv.style.backgroundColor = lastNameColors[message.empLastName];				
+			} else{
+				profileDiv.style.backgroundColor = 'yellow';
+			}
+			profileDiv.style.display = 'flex';
+			profileDiv.style.justifyContent = 'center';
+			profileDiv.style.alignItems = 'center';
+			
+			
+		} else{
+			// 프로필 이미지가 있는 경우
+			profileDiv = document.createElement('img');
+			priflleDiv.src = message.profileImg;
+			
+			
+		}
+		
+		
+
 		
 		// 이름 처리 
 		let empNickname = message.empNickname;
@@ -966,17 +1005,32 @@ function showMessage(message) {
 		let contentDiv = document.createElement('div');
 		contentDiv.appendChild(contentNode); // 메세지 내용이 들어있는 div 태그 생성 
 		
-		firstDiv.appendChild(profileImg);
+		firstDiv.appendChild(profileDiv);
 		firstDiv.appendChild(nicknameDiv);
 		
 		firstDiv.style.display = 'flex';
+		firstDiv.style.alignItems = 'center';
 		
 		secondDiv.appendChild(contentDiv);
+		secondDiv.style.backgroundColor = 'white';
+		
+		secondDiv.style.display = 'inline';
+		secondDiv.style.width = 'auto';
+		secondDiv.style.maxWidth = '300px';
+		secondDiv.style.wordWrap = 'break-word';
+		secondDiv.style.marginTop = '2%';
+		secondDiv.style.marginBottom = '2%';		
+		
+        secondDiv.style.paddingRight = '10px';
+        secondDiv.style.paddingLeft = '10px';
+        secondDiv.style.paddingTop = '10px';
+        secondDiv.style.paddingBottom = '10px';
+        secondDiv.style.borderRadius = '10px';
+		
 		
 		messageElement.appendChild(firstDiv);
 		messageElement.appendChild(secondDiv);
 		
-				
 		chattingsArea.appendChild(messageElement);
 
 		}
