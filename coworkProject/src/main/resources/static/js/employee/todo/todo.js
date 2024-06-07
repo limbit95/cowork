@@ -30,16 +30,30 @@
 */
 
 
-function fetchTodos(todoComplete, sortBy, todoQuery = '') {
+function fetchTodos(todoComplete, sortBy, todoQuery = '', inCharge = false, request = false) {
     const todoList = document.getElementById('todoList');
     let url = `/todo/todos?todoComplete=${todoComplete}&sortBy=${sortBy}`;
     if (todoQuery) {
         url += `&todoQuery=${encodeURIComponent(todoQuery)}`;
     }
+    if (inCharge) {
+        url += `&inCharge=${inCharge}`;
+    }
+    if (request) {
+        url += `&request=${request}`;
+    }
     console.log(`Fetching todos from URL: ${url}`); // 디버그 로그 추가
     fetch(url)
         .then(response => response.json())
         .then(todos => {
+
+            if (todos.length === 0) {
+                alert("조회된 할 일이 없습니다.");
+                // 메인 TODO 리스트 조회 화면으로 리디렉션
+                window.location.href = '/todo/todoList';
+                return;
+            }
+
             todoList.innerHTML = ''; // 기존 목록 초기화
             todos.forEach(todo => {
                 const todoDiv = document.createElement('div');
@@ -62,7 +76,6 @@ function fetchTodos(todoComplete, sortBy, todoQuery = '') {
         })
         .catch(error => console.error('Error fetching todos:', error));
 }
-
 
 
 
@@ -279,8 +292,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const cancelBtns = document.querySelectorAll('.cancelBtn');
     const sortByOption = document.getElementById('sortByOption');
     const doneListCheckbox = document.getElementById('doneList');
-    const searchForm = document.getElementById('searchForm');
-    const searchInput = document.getElementById('searchInput');
+    const searchForm = document.getElementById('todoSearch');
+    const searchInput = document.getElementById('todoSearchQuery');
+     // 내 담당과 요청 링크 요소 가져오기
+     const meInChargeLink = document.getElementById('meInCharge').querySelector('a');
+     const requestLink = document.getElementById('request').querySelector('a');
+
+    console.log('DOMContentLoaded 이벤트 리스너 실행');
+    console.log('searchForm:', searchForm);
+    console.log('searchInput:', searchInput);
+    console.log('sortByOption:', sortByOption);
+    console.log('doneList:', doneList);
+   
 
     /* 등록 버튼 클릭 시 */
     if (insertBtn) {
@@ -329,9 +352,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sortByOption && doneListCheckbox) {
         fetchTodos(doneListCheckbox.checked ? 2 : 1, sortByOption.value);
     }
-
-    // 검색 폼 제출 시
-    if (searchForm) {
+    
+      // 검색 폼 제출 시
+      if (searchForm) {
         searchForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const todoQuery = searchInput.value.trim();
@@ -339,11 +362,51 @@ document.addEventListener('DOMContentLoaded', () => {
             fetchTodos(doneListCheckbox.checked ? 2 : 1, sortByOption.value, todoQuery);
         });
     }
-
-    // 정렬 옵션 변경 시
-    if (sortByOption) {
-        sortByOption.addEventListener('change', changeSortByOption);
+    
+     // 정렬 옵션 변경 시
+     if (sortByOption) {
+        sortByOption.addEventListener('change', function() {
+            const sortBy = sortByOption.value;
+            const todoQuery = searchInput.value.trim();
+            console.log(`Changing sort by option: ${sortBy}, with query: ${todoQuery}`); // 디버그 로그 추가
+            fetchTodos(doneListCheckbox.checked ? 2 : 1, sortBy, todoQuery);
+        });
     }
+
+    // 완료한 일 보기 체크박스 변경 시
+    if (doneListCheckbox) {
+        doneListCheckbox.addEventListener('change', function() {
+            const todoComplete = doneListCheckbox.checked ? 2 : 1;
+            const sortBy = sortByOption.value;
+            const todoQuery = searchInput.value.trim();
+            console.log(`Changing done list checkbox: ${todoComplete}, with query: ${todoQuery}`); // 디버그 로그 추가
+            fetchTodos(todoComplete, sortBy, todoQuery);
+        });
+    }
+
+     // 내 담당 할 일 보기 클릭 시
+     if (meInChargeLink) {
+        meInChargeLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            const sortBy = sortByOption.value;
+            const todoQuery = searchInput.value.trim();
+            console.log(`Fetching in charge todos, with query: ${todoQuery}`); // 디버그 로그 추가
+            fetchTodos(doneListCheckbox.checked ? 2 : 1, sortBy, todoQuery, true, false);
+        });
+    }
+
+    // 요청된 할 일 보기 클릭 시
+    if (requestLink) {
+        requestLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            const sortBy = sortByOption.value;
+            const todoQuery = searchInput.value.trim();
+            console.log(`Fetching requested todos, with query: ${todoQuery}`); // 디버그 로그 추가
+            fetchTodos(doneListCheckbox.checked ? 2 : 1, sortBy, todoQuery, false, true);
+        });
+    }
+
+
 
     /* 취소 버튼 */
     cancelBtns.forEach(function(cancelBtn) {

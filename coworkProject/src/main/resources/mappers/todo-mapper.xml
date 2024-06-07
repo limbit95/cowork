@@ -56,17 +56,29 @@
 	
 	<!-- 요청 부분 수정 필요!! -->
 	<select id="todoRequested"> 
-		SELECT T.TODO_NO, T.TODO_TITLE, T.TODO_CONTENT, T.TODO_WRITE_DATE, T.TODO_END_DATE, T.TODO_COMPLETE, T.EMP_CODE
+		 SELECT T.TODO_NO, 
+           T.TODO_TITLE, 
+           T.TODO_CONTENT, 
+           T.TODO_WRITE_DATE, 
+           T.TODO_END_DATE, 
+           T.TODO_COMPLETE, 
+           T.EMP_CODE
 	    FROM TODO T
 	    LEFT JOIN TODO_MANAGER TM ON T.TODO_NO = TM.TODO_NO
+	    JOIN EMPLOYEE E ON T.EMP_CODE = E.EMP_CODE
 	    WHERE T.EMP_CODE = TM.EMP_CODE
-	    OR T.EMP_CODE = #{requestEmpCode}
-	    <if test="sortBy == 'latest'">
-	        ORDER BY T.TODO_WRITE_DATE DESC
-	    </if>
-	    <if test="sortBy == 'registration'">
-	        ORDER BY T.TODO_WRITE_DATE ASC
-	    </if>
+	       OR T.EMP_CODE = 1
+	    <choose>
+	        <when test="sortBy == 'latest'">
+	            ORDER BY T.TODO_WRITE_DATE DESC
+	        </when>
+	        <when test="sortBy == 'registration'">
+	            ORDER BY T.TODO_WRITE_DATE ASC
+	        </when>
+	        <otherwise>
+	            ORDER BY T.TODO_WRITE_DATE DESC
+	        </otherwise>
+	    </choose>
 	</select>
 	
 	<select id="todoCompleted">

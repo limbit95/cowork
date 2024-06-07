@@ -89,7 +89,7 @@ public interface TodoMapper {
 
 	List<Todo> todoRequested(String sortBy);
 
-	List<Todo> todoCompleted(String sortBy);
+	List<Todo> todoCompleted(String todoComplete);
 
 	List<Todo> todoInProgress(String sortBy);
 

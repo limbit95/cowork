@@ -7,6 +7,7 @@ a:hover {
     color: #fff;
 }
 
+
 /* 검색 */
 #searchTodo{
     margin-top: 0 !important;
@@ -221,8 +222,9 @@ ul{
     border: 1px solid #d9d9d9;
     padding: 10px;
     resize: none;
-    min-height: 140px;
+    height: 140px;
     width: 240px;
+    overflow-y: auto;
 }
 
 #requestContent:focus {
