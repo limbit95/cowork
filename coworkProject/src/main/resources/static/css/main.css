@@ -13,12 +13,6 @@
     margin: 0;
 }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; 
-}
-
 pre {
     margin: 0 !important;
 }
@@ -80,24 +74,9 @@ a {
 /* -------------Footer 영역--------------*/
 
 footer {
-    background-color: #E5F2FE;
-    min-width: 1110px;
-    margin: 0 !important;
-}
-
-.footerArea {
-    margin-top: 10px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-/*
-footer {
     position: relative;
     transform: translateY(0%) !important;
-    bottom: 0px;
-    min-width: 1110px;
+    bottom: 0px; 
 }
 
 .footerArea {
@@ -107,8 +86,9 @@ footer {
     justify-content: space-between;
     background-color: #E5F2FE;
     height: 100px;
+    min-width: 1110px;
 }
-*/
+
 #coworkLogo {
     width: 300px;
 }
@@ -330,7 +310,7 @@ video:hover {
 .close-btn {
     position: absolute;
     right: 10px;
-    top: 10px;
+    top: 4px;
     color: white;
     font-size: 24px;
     cursor: pointer;
@@ -384,9 +364,8 @@ video:hover {
     padding: 10px;
     background: #FFF;
     border-top: 1px solid #CCC;
-    position: sticky;
+    position: sticky !important;
     bottom: 0;
-    width: 100%;
 }
 
 .chat-footer input {
