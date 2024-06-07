@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cowork.admin.notice.mapper.AdminNoticeMapper">
+
+	<!-- <resultMap type="NoticeNo" id="notice_rm">
+		
+		<id property="noticeNo" column="NOTICE_NO"/>-->
+		
+		<!-- 파일 -->
+		<!--<collection property="fileList" 
+					select="BoardFileList"
+					column="NOTICE_NO"
+					javaType="java.util.ArrayList"
+					ofType = "BoardFile"
+		/>
+	</resultMap> -->
 	
 	<!-- 공지사항 게시글 수 조회 -->
 	<select id="getNoticeListCount">
@@ -84,11 +97,20 @@
 			,NOTICE_CONTENT
 			,EMP_CODE 
 			,DEPT_NO
+			,(SELECT COUNT(*) FROM BOARD_FILE WHERE BOARD_NM = 'NOTICE' AND BOARD_NO = #{noticeNo}) AS FILE_CNT
 		FROM NOTICE
 		JOIN EMPLOYEE USING(EMP_CODE)
 		JOIN TEAM USING(TEAM_NO)
 		JOIN DEPARTMENT USING(DEPT_NO)
 		WHERE NOTICE_NO = #{noticeNo}
+	</select>
+	
+	<select id="boardFileList" > <!-- resultType="BoardFile" -->
+		SELECT *
+		FROM BOARD_FILE
+		WHERE BOARD_NM = #{boardNm}
+		AND BOARD_NO = #{noticeNo}
+		ORDER BY FILE_ORDER
 	</select>
 	
 	<insert id="noticeInsert" useGeneratedKeys="true" parameterType="Notice">

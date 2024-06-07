@@ -1,5 +1,6 @@
 const oEditors = []; /* 스마트에디터 */
-const preview = document.querySelector('.preview');
+const fileListBtn = document.querySelector('.fileListInfo'); /* 파일 목록 보기 버튼 */
+const preview = document.querySelector('.preview'); /* 파일 목록 보기 */
 const formData = new FormData(); // 초기에 빈 FormData 객체를 생성합니다.
 
 
@@ -12,20 +13,23 @@ smartEditor = function() {
         fCreator: "createSEditor2"
     })
 }
-/*$(document).ready(function() {
-    //스마트에디터 적용
-    smartEditor(); 
-        //값 불러오기
-    function preview(){
-            // 에디터의 내용을 textarea에 적용
-            oEditors.getById["noticeContent"].exec("UPDATE_CONTENTS_FIELD", []);
-            // textarea 값 불러오기 
-            var content = document.getElementById("noticeContent").value;
-            alert(content);
-            return;
+
+/* 파일목록 보기 */
+fileListBtn.addEventListener('click', () => {
+
+    if(fileListBtn.classList.contains('fa-chevron-up')) {
+        fileListBtn.classList.remove('fa-chevron-up');
+        fileListBtn.classList.add('fa-chevron-down');
+
+        preview.style.display = 'none';
+    } else {
+        fileListBtn.classList.remove('fa-chevron-down');
+        fileListBtn.classList.add('fa-chevron-up');
+
+        preview.style.display = 'block';
     }
-    
-});*/
+});
+
 
 /* 파일업로드 */
 const handler = {
@@ -45,7 +49,7 @@ const handler = {
                 /* 1번째 row : 파일명 */
                 const fileTd = document.createElement('td');
 
-                const fileIcon = document.createElement('i');
+                const fileIcon = document.createElement('a');
                 fileIcon.classList.add('fa-solid', 'fa-paperclip');
 
                 const fileLabel = document.createElement('label');
@@ -58,7 +62,7 @@ const handler = {
                 const fileTd2 = document.createElement('td');
 
                 const fileXIcon = document.createElement('button');
-                fileXIcon.classList.add('fa-solid', 'fa-xmark', 'fileRemove');
+                fileXIcon.classList.add('fa-solid', 'fa-xmark', 'fileRemove', 'btnBoarder');
                 fileXIcon.dataset.name = `${file.name}`; // 파일 이름을 dataset에 저장
                 fileXIcon.dataset.index = `${file.lastModified}`;
                 fileXIcon.type = 'button';
@@ -88,11 +92,11 @@ const handler = {
             // FormData 객체에서 해당 파일을 삭제합니다.
             formData.delete(removeTargetName);
 
-            // 파일을 제거한 후에 FormData 객체의 파일 개수를 업데이트합니다.
-            document.querySelector('#fileCnt').innerText = preview.childElementCount;
-
             // DOM에서 파일을 제거합니다.
             removeTarget.remove();
+
+            // 파일을 제거한 후에 FormData 객체의 파일 개수를 업데이트합니다.
+            document.querySelector('#fileCnt').innerText = preview.childElementCount;
         })
     }
 }
@@ -118,6 +122,18 @@ document.querySelector("#noticeInsert").addEventListener("click", () => {
         clone.append('files', pair[1]);
     }
 
+    if(noticeTitle.trim().length == 0){
+        alert("제목을 작성해주세요.");
+        noticeTitle.focus();
+        return;
+    }
+
+    if(noticeContent == '<p><br></p>' || noticeContent == '<br>') {
+        alert("내용을 작성해주세요.");
+        noticeContent.focus();
+        return;
+    }
+
 
     fetch("/admin/notice/noticeInsert" , {
         method : "POST",
@@ -126,15 +142,13 @@ document.querySelector("#noticeInsert").addEventListener("click", () => {
     .then(resp => resp.text())
     .then(result => {
 
-        console.log(result);
-
         if(result > 0) {
-            alert("게시글이 작성되었습니다" + result);
+            alert("게시글이 작성되었습니다");
 
-            location.href = "/admin/notice/noticeDetail/" + result +  + "?cp=1";
+            location.href = "/admin/notice/noticeDetail/" + result + "?cp=1";
 
         } else {
-            alert("게시글 작성 실패" + result);
+            alert("게시글 작성 실패");
         }
     });
 

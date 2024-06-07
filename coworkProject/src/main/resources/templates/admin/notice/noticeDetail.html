@@ -19,7 +19,7 @@
 
         <!-- 버튼 -->
         <div class="defaultBtn insBtn">
-            <button class="default-btn glucose-btn">목록</button>
+            <form action="../noticeList"><button class="default-btn glucose-btn">목록</button></form>
         </div>
         
         <div class="default-line default-padding" th:object="${notice}">
@@ -43,20 +43,18 @@
 
                 <div>
                     <!-- 파일 -->
-                    <!--
-                    <div><i class="fa-solid fa-chevron-down"></i><label>첨부파일</label><label>3</label><label>개</label><label class="colorGray">(12.1KB)</label></div>
-                    <table class="default-line">
-                        <tr>
+                    <div><button type="button" class="fa-solid fa-chevron-up btnBoarder fileListInfo"><label th:text="|첨부파일 *{fileCnt}개|">첨부파일</label><!--<label class="colorGray">(12.1KB)</label>--></div>
+                    <table class="default-line preview">
+                        <tr th:each="file : ${fileList}" th:object="${file}">
+                            <td><i class="fa-solid fa-image"></i><label th:text="*{fileOriginName}">검색.png</label></td>
+                            <td><a class="fa-solid fa-download" th:href="|*{filePath}*{fileRename}|" th:download="*{fileOriginName}"></a></td>
+                        </tr>
+                        <!--<tr>
                             <td><i class="fa-solid fa-image"></i><label>검색.png</label><label class="colorGray">3.09KB</label></td>
                             <td><a class="fa-solid fa-download"></a></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fa-solid fa-image"></i><label>검색.png</label><label class="colorGray">3.09KB</label></td>
-                            <td><a class="fa-solid fa-download"></a></td>
-                        </tr>
+                        </tr>-->
                     </table>
-                    -->
-                    <div class="default-line smarteditorDetail" th:text="*{noticeContent}">에디터에 기본으로 삽입할 글(수정 모드)이 없다면 이 value 값을 지정하지 않으시면 됩니다.</div>
+                    <div class="default-line smarteditorDetail" th:utext="*{noticeContent}">에디터에 기본으로 삽입할 글(수정 모드)이 없다면 이 value 값을 지정하지 않으시면 됩니다.</div>
                 </div>
                 
             </div>
@@ -67,8 +65,14 @@
         <!-- 버튼 -->
         <div class="defaultBtn insBtn">
             <button class="default-btn glucose-btn">수정</button>
-            <button class="default-btn glucose-btn margin10">삭제</button>
+            <button class="default-btn glucose-btn margin10" id="noticeDelete">삭제</button>
         </div>
+
+        <script th:inline="javascript">
+            const noticeNo = /*[[${notice.noticeNo}]]*/ "공지사항 번호";
+        </script>
+
+        <script src="/js/admin/notice/noticeDetail.js"></script>
         
 
     </section>

@@ -39,6 +39,11 @@
     color: #c7c5c5;
 }
 
+/* 다운로드버튼 */
+.fileUploadForm a {
+    color: black;
+}
+
 /************************** 등록 화면 */
 /* 등록 화면 버튼 */
 .insBtn {
@@ -93,6 +98,12 @@ span.fileSelect input {
 /* 업로드파일 리스트 기본 높이 */
 table.preview {
     height: 50px;
+}
+
+/* 첨부파일 버튼 */
+.btnBoarder {
+    background: transparent;
+    border: none;
 }
 
 /* 첨부파일 */
