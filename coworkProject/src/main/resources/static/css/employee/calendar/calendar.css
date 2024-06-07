@@ -31,3 +31,69 @@
 #fc-dom-1 {
     color: var(--main-color);
 }
+
+/* 내용 입력 모달창 */
+.calendarModal {
+    width: 30vw;
+    height: 50vh;
+    background-color: #f9f9f9;
+}
+
+.titleColor div {
+    height: 5vh;
+    width: 5vh;
+}
+
+/* pop-up */
+#updateLayer{
+	width: 400px;
+	height: 400px;
+	background-color: var(--main4-color);
+	position: fixed; /* 브라우저에서 위치 고정 */
+	/* 브라우저 정가운데 배치 */
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
+    border-radius: 10px;
+    z-index: 5;
+}
+/* 
+.first-line{
+	background-color: darkslategray;
+} */
+
+.popup-row{
+	padding: 10px;
+	margin: 10px;
+	/* 위치의 상대적 기준점 */
+	position : relative;
+	width: 90%;
+}
+.popup-row > span {
+	color: gray;
+}
+.popup-hidden{ 
+	display: none !important; 
+}
+
+#popupClose{
+  /* 절대적인 위치 지정(기준 내에서 아무곳에나 배치 가능) */
+  position: absolute; 
+  top: 0px;   /* 위쪽으로    부터 0px 떨어진 위치 */
+  right: 10px; /* 오른쪽으로 부터 10px 떨어진 위치 */
+  font-size: 30px;
+  font-weight: bold;
+  user-select: none; /* 드래그 방지 */
+  cursor: pointer; /* 커서 손가락 모양 */
+}
+  
+#popupClose:hover{ color :grey; }
+
+#popupClose:active{ color : darkslategray; }

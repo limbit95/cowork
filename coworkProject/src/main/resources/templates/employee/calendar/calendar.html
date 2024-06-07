@@ -6,6 +6,10 @@
     <title>Calendar</title>
 
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.13/index.global.min.js"></script>
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' rel='stylesheet' />
+    <script src='https://fullcalendar.io/releases/fullcalendar/3.10.2/lib/moment.min.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js'></script>
 
     <link rel="stylesheet" href="/css/employee/calendar/calendar.css">
     <link rel="icon" href="/images/favicon.png">
@@ -36,6 +40,80 @@
             <div id='calendar'></div>
         </div>
     </section>
+
+    <!-- select 했을 경우 할 일 제목, 색 클릭, 요청 멤버 선택해서 받아줄 거 -->
+    <div class="calendarModal">
+        <div>
+            일정 제목 : <input>
+        </div>
+        <div class="titleColor">
+            <div style="background-color: #eb9234;"></div>
+            <div style="background-color: #accf9b;"></div>
+            <div style="background-color: #6d8ec7;"></div>
+        </div>
+        <div>
+            추가할 사람 선택
+        </div>
+        <div>
+            <!-- 선택된 사람 넣는 곳 -->
+        </div>
+        <div>
+            <input type="checkbox"> 팀 공유 여부
+        </div>
+        <div>
+            <button>저장</button>
+            <button>취소</button>
+        </div>
+    </div>
+
+    
+    <div id="updateLayer">
+		<div class="first-line"></div>
+        <div class="popup-row">
+          제목 : <input type="text" id="updateTitle">
+        </div>
+
+        <div class="popup-row">
+            <textarea id="updateContent" cols="50" rows="5"></textarea>
+        </div>
+
+        <form action="/todo/main"
+            method="post"
+            enctype="multipart/form-data"
+            class="btn-container"
+        >
+
+          <!-- type="file" 도 결국에는 Parameter
+               -> @RequestParam으로 처리 가능
+          -->
+          <input type="file" name="uploadFile" multiple>
+          <!-- input 태그 multiple 속성 == 파일 여러 개 선택 가능 -->
+
+          <button class="myPage-submit">등록</button>
+          <a id="updateCancel">취소</a>     
+        </form>
+    </div>
+
+    <!-- 전체 캘린더에서 제목 클릭했을 경우 뜨는 모달창 BootStrap -->
+    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="eventDescription"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Full Calendar API JS -->
     <script src="/js/employee/calendar/calendar.js"></script>
