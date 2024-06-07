@@ -46,11 +46,7 @@
         <div>
             일정 제목 : <input>
         </div>
-        <div class="titleColor">
-            <div style="background-color: #eb9234;"></div>
-            <div style="background-color: #accf9b;"></div>
-            <div style="background-color: #6d8ec7;"></div>
-        </div>
+
         <div>
             추가할 사람 선택
         </div>
@@ -67,31 +63,74 @@
     </div>
 
     
-    <div id="updateLayer">
-		<div class="first-line"></div>
-        <div class="popup-row">
-          제목 : <input type="text" id="updateTitle">
+    <div id="calendarModal">
+        <div class="calendarModalSpace"></div>
+        <div class="modalTitle">
+            <p>일정 제목</p>
+            <input type="text" id="updateTitle">
         </div>
 
-        <div class="popup-row">
-            <textarea id="updateContent" cols="50" rows="5"></textarea>
+        <div class="titleColor">
+            <div style="background-color: #fc8b8b;">
+                <input value="#fc8b8b" hidden>
+            </div>
+            <div style="background-color: #eb9234;">
+                <input value="#eb9234" hidden>
+            </div>
+            <div style="background-color: #accf9b;">
+                <input value="#accf9b" hidden>
+            </div>
+            <div style="background-color: #6d8ec7;">
+                <input value="#6d8ec7" hidden>
+            </div>
+            <div style="background-color: #b09dc9;">
+                <input value="#b09dc9" hidden>
+            </div>
         </div>
 
-        <form action="/todo/main"
-            method="post"
-            enctype="multipart/form-data"
-            class="btn-container"
-        >
+        <!-- 팀 전체, 부서, 팀 선택 -->
+        <div class="selectSection">
+            <button class="selectCompany">
+                회사 전체
+            </button>
 
-          <!-- type="file" 도 결국에는 Parameter
-               -> @RequestParam으로 처리 가능
-          -->
-          <input type="file" name="uploadFile" multiple>
-          <!-- input 태그 multiple 속성 == 파일 여러 개 선택 가능 -->
+            <select class="selectDept">
+                <!-- 값을 타임리프로 뿌려줄 때 값이 없으면 없음이라고 나오게 -->
+                <option>부서 선택</option>
+                <option>영업부</option>
+                <option>마케팅부</option>
+                <option>개발부</option>
+                <option>인사부</option>
+            </select>
 
-          <button class="myPage-submit">등록</button>
-          <a id="updateCancel">취소</a>     
-        </form>
+            <select class="selectTeam">
+                <!-- 값을 타임리프로 뿌려줄 때 값이 없으면 없음이라고 나오게 -->
+                <option>팀 선택</option>
+                <option>영업1팀</option>
+                <option>영업2팀</option>
+                <option>마케팅1팀</option>
+                <option>마케팅2팀</option>
+            </select>
+        </div>
+
+        <!-- 선택한 값들이 들어올 곳 -->
+        <div class="selectView calendarHidden">
+            <!-- <span class="selectedDiv">
+                <div>
+                    <p>회사 전체</p>
+                    <span>&times;</span>
+                </div>
+            </span> -->
+        </div>
+
+        <div class="modalContent">
+            <textarea id="updateContent" rows="7" cols="50"></textarea>
+        </div>
+
+        <div class="modalBtn">
+            <button class="default-btn glucose-border-btn">등록</button>
+            <button class="default-btn glucose-border-btn">취소</button>
+        </div>
     </div>
 
     <!-- 전체 캘린더에서 제목 클릭했을 경우 뜨는 모달창 BootStrap -->

@@ -28,27 +28,15 @@
 }
 
 /* 캘린더 년, 월 글씨 색 지정 */
-#fc-dom-1 {
+/* #fc-dom-1 {
     color: var(--main-color);
-}
-
-/* 내용 입력 모달창 */
-.calendarModal {
-    width: 30vw;
-    height: 50vh;
-    background-color: #f9f9f9;
-}
-
-.titleColor div {
-    height: 5vh;
-    width: 5vh;
-}
+} */
 
 /* pop-up */
-#updateLayer{
-	width: 400px;
-	height: 400px;
-	background-color: var(--main4-color);
+#calendarModal{
+	width: 30%;
+	height: 60%;
+	background-color: white;
 	position: fixed; /* 브라우저에서 위치 고정 */
 	/* 브라우저 정가운데 배치 */
 	margin: auto;
@@ -58,42 +46,153 @@
 	right: 0;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
-	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
-    border-radius: 10px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
+    border-radius: 5px;
     z-index: 5;
 }
-/* 
-.first-line{
-	background-color: darkslategray;
-} */
 
-.popup-row{
-	padding: 10px;
-	margin: 10px;
+.calendarModalSpace {
+    background-color: var(--main4-color);
+    height: 5%;
+    width: 100%;
+}
+
+.modalTitle{
+    margin-top: 15px;
 	/* 위치의 상대적 기준점 */
 	position : relative;
-	width: 90%;
+	width: 75%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.popup-row > span {
-	color: gray;
+
+.modalTitle > p {
+    margin: 0;
+    width: 15%;
+    text-align: center;
 }
-.popup-hidden{ 
+
+#updateTitle {
+    width: 75%;
+    border-radius: 5px;
+    border: 1px solid var(--main6-color);
+}
+
+.titleColor {
+    margin-top: 15px;
+    width: 75%;
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+.titleColor div {
+    border-radius: 50%;
+    height: 5vh;
+    width: 5vh;
+}
+
+/* select option 부분 */
+.selectSection {
+    margin-top: 15px;
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.selectCompany {
+    background-color: white;
+}
+
+.selectCompany:hover {
+    background-color: var(--main6-color);
+    color: white;
+    transition:0.2s;
+}
+
+.selectSection select, .selectCompany {
+    padding: 5px;
+    border: 1px solid var(--main6-color);
+    border-radius: 5px;
+}
+
+/* selectView 부분 */
+.selectView {
+    display: flex;
+    width: 75%;
+    height: 15%;
+    border: 1px solid var(--main6-color);
+    box-sizing: border-box;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    margin-top: 15px;
+    border-radius: 5px;
+    align-items: center;
+}
+
+.selectedDiv {
+    display: flex;
+    border: 1px solid var(--main6-color);
+    box-sizing: border-box;
+    border-radius: 5px;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    padding: 5px;
+    height: 40%;
+}
+
+.selectedDiv > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selectedDiv p {
+    margin: 0; /* 문단의 기본 여백 제거 */
+    white-space: nowrap;
+}
+
+.selectedDiv span {
+    cursor: pointer; /* 포인터 커서 설정 */
+    flex-shrink: 0;
+}
+
+/* 내용 작성 부분 */
+.modalContent {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid var(--main6-color);
+    width: 75%;
+    border-radius: 5px;
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 박스 크기 계산 */
+    overflow: hidden; /* 넘치는 콘텐츠 숨김 */
+}
+
+#updateContent {
+    resize: none;
+    width: 100%; /* textarea의 너비를 부모의 100%로 설정 */
+    height: 100%; /* 필요에 따라 높이 설정 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 박스 크기 계산 */
+    resize: none;
+    border: none;
+    outline: none;
+}
+
+.calendarHidden{
 	display: none !important; 
 }
 
-#popupClose{
-  /* 절대적인 위치 지정(기준 내에서 아무곳에나 배치 가능) */
-  position: absolute; 
-  top: 0px;   /* 위쪽으로    부터 0px 떨어진 위치 */
-  right: 10px; /* 오른쪽으로 부터 10px 떨어진 위치 */
-  font-size: 30px;
-  font-weight: bold;
-  user-select: none; /* 드래그 방지 */
-  cursor: pointer; /* 커서 손가락 모양 */
+/* 모달 button */
+.modalBtn {
+    display: flex;
+    width: 75%;
+    justify-content: end;
 }
-  
-#popupClose:hover{ color :grey; }
 
-#popupClose:active{ color : darkslategray; }
+.modalBtn button {
+    border: 1px solid var(--main6-color);
+    margin-left: 5px;
+}
