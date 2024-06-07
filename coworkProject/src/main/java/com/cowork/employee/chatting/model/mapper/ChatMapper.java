@@ -44,5 +44,7 @@ public interface ChatMapper {
 
 	Employee empDetail(String exposedEmpCode);
 
+	String senderProfileDetail(String senderEmpCode);
+
 
 }

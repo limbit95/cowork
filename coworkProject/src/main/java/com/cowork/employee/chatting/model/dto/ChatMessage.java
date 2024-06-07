@@ -34,5 +34,9 @@ public class ChatMessage {
         CHAT,
         FILE // FILE 타입 추가
     }
+    
+    // 그 채팅메세지를 쓴 사람의 프로필사진에 대한 게 없음. 
+    private String profileImg;
+    
 
 }
