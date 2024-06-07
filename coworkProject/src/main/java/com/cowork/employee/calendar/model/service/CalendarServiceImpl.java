@@ -24,7 +24,7 @@ public class CalendarServiceImpl implements CalendarService {
 	public List<Department> selectDeptList(int comNo) {
 		
 		List<Department> deptList = null;
-		
+		List<Team> teamList = null;
 		// 부서가 존재하는지 조회
 		int count = mapper.deptCount(comNo);
 		
@@ -36,10 +36,24 @@ public class CalendarServiceImpl implements CalendarService {
 			deptList = mapper.selectDeptList(comNo);
 			
 			for(int i = 0 ; i < deptList.size() ; i++) {
-				// 부서 번호로 팀 조회
-				List<Team> teamList = mapper.selectTeamList(deptList.get(i).getDeptNo());
+				
+				int teamCount = mapper.teamCount(deptList.get(i).getDeptNo());
+				
+				if(teamCount == 0) {
+					teamList = null;
+				} else {
+					
+					// 부서 번호로 팀 조회
+					teamList = mapper.selectTeamList(deptList.get(i).getDeptNo());
+				}
+								
+				// 부서 번호가 같으면 teamList 를 DTO 에 넣어주고 싶음
+				// 부서 번호 index 가 0 일 때 deptNo 가 1 이면 teamList 에 1번 부서 팀들이 들어가있음
+				// 조회된 팀 리스트를
+				deptList.get(i).setTeamList(teamList);
 				
 			}
+
 		}
 		
 		return deptList;
