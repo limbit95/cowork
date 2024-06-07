@@ -225,7 +225,7 @@ public List<ChatMessageMe> getChatMessage(Map<String, String> paramMap) {
  * 메세지 쓰면 그 메세지를 저장하는 역할을 하는 메서드 
  */
 @Override
-public void insertTextMessage(ChatMessage chatMessage) {
+public String insertTextMessage(ChatMessage chatMessage) {
 	//ROOM_ID 필요
 	String roomNo = chatMessage.getRoomNo();
 	String senderEmpCode = chatMessage.getSenderEmpCode();
@@ -237,6 +237,9 @@ public void insertTextMessage(ChatMessage chatMessage) {
 	paramMap.put("content", content);
 	paramMap.put("messageType", 1);
 	chatMapper.insertMessage(paramMap);	
+	
+	String profileImg = chatMapper.senderProfileDetail(senderEmpCode);
+	return profileImg;
 }
 
 @Override
@@ -246,17 +249,21 @@ public String insertFileMessage(ChatMessage chatMessage) throws IllegalStateExce
 	
 	String updatePath = null; 
 	String rename = null;
+	
 	if(!file.isEmpty()) {
 		rename = Utility.fileRename(file.getOriginalFilename());
 		updatePath = webPath + rename; // 고유키 앞에 조각을 붙임 
 	}
+	
 	chatMessage.setFilePath(updatePath);
 	int result = chatMapper.insertFileMessage(chatMessage);
+	
 	if(result >  0) {
 		if(!file.isEmpty()) {
 			file.transferTo(new File(folderPath + rename));
 		}
 	}
+	
 	return updatePath; 
 }
 	

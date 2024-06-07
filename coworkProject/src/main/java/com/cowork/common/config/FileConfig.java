@@ -54,6 +54,15 @@ public class FileConfig implements WebMvcConfigurer {
 	    @Value("${board.file.resource-location}")
 	    private String boardFileResourceLocation;
 	    
+	    // 채팅 
+	    @Value("${chatting.file.resource-handler}")
+	    private String chattingFileResourceHandler;
+	    
+	    @Value("${chatting.file.resource-location}")
+	    private String chattingFileResourceLocation;
+
+	    
+	    
 	    @Override
 	    public void addResourceHandlers(ResourceHandlerRegistry registry) {
 	        registry
@@ -73,6 +82,12 @@ public class FileConfig implements WebMvcConfigurer {
 	        registry
         		.addResourceHandler(boardFileResourceHandler)
         		.addResourceLocations(boardFileResourceLocation);
+	        
+	        // 채팅
+	        registry
+	        	.addResourceHandler(chattingFileResourceHandler)
+	        	.addResourceLocations(chattingFileResourceLocation);
+	        
 	    }
 		
 

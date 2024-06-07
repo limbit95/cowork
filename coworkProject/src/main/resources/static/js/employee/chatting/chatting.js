@@ -303,10 +303,12 @@ function getChattingRooms(empCode){
 			//newDiv.appendChild(abc);
 			
 			// 최초 초대자의 이름
-			/* <div> 
-					<img> 
-					이름 
-				</div> */
+			/* 
+				<div> 
+				<img> 
+				 이름 
+			    </div> 
+			*/
 			let rightAreaDiv = document.createElement('div');
 			newDiv.appendChild(rightAreaDiv);
 			
@@ -565,30 +567,143 @@ function getChattingRooms(empCode){
 							}
 								
 						}else if(message.messageType == 2){
-							let newLi = document.createElement('li');							
-							let newP = document.createElement('p');
-							let newImgTag = document.createElement('img');
-							newImgTag.src = message.filePath;
-							newImgTag.style.width = '300px';
-							newImgTag.style.height = '300px';
-							newImgTag.style.borderRadius = '10px';
-							newP.appendChild(newImgTag);
-							newLi.appendChild(newP);
-						    let chattingsArea = document.getElementById('chattingsArea'); // ul 태그임 
-							chattingsArea.appendChild(newLi);
 							
 							if(senderId == empCode){
+								// 보낸놈이 지금 로그인한 놈과 같은 경우 
+								let newP = document.createElement('p');
+								let newImgTag = document.createElement('img');
+								newImgTag.src = message.filePath;
+								newImgTag.style.width = '300px';
+								newImgTag.style.height = '300px';
+								newImgTag.style.borderRadius = '10px';
+								newP.appendChild(newImgTag);
+								
+							    let chattingsArea = document.getElementById('chattingsArea'); // ul 태그임 
+								chattingsArea.appendChild(newP);
+								
+								newP.style.display = 'flex';
+								newP.style.justifyContent = 'flex-end';
+								newP.style.marginBottom = '2%';
+								
+								
+				
+							}else{
+								// 보낸놈이 지금 로그인한 놈과 다른 경우 
+								let newLi = document.createElement('li');				
+								newLi.style.listStyleType = 'none'; // li 태그에 점찍히는 거 지워줌.
+									
+								let firstDiv = document.createElement('div');	
+								let secondDiv = document.createElement('div');
+								
 								newLi.style.display = 'flex';
-								newLi.style.justifyContent = 'flex-end';									
-							}		
-							newLi.style.marginTop = '2%';
-							newLi.style.marginBottom = '2%';						
+								newLi.style.flexDirection = 'column';
+								
+								firstDiv.style.display = 'flex';
+								
+								newLi.appendChild(firstDiv);
+								newLi.appendChild(secondDiv);
+								
+								
+								
+								
+								
+								// 프로필 + 이름 시작
+								// 프로필 시작 
+								/*----------------------지워야 할 부분--------------------- */
+									if(message.profileImg == null){
+					   				   //프로필 이미지가 없는 경우, 
+								       const lastNameColors = {
+							       	   	 '김': '#FFCDD2',
+							             '이': '#C8E6C9',
+							             '박': '#BBDEFB',
+							             '최': '#D1C4E9',
+							             '정': '#FFECB3',
+							             '송': '#BBDEFB',
+							             '임': '#D1C4E9'
+							             // 필요에 따라 더 추가할 수 있음
+							           };
+										
+									// 이미지가 없는 경우 
+									let empLastName = document.createTextNode(message.empLastName);	
+									let profileDiv = document.createElement('div');
+									profileDiv.appendChild(empLastName);
+									
+									if(lastNameColors[message.empLastName]){
+										
+										profileDiv.style.backgroundColor = lastNameColors[message.empLastName];		
+										
+									} else{
+										
+										profileDiv.style.backgroundColor = 'yellow';
+										
+									}
+									
+									profileDiv.style.borderRadius = '50%';
+									profileDiv.style.width = '30px';
+									profileDiv.style.height = '30px';
+									profileDiv.style.display = 'flex';
+									profileDiv.style.justifyContent = 'center';
+									profileDiv.style.alignItems = 'center';
+									
+									// 이미지가 들어있는 div : profileDiv
+									firstDiv.appendChild(profileDiv);
+									
+									
+								}else{
+									// 이미지가 있는 경우 										
+									let messengerImg = document.createElement('img');	
+									messengerImg.src = message.profileImg;
+									// 이미지 태그 : messengerImg 
+									
+									firstDiv.appendChild(messengerImg);
+								}
+								// 프로필 끝 
+								
+								// 이름 시작 
+								// firstDiv 에 이름을 넣어줘야 함. 
+								let nameDiv = document.createElement('div');
+								//alert(message.empNickname);
+								console.log(message.empLastName + message.empFirstName);
+								console.log(message);
+								
+								let nameContent = document.createTextNode(message.empLastName + message.empFirstName);
+								nameDiv.style.marginLeft = '1%';
+			
+								nameDiv.appendChild(nameContent);
+								
+								firstDiv.appendChild(nameDiv);
+								
+								
+								// 이름 끝 
+								/*---------------------지워야 할 부분---------------------- */			
+								
+								// 프로필 + 이름 끝 
+								let newP = document.createElement('p');
+								let newImgTag = document.createElement('img');
+								newImgTag.src = message.filePath;
+								newImgTag.style.width = '300px';
+								newImgTag.style.height = '300px';
+								newImgTag.style.borderRadius = '10px';
+								newP.appendChild(newImgTag);
+								secondDiv.appendChild(newP);
+								
+							    let chattingsArea = document.getElementById('chattingsArea'); // ul 태그임 
+								chattingsArea.appendChild(newLi);
+								
+
+								firstDiv.style.display = 'flex';
+								firstDiv.style.alignItems = 'center';
+								
+								secondDiv.style.marginLeft = '4.5%';
+
+								newLi.style.marginTop = '2%';
+								newLi.style.marginBottom = '2%';		
+																
+							}
+								
 						}
-						
 					
-						console.log('ssssddddddddddddddddd');
-						console.log('ssssssssssssssssss' +chattingRoomsContent.scrollHeight);
-						// 자동으로 스크롤바 되게 하기 
+				// 자동으로 스크롤바 되게 하기 
 				if (chattingsArea.scrollHeight > 635) {
 				    chattingsArea.style.overflowY = 'scroll'; // 높이가 초과하면 세로 스크롤바 추가
 				    chattingsArea.style.height = 635 + 'px'; // 높이를 제한
@@ -663,6 +778,7 @@ function connect(subscribeAddr2) {
         console.log('Connected: ' + frame); // 로그를 보면, 잘 연결됬다는 게 콘솔에 찍힘. 별내용 없음.
         stompClient.subscribe('/topic/' + subscribeAddr, function (chatMessage) { // 클라이언트들의 주소. 서버는 이 주소를 가진 클라이언트를 고무호스로 연결하고 있음. 
 			// 현재 chatMessage 는 메세지를 보낼때마다 클 -> 서 -> 클 을 다시 거쳐서 온 거임.  
+			alert('수신함!');
 			showMessage(JSON.parse(chatMessage.body)); // JSON.parse : json문자열을 js 객체로 바꾸어줌  	
         });
     });
@@ -770,19 +886,105 @@ function sendMessage() {
 // 메세지 보여주게 하기 
 function showMessage(message) {
 	
-	console.log('message ========{}', message);
+	
+	/*
+	type: 'CHAT',
+	senderEmpCode: '1', 
+	empNickname: '최재준', 
+	content: 'sdf', 
+	subscribeAddr: '608e8ef5-c3e4-42e1-89f9-2add3341cc7d', …}
+	file : null,
+	filePath : null,
+	roomNo : "15",
+	 */
+	
+	
 	
     let chattingsArea = document.getElementById('chattingsArea'); // ul 태그임 
     let messageElement = document.createElement('li'); // li 태그 생성
     //messageElement.classList.add('chat-message'); //css 붙여주고 
 
+
     if (message.type === 'CHAT') { // 현재 매개변수로 넘어온 message 라는 js 객체 안 type 에 든 값이 'CHAT' 인 경우 
-        var textElement = document.createElement('p'); // p태그 하나 만듦
-        var messageText = document.createTextNode(message.content); // TextNode 는 그냥 html 파일에 아무런 태그 안에도 속하지 않는 텍스트임 
-        textElement.appendChild(messageText); // 방금 만든 TextNode 를 방금만든 p태그 안에 넣음 
-        messageElement.appendChild(textElement); // li 태그에 p태그를 삽입함. 
-    } else if (message.type === 'FILE') {
+    	// 경우의 수는 2가지임. 
+    	// 1. 내가 쓴 거
+    	if(message.senderEmpCode == empCode){
+
+			
+    		let newP = document.createElement('p'); // p 태그를 만든다.
+    		let messageContent= document.createTextNode(message.content); // 내용노드를 만듬 
+    		newP.appendChild(messageContent);
+			newP.style.display = 'flex';
+			newP.style.justifyContent = 'flex-end';
+			messageElement.appendChild(newP);
+			chattingsArea.appendChild(messageElement);
+			newP.style.paddingLeft = '10px';
+			newP.style.paddingRight = '10px';
+			
+			messageElement.style.display = 'flex';
+			messageElement.style.justifyContent = 'flex-end';
+			messageElement.style.margin = '0';
+			messageElement.style.padding = '0';
+			
+			newP.style.backgroundColor = '#ffeded';
+			newP.style.paddingTop = '10px';
+			newP.style.paddingBottom = '10px';
+			newP.style.paddingLeft = '10px';
+			newP.style.paddingRight = '10px';
+			newP.style.borderRadius = '10px';
+			newP.style.marginBottom = '2%';
+
+		} else{
 		
+		
+		
+		
+		// 2. 너가 쓴 거 	
+		// 2개의 div 태그가 있어야 하고, 첫번째 div 태그에는 프로필사진과 이름이, 두번째 div 태그에는 메시지 내용이 들어가 있어야 함. 
+		// li 태그는 display: flex; flex-direction: column; 이어야 함. 
+		// 첫번째 div 태그에는 display: flex; 
+		
+		messageElement.style.display = 'flex';
+		messageElement.style.flexDirection = 'column';
+		
+		let firstDiv = document.createElement('div');
+		let secondDiv = document.createElement('div');			
+		
+		// 프로필사진부터 처리
+		let profileImgSrc = message.profileImg; // 현재 메세지를 쓴 놈의 프로필 이미지 가져옴. 
+		let profileImg = document.createElement('img');
+		profileImg.src = profileImgSrc; // 이미지가 바인딩된 img 태그 생성 
+		
+		// 이름 처리 
+		let empNickname = message.empNickname;
+		let nicknameDiv = document.createElement('div');
+		let empNicknameNode = document.createTextNode(empNickname);
+		nicknameDiv.appendChild(empNicknameNode); // 이름이 바인딩된 div 태그 완성 
+		
+		// 메세지 내용 처리
+		let contentNode = document.createTextNode(message.content);
+		let contentDiv = document.createElement('div');
+		contentDiv.appendChild(contentNode); // 메세지 내용이 들어있는 div 태그 생성 
+		
+		firstDiv.appendChild(profileImg);
+		firstDiv.appendChild(nicknameDiv);
+		
+		firstDiv.style.display = 'flex';
+		
+		secondDiv.appendChild(contentDiv);
+		
+		messageElement.appendChild(firstDiv);
+		messageElement.appendChild(secondDiv);
+		
+				
+		chattingsArea.appendChild(messageElement);
+
+		}
+
+    		
+    
+
+    } else if (message.type === 'FILE') {
 		/*
         var linkElement = document.createElement('a');
         linkElement.href = message.content;
@@ -795,21 +997,46 @@ function showMessage(message) {
         messageElement.appendChild(linkElement);
     	*/
     	
+    	
+    	
         var newPtag = document.createElement('p'); // p태그 하나 만듦
         var imgElement = document.createElement('img');
         imgElement.src = message.filePath;
         newPtag.appendChild(imgElement);
         messageElement.appendChild(newPtag);
-
+		chattingsArea.appendChild(messageElement);
 		
+		imgElement.style.width = '300px';
+		imgElement.style.height = '300px';
+		imgElement.style.borderRadius = '10px';
+		
+		if(message.senderEmpCode == empCode){
+			messageElement.style.display = 'flex';
+			messageElement.style.justifyContent = 'flex-end';
+		}
+		
+		messageElement.style.marginBottom = '2%';
+		
+
     }
 
-    chattingsArea.appendChild(messageElement); // ul 태그에 li 태그 삽입함 
 
-    if(message.senderEmpCode == empCode){
-		messageElement.style.display = 'flex';
-		messageElement.style.justifyContent = 'flex-end';
-	}
+/*
+	type: 'CHAT',
+	senderEmpCode: '1', 
+	empNickname: '최재준', 
+	content: 'sdf', 
+	subscribeAddr: '608e8ef5-c3e4-42e1-89f9-2add3341cc7d', …}
+	file : null,
+	filePath : null,
+	roomNo : "15",
+	 */
+	
+	
+	
+   // let chattingsArea = document.getElementById('chattingsArea'); // ul 태그임 
+    //let messageElement = document.createElement('li'); // li 태그 생성
+
 
     
     chattingsArea.scrollTop = chattingsArea.scrollHeight; // 스크롤 관련한 거 같은데 
