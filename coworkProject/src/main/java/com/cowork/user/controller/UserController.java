@@ -230,4 +230,14 @@ public class UserController {
 		return "user/findPw";
 	}
 	
+	/** 비밀번호 재설정 페이지 이동
+	 * @return
+	 */
+	@GetMapping("resetPw")
+	public String resetPw(@RequestParam("item") String item) {
+		log.info("item : " + item);
+		
+		return "user/resetPw";
+	}
+	
 }

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<!-- 메일은 header 불필요 -->
 <body>
     <!-- css, js 파일은 이메일 첨부 불가 -->
     <!-- 대신 인라인 형식으로는 작성해서 구현 가능 -->
@@ -13,12 +12,18 @@
             <br>
             아이디 찾기 화면에 입력 후 인증 버튼을 눌러주세요
         </h3>
-
-        <button data-emp-info="${empInfo}">인증</button>
+        <h3>
+            <th:block th:text="${item}"></th:block>
+        </h3>
+        <!-- 추후 http -> https 변경해야 할수도? -->
+        <a th:href="@{http://localhost/user/resetPw?item={item}}" 
+        style="
+        border-radius: 5px; padding: 5px 20px;
+        background-color: #BDD8F1; border-radius: 2px solid #BDD8F1; width: 400px; height: 50px; font-size: 16px; color: white;
+        text-decoration: none;
+        "
+        data-emp-info="${item}">인증</a>
     </div>
 
-    <script th:inline="javascript">
-        
-    </script>
 </body>
 </html>

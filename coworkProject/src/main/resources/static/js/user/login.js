@@ -205,11 +205,13 @@ if(findBtn1 != null){
         }
 
         const obj = {
-            "empdId" : findPwByEmail.value,
+            "empId" : findPwByEmail.value,
             "empEmail" : empEmailOfFindPw.value 
         }
 
-        fetch("/email/findPwByEmail", {
+        let check1 = true;
+
+        fetch("/email/checkIdAndEmail", {
             method : "POST",
             headers : {"Content-Type" : "application/json"},
             body : JSON.stringify(obj)
@@ -217,15 +219,26 @@ if(findBtn1 != null){
         .then(resp => resp.text())
         .then(result => {
             if(result == 0) {
+                check1 = false;
                 alert("아이디 또는 이메일이 일치하지 않습니다.");
                 return;
             }
-            if(result == -1){
-                alert("이메일 인증번호 발송 실패");
-                return;
-            }
+
+            fetch("/email/findPwByEmail", {
+                method : "POST",
+                headers : {"Content-Type" : "application/json"},
+                body : JSON.stringify(obj)
+            })
+            .then(resp => resp.text())
+            .then(result => {
+                if(result == 0) {
+                    alert("이메일 인증번호 발송 실패");
+                    return;
+                }
+            })
+
+            alert("인증 메일을 발송했습니다. 메일이 오지 않으면 입력하신 정보가 회원정보와 일치하는지 확인해 주세요.");
         })
-        alert("인증 메일을 발송했습니다. 인증번호가 오지 않으면 입력하신 정보가 회원정보와 일치하는지 확인해 주세요.");
     });
 }
 
