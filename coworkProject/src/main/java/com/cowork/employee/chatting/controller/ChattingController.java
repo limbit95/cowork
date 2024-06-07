@@ -144,16 +144,17 @@ public class ChattingController {
     	
     	// 현재 해줘야 할건, CHAT_MESSAGE 테이블에 행을 삽입하는 것.
     	if(chatMessage.getType() == ChatMessage.MessageType.CHAT) {
-        	String profileImg = chatService.insertTextMessage(chatMessage);
-        	if(profileImg != null) {
-        		chatMessage.setProfileImg(profileImg);
+    		Employee findEmp = chatService.insertTextMessage(chatMessage);
+        	if(findEmp != null) {
+        		chatMessage.setProfileImg(findEmp.getProfileImg());
+        		chatMessage.setEmpLastName(findEmp.getEmpLastName());
+        		chatMessage.setEmpFirstName(findEmp.getEmpFirstName());
         	}
     	}
     	
     	// 동적으로 응답해줄 클라이언트의 구독주소가 변경되므로 아래와 같이 한다 
     	String destination = "/topic/" + chatMessage.getSubscribeAddr();    	
     	messagingTemplate.convertAndSend(destination, chatMessage);
-    	
     }
     
     @PostMapping("/chat/upload")

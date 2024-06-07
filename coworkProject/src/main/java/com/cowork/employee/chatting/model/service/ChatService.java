@@ -19,7 +19,7 @@ public interface ChatService {
 
 	List<ChatMessageMe> getChatMessage(Map<String, String> paramMap);
 
-	String insertTextMessage(ChatMessage chatMessage);
+	Employee insertTextMessage(ChatMessage chatMessage);
 
 	String insertFileMessage(ChatMessage chatMessage) throws IllegalStateException, IOException;
 

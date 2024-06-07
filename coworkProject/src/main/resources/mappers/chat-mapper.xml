@@ -60,7 +60,7 @@
 
 <select id="empDetail">
 	SELECT * FROM EMPLOYEE
-	WHERE EMP_CODE = #{exposedEmpCode}
+	WHERE EMP_CODE = #{empCode}
 </select>
 
 
@@ -101,10 +101,6 @@
 </select>
 
 
-<select id="senderProfileDetail">
-	SELECT PROFILE_IMG FROM EMPLOYEE
-	WHERE EMP_CODE = #{senderEmpCode}
-</select>
 
 	
 	<!--	
