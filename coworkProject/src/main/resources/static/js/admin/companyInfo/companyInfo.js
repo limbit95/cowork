@@ -102,35 +102,32 @@ companyLogoUpdate.addEventListener("submit", e => {
     }
 });
 
-// 이메일 인증
-const comEmailBtn = document.querySelector("#comEmailBtn");
-const authKey = document.querySelector(".authKey");
-const comEmailAuthBtn = document.querySelector("#comEmailAuthBtn");
-const authKeyMessage = document.querySelector("#authKeyMessage");
+const checkObj = {
+    "comEmail" : false,
+    "authKey" : false
+};
 
-let authTimer;
+let authTimer; // 타이머 역할을 할 setInterval 을 저장할 변수
 
-const initMin = 4;
-const initSec = 59;
+const initMin = 4; // 타이머 초기값 (분)
+const initSec = 59; // 타이머 초기값 (초)
 const initTime = "05:00";
 
-// 줄어드는 시간 저장할 변수
+// 실제 줄어드는 시간을 저장할 변수
 let min = initMin;
 let sec = initSec;
 
 // 이메일 유효성 검사
 const comEmail = document.querySelector(".comEmail");
 const emailMessage = document.querySelector("#emailMessage");
-
-// 메세지 박스
-const emailMessageDiv = document.querySelector(".emailMessageDiv");
-const authKeyMessageDiv = document.querySelector(".authKeyMessageDiv");
+const comEmailBtn = document.querySelector("#comEmailBtn");
 
 // 이메일이 입력될 때마다 유효성 검사
 comEmail.addEventListener("input", e => {
+
     // 이메일 인증 후 이메일 변경된 경우
-    authKeyMessage.innerText = "";
-    authKeyMessageDiv.classList.add("div-hidden");
+    checkObj.authKey = false;
+    document.querySelector("#authKeyMessage").innerText = "";
     clearInterval(authTimer);
 
     // 작성된 이메일 값 얻어오기
@@ -138,16 +135,145 @@ comEmail.addEventListener("input", e => {
 
     // 입력된 이메일이 없을 경우
     if(inputComEmail.trim().length === 0) {
-        emailMessageDiv.classList.remove("div-hidden");
         emailMessage.innerText = "메일을 받을 수 있는 이메일을 입력해주세요.";
 
         emailMessage.classList.remove('confirm', 'error');
+        
+        checkObj.comEmail = false;
 
-        authKey.value = "";
         comEmail.value = "";
 
+        return;
     }
-})
+
+    // 입력 받은 이메일 정규식 검사
+    const emailReqExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if(!emailReqExp.test(inputComEmail)) {
+        emailMessage.innerText = "알맞은 이메일 형식으로 작성해주세요.";
+        emailMessage.classList.add('error');
+        emailMessage.classList.remove('confirm');
+        checkObj.comEmail = false;
+        return;
+    }
+
+    emailMessage.innerText = "사용 가능한 이메일 입니다.";
+    emailMessage.classList.add('confirm');
+    emailMessage.classList.remove('error');
+    checkObj.comEmail = true;
+
+});
+
+// 인증번호 관련 요소 얻어오기
+const authKey = document.querySelector(".authKey");
+const comEmailAuthBtn = document.querySelector("#comEmailAuthBtn");
+const authKeyMessage = document.querySelector("#authKeyMessage");
+
+// 인증번호 받기 버튼 클릭 시
+comEmailBtn.addEventListener("click", () => {
+
+    // 인증번호 받기 버튼 재클릭 됐을 때
+    checkObj.authKey = false;
+    authKeyMessage.innerText = "";
+
+    if(!checkObj.comEmail) {
+        alert("유효한 이메일 작성 후 클릭해 주세요.");
+        return;
+    }
+
+    // 클릭 시 타이머 숫자 초기화
+    min = initMin;
+    sec = initSec;
+
+    clearInterval(authTimer);
+
+    fetch("/email/signup", {
+        method : "POST",
+        headers : {"Content-Type" : "application/json"},
+        body : comEmail.value
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        if(result == 1){
+            console.log("인증번호 발송 성공");
+        } else{
+            console.log("인증번호 발송 실패");
+        }
+    });
+
+    authKeyMessage.innerText = initTime; // 05:00 세팅
+    authKeyMessage.classList.remove("confirm", "error");
+
+    alert("인증번호가 발송되었습니다.");
+
+    authTimer = setInterval( () => {
+
+        authKeyMessage.innerText = `${addZero(min)}:${addZero(sec)}`;
+
+        if(min == 0 && sec == 0) {
+            checkObj.authKey = false; // 인증 못함
+            clearInterval(authTimer); // Interval 멈춤
+            authKeyMessage.classList.add('error');
+            authKeyMessage.classList.remove('confirm');
+            return;
+        }
+
+        if(sec == 0) {
+            sec = 60;
+            min--;
+        }
+
+        sec--;
+
+    } , 1000);
+
+});
+
+function addZero(number) {
+    if(number < 10) return "0" + number;
+    else return number;
+}
+
+// 인증하기 버튼 클릭 시
+comEmailAuthBtn.addEventListener("click", () => {
+
+    if(min === 0 && sec === 0) {
+        alert("인증번호 입력 제한시간을 초과하였습니다.");
+        return;
+    }
+
+    if(authKey.value.length < 6) {
+        alert("인증번호를 정확히 입력해주세요.");
+        return;
+    }
+
+    const obj = {
+        "email" : comEmail.value,
+        "authKey" : authKey.value
+    };
+
+    fetch("/email/checkAuthKey", {
+        method : "POST",
+        headers : {"Content-Type" : "application/json"},
+        body : JSON.stringify(obj)
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        if(result == 0) {
+            alert("인증번호가 일치하지 않습니다!");
+            checkObj.authKey = false;
+            return;
+        }
+
+        clearInterval(authTimer); // 타이머 멈춤
+
+        authKeyMessage.innerText = '인증되었습니다';
+        authKeyMessage.classList.remove("error");
+        authKeyMessage.classList.add("confirm");
+
+        checkObj.authKey = true;  // 인증번호 검사 여부 true
+    });
+});
 
 // 회사 정보 수정
 // 회사명, 전화번호, 이메일, 우편번호, 주소, 상세 주소 NULL 일 수 없음
@@ -165,7 +291,7 @@ companyInfoUpdateForm.addEventListener("submit", e => {
     // 수정된 정보에 관한 요소 얻어오기
     const inputCompanyName = document.querySelector(".inputCompanyName");
     const inputCompanyTel = document.querySelector(".inputCompanyTel");
-    const inputComEmail = document.querySelector(".inputComEmail");
+    const comEmail = document.querySelector(".comEmail");
     const comAddr = document.querySelectorAll("[name='comAddr']");
 
     // 회사명
@@ -194,8 +320,35 @@ companyInfoUpdateForm.addEventListener("submit", e => {
     }
 
     // 이메일 입력했는지 검사
-    if(inputComEmail.value.trim().length === 0) {
+    if(comEmail.value.trim().length === 0) {
         alert("이메일을 입력해주세요.");
+        comEmail.focus();
+        e.preventDefault();
+        return;
+    }
+
+    // 이메일 checkObj
+    if(!checkObj.comEmail) {
+        alert("이메일이 유효하지 않습니다.");
+        comEmail.focus();
+        e.preventDefault();
+        return;
+    }
+
+    // 인증 번호 입력했는지 검사
+    if(authKey.value.trim().length === 0) {
+        alert("인증번호를 입력해주세요.");
+        authKey.focus();
+        e.preventDefault();
+        return;
+    }
+
+    // 인증번호 checkObj
+    if(!checkObj.authKey) {
+        alert("인증번호가 유효하지 않습니다.");
+        authKey.focus();
+        e.preventDefault();
+        return;
     }
 
     // 주소 유효성 검사

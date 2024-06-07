@@ -74,22 +74,21 @@
 			</div>
 
 			<!-- 이메일 관련 메세지 -->
-			<div class="companyContainer emailMessageDiv div-hidden">
-				<span id="emailMessage">메일을 받을 수 있는 이메일을 입력해주세요.</span>
+			<div class="mailDiv">
+				<span id="emailMessage"></span>
 			</div>
 			
 			<!-- 인증번호 입력할 부분 -->
 			<div class="companyContainer">
 				<div>인증 번호</div>
-				<input type="text" name="comAuthKey" class="authKey"
+				<input type="text" name="authKey" class="authKey"
 				placeholder="인증번호 입력" maxlength="6" autocomplete="off">
 
 				<button type="button" id="comEmailAuthBtn">인증하기</button>
 			</div>
 
 			<!-- 인증 시간 및 인증번호 일치 여부 보여줄 곳 -->
-			<div class="companyContainer authKeyMessageDiv  div-hidden">
-				<!-- 인증번호 일치 여부 보여줄 곳 -->
+			<div class="mailDiv">
 				<span id="authKeyMessage"></span>
 			</div>
 
