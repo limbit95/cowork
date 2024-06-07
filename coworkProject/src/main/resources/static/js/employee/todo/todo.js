@@ -1,5 +1,5 @@
  // 할 일 목록을 서버에서 가져오는 함수
- function fetchTodos(url) {
+/* function fetchTodos(url) {
     const todoList = document.getElementById('todoList');
     fetch(url)
         .then(response => response.json())
@@ -27,6 +27,45 @@
         })
         .catch(error => console.error('Error fetching todos:', error));
 }
+*/
+
+
+function fetchTodos(todoComplete, sortBy, todoQuery = '') {
+    const todoList = document.getElementById('todoList');
+    let url = `/todo/todos?todoComplete=${todoComplete}&sortBy=${sortBy}`;
+    if (todoQuery) {
+        url += `&todoQuery=${encodeURIComponent(todoQuery)}`;
+    }
+    console.log(`Fetching todos from URL: ${url}`); // 디버그 로그 추가
+    fetch(url)
+        .then(response => response.json())
+        .then(todos => {
+            todoList.innerHTML = ''; // 기존 목록 초기화
+            todos.forEach(todo => {
+                const todoDiv = document.createElement('div');
+                todoDiv.className = 'todo';
+                todoDiv.setAttribute('data-todo-complete', todo.todoComplete);
+                todoDiv.innerHTML = `
+                    <div><input type="checkbox" class="todoCheckbox" data-todo-id="${todo.todoNo}"></div>
+                    <div class="todoTitle" data-todo-id="${todo.todoNo}">${todo.todoTitle}</div>
+                    <div class="select" data-todo-id="${todo.todoNo}" data-todo-complete="${todo.todoComplete}">
+                        <div class="selected" data-to-do-id="${todo.todoNo}">${todo.todoComplete == '1' ? '진행중' : '완료'}</div>
+                        <ul class="optionList">
+                            <li class="optionItem" data-value="1">진행중</li>
+                            <li class="optionItem" data-value="2">완료</li>
+                        </ul>
+                    </div>
+                `;
+                todoList.appendChild(todoDiv);
+            });
+            addEventListeners(); // 새롭게 추가된 할 일 항목에 대해 이벤트 리스너를 다시 추가합니다.
+        })
+        .catch(error => console.error('Error fetching todos:', error));
+}
+
+
+
+
 
 // 할 일 진행 상태를 처리하는 이벤트 리스너 추가 함수
 function addEventListeners() {
@@ -167,13 +206,15 @@ function applyTodoStyles(size) {
     });
 }
 
+
+/*
 document.addEventListener('DOMContentLoaded', () => {
     const insertBtn = document.getElementById("insertBtn");
     const todoDetailArea = document.getElementById('todoDetailArea');
     const todoInsertArea = document.getElementById('todoInsertArea');
     const cancelBtns = document.querySelectorAll('.cancelBtn');
 
-    /* 등록 버튼 클릭 시 */
+    // 등록 버튼 클릭 시 
     if (insertBtn) {
         insertBtn.addEventListener("click", function(e) {
             e.preventDefault(); 
@@ -191,10 +232,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* 파일 업로드 */
-    document.querySelector('.uploadFileLabel').addEventListener('click', function() {
+    // 파일 업로드 
+    // 등록폼 - 파일 추가 및 삭제
+    document.querySelector('#uploadFile + .uploadFileLabel').addEventListener('click', function() {
         document.getElementById('uploadFile').click();
     });
+
     document.getElementById('uploadFile').addEventListener('change', function(event) {
         const fileList = document.getElementById('fileList');
         const files = Array.from(event.target.files);
@@ -216,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fetchTodos(`/todo/todos?todoComplete=1&sortBy=${document.getElementById('sortByOption').value}`);
 
-    /* 취소 버튼 */
+    //취소 버튼
     cancelBtns.forEach(function(cancelBtn) {
         cancelBtn.addEventListener('click', function(e) {
             todoDetailArea.style.display = 'none';
@@ -226,6 +269,94 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+*/
+
+document.addEventListener('DOMContentLoaded', () => {
+    const insertBtn = document.getElementById("insertBtn");
+    const todoDetailArea = document.getElementById('todoDetailArea');
+    const todoInsertArea = document.getElementById('todoInsertArea');
+    const cancelBtns = document.querySelectorAll('.cancelBtn');
+    const sortByOption = document.getElementById('sortByOption');
+    const doneListCheckbox = document.getElementById('doneList');
+    const searchForm = document.getElementById('searchForm');
+    const searchInput = document.getElementById('searchInput');
+
+    /* 등록 버튼 클릭 시 */
+    if (insertBtn) {
+        insertBtn.addEventListener("click", function(e) {
+            e.preventDefault(); 
+            if (todoInsertArea.style.display === "none" || todoInsertArea.style.display === "") {
+                todoInsertArea.style.display = "block";
+                setTimeout(() => todoInsertArea.classList.add('show'), 10);
+                todoDetailArea.style.display = "none";
+                todoDetailArea.classList.remove('show');
+                applyTodoStyles('reduced'); // 투두 리스트 크기 줄이기
+            } else {
+                todoInsertArea.classList.remove('show');
+                todoInsertArea.style.display = "none"; 
+                applyTodoStyles('normal'); // 투두 리스트 크기 복구
+            }
+        });
+    }
+
+    /* 파일 업로드 */
+    // 등록폼 - 파일 추가 및 삭제
+    document.querySelector('#uploadFile + .uploadFileLabel').addEventListener('click', function() {
+        document.getElementById('uploadFile').click();
+    });
+
+    document.getElementById('uploadFile').addEventListener('change', function(event) {
+        const fileList = document.getElementById('fileList');
+        const files = Array.from(event.target.files);
+        files.forEach(file => {
+            const li = document.createElement('li');
+            const fileName = document.createElement('span');
+            const removeButton = document.createElement('button');
+            fileName.textContent = file.name;
+            removeButton.textContent = 'x';
+            removeButton.style.marginLeft = '10px';
+            li.appendChild(fileName);
+            li.appendChild(removeButton);
+            fileList.appendChild(li);
+            removeButton.addEventListener('click', function() {
+                fileList.removeChild(li);
+            });
+        });
+    });
+
+    // 초기 할 일 목록 로드
+    if (sortByOption && doneListCheckbox) {
+        fetchTodos(doneListCheckbox.checked ? 2 : 1, sortByOption.value);
+    }
+
+    // 검색 폼 제출 시
+    if (searchForm) {
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const todoQuery = searchInput.value.trim();
+            console.log(`Submitting search form with query: ${todoQuery}`); // 디버그 로그 추가
+            fetchTodos(doneListCheckbox.checked ? 2 : 1, sortByOption.value, todoQuery);
+        });
+    }
+
+    // 정렬 옵션 변경 시
+    if (sortByOption) {
+        sortByOption.addEventListener('change', changeSortByOption);
+    }
+
+    /* 취소 버튼 */
+    cancelBtns.forEach(function(cancelBtn) {
+        cancelBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            todoDetailArea.style.display = 'none';
+            todoDetailArea.classList.remove('show');
+            setTimeout(() => todoDetailArea.style.display = "none", 300); 
+            applyTodoStyles('normal'); // 투두 리스트 크기 복구
+        });
+    });
+});
+
 
 /* 상세/수정 폼 */
 function showTodoDetail(todo) {
@@ -249,7 +380,7 @@ function showTodoDetail(todo) {
             todo.fileList.forEach(function(file) {
                 const li = document.createElement('li');
                 const a = document.createElement('a');
-                a.href = "/files/" + file.fileRename; // 파일 경로 설정
+                a.href = file.filePath + file.fileRename; // 파일 경로 설정
                 a.textContent = file.fileOriginName; // 파일 이름 설정
                 a.setAttribute('download', file.fileOriginName); // 파일 다운로드 속성 추가
                 const removeButton = document.createElement('button');
@@ -270,13 +401,13 @@ function showTodoDetail(todo) {
         }
     }
 }
-
-document.querySelector('.uploadFileLabel').addEventListener('click', function() {
-    document.getElementById('uploadFile').click();
+// 수정폼 - 파일 추가 및 삭제
+document.querySelector('#detailUploadFile + .uploadFileLabel').addEventListener('click', function() {
+    document.getElementById('detailUploadFile').click();
 });
 
-document.getElementById('uploadFile').addEventListener('change', function(event) {
-    const fileList = document.getElementById('fileList');
+document.getElementById('detailUploadFile').addEventListener('change', function(event) {
+    const detailFileList = document.getElementById('detailFileList');
     const files = Array.from(event.target.files);
     files.forEach(file => {
         const li = document.createElement('li');
@@ -287,10 +418,10 @@ document.getElementById('uploadFile').addEventListener('change', function(event)
         removeButton.style.marginLeft = '10px';
         li.appendChild(fileName);
         li.appendChild(removeButton);
-        fileList.appendChild(li);
+        detailFileList.appendChild(li);
         removeButton.addEventListener('click', function() {
-            fileList.removeChild(li);
-            // TODO: 업로드 취소 또는 서버에 파일 삭제 요청 추가 필요
+            detailFileList.removeChild(li);
+            // TODO: 서버에 파일 삭제 요청 추가 필요
         });
     });
 });
