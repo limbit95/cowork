@@ -27,5 +27,32 @@
 		WHERE EMAIL = #{email}
 		AND AUTH_KEY = #{authKey}
 	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="findId" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE
+		WHERE EMP_DEL_FL = 'N'
+		AND EMP_FIRST_NAME = #{empName}
+		AND EMP_EMAIL = #{empEmail}
+	</select>
+	
+	<!-- 해당 이메일로 가입된 모든 아이디 조회 -->
+	<select id="selectId" resultType="Employee2">
+		SELECT EMP_ID, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') "ENROLL_DATE"
+		FROM EMPLOYEE
+		WHERE EMP_EMAIL = #{email}
+		AND EMP_DEL_FL = 'N'
+		ORDER BY EMP_CODE
+	</select>
+	
+	<!-- 비밀번호 찾기(이메일) -->
+	<select id="findPwByEmail" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE
+		WHERE EMP_DEL_FL = 'N'
+		AND EMP_ID = #{empId}
+		AND EMP_EMAIL = #{empEmail}
+	</select>
 
 </mapper>

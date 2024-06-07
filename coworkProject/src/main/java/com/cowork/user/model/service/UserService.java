@@ -40,10 +40,6 @@ public interface UserService {
 	 */
 	int registCompanyInfo(Company inputCompany, String[] comAddr, int empCode);
 
-	/** 아이디 찾기 서비스
-	 * @param map
-	 * @return
-	 */
-	int findId(Map<String, Object> map);
+
 	
 }

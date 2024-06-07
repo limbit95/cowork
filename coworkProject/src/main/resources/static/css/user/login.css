@@ -61,9 +61,8 @@ main{
     width: 600px;
     border: 1px solid #D9D9D9;
     border-radius: 5px;
-    height: 420px;
     margin-top: 50px;
-    padding: 50px 0;
+    padding: 90px 0;
 }
 
 /* 비밀번호 찾기 폼 영역 */
@@ -75,7 +74,6 @@ main{
     width: 700px;
     border: 1px solid #D9D9D9;
     border-radius: 5px;
-    height: 600px;
     margin-top: 50px;
     padding: 50px 0;
 }
@@ -104,8 +102,12 @@ main{
     width: 300px;
 }
 
-.radio{
+.radio1, .radio2{
     width: 30px !important; 
+}
+.findTypeDiv {
+    width: 510px;
+    margin-bottom: 30px;
 }
 
 span {
@@ -157,7 +159,7 @@ span {
     color: #3667A6;
 }
 
-#authMailBtn, #authBtn, .findBtn{
+#authMailBtn, #authBtn, .findBtn1, .findBtn3{
     height: 28px;
     width: 80px;
     background: var(--main-color);
@@ -166,35 +168,105 @@ span {
     border-radius: 5px;
     margin-left: 30px;
 }
+.findBtn2 {
+    height: 28px;
+    width: 100px;
+    background: var(--main-color);
+    color: white;
+    border: 1px solid var(--main-color);
+    border-radius: 5px;
+    margin-left: 50px;
+}
 
-.findBtn {
+.findBtn1, .findBtn3 {
     margin-left: 70px;
 }
 
-#authMailBtn:hover, #authBtn:hover , .findBtn:hover {
+#authMailBtn:hover, #authBtn:hover , .findBtn1:hover, .findBtn2:hover, .findBtn3:hover {
     background: white;
     color: var(--main-color);
     border: 2px solid var(--main-color);
     cursor: pointer;
 }
 
-.message {
+#resultDiv {
     margin-top: 40px;
     text-align: center;
 }
 
-.findBox {
+.findBox1, .findBox2 {
+    display: none;
     background-color: #f7f7f7;
     border-radius: 5px;
     width: 480px;
     padding: 20px 10px;
     padding-left: 20px;
-    margin: 30px 0;
+    margin-bottom: 30px;
 }
 
 
 /* 로고 */
 .coworkLogoB {
     width: 220px;
+    cursor: pointer;
+}
+
+
+/* 2024-06-07 */
+* {
+    /* border: 1px solid green; */
+}
+section.formArea #resultDiv {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    padding: 10px 0 25px 0;
+}
+#divOne {
+    display: flex;
+    align-items: center;
+    width: 310px;
+    margin-top: 15px;
+}
+#selectId {
+    width: 30px;
+    font-size: 13px;
+}
+#selectedId {
+    font-size: 13px;
+    text-align: start;
+    width: 150px;
+    font-weight: bold;
+}
+#signUpDate {
+    margin-left: 10px;
+    font-size: 12px;
+}
+
+#btnDiv {
+    display: none;
+    justify-content: center;
+    margin-top: 20px;
+}
+#btnDiv > div {
+    display: flex;
+    justify-content: space-between;
+    width: 210px;
+}
+#loginPageMove, #findPwOfSelectedId {
+    height: 28px;
+    width: 100px;
+    background: var(--main-color);
+    color: white;
+    border: 1px solid var(--main-color);
+    border-radius: 5px;
+}
+
+#loginPageMove:hover, #findPwOfSelectedId:hover {
+    background: white;
+    color: var(--main-color);
+    border: 2px solid var(--main-color);
     cursor: pointer;
 }

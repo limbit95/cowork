@@ -1,6 +1,7 @@
 package com.cowork.email.model.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.cowork.email.model.mapper.EmailMapper;
+import com.cowork.user.model.dto.Employee2;
+
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 
@@ -42,9 +45,9 @@ public class EmailServiceImpl implements EmailService{
 			
 			switch(htmlName) {
 				case "signup" : 
-					subject = "[boardProject] 회원 가입 인증번호 입니다."; break;
+					subject = "[CoWork] 회원 가입 인증번호 입니다."; break;
 				case "findId" : 
-					subject = "[boardProject] 아이디 찾기 인증번호 입니다."; break;
+					subject = "[CoWork] 아이디 찾기 인증번호 입니다."; break;
 			}
 			
 			// 인증 메일 보내기
@@ -104,7 +107,87 @@ public class EmailServiceImpl implements EmailService{
 		return authKey; // 오류없이 완료되면 authKey 반환
 	}
 	
+	// 아이디 찾기 서비스
+	@Override
+	public int findId(Map<String, Object> map) {
+		return mapper.findId(map);
+	}
 
+    // 이메일, 인증번호 확인
+	@Override
+	public int checkAuthKey(Map<String, Object> map) {
+		return mapper.checkAuthKey(map);
+	}
+
+    // 해당 이메일로 가입된 모든 아이디 조회
+	@Override
+	public List<Employee2> selectId(Map<String, Object> map) {
+		return mapper.selectId(map);
+	}
+	
+	// 비밀번호 찾기(이메일)
+	@Override
+	public int findPwByEmail(Map<String, Object> map) {
+		int result = mapper.findPwByEmail(map);
+		
+		if(result == 0) {
+			return 0;
+		}
+		
+		return result;
+	}
+	
+	// 이메일 보내기
+	@Override
+	public int sendEmail(String htmlName, Map<String, Object> map) {
+		try {
+			// 메일 제목
+			String subject = null;
+			
+			switch(htmlName) {
+				case "findPwByEmail" : 
+					subject = "[CoWork] 비밀번호 재설정 인증 메일입니다."; break;
+			}
+			
+			// 인증 메일 보내기
+			
+			// MimeMessage : Java 메일을 보내는 객체
+			MimeMessage mimeMessgae = mailSender.createMimeMessage(); 
+			
+			// MimeMessageHelper : 
+			// Spring에서 제공하는 메일 발송 도우미 (간단 + 타임리프)
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessgae, true, "UTF-8");
+			// 1번 매개변수 : MimeMessage
+			// 2번 매개변수 : 파일 전송 사용할 것인지 true / false 지정 가능
+			// 3번 매개변수 : 문자 인코딩 지정
+			
+			helper.setTo((String)map.get("empEmail")); // 받는 사람 이메일 지정
+			helper.setSubject(subject); // 이메일 제목 지정
+			
+			String empInfo = (String)map.get("empId") + "^^^" + (String)map.get("empEmail");
+			
+			helper.setText( loadHtml(empInfo, htmlName), true ); // html 보내기 (변경예정)
+			// HTML 코드 해석 여부 true (innerHTML 해석)
+			
+			// CID(Content-ID)를 이용해 메일에 이미지 첨부
+			// (파일첨부와는 다름, 이메일 내용 자체에 사용할 이미지 첨부
+			// logo 추가 예정
+			helper.addInline("logo", new ClassPathResource("static/images/coworkLogo.png"));
+			// -> 로고 이미지를 메일 내용에 첨부하는데
+			//    사용하고 싶으면 "logo" 라는 id를 작성해라
+			
+			// 메일 보내기
+			mailSender.send(mimeMessgae);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+		
+		return 1;
+	}
+	
+	
+	
 	
 	// HTML 파일을 읽어와 String 으로 변환 (thymeleaf 적용)
 	private String loadHtml(String authKey, String htmlName) {
@@ -119,11 +202,8 @@ public class EmailServiceImpl implements EmailService{
 		return templateEngine.process("email/" + htmlName, context);
 	}
 
-
-	/** 인증번호 생성 (영어 대문자 + 소문자 + 숫자 6자리)
-    * @return authKey
-    */
-   public String createAuthKey() {
+	// 인증번호 생성 (영어 대문자 + 소문자 + 숫자 6자리)
+	public String createAuthKey() {
    		String key = "";
    	
    		for(int i=0 ; i< 6 ; i++) {
@@ -148,15 +228,8 @@ public class EmailServiceImpl implements EmailService{
           
    		}
         return key;
-   }
-
-
-   // 이메일, 인증번호 확인
-	@Override
-	public int checkAuthKey(Map<String, Object> map) {
-		return mapper.checkAuthKey(map);
 	}
-	
+
 }
 
 /*

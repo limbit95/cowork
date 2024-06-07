@@ -149,10 +149,5 @@ public class UserServiceImpl implements UserService {
 		return mapper.registAdminCompany(map);
 	}
 
-	// 아이디 찾기 서비스
-	@Override
-	public int findId(Map<String, Object> map) {
-		return mapper.findId(map);
-	}
 
 }

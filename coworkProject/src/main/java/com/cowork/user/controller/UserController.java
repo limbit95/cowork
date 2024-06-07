@@ -197,28 +197,26 @@ public class UserController {
 		return "user/findId"; 
 	}
 	
-	@ResponseBody
-	@PostMapping("findId")
-	public int findId(@RequestBody Map<String, Object> map,
-						 RedirectAttributes ra) {
-
-		int result = service.findId(map);
-		
-		String authKey = null;
-		
-		if(result > 0) {
-			String email = (String)map.get("empEmail");
-			authKey = emailService.sendEmail("findId", email);
-		} else {
-			return 0;
-		}
-		
-		if(authKey != null) { 
-			return 1;
-		}
-		
-		return 1; 
-	}
+//	@ResponseBody
+//	@PostMapping("findId")
+//	public int findId(@RequestBody Map<String, Object> map,
+//						 RedirectAttributes ra) {
+//
+//		int result = service.findId(map);
+//		
+//		if(result == 0) {
+//			return 0;
+//		}
+//		
+//		String email = (String)map.get("empEmail");
+//		String authKey = emailService.sendEmail("findId", email);
+//		
+//		if(authKey != null) { 
+//			return 1;
+//		} 
+//		
+//		return -1; 
+//	}
 	
 	/** 비밀번호 찾기 페이지 
 	 * @return
