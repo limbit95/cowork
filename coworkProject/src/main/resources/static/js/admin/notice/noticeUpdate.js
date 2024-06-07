@@ -5,6 +5,8 @@ const fileListBtn = document.querySelector('.fileListInfo'); /* 파일 목록 �
 const preview = document.querySelector('.preview'); /* 파일 목록 보기 */
 const formData = new FormData(); // 초기에 빈 FormData 객체를 생성합니다.
 
+const deleteOrder = new Set();
+
 smartEditor = function() {
     nhn.husky.EZCreator.createInIFrame({
         oAppRef: oEditors,
@@ -33,23 +35,6 @@ fileListBtn.addEventListener('click', () => {
         preview.style.display = 'block';
     }
 });
-
-/* 파일목록 보기 */
-fileListBtn.addEventListener('click', () => {
-
-    if(fileListBtn.classList.contains('fa-chevron-up')) {
-        fileListBtn.classList.remove('fa-chevron-up');
-        fileListBtn.classList.add('fa-chevron-down');
-
-        preview.style.display = 'none';
-    } else {
-        fileListBtn.classList.remove('fa-chevron-down');
-        fileListBtn.classList.add('fa-chevron-up');
-
-        preview.style.display = 'block';
-    }
-});
-
 
 /* 파일업로드 */
 const handler = {
@@ -87,12 +72,19 @@ const handler = {
                 fileXIcon.dataset.index = `${file.lastModified}`;
                 fileXIcon.type = 'button';
 
+                const orderLabel = document.createElement('label');
+                orderLabel.hidden = true;
+
                 fileTd2.appendChild(fileXIcon);
+                fileTd2.appendChild(orderLabel);
+
 
                 fileTr.appendChild(fileTd);
                 fileTr.appendChild(fileTd2);
 
                 preview.appendChild(fileTr);
+
+                
             });
 
             // 파일 개수

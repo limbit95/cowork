@@ -36,7 +36,7 @@
                         <table class="default-line preview">
                             <tr th:each="file : ${fileList}" th:object="${file}">
                                 <td><i class="fa-solid fa-paperclip"></i><label th:text="*{fileOriginName}">검색.png</label></td>
-                                <td><button type="button" class="fa-solid fa-xmark fileRemove btnBoarder" th:name="*{fileRename}"></button></td>
+                                <td><button type="button" class="fa-solid fa-xmark fileRemove btnBoarder" th:name="*{fileRename}"></button><label th:text="*{fileOrder}" hidden></label></td>
                             </tr>
                             <!--<tr>
                                 <td><i class="fa-solid fa-image"></i><label>검색.png</label><label class="colorGray">3.09KB</label></td>
