@@ -93,6 +93,13 @@ public interface TodoMapper {
 
 	List<Todo> todoInProgress(String sortBy);
 
+	int updateUploadList(List<TodoFile> uploadList);
+
+	/** 수정시 기존 파일 삭제 
+	 * @param inputTodo
+	 */
+	void deleteOriginTodoFiles(int todoNo);
+
 	
 
 	

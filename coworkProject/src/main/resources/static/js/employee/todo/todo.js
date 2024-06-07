@@ -252,8 +252,16 @@ function showTodoDetail(todo) {
                 a.href = "/files/" + file.fileRename; // 파일 경로 설정
                 a.textContent = file.fileOriginName; // 파일 이름 설정
                 a.setAttribute('download', file.fileOriginName); // 파일 다운로드 속성 추가
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'x';
+                removeButton.style.marginLeft = '10px';
                 li.appendChild(a);
+                li.appendChild(removeButton);
                 fileListElement.appendChild(li);
+                removeButton.addEventListener('click', function() {
+                    fileListElement.removeChild(li);
+                    // TODO: 서버에 파일 삭제 요청 추가 필요
+                });
             });
         } else {
             const li = document.createElement('li');
@@ -262,3 +270,27 @@ function showTodoDetail(todo) {
         }
     }
 }
+
+document.querySelector('.uploadFileLabel').addEventListener('click', function() {
+    document.getElementById('uploadFile').click();
+});
+
+document.getElementById('uploadFile').addEventListener('change', function(event) {
+    const fileList = document.getElementById('fileList');
+    const files = Array.from(event.target.files);
+    files.forEach(file => {
+        const li = document.createElement('li');
+        const fileName = document.createElement('span');
+        const removeButton = document.createElement('button');
+        fileName.textContent = file.name;
+        removeButton.textContent = 'x';
+        removeButton.style.marginLeft = '10px';
+        li.appendChild(fileName);
+        li.appendChild(removeButton);
+        fileList.appendChild(li);
+        removeButton.addEventListener('click', function() {
+            fileList.removeChild(li);
+            // TODO: 업로드 취소 또는 서버에 파일 삭제 요청 추가 필요
+        });
+    });
+});

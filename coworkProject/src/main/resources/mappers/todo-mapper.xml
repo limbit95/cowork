@@ -93,6 +93,25 @@
 	       FROM DUAL 
 	    </foreach>
 	</insert>
+	
+	<!-- 파일 등록
+	
+	<insert id="insertUploadList" parameterType="list">
+    INSERT INTO TODO_FILE (
+        FILE_NO, FILE_PATH, FILE_ORIGIN_NAME, 
+        FILE_RENAME, UPLOAD_DATE, FILE_ORDER, TODO_NO
+    )
+    <foreach collection="list" item="file" index="index" separator=" UNION ALL ">
+        SELECT NEXT_TODO_FILE_NO(), 
+               #{file.filePath}, #{file.fileOriginName}, 
+               #{file.fileRename}, SYSDATE, 
+               #{file.fileOrder}, #{file.todoNo}
+        FROM DUAL
+    </foreach>
+</insert>
+	
+	
+	 -->
 				
 	<!-- 담당자 지정시 등록 -->
 	<insert id="insertTodoManager" parameterType="Todo">
@@ -207,6 +226,24 @@
 	        #{todoId}
 	    </foreach>
 	</delete>
+	
+	<!-- 파일 수정 시 기존 파일 삭제 -->
+	<delete id="deleteOriginTodoFiles" parameterType="int">
+	    DELETE FROM TODO_FILE
+	    WHERE TODO_NO = #{todoNo}
+	</delete>
+	
+	<!-- 파일 수정 -->
+	<update id="updateUploadList">
+		 UPDATE TODO_FILE
+	    SET FILE_PATH = #{filePath},
+	        FILE_ORIGIN_NAME = #{fileOriginName},
+	        FILE_RENAME = #{fileRename},
+	        UPLOAD_DATE = SYSDATE,
+	        FILE_ORDER = #{fileOrder}
+	    WHERE TODO_NO = #{todoNo}
+	    AND FILE_NO = #{fileNo}
+	</update>
 	
  	<!--<update id="todoManagerUpdate">
 		UPDATE TODO_MANAGER

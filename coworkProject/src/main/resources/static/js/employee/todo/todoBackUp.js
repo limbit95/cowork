@@ -1,154 +1,38 @@
-  /* todo 목록 */
-  const todoList = document.getElementById('todoList');
-  const sortByOption = document.getElementById('sortByOption');
-  const selects = document.querySelectorAll('.select');
-  const doneListCheckbox = document.getElementById('doneList');
-
-  function fetchTodoLists(url) {
-      fetch(url)
-          .then(response => response.json())
-          .then(todos => {
-              todoList.innerHTML = '';
-              todos.forEach(todo => {
-                  const todoDiv = document.createElement('div');
-                  todoDiv.className = 'todo';
-                  todoDiv.setAttribute('data-todo-complete', todo.todoComplete);
-                  todoDiv.innerHTML = `
-                      <div><input type="checkbox" class="todoCheckbox" data-todo-id="${todo.todoNo}"></div>
-                      <div class="todoTitle" data-todo-id="${todo.todoNo}">${todo.todoTitle}</div>
-                      <div class="select" data-todo-id="${todo.todoNo}" data-todo-complete="${todo.todoComplete}">
-                          <div class="selected" data-to-do-id="${todo.todoNo}">${todo.todoComplete == '1' ? '진행중' : '완료'}</div>
-                          <ul class="optionList">
-                              <li class="optionItem" data-value="1">진행중</li>
-                              <li class="optionItem" data-value="2">완료</li>
-                          </ul>
-                      </div>
-                  `;
-                  todoList.appendChild(todoDiv);
-              });
-              // 새롭게 추가된 할 일 항목에 대해 이벤트 리스너를 다시 추가합니다.
-              addEventListeners();
-          })
-          .catch(error => console.error('Error fetching todos:', error));
-  }
-
-
-  /* todo 진행 상태 */
-  
-  function addEventListeners() {
-
-      selects.forEach(select => {
-          const selected = select.querySelector('.selected');
-          const optionList = select.querySelector('.optionList');
-          const optionItems = optionList.querySelectorAll('.optionItem');
-          const todoId = select.getAttribute('data-todo-id');
-          const todoComplete = select.getAttribute('data-todo-complete'); // 서버에서 받아온 값
-          
-          // 기본 선택값
-          if (todoComplete === '1') {
-              selected.textContent = '진행중';
-              selected.setAttribute('data-value', '1');
-              selected.classList.add('in-progress');
-          } else if (todoComplete === '2') {
-              selected.textContent = '완료';
-              selected.setAttribute('data-value', '2');
-              selected.classList.add('completed');
-          }
-
-          // 옵션 리스트 토글 기능
-          select.addEventListener('click', function(event) {
-              optionList.style.display = optionList.style.display === 'block' ? 'none' : 'block';
-              event.stopPropagation(); // 이벤트 전파 중지
-          });
-
-          // 옵션 아이템 클릭 이벤트
-          optionItems.forEach(function(optionItem) {
-              optionItem.addEventListener('click', function() {
-                  selected.textContent = this.textContent;
-                  selected.setAttribute('data-value', this.getAttribute('data-value'));
-
-                  // 배경 색상 변경
-                  selected.classList.remove('in-progress', 'completed');
-                  if (this.getAttribute('data-value') === '1') {
-                      selected.classList.add('in-progress');
-                  } else if (this.getAttribute('data-value') === '2') {
-                      selected.classList.add('completed');
-                  }
-
-                  // 선택된 값 서버로 전송
-                  updateTodoComplete(todoId, this.getAttribute('data-value')).then(() => {
-                      if (this.getAttribute('data-value') === '2') {
-                          // 상태가 완료로 변경된 경우 목록 새로고침
-                          fetchTodoLists(doneListCheckbox.checked ? `/todo/todos?todoComplete=2&sortBy=${sortByOption.value}` : `/todo/todos?todoComplete=1&sortBy=${sortByOption.value}`);
-                      }
-                  });
-
-                  optionList.style.display = 'none';
-              });
-          });
-
-      // 옵션 리스트 외부 클릭 시 숨김
-      document.addEventListener('click', function(event) {
-          if (!select.contains(event.target)) {
-              optionList.style.display = 'none';
-          }
-      });
-  });
-
-  // 체크박스 상태 변경 시 완료된 할 일 항목 필터링
-/*   doneListCheckbox.addEventListener('change', function() {
-      const todos = document.querySelectorAll('.todo');
-      todos.forEach(todo => {
-          if (doneListCheckbox.checked) {
-              if (todo.querySelector('.selected').getAttribute('data-value') !== '2') {
-                  todo.style.display = 'none'; // 완료되지 않은 항목 숨기기
-              } else {
-                  todo.style.display = ''; // 완료된 항목 표시
-              }
-          } else {
-              todo.style.display = ''; // 모든 항목 표시
-          }
-      });
-  });*/
+/* 상세/수정 폼 */
+function showTodoDetail(todo) {
+    const detailArea = document.getElementById('todoDetailArea');
+    const todoInsertArea = document.getElementById('todoInsertArea');
+    if (todoInsertArea) {
+        todoInsertArea.classList.remove('show');
+        setTimeout(() => todoInsertArea.style.display = 'none', 300);
+    }
+    if (detailArea) {
+        detailArea.style.display = 'block';
+        setTimeout(() => detailArea.classList.add('show'), 10);
+        document.querySelector('[name="todoEndDate"]').value = todo.todoEndDate ? todo.todoEndDate.split(' ')[0] : '';
+        document.querySelector('[name="requestEmp"]').value = todo.requestEmp || '';
+        document.querySelector('[name="inChargeEmp"]').value = todo.inChargeEmp || '';
+        document.querySelector('[name="todoTitle"]').value = todo.todoTitle || '';
+        document.querySelector('[name="todoContent"]').value = todo.todoContent || '';
+        const fileListElement = document.getElementById('detailFileList');
+        fileListElement.innerHTML = ''; 
+        if (todo.fileList && todo.fileList.length > 0) {
+            todo.fileList.forEach(function(file) {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = "/files/" + file.fileRename; // 파일 경로 설정
+                a.textContent = file.fileOriginName; // 파일 이름 설정
+                a.setAttribute('download', file.fileOriginName); // 파일 다운로드 속성 추가
+                li.appendChild(a);
+                fileListElement.appendChild(li);
+            });
+        } else {
+            const li = document.createElement('li');
+            li.textContent = '파일이 없습니다.';
+            fileListElement.appendChild(li);
+        }
+    }
 }
-
-  function toggleDoneList() {
-      fetchTodoLists(doneListCheckbox.checked ? `/todo/todos?todoComplete=2&sortBy=${sortByOption.value}` : `/todo/todos?todoComplete=1&sortBy=${sortByOption.value}`);
-  }
-
-  function changeSortByOption() {
-      fetchTodoLists(doneListCheckbox.checked ? `/todo/todos?todoComplete=2&sortBy=${sortByOption.value}` : `/todo/todos?todoComplete=1&sortBy=${sortByOption.value}`);
-  }
-
-  // 완료 여부 상태 변경 함수 
-  function updateTodoComplete(todoId, todoCompleteValue) {
-      return fetch('/todo/updateTodoComplete', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-              todoNo: todoId,
-              todoComplete: todoCompleteValue
-          })
-      })
-      .then(response => {
-          if (!response.ok) {
-              throw new Error('Network response was not ok');
-          }
-          return response.json();
-      })
-      .then(data => {
-          console.log('Success:', data);
-      })
-      .catch((error) => {
-          console.error('Error:', error);
-      });
-  }
-
-   // 초기 로드 시 진행 중인 할 일 목록을 가져옵니다.
-   fetchTodoLists(`/todo/todos?todoComplete=1&sortBy=${sortByOption.value}`);
-
 
 
 
