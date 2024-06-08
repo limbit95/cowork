@@ -3,37 +3,41 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initialize() {
-    // 이벤트 리스너 추가
+    // 등록하기 버튼 클릭시 
     document.getElementById('insertBtn').addEventListener('click', toggleInsertForm);
+    // 파일 업로드 관련 
     document.querySelector('#uploadFile + .uploadFileLabel').addEventListener('click', () => document.getElementById('uploadFile').click());
     document.getElementById('uploadFile').addEventListener('change', handleFileUpload);
     document.querySelector('#detailUploadFile + .uploadFileLabel').addEventListener('click', () => document.getElementById('detailUploadFile').click());
     document.getElementById('detailUploadFile').addEventListener('change', handleFileUpload);
-
+    // 내 할 일
     document.getElementById('meInCharge').querySelector('a').addEventListener('click', handleMeInChargeClick);
+    // 내가 요청한 
     document.getElementById('request').querySelector('a').addEventListener('click', handleRequestClick);
+    // 요청 받은 
     document.getElementById('requested').querySelector('a').addEventListener('click', handleReceivedTasksClick);
+    // 완료한 일 
     document.getElementById('doneList').addEventListener('change', toggleDoneList);
+    // 최신순 / 등록순 셀렉트 
     document.getElementById('sortByOption').addEventListener('change', changeSortByOption);
+    // 검색 
     document.getElementById('todoSearch').addEventListener('submit', handleSearch);
+    // 취소 버튼 
     document.querySelectorAll('.cancelBtn').forEach(cancelBtn => cancelBtn.addEventListener('click', handleCancel));
+    // 삭제 버튼 
     document.getElementById('deleteBtn').addEventListener('click', handleDelete);
-
-    // 모달 창 이벤트 리스너 추가
+    // 모달 창 
     document.getElementById('modalCloseBtn').addEventListener('click', () => {
         document.getElementById('noTodoModal').style.display = 'none';
     });
     window.addEventListener('resize', positionModalAboveButton);
     window.addEventListener('scroll', positionModalAboveButton);
     
+    // 처음 페이지 로드했을 때 
     fetchInitialTodos();
-    // 초기 할 일 목록 로드
-     //fetchTodos(1, document.getElementById('sortByOption').value);
-    // fetchTodos('1', sortBy, { inCharge: true, request: true, todoQuery });
-
-    
 }
 
+// 처음 페이지 로드했을 때 
 function fetchInitialTodos() {
     const todoList = document.getElementById('todoList');
     let url = `/todo/todos?todoComplete=1`; // 진행 중인 할 일만 조회 
@@ -70,7 +74,7 @@ function fetchInitialTodos() {
                     `;
                     todoList.appendChild(todoDiv);
                 });
-                addEventListeners(); // 새롭게 추가된 할 일 항목에 대해 이벤트 리스너를 다시 추가합니다.
+                addEventListeners(); // 추가된 할 일 
             }
                 
         })
@@ -105,6 +109,7 @@ function fetchTodos(todoComplete, sortBy, filters = {}) {
                             <li class="optionItem" data-value="2">완료</li>
                         </ul>
                     </div>
+                    <input type="hidden" class="todoEmpCode" value="${todo.todoEmpCode}">
                 `;
                 todoList.appendChild(todoDiv);
             });
@@ -116,8 +121,9 @@ function fetchTodos(todoComplete, sortBy, filters = {}) {
 
 
 function addEventListeners() {
-    // 할 일 진행 상태를 처리하는 이벤트 리스너 추가
+    // 할 일 진행 상태
     const selects = document.querySelectorAll('.select');
+
     selects.forEach(select => {
         const selected = select.querySelector('.selected');
         const optionList = select.querySelector('.optionList');
@@ -157,6 +163,7 @@ function addEventListeners() {
 
     // 전체 체크박스 체크 시 나머지 체크박스 선택
     const selectAllCheckbox = document.getElementById('checkAll');
+
     if (selectAllCheckbox) {
         selectAllCheckbox.addEventListener('change', function() {
             const isChecked = this.checked;
@@ -169,6 +176,7 @@ function addEventListeners() {
 
     // 체크박스에 change 이벤트 리스너 추가
     const checkboxes = document.querySelectorAll('.todoCheckbox');
+
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             console.log(`Checkbox with todoId ${this.getAttribute('data-todo-id')} ${this.checked ? 'checked' : 'unchecked'}.`);
@@ -177,20 +185,23 @@ function addEventListeners() {
 
     // 제목 클릭 시 수정 폼 나타나기
     const todoTitles = document.querySelectorAll('.todoTitle');
+
     todoTitles.forEach(todoTitle => {
         todoTitle.addEventListener('click', function() {
             const todoId = this.getAttribute('data-todo-id');
+    
             fetch(`/todo/${todoId}`)
                 .then(response => response.json())
                 .then(data => {
                     showTodoDetail(data);
                     document.getElementById('todoNo').value = data.todoNo;
-                    applyTodoStyles('reduced');
+                    toggleDetailForm();
                 })
                 .catch(error => console.error('Error:', error));
         });
     });
 }
+
 
 // 등록하기 
 function toggleInsertForm(e) {
@@ -215,6 +226,7 @@ function toggleInsertForm(e) {
 function handleFileUpload(event) {
     const fileList = event.target.id === 'uploadFile' ? document.getElementById('fileList') : document.getElementById('detailFileList');
     const files = Array.from(event.target.files);
+
     files.forEach(file => {
         const li = document.createElement('li');
         const fileName = document.createElement('span');
@@ -236,10 +248,13 @@ function handleFileUpload(event) {
 // 완료 한 일 보기 토글  
 function toggleDoneList() {
     fetchTodos(document.getElementById('doneList').checked ? 2 : 1, document.getElementById('sortByOption').value);
+    hideForms();
 }
 
+// 목록 정렬 관련 
 function changeSortByOption() {
     fetchTodos(document.getElementById('doneList').checked ? 2 : 1, document.getElementById('sortByOption').value);
+    hideForms();
 }
 
 // 완료 여부 
@@ -259,7 +274,9 @@ function updateTodoComplete(todoId, todoCompleteValue) {
 // 투 두 영역 스타일 적용 
 function applyTodoStyles(size) {
     const todos = document.querySelectorAll('.todo');
+
     todos.forEach(todo => {
+
         if (size === 'reduced') {
             todo.style.width = '680px';
             todo.querySelectorAll('div:nth-of-type(1)').forEach(element => {
@@ -270,6 +287,7 @@ function applyTodoStyles(size) {
                 element.style.marginLeft = '10px';
                 element.style.width = '80%';
             });
+
         } else {
             todo.style.width = '1000px';
             todo.querySelectorAll('div:nth-of-type(1)').forEach(element => {
@@ -284,7 +302,34 @@ function applyTodoStyles(size) {
     });
 }
 
-// 상세 폼 나타내기 (수정폼)
+// 상세/수정 폼 display 관련 
+function toggleDetailForm() {
+
+    const todoDetailArea = document.getElementById('todoDetailArea');
+    const todoInsertArea = document.getElementById('todoInsertArea');
+
+    if (todoDetailArea.classList.contains('show')) {
+        setTimeout(() => {
+            todoDetailArea.style.display = 'none';
+            todoDetailArea.classList.remove('show'); 
+            applyTodoStyles('normal');
+        }, 300);
+
+    } else {
+        todoDetailArea.style.display = 'block';
+        setTimeout(() => {
+            todoDetailArea.classList.add('show');
+            applyTodoStyles('reduced');
+        }, 10);
+        
+        if (todoInsertArea) {
+            todoInsertArea.classList.remove('show');
+            setTimeout(() => todoInsertArea.style.display = 'none', 300);
+        }
+    }
+}
+
+// 상세(수정) 폼
 function showTodoDetail(todo) {
     const detailArea = document.getElementById('todoDetailArea');
     const todoInsertArea = document.getElementById('todoInsertArea');
@@ -294,13 +339,15 @@ function showTodoDetail(todo) {
         setTimeout(() => todoInsertArea.style.display = 'none', 300);
     }
 
-    if (detailArea) {
+   if(detailArea) {
+
         detailArea.style.display = 'block';
         setTimeout(() => detailArea.classList.add('show'), 10);
 
         document.querySelector('[name="todoEndDate"]').value = todo.todoEndDate ? todo.todoEndDate.split(' ')[0] : '';
         document.querySelector('[name="requestEmp"]').value = todo.requestEmp || '';
-        document.querySelector('[name="inChargeEmp"]').value = todo.inChargeEmp || '';
+        const inChargeEmpStr = todo.inChargeEmpList ? todo.inChargeEmpList.join(', ') : todo.inChargeEmp || '';
+        document.querySelector('[name="inChargeEmp"]').value = inChargeEmpStr;
         document.querySelector('[name="todoTitle"]').value = todo.todoTitle || '';
         document.querySelector('[name="todoContent"]').value = todo.todoContent || '';
 
@@ -333,6 +380,19 @@ function showTodoDetail(todo) {
             li.textContent = '파일이 없습니다.';
             fileListElement.appendChild(li);
         }
+
+        const updateBtn = document.getElementById('updateBtn'); 
+        const todoEmpCode = String(todo.empCode);
+        var loginEmp = document.getElementById('loginEmp').value;   
+        console.log(todoEmpCode);
+        console.log(loginEmp);
+
+        if(loginEmp === todoEmpCode) {
+            updateBtn.style.display = 'block'; 
+        } else {
+            updateBtn.style.display = 'none'; 
+        }
+
 
     }
 }
@@ -380,6 +440,7 @@ function handleSearch(e) {
     e.preventDefault();
     const todoQuery = document.getElementById('todoSearchQuery').value.trim();
     fetchTodos(document.getElementById('doneList').checked ? 2 : 1, document.getElementById('sortByOption').value, { todoQuery });
+    hideForms();
 }
 
 // 등록/최신 순 
@@ -387,6 +448,7 @@ function handleSortByChange() {
     const sortBy = document.getElementById('sortByOption').value;
     const todoQuery = document.getElementById('todoSearchQuery').value.trim();
     fetchTodos(document.getElementById('doneList').checked ? 2 : 1, sortBy, { todoQuery });
+    hideForms();
 }
 
 // 완료한 일 
@@ -403,6 +465,7 @@ function handleMeInChargeClick(e) {
     const sortBy = document.getElementById('sortByOption').value;
     const todoQuery = document.getElementById('todoSearchQuery').value.trim();
     fetchTodos('1', sortBy, { inCharge: true, request: true, todoQuery });
+    hideForms();
 }
 
 // 요청한 
@@ -411,9 +474,8 @@ function handleRequestClick(e) {
     const sortBy = document.getElementById('sortByOption').value;
     const todoQuery = document.getElementById('todoSearchQuery').value.trim();
     fetchTodos('1', sortBy, { request: true, inCharge: false, todoQuery });
+    hideForms();
 }
-
-
 
 // 요청 받은 
 function handleReceivedTasksClick(e) {
@@ -421,8 +483,8 @@ function handleReceivedTasksClick(e) {
     const sortBy = document.getElementById('sortByOption').value;
     const todoQuery = document.getElementById('todoSearchQuery').value.trim();
     fetchTodos('1', sortBy, { request: false, inCharge: true, todoQuery });
+    hideForms();
 }
-
 
 // 취소 버튼 클릭 
 function handleCancel(e) {
@@ -440,6 +502,7 @@ function showModalAboveButton() {
     positionModalAboveButton(); 
 }
 
+// 등록 버튼 위 모달창 위치 조정 
 function positionModalAboveButton() {
     const insertBtn = document.getElementById('insertBtn');
     const modal = document.getElementById('noTodoModal');
@@ -450,4 +513,26 @@ function positionModalAboveButton() {
 
     modal.style.top = `${rect.top - modal.offsetHeight - 26 + scrollTop}px`;
     modal.style.left = `${rect.left + (rect.width / 2) - (modal.offsetWidth / 2) + scrollLeft}px`;
+}
+
+// 폼 숨기기 
+function hideForms() {
+    const todoDetailArea = document.getElementById('todoDetailArea');
+    const todoInsertArea = document.getElementById('todoInsertArea');
+    
+    if (todoDetailArea.classList.contains('show')) {
+        todoDetailArea.classList.remove('show');
+        setTimeout(() => {
+            todoDetailArea.style.display = 'none';
+            applyTodoStyles('normal');
+        }, 300);
+    }
+    
+    if (todoInsertArea.classList.contains('show')) {
+        todoInsertArea.classList.remove('show');
+        setTimeout(() => {
+            todoInsertArea.style.display = 'none';
+            applyTodoStyles('normal');
+        }, 300);
+    }
 }

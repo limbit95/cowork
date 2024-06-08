@@ -214,9 +214,6 @@ ul{
     border-bottom: 1px solid #214177;
 }
 
-
-
-
 /* 요청 내용 박스 부분 */
 #requestContent {
     border: 1px solid #d9d9d9;
@@ -378,7 +375,6 @@ input[type="date"]:hover {
 }
 
 #updateBtn {
-    margin-left: 165px;
     border: none;
     background-color: transparent;
     color: #214177;
@@ -387,7 +383,6 @@ input[type="date"]:hover {
 }
 
 #cancelBtn {
-    margin-left: 5px;
     border: none;
     background-color: transparent;
     color: #214177;
@@ -395,9 +390,14 @@ input[type="date"]:hover {
     margin-top: 0;
 }
 
-/* 등록 버튼  영역 */
-#insertBtn2Area, #updateBtnArea {
+/* 버튼 영역 */
+#insertBtn2Area {
     margin-bottom: 0 !important;
+}
+
+#updateBtnArea {
+    justify-content: end;
+    gap: 5px;
 }
 
 #insertBtn2:hover, #updateBtn:hover, #cancelBtn:hover {

@@ -2,6 +2,7 @@ package com.cowork.employee.todo.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,11 +44,13 @@ public class TodoController {
      */
     @GetMapping("/todoList")
     public String todoList(Model model, @SessionAttribute("loginEmp") Employee2 loginEmp) {
-        int empCode = loginEmp.getEmpCode();
+        
+    	int empCode = loginEmp.getEmpCode();
         log.info("empCode 는?? : " + empCode);
 
         List<Todo> todoList = service.selectTodoList(empCode);
-        model.addAttribute("todoList", todoList);
+        model.addAttribute("todo", todoList);
+        model.addAttribute("loginEmp", loginEmp);
 
         return "employee/todo/todoList";
     }
@@ -115,13 +118,31 @@ public class TodoController {
 	    
 	    // 할 일 상세 조회
 	    Todo todo = service.todoDetail(map);
+	    log.info("todo 상세조회시 requestEmp : " + todo.getRequestEmp());
 	    
+	    // 담당자 조회 
+	    List<String> inChargeEmpList = service.getEmpList(todoNo); 
+	    todo.setInChargeEmpList(inChargeEmpList);
+	     
+	    
+	    if (!inChargeEmpList.isEmpty()) {
+	    	
+	        if (inChargeEmpList.size() == 1) {
+	        	
+	            todo.setInChargeEmp(inChargeEmpList.get(0));
+	            
+	        } else {
+	            todo.setInChargeEmp(String.join(", ", inChargeEmpList));
+	        }
+	    }
+	   
 	    // 첨부 파일 목록 조회
 	    List<TodoFile> fileList = service.todoFiles(todoNo);
 	    todo.setFileList(fileList);
-	    
+
 	    
 	    model.addAttribute("todo", todo); 
+	    model.addAttribute("loginEmp", loginEmp);
 	    
 	    log.info("todo 상세 : " + todo); 
 	    
@@ -150,7 +171,12 @@ public class TodoController {
 			int empCode = loginEmp.getEmpCode(); 
 			inputTodo.setEmpCode(empCode); 
 			
-			int result = service.todoInsert(inputTodo, files); 
+			String inChargeEmpStr = inputTodo.getInChargeEmp(); 
+			List<String> inChargeEmpList = Arrays.asList(inChargeEmpStr.split("\\s*,\\s*")); 
+			
+			log.info("담당자 여러명일때 넘겨받은 리스트 : " + inChargeEmpList.toString());
+			
+			int result = service.todoInsert(inputTodo, files, inChargeEmpList); 
 
 			model.addAttribute("todo", inputTodo);
 			
@@ -191,8 +217,11 @@ public class TodoController {
 		
 		log.info("todoNo ::: " + todoNo);
 		log.info("파일 개수 : " + files.size());
+		
+		String inChargeEmpStr = inputTodo.getInChargeEmp(); 
+		List<String> inChargeEmpList = Arrays.asList(inChargeEmpStr.split("\\s*,\\s*")); 
 
-		int result = service.todoUpdate(inputTodo, files); 
+		int result = service.todoUpdate(inputTodo, files, inChargeEmpList); 
 		
 		model.addAttribute("todo", inputTodo); 
 		

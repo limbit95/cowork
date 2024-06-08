@@ -2,6 +2,8 @@ package com.cowork.employee.todo.model.dto;
 
 import java.util.List;
 
+import com.cowork.user.model.dto.Employee2;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,9 +28,12 @@ public class Todo {
 	private int empCode;
 	
 	private int todoMgrNo; 
-	private String requestEmp; 
-	private String inChargeEmp; 
+	
+	private String requestEmp; // 요청자 
+	private String inChargeEmp;  // 담당자 
 	
 	private List<TodoFile> fileList;
+	private List<String> inChargeEmpList; 
+
 		
 }

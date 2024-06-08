@@ -22,9 +22,10 @@ public interface TodoService {
 	/** 할 일 등록 
 	 * @param inputTodo
 	 * @param files 
+	 * @param inChargeEmpList 
 	 * @return
 	 */
-	int todoInsert(Todo inputTodo, List<MultipartFile> files) throws IllegalStateException, IOException;
+	int todoInsert(Todo inputTodo, List<MultipartFile> files, List<String> inChargeEmpList) throws IllegalStateException, IOException;
 
 	/** 할 일 상세 조회 
 	 * @param map
@@ -35,9 +36,10 @@ public interface TodoService {
 	/** 할 일 수정 
 	 * @param inputTodo
 	 * @param files
+	 * @param inChargeEmpList 
 	 * @return
 	 */
-	int todoUpdate(Todo inputTodo, List<MultipartFile> files) throws IllegalStateException, IOException;
+	int todoUpdate(Todo inputTodo, List<MultipartFile> files, List<String> inChargeEmpList) throws IllegalStateException, IOException;
 
 	/** 할 일 삭제 
 	 * @param todoNoList
@@ -58,14 +60,6 @@ public interface TodoService {
 	 */
 	boolean updateTodoComplete(int todoNo, String todoComplete);
 
-/*	List<Todo> getInChargeTodo(String sortBy, Map<String, Object> map);
-
-	List<Todo> getRequestedTodo(String sortBy, int empCode);
-
-	List<Todo> getCompletedTodo(String sortBy, int empCode);
-
-	List<Todo> getInProgressTodo(String sortBy, int empCode);  */
-
 	/** 검색한 경우 투두리스트 
 	 * @param todoQuery
 	 * @param empCode 
@@ -73,7 +67,17 @@ public interface TodoService {
 	 */
 	List<Todo> todoQueryList(String todoQuery, int empCode);
 
-	List<Todo> getFilteredTodos(Map<String, Object> filters); 
+	/** 조건별 조회 
+	 * @param filters
+	 * @return
+	 */
+	List<Todo> getFilteredTodos(Map<String, Object> filters);
+
+	/** 담당자 여러명인 경우 
+	 * @param todoNo
+	 * @return
+	 */
+	List<String> getEmpList(int todoNo);
 
 
 
