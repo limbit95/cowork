@@ -29,6 +29,6 @@ public class Todo {
 	private String requestEmp; 
 	private String inChargeEmp; 
 	
-	private List<TodoFile> fileList; 
+	private List<TodoFile> fileList;
 		
 }

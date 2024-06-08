@@ -17,28 +17,18 @@ function initialize() {
     document.getElementById('sortByOption').addEventListener('change', changeSortByOption);
     document.getElementById('todoSearch').addEventListener('submit', handleSearch);
     document.querySelectorAll('.cancelBtn').forEach(cancelBtn => cancelBtn.addEventListener('click', handleCancel));
-    document.getElementById('deleteBtn').addEventListener('click', handleDelete);
-
-    // 모달 창 이벤트 리스너 추가
-    document.getElementById('modalCloseBtn').addEventListener('click', () => {
-        document.getElementById('noTodoModal').style.display = 'none';
-    });
-    window.addEventListener('resize', positionModalAboveButton);
-    window.addEventListener('scroll', positionModalAboveButton);
     
     fetchInitialTodos();
     // 초기 할 일 목록 로드
      //fetchTodos(1, document.getElementById('sortByOption').value);
-    // fetchTodos('1', sortBy, { inCharge: true, request: true, todoQuery });
 
     
 }
 
 function fetchInitialTodos() {
     const todoList = document.getElementById('todoList');
-    let url = `/todo/todos?todoComplete=1`; // 진행 중인 할 일만 조회 
-
-    console.log(`Fetching initial todos from URL: ${url}`); 
+    let url = `/todo/initialTodoList`;
+    console.log(`Fetching initial todos from URL: ${url}`); // 디버그 로그 추가
 
     fetch(url)
         .then(response => {
@@ -49,33 +39,29 @@ function fetchInitialTodos() {
         })
         .then(todos => {
             todoList.innerHTML = ''; // 기존 목록 초기화
-
-            if (todos.length === 0) {
-                showModalAboveButton();
-            } else {
-                todos.forEach(todo => {
-                    const todoDiv = document.createElement('div');
-                    todoDiv.className = 'todo';
-                    todoDiv.setAttribute('data-todo-complete', todo.todoComplete);
-                    todoDiv.innerHTML = `
-                        <div><input type="checkbox" class="todoCheckbox" data-todo-id="${todo.todoNo}"></div>
-                        <div class="todoTitle" data-todo-id="${todo.todoNo}">${todo.todoTitle}</div>
-                        <div class="select" data-todo-id="${todo.todoNo}" data-todo-complete="${todo.todoComplete}">
-                            <div class="selected" data-to-do-id="${todo.todoNo}">${todo.todoComplete == '1' ? '진행중' : '완료'}</div>
-                            <ul class="optionList">
-                                <li class="optionItem" data-value="1">진행중</li>
-                                <li class="optionItem" data-value="2">완료</li>
-                            </ul>
-                        </div>
-                    `;
-                    todoList.appendChild(todoDiv);
-                });
-                addEventListeners(); // 새롭게 추가된 할 일 항목에 대해 이벤트 리스너를 다시 추가합니다.
-            }
-                
+            todos.forEach(todo => {
+                const todoDiv = document.createElement('div');
+                todoDiv.className = 'todo';
+                todoDiv.setAttribute('data-todo-complete', todo.todoComplete);
+                todoDiv.innerHTML = `
+                    <div><input type="checkbox" class="todoCheckbox" data-todo-id="${todo.todoNo}"></div>
+                    <div class="todoTitle" data-todo-id="${todo.todoNo}">${todo.todoTitle}</div>
+                    <div class="select" data-todo-id="${todo.todoNo}" data-todo-complete="${todo.todoComplete}">
+                        <div class="selected" data-to-do-id="${todo.todoNo}">${todo.todoComplete == '1' ? '진행중' : '완료'}</div>
+                        <ul class="optionList">
+                            <li class="optionItem" data-value="1">진행중</li>
+                            <li class="optionItem" data-value="2">완료</li>
+                        </ul>
+                    </div>
+                `;
+                todoList.appendChild(todoDiv);
+            });
+            addEventListeners(); // 새롭게 추가된 할 일 항목에 대해 이벤트 리스너를 다시 추가합니다.
         })
         .catch(error => console.error('Error fetching initial todos:', error));
 }
+
+
 
 function fetchTodos(todoComplete, sortBy, filters = {}) {
     const todoList = document.getElementById('todoList');
@@ -112,7 +98,6 @@ function fetchTodos(todoComplete, sortBy, filters = {}) {
         })
         .catch(error => console.error('Error fetching todos:', error));
 }
-
 
 
 function addEventListeners() {
@@ -333,47 +318,8 @@ function showTodoDetail(todo) {
             li.textContent = '파일이 없습니다.';
             fileListElement.appendChild(li);
         }
-
     }
 }
-
-//삭제하기 
-function handleDelete(event) {
-    event.preventDefault();
-
-    const checkedCheckboxes = document.querySelectorAll('.todoCheckbox:checked');
-    const todoIds = Array.from(checkedCheckboxes).map(checkbox => parseInt(checkbox.getAttribute('data-todo-id')));
-
-    if (todoIds.length === 0) {
-        alert('삭제할 항목을 선택하세요.');
-        return;
-    }
-
-    fetch('/todo/delete', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ todoNos: todoIds })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-        
-    })
-    .then(result => {
-        if (result.success) {
-            alert(result.message);
-            location.reload();
-        } else {
-            alert('삭제에 실패했습니다.');
-        }
-    })
-    .catch(error => console.error('Error deleting todos:', error));
-}
-
 
 // 검색 
 function handleSearch(e) {
@@ -402,7 +348,7 @@ function handleMeInChargeClick(e) {
     e.preventDefault();
     const sortBy = document.getElementById('sortByOption').value;
     const todoQuery = document.getElementById('todoSearchQuery').value.trim();
-    fetchTodos('1', sortBy, { inCharge: true, request: true, todoQuery });
+    fetchTodos(document.getElementById('doneList').checked ? 2 : 1, sortBy, { inCharge: true, request: true, todoQuery });
 }
 
 // 요청한 
@@ -410,9 +356,8 @@ function handleRequestClick(e) {
     e.preventDefault();
     const sortBy = document.getElementById('sortByOption').value;
     const todoQuery = document.getElementById('todoSearchQuery').value.trim();
-    fetchTodos('1', sortBy, { request: true, inCharge: false, todoQuery });
+    fetchTodos(document.getElementById('doneList').checked ? 2 : 1, sortBy, { request: true, inCharge: false, todoQuery });
 }
-
 
 
 // 요청 받은 
@@ -420,7 +365,7 @@ function handleReceivedTasksClick(e) {
     e.preventDefault();
     const sortBy = document.getElementById('sortByOption').value;
     const todoQuery = document.getElementById('todoSearchQuery').value.trim();
-    fetchTodos('1', sortBy, { request: false, inCharge: true, todoQuery });
+    fetchTodos(document.getElementById('doneList').checked ? 2 : 1, sortBy, { request: false, inCharge: true, todoQuery });
 }
 
 
@@ -432,22 +377,4 @@ function handleCancel(e) {
     todoDetailArea.classList.remove('show');
     setTimeout(() => todoDetailArea.style.display = 'none', 300);
     applyTodoStyles('normal');
-}
-
-// 모달 
-function showModalAboveButton() {
-    document.getElementById('noTodoModal').style.display = 'block';
-    positionModalAboveButton(); 
-}
-
-function positionModalAboveButton() {
-    const insertBtn = document.getElementById('insertBtn');
-    const modal = document.getElementById('noTodoModal');
-
-    const rect = insertBtn.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-
-    modal.style.top = `${rect.top - modal.offsetHeight - 26 + scrollTop}px`;
-    modal.style.left = `${rect.left + (rect.width / 2) - (modal.offsetWidth / 2) + scrollLeft}px`;
 }

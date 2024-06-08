@@ -15,9 +15,10 @@ public interface TodoMapper {
 
 	/** todoList 조회 
 	 * @param empCode 
+	 * @param empCode 
 	 * @return
 	 */
-	List<Todo> selectTodoList();
+	List<Todo> selectTodoList(int empCode);
 
 	/** 할 일 등록 
 	 * @param inputTodo
@@ -85,15 +86,15 @@ public interface TodoMapper {
 	 */
 	int updateTodoComplete(@Param("todoNo") int todoNo, @Param("todoComplete") String todoComplete);
 
-	List<Todo> todoInCharge(String sortBy);
+/*	List<Todo> todoInCharge(@Param("sortBy") String sortBy, @Param("map") Map<String, Object> map);
 
-	List<Todo> todoRequested(String sortBy);
+	List<Todo> todoRequested(@Param("sortBy") String sortBy, @Param("empCode") int empCode);
 
-	List<Todo> todoCompleted(String todoComplete);
+	List<Todo> todoCompleted(@Param("sortBy") String sortBy, @Param("empCode") int empCode);
 
-	List<Todo> todoInProgress(String sortBy);
+	List<Todo> todoInProgress(@Param("sortBy") String sortBy, @Param("empCode") int empCode);     */
 
-	int updateUploadList(List<TodoFile> uploadList);
+	int updateUploadList(List<TodoFile> uploadList);  
 
 	/** 수정시 기존 파일 삭제 
 	 * @param inputTodo
@@ -104,7 +105,15 @@ public interface TodoMapper {
 	 * @param todoQuery
 	 * @return
 	 */
-	List<Todo> todoQueryList(String todoQuery);
+	List<Todo> todoQueryList(@Param("todoQuery") String todoQuery, @Param("empCode") int empCode);
+
+	List<Todo> getFilteredTodos(Map<String, Object> filters);
+
+	/** empCode로 사원 이름 불러오
+	 * @param empCode
+	 * @return
+	 */
+	String getEmpName(int empCode);
 
 	/** 검색한 투두 개수 
 	 * @param todoQuery

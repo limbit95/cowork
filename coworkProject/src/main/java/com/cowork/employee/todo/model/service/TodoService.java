@@ -14,9 +14,10 @@ public interface TodoService {
 
 	/** todo 목록 조회 
 	 * @param empCode 
+	 * @param empCode 
 	 * @return
 	 */
-	List<Todo> selectTodoList();
+	List<Todo> selectTodoList(int empCode);
 
 	/** 할 일 등록 
 	 * @param inputTodo
@@ -57,19 +58,22 @@ public interface TodoService {
 	 */
 	boolean updateTodoComplete(int todoNo, String todoComplete);
 
-	List<Todo> getInChargeTodo(String sortBy);
+/*	List<Todo> getInChargeTodo(String sortBy, Map<String, Object> map);
 
-	List<Todo> getRequestedTodo(String sortBy);
+	List<Todo> getRequestedTodo(String sortBy, int empCode);
 
-	List<Todo> getCompletedTodo(String sortBy);
+	List<Todo> getCompletedTodo(String sortBy, int empCode);
 
-	List<Todo> getInProgressTodo(String sortBy);
+	List<Todo> getInProgressTodo(String sortBy, int empCode);  */
 
 	/** 검색한 경우 투두리스트 
 	 * @param todoQuery
+	 * @param empCode 
 	 * @return
 	 */
-	List<Todo> todoQueryList(String todoQuery); 
+	List<Todo> todoQueryList(String todoQuery, int empCode);
+
+	List<Todo> getFilteredTodos(Map<String, Object> filters); 
 
 
 

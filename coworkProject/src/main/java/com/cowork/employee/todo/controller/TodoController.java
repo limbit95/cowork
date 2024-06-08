@@ -36,72 +36,65 @@ import lombok.extern.slf4j.Slf4j;
 public class TodoController {
 	
 	private final TodoService service; 
+	
+	/**
+     * Todo List 조회
+     * @return
+     */
+    @GetMapping("/todoList")
+    public String todoList(Model model, @SessionAttribute("loginEmp") Employee2 loginEmp) {
+        int empCode = loginEmp.getEmpCode();
+        log.info("empCode 는?? : " + empCode);
 
-	/** todo List 조회 
-	 * @return
-	 */
-	@GetMapping("todoList")
-	public String todoList(Model model, @RequestParam(value="todoQuery", required = false) String todoQuery) {
-		
-		/*int empCode = loginEmp.getEmpCode(); 
-		
-		log.info("empCode 는?? : " + empCode);*/
-		
-		 if (todoQuery == null || todoQuery.isEmpty()) {
-			 
-		        List<Todo> todoList = service.selectTodoList();
-		        model.addAttribute("todoList", todoList);
-		        
-		    } else {
-		    	
-		        List<Todo> todoList = service.todoQueryList(todoQuery);
-		        model.addAttribute("todoList", todoList);
-		    }
-		  	 	
-		
-		return "employee/todo/todoList"; 
-	}
-	
-	
-	@GetMapping("todos")
+        List<Todo> todoList = service.selectTodoList(empCode);
+        model.addAttribute("todoList", todoList);
+
+        return "employee/todo/todoList";
+    }
+
+    /**
+     * 조건별 조회 
+     * @param todoComplete
+     * @param inCharge
+     * @param request
+     * @param sortBy
+     * @param todoQuery
+     * @param loginEmp
+     * @return
+     */
+    @GetMapping("/todos")
     @ResponseBody
     public List<Todo> getTodos(@RequestParam(value = "todoComplete", required = false) String todoComplete,
                                @RequestParam(value = "inCharge", required = false) Boolean inCharge,
                                @RequestParam(value = "request", required = false) Boolean request,
                                @RequestParam(value = "sortBy", required = false) String sortBy,
-                               @RequestParam(value = "todoQuery", required = false) String todoQuery) {
-		
-		log.info("Received parameters - todoComplete: " + todoComplete + ", inCharge: " + inCharge + ", request: " + request + ", sortBy: " + sortBy + ", todoQuery: " + todoQuery);
-       
-		// 검색한 경우 
-		 if (todoQuery != null && !todoQuery.isEmpty()) {
-			 
-			  log.info("Returning search results for query: " + todoQuery); // 디버그 로그 추가
-		        return service.todoQueryList(todoQuery);
-		      
-		      // 내 담당인 경우   
-		    } else if (inCharge != null && inCharge) {
-		    	
-		        return service.getInChargeTodo(sortBy);
-		        
-		       // 요청하거나 받은 경우  
-		    } else if (request != null && request) {
-		    	
-		        return service.getRequestedTodo(sortBy);
-		        
-		      // 완료한 경우   
-		    } else if (todoComplete != null && "2".equals(todoComplete)) {
-		    	
-		        return service.getCompletedTodo(sortBy);
-		        
-		    } else {
-		    	
-		    	// 진행중인 경우 
-		        return service.getInProgressTodo(sortBy);
-		    }
+                               @RequestParam(value = "todoQuery", required = false) String todoQuery,
+                               @SessionAttribute("loginEmp") Employee2 loginEmp) {
 
+        int empCode = loginEmp.getEmpCode();
+
+        log.info("Received parameters - todoComplete: " + todoComplete + ", inCharge: " + inCharge + ", "
+                + "request: " + request + ", sortBy: " + sortBy + ", todoQuery: " + todoQuery);
+
+        // 검색어가 있는 경우
+        if (todoQuery != null && !todoQuery.isEmpty()) {
+            log.info("Returning search results for query: " + todoQuery);
+            return service.todoQueryList(todoQuery, empCode);
+        }
+
+        // 필터링 조건 처리
+        Map<String, Object> filters = new HashMap<>();
+        filters.put("empCode", empCode);
+        filters.put("todoComplete", todoComplete);
+        filters.put("inCharge", inCharge);
+        filters.put("request", request);
+        filters.put("sortBy", sortBy);
+
+        return service.getFilteredTodos(filters);
     }
-	
+   
+    
+    
 
 	/** 할 일 상세 조회 
 	 * @param todoNo
@@ -111,10 +104,14 @@ public class TodoController {
 	@ResponseBody
 	@GetMapping("{todoNo:[0-9]+}")
     public Todo todoDetail(@PathVariable("todoNo") int todoNo,
-    						Model model) {	
+    						Model model, 
+    						@SessionAttribute("loginEmp") Employee2 loginEmp) {	
+		
+		int empCode = loginEmp.getEmpCode(); 
 		
 		Map<String, Integer> map = new HashMap<>(); 
 	    map.put("todoNo", todoNo); 
+	    map.put("empCode", empCode);
 	    
 	    // 할 일 상세 조회
 	    Todo todo = service.todoDetail(map);
@@ -122,6 +119,7 @@ public class TodoController {
 	    // 첨부 파일 목록 조회
 	    List<TodoFile> fileList = service.todoFiles(todoNo);
 	    todo.setFileList(fileList);
+	    
 	    
 	    model.addAttribute("todo", todo); 
 	    
@@ -145,18 +143,16 @@ public class TodoController {
 	public String todoInsert(@RequestParam("files") List<MultipartFile> files, 
 								Model model, 
 								Todo inputTodo, 
-								RedirectAttributes ra /*,
-								@SessionAttribute("loginEmp") Employee2 loginEmp, 
-								HttpSession session*/) throws IllegalStateException, IOException {
+								RedirectAttributes ra,
+								@SessionAttribute("loginEmp") Employee2 loginEmp
+								) throws IllegalStateException, IOException {
 		
-		/*	int empCode = loginEmp.getEmpCode(); 
-			inputTodo.setEmpCode(empCode); */
+			int empCode = loginEmp.getEmpCode(); 
+			inputTodo.setEmpCode(empCode); 
 			
 			int result = service.todoInsert(inputTodo, files); 
 
 			model.addAttribute("todo", inputTodo);
-		/*	session.setAttribute("todo", inputTodo); */
-			
 			
 			String message; 
 			
@@ -185,9 +181,13 @@ public class TodoController {
 	public String todoUpdate(@RequestParam("files") List<MultipartFile> files, 
 							Model model,
 							Todo inputTodo, 
-							RedirectAttributes ra) throws IllegalStateException, IOException {
+							RedirectAttributes ra, 
+							@SessionAttribute("loginEmp") Employee2 loginEmp) throws IllegalStateException, IOException {
 		
 		int todoNo = inputTodo.getTodoNo(); 
+		int empCode = loginEmp.getEmpCode(); 
+		
+		inputTodo.setEmpCode(empCode);
 		
 		log.info("todoNo ::: " + todoNo);
 		log.info("파일 개수 : " + files.size());
@@ -195,6 +195,7 @@ public class TodoController {
 		int result = service.todoUpdate(inputTodo, files); 
 		
 		model.addAttribute("todo", inputTodo); 
+		
 		
 		String message; 
 		

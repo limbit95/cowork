@@ -39,9 +39,9 @@ public class TodoServiceImpl implements TodoService{
 
 	// 할 일 목록 조회 
 	@Override
-	public List<Todo> selectTodoList() {
+	public List<Todo> selectTodoList(int empCode) {
 		
-		return mapper.selectTodoList();
+		return mapper.selectTodoList(empCode);
 		
 		
 	}
@@ -51,6 +51,18 @@ public class TodoServiceImpl implements TodoService{
 	@Override
 	public int todoInsert(Todo inputTodo, List<MultipartFile> files) throws IllegalStateException, IOException {
 		
+		int empCode = inputTodo.getEmpCode(); 
+		String requestEmp = mapper.getEmpName(empCode);
+		String inChargeEmp = mapper.getEmpName(empCode);
+			
+		
+		if(inputTodo.getRequestEmp() == null || inputTodo.getRequestEmp().isEmpty()) {
+			inputTodo.setInChargeEmp(inChargeEmp);	
+		}
+		
+		if(inputTodo.getInChargeEmp() == null || inputTodo.getInChargeEmp().isEmpty()) {
+			inputTodo.setRequestEmp(requestEmp);
+		}
 		
 		int result = mapper.todoInsert(inputTodo); 
 		
@@ -125,6 +137,13 @@ public class TodoServiceImpl implements TodoService{
 	@Override
 	public Todo todoDetail(Map<String, Integer> map) {
 		
+	/*	int empCode = map.get("empCode"); 
+		
+		String requestEmp = mapper.getEmpName(empCode); 
+		
+		log.info("map에서 가져온 empCode : " + empCode);   */
+		
+		
 		return mapper.todoDetail(map);
 	}
 
@@ -133,8 +152,6 @@ public class TodoServiceImpl implements TodoService{
 	@Override
 	public int todoUpdate(Todo inputTodo, List<MultipartFile> files) throws IllegalStateException, IOException {
 		
-		
-		//int empCode = inputTodo.getEmpCode(); 
 		
 		int result = mapper.todoUpdate(inputTodo); 
 		
@@ -149,6 +166,7 @@ public class TodoServiceImpl implements TodoService{
         result = mapper.todoManagerUpdate(inputTodo);
         
         if(result == 0) {
+        	
         	log.error("담당자 업데이트 실패..");
         	return 0; 
         }
@@ -242,45 +260,50 @@ public class TodoServiceImpl implements TodoService{
 		return result > 0;
 	}
 
-
+/*
 	@Override
-	public List<Todo> getInChargeTodo(String sortBy) {
+	public List<Todo> getInChargeTodo(String sortBy, Map<String, Object> map) {
 		
-		return mapper.todoInCharge(sortBy);
+		return mapper.todoInCharge(sortBy, map);
 	}
 
 
 	@Override
-	public List<Todo> getRequestedTodo(String sortBy) {
+	public List<Todo> getRequestedTodo(String sortBy, int empCode) {
 		
-		return mapper.todoRequested(sortBy);
+		return mapper.todoRequested(sortBy, empCode);
 	}
 
 
 	@Override
-	public List<Todo> getCompletedTodo(String sortBy) {
+	public List<Todo> getCompletedTodo(String sortBy, int empCode) {
 		
-		return mapper.todoCompleted(sortBy);
+		return mapper.todoCompleted(sortBy, empCode);
 	}
 
 
 	@Override
-	public List<Todo> getInProgressTodo(String sortBy) {
+	public List<Todo> getInProgressTodo(String sortBy, int empCode) {
 		
-		return mapper.todoInProgress(sortBy);
+		return mapper.todoInProgress(sortBy, empCode);
 	}
-
+*/
 
 	@Override
-	public List<Todo> todoQueryList(String todoQuery) {
+	public List<Todo> todoQueryList(String todoQuery, int empCode) {
 		
-		//int listCount = mapper.getSearchCount(todoQuery); 
+		//int listCount = mapper.getSearchCount(todoQuery); 		
 		
-		
-		
-		List<Todo> todoList = mapper.todoQueryList(todoQuery);
+		List<Todo> todoList = mapper.todoQueryList(todoQuery, empCode);
 		
 		return todoList;
+	}
+
+
+	@Override
+	public List<Todo> getFilteredTodos(Map<String, Object> filters) {
+		
+		return mapper.getFilteredTodos(filters);
 	}
 
 
