@@ -28,4 +28,10 @@ public interface CalendarMapper {
 	 */
 	List<Team> selectTeamList(int deptNo);
 
+	/** 부서 안에 팀이 있는지 조회
+	 * @param deptNo
+	 * @return
+	 */
+	int teamCount(int deptNo);
+
 }

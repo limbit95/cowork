@@ -80,18 +80,27 @@
     border: 1px solid var(--main6-color);
 }
 
+/* 색 선택 부분 */
 .titleColor {
     margin-top: 15px;
     width: 75%;
     display: flex;
     justify-content: space-evenly;
-
 }
 
-.titleColor div {
+.clickColor {
     border-radius: 50%;
     height: 5vh;
     width: 5vh;
+    cursor: pointer;
+}
+
+.addBorder {
+    border: 1px solid black !important; 
+}
+
+.clickColor:hover {
+    border: 1px solid black;
 }
 
 /* select option 부분 */
