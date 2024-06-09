@@ -32,6 +32,9 @@ function initialize() {
     });
     window.addEventListener('resize', positionModalAboveButton);
     window.addEventListener('scroll', positionModalAboveButton);
+
+    document.getElementById('todoUpdateForm').addEventListener('submit',invalidateUpdateForm); 
+    document.getElementById('todoInsertForm').addEventListener('submit',invalidateInsertForm); 
     
     // 처음 페이지 로드했을 때 
     fetchInitialTodos();
@@ -221,11 +224,19 @@ function toggleInsertForm(e) {
         applyTodoStyles('normal');
     }
 }
+let uploadedFiles = [];
+let newFiles = [];
+let deletedFiles = [];
 
 // 파일 업로드 
 function handleFileUpload(event) {
     const fileList = event.target.id === 'uploadFile' ? document.getElementById('fileList') : document.getElementById('detailFileList');
     const files = Array.from(event.target.files);
+
+    const noFileLi = fileList.querySelector('li');
+    if (noFileLi && noFileLi.textContent === '첨부파일 없음') {
+        fileList.removeChild(noFileLi);
+    }
 
     files.forEach(file => {
         const li = document.createElement('li');
@@ -239,8 +250,16 @@ function handleFileUpload(event) {
         li.appendChild(removeButton);
         fileList.appendChild(li);
 
+        newFiles.push(file);
+
         removeButton.addEventListener('click', function() {
             fileList.removeChild(li);
+            newFiles = newFiles.filter(f => f.name !== file.name);
+            if (fileList.children.length === 0) {
+                const noFileLi = document.createElement('li');
+                noFileLi.textContent = '첨부파일 없음';
+                fileList.appendChild(noFileLi);
+            }
         });
     });
 }
@@ -259,6 +278,7 @@ function changeSortByOption() {
 
 // 완료 여부 
 function updateTodoComplete(todoId, todoCompleteValue) {
+    hideForms(); 
     return fetch('/todo/updateTodoComplete', {
         method: 'POST',
         headers: {
@@ -339,8 +359,7 @@ function showTodoDetail(todo) {
         setTimeout(() => todoInsertArea.style.display = 'none', 300);
     }
 
-   if(detailArea) {
-
+    if (detailArea) {
         detailArea.style.display = 'block';
         setTimeout(() => detailArea.classList.add('show'), 10);
 
@@ -354,14 +373,18 @@ function showTodoDetail(todo) {
         const fileListElement = document.getElementById('detailFileList');
         fileListElement.innerHTML = '';
 
-        if (todo.fileList && todo.fileList.length > 0) {
-            todo.fileList.forEach(file => {
+        uploadedFiles = todo.fileList ? [...todo.fileList] : [];
+        newFiles = [];
+        deletedFiles = [];
+
+        if (uploadedFiles.length > 0) {
+            uploadedFiles.forEach(file => {
                 const li = document.createElement('li');
                 const a = document.createElement('a');
 
-                a.href = file.filePath + file.fileRename; // 파일 경로 설정
-                a.textContent = file.fileOriginName; // 파일 이름 설정
-                a.setAttribute('download', file.fileOriginName); // 파일 다운로드 속성 추가
+                a.href = file.filePath + file.fileRename;
+                a.textContent = file.fileOriginName;
+                a.setAttribute('download', file.fileOriginName);
 
                 const removeButton = document.createElement('button');
                 removeButton.textContent = 'x';
@@ -372,29 +395,72 @@ function showTodoDetail(todo) {
 
                 removeButton.addEventListener('click', function() {
                     fileListElement.removeChild(li);
-                    // TODO: 서버에 파일 삭제 요청 추가 필요
+                    deletedFiles.push(file);
+                    uploadedFiles = uploadedFiles.filter(f => f.filePath + f.fileRename !== file.filePath + file.fileRename);
+
+                    if (fileListElement.children.length === 0) {
+                        const noFileLi = document.createElement('li');
+                        noFileLi.textContent = '첨부파일 없음';
+                        fileListElement.appendChild(noFileLi);
+                    }
                 });
             });
         } else {
             const li = document.createElement('li');
-            li.textContent = '파일이 없습니다.';
+            li.textContent = '첨부파일 없음';
             fileListElement.appendChild(li);
         }
 
-        const updateBtn = document.getElementById('updateBtn'); 
+        const updateBtn = document.getElementById('updateBtn');
         const todoEmpCode = String(todo.empCode);
-        var loginEmp = document.getElementById('loginEmp').value;   
+        var loginEmp = document.getElementById('loginEmp').value;
         console.log(todoEmpCode);
         console.log(loginEmp);
 
-        if(loginEmp === todoEmpCode) {
-            updateBtn.style.display = 'block'; 
+        if (loginEmp === todoEmpCode) {
+            updateBtn.style.display = 'block';
         } else {
-            updateBtn.style.display = 'none'; 
+            updateBtn.style.display = 'none';
         }
-
-
     }
+}
+
+function updateTodo() {
+    const formData = new FormData(document.getElementById('todoUpdateForm'));
+
+    // 기존 파일 목록을 FormData에 추가
+    uploadedFiles.forEach(file => {
+        if (file.filePath) {
+            formData.append('existingFiles', JSON.stringify(file));
+        }
+    });
+
+    // 새 파일 목록을 FormData에 추가
+    newFiles.forEach(file => {
+        formData.append('newFiles', file);
+    });
+
+    // 삭제된 파일 목록을 FormData에 추가
+    deletedFiles.forEach(file => {
+        formData.append('deletedFiles', JSON.stringify(file));
+    });
+
+    fetch('/todo/update', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('업데이트 성공');
+            location.reload();
+        } else {
+            alert('업데이트 실패');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 //삭제하기 
@@ -406,6 +472,12 @@ function handleDelete(event) {
 
     if (todoIds.length === 0) {
         alert('삭제할 항목을 선택하세요.');
+        return;
+    }
+
+    const confirmation = confirm('정말 삭제하시겠습니까?');
+
+    if (!confirmation) {
         return;
     }
 
@@ -534,5 +606,29 @@ function hideForms() {
             todoInsertArea.style.display = 'none';
             applyTodoStyles('normal');
         }, 300);
+    }
+}
+
+// 수정 폼 제출 막기 
+function invalidateUpdateForm(e) {
+    let inChargeEmp = document.querySelector('#todoUpdateForm input[name="inChargeEmp"]').value.trim(); 
+    let todoTitle = document.querySelector('#todoUpdateForm input[name="todoTitle"]').value.trim(); 
+    let todoContent = document.querySelector('#todoUpdateForm textarea[name="todoContent"]').value.trim(); 
+
+    if(inChargeEmp === "" || todoTitle === "" || todoContent === "") {
+        alert("담당자, 요청 제목, 요청 내용은 모두 입력해주세요."); 
+        e.preventDefault(); 
+    }
+}
+
+// 등록 폼 제출 막기 
+function invalidateInsertForm(e) {
+    let inChargeEmp = document.querySelector('#todoInsertForm input[name="inChargeEmp"]').value.trim(); 
+    let todoTitle = document.querySelector('#todoInsertForm input[name="todoTitle"]').value.trim(); 
+    let todoContent = document.querySelector('#todoInsertForm textarea[name="todoContent"]').value.trim(); 
+
+    if(inChargeEmp === "" || todoTitle === "" || todoContent === "") {
+        alert("담당자, 요청 제목, 요청 내용은 모두 입력해주세요."); 
+        e.preventDefault(); 
     }
 }

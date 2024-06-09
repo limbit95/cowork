@@ -65,7 +65,7 @@ public class TodoController {
      * @param loginEmp
      * @return
      */
-    @GetMapping("/todos")
+    @GetMapping("todos")
     @ResponseBody
     public List<Todo> getTodos(@RequestParam(value = "todoComplete", required = false) String todoComplete,
                                @RequestParam(value = "inCharge", required = false) Boolean inCharge,
@@ -127,8 +127,7 @@ public class TodoController {
 	    
 	    if (!inChargeEmpList.isEmpty()) {
 	    	
-	        if (inChargeEmpList.size() == 1) {
-	        	
+	        if (inChargeEmpList.size() == 1) {	        	
 	            todo.setInChargeEmp(inChargeEmpList.get(0));
 	            
 	        } else {
@@ -171,6 +170,7 @@ public class TodoController {
 			int empCode = loginEmp.getEmpCode(); 
 			inputTodo.setEmpCode(empCode); 
 			
+			// 담당자 여러명인 경우 
 			String inChargeEmpStr = inputTodo.getInChargeEmp(); 
 			List<String> inChargeEmpList = Arrays.asList(inChargeEmpStr.split("\\s*,\\s*")); 
 			
@@ -218,6 +218,7 @@ public class TodoController {
 		log.info("todoNo ::: " + todoNo);
 		log.info("파일 개수 : " + files.size());
 		
+		// 담당자 여러명인 경우 
 		String inChargeEmpStr = inputTodo.getInChargeEmp(); 
 		List<String> inChargeEmpList = Arrays.asList(inChargeEmpStr.split("\\s*,\\s*")); 
 
@@ -246,7 +247,8 @@ public class TodoController {
 	 	 * @return
 	 	 */
 	 	@PostMapping("delete")
-	    public ResponseEntity<Map<String, Object>> todoDelete(@RequestBody Map<String, List<Integer>> payload) {
+	    public ResponseEntity<Map<String, Object>> todoDelete(@RequestBody Map<String, 
+	    													List<Integer>> payload) {
 		 
 	        List<Integer> todoNos = payload.get("todoNos");
 	        int result = service.todoDelete(todoNos);
@@ -269,7 +271,7 @@ public class TodoController {
 	 	 * @param request
 	 	 * @return
 	 	 */
-	 	@PostMapping("/updateTodoComplete")
+	 	@PostMapping("updateTodoComplete")
 	     public ResponseEntity<String> updateTodoComplete(@RequestBody Todo request) {
 	 		
 	         try {

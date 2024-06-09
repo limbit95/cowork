@@ -15,44 +15,50 @@
 	
 	<!-- 검색한 경우 목록 조회 -->
 	<select id="todoQueryList">
-		 SELECT 
-        t.TODO_NO,
-        t.TODO_TITLE,
-        t.TODO_CONTENT,
-        t.TODO_END_DATE,
-        t.TODO_COMPLETE,
-        request_emp.EMP_LAST_NAME || request_emp.EMP_FIRST_NAME AS request_emp,
-        in_charge_emp
-    FROM 
-        TODO t
-    JOIN 
-        EMPLOYEE request_emp ON request_emp.EMP_CODE = t.EMP_CODE
-    LEFT JOIN 
-        (SELECT 
-            tm.TODO_NO,
-            LISTAGG(manager_emp.EMP_LAST_NAME || manager_emp.EMP_FIRST_NAME, ', ') WITHIN GROUP (ORDER BY manager_emp.EMP_LAST_NAME, manager_emp.EMP_FIRST_NAME) AS in_charge_emp
-         FROM 
-            TODO_MANAGER tm
-         JOIN 
-            EMPLOYEE manager_emp ON manager_emp.EMP_CODE = tm.EMP_CODE
-         GROUP BY 
-            tm.TODO_NO) tm_agg ON tm_agg.TODO_NO = t.TODO_NO
-    WHERE 
-        t.EMP_CODE = #{empCode}
-      AND 
-        t.TODO_COMPLETE = '1'
-      AND 
-        (t.TODO_TITLE LIKE '%' || #{todoQuery} || '%' OR 
-         t.TODO_CONTENT LIKE '%' || #{todoQuery} || '%' OR 
-         request_emp.EMP_LAST_NAME || request_emp.EMP_FIRST_NAME LIKE '%' || #{todoQuery} || '%' OR 
-         EXISTS (
-             SELECT 1 FROM TODO_MANAGER tm 
-             JOIN EMPLOYEE manager_emp ON manager_emp.EMP_CODE = tm.EMP_CODE
-             WHERE tm.TODO_NO = t.TODO_NO 
-             AND manager_emp.EMP_LAST_NAME || manager_emp.EMP_FIRST_NAME LIKE '%' || #{todoQuery} || '%'
-         ))
-    ORDER BY 
-        t.TODO_WRITE_DATE DESC
+		SELECT 
+		    t.TODO_NO,
+		    t.TODO_TITLE,
+		    t.TODO_CONTENT,
+		    t.TODO_END_DATE,
+		    t.TODO_COMPLETE,
+		    request_emp.EMP_LAST_NAME || request_emp.EMP_FIRST_NAME AS requestEmp,
+		    tm_agg.inChargeEmp
+		FROM 
+		    TODO t
+		JOIN 
+		    EMPLOYEE request_emp ON request_emp.EMP_CODE = t.EMP_CODE
+		LEFT JOIN 
+		    (SELECT 
+		        tm.TODO_NO,
+		        LISTAGG(manager_emp.EMP_LAST_NAME || manager_emp.EMP_FIRST_NAME, ', ') WITHIN GROUP (ORDER BY manager_emp.EMP_LAST_NAME, manager_emp.EMP_FIRST_NAME) AS inChargeEmp
+		     FROM 
+		        TODO_MANAGER tm
+		     JOIN 
+		        EMPLOYEE manager_emp ON manager_emp.EMP_CODE = tm.EMP_CODE
+		     GROUP BY 
+		        tm.TODO_NO) tm_agg ON tm_agg.TODO_NO = t.TODO_NO
+		WHERE 
+		    (t.EMP_CODE = #{empCode} OR 
+		    EXISTS (
+		        SELECT 1 FROM TODO_MANAGER tm 
+		        JOIN EMPLOYEE manager_emp ON manager_emp.EMP_CODE = tm.EMP_CODE
+		        WHERE tm.TODO_NO = t.TODO_NO 
+		        AND tm.EMP_CODE = #{empCode}
+		    ))
+		  AND 
+		    t.TODO_COMPLETE = '1'
+		  AND 
+		    (t.TODO_TITLE LIKE '%' || #{todoQuery} || '%' OR 
+		     t.TODO_CONTENT LIKE '%' || #{todoQuery} || '%' OR 
+		     request_emp.EMP_LAST_NAME || request_emp.EMP_FIRST_NAME LIKE '%' || #{todoQuery} || '%' OR 
+		     EXISTS (
+		         SELECT 1 FROM TODO_MANAGER tm 
+		         JOIN EMPLOYEE manager_emp ON manager_emp.EMP_CODE = tm.EMP_CODE
+		         WHERE tm.TODO_NO = t.TODO_NO 
+		         AND manager_emp.EMP_LAST_NAME || manager_emp.EMP_FIRST_NAME LIKE '%' || #{todoQuery} || '%'
+		     ))
+		ORDER BY 
+		    t.TODO_WRITE_DATE DESC
 	</select>
 	
 	<!-- 목록 조회 필터링 -->
@@ -63,7 +69,7 @@
         t.TODO_CONTENT,
         t.TODO_END_DATE,
         t.TODO_COMPLETE,
-        request_emp.EMP_LAST_NAME || request_emp.EMP_FIRST_NAME AS request_emp,
+        request_emp.EMP_LAST_NAME || request_emp.EMP_FIRST_NAME AS requestEmp,
         (
             SELECT LISTAGG(manager_emp.EMP_LAST_NAME || manager_emp.EMP_FIRST_NAME, ', ') WITHIN GROUP (ORDER BY manager_emp.EMP_LAST_NAME, manager_emp.EMP_FIRST_NAME)
             FROM TODO_MANAGER tm
@@ -100,7 +106,7 @@
 		    <if test="todoComplete != null">
 		        AND t.TODO_COMPLETE = #{todoComplete}
 		    </if>
-		    <if test="todoQuery != null and todoQuery != ''">
+	<!--     <if test="todoQuery != null and todoQuery != ''">
 		        AND (
 		            t.TODO_TITLE LIKE '%' || #{todoQuery} || '%' OR 
 		            t.TODO_CONTENT LIKE '%' || #{todoQuery} || '%' OR 
@@ -112,8 +118,24 @@
 		                AND manager_emp.EMP_LAST_NAME || manager_emp.EMP_FIRST_NAME LIKE '%' || #{todoQuery} || '%'
 		            )
 		        )
+		    </if>  -->	
+		    <if test="sortBy != null"> 
+		    ORDER BY
+		        <choose>
+		            <when test="sortBy == 'registration'">
+		               t.TODO_WRITE_DATE ASC
+		            </when>
+		            <when test="sortBy == 'latest'">
+		               t.TODO_WRITE_DATE DESC
+		            </when>
+		            <otherwise>
+		             t.TODO_WRITE_DATE DESC
+		            </otherwise>
+		        </choose>
 		    </if>
+		    <if test="sortBy == null">
 		    ORDER BY t.TODO_WRITE_DATE DESC
+		    </if>
 		</select>
 	
 	
@@ -246,7 +268,7 @@
 	</update>
 	
 	<!-- 할 일 삭제 -->
-	<delete id="deleteTodos" parameterType="java.util.List">
+	<delete id="deleteTodos" parameterType="list">
 	    DELETE FROM TODO
 	    WHERE TODO_NO IN
 	    <foreach item="todoId" index="index" collection="todoIds" open="(" separator="," close=")">
@@ -255,22 +277,23 @@
 	</delete>
 
 	<!-- 담당자 삭제 -->
-	<delete id="deleteTodoManager" parameterType="java.util.List">
+	<delete id="deleteTodoManager" parameterType="list">
 	    DELETE FROM TODO_MANAGER
 	    WHERE TODO_NO IN
 	    <foreach item="todoId" index="index" collection="todoIds" open="(" separator="," close=")">
 	        #{todoId}
 	    </foreach>
 	</delete>
-	
-	<delete id="deleteTodoManagerOne" parameterType="java.util.List">
+
+	<!-- 담당자 수정시 기존 담당자 삭제 -->
+	<delete id="deleteTodoManagerOne" parameterType="list">
 	    DELETE FROM TODO_MANAGER
 	    WHERE TODO_NO = #{todoNo}
 	</delete>
 	
 	
 	<!-- 파일 삭제 -->
-	<delete id="deleteTodoFiles" parameterType="java.util.List">
+	<delete id="deleteTodoFiles" parameterType="list">
 	    DELETE FROM TODO_FILE
 	    WHERE TODO_NO IN
 	    <foreach item="todoId" index="index" collection="todoIds" open="(" separator="," close=")">

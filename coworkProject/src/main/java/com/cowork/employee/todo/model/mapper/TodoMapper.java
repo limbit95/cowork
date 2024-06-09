@@ -110,7 +110,7 @@ public interface TodoMapper {
 	 */
 	List<Todo> getFilteredTodos(Map<String, Object> filters);
 
-	/** empCode로 사원 이름 불러오
+	/** empCode로 사원 이름 불러오기 
 	 * @param empCode
 	 * @return
 	 */

@@ -80,7 +80,4 @@ public interface TodoService {
 	List<String> getEmpList(int todoNo);
 
 
-
-	
-
 }

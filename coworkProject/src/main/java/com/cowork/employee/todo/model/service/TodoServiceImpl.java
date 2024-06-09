@@ -70,24 +70,11 @@ public class TodoServiceImpl implements TodoService{
 		
 		log.info("초기 inputTodo: " + inputTodo.toString());
 	    
-	    // requestEmp와 inChargeEmp 값이 비어 있는 경우 
-	    if ((inputTodo.getRequestEmp() == null || inputTodo.getRequestEmp().isEmpty()) &&
-	        (inputTodo.getInChargeEmp() == null || inputTodo.getInChargeEmp().isEmpty())) {
-	        // 둘 다 비어 있는 경우
-	        inputTodo.setRequestEmp(empName);
-	        inputTodo.setInChargeEmp(empName);
-	        log.info("requestEmp와 inChargeEmp 모두 설정: " + inputTodo.toString());
-	    } else {
-	        // 각각 비어 있는 경우 처리
-	        if (inputTodo.getRequestEmp() == null || inputTodo.getRequestEmp().isEmpty()) {
-	            inputTodo.setRequestEmp(empName);
-	            log.info("requestEmp 설정: " + inputTodo.getRequestEmp());
-	        }
-	        if (inputTodo.getInChargeEmp() == null || inputTodo.getInChargeEmp().isEmpty()) {
-	            inputTodo.setInChargeEmp(empName);
-	            log.info("inChargeEmp 설정: " + inputTodo.getInChargeEmp());
-	        }
-	    }
+		// requestEmp 값이 비어 있는 경우
+		if (inputTodo.getRequestEmp() == null || inputTodo.getRequestEmp().isEmpty()) {
+		    inputTodo.setRequestEmp(empName);
+		    log.info("requestEmp 설정: " + inputTodo.getRequestEmp());
+		}
 	    
 	    log.info("최종 inputTodo: " + inputTodo.toString());
 
@@ -164,13 +151,6 @@ public class TodoServiceImpl implements TodoService{
 	@Override
 	public Todo todoDetail(Map<String, Integer> map) {
 		
-	/*	int empCode = map.get("empCode"); 
-		
-		String requestEmp = mapper.getEmpName(empCode); 
-		
-		log.info("map에서 가져온 empCode : " + empCode);   */
-		
-		
 		return mapper.todoDetail(map);
 	}
 
@@ -189,7 +169,16 @@ public class TodoServiceImpl implements TodoService{
 		}
 		
 		int todoNo = inputTodo.getTodoNo(); 
+		int empCode = inputTodo.getEmpCode(); 
+		String empName = mapper.getEmpName(empCode);
 		
+		// requestEmp 값이 비어 있는 경우
+		if (inputTodo.getRequestEmp() == null || inputTodo.getRequestEmp().isEmpty()) {
+		    inputTodo.setRequestEmp(empName);
+		    log.info("requestEmp 설정: " + inputTodo.getRequestEmp());
+		}
+		
+		// 담당자 수정일 경우 먼저 등록되어있는 담당자 삭제 
 		mapper.deleteTodoManagerOne(todoNo);
 		
 		 if(result > 0 ) {
@@ -211,9 +200,17 @@ public class TodoServiceImpl implements TodoService{
 		
         log.info("담당자 수정 완료 : " + result); 
         
+        mapper.deleteOriginTodoFiles(todoNo);
+        
+        if(files.isEmpty()) {
+			log.info("등록할 파일 없음 : " + result);
+			return result; 		
+		}
+        
 		List<TodoFile> uploadList = new ArrayList<>();
 		
 		for(int i=0; i<files.size(); i++) {
+			
 			if(!files.get(i).isEmpty()) {
 				String originalName = files.get(i).getOriginalFilename(); 
 				String rename = Utility.fileRename(originalName); 
@@ -227,25 +224,22 @@ public class TodoServiceImpl implements TodoService{
 									.build(); 
 									
 				uploadList.add(todoFile); 
+				
 			}
 		}
 		
 		if(uploadList.isEmpty()) {
 			log.info("등록할 파일 없음 : " + result);
-			return result; 
+			return result; 		
 		}
 		
-		
-		mapper.deleteOriginTodoFiles(todoNo);
 		result = mapper.insertUploadList(uploadList);
-		
+			
 		if(result == uploadList.size()) {
 			
 			for(TodoFile file : uploadList) {
                 files.get(file.getFileOrder())
-                    .transferTo(new File(folderPath + file.getFileRename()));
-               
-                
+                    .transferTo(new File(folderPath + file.getFileRename()));              
             }
 			
 			log.info("파일 업데이트 완료");

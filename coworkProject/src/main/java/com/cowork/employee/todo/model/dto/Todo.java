@@ -33,7 +33,7 @@ public class Todo {
 	private String inChargeEmp;  // 담당자 
 	
 	private List<TodoFile> fileList;
-	private List<String> inChargeEmpList; 
+	private List<String> inChargeEmpList; // 담당자 리스트
 
 		
 }
