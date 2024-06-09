@@ -63,6 +63,13 @@ if(calendarModal != null) {
             const span = document.createElement('span');
             span.classList.add('selectCancel');
             span.textContent = '×';
+
+            // input 에 comNo 넣어주기
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "comNo";
+            input.value = comNo;
+            console.log(input.value);
             
             // 내부 div 요소에 p와 span 요소 추가
             innerDiv.appendChild(p);
@@ -110,6 +117,14 @@ if(calendarModal != null) {
                 span.classList.add('selectCancel');
                 span.textContent = '×';
                 
+                
+
+                // input 에 deptNo 넣어주기
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = "deptNo";
+                input.value = comNo;
+
                 // 내부 div 요소에 p와 span 요소 추가
                 innerDiv.appendChild(p);
                 innerDiv.appendChild(span);
@@ -232,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
             calendarModal.classList.remove("calendarHidden");
 
             // 등록 버튼을 눌렀을 때
-            const modalUpdateBtn = document.querySelector("#modalUpdateBtn");
+            const modalUpdateBtn = document.querySelector(".modalUpdateBtn");
             modalUpdateBtn.addEventListener("click", () => {
                 const updateTitle = document.querySelector("#updateTitle");
                 const selectedColor = document.querySelector("#selectedColor");
