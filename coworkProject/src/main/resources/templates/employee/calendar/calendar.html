@@ -23,13 +23,23 @@
 
         <!-- 버튼 영역 -->
         <div class="calendarBtnTop">
-            <div>
-                <button class="default-btn gray-border-btn">내 일정만 보기</button>
-            </div>
     
             <div>
-                <button class="default-btn gray-border-btn calendarBtnMargin">전체 보기</button>
+                <button class="default-btn gray-border-btn">회사 일정 보기</button>
             </div>
+
+            <div th:unless="${#lists.isEmpty(deptList)}">
+                <button class="default-btn gray-border-btn calendarBtnMargin">부서 일정 보기</button>
+            </div>
+            
+            <div th:unless="${#lists.isEmpty(teamList)}">
+                <button class="default-btn gray-border-btn calendarBtnMargin">팀 일정</button>
+            </div>
+
+            <div>
+                <button class="default-btn gray-border-btn calendarBtnMargin">내 일정만 보기</button>
+            </div>
+
         </div>
 
     </section>
@@ -135,6 +145,10 @@
 
     <!-- Full Calendar API JS -->
     <script src="/js/employee/calendar/calendar.js"></script>
-      
+    
+    <!-- 값 담아주기 -->
+    <script th:inline="javascript">
+        const comNo = /*[[${loginEmp.comNo}]]*/ "회사 기본키";
+    </script>
 </body>
 </html>
