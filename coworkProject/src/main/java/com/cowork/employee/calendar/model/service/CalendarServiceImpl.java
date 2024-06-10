@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.admin.companyInfo.model.dto.Team;
+import com.cowork.employee.calendar.model.dto.Calendar;
 import com.cowork.employee.calendar.model.mapper.CalendarMapper;
+import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +59,15 @@ public class CalendarServiceImpl implements CalendarService {
 		}
 		
 		return deptList;
+	}
+
+	/** 달력 insert
+	 * @return result
+	 */
+	@Override
+	public int calendarInsert(Calendar inputCalendar) {
+	
+		return mapper.calendarInsert(inputCalendar);
 	}
 
 }

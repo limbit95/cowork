@@ -29,4 +29,14 @@
 		FROM TEAM
 		WHERE DEPT_NO = #{deptNo}
 	</select>
+	
+	<!-- 캘린더 insert -->
+	<insert id="calendarInsert">
+		INSERT INTO CALENDAR VALUES(
+			SEQ_CALENDAR.NEXTVAL, #{calendarTitle},
+			#{calendarContent}, #{calendarColor},
+			#{empCode}, #{calendarStart}, #{calendarEnd},
+			NULL
+		)
+	</insert>
 </mapper>

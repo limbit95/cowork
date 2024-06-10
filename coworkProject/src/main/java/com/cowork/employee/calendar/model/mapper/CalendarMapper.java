@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.admin.companyInfo.model.dto.Team;
+import com.cowork.employee.calendar.model.dto.Calendar;
 
 @Mapper
 public interface CalendarMapper {
@@ -33,5 +34,12 @@ public interface CalendarMapper {
 	 * @return
 	 */
 	int teamCount(int deptNo);
+
+	/** 달력 insert
+	 * @param inputCalendar
+	 * @return result
+	 */
+	int calendarInsert(Calendar inputCalendar);
+
 
 }

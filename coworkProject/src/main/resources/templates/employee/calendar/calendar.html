@@ -25,19 +25,11 @@
         <div class="calendarBtnTop">
     
             <div>
-                <button class="default-btn gray-border-btn">회사 일정 보기</button>
-            </div>
-
-            <div th:unless="${#lists.isEmpty(deptList)}">
-                <button class="default-btn gray-border-btn calendarBtnMargin">부서 일정 보기</button>
-            </div>
-            
-            <div th:unless="${#lists.isEmpty(teamList)}">
-                <button class="default-btn gray-border-btn calendarBtnMargin">팀 일정</button>
+                <button class="default-btn glucose-border-btn">회사 일정 보기</button>
             </div>
 
             <div>
-                <button class="default-btn gray-border-btn calendarBtnMargin">내 일정만 보기</button>
+                <button class="default-btn glucose-border-btn calendarBtnMargin">내 일정 보기</button>
             </div>
 
         </div>
@@ -91,14 +83,14 @@
             <!-- 로그인한 회원의 회사 기본키로 회사에 존재하는 부서 보여줌 -->
             <select class="selectDept">
                 <option th:text="${#lists.isEmpty(deptList) ? '없음' : '부서 선택'}">부서 선택</option>
-                <option th:each="dept : ${deptList}" th:text="${dept.deptNm}">부서명</option>
-                <input th:each="dept : ${deptList}" th:value="${dept.deptNo}" hidden>
+                <option th:each="dept : ${deptList}" th:value="${dept.deptNo}" th:text="${dept.deptNm}">부서명</option>
+                <!-- <input th:each="dept : ${deptList}" th:value="${dept.deptNo}" hidden> -->
             </select>
 
             <select class="selectTeam">
                 <option th:text="${#lists.isEmpty(teamList) ? '없음' : '팀 선택'}">팀 선택</option>
-                <option th:each="team : ${teamList}" th:text="${team.teamNm}">팀명</option>
-                <input th:each="team : ${teamList}" th:value="${team.teamNo}" hidden>
+                <option th:each="team : ${teamList}" th:value="${team.teamNo}" th:text="${team.teamNm}">팀명</option>
+                <!-- <input th:each="team : ${teamList}" th:value="${team.teamNo}" hidden> -->
             </select>
         </div>
 
@@ -149,6 +141,7 @@
     <!-- 값 담아주기 -->
     <script th:inline="javascript">
         const comNo = /*[[${loginEmp.comNo}]]*/ "회사 기본키";
+        const empCode = /*[[${loginEmp.empCode}]]*/ "사원 기본키";
     </script>
 </body>
 </html>
