@@ -130,8 +130,6 @@ handler.removeFile();
 // 공지사항 수정
 document.querySelector("#noticeUpdate").addEventListener("click", () => {
 
-    console.log("???? 와이???");
-
     //const formData = new FormData();
     const files = document.querySelector('#fileInput').files;
     const clone = new FormData();
@@ -146,9 +144,10 @@ document.querySelector("#noticeUpdate").addEventListener("click", () => {
     for (let file of noticeFileList) {
         let isToDelete = false;
     
-        if (deleteOrder.length > 0) {
-            for (let i = 0; i < deleteOrder.length; i++) {
-                if (deleteOrder[i] === file.fileOrder) {
+        if (deleteOrder.size > 0) {
+            for (const order of deleteOrder) {
+
+                if (order == file.fileOrder) {
                     isToDelete = true;
                     break; // 해당 파일이 deleteOrder 배열에 포함되면 삭제 대상임을 표시하고 루프 종료
                 }
@@ -160,14 +159,9 @@ document.querySelector("#noticeUpdate").addEventListener("click", () => {
         }
     }
 
-    console.log("???? 와이???22222");
-
     // 기존파일 순서와 삭제파일 순서 FormData에 추가
     clone.append('updateOrder', Array.from( updateOrder ));
     clone.append('deleteOrder', Array.from( deleteOrder ));
-
-
-    console.log(Array.from( updateOrder ) + "!!!!!");
 
     // 제목과 내용을 FormData에 추가
     clone.append('noticeTitle', noticeTitle);
@@ -189,10 +183,8 @@ document.querySelector("#noticeUpdate").addEventListener("click", () => {
         return;
     }
 
-    console.log(Array.from( deleteOrder ) + " ~!!!");
 
-
-   /* fetch("/admin/notice/noticeUpdate/" + noticeNo , {
+    fetch("/admin/notice/noticeUpdate/" + noticeNo , {
         method : "POST",
         body : clone
     })
@@ -207,7 +199,12 @@ document.querySelector("#noticeUpdate").addEventListener("click", () => {
         } else {
             alert("게시글 작성 실패");
         }
-    });*/
+    });
 
 });
 
+/* 공지사항 수정 */
+document.getElementById("noticeDetail").addEventListener("click", () => {
+
+    location.href = location.pathname.replace('noticeUpdate', 'noticeDetail') + location.search;
+});
