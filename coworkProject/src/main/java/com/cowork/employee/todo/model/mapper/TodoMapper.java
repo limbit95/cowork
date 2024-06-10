@@ -15,9 +15,10 @@ public interface TodoMapper {
 
 	/** todoList 조회 
 	 * @param empCode 
+	 * @param empCode 
 	 * @return
 	 */
-	List<Todo> selectTodoList();
+	List<Todo> selectTodoList(int empCode);
 
 	/** 할 일 등록 
 	 * @param inputTodo
@@ -33,9 +34,10 @@ public interface TodoMapper {
 
 	/** 담당자 지정시 등록 
 	 * @param inputTodo
+	 * @param inChargeEmps 
 	 * @return 
 	 */
-	int insertTodoManager(Todo inputTodo);
+//	int insertTodoManager(Todo inputTodo, String inChargeEmps);
 
 	/** 할 일 상세 조회 
 	 * @param map
@@ -85,15 +87,11 @@ public interface TodoMapper {
 	 */
 	int updateTodoComplete(@Param("todoNo") int todoNo, @Param("todoComplete") String todoComplete);
 
-	List<Todo> todoInCharge(String sortBy);
-
-	List<Todo> todoRequested(String sortBy);
-
-	List<Todo> todoCompleted(String todoComplete);
-
-	List<Todo> todoInProgress(String sortBy);
-
-	int updateUploadList(List<TodoFile> uploadList);
+	/** 파일 업로드 
+	 * @param uploadList
+	 * @return
+	 */
+	int updateUploadList(List<TodoFile> uploadList);  
 
 	/** 수정시 기존 파일 삭제 
 	 * @param inputTodo
@@ -104,13 +102,40 @@ public interface TodoMapper {
 	 * @param todoQuery
 	 * @return
 	 */
-	List<Todo> todoQueryList(String todoQuery);
+	List<Todo> todoQueryList(@Param("todoQuery") String todoQuery, @Param("empCode") int empCode);
 
-	/** 검색한 투두 개수 
-	 * @param todoQuery
+	/** 조건별 할 일 목록 조회 
+	 * @param filters
 	 * @return
 	 */
-//	int getSearchCount(String todoQuery);
+	List<Todo> getFilteredTodos(Map<String, Object> filters);
+
+	/** empCode로 사원 이름 불러오기 
+	 * @param empCode
+	 * @return
+	 */
+	String getEmpName(int empCode);
+
+	/** 담당자 여러명 등록 
+	 * @param map
+	 * @return
+	 */
+	int insertTodoManagerList(Map<String, Object> map);
+
+	/** 담당자 여러명 조회 
+	 * @param todoNo
+	 * @return
+	 */
+	List<String> getEmpList(int todoNo);
+
+	/** 담당자 여러명인 경우 수정시 삭제 
+	 * @param todoNo
+	 */
+	void deleteTodoManagerOne(int todoNo);
+
+	
+
+
 
 
 	

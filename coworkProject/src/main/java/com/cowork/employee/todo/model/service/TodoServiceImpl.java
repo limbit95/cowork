@@ -3,6 +3,7 @@ package com.cowork.employee.todo.model.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,9 +40,9 @@ public class TodoServiceImpl implements TodoService{
 
 	// 할 일 목록 조회 
 	@Override
-	public List<Todo> selectTodoList() {
+	public List<Todo> selectTodoList(int empCode) {
 		
-		return mapper.selectTodoList();
+		return mapper.selectTodoList(empCode);
 		
 		
 	}
@@ -49,8 +50,7 @@ public class TodoServiceImpl implements TodoService{
 	
 	// 할 일 등록 
 	@Override
-	public int todoInsert(Todo inputTodo, List<MultipartFile> files) throws IllegalStateException, IOException {
-		
+	public int todoInsert(Todo inputTodo, List<MultipartFile> files, List<String> inChargeEmpList) throws IllegalStateException, IOException {
 		
 		int result = mapper.todoInsert(inputTodo); 
 		
@@ -59,18 +59,44 @@ public class TodoServiceImpl implements TodoService{
 			log.error("todo등록 실패!!");
 			return 0; 
 		}
-		
 		log.info("투두 등록 완료 : " + result);
 	    log.info("투두 등록 완 번호!! : " + inputTodo.getTodoNo());
+	   
+	    int todoNo = inputTodo.getTodoNo();		
+		int empCode = inputTodo.getEmpCode(); 
+		String empName = mapper.getEmpName(empCode);
 		
-	    int todoNo = inputTodo.getTodoNo(); 
+		log.info("empCode로 가져온 이름: " + empName);
+		
+		log.info("초기 inputTodo: " + inputTodo.toString());
 	    
-		result =  mapper.insertTodoManager(inputTodo);
-		
-		if(result == 0) {
-			log.error("투두 담당자 등록 실패!!");
-			return 0;
+		// requestEmp 값이 비어 있는 경우
+		if (inputTodo.getRequestEmp() == null || inputTodo.getRequestEmp().isEmpty()) {
+		    inputTodo.setRequestEmp(empName);
+		    log.info("requestEmp 설정: " + inputTodo.getRequestEmp());
 		}
+	    
+	    log.info("최종 inputTodo: " + inputTodo.toString());
+
+	    if(result > 0 && inChargeEmpList != null && !inChargeEmpList.isEmpty()) {
+	    	
+	        for(String inChargeEmp : inChargeEmpList) {
+	            if(inChargeEmp != null && !inChargeEmp.isEmpty()) {
+	                Map<String, Object> map = new HashMap<>(); 
+	                map.put("todoNo", todoNo); 
+	                map.put("inChargeEmp", inChargeEmp); 
+	                log.info("담당자 등록: " + map);
+
+	                result = mapper.insertTodoManagerList(map); 
+
+	                if(result == 0) {
+	                    log.error("투두 담당자 등록 실패!! 담당자: " + inChargeEmp);
+	                    return 0;
+	                }
+	            }
+	        }
+	    }	    
+		//result =  mapper.insertTodoManager(inputTodo);
 		
 		log.info("투두 담당자 등록 완료 : " + result);
 		
@@ -131,10 +157,8 @@ public class TodoServiceImpl implements TodoService{
 
 	// 할 일 수정 
 	@Override
-	public int todoUpdate(Todo inputTodo, List<MultipartFile> files) throws IllegalStateException, IOException {
+	public int todoUpdate(Todo inputTodo, List<MultipartFile> files, List<String> inChargeEmpList) throws IllegalStateException, IOException {
 		
-		
-		//int empCode = inputTodo.getEmpCode(); 
 		
 		int result = mapper.todoUpdate(inputTodo); 
 		
@@ -145,19 +169,48 @@ public class TodoServiceImpl implements TodoService{
 		}
 		
 		int todoNo = inputTodo.getTodoNo(); 
+		int empCode = inputTodo.getEmpCode(); 
+		String empName = mapper.getEmpName(empCode);
 		
-        result = mapper.todoManagerUpdate(inputTodo);
+		// requestEmp 값이 비어 있는 경우
+		if (inputTodo.getRequestEmp() == null || inputTodo.getRequestEmp().isEmpty()) {
+		    inputTodo.setRequestEmp(empName);
+		    log.info("requestEmp 설정: " + inputTodo.getRequestEmp());
+		}
+		
+		// 담당자 수정일 경우 먼저 등록되어있는 담당자 삭제 
+		mapper.deleteTodoManagerOne(todoNo);
+		
+		 if(result > 0 ) {
+	    	for(String inChargeEmps : inChargeEmpList) {
+	    		
+	    		Map<String, Object> map = new HashMap<>(); 
+	    		map.put("todoNo", todoNo); 
+	    		map.put("inChargeEmp", inChargeEmps); 
+	    		
+	    		result = mapper.insertTodoManagerList(map);
+	    	}
+	    }
         
         if(result == 0) {
+        	
         	log.error("담당자 업데이트 실패..");
         	return 0; 
         }
 		
         log.info("담당자 수정 완료 : " + result); 
         
+        mapper.deleteOriginTodoFiles(todoNo);
+        
+        if(files.isEmpty()) {
+			log.info("등록할 파일 없음 : " + result);
+			return result; 		
+		}
+        
 		List<TodoFile> uploadList = new ArrayList<>();
 		
 		for(int i=0; i<files.size(); i++) {
+			
 			if(!files.get(i).isEmpty()) {
 				String originalName = files.get(i).getOriginalFilename(); 
 				String rename = Utility.fileRename(originalName); 
@@ -171,25 +224,22 @@ public class TodoServiceImpl implements TodoService{
 									.build(); 
 									
 				uploadList.add(todoFile); 
+				
 			}
 		}
 		
 		if(uploadList.isEmpty()) {
 			log.info("등록할 파일 없음 : " + result);
-			return result; 
+			return result; 		
 		}
 		
-		
-		mapper.deleteOriginTodoFiles(todoNo);
 		result = mapper.insertUploadList(uploadList);
-		
+			
 		if(result == uploadList.size()) {
 			
 			for(TodoFile file : uploadList) {
                 files.get(file.getFileOrder())
-                    .transferTo(new File(folderPath + file.getFileRename()));
-               
-                
+                    .transferTo(new File(folderPath + file.getFileRename()));              
             }
 			
 			log.info("파일 업데이트 완료");
@@ -243,46 +293,35 @@ public class TodoServiceImpl implements TodoService{
 	}
 
 
+	// 검색한 경우 조회 
 	@Override
-	public List<Todo> getInChargeTodo(String sortBy) {
+	public List<Todo> todoQueryList(String todoQuery, int empCode) {
 		
-		return mapper.todoInCharge(sortBy);
-	}
-
-
-	@Override
-	public List<Todo> getRequestedTodo(String sortBy) {
+		//int listCount = mapper.getSearchCount(todoQuery); 		
 		
-		return mapper.todoRequested(sortBy);
-	}
-
-
-	@Override
-	public List<Todo> getCompletedTodo(String sortBy) {
-		
-		return mapper.todoCompleted(sortBy);
-	}
-
-
-	@Override
-	public List<Todo> getInProgressTodo(String sortBy) {
-		
-		return mapper.todoInProgress(sortBy);
-	}
-
-
-	@Override
-	public List<Todo> todoQueryList(String todoQuery) {
-		
-		//int listCount = mapper.getSearchCount(todoQuery); 
-		
-		
-		
-		List<Todo> todoList = mapper.todoQueryList(todoQuery);
+		List<Todo> todoList = mapper.todoQueryList(todoQuery, empCode);
 		
 		return todoList;
 	}
 
+	// 조건별 조회 
+	@Override
+	public List<Todo> getFilteredTodos(Map<String, Object> filters) {
+		
+		return mapper.getFilteredTodos(filters);
+	}
+
+
+	// 담당자 여러명인 경우 조회 
+	@Override
+	public List<String> getEmpList(int todoNo) {
+		
+		return mapper.getEmpList(todoNo);
+	}
+
+
+
+	
 
 
 

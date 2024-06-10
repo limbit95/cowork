@@ -41,5 +41,10 @@ public class ChatMessage {
     private String empLastName; 
     private String empFirstName;
     
+    
+    // 번역 관련 필드들 
+    private Boolean wantTranslateFlag;
+    private String targetLanguage;
+    
 
 }

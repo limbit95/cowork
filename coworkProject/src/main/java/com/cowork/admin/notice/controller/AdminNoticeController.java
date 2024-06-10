@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.notice.model.service.AdminNoticeService;
+import com.cowork.employee.chatting.model.dto.Employee;
 import com.cowork.employee.notice.model.dto.Notice;
+import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -95,14 +98,14 @@ public class AdminNoticeController {
 	public int noticeInsert(
 				@RequestParam("noticeTitle") String noticeTitle,
 	            @RequestParam("noticeContent") String noticeContent,
-				/*@SeesionAttribute("loginEmployee") Employee loginEmployee,*/
+	            @SessionAttribute("loginEmp") Employee2 loginEmp, 
 				@RequestParam(value="files", required=false) List<MultipartFile> files,
 				RedirectAttributes ra
 			) throws IllegalStateException, IOException {
 		
 		Notice inputNotice = new Notice();
 		
-		inputNotice.setEmpCode(1); /*loginEmployee.getEmpCode()*/
+		inputNotice.setEmpCode(loginEmp.getEmpCode());
 		inputNotice.setNoticeTitle(noticeTitle);
 		inputNotice.setNoticeContent(noticeContent);
 		
@@ -172,21 +175,19 @@ public class AdminNoticeController {
 				@PathVariable("noticeNo") int noticeNo,
 				@RequestParam("noticeTitle") String noticeTitle,
 	            @RequestParam("noticeContent") String noticeContent,
-	            /*@SeesionAttribute("loginEmployee") Employee loginEmployee,*/
+	            @SessionAttribute("loginEmp") Employee2 loginEmp, 
 	            @RequestParam(value="files", required=false) List<MultipartFile> files,
 	            @RequestParam(value="deleteOrder", required = false) String deleteOrder, /* 삭제 */
 	            @RequestParam(value="updateOrder", required=false) String updateOrder, /* 기존 */
 	            @RequestParam(value="queryString", required = false, defaultValue="") String querystring
 			) throws IllegalStateException, IOException {
 		
-		log.info("dfdfdfdfdfd");
-		
 		Notice inputNotice = new Notice();
 		
 		inputNotice.setNoticeNo(noticeNo);
 		inputNotice.setNoticeTitle(noticeTitle);
 		inputNotice.setNoticeContent(noticeContent);
-		inputNotice.setEmpCode(1); /*loginEmployee.getEmpCode()*/
+		inputNotice.setEmpCode(loginEmp.getEmpCode());
 		
 		// 서비스 호출 후 결과 받기
 		int result = service.noticeUpdate(inputNotice, files, deleteOrder, updateOrder);

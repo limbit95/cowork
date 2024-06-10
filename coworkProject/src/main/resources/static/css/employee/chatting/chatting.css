@@ -419,12 +419,169 @@ body {
 }
 
 
+/* modal css */
+#backgroundGray{
+	width: 100vw;
+	height: 100vh;
+	background-color: black;
+	opacity: 0.2;	
+	position: fixed;
+	z-index: 10; 
+    top: 0;
+    left: 0;
+    display: none; 
+    justify-content: center;
+    align-items: center;
+}
+
+#modalContainer{
+    display: none; 
+	justify-content: center;
+	align-items: center;
+	border-radius: 10px;
+	opacity: 1;
+	width: 30vw;
+	height: 50vh;
+	position: fixed;
+    top: 0;
+    left: 0;
+    background-color: white;
+    z-index: 11;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	flex-direction: column;
+}
+#modalTitle{
+	flex-basis: 10%;
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	font-size: 20px;
+	font-weight: bold;
+}
+#modalContent{
+	flex-basis: 40%;
+	width: 100%;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+#preview{
+	width: 30%;
+	height:90%;
+	border-radius: 10px;
+	
+}
+#originalName{
+	margin-top: 4%;
+}
+#modalBtnContainer{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 4%;
+
+}
+#modalCancelBtn{
+	width: 5vw;
+	height: 5vh;
+	margin: 3px;
+	border: none;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius: 10px;
+
+}
+#modalSendBtn{
+	width: 5vw;
+	height: 5vh;	
+	margin: 3px;
+	border: none;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+    background-color: #E5F2FE;
+    border-radius: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+#modalSendBtn:hover{
+	background-color: #214177;
+	color: white;
+}
+
+/*--------------------------------------------번역-----------------------------------------------------*/
+
+#translate{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#translateContainer{
+    display: none; 
+	justify-content: center;
+	align-items: center;
+	border-radius: 10px;
+	opacity: 1;
+	width: 30vw;
+	height: 50vh;
+	position: fixed;
+    top: 0;
+    left: 0;
+    background-color: white;
+    z-index: 11;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	flex-direction: column;
+	
+}
+#languageSelect{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 30%;
+	height: 10vh;
+}
+#targetLanguage{
+	width: 20%;
+	height: 8vh;
+	padding-top: 30px;
+	
+}
+
+#translateBtnContainer{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
 
+#translateCancelBtn{
+	width: 5vw;
+	height: 5vh;
+	margin: 3px;
+	border: none;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius: 10px;
 
-
-
-
+}
+#translateSettingBtn{
+	width: 5vw;
+	height: 5vh;	
+	margin: 3px;
+	border: none;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+    background-color: #E5F2FE;
+    border-radius: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+#translateSettingBtn:hover{
+	background-color: #214177;
+	color: white;
+}
 
 
 

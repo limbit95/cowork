@@ -75,6 +75,12 @@ public interface UserMapper {
 	 */
 	int selectCompany(String domain);
 
+	/** 비밀번호 재설정 시 갱신된 인증번호와 대조
+	 * @param authKey
+	 * @return
+	 */
+	int checkAuthKey(Map<String, Object> map);
+
 
 	
 }

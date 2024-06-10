@@ -150,4 +150,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 
+	
+	
+	// 빠른 로그인
+	@Override
+	public Employee2 quickLogin(String empId) {
+		return mapper.login(empId);
+	}
+
+	
+	
+	// 비밀번호 재설정 시 갱신된 인증번호와 대조
+	@Override
+	public int checkAuthKey(Map<String, Object> map) {
+		return mapper.checkAuthKey(map);
+	}
+
+
 }

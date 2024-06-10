@@ -47,6 +47,7 @@
                     <table class="default-line preview">
                         <tr th:each="file : ${fileList}" th:object="${file}">
                             <td><i class="fa-solid fa-paperclip"></i><label th:text="*{fileOriginName}">검색.png</label></td>
+                            <td></td>
                             <td><a class="fa-solid fa-download" th:href="|*{filePath}*{fileRename}|" th:download="*{fileOriginName}"></a></td>
                         </tr>
                         <!--<tr>
@@ -63,7 +64,7 @@
 
         
         <!-- 버튼 -->
-        <div class="defaultBtn insBtn">
+        <div class="defaultBtn insBtn" th:if="${notice.empCode == session.loginEmp?.empCode}">
             <button class="default-btn glucose-btn" id="noticeUpdate">수정</button>
             <button class="default-btn glucose-btn margin10" id="noticeDelete">삭제</button>
         </div>

@@ -1,5 +1,7 @@
 package com.cowork.user.controller;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -184,10 +186,7 @@ public class UserController {
 		
 		model.addAttribute("loginEmp", loginEmp);
 		ra.addFlashAttribute("message", loginEmp.getEmpLastName() + loginEmp.getEmpFirstName() + "님 환영합니다.");
-		
 
-		log.info("empCode : " + loginEmp.getEmpCode());
-		
 		return "redirect:/userMain";
 	}
 	
@@ -201,27 +200,6 @@ public class UserController {
 		return "user/findId"; 
 	}
 	
-//	@ResponseBody
-//	@PostMapping("findId")
-//	public int findId(@RequestBody Map<String, Object> map,
-//						 RedirectAttributes ra) {
-//
-//		int result = service.findId(map);
-//		
-//		if(result == 0) {
-//			return 0;
-//		}
-//		
-//		String email = (String)map.get("empEmail");
-//		String authKey = emailService.sendEmail("findId", email);
-//		
-//		if(authKey != null) { 
-//			return 1;
-//		} 
-//		
-//		return -1; 
-//	}
-	
 	/** 비밀번호 찾기 페이지 
 	 * @return
 	 */
@@ -233,11 +211,65 @@ public class UserController {
 	/** 비밀번호 재설정 페이지 이동
 	 * @return
 	 */
-	@GetMapping("resetPw")
-	public String resetPw(@RequestParam("item") String item) {
-		log.info("item : " + item);
+	@PostMapping("resetPwPage")
+	public String resetPwPage(@RequestParam("item") String item,
+ 							  RedirectAttributes ra,
+ 							  Model model) {
+		String[] items = item.split(",");
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("empId", items[0]);
+		map.put("email", items[1]);
+		map.put("authKey", items[2]);
+		
+		int result = service.checkAuthKey(map);
+		
+		if(result == 0) {
+			ra.addFlashAttribute("message", "페이지를 찾을 수 없습니다.");
+			return "redirect:/";
+		}
+		
+		model.addAttribute("map", map);
 		
 		return "user/resetPw";
 	}
+	
+	/** 비밀번호 재설정
+	 * @param item
+	 * @return
+	 */
+	@PostMapping("resetPw")
+	public String resetPw(Employee2 inputEmp) {
+		
+		log.info("inputEmp : " + inputEmp);
+		
+		// 비밀번호 재설정 업데이트 쿼리문과
+		// 인증번호 업데이트 쿼리문
+		// 그리고 비밀번호 재설정 성공 시 홈페이지 메인으로 이동
+		
+		return "redirect:/";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@GetMapping("quick")
+	public String quickLogin(@RequestParam("empId") String empId,
+							 RedirectAttributes ra,
+							 Model model) {
+		Employee2 loginEmp = service.quickLogin(empId);
+		model.addAttribute("loginEmp", loginEmp);
+		ra.addFlashAttribute("message", loginEmp.getEmpLastName() + loginEmp.getEmpFirstName() + "님 환영합니다.");
+		return "redirect:/userMain";
+	}
+	
 	
 }

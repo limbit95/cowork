@@ -33,7 +33,7 @@
 		SELECT COUNT(*)
 		FROM EMPLOYEE
 		WHERE EMP_DEL_FL = 'N'
-		AND EMP_FIRST_NAME = #{empName}
+		AND EMP_LAST_NAME || EMP_FIRST_NAME = #{empName}
 		AND EMP_EMAIL = #{empEmail}
 	</select>
 	
@@ -42,6 +42,7 @@
 		SELECT EMP_ID, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') "ENROLL_DATE"
 		FROM EMPLOYEE
 		WHERE EMP_EMAIL = #{email}
+		AND EMP_LAST_NAME || EMP_FIRST_NAME = #{empName}
 		AND EMP_DEL_FL = 'N'
 		ORDER BY EMP_CODE
 	</select>

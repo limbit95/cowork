@@ -181,7 +181,7 @@
 			FILE_ORDER = #{fileOrder}
 		WHERE FILE_ORDER = #{fileOrderUpd}
 		AND BOARD_NM = #{boardNm}
-		AND BOARD_NO = #{noticeNo}
+		AND BOARD_NO = #{boardNo}
 	</update>
 
 </mapper>

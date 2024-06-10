@@ -32,6 +32,7 @@
 			NULL,
 			NULL,
 			1,
+			DEFAULT,
 			DEFAULT
 		)
 	</insert>
@@ -40,13 +41,13 @@
 	<select id="login">
 		SELECT EMP_CODE, EMP_NO, EMP_ID, EMP_PW, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_ADDRESS, 
 		EMP_BIRTH, HIRE_DATE, CONTRACT_TYPE, EMP_TEL, WORK_PLACE, EMP_EMAIL, PROFILE_IMG, GENERAL_MANAGER, 
-		COM_NO, COM_NM, TEAM_NM, POSITION_NM
-		FROM EMPLOYEE
-		JOIN COMPANY USING(COM_NO)
+		C.COM_NO, C.COM_NM, TEAM_NM, POSITION_NM
+		FROM EMPLOYEE E
+		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
 		JOIN TEAM USING(TEAM_NO)
 		JOIN POSITION USING(POSITION_NO)
 		WHERE EMP_DEL_FL = 'N'
-		AND EMP_ID = #{empId}
+		AND EMP_ID =  #{empId}
 	</select>
 	
 	<!-- 관리자 로그인 -->
@@ -124,5 +125,12 @@
 		WHERE DOMAIN = #{domain}
 	</select>
 	
+	<!-- 비밀번호 재설정 시 갱신된 인증번호와 대조 -->
+	<select id="checkAuthKey">
+		SELECT COUNT(*)
+		FROM "TB_AUTH_KEY"
+		WHERE EMAIL = #{email}
+		AND AUTH_KEY = #{authKey}
+	</select>
 	
 </mapper>
