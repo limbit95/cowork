@@ -33,6 +33,7 @@ if(calendarModal != null) {
     // 선택된 값 보여줄 곳
     const selectView = document.querySelector(".selectView");
 
+    // 회사 전체 선택 시
     if(selectCompany != null) {
 
         selectCompany.addEventListener("click", () => {
@@ -57,21 +58,16 @@ if(calendarModal != null) {
             
             // p 요소 생성 및 텍스트 설정
             const p = document.createElement('p');
+            p.setAttribute('name', 'share');
             p.textContent = text;
             
             // span 요소 생성 및 텍스트 설정
             const span = document.createElement('span');
             span.classList.add('selectCancel');
             span.textContent = '×';
-
-            // input 에 comNo 넣어주기
-            const input = document.createElement("input");
-            input.type = "hidden";
-            input.name = "comNo";
-            input.value = comNo;
-            console.log(input.value);
             
             // 내부 div 요소에 p와 span 요소 추가
+
             innerDiv.appendChild(p);
             innerDiv.appendChild(span);
             
@@ -92,7 +88,7 @@ if(calendarModal != null) {
 
                 selectView.classList.remove("calendarHidden");
 
-                let text = e.target.value;
+                let text = e.target.options[e.target.selectedIndex].text;
 
                 const existingValues = Array.from(selectView.querySelectorAll('p')).map(p => p.textContent);
 
@@ -110,20 +106,13 @@ if(calendarModal != null) {
                 
                 // p 요소 생성 및 텍스트 설정
                 const p = document.createElement('p');
+                p.setAttribute('name', 'share');
                 p.textContent = text;
                 
                 // span 요소 생성 및 텍스트 설정
                 const span = document.createElement('span');
                 span.classList.add('selectCancel');
                 span.textContent = '×';
-                
-                
-
-                // input 에 deptNo 넣어주기
-                const input = document.createElement("input");
-                input.type = "hidden";
-                input.name = "deptNo";
-                input.value = comNo;
 
                 // 내부 div 요소에 p와 span 요소 추가
                 innerDiv.appendChild(p);
@@ -148,7 +137,7 @@ if(calendarModal != null) {
             if(!(e.target.value=='팀 선택' || e.target.value=='없음')) {
                 selectView.classList.remove("calendarHidden");
 
-                let text = e.target.value;
+                let text = e.target.options[e.target.selectedIndex].text;
 
                 const existingValues = Array.from(selectView.querySelectorAll('p')).map(p => p.textContent);
 
@@ -166,17 +155,18 @@ if(calendarModal != null) {
                 
                 // p 요소 생성 및 텍스트 설정
                 const p = document.createElement('p');
+                p.setAttribute('name', 'share');
                 p.textContent = text;
                 
                 // span 요소 생성 및 텍스트 설정
                 const span = document.createElement('span');
                 span.classList.add('selectCancel');
                 span.textContent = '×';
-                
+
                 // 내부 div 요소에 p와 span 요소 추가
                 innerDiv.appendChild(p);
                 innerDiv.appendChild(span);
-                
+
                 // selectedDiv 요소에 내부 div 요소 추가
                 selectedDiv.appendChild(innerDiv);
                 
@@ -248,22 +238,68 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 등록 버튼을 눌렀을 때
             const modalUpdateBtn = document.querySelector(".modalUpdateBtn");
-            modalUpdateBtn.addEventListener("click", () => {
-                const updateTitle = document.querySelector("#updateTitle");
-                const selectedColor = document.querySelector("#selectedColor");
-                const selectView = document.querySelector(".selectView");
-                const updateContent = document.querySelector("#updateContent");
+            modalUpdateBtn.addEventListener("click", e => {
 
-                // p 태그 안에 있는 내용들을 리스트로 넘겨준다면
-                // 이름을 조회해야함
-                // selectdeAll Y,N 하면 회사 번호 넣기 null 이거나 회사번호
-                // selectedArr나머지는 그냥 memberAddress 처럼 넘겨서
-                // 로그인한 사람
-                // 작성일 update 빼고 공유여부 빼고
-                // comNo 랑 selectedAll, selectedArr 을 넣음
+                const updateTitle = document.querySelector("#updateTitle").value;
+                const selectedColor = document.querySelector("#selectedColor").value;
 
-                // p 태그 값에 회사 전체만 존재하면 comNo 랑 내용들 넘겨서 insert
-                
+                const updateContent = document.querySelector("#updateContent").value;
+
+                const shareList = Array.from(document.querySelectorAll('p[name="share"]')).map(p => p.innerText);
+
+                console.log("공유 리스트", shareList);
+
+                if(updateTitle.value.trim().length == 0) {
+                    alert("제목은 필수 작성입니다.");
+                    e.preventDefault();
+                    return;
+                }
+
+                const obj = {
+                    "calendarTitle" : updateTitle,
+                    "calendarContent" : updateContent,
+                    "calendarColor" : selectedColor,
+                    "shareList" : shareList,
+                    "empCode" : empCode,
+                    "calendarStart" : info.startStr,
+                    "calendarEnd" : info.endStr
+                }
+
+                fetch("/calendar/calendarInsert", {
+                    method : "POST",
+                    headers : {"Content-Type" : "application/json"},
+                    body : JSON.stringify(obj)
+                })
+                .then(resp => resp.text())
+                .then(result => {
+                    
+                    if(result > 0) {
+
+                        document.querySelector("#updateTitle").value = "";
+                        document.querySelector("#selectedColor").value = "";
+                        document.querySelector(".selectView").innerHTML = "";
+                        document.querySelector(".selectView").classList.add("calendarHidden");
+                        document.querySelector("#updateContent").innerText = "";
+                        calendarModal.classList.add("calendarHidden");
+
+                        alert("일정이 추가되었습니다.");
+
+                    } else {
+
+                        document.querySelector("#updateTitle").value = "";
+                        document.querySelector("#selectedColor").value = "";
+                        document.querySelector(".selectView").innerHTML = "";
+                        document.querySelector(".selectView").classList.add("calendarHidden");
+                        document.querySelector("#updateContent").innerText = "";
+                        calendarModal.classList.add("calendarHidden");
+
+                        alert("일정 추가 실패");
+                    }
+
+                })
+
+
+
             })
 
         }

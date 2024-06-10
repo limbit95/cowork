@@ -1,7 +1,7 @@
 /* 캘린더 버튼 영역 감싸는 div */
 .calendarBtnTop {
     display: flex;
-    width: 60%;
+    width: 75%;
     justify-content: flex-end;
 }
 
