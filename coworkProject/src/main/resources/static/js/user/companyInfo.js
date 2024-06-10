@@ -97,7 +97,8 @@ async function fetchData() {
 
 
 const checkObj = {
-    "domain" : false
+    "domain" : false,
+    "licenseNo" : false
 }
 
 const companyInfoForm = document.querySelector("#companyInfoForm");

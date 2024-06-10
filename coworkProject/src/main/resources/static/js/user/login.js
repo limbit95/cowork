@@ -42,6 +42,10 @@ let checkEmail = false;
 
 if(authMailBtn != null) {
     authMailBtn.addEventListener("click", e => {
+        authKey.value = '';
+        resultDiv.innerHTML = '';
+        resultDiv.style.display = 'none';
+
         if(empName.value.trim().length === 0){
             alert("이름을 입력해주세요");
             empName.focus();
@@ -83,6 +87,8 @@ if(authMailBtn != null) {
 
 if(authBtn != null) {
     authBtn.addEventListener("click", e => {
+        resultDiv.innerHTML = '';
+        
         if(!checkEmail) {
             alert("이메일 인증을 해주세요");
             return;
@@ -90,6 +96,7 @@ if(authBtn != null) {
         
         const obj = {
             "email" : empEmail.value,
+            "empName" : empName.value,
             "authKey" : authKey.value
         };
     
@@ -232,7 +239,11 @@ if(findBtn1 != null){
             .then(resp => resp.text())
             .then(result => {
                 if(result == 0) {
-                    alert("이메일 인증번호 발송 실패");
+                    alert("비밀번호 재설정 메일 발송 실패");
+                    return;
+                }
+                if(result == -1) {
+                    alert('인증번호 생성 실패');
                     return;
                 }
             })
