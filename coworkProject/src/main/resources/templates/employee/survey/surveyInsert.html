@@ -1,74 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SurveyInsert</title>
+    <title>Survey Insert</title>
+   <link rel="stylesheet" href="/css/employee/survey/surveyInsert.css">
 
-    <link rel="icon" href="/images/favicon.png">
-    <link rel="stylesheet" href="/css/employee/survey/surveyInsert.css">
+
 </head>
 <body>
-    <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
+   <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
 
-    <section class="container sectionContainer">
+   	<div id="insertSurveyContainer">
+		<div id="surveyWriteText">
+		 설문 작성 
+		</div>		 	
+		<div id="surveyTitleDiv">
+			<span style="color: coral;">*</span>
+			<input type="text" placeholder="설문 제목을 작성해주세요" id="surveyTitle">
+		</div>	
+		
+		<div id="makeQuestionBtnDiv"> 
+			<button type="button" id="makeMultipleQuestion">객관식 추가</button>
+			<button 	type="button" id="makeSubjectiveQuestion">주관식 추가</button>
+		</div>
+		
+		<div id="questionArea">
+			
+		</div>
 
-        <!-- 공간 주기 위한 div -->
-        <div class="spaceDiv"></div>
+   </div>
+   
+   
+   
+   <!-- 바닥에 딱 붙는게 싫어서 추가한 빈 공간  -->
+   <div id="forBottomEmptySpace">
+   </div>
+   
+   
+      <script src="/js/employee/survey/surveyInsert.js"></script>
 
-        <!-- 설문조사 대제목 -->
-        <div class="questionDiv">
-            <div class="questionBox">
-                <i class="fa-solid fa-asterisk"></i>
-                <input id="questionBoxInput" placeholder="설문 제목을 입력해주세요.">
-            </div>
-        </div>
-
-    </section>
-
-    <section class="container">
-
-        <div class="surveyAdd">
-            <button class="default-btn baby-blue-boarder-btn" id="multipleAdd">객관식 질문 추가</button>
-            <button class="default-btn baby-blue-boarder-btn" id="subjectiveAdd">주관식 질문 추가</button>
-        </div>
-
-    </section>
-
-    <!-- 객관식 클릭하면 소제목 입력하는 부분, 생성됨 -->
-    <!-- 추가하기 버튼을 누르면 객관식 항목이 늘어남 -->
-    <section class="titleContainer">
-
-    </section>
-
-    <!-- <section class="titleContainer">
-        <div class="littleTitle">
-            <div class="answerDiv">
-                <div class="answerTitle">Q. <input class="multipleInput" value="명절 선물 투표"></div>
-            </div>
-        </div>
-    </section> -->
-
-    <section class="containerSide">
-
-        <div class="surveyBtn">
-            <!-- 질문 추가 버튼 -->
-            <div>
-                <button class="default-btn glucose-border-btn surveyQuestionAdd btnHidden">객관식 문항 추가</button>
-            </div>
     
-            <!-- 설문 등록하기 버튼 -->
-            <div>
-                <button class="default-btn glucose-btn">등록하기</button>
-            </div>
-            
-        </div>
-    </section>
-
-    <script src="/js/employee/survey/surveyInsert.js"> </script>
-
-    <script src="https://kit.fontawesome.com/247c6d7026.js" crossorigin="anonymous"></script>
-
 </body>
-
 </html>

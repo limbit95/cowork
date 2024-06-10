@@ -1,151 +1,81 @@
-console.log("surveyInsert.js 연결 확인");
+let makeMultipleQuestion = document.querySelector('#makeMultipleQuestion'); // 객관식 추가 버튼
+let makeSubjectiveQuestion = document.querySelector('#makeSubjectiveQuestion'); // 주관식 추가 버튼 
 
-const multipleAdd = document.querySelector("#multipleAdd");
+let questionArea = document.querySelector('#questionArea');
 
-// 객관식일 경우 추가 버튼을 눌렀을 때 객관식 답지가 늘어남
+let questionCount = 0; // 질문의 개수를 세어줌 
 
-// 질문 추가 하기 버튼
-const surveyQuestionAdd = document.querySelector(".surveyQuestionAdd");
+makeMultipleQuestion.addEventListener('click', function(){
+	
+	 		questionCount++; // 질문 개수 + 1 함.
+            
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question'; // class 지정 
+            questionDiv.id = `question${questionCount}`; // id 지정 
+            questionDiv.innerHTML = 
+            `
+                <div>
+	                <div>
+		                <span class="questionOrder">질문 ${questionCount}: </span>
+    		            <input type="text" class="questionText">
+        		        <i class="fa-solid fa-x" onclick="removeQuestion(this)"></i>
+                	</div>
+               	 
+	                <div class="addOption">
+	                	
+	                	<div class="optionAddOrRemoveBtnDiv">
+		                	<button type="button" onclick="addOption(this)">
+		                		문항 추가
+		                	</button>
+		                	<button type="button" onclick="removeOption(this)">
+		                		문항 삭제 
+		                	</button>
+	                	</div>
+	                	
+	                	<div class="optionArea">
+	                	
+	                	</div>
+	                </div>
+	           </div>
+            `;
+            questionArea.appendChild(questionDiv);
+})
 
-// 설문지 소제목 작성하는 부분
-const titleContainer = document.querySelector(".titleContainer");
+let multipleOrder = 1;
 
-let i = 1;
+function removeOption(button){
+    let optionArea = button.parentElement.nextElementSibling;
+    if(optionArea && optionArea.lastElementChild){
+	        optionArea.removeChild(optionArea.lastElementChild);
+			multipleOrder--;
+	} else{
+		alert('삭제할 문항이 존재하지 않습니다.');
+	}
 
-multipleAdd.addEventListener("click", () => {
-
-    multipleAdd.classList.add("baby-blue-btn");
-    multipleAdd.classList.remove("baby-blue-boarder-btn");
-
-    subjectiveAdd.classList.remove("baby-blue-btn");
-    subjectiveAdd.classList.add("baby-blue-boarder-btn");
-
-    i=1;
-
-    const selectAnswerBox = document.querySelector(".selectAnswerBox");
-    if(selectAnswerBox != null) {
-        selectAnswerBox.classList.remove("selectAnswerBox");
-    }
-
-    // 새로운 <div class="littleTitle"> 요소 생성
-    const littleTitleDiv = document.createElement("div");
-    littleTitleDiv.classList.add("littleTitle");
-
-    // <div class="answerDiv"> 요소 생성
-    const answerDiv = document.createElement("div");
-    answerDiv.classList.add("answerDiv");
-
-    // <div class="answerTitle"> 요소 생성
-    const answerTitleDiv = document.createElement("div");
-    answerTitleDiv.classList.add("answerTitle");
-    answerTitleDiv.textContent = "Q. ";
-
-    // <input> 요소 생성
-    const inputElement = document.createElement("input");
-    inputElement.classList.add("multipleInput");
-    inputElement.placeholder="객관식 질문을 작성해주세요";
-
-    const selectAnswerBoxDiv = document.createElement("div");
-    selectAnswerBoxDiv.classList.add("selectAnswerBox");
-
-    // <input> 요소를 <div class="answerTitle"> 안에 추가
-    answerTitleDiv.appendChild(inputElement);
-
-    // <div class="answerTitle">을 <div class="answerDiv"> 안에 추가
-    answerDiv.appendChild(answerTitleDiv);
-
-    // <div class="answerDiv">을 <div class="littleTitle"> 안에 추가
-    littleTitleDiv.appendChild(answerDiv);
-    littleTitleDiv.appendChild(selectAnswerBoxDiv);
-
-    // container 안에 새로운 <div class="littleTitle"> 요소 추가
-    titleContainer.appendChild(littleTitleDiv);
-
-    // surveyQuestionAdd 버튼을 보이게 만듭니다.
-    surveyQuestionAdd.classList.remove("btnHidden");
-});
-
-if(surveyQuestionAdd != null) {
-
-    surveyQuestionAdd.addEventListener("click", () => {
-    
-        // <div class="answerInput"> 요소 생성
-        const answerInputDiv = document.createElement("div");
-        answerInputDiv.classList.add("answerInput");
-    
-        // <p> 요소 생성
-        const pElement = document.createElement("p");
-        pElement.textContent = i + ".";
-        i++;
-    
-        // <input> 요소 생성
-        const inputElement = document.createElement("input");
-        inputElement.placeholder = "객관식 답을 적어주세요.";
-    
-        // <p> 요소와 <input> 요소를 <div class="answerInput"> 안에 추가
-        answerInputDiv.appendChild(pElement);
-        answerInputDiv.appendChild(inputElement);
-    
-        // selectAnswerBox 안에 새로운 <div class="answerInput"> 요소 추가
-        const selectAnswerBox = document.querySelector(".selectAnswerBox");
-        selectAnswerBox.append(answerInputDiv);
-    
-    });
+	
 }
 
-// 주관식 버튼 클릭 시
-const subjectiveAdd = document.querySelector("#subjectiveAdd");
 
-subjectiveAdd.addEventListener("click", () => {
+function addOption(button){
+	let newDiv = document.createElement('div');
+	let multipleOrderNode = document.createTextNode(multipleOrder);
+	newDiv.appendChild(multipleOrderNode);
+	multipleOrder++;
+	
+	let multipleQuestionInput = document.createElement('input');
+	newDiv.appendChild(multipleQuestionInput);
+	
+    let optionArea = button.parentElement.nextElementSibling;
+	optionArea.appendChild(newDiv);	
+}
 
-    multipleAdd.classList.remove("baby-blue-btn");
-    multipleAdd.classList.add("baby-blue-boarder-btn");
+function removeQuestion(iTag){
+	let dummyCode = iTag.parentElement.parentElement;
+	dummyCode.remove();
+	questionCount--;
+	alert(questionCount);
+};
 
-    subjectiveAdd.classList.add("baby-blue-btn");
-    subjectiveAdd.classList.remove("baby-blue-boarder-btn");
 
-    // 주관식을 눌렀을 때 객관식 문항에 class를 삭제
-    // 객관식을 눌렀을 때 다시 생성될 수 있게
-    const selectAnswerBox = document.querySelector(".selectAnswerBox");
-    if(selectAnswerBox != null) {
-        selectAnswerBox.classList.remove("selectAnswerBox");
-    }
 
-    // 새로운 <div class="littleTitle"> 요소 생성
-    const littleTitleDiv = document.createElement("div");
-    littleTitleDiv.classList.add("littleTitle");
 
-    // <div class="answerDiv"> 요소 생성
-    const answerDiv = document.createElement("div");
-    answerDiv.classList.add("answerDiv");
-
-    // <div class="answerTitle"> 요소 생성
-    const answerTitleDiv = document.createElement("div");
-    answerTitleDiv.classList.add("answerTitle");
-    answerTitleDiv.textContent = "Q. ";
-
-    // <input> 요소 생성
-    const inputElement = document.createElement("input");
-    inputElement.classList.add("subjectiveInput");
-    inputElement.placeholder = "주관식 질문을 작성해주세요";
-
-    const selectAnswerBoxDiv = document.createElement("div");
-    selectAnswerBoxDiv.classList.add("selectSubjectiveBox");
-
-    // <input> 요소를 <div class="answerTitle"> 안에 추가
-    answerTitleDiv.appendChild(inputElement);
-
-    // <div class="answerTitle">을 <div class="answerDiv"> 안에 추가
-    answerDiv.appendChild(answerTitleDiv);
-
-    // <div class="answerDiv">을 <div class="littleTitle"> 안에 추가
-    littleTitleDiv.appendChild(answerDiv);
-    littleTitleDiv.appendChild(selectAnswerBoxDiv);
-
-    // container 안에 새로운 <div class="littleTitle"> 요소 추가
-    titleContainer.appendChild(littleTitleDiv);
-
-    // surveyQuestionAdd 버튼을 보이게 만듭니다.
-    surveyQuestionAdd.classList.add("btnHidden");
-
-});
