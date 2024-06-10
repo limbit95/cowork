@@ -54,7 +54,7 @@ public class AdminEdsmController {
 				.draftContent(draftContent)
 				.build();
 		
-		int result = service.edsmCreateDraft();
+		//int result = service.edsmCreateDraft();
 		
 		return "admin/edsm/edsmCreateDraft";
 	}
