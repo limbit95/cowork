@@ -22,13 +22,14 @@
 
         <!-----------------------------------------------   버튼  ------------------------------------------------------------------>
         <div class="draftAddBtn">
-            <select class="default-line">
-                <option>기안서</option>
-                <option>협조문</option>
-                <option>품의서</option>
-                <option>지출결의서</option>
-                <option>경조사 신청서</option>
-                <option>회의록</option>
+            <select class="default-line" name="key" id="searchKey">
+                <option value="0">전체</option>
+                <option value="1">기안서</option>
+                <option value="2">협조문</option>
+                <option value="3">품의서</option>
+                <option value="4">지출결의서</option>
+                <option value="5">경조사 신청서</option>
+                <option value="6">회의록</option>
             </select>
 
             <form th:action="@{edsmCreateDraft}"><button class="default-btn gray-border-btn">추가하기 </button></form>
@@ -37,21 +38,27 @@
         
         <!-----------------------------------------------   기안 목록  ------------------------------------------------------------------>
         <div class="draftList2">
-            <div class="default-line">
+            <div class="default-line" th:each="draft : ${draftList}" th:object="${draft}">
                 <div class="draftDiv">
-                    <div class="fa-solid fa-file-signature draftImg"></div>
-                    <div><label>기안서</label></div>
+                    <div class="draftImg"
+                            th:classappend="*{draftFlag eq '2' ? 'fa-solid fa-file-circle-plus' 
+                            : draftFlag eq '3' ? 'fa-regular fa-paste'
+                            : draftFlag eq '4' ? 'fa-regular fa-file-lines'
+                            : draftFlag eq '5' ? 'fa-regular fa-file-word'
+                            : draftFlag eq '6' ? 'fa-regular fa-file'
+                            : 'fa-solid fa-file-signature'}"  ></div>
+                    <div><label th:text="*{draftNm}">기안서</label></div>
                 </div>
                 <div class="draftLabel">
-                    <label>무슨 기안을 올릴까요 업무 기안서</label>
+                    <label th:text="*{draftTitle}">무슨 기안을 올릴까요 업무 기안서</label>
                 </div>
                 <div class="draftBtn">
                     <label>수정</label>
-                    <label>삭제</label>
+                    <label th:if="*{draftFlag eq '7'}">삭제</label>
                 </div>
             </div>
 
-            <div class="default-line">
+            <!--<div class="default-line">
                 <div class="draftDiv">
                     <div class="fa-solid fa-file-signature draftImg"></div>
                     <div><label>기안서</label></div>
@@ -63,64 +70,10 @@
                     <label>수정</label>
                     <label>삭제</label>
                 </div>
-            </div>
-
-            <div class="default-line">
-                <div class="draftDiv">
-                    <div class="fa-solid fa-file-signature draftImg"></div>
-                    <div><label>기안서</label></div>
-                </div>
-                <div class="draftLabel">
-                    <label>무슨 기안을 올릴까요 업무 기안서</label>
-                </div>
-                <div class="draftBtn">
-                    <label>수정</label>
-                    <label>삭제</label>
-                </div>
-            </div>
-
-            <div class="default-line">
-                <div class="draftDiv">
-                    <div class="fa-solid fa-file-signature draftImg"></div>
-                    <div><label>기안서</label></div>
-                </div>
-                <div class="draftLabel">
-                    <label>무슨 기안을 올릴까요 업무 기안서</label>
-                </div>
-                <div class="draftBtn">
-                    <label>수정</label>
-                    <label>삭제</label>
-                </div>
-            </div>
-
-            <div class="default-line">
-                <div class="draftDiv">
-                    <div class="fa-solid fa-file-signature draftImg"></div>
-                    <div><label>기안서</label></div>
-                </div>
-                <div class="draftLabel">
-                    <label>무슨 기안을 올릴까요 업무 기안서</label>
-                </div>
-                <div class="draftBtn">
-                    <label>수정</label>
-                    <label>삭제</label>
-                </div>
-            </div>
-
-            <div class="default-line">
-                <div class="draftDiv">
-                    <div class="fa-solid fa-file-signature draftImg"></div>
-                    <div><label>기안서</label></div>
-                </div>
-                <div class="draftLabel">
-                    <label>무슨 기안을 올릴까요 업무 기안서</label>
-                </div>
-                <div class="draftBtn">
-                    <label>수정</label>
-                    <label>삭제</label>
-                </div>
-            </div>
+            </div>-->
         </div>
+
+        <script src="/js/admin/edsm/edsmListjs"></script>
 
     </section>
     

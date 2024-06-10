@@ -118,24 +118,24 @@ document.querySelector("#noticeInsert").addEventListener("click", () => {
     // 에디터의 내용을 textarea에 적용
     oEditors.getById["noticeContent"].exec("UPDATE_CONTENTS_FIELD", []);
 
-    const noticeTitle = document.getElementById('noticeTitle').value;
-    const noticeContent = document.getElementById('noticeContent').value;
+    const noticeTitle = document.getElementById('noticeTitle');
+    const noticeContent = document.getElementById('noticeContent');
 
     // 제목과 내용을 FormData에 추가
-    clone.append('noticeTitle', noticeTitle);
-    clone.append('noticeContent', noticeContent);
+    clone.append('noticeTitle', noticeTitle.value);
+    clone.append('noticeContent', noticeContent.value);
 
     for (const pair of formData.entries()) {
         clone.append('files', pair[1]);
     }
 
-    if(noticeTitle.trim().length == 0){
+    if(noticeTitle.value.trim().length == 0){
         alert("제목을 작성해주세요.");
         noticeTitle.focus();
         return;
     }
 
-    if(noticeContent == '<p><br></p>' || noticeContent == '<br>') {
+    if(noticeContent.value == '<p><br></p>' || noticeContent.value == '<br>') {
         alert("내용을 작성해주세요.");
         noticeContent.focus();
         return;
