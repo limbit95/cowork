@@ -32,6 +32,12 @@ public class AddrServiceImpl implements AddrService {
 	// 주소록 그룹에 속한 정보 리스트 조회
 	@Override
 	public Map<String, Object> selectMyAddrList(Map<String, Object> map, int cp) {
+		// 주소록 그룹 코드 조회
+		if(map.get("groupCode") == null) {
+			int groupCode = mapper.getGroupCode(map);
+			map.put("groupCode", groupCode);
+		}
+		
 		// 주소록 그룹의 리스트 개수 조회
 		int listCount = mapper.getListCount(map);
 		
@@ -41,14 +47,13 @@ public class AddrServiceImpl implements AddrService {
 		int offset = (cp - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		// Mapper 메서드 호출 시
-		// - 첫 번째 매개변수 -> SQL에 전달할 파라미터
-		// - 두 번째 매개변수 -> RowsBounds 객체만 대입가능
 		List<Employee2> groupList = mapper.selectMyAddrList(map, rowBounds);
 		
 		Map<String, Object> map2 = new HashMap<String, Object>();
-		map.put("pagination", pagination);
-		map.put("groupList", groupList);
+		map2.put("pagination", pagination);
+		map2.put("groupList", groupList);
+		map2.put("groupCode", map.get("groupCode"));
+		map2.put("empCode", map.get("empCode"));
 		
 		return map2;
 	}

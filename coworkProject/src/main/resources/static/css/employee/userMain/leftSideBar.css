@@ -185,6 +185,7 @@ body {
 /* 2024-06-06 임성혁 */
 #leftSideBar a {
 	text-decoration: none;
+	color: black;
 }
 #leftSideBar a:visited {
 	color: black;

@@ -44,6 +44,8 @@ public class AddrController {
 		
 		model.addAttribute("myAddr", myAddr);
 		
+		
+		
 		return "employee/addr/addrBook";
 	}
 	
@@ -54,15 +56,24 @@ public class AddrController {
 	@GetMapping("myGroupList")
 	public String myGroupList(@RequestParam Map<String, Object> map,
 							  @RequestParam(value="cp", required=false, defaultValue="1") int cp,
-							  RedirectAttributes ra) {
-		log.info("map : " + map);
+							  RedirectAttributes ra,
+							  Model model) {
 		
-		Map<String, Object> myAddrList = service.selectMyAddrList(map, cp);
+		Map<String, Object> map2 = service.selectMyAddrList(map, cp);
 		
-		ra.addFlashAttribute("pagination", map.get("pagination"));
-		ra.addFlashAttribute("groupList", map.get("groupList"));
+//		ra.addFlashAttribute("pagination", map2.get("pagination"));
+//		ra.addFlashAttribute("groupList", map2.get("groupList"));
+//		ra.addFlashAttribute("groupCode", map2.get("groupCode"));
+//		ra.addFlashAttribute("empCode", map2.get("empCode"));
+//		
+//		return "redirect:/employee/addr";
 		
-		return "redirect:/employee/addr";
+		model.addAttribute("pagination", map2.get("pagination"));
+		model.addAttribute("groupList", map2.get("groupList"));
+		model.addAttribute("groupCode", map2.get("groupCode"));
+		model.addAttribute("empCode", map2.get("empCode"));
+
+		return "employee/addr/addrBook";
 	}
 	
 	
