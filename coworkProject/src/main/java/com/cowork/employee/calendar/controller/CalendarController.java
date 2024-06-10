@@ -34,6 +34,9 @@ public class CalendarController {
 	public String calendar(@SessionAttribute("loginEmp") Employee2 loginEmp,
 			Model model) {
 
+		// 달력 내용 조회해오기
+		List<Calendar> calendarList = service.selectCalendarList(loginEmp);
+		
 		// 회사 번호 comNo 는 loginEmp.getComNo() 로 얻어올 수 있음
 		// 부서 List 조회해오기
 		List<Department> deptList = service.selectDeptList(loginEmp.getComNo());
@@ -64,6 +67,14 @@ public class CalendarController {
 			) {
 		
 		inputCalendar.setEmpCode(loginEmp.getEmpCode());
+		
+	    List<String> shareList = inputCalendar.getShareList();
+	    String calendarShare = String.join("^^^", shareList);
+	    inputCalendar.setCalendarShare(calendarShare);
+	    
+	    log.info("shareListString == {}", calendarShare);
+		
+		log.info("inputCalendar의 shareList 출력 == {}", inputCalendar.getShareList());
 
 		return service.calendarInsert(inputCalendar);
 	}

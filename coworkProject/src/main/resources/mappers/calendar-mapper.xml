@@ -36,7 +36,15 @@
 			SEQ_CALENDAR.NEXTVAL, #{calendarTitle},
 			#{calendarContent}, #{calendarColor},
 			#{empCode}, #{calendarStart}, #{calendarEnd},
-			NULL
+			#{calendarShare}, #{comNo}
 		)
 	</insert>
+	
+	<select id="selectTeamSearch">
+		SELECT E.EMP_CODE, T.TEAM_NM, D.DEPT_NM
+		FROM EMPLOYEE E
+		JOIN TEAM T ON E.TEAM_NO = T.TEAM_NO
+		JOIN DEPARTMENT D ON T.DEPT_NO = D.DEPT_NO
+		WHERE E.EMP_CODE = #{empCode}
+	</select>
 </mapper>

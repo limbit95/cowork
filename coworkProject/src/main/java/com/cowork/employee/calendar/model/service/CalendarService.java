@@ -20,4 +20,10 @@ public interface CalendarService {
 	 */
 	int calendarInsert(Calendar inputCalendar);
 
+	/** 회사 캘린더 조회해오기
+	 * @param comNo
+	 * @return calendarList
+	 */
+	List<Calendar> selectCalendarList(Employee2 loginEmp);
+
 }

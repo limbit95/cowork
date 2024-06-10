@@ -41,5 +41,10 @@ public interface CalendarMapper {
 	 */
 	int calendarInsert(Calendar inputCalendar);
 
+	/** 회사 부서, 회사 팀 조회해오기
+	 * @param empCode
+	 */
+	Calendar selectTeamSearch(int empCode);
+
 
 }
