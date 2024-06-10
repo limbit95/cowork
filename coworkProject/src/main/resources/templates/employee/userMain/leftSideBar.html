@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/employee/userMain/leftSideBar.css">
+    <title>leftSideBar</title>
+    <th:block th:replace="~{common/common}"></th:block>
+</head>
+<body>
+	
+	<div id="leftSideBarMini">
+		<div>
+			<i class="fa-solid fa-circle-chevron-right" id="showLeftSideBarBtn"></i>
+		</div>
+	</div>
+	
+    <div id="leftSideBar">
+		<div id="closeLeftSideBar">
+			<i class="fa-solid fa-x"></i>
+		</div>
+		
+		<div id="CompanyLogo"></div>
+		<div id="businessCard">
+			<div></div>
+		</div>
+		<a id="logOutLink">로그아웃</a>
+		<a href="#" id="noticeLink">공지사항</a>
+		<a href="/employee/edsm/edsmDraftList" id="edsmLink">전자결재</a>
+		<a href="#" id="boardLink">게시판</a>
+		<a href="/employee/addr" id="addrLink">주소록</a>
+		<a href="/calendar/calendar" id="calendarLink" style="text-decoration: none; color: black;">캘린더</a>
+		<a href="/todo/todoList" id="todoLink">할 일</a>
+		<a href="#" id="chattingLink">메신저</a>
+		<a href="/mail/mailList" id="mailLink">메일</a>
+		<a href="#" id="attendanceLink">근태내역</a>
+		<a href="#" id="surveyLink">설문</a>
+    </div>
+    
+    <script src="/js/employee/userMain/leftSideBar.js"></script>
+
+	<script th:inline="javascript">
+		const message = /*[[${message}]]*/ "전달 메세지";
+		
+		if (message != null) {
+			alert(message);
+		}
+	</script>
+</body>
+</html>

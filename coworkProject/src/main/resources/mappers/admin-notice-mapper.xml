@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.admin.notice.mapper.AdminNoticeMapper">
+
+	<!-- <resultMap type="NoticeNo" id="notice_rm">
+		
+		<id property="noticeNo" column="NOTICE_NO"/>-->
+		
+		<!-- 파일 -->
+		<!--<collection property="fileList" 
+					select="BoardFileList"
+					column="NOTICE_NO"
+					javaType="java.util.ArrayList"
+					ofType = "BoardFile"
+		/>
+	</resultMap> -->
+	
+	<!-- 공지사항 게시글 수 조회 -->
+	<select id="getNoticeListCount">
+		SELECT COUNT(*)
+		FROM NOTICE
+		JOIN EMPLOYEE USING(EMP_CODE)
+		JOIN TEAM USING(TEAM_NO)
+		JOIN DEPARTMENT USING(DEPT_NO)
+		WHERE NOTICE_DEL_FL = 'N'
+		<if test='query != null'>
+			<choose>
+				<when test='key == "1"'> <!--  부서명 -->
+					AND DEPT_NM LIKE '%' || #{query} || '%'
+				</when>
+				<when test='key == "2"'> <!-- 제목 -->
+					AND NOTICE_TITLE LIKE '%' || #{query} || '%'
+				</when>
+				<when test='key == "3"'> <!-- 내용 -->
+					AND NOTICE_CONTENT LIKE '%' || #{query} || '%'
+				</when>
+				<otherwise> <!-- 작성자 -->
+					AND DEPT_NM || ' ' || EMP_LAST_NAME || EMP_FIRST_NAME LIKE '%' || #{query} || '%'
+				</otherwise>
+			</choose>
+		</if>
+	</select>
+	
+	<!-- 공지사항 조회 -->
+	<select id="noticeList">
+		SELECT
+		     N.NOTICE_NO 
+			,N.EMP_CODE
+			,D.DEPT_NO
+			,N.NOTICE_TITLE
+			,D.DEPT_NM || ' ' || E.EMP_LAST_NAME || E.EMP_FIRST_NAME AS EMP_NAME
+			,<![CDATA[
+			CASE 
+				WHEN SYSDATE - N.NOTICE_WRITE_DATE < 1 / 24 / 60
+				THEN FLOOR((SYSDATE - N.NOTICE_WRITE_DATE) * 24 * 60 * 60) || '초 전'
+				WHEN SYSDATE - N.NOTICE_WRITE_DATE < 1 / 24
+				THEN FLOOR((SYSDATE - N.NOTICE_WRITE_DATE) * 24 * 60) || '분 전'
+				WHEN SYSDATE - N.NOTICE_WRITE_DATE < 1
+				THEN FLOOR((SYSDATE - N.NOTICE_WRITE_DATE) * 24) || '시간 전'
+				ELSE TO_CHAR(N.NOTICE_WRITE_DATE, 'YYYY-MM-DD')
+			 END NOTICE_WRITE_DATE
+			  ]]>
+			,D.DEPT_NM 
+			,E.COM_NO
+		FROM NOTICE N
+		INNER JOIN EMPLOYEE E ON N.EMP_CODE  = E.EMP_CODE
+		INNER JOIN TEAM T ON E.TEAM_NO = T.TEAM_NO 
+		INNER JOIN DEPARTMENT D ON T.DEPT_NO = D.DEPT_NO 
+		INNER JOIN COMPANY C ON E.COM_NO = C.COM_NO 
+		WHERE NOTICE_DEL_FL = 'N'
+		AND E.COM_NO = #{comNo}
+		<if test='query != null'>
+			<choose>
+				<when test='key == "1"'> <!--  부서명 -->
+					AND DEPT_NM LIKE '%' || #{query} || '%'
+				</when>
+				<when test='key == "2"'> <!-- 제목 -->
+					AND NOTICE_TITLE LIKE '%' || #{query} || '%'
+				</when>
+				<when test='key == "3"'> <!-- 내용 -->
+					AND NOTICE_CONTENT LIKE '%' || #{query} || '%'
+				</when>
+				<otherwise> <!-- 작성자 -->
+					AND DEPT_NM || ' ' || EMP_LAST_NAME || EMP_FIRST_NAME LIKE '%' || #{query} || '%'
+				</otherwise>
+			</choose>
+		</if>
+		ORDER BY NOTICE_NO DESC
+	</select>
+	
+	<!-- 공지사항 상세 -->
+	<select id="noticeDetail">
+		SELECT 
+			 NOTICE_NO
+			,NOTICE_TITLE
+			,EMP_LAST_NAME || EMP_FIRST_NAME AS EMP_NAME
+			,DEPT_NM
+			,TO_CHAR(NOTICE_WRITE_DATE, 'YYYY-MM-DD') NOTICE_WRITE_DATE
+			,NOTICE_CONTENT
+			,EMP_CODE 
+			,DEPT_NO
+			,(SELECT COUNT(*) FROM BOARD_FILE WHERE BOARD_NM = 'NOTICE' AND BOARD_NO = #{noticeNo}) AS FILE_CNT
+		FROM NOTICE
+		JOIN EMPLOYEE USING(EMP_CODE)
+		JOIN TEAM USING(TEAM_NO)
+		JOIN DEPARTMENT USING(DEPT_NO)
+		WHERE NOTICE_NO = #{noticeNo}
+		AND NOTICE_DEL_FL = 'N'
+	</select>
+	
+	<select id="boardFileList" > <!-- resultType="BoardFile" -->
+		SELECT *
+		FROM BOARD_FILE
+		WHERE BOARD_NM = #{boardNm}
+		AND BOARD_NO = #{noticeNo}
+		ORDER BY FILE_ORDER
+	</select>
+	
+	<insert id="noticeInsert" useGeneratedKeys="true" parameterType="Notice">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="noticeNo">
+			SELECT SEQ_NOTICE.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO NOTICE
+		VALUES(
+			 #{noticeNo}
+			,#{noticeTitle}
+			,#{noticeContent}
+			,DEFAULT
+			,NULL
+			,DEFAULT
+			,#{empCode}
+		)
+	</insert>
+	
+	<!-- 게시판 다중 이미지 등록 -->
+	<insert id="boardFileinsert" parameterType="list">
+		INSERT INTO BOARD_FILE
+		
+		<foreach collection="list" item="file" 
+			open="(" close=")" separator=" UNION ">
+			SELECT
+				 NEXT_BOARD_FILE()
+				,#{file.filePath}
+				,#{file.fileOriginName}
+				,#{file.fileRename}
+				,SYSDATE
+				,#{file.fileOrder}
+				,#{file.boardNo}
+				,#{file.boardNm}
+			FROM DUAL	
+		</foreach>
+	</insert>
+	
+	<!-- 공지사항 삭제 -->
+	<update id="noticeDelete">
+		UPDATE NOTICE SET 
+		NOTICE_DEL_FL = 'Y' 
+		WHERE NOTICE_NO = #{noticeNo} 
+	</update>
+	
+	<!-- 공지사항 수정 -->
+	<update id="noticeUpdate">
+		UPDATE NOTICE SET
+			 NOTICE_TITLE = #{noticeTitle}
+			,NOTICE_CONTENT = #{noticeContent}
+			,NOTICE_UPDATE_DATE = SYSDATE
+			,EMP_CODE = #{empCode}
+		WHERE NOTICE_NO = #{noticeNo}
+	</update>
+	
+	<!-- 게시판 파일 삭제 -->
+	<delete id="boardFileDelete">
+		DELETE FROM BOARD_FILE
+		WHERE FILE_ORDER IN (${deleteOrder})
+		AND BOARD_NM = #{boardNm}
+		AND BOARD_NO = #{noticeNo}
+	</delete>
+	
+	<!-- 게시판 파일 순서 수정 -->
+	<update id="BoardFileUpdate">
+		UPDATE BOARD_FILE SET
+			FILE_ORDER = #{fileOrder}
+		WHERE FILE_ORDER = #{fileOrderUpd}
+		AND BOARD_NM = #{boardNm}
+		AND BOARD_NO = #{boardNo}
+	</update>
+
+</mapper>

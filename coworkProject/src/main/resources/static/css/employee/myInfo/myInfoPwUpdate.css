@@ -1,0 +1,109 @@
+* {
+    /* border: 1px solid red; */
+}
+
+/* 공통 css에서 정의한 스타일 속성 재정의 */
+/* 수정하기 버튼 margin-bottom 때문에 */
+section.container {
+    margin-bottom: 0;
+}
+section.container div {
+    margin: 0;
+}
+hr {
+    border: 1px solid #d9d9d9;
+}
+section.topMargin {
+    margin-top: 30px;
+}
+
+.pwUpdateContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 1000px;
+    height: 100%;
+}
+
+/* 비밀번호 안내 */
+.pwUpdateContainer > :nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    height: 100%;
+}
+/* 비밀번호 안내 텍스트 담은 div */
+.pwUpdateContainer > :nth-child(1) > :nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    width: 96%;
+    border-bottom: 1px solid #d9d9d9;
+    padding: 2%;
+    font-size: 22px;
+    color: var(--main-color);
+    font-weight: bold;
+}
+/* 안내 사항 리스트 담은 div */
+.pwUpdateContainer > :nth-child(1) > :nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    width: 96%;
+    padding: 2%;
+    font-size: 16px;
+    line-height: 25px;
+    font-weight: bold;
+}
+/* 안내사항 리스트 */
+.pwUpdateContainer > :nth-child(1) > :nth-child(2) > li {
+    margin-left: 10px;
+}
+
+/* 비밀번호 변경 */
+.pwUpdateDiv {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    padding: 20px;
+}
+/* 인풋창 */
+.pwUpdateDiv input {
+    font-weight: bold;
+}
+/* 현재 비밀번호, 새 비밀번호, 새 비밀번호 확인 div 간의 margin 적용 */
+section.container .pwUpdateDiv > div {
+    margin-bottom: 20px;
+}
+/* 타이틀 */
+.pwUpdateDiv label {
+    font-size: 22px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    font-weight: bold;
+}
+/* 유효성 검사 메시지 */
+.pwUpdateDiv span {
+    color: red;
+    font-size: 15px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+/* "현재 비밀번호" div */
+.pwUpdateDiv > :nth-child(1) {
+    display: flex;
+    flex-direction: column;
+}
+/* "새 비밀번호" div */
+.pwUpdateDiv > :nth-child(2) {
+    display: flex;
+    flex-direction: column;
+}
+/* "새 비밀번호 확인" div */
+.pwUpdateDiv > :nth-child(3) {
+    display: flex;
+    flex-direction: column;
+}
+/* "변경하기' 버튼 div */
+.pwUpdateDiv > :nth-child(4) {
+    display: flex;
+    justify-content: end;
+}

@@ -1,0 +1,88 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#nonePaddingBtn {
+	padding: 0;
+}
+
+#fullContainer{
+	display: flex; 
+	width: 100vw;
+	height: 100vh;
+}
+
+#innerContainer{
+	flex-basis: 100%;
+	display: flex; 
+	flex-direction: column;
+}
+
+#innerContainer > div:nth-child(1){
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	margin-top: 200px;
+	font-weight: bold;
+    color: #426DA7;
+    font-size: 25px;
+}
+#innerContainer > div:nth-child(2){
+	margin-top: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 60px;
+}
+
+.MeetingRoomDiv {
+	display: flex;
+	justify-content: center;
+}
+
+#meetingRoomAddInputForm {
+	flex-basis: 40%;
+	display: flex;
+	justify-content: space-between;
+}
+
+#meetingRoomAddInput{
+	flex-basis: 85%;
+	height: 4vh; 
+	border: none;
+	border-radius: 5px;
+	border: 1px solid lightgray;
+}
+
+#meetingRoomAddInputForm > button {
+	flex-basis: 10%;
+	height: 4vh;
+}
+
+#contentContainerInMeeting{
+	margin-top: 20px;
+	width: 100%; 
+	height: 50vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#contentContainerInMeetingInner{
+	flex-basis: 40%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.meetingRoomLoop {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
+	font-weight: bold;
+}
+.deleteXBtn{
+	border: none;
+	font-weight: bold;	
+	background-color: white;
+}

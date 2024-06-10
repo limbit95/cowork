@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company</title>
+	<link rel="stylesheet" href="/css/admin/companyInfo/companyInfo.css">
+
+	<th:block th:replace="~{common/common}"></th:block>
+</head>
+<body>
+	<th:block th:replace="~{admin/left/adminLeftSideBar}"></th:block>
+	
+	<div id="fullContainer">
+		<!--
+			로그인 구현 전
+			회사 로고 수정 페이지 요청할 시 로그인한 회원의 회사키 comNo 가져와서
+			comNo에서 comLogo 조회 후 보여주기
+		-->
+
+		<!--
+			로그인 구현 후
+			leftSideBar, adminLeftSideBar 로그인 시 로그인한 회원의 comNo 가져와서 comLogo 조회 후
+			sideBar 에 로고 보여주기 sessionScope에 실어주기
+			회사 로고 수정 페이지도 sessionScope에 실린 로고 경로 보여주기
+		-->
+
+		<!-- 회사 로고 수정 -->
+		<form class="companyInfoUpdate" id="companyLogoUpdate" action="companyLogoUpdate" method="POST" name="companyLogoImgForm" enctype="multipart/form-data">
+			<div id="companyTitle">회사 정보 수정</div>
+			<div th:if="${session.myCompany.comLogo}" id="contentContainerInCompanyInfo">
+				<img th:src="${session.myCompany.comLogo}" id="companyLogoImg">
+			</div>
+			<div th:unless="${session.myCompany.comLogo}" id="contentContainerInCompanyInfo">
+				<img th:src="${session.myCompany.comLogo}" id="companyLogoImg">
+			</div>
+			<!-- <div id="contentContainerInCompanyInfo">
+				<img src="/images/whiteLogo.png" id="companyLogoImg">
+			</div> -->
+			<!-- <div id="contentContainerInCompanyInfo">
+				<img th:with="logo=#{logo.default.image}"
+					th:src="${session.myCompany.comLogo ?: logo}" id="companyLogoImg">
+			</div> -->
+			<div class="logoImgBtnDiv">
+				<label class="default-btn glucose-border-btn logoImgBtn" for="imageInput">로고 선택</label>
+            	<input type="file" name="comLogo" id="imageInput" accept="image/*">
+				<button class="default-btn glucose-border-btn logoImgBtn">저장하기</button>
+			</div>
+		</form>
+
+		<!-- 회사 정보 수정 -->
+		<!-- 상대 경로 작성 -->
+		<!-- admin/companyInfo/companyInfoUpdate -->
+		<form action="companyInfoUpdate" method="POST" class="companyInfoUpdate" id="companyInfoUpdateForm">
+			<div class="companyContainer">
+				<div>회사명</div>
+				<input type="text" class="inputCompanyName" 
+				name="comNm" th:value="${session.myCompany.comNm}">
+			</div>
+			<div class="companyContainer">
+				<div>전화번호</div>
+				<input type="text" class="inputCompanyTel" 
+				placeholder="'-' 를 빼고 입력해주세요" name="comTel" 
+				th:value="${session.myCompany.comTel}">
+			</div>
+			<!-- 이메일 인증 -->
+			<div class="companyContainer">
+				<div>이메일</div>
+				<input type="text" name="comEmail" class="comEmail"
+				placeholder="이메일 입력" maxlength="30" autocomplete="off"
+				th:value="${session.myCompany.comEmail}">
+
+				<button type="button" id="comEmailBtn">인증하기</button>
+			</div>
+
+			<!-- 이메일 관련 메세지 -->
+			<div class="mailDiv">
+				<span id="emailMessage"></span>
+			</div>
+			
+			<!-- 인증번호 입력할 부분 -->
+			<div class="companyContainer">
+				<div>인증 번호</div>
+				<input type="text" name="authKey" class="authKey"
+				placeholder="인증번호 입력" maxlength="6" autocomplete="off">
+
+				<button type="button" id="comEmailAuthBtn">인증하기</button>
+			</div>
+
+			<!-- 인증 시간 및 인증번호 일치 여부 보여줄 곳 -->
+			<div class="mailDiv">
+				<span id="authKeyMessage"></span>
+			</div>
+
+			<div class="companyContainer">
+				<div>우편번호</div>
+				<input type="text" name="comAddr"
+				placeholder="우편번호" maxlength="6" 
+				id="postcode" readonly th:value="${comPostCode}">                       
+				
+				<button type="button" id="searchAddress">검색</button>
+			</div>
+	
+			<div class="companyContainer">
+				<div>주소</div>
+				<input type="text" name="comAddr" 
+				placeholder="도로명/지번 주소" id="address" 
+				readonly th:value="${comAddress}">
+			</div>
+	
+			<div class="companyContainer">
+				<div>상세 주소</div>
+				<input type="text" name="comAddr" 
+				placeholder="상세 주소" id="detailAddress" 
+				th:value="${comDetailAddress}">
+			</div>
+			<div id="btnContainerInCompanyInfo">
+				<button class="default-btn glucose-btn saveBtn">저장</button>
+			</div>
+		</form>
+	</div>
+	<!-- 다음 주소 API -->
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	
+	<!-- 회사 로고 이미지 js 변수로 얻어놓기 -->
+	<script th:inline="javascript">
+		const companyInfoLogo = /*[[${session.myCompany.comLogo}]]*/ "회사로고이미지";
+	</script>
+
+
+<!-- git 수정 -->
+	<script src="/js/admin/companyInfo/companyInfo.js"></script>
+</body>
+</html>

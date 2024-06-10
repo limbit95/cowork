@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>권한 관리</title>
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="	/css/admin/authority/authorityManager.css">
+	
+	<style>
+		
+		
+	</style>
+	
+</head>
+<body>
+	
+
+	
+	<div th:replace="~{admin/left/adminLeftSideBar}"></div>
+	<div th:replace="~{common/common}"></div>
+	
+	
+ 
+        <div class="content">
+			<div id="contentSecondChild">
+				<div id="scOne">
+					<h1>권한 관리</h1>
+				</div>
+				<div id="scTwo"  >
+						<div  id="pointContainer">
+											<div id="scTwoFirstChild" >
+														asdf	
+											</div>
+											<div id="scTwoSecondChild" >
+												<div class="search-bar">
+								                <i class="fas fa-search"></i>
+								                <input type="text" placeholder="이름, 전화번호 검색">
+								           	    </div>
+								                <div class="button-container">
+								                <button class="grantAuthority-by-position">직책별 권한 추가</button>
+								                <button class="grantAuthority">권한 추가</button>
+								                </div>
+								                <table>
+								                <thead>
+								                    <tr>
+								                        <th class="checkbox-container"><input type="checkbox" class="whole"></th>
+								                        <th>부서</th>
+								                        <th>이름</th>
+								                        <th>직책</th>
+								                        <th>권한</th>
+								                    </tr>
+								                </thead>
+								                <tbody>
+								                    <tr>
+								                        <td class="checkbox-container"><input type="checkbox"></td>
+								                        <td>운영팀</td>
+								                        <td>박은별</td>
+								                        <td>팀장</td>
+								                        <td>게시판, 메신저</td>
+								                    </tr>
+								                    <tr>
+								                        <td class="checkbox-container"><input type="checkbox"></td>
+								                        <td>운영팀</td>
+								                        <td>정윤희</td>
+								                        <td>과장</td>
+								                        <td>게시판</td>
+								                    </tr>
+								                    <tr>
+								                        <td class="checkbox-container"><input type="checkbox"></td>
+								                        <td>운영팀</td>
+								                        <td>최재준</td>
+								                        <td>차장</td>
+								                        <td>게시판</td>
+								                    </tr>
+								                    <tr>
+								                        <td class="checkbox-container"><input type="checkbox"></td>
+								                        <td>운영팀</td>
+								                        <td>송지윤</td>
+								                        <td>대리</td>
+								                        <td>없음</td>
+								                    </tr>
+								                    <tr>
+								                        <td class="checkbox-container"><input type="checkbox"></td>
+								                        <td>운영팀</td>
+								                        <td>임성혁</td>
+								                        <td>사원</td>
+								                        <td>없음</td>
+								                    </tr>
+													<tr>
+													    <td class="checkbox-container"><input type="checkbox"></td>
+													    <td>운영팀</td>
+													    <td>임성혁</td>
+													    <td>사원</td>
+													    <td>없음</td>
+													</tr>
+													<tr>
+													    <td class="checkbox-container"><input type="checkbox"></td>
+													    <td>운영팀</td>
+													    <td>임성혁</td>
+													    <td>사원</td>
+													    <td>없음</td>
+													</tr>
+													<tr>
+													    <td class="checkbox-container"><input type="checkbox"></td>
+													    <td>운영팀</td>
+													    <td>임성혁</td>
+													    <td>사원</td>
+													    <td>없음</td>
+													</tr>
+												
+								                </tbody>
+								            </table>
+											</div>
+							</div>
+								
+						</div>
+						
+								
+				</div>
+				            
+			</div>
+            
+        </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const wholeCheckbox = document.querySelector('.whole');
+            const otherCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+    
+            wholeCheckbox.addEventListener('change', function () {
+                otherCheckboxes.forEach(function (checkbox) {
+                    checkbox.checked = wholeCheckbox.checked;
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>

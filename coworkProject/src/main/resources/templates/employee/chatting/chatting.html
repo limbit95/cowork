@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/employee/chatting/chatting.css">
+    <title>leftSideBar</title>
+</head>
+<body>
+    <div th:replace="~{employee/userMain/leftSideBar}"></div>
+    
+    <div id="forMariginTop"></div>
+    
+    <div id="entireContainer">
+        <div id="emptySpace"></div>
+        <!-- 왼쪽 첫번째 큰 컨테이너 시작  -->
+        <div id="makeChatContainer">
+            <!-- 맨 위 -->
+            <div id="searchDiv">
+                <div id="searchDivChild">
+                    <input type="text" placeholder="부서, 팀, 이름 을 입력해주세요" id="searchInput">
+                </div>
+            </div>
+            
+            <div id="findEmpAndAddedEmpContainer">
+                <div id="findEmpContainer">
+                    <div id="findEmpTitle">
+                        <i class="fa-solid fa-magnifying-glass" style="color:#214177;"></i>
+                    </div>
+                    <div id="findEmpContent"></div> <!-- 여기 -->
+                </div>
+                <div id="addedEmpContainer">
+                    <div id="addedEmpTitle">
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <div id="addedEmpContent"></div>
+                </div>
+            </div>
+            <div id="makeChatButton">
+                <button>
+                    <i class="fa-regular fa-comment"></i> &nbsp;
+                    새로운 채팅방 만들기
+                </button>
+            </div>
+        </div>
+        <!-- 왼쪽 첫번째 큰 컨테이너 끝 -->
+        
+        <div id="chattingRoomsContainer">
+            <div id="chattingRoomsTitle">
+                <i class="fa-regular fa-comment"></i> &nbsp; 채팅방
+            </div>
+            <div id="chattingRoomsContent"></div>
+        </div>
+        
+        <div id="chattingsContainer">
+            <div id="topAreaInChattingsContainer">
+            </div>
+			<div id="translate">
+				<button type="button" id="translateBtn">번역</button>			
+			</div>
+			
+            <ul id="chattingsArea">
+            </ul>
+            <div id="messageContainer">
+                <div>
+                    <label for="file">
+                        <i class="fa-solid fa-paperclip" id="fileClip"></i>
+                    </label>
+                </div>
+                <textarea id="message"></textarea>
+                <input type="file" id="file" />
+                <button onclick="sendMessage()" id="sendBtn">
+                    <i class="fa-regular fa-paper-plane" id="sendBtnIcon"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 파일을 올리면, 띄워질 모달창 시작 -->
+    <div id="backgroundGray"></div>
+    <div id="modalContainer">
+        <div id="modalTitle">
+            파일 전송
+        </div>
+        <div id="modalContent">
+            <img src="" id="preview">
+            <div id="originalName">
+                파일의 원본이름
+            </div>
+        </div>
+        <div id="modalBtnContainer">
+            <button type="button" id="modalCancelBtn"> 취소 </button>
+            <button type="button" id="modalSendBtn"> 전송 </button>
+        </div>
+    </div>
+    <!-- 파일을 올리면, 띄워질 모달창 끝 -->
+	
+	<!-- 번역될 언어 선택하는 모달창 시작 -->
+	<div id="translateContainer">		
+		<div id="languageSelect">
+				<select name="targetLanguage" id="targetLanguage">		
+				  <option value="" disabled selected>언어를 선택하세요</option>
+  				  <option value="English">영어</option>
+				  <option value="Afrikaans">아프리칸스어</option>
+				  <option value="Albanian">알바니아어</option>
+				  <option value="Amharic">암하라어</option>
+				  <option value="Arabic">아랍어</option>
+				  <option value="Armenian">아르메니아어</option>
+				  <option value="Azerbaijani">아제르바이잔어</option>
+				  <option value="Basque">바스크어</option>
+				  <option value="Belarusian">벨라루스어</option>
+				  <option value="Bengali">벵골어</option>
+				  <option value="Bosnian">보스니아어</option>
+				  <option value="Bulgarian">불가리아어</option>
+				  <option value="Catalan">카탈로니아어</option>
+				  <option value="Cebuano">세부아노어</option>
+				  <option value="Chinese (Simplified)">중국어 (간체)</option>
+				  <option value="Chinese (Traditional)">중국어 (번체)</option>
+				  <option value="Corsican">코르시카어</option>
+				  <option value="Croatian">크로아티아어</option>
+				  <option value="Czech">체코어</option>
+				  <option value="Danish">덴마크어</option>
+				  <option value="Dutch">네덜란드어</option>
+				  <option value="Esperanto">에스페란토어</option>
+				  <option value="Estonian">에스토니아어</option>
+				  <option value="Finnish">핀란드어</option>
+				  <option value="French">프랑스어</option>
+				  <option value="Galician">갈리시아어</option>
+				  <option value="Georgian">조지아어</option>
+				  <option value="German">독일어</option>
+				  <option value="Greek">그리스어</option>
+				  <option value="Gujarati">구자라티어</option>
+				  <option value="Haitian Creole">아이티 크리올어</option>
+				  <option value="Hausa">하우사어</option>
+				  <option value="Hawaiian">하와이어</option>
+				  <option value="Hebrew">히브리어</option>
+				  <option value="Hindi">힌디어</option>
+				  <option value="Hmong">몽어</option>
+				  <option value="Hungarian">헝가리어</option>
+				  <option value="Icelandic">아이슬란드어</option>
+				  <option value="Igbo">이그보어</option>
+				  <option value="Indonesian">인도네시아어</option>
+				  <option value="Irish">아일랜드어</option>
+				  <option value="Italian">이탈리아어</option>
+				  <option value="Japanese">일본어</option>
+				  <option value="Javanese">자바어</option>
+				  <option value="Kannada">칸나다어</option>
+				  <option value="Kazakh">카자흐어</option>
+				  <option value="Khmer">크메르어</option>
+				  <option value="Korean">한국어</option>
+				  <option value="Kurdish (Kurmanji)">쿠르드어 (쿠르만지)</option>
+				  <option value="Kyrgyz">키르기스어</option>
+				  <option value="Lao">라오어</option>
+				  <option value="Latin">라틴어</option>
+				  <option value="Latvian">라트비아어</option>
+				  <option value="Lithuanian">리투아니아어</option>
+				  <option value="Luxembourgish">룩셈부르크어</option>
+				  <option value="Macedonian">마케도니아어</option>
+				  <option value="Malagasy">말라가시어</option>
+				  <option value="Malay">말레이어</option>
+				  <option value="Malayalam">말라얄람어</option>
+				  <option value="Maltese">몰타어</option>
+				  <option value="Maori">마오리어</option>
+				  <option value="Marathi">마라티어</option>
+				  <option value="Mongolian">몽골어</option>
+				  <option value="Myanmar (Burmese)">미얀마어 (버마어)</option>
+				  <option value="Nepali">네팔어</option>
+				  <option value="Norwegian">노르웨이어</option>
+				  <option value="Nyanja (Chichewa)">냔자어 (치체와어)</option>
+				  <option value="Pashto">파슈토어</option>
+				  <option value="Persian">페르시아어</option>
+				  <option value="Polish">폴란드어</option>
+				  <option value="Portuguese">포르투갈어</option>
+				  <option value="Punjabi">펀자브어</option>
+				  <option value="Romanian">루마니아어</option>
+				  <option value="Russian">러시아어</option>
+				  <option value="Samoan">사모아어</option>
+				  <option value="Scots Gaelic">스코트 게일어</option>
+				  <option value="Serbian">세르비아어</option>
+				  <option value="Sesotho">세소토어</option>
+				  <option value="Shona">쇼나어</option>
+				  <option value="Sindhi">신디어</option>
+				  <option value="Sinhala (Sinhalese)">신할라어 (싱할라어)</option>
+				  <option value="Slovak">슬로바키아어</option>
+				  <option value="Slovenian">슬로베니아어</option>
+				  <option value="Somali">소말리어</option>
+				  <option value="Spanish">스페인어</option>
+				  <option value="Sundanese">순다어</option>
+				  <option value="Swahili">스와힐리어</option>
+				  <option value="Swedish">스웨덴어</option>
+				  <option value="Tajik">타지크어</option>
+				  <option value="Tamil">타밀어</option>
+				  <option value="Tatar">타타르어</option>
+				  <option value="Telugu">텔루구어</option>
+				  <option value="Thai">태국어</option>
+				  <option value="Turkish">터키어</option>
+				  <option value="Turkmen">투르크멘어</option>
+				  <option value="Ukrainian">우크라이나어</option>
+				  <option value="Urdu">우르두어</option>
+				  <option value="Uyghur">위구르어</option>
+				  <option value="Uzbek">우즈베크어</option>
+				  <option value="Vietnamese">베트남어</option>
+				  <option value="Welsh">웨일스어</option>
+				  <option value="Xhosa">코사어</option>
+				  <option value="Yiddish">이디시어</option>
+				  <option value="Yoruba">요루바어</option>
+				  <option value="Zulu">줄루어</option>
+				</select>			
+		</div>
+		<div id="translateBtnContainer">
+			<button id="translateCancelBtn">번역모드 해제</button>
+			<button id="translateSettingBtn">설정</button>
+		</div>
+	</div>
+	<!-- 번역될 언어 선택하는 모달창 끝-->
+	
+	
+	
+	
+
+    <script th:inline="javascript">
+        let empCode = /*[[${session.loginMember.empCode}]]*/ "test username";
+        let empFirstName = /*[[${session.loginMember.empFirstName}]]*/ "test username";
+        let empLastName = /*[[${session.loginMember.EmpLastName}]]*/ "test username";
+        let empNickname = empFirstName + empLastName;
+    </script>
+    <!-- SockJS 및 STOMP 라이브러리 추가 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <script src="/js/employee/chatting/chatting.js"></script>
+</body>
+</html>

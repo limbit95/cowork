@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Insert</title>
+   <link rel="stylesheet" href="/css/employee/survey/surveyInsert.css">
+
+
+</head>
+<body>
+   <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
+
+   	<div id="insertSurveyContainer">
+		<div id="surveyWriteText">
+		 설문 작성 
+		</div>		 	
+		<div id="surveyTitleDiv">
+			<span style="color: coral;">*</span>
+			<input type="text" placeholder="설문 제목을 작성해주세요" id="surveyTitle">
+		</div>	
+		
+		<div id="makeQuestionBtnDiv"> 
+			<button type="button" id="makeMultipleQuestion">객관식 추가</button>
+			<button 	type="button" id="makeSubjectiveQuestion">주관식 추가</button>
+		</div>
+		
+		<div id="questionArea">
+			
+		</div>
+
+   </div>
+   
+   
+   
+   <!-- 바닥에 딱 붙는게 싫어서 추가한 빈 공간  -->
+   <div id="forBottomEmptySpace">
+   </div>
+   
+   
+      <script src="/js/employee/survey/surveyInsert.js"></script>
+
+    
+</body>
+</html>

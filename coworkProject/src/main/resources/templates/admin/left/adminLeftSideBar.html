@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/css/admin/left/adminLeftSideBar.css">
+    <title>leftSideBar</title>
+</head>
+<body>
+	
+	<div id="leftSideBarMini">
+		<div>
+					<i class="fa-solid fa-circle-chevron-right" id="showLeftSideBarBtn"></i>
+		</div>
+	</div>
+
+    <div id="leftSideBar">
+		
+		<div id="closeLeftSideBar">
+					<i class="fa-solid fa-x"></i>
+		</div>
+		
+		<div id="CompanyLogo"></div>
+		<div id="businessCard">
+			<div></div>
+		</div>
+		<a id="logOutLink">로그아웃</a>
+		
+		<!-- 직급 관리 -->
+		<div class="dropdown">
+		    <button class="dropbtn">직급 관리</button>
+		    <div class="dropdownContent">
+		        <a href="#">				직급 관리1 </a>
+		        <a href="#">				직급 관리2</a>
+		        <a href="#">				직급 관리3</a>
+		        <a href="#">				직급 관리4</a>
+		    </div>
+		</div>
+		<!-- 직급 관리 -->
+		<!-- 권한 관리 -->
+		<div class="dropdown">
+		    <button class="dropbtn">권한 관리</button>
+		    <div class="dropdownContent">
+		        <a href="#">	직급 관리1 </a>
+		        <a href="#">	직급 관리2</a>
+		        <a href="#">	직급 관리3</a>
+		        <a href="#">	직급 관리4</a>
+		    </div>
+		</div>
+		<!-- 권한 관리 -->
+		<!-- 근태 관리 -->
+		<div class="dropdown">
+		    <button class="dropbtn">근태 관리</button>
+		    <div class="dropdownContent">
+		        <a href="#">	근태 내역 조회 </a>
+		        <a href="#">	근태 수정 요청 내역</a>
+		    </div>
+		</div>
+		<!-- 근태 관리 -->
+		<!-- 기능 관리 -->
+		<div class="dropdown">
+		    <button class="dropbtn">기능 관리</button>
+		    <div class="dropdownContent">
+		        <a href="#">	게시판 </a>
+		        <a href="#">	공지사항 </a>
+		        <a href="#">	주소록 </a>
+		        <a href="#">	회의실 예약 </a>
+		        <a href="#">	설문 </a>
+		        <a href="#">	메일 </a>
+		    </div>
+		</div>
+		<!-- 기능 관리 -->
+		<!-- 회사 관리 -->
+		<div class="dropdown">
+		    <button class="dropbtn">회사 정보</button>
+		    <div class="dropdownContent">
+		        <a href="#">	1 </a>
+		    </div>
+		</div>		
+		<!-- 회사 관리 -->
+
+
+    </div>
+	
+    <script src="/js/admin/left/adminLeftSideBar.js"></script>
+
+	<script th:inline="javascript">
+		const message = /*[[${message}]]*/ "전달 메세지";
+		
+		if (message != null) {
+			alert(message);
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+/* 체크박스 */
+.checkDiv {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    /*width: 315px !important;*/
+}
+
+.checkDiv input {
+    margin-right: 10px;
+}
+
+/* 삭제버튼 */
+label.delBtn {
+    margin-left: 15px;
+    color: var(--gray-color);
+}
+.checkDiv label.delBtn:hover {
+    color: black;
+}
+
+.menuDiv {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.menuDiv div {
+    width: 27%;
+    margin: 0 !important;
+}
+
+.table-body.row:hover {
+    font-weight: bold;
+}
+
+/* 타이틀 */
+.cntLabel {
+    color: var(--main2-color);
+}
+
+.mailTitle {
+    width: 1140px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--gray-color);
+    margin: 100px 0 -22px 0 !important;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.mailLabel {
+    display: flex;
+    align-items: center;
+    margin: 0 !important;
+}
+
+.mailLabel label {
+    font-size: 20px;
+}
+
+.mailLabel div {
+    margin-left: 20px !important;
+}
+
+/* 부서팀 */
+.checkDiv div {
+    margin: 0px !important;
+    margin-left: 20px !important;
+}
+
+/* 보내기버튼 */
+.mailTitle.mailTitleBtn {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.mailTitle.mailTitleBtn div {
+    margin-right: 20px;
+}
+
+/*  상세 */
+/*.ins-css.updateForm {
+    display: flex;
+    width: 100%;
+    margin-left: 30px;
+}
+
+.updateForm .glucose-btn {
+    margin-left: 10px;
+}
+
+
+.ins-css.updateForm div:nth-child(1) {
+    width: 100px;
+    margin: 10px 0 !important;
+}
+
+.updateForm .insert100 {
+    width: 80%;
+}
+
+.updateForm .insertBtn {
+    width: 74%;
+}*/
+
+input.insertMail {
+    border: 0;
+    border-bottom: 1px solid var(--gray-color);
+}
+
+/*  받는사람 */
+.table-body2 {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--gray-color);
+}
+
+.table-body2 .ins-css {
+    margin-left: 30px !important;
+}
+
+.table-body2 .ins-css.insertForm {
+    margin: 10px;
+}
+
+.lavenderLabel {
+    background: var(--main4-color);
+    margin-right: 10px;
+    border-bottom: 1px solid var(--gray-color);
+}
+
+
+
+/* 메일제목 */
+.table-body2 label.mailTitile {
+    font-size: x-large;
+    font-weight: bold;
+}

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주소록</title>
+
+    <th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/employee/addr/userAddr.css">
+</head>
+<body>
+
+    <section class="container">
+        <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
+
+        <div class="title"><span>주소록</span></div>
+        
+        <div class="subBtnList">
+            <button class="default-btn glucose-btn" id="backPage">이전으로 돌아가기</button>
+            <button class="default-btn glucose-btn" id="addMyAddr">주소록 추가</button>
+            <!-- <button class="default-btn glucose-btn" id="updateEmployeePage">수정</button> -->
+        </div>
+
+        <main>
+
+            <!-- 왼쪽 영역(주소록 그룹) -->
+            <div class="left">
+
+                <ul>
+                    <li class="myAddr">
+                        
+                        <div class="li-hover">
+                            <i class="fa-solid fa-angle-down"></i>
+                            <div>
+                                <i class="fa-solid fa-user"></i>
+                                <span>개인 주소록</span>
+                            </div>
+                        </div>
+
+                        <!-- <ul>    
+
+                            <li class="favorite">
+
+                                <div class="li-hover">
+                                    <i class="fa-solid fa-angle-down"></i>
+                                    <div>
+                                        <i class="fa-solid fa-star"></i>
+                                        <span>즐겨찾기</span>
+                                    </div>
+                                </div>
+
+                            </li>
+
+                        </ul> -->
+
+                    </li>
+                </ul>
+
+
+                <!-- 회사 주소록 -->
+                <ul>
+                    <li class="company">
+                        
+                        <div class="li-hover">
+                            <i class="fa-solid fa-angle-down"></i>
+                            <div>
+                                <i class="fa-solid fa-building"></i>
+                                <span>(주)HS애드</span>
+                            </div>
+                        </div>
+
+                        <ul>    
+
+                            <li class="department">
+
+                                <div class="li-hover">
+                                    <i class="fa-solid fa-angle-down"></i>
+                                    <div>
+                                        <i class="fa-solid fa-network-wired"></i>
+                                        <span>운영본부</span>
+                                    </div>
+                                </div>
+
+                                <ul>
+                                    
+                                    <li class="team">
+                                        <div class="li-hover"> 
+                                            <i class="fa-solid fa-angle-down"></i>
+                                            <div>
+                                                <i class="fa-solid fa-people-group"></i>
+                                                <span>운영1팀</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="team">
+                                        <div class="li-hover"> 
+                                            <i class="fa-solid fa-angle-down"></i>
+                                            <div>
+                                                <i class="fa-solid fa-people-group"></i>
+                                                <span>운영2팀</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="team">
+                                        <div class="li-hover"> 
+                                            <i class="fa-solid fa-angle-down"></i>
+                                            <div>
+                                                <i class="fa-solid fa-people-group"></i>
+                                                <span>운영3팀</span>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+
+                            </li>
+
+                            
+                            <li class="department">
+                                
+                                <div class="li-hover">
+                                    <i class="fa-solid fa-angle-down"></i>
+                                    <div>
+                                        <i class="fa-solid fa-network-wired"></i>
+                                        <span>재무부</span>
+                                    </div>
+                                </div>
+
+                                <ul>
+                                    
+                                    <li class="team">
+                                        <div class="li-hover">
+                                            <i class="fa-solid fa-angle-down"></i>
+                                            <div>
+                                                <i class="fa-solid fa-people-group"></i>
+                                                <span>재무 기획팀</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="team">
+                                        <div class="li-hover">
+                                            <i class="fa-solid fa-angle-down"></i>
+                                            <div>
+                                                <i class="fa-solid fa-people-group"></i>
+                                                <span>재무 분석팀</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="team">
+                                        <div class="li-hover">
+                                            <i class="fa-solid fa-angle-down"></i>
+                                            <div>
+                                                <i class="fa-solid fa-people-group"></i>
+                                                <span>투자 관리팀</span>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+
+                            </li>
+
+                        </ul>
+
+
+                    </li>
+                </ul>
+
+            </div>
+
+            <!-- 오른쪽 영역(구성원 정보 상세 조회 영역) -->
+            <div class="employeeDetail">
+    
+                <div class="detailHeader">
+                    <!-- 프로필 사진 -->
+                    <div>
+                        <img src="" alt="">
+                    </div>
+            
+                    <!-- 이름, 부서, 직급, 아이디 -->
+                    <div>
+                        <span>임성혁</span>
+                        <span>운영팀 / 대리</span>
+                        <span>202405240001@company</span>
+                    </div>
+                </div>
+                
+                <div class="detailBody">
+                    <div>
+            
+                        <div>
+                            <span>ID</span>
+                            <span>202405240001</span>
+                        </div>
+            
+                        <div>
+                            <span>성</span>
+                            <span>임</span>
+                        </div>
+            
+                        <div>
+                            <span>이름</span>
+                            <span>성혁</span>
+                        </div>
+            
+                        <div>
+                            <span>휴대번호</span>
+                            <span>010-2770-6055</span>
+                        </div>
+            
+                        <div>
+                            <span>이메일</span>
+                            <span>limbit@naver.com</span>
+                        </div>
+            
+                        <div>
+                            <span>생일</span>
+                            <span>1995-05-16</span>
+                        </div>
+            
+                        <div>
+                            <span>입사일</span>
+                            <span>2024-05-24</span>
+                        </div>
+            
+                    </div>
+            
+                    <div>
+                        
+                        <div>
+                            <span>사번</span>
+                            <span>없음</span>
+                        </div>
+            
+                        <div>
+                            <span>부서</span>
+                            <span>본부</span>
+                        </div>
+            
+                        <div>
+                            <span>팀</span>
+                            <span>운영팀</span>
+                        </div>
+            
+                        <div>
+                            <span>직급</span>
+                            <span>대리</span>
+                        </div>
+            
+                        <div>
+                            <span>근무처</span>
+                            <span>1층 지원 데스크</span>
+                        </div>
+            
+                        <div>
+                            <span>계약 형태</span>
+                            <span>정규직</span>
+                        </div>
+            
+                        <div>
+                            <span>내선 번호</span>
+                            <span>02-000-0000</span>
+                        </div>
+            
+                    </div>
+                </div>
+            
+            </div>
+
+        </main>
+
+    </section>
+
+    <!-- 드롭다운 -->
+    <div class="dropdown-menu" id="contextMenu">
+        <div id="addDeptgroup">그룹 추가</div>
+        <!-- <div id="addTeamgroup">팀 추가</div> -->
+        <div id="groupNameChange">그룹명 변경</div>
+        <div id="deleteGroup">그룹 삭제</div>
+        <!-- <div id="addAll">전부 추가</div> -->
+    </div>
+
+    <script src="/js/employee/addr/userAddr.js"></script>
+</body>
+</html>

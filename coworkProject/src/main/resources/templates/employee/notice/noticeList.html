@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항</title>
 
-    <link rel="stylesheet" href="/css/common.css">
+    <th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/employee/board/board.css">
 </head>
 <body>
     
+    <div th:replace="~{employee/userMain/leftSideBar}"></div>
+
     <section class="container">
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
 
@@ -34,6 +37,10 @@
         <!-----------------------------------------------   테이블  ------------------------------------------------------------------>
 
         <div class="board">
+
+            <div class="defaultBtn listBtn">
+                <button class="default-btn glucose-btn">등록</button>
+            </div>
 
             <div class="table-head">
                 <div>부서명</div>

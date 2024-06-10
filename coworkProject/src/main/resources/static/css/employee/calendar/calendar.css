@@ -1,0 +1,207 @@
+/* 캘린더 버튼 영역 감싸는 div */
+.calendarBtnTop {
+    display: flex;
+    width: 75%;
+    justify-content: flex-end;
+}
+
+.calendarBtnMargin {
+    margin-left: 5px;
+}
+
+/* 캘린더 크기 축소 및 가운데 정렬 */
+.calendarSection {
+    display: flex;
+    justify-content: center; /* 가로로 가운데 정렬 */
+    align-items: center; /* 세로로 가운데 정렬 (옵션) */
+    min-height: 100vh; /* 페이지 전체 높이를 차지하도록 설정 */
+}
+
+.calendarBox {
+    width: 60%; /* 캘린더 너비를 80%로 설정 */
+    max-width: 1200px; /* 최대 너비 설정 (옵션) */
+    margin: 0 auto; /* 수평 가운데 정렬 */
+}
+
+#calendar {
+    width: 100%; /* 부모 요소의 너비에 맞게 설정 */
+}
+
+/* 캘린더 년, 월 글씨 색 지정 */
+/* #fc-dom-1 {
+    color: var(--main-color);
+} */
+
+/* pop-up */
+#calendarModal{
+	width: 30%;
+	height: 60%;
+	background-color: white;
+	position: fixed; /* 브라우저에서 위치 고정 */
+	/* 브라우저 정가운데 배치 */
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
+    border-radius: 5px;
+    z-index: 5;
+}
+
+.calendarModalSpace {
+    background-color: var(--main4-color);
+    height: 5%;
+    width: 100%;
+}
+
+.modalTitle{
+    margin-top: 15px;
+	/* 위치의 상대적 기준점 */
+	position : relative;
+	width: 75%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modalTitle > p {
+    margin: 0;
+    width: 15%;
+    text-align: center;
+}
+
+#updateTitle {
+    width: 75%;
+    border-radius: 5px;
+    border: 1px solid var(--main6-color);
+}
+
+/* 색 선택 부분 */
+.titleColor {
+    margin-top: 15px;
+    width: 75%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.clickColor {
+    border-radius: 50%;
+    height: 5vh;
+    width: 5vh;
+    cursor: pointer;
+}
+
+.addBorder {
+    border: 1px solid black !important; 
+}
+
+.clickColor:hover {
+    border: 1px solid black;
+}
+
+/* select option 부분 */
+.selectSection {
+    margin-top: 15px;
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.selectCompany {
+    background-color: white;
+}
+
+.selectCompany:hover {
+    background-color: var(--main6-color);
+    color: white;
+    transition:0.2s;
+}
+
+.selectSection select, .selectCompany {
+    padding: 5px;
+    border: 1px solid var(--main6-color);
+    border-radius: 5px;
+}
+
+/* selectView 부분 */
+.selectView {
+    display: flex;
+    width: 75%;
+    height: 15%;
+    border: 1px solid var(--main6-color);
+    box-sizing: border-box;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    margin-top: 15px;
+    border-radius: 5px;
+    align-items: center;
+}
+
+.selectedDiv {
+    display: flex;
+    border: 1px solid var(--main6-color);
+    box-sizing: border-box;
+    border-radius: 5px;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    padding: 5px;
+    height: 40%;
+}
+
+.selectedDiv > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selectedDiv p {
+    margin: 0; /* 문단의 기본 여백 제거 */
+    white-space: nowrap;
+}
+
+.selectedDiv span {
+    cursor: pointer; /* 포인터 커서 설정 */
+    flex-shrink: 0;
+}
+
+/* 내용 작성 부분 */
+.modalContent {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid var(--main6-color);
+    width: 75%;
+    border-radius: 5px;
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 박스 크기 계산 */
+    overflow: hidden; /* 넘치는 콘텐츠 숨김 */
+}
+
+#updateContent {
+    resize: none;
+    width: 100%; /* textarea의 너비를 부모의 100%로 설정 */
+    height: 100%; /* 필요에 따라 높이 설정 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 박스 크기 계산 */
+    resize: none;
+    border: none;
+    outline: none;
+}
+
+.calendarHidden{
+	display: none !important; 
+}
+
+/* 모달 button */
+.modalBtn {
+    display: flex;
+    width: 75%;
+    justify-content: end;
+}
+
+.modalBtn button {
+    border: 1px solid var(--main6-color);
+    margin-left: 5px;
+}

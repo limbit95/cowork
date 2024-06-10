@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdminTeamBoard</title>
+
+    <th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/admin/teamBoard/teamBoard.css">
+</head>
+<body>
+    <!-- leftBar -->
+    <th:block th:replace="~{admin/left/adminLeftSideBar}"></th:block>
+
+    <div id="fullContainer">
+		<div id="innerContainer">
+			<!-- 제목 부분 -->
+			<div>
+				 팀 게시판
+			</div>
+
+			<!-- 팀 게시판 추가 버튼 -->
+			<div class="teamBoardDiv">
+				<!-- 추가 버튼 클릭 시 input 값을 controller에 들고 가야함 -->
+				<!-- 이후 아래 div 안에 값 뿌려주기 -->
+				<form action="#" method="post" id="teamBoardAddInputForm">
+					<input type="text" id="teamBoardAddInput">
+					<button class="default-btn glucose-btn" style="font-size: 16px;">추가</button>
+				</form>
+			</div>
+
+			<!-- x 버튼 클릭 시 DB에서도 삭제해줘야함 -->
+			<div id="contentContainerInteamBoard">
+				<div id="contentContainerInteamBoardInner">
+					<div class="teamBoardLoop">
+						<div>영업 1팀</div>
+						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
+					</div>
+					<div class="teamBoardLoop">
+						<div>영업 2팀</div>
+						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
+					</div>
+					<div class="teamBoardLoop">
+						<div>마케팅팀</div>
+						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
+					</div>
+					<div class="teamBoardLoop">
+						<div>개발3팀</div>
+						<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+    <script src="/js/admin/teamBoard/teamBoard.js"></script>
+</body>
+</html>

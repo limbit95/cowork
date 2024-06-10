@@ -27,6 +27,11 @@
     --gray-color: #D9D9D9;
 }
 
+input {
+    outline: none;
+    background-color: transparent;
+}
+
 
 /* main 영역 */
 main{
@@ -40,7 +45,7 @@ main{
 
 /* 메인 글씨 */
 
-#loginLetter{
+#loginLetter, #findId, #findPw{
     font-size: 25px;
     font-weight: bold;
     color: #214177;
@@ -56,16 +61,30 @@ main{
     width: 600px;
     border: 1px solid #D9D9D9;
     border-radius: 5px;
-    height: 420px;
+    margin-top: 50px;
+    padding: 90px 0;
+}
+
+/* 비밀번호 찾기 폼 영역 */
+.findPwFormArea{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 700px;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
     margin-top: 50px;
     padding: 50px 0;
 }
 
-.loginInput{
+/*  */
+.loginInput, .inputInfoArea {
     display: flex;
     flex-direction: column;
 }
 
+/*  */
 .loginInput input{
     margin: 5px 0;
     border: 0px;
@@ -74,12 +93,37 @@ main{
     width: 380px;
 }
 
+/*  */
+.inputInfoArea input {
+    margin: 5px 0;
+    border: 0px;
+    border-bottom: 1px solid var(--gray-color);
+    padding: 10px;
+    width: 300px;
+}
+
+.radio1, .radio2{
+    width: 30px !important; 
+}
+.findTypeDiv {
+    width: 510px;
+    margin-bottom: 30px;
+}
+
+span {
+    font-size: 14px;
+}
+
+/*  */
 .loginInput input:hover{
     border-bottom: 2px solid var(--main-color);
 }
 
+.inputInfoArea input:hover{
+    border-bottom: 2px solid var(--main-color);
+}
 
-#loginBtn{
+#loginBtn {
     margin-top: 60px;
     background: var(--main5-color);
     border: 1px solid var(--main5-color);
@@ -89,14 +133,20 @@ main{
     font-size: 16px;
 }
 
-#loginBtn:hover{
+#loginBtn:hover {
     background: white;
     border: 2px solid var(--main5-color);
     cursor: pointer;
 }
 
 .findArea{
+    display: flex;
+    justify-content: center;
     margin-top: 30px;
+}
+.findArea > span {
+    margin-left: 3px;
+    margin-right: 3px;
 }
 
 .findArea a{
@@ -107,4 +157,116 @@ main{
 
 .findArea a:hover{
     color: #3667A6;
+}
+
+#authMailBtn, #authBtn, .findBtn1, .findBtn3{
+    height: 28px;
+    width: 80px;
+    background: var(--main-color);
+    color: white;
+    border: 1px solid var(--main-color);
+    border-radius: 5px;
+    margin-left: 30px;
+}
+.findBtn2 {
+    height: 28px;
+    width: 100px;
+    background: var(--main-color);
+    color: white;
+    border: 1px solid var(--main-color);
+    border-radius: 5px;
+    margin-left: 50px;
+}
+
+.findBtn1, .findBtn3 {
+    margin-left: 70px;
+}
+
+#authMailBtn:hover, #authBtn:hover , .findBtn1:hover, .findBtn2:hover, .findBtn3:hover {
+    background: white;
+    color: var(--main-color);
+    border: 2px solid var(--main-color);
+    cursor: pointer;
+}
+
+#resultDiv {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.findBox1, .findBox2 {
+    display: none;
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    width: 480px;
+    padding: 20px 10px;
+    padding-left: 20px;
+    margin-bottom: 30px;
+}
+
+
+/* 로고 */
+.coworkLogoB {
+    width: 220px;
+    cursor: pointer;
+}
+
+
+/* 2024-06-07 */
+* {
+    /* border: 1px solid green; */
+}
+section.formArea #resultDiv {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    padding: 10px 0 25px 0;
+}
+#divOne {
+    display: flex;
+    align-items: center;
+    width: 310px;
+    margin-top: 15px;
+}
+#selectId {
+    width: 30px;
+    font-size: 13px;
+}
+#selectedId {
+    font-size: 13px;
+    text-align: start;
+    width: 150px;
+    font-weight: bold;
+}
+#signUpDate {
+    margin-left: 10px;
+    font-size: 12px;
+}
+
+#btnDiv {
+    display: none;
+    justify-content: center;
+    margin-top: 20px;
+}
+#btnDiv > div {
+    display: flex;
+    justify-content: space-between;
+    width: 210px;
+}
+#loginPageMove, #findPwOfSelectedId {
+    height: 28px;
+    width: 100px;
+    background: var(--main-color);
+    color: white;
+    border: 1px solid var(--main-color);
+    border-radius: 5px;
+}
+
+#loginPageMove:hover, #findPwOfSelectedId:hover {
+    background: white;
+    color: var(--main-color);
+    border: 2px solid var(--main-color);
+    cursor: pointer;
 }

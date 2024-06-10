@@ -2,16 +2,19 @@
     font-family: 'NanumBarunGothic';
     font-style: normal;
     font-weight: 300;
-    src: url('//fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot');
-    src: url('//fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot?#iefix') format('embedded-opentype'), url('//fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.woff') format('woff'), url('//fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.ttf') format('truetype');
+    src: url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot');
+    src: url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot?#iefix') format('embedded-opentype'), url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.woff') format('woff'), url('https://fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.ttf') format('truetype');
 }
    
 * {
     font-family: 'NanumBarunGothic', sans-serif;
     margin: 0;
+    font-size: small;
 }
 
-:root {	
+
+:root {
+
 	--main-color: #426DA7;
     --main2-color: #3667A6;
     --main3-color: #214177;
@@ -27,6 +30,13 @@
     --gray-color: #D9D9D9;
 }
 
+body {
+    /*display: flex;
+    flex-direction: column;
+    align-items: center;*/
+    margin-bottom: 120px; /*0604윤희 수정*/
+}
+
 input, select {
     outline: none;
 }
@@ -36,14 +46,17 @@ button {
 }
 
 /****************** 전체 영역 ************************/
-section.container {
-    margin: 5% 10%;
+.container {      /* 0605 section 지움 */
+    /*margin: 5% 10%;*/
     display: flex;
     flex-direction: column;
     align-items: center;
+    /*margin: 5% 0;*/
+
+    
 }
 
-section.container div {
+.container div { /* 0605 section 지움 */
     margin: 15px 0;
 }
 
@@ -55,7 +68,7 @@ section.container div {
 }
 
 .container .title {
-    margin: 0 0 70px 0 !important;
+    margin: 5% 0 70px 0 !important;
 }
 
 /****************** 선 ************************/
@@ -76,6 +89,7 @@ input.default-line  {
 select.default-line {
     padding: 5px 8px;
     margin-right: 10px;
+    width: 90px; /* 240531 PEB 수정 */
 }
 
 /****************** 검색 ************************/
@@ -106,7 +120,12 @@ i.fa-solid.fa-magnifying-glass {
 
 /****************** 테이블 ************************/
 .board {
-    width: 80%;
+    /* 240531 PEB 수정 */
+    /*width: 80%;*/
+    /*width: 100%;*/
+    
+    width: 1200px;
+    margin: 100px 0;
 }
 
 /* 테이블 헤드 */
@@ -140,7 +159,8 @@ i.fa-solid.fa-magnifying-glass {
 }
 
 .table-head div, .table-body div {
-    width: 15%;
+    /*width: 15%;*/
+    width: 163px; /* 240531 PEB 수정 */
 }
 
 /****************** 페이지 ************************/
@@ -164,6 +184,8 @@ i.fa-solid.fa-magnifying-glass {
     display: block;
     width: 100%;
     height: 100%;
+    text-decoration-line: none;
+    color: black;
 }
 
 .current {
@@ -198,7 +220,8 @@ i.fa-solid.fa-magnifying-glass {
 .sapphire-btn, .sapphire-border-btn:hover {
     background: var(--main-color);
     color: white;
-    border: 1px solid var(--main-color);
+    /* 성혁 수정 - 사유 : 기존 1px 이어서 호버 할 때마다 버튼이 꿀럭거림 */
+    border: 2px solid var(--main-color);
     /*width: 160px;*/
 }
 
@@ -211,7 +234,7 @@ i.fa-solid.fa-magnifying-glass {
 .glucose-btn, .glucose-border-btn:hover {
     background: var(--main6-color);
     color: white;
-    border: 1px solid var(--main6-color);;
+    border: 2px solid var(--main6-color);;
 }
 
 .glucose-border-btn, .glucose-btn:hover {
@@ -273,6 +296,39 @@ i.fa-solid.fa-magnifying-glass {
 
 .ins-css td {
     padding: 10px 0;
+}
+
+
+/****************** 사이즈 조절 ************************/
+/* 240531 PEB 수정 */
+@media (max-width: 576px) {
+    .board {
+      max-width: 540px;
+    }
+}
+
+@media (min-width: 576px) {
+    .board {
+      max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .board {
+      max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .board {
+      max-width: 900px;
+    }
+}
+
+@media (min-width : 1200px) {
+    .board {
+        max-width: 1200px;
+    }
 }
 
 /************* 나중에 삭제 ***********************/

@@ -3,13 +3,52 @@
     <div id="headerMain">
         <!-- CoWork 로고 -->
         <div id="coworkLogoW"> 
-            <img src="/images/logo6.png" id="whiteLogo">
-            <span id="letterLogoW">CoWork</span>
+            <img src="/images/whiteLogo.png" id="whiteLogo">
         </div>
-
+        <button id="quick">admin1</button>
+        <button id="quick">admin2</button>
+        <button id="quick">admin3</button>
+        <button id="quick">emp1</button>
+        <button id="quick">emp2</button>
+        <button id="quick">emp3</button>
+        
         <div class="buttons"> 
             <a id="signupBtn" href="/user/term">회원가입</a>
-            <a id="loginBtn" href="#">로그인</a>
+            <a id="loginBtn" href="/user/login">로그인</a>
         </div>
-
+    </div>
 </header>
+
+<script th:inline="javascript">
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+
+        const coworkLogoW = document.querySelector("#coworkLogoW"); 
+        const header = document.getElementById('headerMain');
+        let prevScroll = window.pageYOffset;
+
+        /* 로고 클릭시 메인페이지 이동 */
+        coworkLogoW.addEventListener('click', () => {
+            location.href = "/"; 
+        });
+
+        /* 스크롤시 반응 */
+        window.addEventListener('scroll', () => {
+            let currentScroll = window.pageYOffset;
+            if (prevScroll > currentScroll) {
+                header.style.top = "0"; 
+            } else {
+                header.style.top = "-65px";
+            }
+            prevScroll = currentScroll;
+        });
+    });
+
+    const quick = document.querySelectorAll("#quick");
+    quick.forEach((i) => {
+        i.addEventListener("click", e => {
+            location.href = '/user/quick?empId=' + i.innerText;
+        });
+    })
+
+</script>

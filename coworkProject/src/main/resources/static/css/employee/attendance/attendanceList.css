@@ -1,0 +1,677 @@
+* {
+    /* border: 1px solid blue; */
+}
+
+section.container div {
+    margin: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    width: 900px;
+    height: auto;
+}
+section.container header > div {
+    display: flex;
+}
+.year {
+    width: 70px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #d9d9d9;
+}
+.month {
+    width: 40px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #d9d9d9;
+    margin-left: 10px;
+}
+
+/* 나의 근무시간현황 전체영역 */
+section.container .monthly {
+    display: flex;
+    width: 900px;
+    height: 140px;
+    border-radius: 5px;
+    background-color: var(--main6-color);
+    color: white;
+    margin-top: 10px;
+}
+
+/* 나의 근무시간현황 텍스트 */
+.monthly > :nth-child(1) {
+    display: flex;
+    flex-basis: 35%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.monthly > :nth-child(1) > span {
+    width: 230px;
+}
+.monthly > :nth-child(1) > :nth-child(1) {
+    font-size: 30px;
+    font-weight: bold;
+}
+.monthly > :nth-child(1) > :nth-child(2) {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* 월간 근태 현황 조회 (정상근로, 잔여연차, 지각, 조퇴, 결근) */
+.monthly > :nth-child(2) {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-basis: 65%;
+}
+.monthly > :nth-child(2) > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+.monthly > :nth-child(2) > div > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    background-color: var(--main2-color);
+}
+.monthly > :nth-child(2) > div > div > span {
+    font-size: 24px;
+    font-weight: bold;
+}
+.monthly > :nth-child(2) > div > span {
+    font-size: 14px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* 월별 근태기록 목록 헤더 */
+section.container .attendanceListHead {
+    display: flex;
+    text-align: center;
+    line-height: 40px;
+    width: 900px;
+    height: 40px;
+    border-left: 1px solid var(--main6-color);
+    border-right: 1px solid var(--main6-color);
+    background-color: var(--main6-color);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    margin-top: 15px;
+    color: white;
+    font-size: 18px;
+}
+.attendanceListHead > :nth-child(1) {
+    flex-basis: 15%;
+    height: 40px;
+    border-right: 1px solid white;
+    border-bottom: 0px;
+}
+.attendanceListHead > :nth-child(2) {
+    flex-basis: 18%;
+    height: 40px;
+    border-right: 1px solid white;
+    border-bottom: 0px;
+}
+.attendanceListHead > :nth-child(3) {
+    flex-basis: 18%;
+    height: 40px;
+    border-right: 1px solid white;
+    border-bottom: 0px;
+}
+.attendanceListHead > :nth-child(4) {
+    flex-basis: 10%;
+    height: 40px;
+    border-right: 1px solid white;
+    border-bottom: 0px;
+}
+.attendanceListHead > :nth-child(5) {
+    flex-basis: 15%;
+    height: 40px;
+    border-right: 1px solid white;
+    border-bottom: 0px;
+}
+.attendanceListHead > :nth-child(6) {
+    flex-basis: 24%;
+    height: 40px;
+    border-bottom: 0px;
+}
+
+/* 월별 근태기록 목록 */
+main {
+    display: flex;
+    flex-direction: column;
+    width: 900px;
+    height: auto;
+    border-left: 1px solid var(--main6-color);
+    border-right: 1px solid var(--main6-color);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+main > :last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.attendanceDetail {
+    display: flex;
+    width: 900px;
+    height: 50px;
+    font-size: 18px;
+    border-bottom: 1px solid var(--main6-color);
+    text-align: center;
+    line-height: 50px;
+}
+
+.attendanceDetail > :nth-child(1) {
+    flex-basis: 15%;
+    height: 50px;
+    border-right: 1px solid var(--main6-color);
+    border-bottom: 0px;
+}
+.attendanceDetail > :nth-child(2) {
+    flex-basis: 18%;
+    height: 50px;
+    border-right: 1px solid var(--main6-color);
+    border-bottom: 0px;
+}
+.attendanceDetail > :nth-child(3) {
+    flex-basis: 18%;
+    height: 50px;
+    border-right: 1px solid var(--main6-color);
+    border-bottom: 0px;
+}
+.attendanceDetail > :nth-child(4) {
+    flex-basis: 10%;
+    height: 50px;
+    border-right: 1px solid var(--main6-color);
+    border-bottom: 0px;
+}
+.attendanceDetail > :nth-child(5) {
+    flex-basis: 15%;
+    height: 50px;
+    border-right: 1px solid var(--main6-color);
+    border-bottom: 0px;
+}
+.attendanceDetail > :nth-child(6) {
+    flex-basis: 24%;
+    height: 50px;
+    border-bottom: 0px;
+}
+
+
+
+/* ------------------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------- */
+/* 근태수정요청 모달창 */
+
+/* 모달 창 스타일 */
+.modal {
+    display: none; /* 모달 초기에는 숨김 상태 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); /* 배경 어둡게 */
+}
+
+/* 모달 닫기 버튼 스타일 */
+.close {
+    color: black;
+    font-size: 26px;
+    font-weight: bold;
+    border-bottom: 1.5px solid var(--main6-color);
+}
+
+.close:hover,
+.close:focus {
+    color: #d9d9d9;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 모달 내용 스타일 */
+.modal-content {
+    /* 모달 초기에는 숨김 상태 */
+    display: none;  
+    position: relative;
+    z-index: 2;
+    background-color: #fefefe;
+    padding: 20px;
+    bottom: 250px;
+    border: 1px solid #888;
+    width: 500px;
+    height: 390px;
+    border-radius: 10px;
+    transition: all 0.4s ease; /* 크기 변경이 빠르게 이루어지도록 트랜지션 적용 */
+}
+
+.larger {
+    width: 520px !important;
+    height: 420px !important;
+}
+
+
+
+.contentHead {
+    display: flex;
+    justify-content: space-between;
+}
+.contentHead > :nth-child(1) {
+    display: flex;
+    align-items: end;
+    width: 140px;
+    height: 40px;
+}
+.contentHead > :nth-child(2) {
+    width: 100%;
+    border-bottom: 1.5px solid var(--main6-color);
+}
+.contentHead > div > span {
+    width: 70px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.contentHead > div > :nth-child(1) {
+    border-left: 1.5px solid var(--main6-color);
+    border-right: 1.5px solid var(--main6-color);
+    border-top: 1.5px solid var(--main6-color);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.contentHead > div > :nth-child(2) {
+    border-bottom: 1.5px solid var(--main6-color);
+}
+
+section.container .contentBody {
+    display: flex;
+    flex-direction: column;
+    height: 310px;
+    margin-top: 10px;
+}
+.contentBody > div { 
+    display: flex;
+}
+.contentBody > div > span {
+    text-align: end;
+    background-color: var(--main6-color);
+    color: white;
+}
+.contentBody > :nth-child(1) > span {
+    flex-basis: 25%;
+    height: 42px;
+    line-height: 44px;
+    border-bottom: 2px solid white;
+    padding-right: 10px;
+}
+.contentBody > :nth-child(2) > span {
+    flex-basis: 25%;
+    height: 40px;
+    line-height: 42px;
+    border-bottom: 2px solid white;
+    padding-right: 10px;
+}
+.contentBody > :nth-child(3) > span {
+    flex-basis: 25%;
+    height: 180px;
+    line-height: 182px;
+    border-bottom: 2px solid white;
+    padding-right: 10px;
+}
+.contentBody > :nth-child(4) > span {
+    flex-basis: 25%;
+    height: 40px;
+    line-height: 42px;
+    border-bottom-left-radius: 5px;
+    border-bottom: 2px solid var(--main6-color);
+    padding-right: 10px;
+}
+
+.contentBody > div > div {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: start;
+    background-color: white;
+    color: black
+}
+.contentBody > :nth-child(1) > div {
+    flex-basis: 70%;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 2px solid var(--main6-color);
+    border-left: 2px solid var(--main6-color);
+    border-top: 2px solid var(--main6-color);
+    border-right: 2px solid var(--main6-color);
+    margin-left: 2px;
+    padding-left: 10px;
+}
+.contentBody > :nth-child(2) > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-basis: 68%;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 2px solid var(--main6-color);
+    border-left: 2px solid var(--main6-color);
+    border-right: 2px solid var(--main6-color);
+    margin-left: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.contentBody > :nth-child(3) > div {
+    display: flex;
+    align-items: center;
+    flex-basis: 70%;
+    height: 180px;
+    line-height: 180px;
+    border-bottom: 2px solid var(--main6-color);
+    border-left: 2px solid var(--main6-color);
+    border-right: 2px solid var(--main6-color);
+    margin-left: 2px;
+    padding-left: 10px;
+}
+.contentBody > :nth-child(4) > div {
+    flex-basis: 70%;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 2px solid var(--main6-color); 
+    border-left: 2px solid var(--main6-color);
+    border-right: 2px solid var(--main6-color);
+    margin-left: 2px;
+    border-bottom-right-radius: 5px;
+    padding-left: 10px;
+}
+
+
+.contentBody > :nth-child(2) > div > :nth-child(1) {
+    width: 95px;
+    height: 10px;
+    font-size: 12px;
+}
+.contentBody > :nth-child(2) > div > :nth-child(2),
+.contentBody > :nth-child(2) > div > :nth-child(3) {
+    width: 90px;
+    height: 10px;
+    font-size: 12px;
+}
+
+.contentBody > :nth-child(3) > div > textarea {
+    resize: none;
+    outline: none;
+    width: 318px;
+    height: 138px;
+    padding: 10px;
+    cursor: auto;
+}
+/* textarea 스크롤바 */
+textarea::-webkit-scrollbar {
+    width: 15px;
+    background-color: transparent;
+}
+textarea::-webkit-scrollbar-thumb {
+    background-color: var(--main6-color);
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+textarea::-webkit-scrollbar-track:vertical {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+}
+
+
+
+.contentBody > :nth-child(4) > div > input {
+    width: 100px;
+    height: 11px;
+}
+
+.modal-content > :nth-child(3) {
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+}
+
+
+/* ------------------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------- */
+/* 근태수정요청내역 모달창 */
+
+/* 모달 창 스타일 */
+.modal2 {
+    display: none; /* 모달 초기에는 숨김 상태 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); /* 배경 어둡게 */
+}
+
+/* 모달 닫기 버튼 스타일 */
+.close2 {
+    color: black;
+    font-size: 26px;
+    font-weight: bold;
+    border-bottom: 1.5px solid var(--main6-color);
+}
+
+.close2:hover,
+.close2:focus {
+    color: #d9d9d9;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 모달 내용 스타일 */
+.modal-content2 {
+    /* 모달 초기에는 숨김 상태 */
+    display: none;  
+    position: relative;
+    z-index: 2;
+    background-color: #fefefe;
+    padding: 20px;
+    bottom: 250px;
+    border: 1px solid #888;
+    width: 500px;
+    height: 390px;
+    border-radius: 10px;
+    transition: all 0.4s ease; /* 크기 변경이 빠르게 이루어지도록 트랜지션 적용 */
+    overflow: auto;
+    overflow-x: hidden;
+}
+.larger2 {
+    width: 520px !important;
+    height: 420px !important;
+}
+
+
+/* 스크롤바 */
+.modal-content2::-webkit-scrollbar {
+    width: 0px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.modal-content2::-webkit-scrollbar {
+    width: 15px;
+}
+.modal-content2::-webkit-scrollbar-thumb {
+    background-color: var(--main6-color);
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+.modal-content2::-webkit-scrollbar-track:vertical {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+}
+
+
+
+* {
+    /* border: 1px solid red; */
+}
+
+.contentHead2 {
+    display: flex;
+    justify-content: space-between;
+}
+.contentHead2 > :nth-child(1) {
+    display: flex;
+    align-items: end;
+    width: 140px;
+    height: 40px;
+}
+.contentHead2 > :nth-child(2) {
+    display: flex;
+    align-items: end;
+    width: 100%;
+    border-bottom: 1.5px solid var(--main6-color);
+}
+.contentHead2 > div > span {
+    width: 70px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.contentHead2 > div > :nth-child(1) {
+    border-bottom: 1.5px solid var(--main6-color);
+}
+.contentHead2 > div > :nth-child(2) {
+    border-left: 1.5px solid var(--main6-color);
+    border-right: 1.5px solid var(--main6-color);
+    border-top: 1.5px solid var(--main6-color);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.year2 {
+    width: 60px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #d9d9d9;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+.month2 {
+    width: 40px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #d9d9d9;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+
+
+section.container .contentBody2 {
+    display: flex;
+    flex-direction: column;
+    height: 340px;
+    margin-top: 10px;
+}
+
+.contentBody2 > :nth-child(1) {
+    display: flex;
+    height: 30px;
+    text-align: center;
+    line-height: 32px;
+}
+.contentBody2 > :nth-child(1) > span {
+    background-color: var(--main6-color);
+    color: white;
+    font-size: 14px;
+    border-right: 1.5px solid white;
+}
+.contentBody2 > :nth-child(1) > :nth-child(1) {
+    border-left: 1.5px solid var(--main6-color);
+    flex-basis: 23%;
+}
+.contentBody2 > :nth-child(1) > :nth-child(2) {
+    flex-basis: 15%;
+}
+.contentBody2 > :nth-child(1) > :nth-child(3) {
+    flex-basis: 23%;
+}
+.contentBody2 > :nth-child(1) > :nth-child(4) {
+    flex-basis: 23%;
+}
+.contentBody2 > :nth-child(1) > :nth-child(5) {
+    flex-basis: 16%;
+    border-right: 1.5px solid var(--main6-color);
+}
+
+
+/* 요청 내역 리스트 디테일 */
+.RequestDetail  {
+    display: flex;
+    height: 40px;
+    text-align: center;
+    line-height: 42px;
+}
+.RequestDetail > span {
+    border-bottom: 1.5px solid var(--main6-color);
+    border-right: 1.5px solid var(--main6-color);
+    color: black;
+    font-size: 14px;
+}
+.RequestDetail > :nth-child(1) {
+    border-left: 1.5px solid var(--main6-color);
+    flex-basis: 23%;
+}
+.RequestDetail > :nth-child(2) {
+    flex-basis: 15%;
+}
+.RequestDetail > :nth-child(3) {
+    flex-basis: 23%;
+}
+.RequestDetail > :nth-child(4) {
+    flex-basis: 23%;
+}
+.RequestDetail > :nth-child(5) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-basis: 16%;
+}
+.default-label {
+    display: inline-block;
+    cursor: pointer;
+    width: 35px;
+    height: 15px;
+    line-height: 17px;
+}
+.proceeding {
+    background-color: var(--sub-color);
+}
+.complete {
+    background-color: var(--sub3-color);
+}
+.reject {
+    background-color: var(--main5-color);
+}

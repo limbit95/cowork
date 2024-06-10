@@ -1,0 +1,590 @@
+body {
+    margin: 0;
+    padding: 0;
+}	
+*{
+	box-sizing: border-box;
+	font-size: 15px;
+}	
+
+#forMariginTop{
+	background-color: #E5F2FE;
+	padding-top: 15vh;
+	margin-bottom: 2vh;
+
+}
+
+#entireContainer{
+	display: flex; 
+}
+#emptySpace{
+	flex-basis: 15%;
+}
+#makeChatContainer{
+	display: flex; 
+	flex-direction: column; 
+	flex-basis: 13%;
+}
+#searchDiv{
+	display: flex; 
+	width: 100%;
+	height: 5vh;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	border: none;
+
+}
+#searchDivChild{
+	width: 100%; 
+	height: 100%; 
+	display: flex; 
+	border: none;
+	border-radius: 5px;
+	border-radius: 30px;
+
+
+}
+#searchInput{
+	height: 100%;
+	width: 100%;
+	border-radius: 5px;
+	border: none;
+	padding-left: 10px;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+    background-color: #214177;
+    color: white;
+    	border-radius: 10px;
+	
+}
+#searchInput::placeholder{
+	color: white;
+	opacity: 0.6;
+}
+
+/*====================  찾은 멤버들 컨테이너 시작 ======================*/
+#findEmpAndAddedEmpContainer{
+	margin-top: 2vh;
+	width:100%; 
+	height: 65vh;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: #fafafa;
+
+
+}
+#findEmpContainer{
+	width: 100%; 
+	flex-basis: 75%;
+	background-color: white;
+	background-color: #fafafa;
+	display: flex;
+	flex-direction: column;
+}
+#findEmpTitle{
+	height: 2vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #E5F2FE;
+	color: #214177;
+}
+#findEmpContent{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+}
+.findEmpContentInner{
+    width: 95%; 
+    min-height: 7vh; /* 고정된 높이 설정 */
+	display: flex;
+	transition: box-shadow 0.3s;
+	cursor: pointer;
+	display: flex; 
+	align-items: center;
+	border-bottom: 0.1px solid lightgray;
+}
+
+#addedEmpContainer{
+	margin-top: 10px;
+	width: 100%; 
+	flex-basis: 25%;
+	color: color;
+	background-color: #fafafa;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+#addedEmpTitle{
+	height: 2vh;
+	width: 100%;
+	background-color: #E5F2FE;
+	color: #214177;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+
+}
+#addedEmpContent{
+	display: flex; 	
+	padding-top: 1vh;
+
+	width: 12vw;
+    flex-wrap: wrap;
+
+}
+.addedEmpContentInner{
+	width: 5vw; 
+	height: 4vh;
+	margin-right: 0.5vw;
+	margin-left: 0.5vw;
+	margin-bottom: 1vh;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	background-color: #214177;
+	border-radius: 5px;
+	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+	transition: box-shadow 0.3s;
+	border: 2px solid #214177;
+    color: white;
+	
+}
+.addedEmpContentInner:hover{
+	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3);
+
+}
+
+.newImgDiv{
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-left: 3.5%;
+	margin-right: 3.5%;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.deptNmDiv{
+	margin-left: 3%;
+	font-size: 10px;
+	color: gray;
+}
+.teamNmDiv{
+	margin-left: 3%;
+	font-size: 10px;
+	color: gray;
+}
+.chattingRoomDivContainer{
+	width: 100%;
+	height: 8vh;
+	display: flex;
+	border-radius: 10px;
+	transition: background-color 0.3s;
+	cursor: pointer;
+}
+.chattingRoomDivContainer:hover{
+	background-color: #e6e6e6;
+
+}
+.leftNewDiv{
+	flex-basis: 5%;
+}
+.chattingRoomDiv{
+	flex-basis: 90%;
+	display: flex;
+	align-items: center;
+	height: 8vh;
+	border-bottom: 0.1px solid lightgray;
+	width: 90%;
+}
+.rightNewDiv{
+	flex-basis: 5%;
+}
+
+.firstEmpImg{
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 3%;
+}
+.contentNodeDiv{
+	font-size: 10px;
+	margin-top: 5px;
+	color: #454545;
+
+}
+.chattingAtDiv{
+	font-size: 8px;
+	margin-top: 3px;
+	color: darkgray;
+}
+
+
+/*====================  찾은 멤버들 컨테이너 끝 ======================*/
+
+/*====================  새로운 채팅창 만들기 컨테이너 시작 ======================*/
+#makeChatButton{
+	margin-top: 2vh;
+	width:100%; 
+	height: 5vh;
+	border-radius: 10px;
+}
+#makeChatButton > button{
+	width: 100%;
+	height: 100%;
+	border: none;
+	background-color: #E5F2FE;
+	border-radius: 10px;
+	color: #214177;
+	transition: color 0.3s, background-color 0.3s;
+
+}
+#makeChatButton > button:hover{
+	background-color: #214177;
+	color: #E5F2FE;
+}
+
+
+/*====================  새로운 채팅창 만들기 컨테이너 끝 ======================*/
+
+/*====================  채팅방들 시작 ======================*/
+#chattingRoomsContainer{
+	display: flex; 
+	flex-direction: column; 
+	align-items: center;
+	flex-basis: 17%;
+	margin-left: 1.5%;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+
+	border-radius: 30px;
+
+    
+
+}
+#chattingRoomsTitle{
+	width: 100%; 
+	height: 6%;
+	background-color: #214177;
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
+
+}
+#chattingRoomsContent{
+	width: 100%; 
+	min-height: 94%; 
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 2vh;
+}
+
+
+/*====================  채팅방들 끝 ======================*/
+
+
+/* chatting Container 시작  */
+#chattingsContainer{
+	flex-basis: 50%;
+	height: 80vh;
+	margin-left: 1.5vw;
+	display: flex; 
+	flex-direction:column;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
+}
+#topAreaInChattingsContainer{
+	width: 100%;
+	height: 6%;	
+	background-color: #214177;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #E5F2FE;
+	font-size: 20px;
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
+
+}
+#chattingsArea{
+	height: 80%;
+	transition: background-color 0.3s;
+	padding-right: 40px;
+	background-color: #E5F2FE;
+}
+#chattingsArea > img {
+    max-width: 100px;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+#messageContainer{
+	width: 100%; 
+	height: 5vh;
+	display: flex; 
+	flex-basis: 10%;
+	align-items: center;
+	
+}
+#fileClip{
+	border-radius: 50%; 
+	background-color: #BDD8F1;
+	color:#E5F2FE;
+	width: 40px;
+	height: 40px;
+	font-size: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: color 0.3s, background-color 0.3s;
+	cursor: pointer;
+}
+#fileClip:hover{
+	background-color: #BDD8F1;
+	color: gray;
+}
+
+#messageContainer > div:nth-child(1){
+	flex-basis: 10%;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	font-size: 20px;
+}
+#messageContainer > textarea:nth-child(2){
+	flex-basis: 80%;
+	height: 50%;
+	outline: none;
+	margin-right: 1.5vw;
+	font-size: 15px;
+	font-weight: bold;
+	resize: none; 
+	border: none;
+	background-color: #E5F2FE;
+	border-radius: 10px;
+	color:#214177;
+}
+#messageContainer > input:nth-child(3){
+	display: none;
+}
+#messageContainer > button:nth-child(4){
+	flex-basis:8%;
+	margin-right: 1vw;
+}
+
+#sendBtn{
+	border: none;
+	background-color: #E5F2FE;
+	color: #214177;
+	border-radius: 5px;
+	transition: color 0.3s, background-color 0.3s;
+	height: 80%;
+}
+#sendBtn:hover{
+	background-color:#214177;
+	color: #E5F2FE;
+	border-radius: 5px;
+}
+
+#sendBtnIcon{
+	font-size: 20px;
+	
+}
+
+/* chatting Container 끝  */
+
+
+.secondDiv{
+	display: inline-block;
+	width: auto;
+	
+}
+
+
+/* modal css */
+#backgroundGray{
+	width: 100vw;
+	height: 100vh;
+	background-color: black;
+	opacity: 0.2;	
+	position: fixed;
+	z-index: 10; 
+    top: 0;
+    left: 0;
+    display: none; 
+    justify-content: center;
+    align-items: center;
+}
+
+#modalContainer{
+    display: none; 
+	justify-content: center;
+	align-items: center;
+	border-radius: 10px;
+	opacity: 1;
+	width: 30vw;
+	height: 50vh;
+	position: fixed;
+    top: 0;
+    left: 0;
+    background-color: white;
+    z-index: 11;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	flex-direction: column;
+}
+#modalTitle{
+	flex-basis: 10%;
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	font-size: 20px;
+	font-weight: bold;
+}
+#modalContent{
+	flex-basis: 40%;
+	width: 100%;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+#preview{
+	width: 30%;
+	height:90%;
+	border-radius: 10px;
+	
+}
+#originalName{
+	margin-top: 4%;
+}
+#modalBtnContainer{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 4%;
+
+}
+#modalCancelBtn{
+	width: 5vw;
+	height: 5vh;
+	margin: 3px;
+	border: none;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius: 10px;
+
+}
+#modalSendBtn{
+	width: 5vw;
+	height: 5vh;	
+	margin: 3px;
+	border: none;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+    background-color: #E5F2FE;
+    border-radius: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+#modalSendBtn:hover{
+	background-color: #214177;
+	color: white;
+}
+
+/*--------------------------------------------번역-----------------------------------------------------*/
+
+#translate{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#translateContainer{
+    display: none; 
+	justify-content: center;
+	align-items: center;
+	border-radius: 10px;
+	opacity: 1;
+	width: 30vw;
+	height: 50vh;
+	position: fixed;
+    top: 0;
+    left: 0;
+    background-color: white;
+    z-index: 11;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	flex-direction: column;
+	
+}
+#languageSelect{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 30%;
+	height: 10vh;
+}
+#targetLanguage{
+	width: 20%;
+	height: 8vh;
+	padding-top: 30px;
+	
+}
+
+#translateBtnContainer{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+#translateCancelBtn{
+	width: 5vw;
+	height: 5vh;
+	margin: 3px;
+	border: none;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius: 10px;
+
+}
+#translateSettingBtn{
+	width: 5vw;
+	height: 5vh;	
+	margin: 3px;
+	border: none;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+    background-color: #E5F2FE;
+    border-radius: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+#translateSettingBtn:hover{
+	background-color: #214177;
+	color: white;
+}
+
+
+
+
+
+

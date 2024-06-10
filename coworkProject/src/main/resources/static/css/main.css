@@ -1,65 +1,72 @@
 @font-face {
-    font-family: 'NanumBarunGothic';
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
     font-style: normal;
-    font-weight: 300;
-    src: url('//fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot');
-    src: url('//fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot?#iefix') format('embedded-opentype'), url('//fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.woff') format('woff'), url('//fastly.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.ttf') format('truetype');
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
    
 * {
-    font-family: 'NanumBarunGothic', sans-serif;
+    font-family: 'Pretendard-Regular';
     margin: 0;
+    outline: none;
 }
 
+pre {
+    margin: 0 !important;
+}
 
-main{
-    min-height: 600px;
+a {
+    text-decoration-line: none !important;
 }
 
 
 /* ------------- Header 영역 ------------- */
-#headerMain{
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+#headerMain {
     background-color: #426DA7;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    min-width: 700px;
+    height: 65px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    transition: top 0.4s;
+    z-index: 1000;
 }
 
 /* 로고 */
-#coworkLogoW{
+#coworkLogoW {
     margin-left: 50px;
 }
 
-#whiteLogo{
-    width: 40px;
-    height: 40px;
-}
-
-#letterLogoW{
-    font-family: "Inter", sans-serif;
-    font-size: 26px;
-    font-weight: bold;
-    color: white;
+#whiteLogo {
+    width: 170px;
+    cursor: pointer;
 }
 
 /* 버튼 */
-.buttons{
-    margin-right: 25px;
+.buttons {
+    margin-right: 50px;
 }
 
-.buttons a{
+.buttons a {
     text-decoration: none;
     font-weight: bold;
     color: white;
-    font-size: 16px;
+    font-size: 17px;
 }
 
-#signupBtn{
-    margin-right: 10px;
+#signupBtn {
+    margin-right: 20px;
 }
 
 
@@ -67,45 +74,345 @@ main{
 
 /* -------------Footer 영역--------------*/
 
-#footerBorder{
-   /* border-top: 1px solid #d9d9d9;*/
-    background-color: #ECF2FA;
+footer {
+    position: relative;
+    transform: translateY(0%) !important;
+    bottom: 0px; 
 }
 
-.footerArea{
-    margin-top: 10px;
-    height: 100px;
+.footerArea {
+    margin-top: 100px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    background-color: #E5F2FE;
+    height: 100px;
+    min-width: 1110px;
+}
+
+#coworkLogo {
+    width: 300px;
 }
 
 /* 로고 */
-#blueLogo{
-    width: 50px;
-    height: 50px;
+#blueLogo {
+    margin-left: 50px;
+    margin-top: 10px;
+    width: 180px;
+    cursor: pointer;
 }
 
-#letterLogo{
-    font-family: "Inter", sans-serif;
-    font-size: 30px;
-    font-weight: bold;
-    color: #426DA7;
-}
 
 /* 약관 영역 */
-#terms{
-    margin-left: 120px;
-}
 
 #terms a {
     color: black;
     text-decoration: none;
     font-family: "Inter", sans-serif;
+    font-size: 13px;
 }
 
+
 /* 회사 정보 영역 */
-#coworkInfo{
-    margin-left: 100px;
-    font-family: "Inter", sans-serif;
+.coworkInfo {
+    margin-right: 10px;
+    font-family: "Inter", sans-serif !important;
+    font-size: 13px;
+}
+
+.coworkInfo:last-child {
+    margin-right: 50px;
+}
+
+
+
+/* ---------------------- main 영역 -------------------------- */
+
+/* VIDEO */
+.videoArea {
+    margin-top: 65px;
+}
+
+.thumbnail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/images/coworkThumbnail.jpg') center center / cover no-repeat;
+    cursor: pointer;
+    display: none; 
+}
+
+video, video:hover, video:focus {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important; 
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+}
+
+
+/* 웹킷 브라우저를 위한 추가 스타일 */
+video::-webkit-media-controls-panel {
+    background-color: transparent;
+    border: none !important;
+}
+video::-webkit-media-controls-play-button,
+video::-webkit-media-controls-start-playback-button,
+video::-webkit-media-controls-timeline,
+video::-webkit-media-controls-current-time-display,
+video::-webkit-media-controls-time-remaining-display,
+video::-webkit-media-controls-seek-back-button,
+video::-webkit-media-controls-seek-forward-button,
+video::-webkit-media-controls-fullscreen-button,
+video::-webkit-media-controls-volume-slider,
+video::-webkit-media-controls-mute-button,
+video::-webkit-media-controls-overlay-play-button {
+    background-color: transparent;
+    border: none !important;
+}
+
+/* ------ 메인 배너 영역 ------ */
+
+.mainBanner {
+    margin: 0;
+}
+
+
+/* ------ 네비바 영역 ------ */
+.mainNav {
+    display: flex;
+    height: 65px;
+    background-color: #BDD8F1;
+    align-items: center;
+    min-width: 770px;
+}
+
+.mainNav div {
+    width: 110px;
+}
+
+.mainNav div:nth-of-type(1) {
+    margin-left: 60px;
+    margin-right: 10px;
+}
+
+.navBtn {
+    font-size: 18px;
+    font-weight: bold;
+    color: #494949;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.navBtn:hover {
+    border-bottom: 1px solid #426DA7;
+    padding: 3px;
+    color: #426DA7;
+}
+
+/* ------ 기능 소개 영역 ------ */
+
+.functionArea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.functionArea section {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.images {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.description {
+    flex-direction: column;
+    text-align: end;
+}
+
+.description h1 {
+    color: #214177;
+    font-weight: bold;
+}
+
+
+
+/* section */
+.contentSection {
+    display: none;
+}
+
+/* 전자결재 */
+
+.edsmInsertArea {
+    background-color: #f1f1f1;
+}
+
+.functionVid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* ----------- 챗봇 영역 ------------ */
+
+/* 아이콘 컨테이너 스타일 */
+.icon-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f2f2f2;
+    border-radius: 20px;
+    padding: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* 챗봇 아이콘 스타일 */
+.chatbot-icon {
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* 챗봇 모달 스타일 */
+.chatbot-modal {
+    display: none; 
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.chat-container {
+    width: 90%;
+    max-width: 400px;
+    height: 60vh; 
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 20vh;
+}
+
+.chat-header {
+    background-color: #82A6CB;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    right: 10px;
+    top: 4px;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.chat-main {
+    flex: 1;
+    padding: 15px;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-box {
+    display: flex;
+    flex-direction: column;
+    height: 45vh;
+    overflow-y: auto; 
+}
+
+.chat-bubble {
+    background: #BDD8F1;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.chat-bubble.user {
+    background: #E5F2FE;
+    align-self: flex-end;
+    font-size: 12px;
+}
+
+.chat-bubble.bot {
+    background: #BDD8F1;
+    align-self: flex-start;
+    font-size: 12px;
+}
+
+.chat-bubble.question {
+    font-size: 12px;
+    background: #f4f4f4;
+    cursor: pointer;
+    text-align: left;
+}
+
+.chat-footer {
+    display: flex;
+    padding: 10px;
+    background: #FFF;
+    border-top: 1px solid #CCC;
+    position: sticky !important;
+    bottom: 0;
+}
+
+.chat-footer input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 12px;
+}
+
+.chat-footer input:focus {
+    outline: none;
+}
+
+.chat-footer button {
+    padding: 10px 15px;
+    background: #82A6CB;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.chat-footer button:hover {
+    background: #3667A6;
 }

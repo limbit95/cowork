@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결재상세</title>
+
+    <th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/employee/board/board.css">
+    <link rel="stylesheet" href="/css/employee/edsm/edsmDetail.css">
+</head>
+<body>
+    <section class="container">
+        <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
+
+        <div class="title"><span class="">결재상세</span></div>
+
+        <!-- 버튼 -->
+        <div class="defaultBtn insBtn">
+            <button class="default-btn glucose-btn">목록</button>
+        </div>
+        
+        <div class="default-line default-padding">
+
+            <!-- 버튼 -->
+            <div class="defaultBtn approveBtn">
+                <button class="default-btn glucose-btn">반려</button>
+                <button class="default-btn sapphire-btn margin10">결재</button>
+            </div>
+
+            <!-- 결재자 -->
+            <div class="approveDiv">
+                <div class="approveDiv default-line">
+                    <label>송지윤</label>
+                    <label>대리</label>
+                </div>
+
+                <div class="approveDiv proceeding">
+                    <label class="default-label gade-label">진행중</label>
+                    <label>정희윤</label>
+                    <label>과장</label>
+                </div>
+
+                <div class="approveDiv default-line">
+                    <label>최준재</label>
+                    <label>차장</label>
+                </div>
+            </div>
+
+            <!-- 제목 -->
+            <div class="ins-css insertForm">
+                <div><label>제목</label></div>
+                <label>무슨 기안을 올릴까요 업무 기안서</label>
+            </div>
+
+            <!-- 참조인 -->
+            <div class="ins-css insertForm">
+                <div><label>참조인</label></div>
+                <label>송윤지</label>
+            </div>
+
+            <!-- 파일 -->
+            <div class="fileUploadForm">
+                <label>증빙서류</label>
+
+                <div>
+                    <div><i class="fa-solid fa-chevron-down"></i><label>첨부파일</label><label>3</label><label>개</label><label class="colorGray">(12.1KB)</label></div>
+                    <table class="default-line">
+                        <tr>
+                            <td><i class="fa-solid fa-image"></i><label>검색.png</label><label class="colorGray">3.09KB</label></td>
+                            <td><a class="fa-solid fa-download"></a></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-image"></i><label>검색.png</label><label class="colorGray">3.09KB</label></td>
+                            <td><a class="fa-solid fa-download"></a></td>
+                        </tr>
+                    </table>
+
+                    <div class="default-line smarteditorDetail">에디터에 기본으로 삽입할 글(수정 모드)이 없다면 이 value 값을 지정하지 않으시면 됩니다.</div>
+
+                </div>
+                
+            </div>
+
+        </div>
+
+        
+
+
+        
+
+    </section>
+
+    <!-- 스마트 에디터 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/lib/smarteditor2/se/js/service/HuskyEZCreator.js" data-cfasync="false"></script>
+
+    <script src="/js/employee/notice/noticeInsert.js"></script>
+    <script src="https://kit.fontawesome.com/247c6d7026.js" crossorigin="anonymous"></script>
+</body>
+</html>

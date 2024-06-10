@@ -9,6 +9,7 @@
 * {
     font-family: 'NanumBarunGothic', sans-serif;
     margin: 0;
+    /* border: 1px solid blue; */
 }
 
 :root {	
@@ -43,15 +44,24 @@ main{
     font-weight: bold;
     color: #214177;
     margin: 30px 0;
+    text-align: center;
 }
 
-#signUpLetter, #companyInfoLetter{
+#signUpLetter, #companyInfoLetter {
     font-size: 25px;
     font-weight: bold;
     color: #214177;
     margin-bottom: 60px;
     margin-top: 30px;
+    text-align: center;
 }
+
+/* input */
+input {
+    outline: none;
+}
+
+
 
 /* -------------------약관동의 페이지-------------------*/
 
@@ -145,7 +155,7 @@ textarea{
     font-size: 16px;
 }
 
-#agreeBtn:hover, #signUpBtn:hover{
+#agreeBtn:hover, #signUpBtn:hover, #registerBtn:hover {
     background: white;
     border: 2px solid var(--main5-color);
     cursor: pointer;
@@ -171,4 +181,75 @@ textarea{
 
 #authBtn{
     margin-left: 60px;
+}
+
+
+* {
+    /* border: 1px solid blue; */
+}
+/* -------------------------------------------------------------------------------------- */
+/* 임성혁 */
+.submitBtnDiv {
+    display: flex;
+    justify-content: center;
+}
+
+span {
+    font-size: 11px;
+    margin-left: 10px;
+    margin-top: 3px;
+    width: 400px;
+}
+
+.confirm {
+    color: green;
+}
+.error {
+    color: red;
+}
+
+.emailDiv {
+    display: flex;
+    width: 470px;
+}
+
+
+
+#empEmail {
+    /* flex-basis: 80%; */
+}
+#checkEmailBtnDiv {
+    flex-basis: 14.5%;
+    display: none;
+    align-items: center;
+}
+.emailDiv >:nth-child(2) > button,
+#checkAuthKeyBtn {
+    height: 28px;
+    width: 60px;
+    background: var(--main-color);
+    color: white;
+    border: 1px solid var(--main-color);
+    border-radius: 5px;
+    margin-left: 14px;
+}
+.emailDiv >:nth-child(2) > button:hover,
+#checkAuthKeyBtn:hover {
+    background: white;
+    color: var(--main-color);
+    border: 2px solid var(--main-color);
+    cursor: pointer;
+}
+
+#authKeyDiv {
+    display: none;
+    width: 470px;
+}
+#authKey {
+    flex-basis: 80%;
+}
+#checkAuthKeyBtnDiv {
+    flex-basis: 15.5%;
+    display: flex;
+    align-items: center;
 }

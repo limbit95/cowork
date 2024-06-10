@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.employee.todo.model.mapper.TodoMapper"> 
+
+	<!-- 할 일 목록 조회 -->
+	<select id="selectTodoList">  
+		SELECT DISTINCT t.*
+	    FROM TODO t
+	    LEFT JOIN TODO_MANAGER tm ON t.TODO_NO = tm.TODO_NO
+	    WHERE t.EMP_CODE = #{empCode}
+	    ORDER BY t.TODO_WRITE_DATE DESC
+	</select>
+	
+
+	
+	<!-- 검색한 경우 목록 조회 -->
+	<select id="todoQueryList">
+		SELECT 
+		    t.TODO_NO,
+		    t.TODO_TITLE,
+		    t.TODO_CONTENT,
+		    t.TODO_END_DATE,
+		    t.TODO_COMPLETE,
+		    request_emp.EMP_LAST_NAME || request_emp.EMP_FIRST_NAME AS requestEmp,
+		    tm_agg.inChargeEmp
+		FROM 
+		    TODO t
+		JOIN 
+		    EMPLOYEE request_emp ON request_emp.EMP_CODE = t.EMP_CODE
+		LEFT JOIN 
+		    (SELECT 
+		        tm.TODO_NO,
+		        LISTAGG(manager_emp.EMP_LAST_NAME || manager_emp.EMP_FIRST_NAME, ', ') WITHIN GROUP (ORDER BY manager_emp.EMP_LAST_NAME, manager_emp.EMP_FIRST_NAME) AS inChargeEmp
+		     FROM 
+		        TODO_MANAGER tm
+		     JOIN 
+		        EMPLOYEE manager_emp ON manager_emp.EMP_CODE = tm.EMP_CODE
+		     GROUP BY 
+		        tm.TODO_NO) tm_agg ON tm_agg.TODO_NO = t.TODO_NO
+		WHERE 
+		    (t.EMP_CODE = #{empCode} OR 
+		    EXISTS (
+		        SELECT 1 FROM TODO_MANAGER tm 
+		        JOIN EMPLOYEE manager_emp ON manager_emp.EMP_CODE = tm.EMP_CODE
+		        WHERE tm.TODO_NO = t.TODO_NO 
+		        AND tm.EMP_CODE = #{empCode}
+		    ))
+		  AND 
+		    t.TODO_COMPLETE = '1'
+		  AND 
+		    (t.TODO_TITLE LIKE '%' || #{todoQuery} || '%' OR 
+		     t.TODO_CONTENT LIKE '%' || #{todoQuery} || '%' OR 
+		     request_emp.EMP_LAST_NAME || request_emp.EMP_FIRST_NAME LIKE '%' || #{todoQuery} || '%' OR 
+		     EXISTS (
+		         SELECT 1 FROM TODO_MANAGER tm 
+		         JOIN EMPLOYEE manager_emp ON manager_emp.EMP_CODE = tm.EMP_CODE
+		         WHERE tm.TODO_NO = t.TODO_NO 
+		         AND manager_emp.EMP_LAST_NAME || manager_emp.EMP_FIRST_NAME LIKE '%' || #{todoQuery} || '%'
+		     ))
+		ORDER BY 
+		    t.TODO_WRITE_DATE DESC
+	</select>
+	
+	<!-- 목록 조회 필터링 -->
+	<select id="getFilteredTodos" parameterType="map" resultType="Todo">
+	 SELECT 
+        t.TODO_NO,
+        t.TODO_TITLE,
+        t.TODO_CONTENT,
+        t.TODO_END_DATE,
+        t.TODO_COMPLETE,
+        request_emp.EMP_LAST_NAME || request_emp.EMP_FIRST_NAME AS requestEmp,
+        (
+            SELECT LISTAGG(manager_emp.EMP_LAST_NAME || manager_emp.EMP_FIRST_NAME, ', ') WITHIN GROUP (ORDER BY manager_emp.EMP_LAST_NAME, manager_emp.EMP_FIRST_NAME)
+            FROM TODO_MANAGER tm
+            JOIN EMPLOYEE manager_emp ON manager_emp.EMP_CODE = tm.EMP_CODE
+            WHERE tm.TODO_NO = t.TODO_NO
+        ) AS in_charge_emp
+    FROM TODO t
+    LEFT JOIN EMPLOYEE request_emp ON request_emp.EMP_CODE = t.EMP_CODE
+    WHERE 1 = 1
+		    <if test="empCode != null">
+		        <choose>
+		             <when test="inCharge == true and request == true">
+		                AND t.EMP_CODE = #{empCode} AND EXISTS (
+		                    SELECT 1 FROM TODO_MANAGER tm WHERE tm.TODO_NO = t.TODO_NO AND tm.EMP_CODE = #{empCode}
+		                )  <!-- 내가 요청하고 내가 담당인 일 -->
+		            </when>
+		            <when test="inCharge == true and request == false">
+		                AND t.EMP_CODE != #{empCode} AND EXISTS (
+		                    SELECT 1 FROM TODO_MANAGER tm WHERE tm.TODO_NO = t.TODO_NO AND tm.EMP_CODE = #{empCode}
+		                )  <!-- 다른 사람이 요청했고 내가 담당인 일 -->
+		            </when>
+		            <when test="inCharge == false and request == true">
+		                AND t.EMP_CODE = #{empCode} AND NOT EXISTS (
+		                    SELECT 1 FROM TODO_MANAGER tm WHERE tm.TODO_NO = t.TODO_NO AND tm.EMP_CODE = #{empCode}
+		                )  <!-- 내가 요청했지만 다른 사람이 담당인 일 -->
+		            </when>
+		            <otherwise>
+		                AND (t.EMP_CODE = #{empCode} OR EXISTS (
+		                    SELECT 1 FROM TODO_MANAGER tm WHERE tm.TODO_NO = t.TODO_NO AND tm.EMP_CODE = #{empCode}
+		                ))  <!-- 기본 조건: 내가 요청했거나 내가 담당인 일 -->
+		            </otherwise>
+		        </choose>
+		    </if>
+		    <if test="todoComplete != null">
+		        AND t.TODO_COMPLETE = #{todoComplete}
+		    </if>
+	<!--     <if test="todoQuery != null and todoQuery != ''">
+		        AND (
+		            t.TODO_TITLE LIKE '%' || #{todoQuery} || '%' OR 
+		            t.TODO_CONTENT LIKE '%' || #{todoQuery} || '%' OR 
+		            request_emp.EMP_LAST_NAME || request_emp.EMP_FIRST_NAME LIKE '%' || #{todoQuery} || '%' OR 
+		            EXISTS (
+		                SELECT 1 FROM TODO_MANAGER tm 
+		                JOIN EMPLOYEE manager_emp ON manager_emp.EMP_CODE = tm.EMP_CODE
+		                WHERE tm.TODO_NO = t.TODO_NO 
+		                AND manager_emp.EMP_LAST_NAME || manager_emp.EMP_FIRST_NAME LIKE '%' || #{todoQuery} || '%'
+		            )
+		        )
+		    </if>  -->	
+		    <if test="sortBy != null"> 
+		    ORDER BY
+		        <choose>
+		            <when test="sortBy == 'registration'">
+		               t.TODO_WRITE_DATE ASC
+		            </when>
+		            <when test="sortBy == 'latest'">
+		               t.TODO_WRITE_DATE DESC
+		            </when>
+		            <otherwise>
+		             t.TODO_WRITE_DATE DESC
+		            </otherwise>
+		        </choose>
+		    </if>
+		    <if test="sortBy == null">
+		    ORDER BY t.TODO_WRITE_DATE DESC
+		    </if>
+		</select>
+	
+	
+	<!-- 할 일 등록 -->
+	<insert id="todoInsert">
+	    <selectKey order="BEFORE" resultType="int" keyProperty="todoNo">
+	        SELECT SEQ_TODO.NEXTVAL FROM DUAL
+	    </selectKey>
+	    INSERT INTO "TODO"
+	    VALUES (
+	        #{todoNo},
+	        #{todoTitle},
+	        #{todoContent},
+	        DEFAULT,
+	        #{todoEndDate},
+	        DEFAULT,
+	        #{empCode}
+	    )
+	</insert>
+	
+	<!-- 파일 업로드시 등록 -->
+	<insert id="insertUploadList" parameterType="list">
+		INSERT INTO "TODO_FILE"
+	    <foreach collection="list" item="file" 
+	    		open ="(" close=")" separator=" UNION ">
+	       SELECT NEXT_TODO_FILE_NO(), 
+	       #{file.filePath}, #{file.fileOriginName}, 
+	       #{file.fileRename}, SYSDATE, #{file.fileOrder}, #{file.todoNo}
+	       FROM DUAL 
+	    </foreach>
+	</insert>
+				
+	<!-- 담당자 등록 -->
+	<insert id="insertTodoManager" parameterType="Todo">
+	        INSERT INTO "TODO_MANAGER" 
+	        SELECT 
+	            NEXT_TODO_MGR_NO(), 
+	            emp.EMP_CODE, 
+	            #{todoNo}
+	        FROM 
+	            Employee emp
+	        WHERE 
+	            CONCAT(emp.EMP_LAST_NAME, emp.EMP_FIRST_NAME) = #{inChargeEmp}
+	</insert>
+	
+	<!-- 담당자 여러명 등록 -->
+	<insert id="insertTodoManagerList" parameterType="map">
+		INSERT INTO "TODO_MANAGER" 
+	        SELECT 
+	            NEXT_TODO_MGR_NO(), 
+	            emp.EMP_CODE, 
+	            #{todoNo}
+	        FROM 
+	            Employee emp
+	        WHERE 
+	            CONCAT(emp.EMP_LAST_NAME, emp.EMP_FIRST_NAME) = #{inChargeEmp}
+	</insert>
+	
+	<!-- 담당자 여러명 조회 -->
+	<select id="getEmpList">
+		SELECT 
+        	CONCAT(emp.EMP_LAST_NAME, emp.EMP_FIRST_NAME) AS inChargeEmp
+	    FROM 
+	        TODO_MANAGER tm
+	    JOIN 
+	        EMPLOYEE emp ON tm.EMP_CODE = emp.EMP_CODE
+	    WHERE 
+	        tm.TODO_NO = #{todoNo}
+	</select>
+	
+
+	<!-- 할 일 상세 -->
+	<select id="todoDetail">
+		SELECT 
+		    t.TODO_NO,
+		    t.TODO_TITLE,
+		    t.TODO_CONTENT,
+		    TO_CHAR(t.TODO_WRITE_DATE, 'YYYY-MM-DD') AS TODO_WRITE_DATE,
+		    TO_CHAR(t.TODO_END_DATE, 'YYYY-MM-DD') AS TODO_END_DATE,
+		    t.TODO_COMPLETE,
+		    t.EMP_CODE,
+		    CONCAT(e.EMP_LAST_NAME, e.EMP_FIRST_NAME) AS requestEmp
+		FROM 
+		    TODO t
+		LEFT JOIN 
+		    EMPLOYEE e ON t.EMP_CODE = e.EMP_CODE	    
+		WHERE 
+	    t.TODO_NO = #{todoNo}
+	</select>  
+
+	<!-- 파일 조회 -->
+	<select id="todoFiles">
+	SELECT 
+		FILE_NO,
+		FILE_PATH,
+		FILE_ORIGIN_NAME,
+		FILE_RENAME,
+		FILE_UPLOAD_DATE,
+		FILE_ORDER
+	FROM "TODO_FILE"	
+	WHERE TODO_NO = #{todoNo}	
+	</select>
+	
+	<!-- 할 일 수정 -->
+	<update id="todoUpdate">
+		UPDATE "TODO"
+		SET 
+		TODO_TITLE = #{todoTitle},
+		TODO_CONTENT = #{todoContent},
+		TODO_END_DATE = #{todoEndDate}
+		WHERE TODO_NO = #{todoNo}
+	</update>
+	
+	<!-- 담당자 수정 -->
+	  <update id="updateTodoManagerList">
+        UPDATE "TODO_MANAGER" 
+        SET EMP_CODE =(
+        	SELECT EMP_CODE
+        	FROM EMPLOYEE
+        	WHERE EMP_LAST_NAME || EMP_FIRST_NAME = #{inChargeEmp} 
+        	)
+        WHERE TODO_NO = #{todoNo} 
+	</update>
+	
+	<!-- 할 일 완료 여부 수정 -->
+	<update id="updateTodoComplete" parameterType="map">
+	    UPDATE "TODO"
+	    SET TODO_COMPLETE = #{todoComplete}
+	    WHERE TODO_NO = #{todoNo}
+	</update>
+	
+	<!-- 할 일 삭제 -->
+	<delete id="deleteTodos" parameterType="list">
+	    DELETE FROM TODO
+	    WHERE TODO_NO IN
+	    <foreach item="todoId" index="index" collection="todoIds" open="(" separator="," close=")">
+	        #{todoId}
+	    </foreach>
+	</delete>
+
+	<!-- 담당자 삭제 -->
+	<delete id="deleteTodoManager" parameterType="list">
+	    DELETE FROM TODO_MANAGER
+	    WHERE TODO_NO IN
+	    <foreach item="todoId" index="index" collection="todoIds" open="(" separator="," close=")">
+	        #{todoId}
+	    </foreach>
+	</delete>
+
+	<!-- 담당자 수정시 기존 담당자 삭제 -->
+	<delete id="deleteTodoManagerOne" parameterType="list">
+	    DELETE FROM TODO_MANAGER
+	    WHERE TODO_NO = #{todoNo}
+	</delete>
+	
+	
+	<!-- 파일 삭제 -->
+	<delete id="deleteTodoFiles" parameterType="list">
+	    DELETE FROM TODO_FILE
+	    WHERE TODO_NO IN
+	    <foreach item="todoId" index="index" collection="todoIds" open="(" separator="," close=")">
+	        #{todoId}
+	    </foreach>
+	</delete>
+	
+	<!-- 파일 수정 시 기존 파일 삭제 -->
+	<delete id="deleteOriginTodoFiles" parameterType="int">
+	    DELETE FROM TODO_FILE
+	    WHERE TODO_NO = #{todoNo}
+	</delete>
+	
+	<!-- 사원 이름 조회 -->
+	<select id="getEmpName">
+		SELECT EMP_LAST_NAME || EMP_FIRST_NAME AS EMP_NAME
+		FROM EMPLOYEE
+		WHERE EMP_CODE = #{empCode} 
+	</select>
+
+</mapper>
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

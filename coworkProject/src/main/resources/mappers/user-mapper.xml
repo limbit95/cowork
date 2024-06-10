@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.user.model.mapper.UserMapper">
+	
+	<!-- 아이디 중복 검사 -->
+	<select id="checkId" resultType="_int">
+		SELECT COUNT(*) 
+		FROM "EMPLOYEE"
+		WHERE EMP_ID = #{empId} 
+		AND EMP_DEL_FL = 'N'
+	</select>
+	
+	<!-- 회원가입(관리자용) -->
+	<insert id="signup" parameterType="Employee2">
+		INSERT INTO EMPLOYEE VALUES(
+			SEQ_EMPLOYEE.NEXTVAL,
+			NULL,
+			#{empId},
+			#{empPw},
+			#{empLastName},
+			#{empFirstName},
+			#{phone},
+			#{empAddress},
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			#{empEmail},
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			1,
+			DEFAULT,
+			DEFAULT
+		)
+	</insert>
+	
+	<!-- 로그인 서비스 -->
+	<select id="login">
+		SELECT EMP_CODE, EMP_NO, EMP_ID, EMP_PW, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_ADDRESS, 
+		EMP_BIRTH, HIRE_DATE, CONTRACT_TYPE, EMP_TEL, WORK_PLACE, EMP_EMAIL, PROFILE_IMG, GENERAL_MANAGER, 
+		C.COM_NO, C.COM_NM, TEAM_NM, POSITION_NM
+		FROM EMPLOYEE E
+		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
+		JOIN TEAM USING(TEAM_NO)
+		JOIN POSITION USING(POSITION_NO)
+		WHERE EMP_DEL_FL = 'N'
+		AND EMP_ID =  #{empId}
+	</select>
+	
+	<!-- 관리자 로그인 -->
+	<select id="adminLogin">
+		SELECT EMP_CODE, EMP_NO, EMP_ID, EMP_PW, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_ADDRESS, 
+		EMP_BIRTH, HIRE_DATE, CONTRACT_TYPE, EMP_TEL, WORK_PLACE, EMP_EMAIL, PROFILE_IMG, GENERAL_MANAGER, 
+		COM_NO, COM_NM
+		FROM EMPLOYEE
+		JOIN COMPANY USING(COM_NO)
+		WHERE EMP_DEL_FL = 'N'
+		AND EMP_ID = #{empId}
+	</select>
+	
+	<!-- 사용자 유형 확인 -->
+	<select id="selectUserType" resultType="_int">
+		SELECT COUNT(*)
+		FROM EMPLOYEE
+		WHERE EMP_ID = #{empId}
+		AND EMP_DEL_FL = 'N'
+		AND GENERAL_MANAGER = 1
+	</select>
+
+	<!-- 회사명, 도메인 등록 여부 확인 -->
+	<select id="domainExist" resultType="_int">
+		SELECT COUNT(*)
+		FROM COMPANY
+		JOIN EMPLOYEE USING(COM_NO)
+		WHERE EMP_ID = #{empId}
+		AND EMP_DEL_FL = 'N'
+	</select>
+	
+	<!-- 도메인 중복 검사 -->
+	<select id="checkDomain" resultType="_int">
+		SELECT COUNT(*)
+		FROM COMPANY
+		WHERE DOMAIN = #{inputDomain}
+	</select>
+	
+	<!-- 기업 정보 등록 -->
+	<insert id="registCompanyInfo">
+		INSERT INTO COMPANY VALUES(
+			SEQ_COMPANY.NEXTVAL,
+			#{comNm},
+			#{comTel},
+			#{licenseNo},
+			#{ceoNm},
+			#{comAddr},
+			#{comLogo},
+			#{licenseImg},
+			#{comEmail},
+			#{domain}
+		)
+	</insert>
+	
+	<!-- 기업 등록하지 않은 관리자 정보 조회 -->
+	<select id="tempEmp">
+		SELECT EMP_CODE, EMP_NO, EMP_ID, EMP_PW, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_ADDRESS, 
+		EMP_BIRTH, HIRE_DATE, CONTRACT_TYPE, EMP_TEL, WORK_PLACE, EMP_EMAIL, PROFILE_IMG, GENERAL_MANAGER
+		FROM EMPLOYEE
+		WHERE EMP_DEL_FL = 'N'
+		AND EMP_ID = #{empId}
+	</select>
+	
+	<!-- 기업 등록한 관리자 자신 DB의 EMPLOYEE 테이블 중 COM_NO 컬럼에 정보 업데이트 -->
+	<update id="registAdminCompany">
+		UPDATE EMPLOYEE SET
+		COM_NO = #{comNo}
+		WHERE EMP_CODE = #{empCode}
+	</update>
+	
+	<!-- 등록한 기업의 식별키만 조회 -->
+	<select id="selectCompany">
+		SELECT COM_NO
+		FROM COMPANY
+		WHERE DOMAIN = #{domain}
+	</select>
+	
+	<!-- 비밀번호 재설정 시 갱신된 인증번호와 대조 -->
+	<select id="checkAuthKey">
+		SELECT COUNT(*)
+		FROM "TB_AUTH_KEY"
+		WHERE EMAIL = #{email}
+		AND AUTH_KEY = #{authKey}
+	</select>
+	
+	<!-- 비밀번호 재설정 -->
+	<update id="resetPw">
+		UPDATE EMPLOYEE SET
+		EMP_PW = #{empPw}
+		WHERE EMP_ID = #{empId}
+		AND EMP_EMAIL = #{empEmail}
+	</update>
+	
+	<!-- 비밀번호 재설정 성공 시 인증번호 업데이트 -->
+	<update id="updateAuthKey">
+		UPDATE TB_AUTH_KEY SET
+		AUTH_KEY = #{authKey}
+		WHERE EMAIL = #{email}
+	</update>
+	
+</mapper>

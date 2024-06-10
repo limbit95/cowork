@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.13/index.global.min.js"></script>
+    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' rel='stylesheet' />
+    <script src='https://fullcalendar.io/releases/fullcalendar/3.10.2/lib/moment.min.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js'></script>
+
+    <link rel="stylesheet" href="/css/employee/calendar/calendar.css">
+    <link rel="icon" href="/images/favicon.png">
+</head>
+<body>
+    <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
+
+    <section class="container">
+        <!-- 캘린더 제목 -->
+        <div class="title"><span>캘린더</span></div>
+
+        <!-- 버튼 영역 -->
+        <div class="calendarBtnTop">
+    
+            <div>
+                <button class="default-btn glucose-border-btn">회사 일정 보기</button>
+            </div>
+
+            <div>
+                <button class="default-btn glucose-border-btn calendarBtnMargin">내 일정 보기</button>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- 캘린더 API -->
+    <section class="calendarSection">
+        <div class="calendarBox">
+            <div id='calendar'></div>
+        </div>
+    </section>
+
+    <!-- 날짜 선택 했을 경우 할 일 제목, 색 클릭, 요청 멤버 선택해서 받아줄 거 -->
+    <div id="calendarModal" class="calendarHidden">
+        <div class="calendarModalSpace"></div>
+
+        <!-- 제목 작성 부분 -->
+        <div class="modalTitle">
+            <p>일정 제목</p>
+            <input type="text" id="updateTitle">
+        </div>
+
+        <!-- 지정색 선택 부분 -->
+        <div class="titleColor">
+            <div class="clickColor" style="background-color: #fc8b8b;">
+                <input value="#fc8b8b" hidden>
+            </div>
+            <div class="clickColor" style="background-color: #eb9234;">
+                <input value="#eb9234" hidden>
+            </div>
+            <div class="clickColor" style="background-color: #accf9b;">
+                <input value="#accf9b" hidden>
+            </div>
+            <div class="clickColor" style="background-color: #6d8ec7;">
+                <input value="#6d8ec7" hidden>
+            </div>
+            <div class="clickColor" style="background-color: #b09dc9;">
+                <input value="#b09dc9" hidden>
+            </div>
+        </div>
+        <!-- 선택된 색상을 저장해둘 곳 -->
+        <input id="selectedColor" hidden>
+
+        <!-- 팀 전체, 부서, 팀 선택 -->
+        <div class="selectSection">
+            <button class="selectCompany">
+                회사 전체
+            </button>
+
+            <!-- 로그인한 회원의 회사 기본키로 회사에 존재하는 부서 보여줌 -->
+            <select class="selectDept">
+                <option th:text="${#lists.isEmpty(deptList) ? '없음' : '부서 선택'}">부서 선택</option>
+                <option th:each="dept : ${deptList}" th:value="${dept.deptNo}" th:text="${dept.deptNm}">부서명</option>
+                <!-- <input th:each="dept : ${deptList}" th:value="${dept.deptNo}" hidden> -->
+            </select>
+
+            <select class="selectTeam">
+                <option th:text="${#lists.isEmpty(teamList) ? '없음' : '팀 선택'}">팀 선택</option>
+                <option th:each="team : ${teamList}" th:value="${team.teamNo}" th:text="${team.teamNm}">팀명</option>
+                <!-- <input th:each="team : ${teamList}" th:value="${team.teamNo}" hidden> -->
+            </select>
+        </div>
+
+        <!-- 선택한 값들이 들어올 곳 -->
+        <div class="selectView calendarHidden">
+            <!-- <span class="selectedDiv">
+                <div>
+                    <p>회사 전체</p>
+                    <span class="selectCancel">&times;</span>
+                </div>
+            </span> -->
+        </div>
+
+        <div class="modalContent">
+            <textarea id="updateContent" rows="7" cols="50"></textarea>
+        </div>
+
+        <div class="modalBtn">
+            <button class="default-btn glucose-border-btn modalUpdateBtn">등록</button>
+            <button class="default-btn glucose-border-btn modalCancelBtn">취소</button>
+        </div>
+    </div>
+
+    <!-- 전체 캘린더에서 제목 클릭했을 경우 뜨는 모달창 BootStrap -->
+    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="eventDescription"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Full Calendar API JS -->
+    <script src="/js/employee/calendar/calendar.js"></script>
+    
+    <!-- 값 담아주기 -->
+    <script th:inline="javascript">
+        const comNo = /*[[${loginEmp.comNo}]]*/ "회사 기본키";
+        const empCode = /*[[${loginEmp.empCode}]]*/ "사원 기본키";
+    </script>
+</body>
+</html>

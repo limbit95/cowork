@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>양식 생성</title>
+
+    <th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/employee/board/board.css">
+</head>
+<body>
+
+    <div th:replace="~{admin/left/adminLeftSideBar}"></div>
+
+    <form class="container" id="createDraftForm" action="edsmCreateDraft" method="post">
+        <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
+
+        <div class="title"><span>양식 생성 </span></div>
+        
+        <div class="default-line default-padding">
+
+            <!-- 제목 -->
+            <div class="ins-css insertForm">
+                <div><label>제목</label></div>
+                <input class="default-line listBtn" name="draftTitle" id="draftTitle">
+            </div>
+
+            <div class="fileUploadForm">
+
+                <div>
+                    <div id="smarteditor">
+                        <textarea name="draftContentEdit" id="draftContentEdit" rows="10" cols="100"></textarea>
+                        <textarea name="draftContent" id="draftContent" rows="10" cols="100" hidden></textarea>
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+
+        <!-- 버튼 -->
+        <div class="defaultBtn insBtn">
+            <button type="submit" class="default-btn glucose-btn">등록</button>
+            <button type="button" class="default-btn glucose-btn margin10">취소</button>
+        </div>
+
+    </form>
+
+    <!-- 스마트 에디터 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/lib/smarteditor2/se/js/service/HuskyEZCreator.js" data-cfasync="false"></script>
+
+    <script src="/js/admin/edsm/edsmCreateDraft.js"></script>
+</body>
+</html>
