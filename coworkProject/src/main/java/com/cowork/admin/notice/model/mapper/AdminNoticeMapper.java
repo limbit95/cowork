@@ -1,4 +1,4 @@
-package com.cowork.admin.notice.mapper;
+package com.cowork.admin.notice.model.mapper;
 
 import java.util.List;
 import java.util.Map;

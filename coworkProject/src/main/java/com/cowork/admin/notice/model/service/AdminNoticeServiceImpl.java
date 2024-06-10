@@ -14,13 +14,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.cowork.admin.notice.mapper.AdminNoticeMapper;
 import com.cowork.admin.notice.model.exception.BoardFileDeleteException;
 import com.cowork.admin.notice.model.exception.BoardInsertException;
+import com.cowork.admin.notice.model.mapper.AdminNoticeMapper;
 import com.cowork.common.utility.Utility;
 import com.cowork.common.utility.model.dto.Pagination;
 import com.cowork.employee.notice.model.dto.BoardFile;
 import com.cowork.employee.notice.model.dto.Notice;
+import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;

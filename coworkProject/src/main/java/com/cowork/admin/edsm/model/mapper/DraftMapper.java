@@ -1,14 +1,17 @@
-package com.cowork.admin.edsm.model.service;
+package com.cowork.admin.edsm.model.mapper;
 
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.cowork.admin.edsm.model.dto.Draft;
 
-public interface DraftService {
+@Mapper
+public interface DraftMapper {
 
 	/** 양식 생성
-	 * @param draft
+	 * @param inputDraft
 	 * @return
 	 */
 	int edsmCreateDraft(Draft inputDraft);

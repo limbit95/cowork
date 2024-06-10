@@ -25,6 +25,7 @@ public class Notice {
 	private int empCode;
 	
 	private String empName; // 작성자
+	private int comNo;      // 회사번호
 	private String deptNm;  // 부서명
 	private int fileCnt; // 파일개수
 	//private List<BoardFile> fileList; // 파일목록

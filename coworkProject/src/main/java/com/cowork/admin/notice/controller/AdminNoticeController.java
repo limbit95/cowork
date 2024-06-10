@@ -38,10 +38,13 @@ public class AdminNoticeController {
 	 */
 	@GetMapping("noticeList")
 	public String noticeList(
+				@SessionAttribute("loginEmp") Employee2 loginEmp,
 				@RequestParam(value="cp", required=false, defaultValue="1") int cp,
 				Model model,
 				@RequestParam Map<String, Object> paramMap
 			) {
+		
+		paramMap.put("comNo", loginEmp.getComNo());
 		
 		// 조회 서비스 호출 후 결과 반환
 		Map<String, Object> map = service.noticeList(paramMap, cp);
@@ -108,6 +111,7 @@ public class AdminNoticeController {
 		inputNotice.setEmpCode(loginEmp.getEmpCode());
 		inputNotice.setNoticeTitle(noticeTitle);
 		inputNotice.setNoticeContent(noticeContent);
+		
 		
 		int result = service.noticeInsert(inputNotice, files);
 		

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.admin.edsm.model.mapper.DraftMapper">
+
+	<!-- 양식 생성 -->
+	<insert id="edsmCreateDraft" useGeneratedKeys="true" parameterType="Draft">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="draftNo">
+			SELECT SEQ_DRAFT.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO DRAFT 
+		VALUES (
+			 #{draftNo}
+			,#{draftTitle}
+			,#{draftContent}
+			,#{comNo}
+			,DEFAULT
+		)
+	</insert>
+	
+	<!-- 전자결재 문서 관리 -->
+	<select id="draftList">
+		SELECT 
+			 DRAFT_NO
+			,DRAFT_TITLE
+			,DRAFT_CONTENT
+			,COM_NO
+			,DRAFT_FLAG
+			,DECODE(DRAFT_FLAG, '2', '협조문', '3', '품의서', '4', '지출결의서','5', '경조사 신청서', '6', '회의록', '기안서') AS DRAFT_NM
+		FROM DRAFT
+		WHERE COM_NO = #{comNo}
+		<choose>
+			<when test='key != "0" and key != null and key != "1"'> 
+				AND DRAFT_FLAG = #{key}
+			</when>
+			<when test='key == "1"'> <!-- 기안서 -->
+				AND DRAFT_FLAG IN ('1','7')
+			</when>
+		</choose>
+		ORDER BY DRAFT_FLAG, DRAFT_NO
+	</select>
+
+</mapper>

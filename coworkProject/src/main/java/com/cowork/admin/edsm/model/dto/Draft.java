@@ -18,4 +18,7 @@ public class Draft {
 	private int draftNo;
 	private String draftTitle;
 	private String draftContent;
+	private int comNo;
+	private String draftFlag;
+	private String draftNm; /* 기안서 명칭 */
 }

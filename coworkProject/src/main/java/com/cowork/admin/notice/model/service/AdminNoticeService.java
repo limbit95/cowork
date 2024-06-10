@@ -7,10 +7,12 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.employee.notice.model.dto.Notice;
+import com.cowork.user.model.dto.Employee2;
 
 public interface AdminNoticeService {
 
 	/** 공지사항 조회
+	 * @param loginEmp 
 	 * @param paramMap 
 	 * @param cp
 	 * @return
