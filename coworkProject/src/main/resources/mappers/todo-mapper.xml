@@ -167,6 +167,8 @@
 	       FROM DUAL 
 	    </foreach>
 	</insert>
+	
+
 				
 	<!-- 담당자 등록 -->
 	<insert id="insertTodoManager" parameterType="Todo">
@@ -205,8 +207,8 @@
 	    WHERE 
 	        tm.TODO_NO = #{todoNo}
 	</select>
-	
 
+	
 	<!-- 할 일 상세 -->
 	<select id="todoDetail">
 		SELECT 
@@ -227,7 +229,7 @@
 	</select>  
 
 	<!-- 파일 조회 -->
-	<select id="todoFiles">
+<!--<select id="todoFiles">
 	SELECT 
 		FILE_NO,
 		FILE_PATH,
@@ -237,6 +239,20 @@
 		FILE_ORDER
 	FROM "TODO_FILE"	
 	WHERE TODO_NO = #{todoNo}	
+	</select>  -->	
+	
+	<select id="todoFiles" parameterType="int" resultType="TodoFile">
+	    SELECT 
+	        FILE_NO as fileNo,
+	        FILE_ORIGIN_NAME as fileOriginName,
+	        FILE_RENAME as fileRename,
+	        FILE_PATH as filePath,
+	        TODO_NO as todoNo,
+	        FILE_ORDER as fileOrder
+	    FROM 
+	        TODO_FILE
+	    WHERE 
+	        TODO_NO = #{todoNo}
 	</select>
 	
 	<!-- 할 일 수정 -->
@@ -307,12 +323,38 @@
 	    WHERE TODO_NO = #{todoNo}
 	</delete>
 	
+	<!-- 파일 수정 시 파일 넘버 비교 파일 삭제 -->
+	<delete id="deleteOriginFile">
+	    DELETE FROM TODO_FILE
+	    WHERE FILE_ORIGIN_NAME IN (#{deleteOrder})
+	    AND TODO_NO = #{todoNo} 
+	</delete>
+	
 	<!-- 사원 이름 조회 -->
 	<select id="getEmpName">
 		SELECT EMP_LAST_NAME || EMP_FIRST_NAME AS EMP_NAME
 		FROM EMPLOYEE
 		WHERE EMP_CODE = #{empCode} 
 	</select>
+	
+	<insert id="insertNewFiles" parameterType="map">
+	   INSERT INTO "TODO_FILE"
+	    <foreach collection="list" item="file" 
+	    		open ="(" close=")" separator=" UNION ">
+	       SELECT NEXT_TODO_FILE_NO(), 
+	       #{file.filePath}, #{file.fileOriginName}, 
+	       #{file.fileRename}, SYSDATE, #{file.fileOrder}, #{file.todoNo}
+	       FROM DUAL 
+	    </foreach>
+	</insert>
+	
+	<update id="todoFileUpdate">
+		UPDATE TODO_FILE SET
+		FILE_ORDER = #{fileOrder}
+		WHERE FILE_ORDER = #{fileOrder}
+		AND TODO_NO = #{todoNo}
+	</update>
+	
 
 </mapper>
 
