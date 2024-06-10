@@ -133,4 +133,19 @@
 		AND AUTH_KEY = #{authKey}
 	</select>
 	
+	<!-- 비밀번호 재설정 -->
+	<update id="resetPw">
+		UPDATE EMPLOYEE SET
+		EMP_PW = #{empPw}
+		WHERE EMP_ID = #{empId}
+		AND EMP_EMAIL = #{empEmail}
+	</update>
+	
+	<!-- 비밀번호 재설정 성공 시 인증번호 업데이트 -->
+	<update id="updateAuthKey">
+		UPDATE TB_AUTH_KEY SET
+		AUTH_KEY = #{authKey}
+		WHERE EMAIL = #{email}
+	</update>
+	
 </mapper>

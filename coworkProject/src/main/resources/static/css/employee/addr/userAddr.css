@@ -196,6 +196,9 @@ main {
     margin-right: 10px;
 }
 
+* {
+    /* border: 1px solid blue; */
+}
 
 /* 구성원 리스트 */
 .right > .employeeList {
@@ -204,6 +207,7 @@ main {
     flex-direction: column;
     white-space: nowrap;
     overflow: hidden;
+    height: 500px;
 }
 .right > .employeeList > div {
     display: flex;
@@ -404,10 +408,6 @@ section.container .detailBody {
 .detailBody > div > div > :nth-child(1) {
     flex-basis: 30%;
     font-weight: bold;
-}
-
-* {
-    /* border: 1px solid blue; */
 }
 
 /* ------------------------------------------------------------------------------------------- */

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.employee.addr.model.mapper.AddrMapper">
+	
+	<!-- 개인 주소록 그룹만 조회 -->
+	<select id="selectGroupList" resultType="MyAddr">
+		SELECT ADDR_BOOK_NO, ADDR_NAME, EMP_CODE
+		FROM PERSONAL_ADDR_BOOK
+		WHERE EMP_CODE = #{empCode}
+	</select>
+	
+	<!-- 개인 주소록 그룹 인원 리스트 조회 -->
+	<select id="getListCount">
+		SELECT COUNT(*)
+		FROM ADD_EMP E
+		JOIN PERSONAL_ADDR_BOOK P ON(P.ADDR_BOOK_NO = E.ADDR_BOOK_NO)
+		WHERE P.ADDR_NAME = #{groupName}
+		AND P.EMP_CODE = #{empCode}
+	</select>
+	
+	<!-- 주소록 그룹의 리스트 조회 -->
+	<select id="selectMyAddrList">
+		SELECT AE.EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_EMAIL, 
+		C.COM_NM, DEPT_NM, TEAM_NM, POSITION_NM
+		FROM ADD_EMP AE
+		JOIN PERSONAL_ADDR_BOOK P ON(P.ADDR_BOOK_NO = AE.ADDR_BOOK_NO)
+		JOIN EMPLOYEE E ON(E.EMP_CODE = AE.EMP_CODE)
+		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
+		JOIN TEAM T USING(TEAM_NO)
+		JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		JOIN POSITION USING(POSITION_NO)
+		WHERE E.EMP_DEL_FL = 'N'
+		AND P.ADDR_NAME = #{groupName}
+		AND P.EMP_CODE =  #{empCode}
+	</select>
+	
+</mapper>

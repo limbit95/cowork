@@ -65,8 +65,15 @@ if(check != null) {
 const downArrow = document.querySelector(".fa-angle-down");
 
 document.querySelectorAll('.li-hover').forEach(item => {
+    // 개인 주소록 그룹 클릭 시 해당 그룹에 추가된 주소록 리스트 오른쪽 섹션에 보이기
     item.addEventListener('click', event => {
-        // console.log(item.children[0]);
+        const className = event.target.parentElement.parentElement.getAttribute("class");
+
+
+        if(className.includes('personal')){
+            location.href = '/employee/addr/myGroupList?groupName=' + event.target.innerText + "&empCode=" + loginEmpCode;
+        }
+        
     });
     item.children[0].addEventListener('click', event => {
         let nextUl = item.nextElementSibling;

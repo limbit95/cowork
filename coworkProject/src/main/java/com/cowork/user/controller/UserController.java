@@ -239,13 +239,23 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("resetPw")
-	public String resetPw(Employee2 inputEmp) {
+	public String resetPw(Employee2 inputEmp,
+			  			  RedirectAttributes ra,
+			  			  Model model) {
 		
-		log.info("inputEmp : " + inputEmp);
+		int result = service.resetPw(inputEmp);
 		
-		// 비밀번호 재설정 업데이트 쿼리문과
-		// 인증번호 업데이트 쿼리문
-		// 그리고 비밀번호 재설정 성공 시 홈페이지 메인으로 이동
+		if(result == 0) {
+			model.addAttribute("message", "비밀번호 재설정 실패");
+			return "redirect:/";
+		}
+		
+		if(result == -1) {
+			model.addAttribute("message", "인증번호 업데이트 실패");
+			return "redirect:/";
+		}
+		
+		ra.addFlashAttribute("message", "비밀번호 재설정 되었습니다. 새로운 비밀번호로 로그인 해주세요.");
 		
 		return "redirect:/";
 	}

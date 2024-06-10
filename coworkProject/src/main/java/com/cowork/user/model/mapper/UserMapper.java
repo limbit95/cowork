@@ -81,6 +81,18 @@ public interface UserMapper {
 	 */
 	int checkAuthKey(Map<String, Object> map);
 
+	/** 비밀번호 재설정
+	 * @param inputEmp
+	 * @return
+	 */
+	int resetPw(Employee2 inputEmp);
+
+	/** 비밀번호 재설정 성공 시 인증번호 업데이트 -> 메일로 발송했던 버튼 이동 막기 위한 수단
+	 * @param map
+	 * @return
+	 */
+	int updateAuthKey(Map<String, Object> map);
+
 
 	
 }

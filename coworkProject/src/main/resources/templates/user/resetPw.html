@@ -20,12 +20,12 @@
 
                     <div class="loginInput">
                         <input type="password" placeholder="비밀번호" id="empPw" name="empPw">
-                        <input type="password" placeholder="비밀번호 확인" id="empPwConfirm" name="empPw">
+                        <input type="password" placeholder="비밀번호 확인" id="empPwConfirm">
                         <span id="pwMessage">영어,숫자,특수문자(!@#$%^&*()) 포함 8~16글자 사이로 입력해주세요.</span>
                     </div>
                     <button id="loginBtn">비밀번호 변경</button>
 
-                    <input hidden th:value="${map.empId}" name="empPw">
+                    <input hidden th:value="${map.empId}" name="empId">
                     <input hidden th:value="${map.email}" name="empEmail">
                 </form>
             </section>

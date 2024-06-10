@@ -36,15 +36,15 @@
                             </div>
                         </div>
 
-                        <ul>    
+                        <ul th:if="${myAddr}">
 
-                            <li class="favorite">
+                            <li class="favorite" th:each="addr : ${myAddr}">
 
-                                <div class="li-hover">
+                                <div class="li-hover personal">
                                     <i class="fa-solid fa-angle-down"></i>
                                     <div>
                                         <i class="fa-solid fa-star"></i>
-                                        <span>즐겨찾기</span>
+                                        <span th:text="${addr.addrName}">즐겨찾기</span>
                                     </div>
                                 </div>
 
@@ -52,6 +52,17 @@
 
                         </ul>
 
+                        <!-- <ul>    
+                            <li class="favorite">
+                                <div class="li-hover">
+                                    <i class="fa-solid fa-angle-down"></i>
+                                    <div>
+                                        <i class="fa-solid fa-star"></i>
+                                        <span>즐겨찾기</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul> -->
 
                     </li>
                 </ul>
@@ -200,7 +211,22 @@
                         <div>전화번호</div>
                     </div>
 
-                    <div class="employee">
+                    <th:block th:if="${groupList}"
+                              th:each="group : ${groupList}"
+                              th:object="${group}">
+                        <div class="employee">
+                            <div><input id="check" type="checkbox"></div>
+                            <div class="info">
+                                <div><span th:text="|*{deptNm} / *{teamNm}|">운영팀</span></div>
+                                <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
+                                <div><span th:text="*{positionNm}">팀장</span></div>
+                                <div><span th:text="*{empEmail}">park@naver.com</span></div>
+                                <div><span th:text="*{phone}">010-1234-1234</span></div>
+                            </div>
+                        </div>
+                    </th:block>
+
+                    <!-- <div class="employee">
                         <div><input id="check" type="checkbox"></div>
                         <div class="info">
                             <div><span>운영팀</span></div>
@@ -308,62 +334,7 @@
                             <div><span>lim@naver.com</span></div>
                             <div><span>010-1234-1234</span></div>
                         </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
+                    </div> -->
 
                 </div>
 
@@ -416,5 +387,8 @@
     </div>
 
     <script src="/js/employee/addr/userAddr.js"></script>
+    <script th:inline="javascript">
+        const loginEmpCode = /*[[${session.loginEmp.empCode}]]*/ "로그인 사원";
+    </script>
 </body>
 </html>
