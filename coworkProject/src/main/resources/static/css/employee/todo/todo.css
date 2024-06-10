@@ -214,9 +214,6 @@ ul{
     border-bottom: 1px solid #214177;
 }
 
-
-
-
 /* 요청 내용 박스 부분 */
 #requestContent {
     border: 1px solid #d9d9d9;
@@ -378,7 +375,6 @@ input[type="date"]:hover {
 }
 
 #updateBtn {
-    margin-left: 165px;
     border: none;
     background-color: transparent;
     color: #214177;
@@ -387,7 +383,6 @@ input[type="date"]:hover {
 }
 
 #cancelBtn {
-    margin-left: 5px;
     border: none;
     background-color: transparent;
     color: #214177;
@@ -395,14 +390,63 @@ input[type="date"]:hover {
     margin-top: 0;
 }
 
-/* 등록 버튼  영역 */
-#insertBtn2Area, #updateBtnArea {
+/* 버튼 영역 */
+#insertBtn2Area {
     margin-bottom: 0 !important;
+}
+
+#updateBtnArea {
+    justify-content: end;
+    gap: 5px;
 }
 
 #insertBtn2:hover, #updateBtn:hover, #cancelBtn:hover {
     border-bottom: 1px solid ;
     padding: 6px;
+}
+
+/* 모달 스타일 */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1;
+   /*  left: 75%;
+    top: 18%;
+    transform: translate(-50%, -50%); */
+    width: 200px;
+    height: 50px;
+    background-color: #fefefe;
+    padding: 10px;
+    border: 1px solid #82A6CB;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 2px 2px 0 rgba(156, 156, 156, 0.2), 0 2px 10px 0 rgba(156, 156, 156, 0.19);
+}
+
+.arrow {
+    position: absolute;
+    bottom: -20px;  
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #fefefe; 
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 

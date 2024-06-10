@@ -36,96 +36,88 @@
                 </form>
             </div>
 
+            <!-- 모달 창 HTML -->
+            <div id="noTodoModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="modalCloseBtn">&times;</span>
+                    <span style="font-weight: bold;">등록하여 시작해보세요!</span>
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
             <div class="todoArea">
                 <!-- 할 일 헤드 -->
                 <div class="todoHead">
                     <div><input type="checkbox" id="checkAll"></div>
-                    <div id="selectAll"><a href="/todo/todoList">전체</a></div>
-                    <div id="meInCharge"><a href="#" onclick="fetchTodos('/todo/todos?inCharge=true&sortBy=' + document.getElementById('sortByOption').value); return false;">내 담당</a></div>
-                    <div id="request"><a href="#" onclick="fetchTodos('/todo/todos?request=true&sortBy=' + document.getElementById('sortByOption').value); return false;">요청</a></div>
+                    <div id="meInCharge"><a href="/todo/inCharge">내 할 일</a></div>
+                    <div id="request"><a href="/todo/requestTodo">요청한</a></div>
+                    <div id="requested"><a href="/todo/requestedTodo">요청 받은</a></div>
                     <div>
                         <input type="checkbox" id="doneList" onchange="toggleDoneList();"> 완료한 일 보기
                         <label for="doneList"></label>
                     </div>
                     <div>
                         <select class="default-line" id="sortByOption" onchange="changeSortByOption();">
-                            <option value="registration">등록순</option>
                             <option value="latest">최신순</option>
+                            <option value="registration">등록순</option>                            
                         </select>
                     </div>
                 </div>
-                <div class="todoListArea"> 
+        
+                <div class="todoListArea">
                     <!-- 할 일 목록 -->
-                    <div class="todoList" id="todoList">
-                        <!-- 하나 -->
-                        <div class="todo" th:each="todo : ${todoList}" 
-                            th:data-todo-complete="${todo.todoComplete}">
-                                <div>
-                                    <input type="checkbox" class="todoCheckbox" 
-                                            th:attr="data-todo-id=${todo.todoNo}">
-                                </div>
-                                <div class="todoTitle" th:text="${todo.todoTitle}"
-                                        th:attr="data-todo-id=${todo.todoNo}">할 일 제목</div>
-                                <div class="select" th:attr="data-todo-id=${todo.todoNo}"
-                                    th:attrappend="data-todo-complete=${todo.todoComplete}">
-                                        <div class="selected" th:text="${todo.todoComplete == 1 ? '진행중' : '완료'}" 
-                                                            th:attr="data-to-do-id=${todo.todoNo}"></div>
-                                        <ul class="optionList">
-                                            <li class="optionItem" data-value="1">진행중</li>
-                                            <li class="optionItem" data-value="2">완료</li>
-                                        </ul>
-                                </div>
-                        </div>
-                    </div>
-                     <!-- 할 일 상세/수정 -->
-                     <form action="update" method="post" enctype="multipart/form-data" name="todoUpdateForm" id="todoUpdateForm">
+                    <div class="todoList" id="todoList"></div>
+        
+                    <!-- 할 일 상세/수정 -->
+                    <form action="update" method="post" enctype="multipart/form-data" name="todoUpdateForm" id="todoUpdateForm">
                         <div class="todoDetailArea" style="display: none;" id="todoDetailArea">
                             <div id="updateBtnArea">
-                                <!--th:if문 처리해야함-->
-                                <button class="updateBtn" id="updateBtn" type="submit">수정</button>
+                                <button class="updateBtn" id="updateBtn" type="submit" style="display: none;">수정</button>
                                 <button class="cancelBtn" id="cancelBtn" type="button">취소</button>
                             </div>
                             <input type="hidden" name="todoNo" id="todoNo">
-                            <div>
-                                <div class="detailTitle">기한</div>
+                            <input type="hidden" name="loginEmp" id="loginEmp" th:value="${session.loginEmp.empCode}">
+                                <div>
+                                    <div class="detailTitle">기한</div>
+                                    <div class="detailContent">
+                                        <input type="date" name="todoEndDate">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="detailTitle">요청자</div>
+                                    <div class="detailContent">
+                                        <input name="requestEmp">
+                                    </div>
+                                </div>
+                                <div class="inCharge">
+                                    <div class="detailTitle">담당자</div>
+                                    <div class="detailContent">
+                                        <input name="inChargeEmp">
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="detailTitle">요청 제목</div>
+                                    <div class="detailContent">
+                                        <input name="todoTitle">
+                                    </div>
+                                </div>
+                                <div class="detailTitle">요청 내용</div>
                                 <div class="detailContent">
-                                    <input type="date" name="todoEndDate">
+                                    <textarea id="requestContent" name="todoContent"></textarea>
                                 </div>
-                            </div>
-                            <div>
-                                <div class="detailTitle">요청자</div>
-                                <div class="detailContent">
-                                    <input name="requestEmp">
+                                <div>
+                                    <div class="detailTitle" id="detailFileArea">첨부파일</div>
+                                    <div class="fileBox">
+                                        <input type="file" id="detailUploadFile" multiple name="files" style="display: none;">
+                                        <label for="detailUploadFile" class="uploadFileLabel">내 PC</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="inCharge">
-                                <div class="detailTitle">담당자</div>
-                                <div class="detailContent">
-                                    <input name="inChargeEmp">
+                                <div class="detailFileList">
+                                    <ul id="detailFileList"></ul>
                                 </div>
-                            </div>
-                            <div>
-                                <div class="detailTitle">요청 제목</div>
-                                <div class="detailContent">
-                                    <input name="todoTitle">
-                                </div>
-                            </div>
-                            <div class="detailTitle">요청 내용</div>
-                            <div class="detailContent">
-                                <textarea id="requestContent" name="todoContent"></textarea>
-                            </div>
-                            <div>
-                                <div class="detailTitle" id="detailFileArea">첨부파일</div>
-                                <div class="fileBox">
-                                    <input type="file" id="detailUploadFile" multiple name="files" style="display: none;">
-                                    <label for="detailUploadFile" class="uploadFileLabel">내 PC</label>
-                                </div>
-                            </div>
-                            <div class="detailFileList">
-                                <ul id="detailFileList"></ul>
-                            </div>
                         </div>
                     </form>
+        
                     <!-- 할 일 등록창 -->
                     <form action="insert" method="post" enctype="multipart/form-data" name="todoInsertForm" id="todoInsertForm">
                         <div class="todoInsertArea" style="display: none;" id="todoInsertArea">
@@ -170,28 +162,24 @@
                             <div class="fileList">
                                 <ul id="fileList"></ul>
                             </div>
-                            
-
-                           <!--<div>
-                                <div class="detailTitle" id="fileArea">첨부파일</div>
-                                <div class="fileBox">
-                                    <input type="file" id="uploadFile" multiple name="files" style="display: none;">
-                                    <label for="uploadFile" class="uploadFileLabel">내 PC</label>
-                                </div>
-                            </div>
-                            <div class="fileList">
-                                <ul id="fileList">
-                                    <li>
-                                        <a >파일 이름</a>
-                                    </li>
-                                </ul>
-                            </div> -->
                         </div>
                     </form>
-                    
-            </div> 
+                </div>
+            </div>
         </section>
 
         <script src="/js/employee/todo/todo.js"></script>
+
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            document.addEventListener('DOMContentLoaded', function() {
+                var loginEmp= /*[[${session.loginEmp.empCode}]]*/ "loginEmp";
+                console.log(loginEmp)
+            }); 
+            /*]]>*/
+
+
+        </script>
+    
     </body>
 </html>
