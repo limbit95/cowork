@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("admin/edsm")
 public class AdminEdsmController {
 	
-	private final DraftService service;
+	//private final DraftService service;
 	
 	/** 전자결재 문서 관리
 	 * @return

@@ -1,5 +1,5 @@
 package com.cowork.admin.edsm.model.service;
 
-public class DraftService {
+public interface DraftService {
 
 }
