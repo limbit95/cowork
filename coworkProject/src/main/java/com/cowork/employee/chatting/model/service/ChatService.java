@@ -21,6 +21,6 @@ public interface ChatService {
 
 	Employee insertTextMessage(ChatMessage chatMessage);
 
-	String insertFileMessage(ChatMessage chatMessage) throws IllegalStateException, IOException;
+	Map<String, String> insertFileMessage(ChatMessage chatMessage) throws IllegalStateException, IOException;
 
 }

@@ -24,6 +24,7 @@ import com.cowork.employee.chatting.model.dto.ChatRoom;
 import com.cowork.employee.chatting.model.dto.Employee;
 import com.cowork.employee.chatting.model.dto.MakeChat;
 import com.cowork.employee.chatting.model.service.ChatService;
+import com.cowork.employee.chatting.model.service.GPTService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -37,6 +38,8 @@ public class ChattingController {
 	
 	private final ChatService chatService;
 	private final SimpMessagingTemplate  messagingTemplate;
+	private final GPTService gptService;
+	
 	
 	@GetMapping("/chat/wowns590")
 	public String chattingWowns590(HttpServletRequest request) {
@@ -129,11 +132,14 @@ public class ChattingController {
     
     // 채팅을 받는 메서드 
     @MessageMapping("/chat.sendMessage")
+    @ResponseBody
     public void sendMessage(@Payload ChatMessage chatMessage) {
     	    	
     	log.debug("컨트롤러까지는 무사히 도착!");
     	log.debug("chatMessage=={}", chatMessage);
     	log.debug("chatMessage.getSubscribeAddr()=={}", chatMessage.getSubscribeAddr());
+    	log.debug("targetLanguage=={}", chatMessage.getTargetLanguage()); // English
+    	log.debug("wantTranslateFlag=={}", chatMessage.getWantTranslateFlag()); // true
     	
     	String senderEmpCode= chatMessage.getSenderEmpCode();
     	String empNickname = chatMessage.getEmpNickname();
@@ -141,9 +147,21 @@ public class ChattingController {
     	MessageType type = chatMessage.getType();
     	String subscribeAddr = chatMessage.getSubscribeAddr();
     	String roomNo = chatMessage.getRoomNo();
+    	String targetLanguage = chatMessage.getTargetLanguage();
     	
     	// 현재 해줘야 할건, CHAT_MESSAGE 테이블에 행을 삽입하는 것.
     	if(chatMessage.getType() == ChatMessage.MessageType.CHAT) {
+    		
+    		if(chatMessage.getWantTranslateFlag() == true) {
+    			// gpt 에게 번역해달라고 해서, 그 번역된 걸 가져와야 함. 
+    			
+    			String translatedContent = gptService.translate(content, targetLanguage);
+    			//  content 가 "반가워" 였으면, 현재 translatedContent 라는 변수에는 "nice to meet you" 가 들어있음. 
+    			String newContent = content + "^^^" + translatedContent;
+    			chatMessage.setContent(newContent);
+    		}
+    		
+    		
     		Employee findEmp = chatService.insertTextMessage(chatMessage);
         	if(findEmp != null) {
         		chatMessage.setProfileImg(findEmp.getProfileImg());
@@ -151,6 +169,8 @@ public class ChattingController {
         		chatMessage.setEmpFirstName(findEmp.getEmpFirstName());
         	}
     	}
+    	
+    	chatMessage.setFile(null);    	
     	
     	// 동적으로 응답해줄 클라이언트의 구독주소가 변경되므로 아래와 같이 한다 
     	String destination = "/topic/" + chatMessage.getSubscribeAddr();    	
@@ -173,8 +193,12 @@ public class ChattingController {
     	chatMessage.setSubscribeAddr(subscribeAddr);
     	chatMessage.setRoomNo(roomNo);
     	chatMessage.setFile(file);
-    	String updatePath = chatService.insertFileMessage(chatMessage);
-    	chatMessage.setFilePath(updatePath);
+   
+    	Map<String, String>	paramMap	= chatService.insertFileMessage(chatMessage);
+    	
+    	chatMessage.setFilePath(paramMap.get("updatePath"));
+    	chatMessage.setEmpLastName(paramMap.get("empLastName"));
+    	chatMessage.setEmpFirstName(paramMap.get("empFirstName"));
     	// 동적으로 응답해줄 클라이언트의 구독주소가 변경되므로 아래와 같이 한다 
     	String destination = "/topic/" + chatMessage.getSubscribeAddr(); 
     	
@@ -182,6 +206,8 @@ public class ChattingController {
     	// 파일 데이터를 Base64 문자열로 인코딩하여 JSON에 포함시킬 수 있습니다. 이는 파일 데이터를 텍스트 형식으로 변환하여 직렬화할 수 있도록 합니다.
     	
     	messagingTemplate.convertAndSend(destination, chatMessage);
+    	
+
     }
     
     

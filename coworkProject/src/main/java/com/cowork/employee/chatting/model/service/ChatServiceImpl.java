@@ -243,7 +243,7 @@ public Employee insertTextMessage(ChatMessage chatMessage) {
 }
 
 @Override
-public String insertFileMessage(ChatMessage chatMessage) throws IllegalStateException, IOException {
+public Map<String, String> insertFileMessage(ChatMessage chatMessage) throws IllegalStateException, IOException {
 	
 	MultipartFile file = chatMessage.getFile();
 	
@@ -264,7 +264,14 @@ public String insertFileMessage(ChatMessage chatMessage) throws IllegalStateExce
 		}
 	}
 	
-	return updatePath; 
+	Employee findEmp = chatMapper.empDetail(chatMessage.getSenderEmpCode());
+	
+	Map<String, String> paramMap = new HashMap<>();
+	paramMap.put("empLastName", findEmp.getEmpLastName());
+	paramMap.put("empFirstName", findEmp.getEmpFirstName());
+	paramMap.put("updatePath", updatePath);
+	
+	return paramMap; 
 }
 	
 

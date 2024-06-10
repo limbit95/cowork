@@ -428,15 +428,43 @@ function getChattingRooms(empCode){
 							// 나인 경우, 프로필사진을 보여줄 필요없지. 이름도 보여줄 필요가 없어. 
 							// 근데, 너인 경우, 프로필사진을 보여줘야지. 이름도 보여줘야지. 
 							// 그리고 그 밑에 실제 메시지를 보여줄거야. 
-							
 							if(message.senderEmpCode == empCode){
 								// 나인 경우
 
 								let newLi = document.createElement('li'); // li 태그 만들고 
 								newLi.style.listStyleType = 'none';
 								let newP = document.createElement('p'); // p 태그 만듦.
-								let contentNode = document.createTextNode(message.content); // 메세지 내용을 노드로만듦.
-								newP.appendChild(contentNode); // p태그에 메세지노드를 넣음. 
+								
+								if(message.content.includes("^^^")){
+									// 번역된 게 같이 들어있는 경우 
+								    let parts = message.content.split("^^^");
+									let originalContent = parts[0];
+									let translatedContent = parts[1];
+									
+								    let originalContentNode = document.createTextNode(originalContent);
+								    let translatedContentNode = document.createTextNode(translatedContent);
+									
+									let originalContentDiv = document.createElement('div');
+									let translatedContentDiv = document.createElement('div');
+									
+									originalContentDiv.appendChild(originalContentNode);
+									translatedContentDiv.appendChild(translatedContentNode);
+									
+									newP.appendChild(originalContentDiv);
+									originalContentDiv.style.padding = '5px';
+									originalContentDiv.style.borderBottom = '1px solid lightgray';
+									
+									newP.appendChild(translatedContentDiv);
+									translatedContentDiv.style.padding = '5px';
+									
+								} else{
+									let contentNode = document.createTextNode(message.content); // 메세지 내용을 노드로만듦.						
+									newP.appendChild(contentNode); // p태그에 메세지노드를 넣음. 									
+									
+									
+								}
+								
+
 								newLi.appendChild(newP); // p태그를 li 태그에 넣음.  
 							
 						   	    let chattingsArea = document.getElementById('chattingsArea'); // ul 태그임 
@@ -445,9 +473,6 @@ function getChattingRooms(empCode){
 								// 본인이 쓴거니까, 오른쪽으로 밀어버림. 
 								newLi.style.display = 'flex';
 								newLi.style.justifyContent = 'flex-end';			
-								
-								
-
 								
 								newP.style.display = 'inline-block';
 								newP.style.width = 'auto';
@@ -462,8 +487,6 @@ function getChattingRooms(empCode){
 						        newP.style.paddingTop = '10px';
 						        newP.style.paddingBottom = '10px';
 						        newP.style.borderRadius = '10px';
-
-								
 													
 											
 							} else{
@@ -527,8 +550,38 @@ function getChattingRooms(empCode){
 									
 								// 두번째 div 태그인 secondDiv 에는 뭘 넣어줘야함? 
 								// 메세지 넣어주면 됨 
-								let content = document.createTextNode(message.content);
-								secondDiv.appendChild(content);
+								
+							    if(message.content.includes("^^^")){
+									
+									// 번역된 게 같이 들어있는 경우 
+								    let parts = message.content.split("^^^");
+									let originalContent = parts[0];
+									let translatedContent = parts[1];
+									
+								    let originalContentNode = document.createTextNode(originalContent);
+								    let translatedContentNode = document.createTextNode(translatedContent);
+									
+									let originalContentDiv = document.createElement('div');
+									let translatedContentDiv = document.createElement('div');
+									
+									originalContentDiv.appendChild(originalContentNode);
+									translatedContentDiv.appendChild(translatedContentNode);
+									
+									secondDiv.appendChild(originalContentDiv);
+									originalContentDiv.style.padding = '5px';
+									originalContentDiv.style.borderBottom = '1px solid lightgray';
+									
+									secondDiv.appendChild(translatedContentDiv);
+									translatedContentDiv.style.padding = '5px';
+
+									
+								}else{
+									let content = document.createTextNode(message.content);
+									secondDiv.appendChild(content);
+								}
+																
+								
+
 								
 								
 								newLi.appendChild(firstDiv);
@@ -557,11 +610,10 @@ function getChattingRooms(empCode){
 
 						        secondDiv.style.borderRadius = '10px';
 
-								
 								newLi.style.marginTop = '2%';
 								newLi.style.marginBottom = '2%';
-							
 								
+																
 								
 								
 							}
@@ -609,7 +661,7 @@ function getChattingRooms(empCode){
 								
 								// 프로필 + 이름 시작
 								// 프로필 시작 
-								/*----------------------지워야 할 부분--------------------- */
+								/*------------------------------------------- */
 									if(message.profileImg == null){
 					   				   //프로필 이미지가 없는 경우, 
 								       const lastNameColors = {
@@ -675,7 +727,7 @@ function getChattingRooms(empCode){
 								
 								
 								// 이름 끝 
-								/*---------------------지워야 할 부분---------------------- */			
+								/*------------------------------------------- */			
 								
 								// 프로필 + 이름 끝 
 								let newP = document.createElement('p');
@@ -834,6 +886,7 @@ function sendMessage() {
 	var file = fileInput.files[0];
 	        
     if (messageContent && stompClient) { 
+        
         var chatMessage = {
 			'type' : 'CHAT',
 			'senderEmpCode': empCode, 
@@ -841,7 +894,9 @@ function sendMessage() {
 			'content': messageContent,
             'messageType': 'CHAT',
 			'subscribeAddr': subscribeAddr,
-			'roomNo': roomNoOriginal
+			'roomNo': roomNoOriginal,
+			'wantTranslateFlag' : wantTranslateFlag,
+			'targetLanguage' : targetLanguage.value
         };
         
         console.log(empCode);
@@ -852,6 +907,7 @@ function sendMessage() {
         
         stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
         document.getElementById('message').value = '';
+    	
     }
 
     if (file && stompClient) {
@@ -867,7 +923,8 @@ function sendMessage() {
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
+        
+        /*.then(response => response.json())
         .then(chatMessage => { 
             var chatMessage = {
                 senderEmpCode: chatMessage.senderEmpCode,
@@ -876,8 +933,7 @@ function sendMessage() {
                 type: 'FILE'
             };
             stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
-        })
-        .catch(error => console.error('Error uploading file:', error));
+        })*/
         
         fileInput.value = '';
     }
@@ -911,9 +967,41 @@ function showMessage(message) {
 
 			
     		let newP = document.createElement('p'); // p 태그를 만든다.
-    		let messageContent= document.createTextNode(message.content); // 내용노드를 만듬 
-    		newP.appendChild(messageContent);
+    		if(message.content.includes("^^^")){
+				// 번역된게 같이 들어있는 경우 
+			    let parts = message.content.split("^^^");
+				let originalContent = parts[0];
+				let translatedContent = parts[1];
+				
+			    let originalContentNode = document.createTextNode(originalContent);
+			    let translatedContentNode = document.createTextNode(translatedContent);
+				
+				let originalContentDiv = document.createElement('div');
+				let translatedContentDiv = document.createElement('div');
+				
+				originalContentDiv.appendChild(originalContentNode);
+				translatedContentDiv.appendChild(translatedContentNode);
+				
+				newP.appendChild(originalContentDiv);
+				originalContentDiv.style.padding = '5px';
+				originalContentDiv.style.borderBottom = '1px solid lightgray';
+				
+				newP.appendChild(translatedContentDiv);
+				translatedContentDiv.style.padding = '5px';
+
+				
+			}else{
+				
+				// 번역된게 없을 경우 
+	    		let messageContent= document.createTextNode(message.content); // 내용노드를 만듬 
+    			newP.appendChild(messageContent);
+				
+			}
+    		
+    		
+
 			newP.style.display = 'flex';
+			newP.style.flexDirection = 'column';
 			newP.style.justifyContent = 'flex-end';
 			messageElement.appendChild(newP);
 			chattingsArea.appendChild(messageElement);
@@ -999,11 +1087,46 @@ function showMessage(message) {
 		let nicknameDiv = document.createElement('div');
 		let empNicknameNode = document.createTextNode(empNickname);
 		nicknameDiv.appendChild(empNicknameNode); // 이름이 바인딩된 div 태그 완성 
+		nicknameDiv.style.marginLeft = '1%';
 		
-		// 메세지 내용 처리
-		let contentNode = document.createTextNode(message.content);
+		// 메세지 내용 처리		
 		let contentDiv = document.createElement('div');
-		contentDiv.appendChild(contentNode); // 메세지 내용이 들어있는 div 태그 생성 
+
+		if(message.content.includes("^^^")){
+			
+			// 번역된 게 있을 경우 
+		    let parts = message.content.split("^^^");
+			let originalContent = parts[0]; // 반가워
+			let translatedContent = parts[1]; //nice to meet you 
+			let originalContentDiv = document.createElement('div');
+			let translatedContentDiv = document.createElement('div');
+			let originalContentNode = document.createTextNode(originalContent);
+			let translatedContentNode = document.createTextNode(translatedContent);
+			originalContentDiv.appendChild(originalContentNode);
+			translatedContentDiv.appendChild(translatedContentNode);
+			
+			contentDiv.appendChild(originalContentDiv);
+			contentDiv.appendChild(translatedContentDiv);
+			
+			contentDiv.style.display = 'flex';
+			contentDiv.style.flexDirection = 'column';
+			originalContentDiv.style.borderBottom = '1px solid lightgray';
+			originalContentDiv.style.padding = '5px';
+			
+			translatedContentDiv.style.padding = '5px';
+
+
+		    
+		    
+				
+		}else{
+			let contentNode = document.createTextNode(message.content);
+			contentDiv.appendChild(contentNode); // 메세지 내용이 들어있는 div 태그 생성 
+		}	
+		
+		
+		
+		
 		
 		firstDiv.appendChild(profileDiv);
 		firstDiv.appendChild(nicknameDiv);
@@ -1015,11 +1138,13 @@ function showMessage(message) {
 		secondDiv.style.backgroundColor = 'white';
 		
 		secondDiv.style.display = 'inline';
+		secondDiv.style.alignSelf = 'flex-start';
+
 		secondDiv.style.width = 'auto';
 		secondDiv.style.maxWidth = '300px';
 		secondDiv.style.wordWrap = 'break-word';
-		secondDiv.style.marginTop = '2%';
-		secondDiv.style.marginBottom = '2%';		
+
+		secondDiv.style.marginLeft = '4.5%';
 		
         secondDiv.style.paddingRight = '10px';
         secondDiv.style.paddingLeft = '10px';
@@ -1051,25 +1176,118 @@ function showMessage(message) {
         messageElement.appendChild(linkElement);
     	*/
     	
-    	
-    	
-        var newPtag = document.createElement('p'); // p태그 하나 만듦
-        var imgElement = document.createElement('img');
-        imgElement.src = message.filePath;
-        newPtag.appendChild(imgElement);
-        messageElement.appendChild(newPtag);
-		chattingsArea.appendChild(messageElement);
-		
-		imgElement.style.width = '300px';
-		imgElement.style.height = '300px';
-		imgElement.style.borderRadius = '10px';
-		
-		if(message.senderEmpCode == empCode){
+    	// 파일인 경우에도 2가지로 나뉨. 
+    	// 내가 올린 경우 
+    	// 너가 올린 경우 
+    	if(message.senderEmpCode == empCode){
+    		// 1. 내가 올린 경우 
+    		var newPtag = document.createElement('p'); // p태그 하나 만듦
+       		var imgElement = document.createElement('img');
+	        imgElement.src = message.filePath;
+    	    newPtag.appendChild(imgElement);
+        	messageElement.appendChild(newPtag); // messageElement => li 태그임 
+			messageElement.style.listStyleType = 'none'; // li 태그에 점찍히는 거 지워줌
+			chattingsArea.appendChild(messageElement);
+			
+			imgElement.style.width = '300px';
+			imgElement.style.height = '300px';
+			imgElement.style.borderRadius = '10px';			
+			
 			messageElement.style.display = 'flex';
 			messageElement.style.justifyContent = 'flex-end';
-		}
+			
+			messageElement.style.marginBottom = '2%';
+			
+		} else{
+			// 2. 너가 올린 경우 
+	    	let firstDiv = document.createElement('div');
+			let secondDiv = document.createElement('div');
+			
+			messageElement.style.display = 'flex';
+			messageElement.style.flexDirection = 'column';
+			
+			messageElement.appendChild(firstDiv);
+			messageElement.appendChild(secondDiv);
+			
+				// 프로필 사진 + 이름 얻어오기 
+				// 프로필사진부터 처리
+				if(message.profileImg == null){
+				// 프로필 이미지가 없는 경우 
+				profileDiv = document.createElement('div');
+				let empLastNameNode = document.createTextNode(message.empLastName);
+				profileDiv.appendChild(empLastNameNode);	
+
+				profileDiv.style.width = '30px';		
+				profileDiv.style.height = '30px';					
+				profileDiv.style.borderRadius = '50%';
+			
+    	    	const lastNameColors = {
+   	   		    	'김': '#FFCDD2',
+        	    	'이': '#C8E6C9',
+        	    	'박': '#BBDEFB',
+        	    	'최': '#D1C4E9',
+        	    	'정': '#FFECB3',
+         	    	'송': '#BBDEFB',
+                	'임': '#D1C4E9'
+         			// 필요에 따라 더 추가할 수 있음
+       	 		};			
+			
+				if(lastNameColors[message.empLastName]){
+					profileDiv.style.backgroundColor = lastNameColors[message.empLastName];				
+				} else{
+					profileDiv.style.backgroundColor = 'yellow';
+				}
+				profileDiv.style.display = 'flex';
+				profileDiv.style.justifyContent = 'center';
+				profileDiv.style.alignItems = 'center';
+			
+			
+			} else{
+				// 프로필 이미지가 있는 경우
+				profileDiv = document.createElement('img');
+				priflleDiv.src = message.profileImg;
+			
+			
+			}
 		
-		messageElement.style.marginBottom = '2%';
+			firstDiv.appendChild(profileDiv);
+		    firstDiv.style.display = 'flex';
+		    firstDiv.style.alignItems = 'center';
+
+		
+			// 이름 처리 
+
+			let nicknameDiv = document.createElement('div');
+			let empNicknameNode = document.createTextNode(message.empNickname);
+			nicknameDiv.appendChild(empNicknameNode); // 이름이 바인딩된 div 태그 완성 
+			nicknameDiv.style.marginLeft = '1%';
+			
+			firstDiv.appendChild(nicknameDiv);
+			
+			// 파일 가져오기 
+       		var imgElement = document.createElement('img');
+	        imgElement.src = message.filePath;
+        	secondDiv.appendChild(imgElement);
+        	secondDiv.style.marginLeft = '4.5%';
+        	messageElement.appendChild(secondDiv);  // messageElement => li 태그임         	
+			messageElement.style.listStyleType = 'none'; // li 태그에 점찍히는 거 지워줌
+			chattingsArea.appendChild(messageElement);
+			
+			imgElement.style.width = '300px';
+			imgElement.style.height = '300px';
+			imgElement.style.borderRadius = '10px';			
+		
+		}
+    	
+    	
+    	
+
+    	
+    	
+    	
+    	
+    	
+        
 		
 
     }
@@ -1149,11 +1367,99 @@ chattingsArea.addEventListener('drop', (event) => {
     
 });
 
+
+//---------------------------------------------------------------------------------------------------
+// 파일 선택했을 경우
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('#file').addEventListener('change', function(event) {
+        let backgroundGray = document.querySelector('#backgroundGray');
+        backgroundGray.style.display = 'flex';
+        let modalContainer = document.querySelector('#modalContainer');
+        modalContainer.style.display = 'flex';
+        
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('preview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+            
+            let fileName = file.name;
+            let originalName = document.querySelector('#originalName');
+            
+            if (fileName.length > 20) {
+                fileName = fileName.substring(0, 10) + '...' + fileName.substring(fileName.length - 10);
+            }
+            
+            originalName.innerText = fileName;
+        }
+    });
+
+    // 전송 버튼을 눌렀을 때 
+    document.querySelector('#modalSendBtn').addEventListener('click', function() {
+        sendMessage();
+        document.querySelector('#file').value = '';
+        let backgroundGray = document.querySelector('#backgroundGray');
+        backgroundGray.style.display = 'none';
+        let modalContainer = document.querySelector('#modalContainer');
+        modalContainer.style.display = 'none';
+    });
+
+    // 취소 버튼을 눌렀을 때 
+    document.querySelector('#modalCancelBtn').addEventListener('click', function() {
+        document.querySelector('#file').value = '';
+        let backgroundGray = document.querySelector('#backgroundGray');
+        backgroundGray.style.display = 'none';
+        let modalContainer = document.querySelector('#modalContainer');
+        modalContainer.style.display = 'none';
+        document.getElementById('preview').style.display = 'none'; // 이미지 미리보기 숨기기
+        document.getElementById('originalName').innerText = ''; // 파일 이름 초기화
+    });
+});
 	
+//--------------------------------------------------------------------------------------------------
+// 번역관련 js 시작
+let wantTranslateFlag = false;
+let translateBtn = document.querySelector('#translateBtn');
+let translateContainer = document.querySelector('#translateContainer');
+
+translateBtn.addEventListener('click', function(){
+    let backgroundGray = document.querySelector('#backgroundGray');
+	backgroundGray.style.display = 'flex';	
+	translateContainer.style.display = 'block';		
+});
+
+
+let translateCancelBtn = document.querySelector('#translateCancelBtn');
+let translateSettingBtn = document.querySelector('#translateSettingBtn');
+let targetLanguage = document.querySelector('#targetLanguage');
+
+translateCancelBtn.addEventListener('click', function(){
+    let backgroundGray = document.querySelector('#backgroundGray');
+	backgroundGray.style.display = 'none';
+	translateContainer.style.display = 'none';
+	targetLanguage.value = '';
+	wantTranslateFlag = false;
+	translateBtn.style.color = 'black';
+})
+
+translateSettingBtn.addEventListener('click', function(){
+
+	if(targetLanguage.value == ''){
+		alert('언어를 선택해주세요');
+		return;
+	}
+	wantTranslateFlag = true;
+	translateContainer.style.display = 'none';
+    let backgroundGray = document.querySelector('#backgroundGray');
+	backgroundGray.style.display = 'none';
+	translateBtn.style.color = 'red';
+
 	
-	
-	
-	
+})
 	
 	
 
