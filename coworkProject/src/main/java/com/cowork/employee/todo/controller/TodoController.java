@@ -42,7 +42,7 @@ public class TodoController {
      * Todo List 조회
      * @return
      */
-    @GetMapping("/todoList")
+    @GetMapping("todoList")
     public String todoList(Model model, @SessionAttribute("loginEmp") Employee2 loginEmp) {
         
     	int empCode = loginEmp.getEmpCode();

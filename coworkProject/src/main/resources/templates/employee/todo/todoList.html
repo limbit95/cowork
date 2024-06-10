@@ -50,8 +50,8 @@
                 <div class="todoHead">
                     <div><input type="checkbox" id="checkAll"></div>
                     <div id="meInCharge"><a href="/todo/inCharge">내 할 일</a></div>
-                    <div id="request"><a href="/todo/requestTodo">요청한</a></div>
-                    <div id="requested"><a href="/todo/requestedTodo">요청 받은</a></div>
+                    <div id="request"><a href="/todo/requestTodo">보낸 요청함</a></div>
+                    <div id="requested"><a href="/todo/requestedTodo">받은 요청함</a></div>
                     <div>
                         <input type="checkbox" id="doneList" onchange="toggleDoneList();"> 완료한 일 보기
                         <label for="doneList"></label>
@@ -92,7 +92,7 @@
                                 <div class="inCharge">
                                     <div class="detailTitle">담당자</div>
                                     <div class="detailContent">
-                                        <input name="inChargeEmp">
+                                        <input name="inChargeEmp" placeholder=",로 구분해서 작성해주세요">
                                     </div>
                                 </div>
                                 <div>
@@ -139,7 +139,7 @@
                             <div class="inCharge">
                                 <div class="detailTitle">담당자</div>
                                 <div class="detailContent">
-                                    <input name="inChargeEmp">
+                                    <input name="inChargeEmp" placeholder=",로 구분해서 작성해주세요">
                                 </div>
                             </div>
                             <div>
