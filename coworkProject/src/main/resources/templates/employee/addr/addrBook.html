@@ -337,38 +337,39 @@
                     </div> -->
 
                 </div>
-
+                
                 <!-- 페이지네이션 -->
                 <div class="pagination-area">
         
-                    <ul class="pagination">
+                    <ul class="pagination" th:if="${pagination}" th:object="${pagination}">
     
                         <!-- 첫 페이지로 이동 -->
-                        <li><a>&lt;&lt;</a></li>
+                        <li><a th:href="@{/employee/addr/myGroupList(groupCode=${groupCode}, empCode=${empCode}, cp=1)}">&lt;&lt;</a></li>
     
                         <!-- 이전 목록 마지막 번호로 이동 -->
-                        <li><a>&lt;</a></li>
+                        <li><a th:href="@{/employee/addr/myGroupList(groupCode=${groupCode}, empCode=${empCode}, cp=*{prevPage})}">&lt;</a></li>
     
                         <!-- 특정 페이지로 이동 -->
-                        <th:block>
+                        <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
                             
                         <!-- 현재 보고있는 페이지 -->
-                            <li>
-                                <a class="current" >1</a>
+                            <li th:if="${i} == *{currentPage}">
+                                <a class="current" th:text="${i}">1</a>
                             </li>
                             
                             <!-- 보고있지 않은 페이지 -->
-                            <li>
-                                <a>2</a>
+                            <li th:unless="${i} == *{currentPage}">
+                                <a th:href="@{/employee/addr/myGroupList(groupCode=${groupCode}, empCode=${empCode}, cp=${i})}" 
+                                   th:text="${i}">2</a>
                             </li>
     
                         </th:block>
     
                         <!-- 다음 목록 시작 번호로 이동 -->
-                        <li><a>&gt;</a></li>
+                        <li><a th:href="@{/employee/addr/myGroupList(groupCode=${groupCode}, empCode=${empCode}, cp=*{nextPage})}">&gt;</a></li>
     
                         <!-- 끝 페이지로 이동 -->
-                        <li><a>&gt;&gt;</a></li>
+                        <li><a th:href="@{/employee/addr/myGroupList(groupCode=${groupCode}, empCode=${empCode}, cp=*{maxPage})}">&gt;&gt;</a></li>
                     </ul>
                 </div>
 

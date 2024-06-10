@@ -29,4 +29,10 @@ public interface AddrMapper {
 	 */
 	List<Employee2> selectMyAddrList(Map<String, Object> map, RowBounds rowBounds);
 
+	/** 주소록 그룹 코드 조회
+	 * @param map
+	 * @return
+	 */
+	int getGroupCode(Map<String, Object> map);
+
 }
