@@ -61,6 +61,12 @@ public interface UserService {
 	 */
 	int checkAuthKey(Map<String, Object> map);
 
+	/** 비밀번호 재설정
+	 * @param inputEmp
+	 * @return
+	 */
+	int resetPw(Employee2 inputEmp);
+
 
 	
 }

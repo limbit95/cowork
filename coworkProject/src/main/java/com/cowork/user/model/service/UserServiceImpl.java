@@ -166,5 +166,63 @@ public class UserServiceImpl implements UserService {
 		return mapper.checkAuthKey(map);
 	}
 
+	// 비밀번호 재설정
+	@Override
+	public int resetPw(Employee2 inputEmp) {
 
+		String encPw = bcrypt.encode(inputEmp.getEmpPw());
+		inputEmp.setEmpPw(encPw);
+		
+		int result = mapper.resetPw(inputEmp);
+		
+		log.info("test : awefafaewfawe");
+		if(result == 0) {
+			 return 0;
+		}
+
+		String authKey = createAuthKey();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("authKey", authKey);
+		map.put("email", inputEmp.getEmpEmail());
+		
+		result = mapper.updateAuthKey(map);
+		
+		if(result == 0) {
+			return -1;
+		}
+		
+		return result;
+	}
+
+
+	
+	
+	
+	public String createAuthKey() {
+   		String key = "";
+   	
+   		for(int i=0 ; i< 6 ; i++) {
+	        int sel1 = (int)(Math.random() * 3); // 0:숫자 / 1,2:영어
+	      
+	        if(sel1 == 0) {
+	          
+	            int num = (int)(Math.random() * 10); // 0~9
+	            key += num;
+	          
+	        }else {
+	        	char ch = (char)(Math.random() * 26 + 65); // A~Z
+	          
+	            int sel2 = (int)(Math.random() * 2); // 0:소문자 / 1:대문자
+	          
+	            if(sel2 == 0) {
+	                ch = (char)(ch + ('a' - 'A')); // 대문자로 변경
+	            }
+	          
+	            key += ch;
+	        }
+          
+   		}
+        return key;
+	}
+	
 }

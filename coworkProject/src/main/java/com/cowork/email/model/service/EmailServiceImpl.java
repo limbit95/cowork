@@ -138,7 +138,7 @@ public class EmailServiceImpl implements EmailService{
 		return result;
 	}
 	
-	// 이메일 보내기
+	// 비밀번호 재설정 이메일 보내기
 	@Override
 	public int sendEmail(String htmlName, Map<String, Object> map) {
 		String authKey = createAuthKey();
