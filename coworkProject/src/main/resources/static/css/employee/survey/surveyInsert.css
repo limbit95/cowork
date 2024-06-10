@@ -1,133 +1,125 @@
-.spaceDiv {
-    padding-top: 70px;
+#insertSurveyContainer{
+	display: flex; 
+	flex-direction: column;
+	align-items: center;
 }
 
-.questionDiv {
-    display: flex;
-    width: 45%;
+
+#surveyWriteText{
+	margin-top: 15vh;
+	width: 100%;
+	height: 5vh; 
+	color: 	#214177;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 25px;
+	font-weight: bold;
+}
+#surveyTitleDiv{
+	width: 100%;
+	height: 5vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 5vh;
 }
 
-.questionBox {
-    display: flex;
-    border: solid 1px black;
-    padding: 5px;
-    padding-left: 10px;
-    flex-basis: 60%;
-    border-radius: 5px;
-    flex-basis: 100%;
+#surveyTitle{
+	width: 40%; 
+	height: 5vh;
+	box-sizing: border-box;
+	border: none;
+	font-weight: bold;
+	padding-left: 10px;
+	font-size: 20px;
+	border-bottom: 1px solid lightgray;
+}
+#makeQuestionBtnDiv{
+	width: 100%;
+	height: 5vh; 
+	margin-top: 5vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#makeMultipleQuestion{
+	width: 20%; 
+	height: 5vh; 
+	background-color: #E5F2FE;
+	border: none;
+	font-size: 17px;
+	font-weight: bold;
+	border-radius: 10px;
+	margin: 3px;
+	transition: color 0.3s, backgroundColor 0.3s;
+}
+#makeMultipleQuestion:hover{
+	color: white;
+	background-color: #BDD8F1;
+}
+#makeSubjectiveQuestion{
+	width: 20%; 
+	height: 5vh; 
+	background-color: #E5F2FE;
+	border: none;
+	font-size: 17px;
+	font-weight: bold;
+	border-radius: 10px;
+	margin: 3px;
+	transition: color 0.3s, backgroundColor 0.3s;
+
+}
+#makeSubjectiveQuestion:hover{
+	color: white;
+	background-color: #BDD8F1;
 }
 
-.questionBox i {
-    font-size: 25px;
-    padding-top: 3px;
-    padding-left: 5px;
-    padding-right: 5px;
-    color: coral;
-    margin: 0;
-    text-align: center;
+/* 문제들이 들어갈 영역 */
+#questionArea{
+	display: flex; 
+	flex-direction: column;
+	width: 100vw; 
+	justify-content: center;
+	align-items: center;	
 }
 
-.questionBox input {
-    outline: none;
-    border: none;
-    padding-left: 5px;
-    font-size: 20px;
-    flex-basis: 90%;
-    /* background-color: red; */
+
+
+.addOption{
+	display: flex; 
+	flex-direction: column; 
 }
 
-.surveyAdd {
-    display: flex;
-    width: 45%;
-    justify-content: space-between;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 바닥에 딱 붙는게 싫어서 추가한 빈 공간  */
+#forBottomEmptySpace{
+	width: 100vw;
+	height: 30vh;
 }
 
-/* 객관식 질문 추가, 주관식 질문 추가 버튼 */
-#multipleAdd, #subjectiveAdd {
-    flex-basis: 49%;
-    height: 50px;
-    font-size: 16px;
-}
 
-.baby-blue-boarder-btn {
-    background: white;
-    border: 2px solid var(--main5-color);
-}
 
-/* 소제목 부분 */
-.titleContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
-.littleTitle {
-    flex-direction: column;
-    width: 45%;
-}
 
-.answerTitle {
-    background-color: var(--main4-color);
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    height: 45px;
-    font-size: 20px;
-    text-align: center;
-    padding-top: 15px;
-}
 
-.multipleInput, .subjectiveInput {
-    margin-left: 10px;
-    width: 80%;
-    height: 25px;
-    border-radius: 5px;
-    font-size: 20px;
-    border: 1px solid var(--main4-color);;
-}
 
-.selectAnswerBox {
-    border-left: 1px solid #d9d9d9;
-    border-right: 1px solid #d9d9d9;
-    border-bottom: 1px solid #d9d9d9;
-}
 
-.selectSubjectiveBox {
-    border: 1px solid #d9d9d9;
-}
 
-.answerInput {
-    padding: 15px 15px;
-    display: flex;
-}
 
-.answerInput p {
-    margin: 0;
-    font-size: 20px;
-    font-weight: bold;
-    color: var(--main3-color);
-}
 
-.answerInput input {
-    margin-left: 10px;
-    width: 90%;
-}
 
-.containerSide {
-    display: flex;
-    justify-content: center;
-}
-
-.surveyBtn {
-    display: flex;
-    width: 45%;
-    justify-content: flex-end;
-    padding-top: 10px;
-}
-
-.surveyBtn div {
-    margin-left: 10px;
-}
-
-.btnHidden {
-    display: none !important;
-}
