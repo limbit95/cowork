@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.employee.mail.model.mapper.MailMapper"> 
+
+	<select id="mailList">
+		SELECT 
+		    M.MAIL_NO,
+		    M.MAIL_TITLE,
+		    M.MAIL_CONTENT,
+		    M.MAIL_WRITE_DATE,
+		    M.MAIL_FLAG,
+		    M.EMP_CODE AS SENDER_EMP_CODE, 
+		    SENDER.EMP_ID AS senderMail,
+		    SENDER.EMP_LAST_NAME || SENDER.EMP_FIRST_NAME AS sender,
+		    SENDER_TEAM.TEAM_NM AS senderTeamNm,
+		    R.EMP_CODE AS RECIPIENT_EMP_CODE,
+		    RECIPIENT.EMP_ID AS recipientMail,
+		    RECIPIENT_TEAM.TEAM_NM AS recipientTeamNm,
+		    SENDER.COM_NO,
+		    DEPT.COM_NO
+		FROM 
+		    MAIL M
+		LEFT JOIN 
+		    RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
+		LEFT JOIN 
+		    EMPLOYEE SENDER ON M.EMP_CODE = SENDER.EMP_CODE
+		LEFT JOIN 
+		    TEAM SENDER_TEAM ON SENDER.TEAM_NO = SENDER_TEAM.TEAM_NO
+		LEFT JOIN 
+		    EMPLOYEE RECIPIENT ON R.EMP_CODE = RECIPIENT.EMP_CODE
+		LEFT JOIN 
+		    TEAM RECIPIENT_TEAM ON RECIPIENT.TEAM_NO = RECIPIENT_TEAM.TEAM_NO
+		LEFT JOIN 
+		    DEPARTMENT DEPT ON SENDER_TEAM.DEPT_NO = DEPT.DEPT_NO
+		LEFT JOIN 
+		    MAIL_FILE ON M.MAIL_NO = MAIL_FILE.MAIL_NO
+		WHERE 
+		    (R.EMP_CODE = #{empCode} OR M.EMP_CODE = #{empCode})
+		ORDER BY 
+		    M.MAIL_WRITE_DATE DESC
+	</select>
+	
+</mapper>
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,17 @@
-/* 네비바 버튼 클릭시 섹션 별로 보여주기 */
 
+
+/* 동영상 우클릭 막기 */
+function disableRightClickOnVideo() { 
+    const videos = document.querySelectorAll('video');
+    videos.forEach(video => {
+        video.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+        });
+    });
+}
+
+
+/* 네비바 버튼 클릭시 섹션 별로 보여주기 */
 function showSection(sectionId) {
     // 섹션 숨김
     const sections = document.querySelectorAll('.contentSection');
@@ -13,11 +25,6 @@ function showSection(sectionId) {
         selectedSection.style.display = 'block';
     }
 }
-
-// 첫번째 섹션만 표시
-document.addEventListener('DOMContentLoaded', (event) => {
-    showSection('edsmSection');
-});
 
 
 /* 
@@ -54,8 +61,14 @@ document.addEventListener('DOMContentLoaded', function() {
 */
 
 
-/* 챗봇 */
+
 document.addEventListener('DOMContentLoaded', function () {
+
+    showSection('edsmSection');
+    disableRightClickOnVideo();
+
+
+    /* 챗봇 */
     const inputChat = document.getElementById('inputChat');
     const buttonChat = document.getElementById('buttonChat');
     const respChat = document.getElementById('respChat');
@@ -164,7 +177,3 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-/* 비디오 우클릭 막기 */
-document.getElementById('mainVid').addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-});

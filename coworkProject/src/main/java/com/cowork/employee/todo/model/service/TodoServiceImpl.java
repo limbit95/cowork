@@ -42,7 +42,7 @@ public class TodoServiceImpl implements TodoService{
 	@Override
 	public List<Todo> selectTodoList(int empCode) {
 		
-		return mapper.selectTodoList(empCode);
+		return mapper.selectTodoList(empCode); 
 		
 		
 	}

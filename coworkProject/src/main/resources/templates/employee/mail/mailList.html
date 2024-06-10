@@ -10,24 +10,25 @@
 
 </head>
 <body>
+    <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
     
     <section class="container">
 
         <div class="mailTitle">
             <div class="mailLabel">
                 <label>전체메일</label>
-                <div><label class="cntLabel">0</label><label>/300</label></div>
+                <div><label class="cntLabel">안읽은개수</label><label>/전체메일개수</label></div>
                 <div><button class="default-btn glucose-btn">메일쓰기</button></div>
             </div>
             <div class="search">
                 <select class="default-line">
                     <option>제목</option>
                     <option>내용</option>
-                    <option>작성자</option>
+                    <option>보낸 사람</option>
                 </select>
     
                 <div class="default-line">
-                    <input >
+                    <input type="text" name="mailQuery" id="SearchQuery" placeholder="검색">
     
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
@@ -66,128 +67,19 @@
                 </div>
             </div>
 
-            <div class="table-body row">
+            <div class="table-body row" th:each="mail : ${mail}">
                 <div class="checkDiv">
                     <input type="checkbox">
-                    <div>개발팀</div>
+                    <div><span th:text="${mail.senderTeamNm}">팀이름</span>&nbsp;<span th:text="${mail.sender}">이름</span></div>
                 </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
+                <div th:text="${mail.mailTitle}">메일 제목</div>
                 <div></div>
-                <div>2024-05-22 12:20</div>
+                <div th:text="${mail.mailWriteDate}">2메일 보낸 시각</div>
             </div>
 
 
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-            
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
 
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <!-----------------------------------------------   페이지  ------------------------------------------------------------------>
+            <!-----------------------------------------------   페이지 네이션  ------------------------------------------------------------------>
 
             <div class="pagination-area">
         
