@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 console.log("공유 리스트", shareList);
 
-                if(updateTitle.value.trim().length == 0) {
+                if(updateTitle.trim().length == 0) {
                     alert("제목은 필수 작성입니다.");
                     e.preventDefault();
                     return;
@@ -262,7 +262,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "shareList" : shareList,
                     "empCode" : empCode,
                     "calendarStart" : info.startStr,
-                    "calendarEnd" : info.endStr
+                    "calendarEnd" : info.endStr,
+                    "comNo" : comNo
                 }
 
                 fetch("/calendar/calendarInsert", {

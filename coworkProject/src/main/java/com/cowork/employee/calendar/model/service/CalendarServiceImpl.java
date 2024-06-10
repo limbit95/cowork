@@ -70,4 +70,29 @@ public class CalendarServiceImpl implements CalendarService {
 		return mapper.calendarInsert(inputCalendar);
 	}
 
+	/** 회사 캘린더 list 조회
+	 * @return calendarList
+	 */
+	@Override
+	public List<Calendar> selectCalendarList(Employee2 loginEmp) {
+
+		// 조회해와야할 것 title, content, 시작 날짜, 끝나는 날짜, 공유 여부
+		// 로그인한 사람의 comNo로 calendar 테이블에 comNo가 같으면서 calendarShare 에 '회사 전체' 포함이면
+		// title, content, 시작 날짜, 끝나는 날짜, 색, 작성자 가져오기
+		
+		// 로그인한 사람의 comNo, deptNm, teamNm 조회해서 담아둔 다음에
+		// deptNm, teamNm 이 null 이 아니라면 캘린더 테이블에서 comNo 가 같고 calendarShare 에 deptNm 이나 teamNm 이 겹치는 게 있는지 조회
+		Calendar search = mapper.selectTeamSearch(loginEmp.getEmpCode());
+		
+		int comNo = loginEmp.getComNo();
+		String deptNm = search.getDeptNm();
+		String teamNm = search.getTeamNm();
+		
+		// 같은 comNo 가진 calendar 행에서 '회사 전체' 찾아오기
+		// 회사 전체이거나 search
+		
+		
+		return null;
+	}
+
 }

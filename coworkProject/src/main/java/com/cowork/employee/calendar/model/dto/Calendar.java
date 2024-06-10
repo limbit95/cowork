@@ -25,4 +25,9 @@ public class Calendar {
 	private String calendarColor;
 	private int empCode;
 	private List<String> shareList;
+	private int comNo;
+	
+	private String calendarShare;
+	private String deptNm;
+	private String teamNm;
 }
