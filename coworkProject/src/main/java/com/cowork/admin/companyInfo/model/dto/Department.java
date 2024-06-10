@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import com.cowork.admin.companyInfo.model.dto.Team;
+
 @ToString
 @Builder
 @NoArgsConstructor

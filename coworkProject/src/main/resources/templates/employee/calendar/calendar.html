@@ -23,13 +23,23 @@
 
         <!-- 버튼 영역 -->
         <div class="calendarBtnTop">
-            <div>
-                <button class="default-btn gray-border-btn">내 일정만 보기</button>
-            </div>
     
             <div>
-                <button class="default-btn gray-border-btn calendarBtnMargin">전체 보기</button>
+                <button class="default-btn gray-border-btn">회사 일정 보기</button>
             </div>
+
+            <div th:unless="${#lists.isEmpty(deptList)}">
+                <button class="default-btn gray-border-btn calendarBtnMargin">부서 일정 보기</button>
+            </div>
+            
+            <div th:unless="${#lists.isEmpty(teamList)}">
+                <button class="default-btn gray-border-btn calendarBtnMargin">팀 일정</button>
+            </div>
+
+            <div>
+                <button class="default-btn gray-border-btn calendarBtnMargin">내 일정만 보기</button>
+            </div>
+
         </div>
 
     </section>
@@ -41,52 +51,36 @@
         </div>
     </section>
 
-    <!-- select 했을 경우 할 일 제목, 색 클릭, 요청 멤버 선택해서 받아줄 거 -->
-    <div class="calendarModal">
-        <div>
-            일정 제목 : <input>
-        </div>
-
-        <div>
-            추가할 사람 선택
-        </div>
-        <div>
-            <!-- 선택된 사람 넣는 곳 -->
-        </div>
-        <div>
-            <input type="checkbox"> 팀 공유 여부
-        </div>
-        <div>
-            <button>저장</button>
-            <button>취소</button>
-        </div>
-    </div>
-
-    
-    <div id="calendarModal">
+    <!-- 날짜 선택 했을 경우 할 일 제목, 색 클릭, 요청 멤버 선택해서 받아줄 거 -->
+    <div id="calendarModal" class="calendarHidden">
         <div class="calendarModalSpace"></div>
+
+        <!-- 제목 작성 부분 -->
         <div class="modalTitle">
             <p>일정 제목</p>
             <input type="text" id="updateTitle">
         </div>
 
+        <!-- 지정색 선택 부분 -->
         <div class="titleColor">
-            <div style="background-color: #fc8b8b;">
+            <div class="clickColor" style="background-color: #fc8b8b;">
                 <input value="#fc8b8b" hidden>
             </div>
-            <div style="background-color: #eb9234;">
+            <div class="clickColor" style="background-color: #eb9234;">
                 <input value="#eb9234" hidden>
             </div>
-            <div style="background-color: #accf9b;">
+            <div class="clickColor" style="background-color: #accf9b;">
                 <input value="#accf9b" hidden>
             </div>
-            <div style="background-color: #6d8ec7;">
+            <div class="clickColor" style="background-color: #6d8ec7;">
                 <input value="#6d8ec7" hidden>
             </div>
-            <div style="background-color: #b09dc9;">
+            <div class="clickColor" style="background-color: #b09dc9;">
                 <input value="#b09dc9" hidden>
             </div>
         </div>
+        <!-- 선택된 색상을 저장해둘 곳 -->
+        <input id="selectedColor" hidden>
 
         <!-- 팀 전체, 부서, 팀 선택 -->
         <div class="selectSection">
@@ -94,22 +88,17 @@
                 회사 전체
             </button>
 
+            <!-- 로그인한 회원의 회사 기본키로 회사에 존재하는 부서 보여줌 -->
             <select class="selectDept">
-                <!-- 값을 타임리프로 뿌려줄 때 값이 없으면 없음이라고 나오게 -->
-                <option>부서 선택</option>
-                <option>영업부</option>
-                <option>마케팅부</option>
-                <option>개발부</option>
-                <option>인사부</option>
+                <option th:text="${#lists.isEmpty(deptList) ? '없음' : '부서 선택'}">부서 선택</option>
+                <option th:each="dept : ${deptList}" th:text="${dept.deptNm}">부서명</option>
+                <input th:each="dept : ${deptList}" th:value="${dept.deptNo}" hidden>
             </select>
 
             <select class="selectTeam">
-                <!-- 값을 타임리프로 뿌려줄 때 값이 없으면 없음이라고 나오게 -->
-                <option>팀 선택</option>
-                <option>영업1팀</option>
-                <option>영업2팀</option>
-                <option>마케팅1팀</option>
-                <option>마케팅2팀</option>
+                <option th:text="${#lists.isEmpty(teamList) ? '없음' : '팀 선택'}">팀 선택</option>
+                <option th:each="team : ${teamList}" th:text="${team.teamNm}">팀명</option>
+                <input th:each="team : ${teamList}" th:value="${team.teamNo}" hidden>
             </select>
         </div>
 
@@ -128,8 +117,8 @@
         </div>
 
         <div class="modalBtn">
-            <button class="default-btn glucose-border-btn">등록</button>
-            <button class="default-btn glucose-border-btn">취소</button>
+            <button class="default-btn glucose-border-btn modalUpdateBtn">등록</button>
+            <button class="default-btn glucose-border-btn modalCancelBtn">취소</button>
         </div>
     </div>
 
@@ -156,6 +145,10 @@
 
     <!-- Full Calendar API JS -->
     <script src="/js/employee/calendar/calendar.js"></script>
-      
+    
+    <!-- 값 담아주기 -->
+    <script th:inline="javascript">
+        const comNo = /*[[${loginEmp.comNo}]]*/ "회사 기본키";
+    </script>
 </body>
 </html>
