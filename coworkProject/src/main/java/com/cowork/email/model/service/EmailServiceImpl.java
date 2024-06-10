@@ -141,7 +141,8 @@ public class EmailServiceImpl implements EmailService{
 	// 이메일 보내기
 	@Override
 	public int sendEmail(String htmlName, Map<String, Object> map) {
-		String empInfo = (String)map.get("empId") + "^^^" + (String)map.get("empEmail");
+		String authKey = createAuthKey();
+		String empInfo = (String)map.get("empId") + "," + (String)map.get("empEmail")  + "," + authKey;
 		
 		try {
 			// 메일 제목
@@ -152,36 +153,37 @@ public class EmailServiceImpl implements EmailService{
 					subject = "[CoWork] 비밀번호 재설정 인증 메일입니다."; break;
 			}
 			
-			// 인증 메일 보내기
-			
-			// MimeMessage : Java 메일을 보내는 객체
 			MimeMessage mimeMessgae = mailSender.createMimeMessage(); 
 			
-			// MimeMessageHelper : 
-			// Spring에서 제공하는 메일 발송 도우미 (간단 + 타임리프)
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessgae, true, "UTF-8");
-			// 1번 매개변수 : MimeMessage
-			// 2번 매개변수 : 파일 전송 사용할 것인지 true / false 지정 가능
-			// 3번 매개변수 : 문자 인코딩 지정
 			
-			helper.setTo((String)map.get("empEmail")); // 받는 사람 이메일 지정
-			helper.setSubject(subject); // 이메일 제목 지정
+			helper.setTo((String)map.get("empEmail"));
+			helper.setSubject(subject);
 			
-			helper.setText( loadHtml(empInfo, htmlName), true ); // html 보내기 (변경예정)
-			// HTML 코드 해석 여부 true (innerHTML 해석)
-			
-			// CID(Content-ID)를 이용해 메일에 이미지 첨부
-			// (파일첨부와는 다름, 이메일 내용 자체에 사용할 이미지 첨부
-			// logo 추가 예정
+			helper.setText( loadHtml(empInfo, htmlName), true );
 			helper.addInline("logo", new ClassPathResource("static/images/coworkLogo.png"));
-			// -> 로고 이미지를 메일 내용에 첨부하는데
-			//    사용하고 싶으면 "logo" 라는 id를 작성해라
 			
-			// 메일 보내기
 			mailSender.send(mimeMessgae);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
+		}
+		
+		Map<String, String> map2 = new HashMap<String, String>();
+		map2.put("authKey", authKey);
+		map2.put("email", (String)map.get("empEmail"));
+		
+		int result = mapper.updateAuthKey(map2);
+		
+		if(result == 0) {
+			if(map2.get("authKey") == null || map2.get("email") == null) {
+				return -1;
+			}
+			result = mapper.insertAuthKey(map2);
+		}
+		
+		if(result == 0) {
+			return -1;
 		}
 		
 		return 1;

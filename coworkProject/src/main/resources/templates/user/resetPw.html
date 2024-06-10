@@ -1,12 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>비밀번호 재설정</title>
-    <link rel="icon" href="/images/favicon.png">
-</head>
-<body>
-    ㅁㄹㅈㄷㄹㄷㅈㅁ
-</body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Password Reset</title>
+
+        <link rel="icon" href="/images/favicon.png">
+        <link rel="stylesheet" href="/css/user/resetPw.css">
+    </head>
+    <body>
+        <main>
+            <div>
+                <img src="/images/coworkLogoB.png" class="coworkLogoB">
+            </div>
+
+            <section class="formArea">
+                <span id="loginLetter">비밀번호 재설정</span>
+                <form action="/user/resetPw" method="post" id="resetPwForm">
+
+                    <div class="loginInput">
+                        <input type="password" placeholder="비밀번호" id="empPw" name="empPw">
+                        <input type="password" placeholder="비밀번호 확인" id="empPwConfirm" name="empPw">
+                        <span id="pwMessage">영어,숫자,특수문자(!@#$%^&*()) 포함 8~16글자 사이로 입력해주세요.</span>
+                    </div>
+                    <button id="loginBtn">비밀번호 변경</button>
+
+                    <input hidden th:value="${map.empId}" name="empPw">
+                    <input hidden th:value="${map.email}" name="empEmail">
+                </form>
+            </section>
+        </main>
+       
+        <script src="/js/user/resetPw.js"></script>
+
+        <script th:inline="javascript">
+            const message = /*[[${message}]]*/ "전달 메세지";
+            
+            if (message != null) {
+                alert(message);
+            }
+        </script>
+    </body>
 </html>

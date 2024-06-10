@@ -8,21 +8,20 @@
         <img src="cid:logo" width="200px">
 
         <h3 style="text-align: center;">
-            아래 발급된 인증 번호를
+            아래 버튼을 통해
             <br>
-            아이디 찾기 화면에 입력 후 인증 버튼을 눌러주세요
-        </h3>
-        <h3>
-            <th:block th:text="${item}"></th:block>
+            비밀번호 재설정을 진행해주세요
         </h3>
         <!-- 추후 http -> https 변경해야 할수도? -->
-        <a th:href="@{http://localhost/user/resetPw?item={item}}" 
-        style="
-        border-radius: 5px; padding: 5px 20px;
-        background-color: #BDD8F1; border-radius: 2px solid #BDD8F1; width: 400px; height: 50px; font-size: 16px; color: white;
-        text-decoration: none;
-        "
-        data-emp-info="${item}">인증</a>
+        <form action="http://localhost/user/resetPwPage" method="post">
+            <input hidden th:value="${item}" name="item">
+            <button 
+            style="
+            border-radius: 5px; padding: 5px 20px;
+            background-color: #BDD8F1; border-radius: 2px solid #BDD8F1; width: 180px; height: 50px; font-size: 16px; color: white;
+            text-decoration: none;
+            ">비밀번호 재설정</button>
+        </form>
     </div>
 
 </body>
