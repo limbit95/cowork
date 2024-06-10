@@ -91,6 +91,9 @@
 	flex-direction: column; 
 }
 
+#questionArea{
+	margin-top: 5vh;
+}
 
 
 
@@ -110,6 +113,9 @@
 #forBottomEmptySpace{
 	width: 100vw;
 	height: 30vh;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
 }
 
 

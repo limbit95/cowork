@@ -1457,8 +1457,6 @@ translateSettingBtn.addEventListener('click', function(){
     let backgroundGray = document.querySelector('#backgroundGray');
 	backgroundGray.style.display = 'none';
 	translateBtn.style.color = 'red';
-
-	
 })
 	
 	
