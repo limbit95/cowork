@@ -22,4 +22,16 @@ public interface DraftMapper {
 	 */
 	List<Draft> draftList(Map<String, Object> paramMap);
 
+	/** 양식 상세
+	 * @param draftNo
+	 * @return
+	 */
+	Draft edsmDetailDraft(int draftNo);
+
+	/** 양식 수정
+	 * @param inputDraft
+	 * @return
+	 */
+	int edsmUpdateDraft(Draft inputDraft);
+
 }

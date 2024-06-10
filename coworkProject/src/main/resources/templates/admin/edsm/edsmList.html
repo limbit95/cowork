@@ -53,7 +53,7 @@
                     <label th:text="*{draftTitle}">무슨 기안을 올릴까요 업무 기안서</label>
                 </div>
                 <div class="draftBtn">
-                    <label>수정</label>
+                    <label th:onclick="|location.href='@{edsmUpdateDraft/{draftNo} (draftNo=*{draftNo})}'|">수정</label>
                     <label th:if="*{draftFlag eq '7'}">삭제</label>
                 </div>
             </div>
@@ -73,7 +73,7 @@
             </div>-->
         </div>
 
-        <script src="/js/admin/edsm/edsmListjs"></script>
+        <script src="/js/admin/edsm/edsmList.js"></script>
 
     </section>
     

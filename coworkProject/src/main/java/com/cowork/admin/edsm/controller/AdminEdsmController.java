@@ -1,5 +1,6 @@
 package com.cowork.admin.edsm.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,8 +37,12 @@ public class AdminEdsmController {
 	public String edsmList(
 				@SessionAttribute("loginEmp") Employee2 loginEmp,
 				Model model,
-				@RequestParam Map<String, Object> paramMap
+				@RequestParam(value="key", required=false) String key
 			) {
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		
+		if(key != "undefined")  paramMap.put("key", key);
 		
 		paramMap.put("comNo", loginEmp.getComNo());
 		
@@ -90,9 +96,35 @@ public class AdminEdsmController {
 	/** 양식 수정 화면
 	 * @return
 	 */
-	@GetMapping("edsmUpdateDraft")
-	public String edsmUpdateDraft() {
+	@GetMapping("edsmUpdateDraft/{draftNo:[0-9]+}")
+	public String edsmUpdateDraft(
+				@PathVariable("draftNo") int draftNo,
+				Model model
+			) {
+		
+		Draft draft = service.edsmDetailDraft(draftNo);
+		
+		model.addAttribute("draft", draft);
 		
 		return "admin/edsm/edsmUpdateDraft";
+	}
+	
+	@PostMapping("edsmUpdateDraft/{draftNo:[0-9]+}")
+	public String eduUpdateDraft(
+				@PathVariable("draftNo") int draftNo,
+				@ModelAttribute Draft inputDraft,
+				RedirectAttributes ra
+			) {
+		
+		int result = service.edsmUpdateDraft(inputDraft);
+		
+		String message = null;
+		
+		if(result > 0) message = "기안 양식이 수정되었습니다";
+		else           message = "기안 양식이 수정 실패";
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:edsmUpdateDraft/" + draftNo;
 	}
 }

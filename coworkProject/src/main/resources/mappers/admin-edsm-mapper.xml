@@ -39,5 +39,16 @@
 		</choose>
 		ORDER BY DRAFT_FLAG, DRAFT_NO
 	</select>
+	
+	<select id="edsmDetailDraft">
+		SELECT 
+			 DRAFT_NO
+			,DRAFT_TITLE
+			,DRAFT_CONTENT
+			,COM_NO
+			,DRAFT_FLAG
+		FROM DRAFT
+		WHERE DRAFT_NO = #{draftNo}
+	</select>
 
 </mapper>

@@ -21,6 +21,13 @@ import lombok.extern.slf4j.Slf4j;
 public class DraftServiceImpl implements DraftService {
 	
 	private final DraftMapper mapper;
+	
+	// 전자결재 문서 관리
+	@Override
+	public List<Draft> draftList(Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return mapper.draftList(paramMap);
+	}
 
 	// 양식 생성
 	@Override
@@ -35,11 +42,18 @@ public class DraftServiceImpl implements DraftService {
 		return draftNo;
 	}
 
-	// 전자결재 문서 관리
+	// 양식 상세
 	@Override
-	public List<Draft> draftList(Map<String, Object> paramMap) {
+	public Draft edsmDetailDraft(int draftNo) {
 		// TODO Auto-generated method stub
-		return mapper.draftList(paramMap);
+		return mapper.edsmDetailDraft(draftNo);
+	}
+
+	// 양식 수정
+	@Override
+	public int edsmUpdateDraft(Draft inputDraft) {
+		// TODO Auto-generated method stub
+		return mapper.edsmUpdateDraft(inputDraft);
 	}
 
 }

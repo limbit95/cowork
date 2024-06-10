@@ -72,6 +72,7 @@
 /* 기안서 이미지 크기 */
 .draftImg {
     font-size: xx-large;
+    color: var(--main-color);
 }
 
 /***************** 기안서 목록 */
@@ -95,13 +96,13 @@
     width: 100px;
 }
 
-.draftList2 .default-line:hover {
+/*.draftList2 .default-line:hover {
     background: var(--gray-color);
-}
+}*/
 
-.draftList2 .default-line div {
+/*.draftList2 .default-line div {
     margin: 8px !important;
-}
+}*/
 
 /* 버튼 */
 .draftMenu .draftBtn {
@@ -113,6 +114,9 @@
     display: flex;
     flex-direction: row;
     border : none;
+
+    margin: 0px !important;
+    height: 50px !important;
 }
 
 
@@ -122,9 +126,27 @@
 
 .draftList2 .draftBtn label:hover {
     border-bottom: 1px solid black;
+    cursor: pointer;
 }
 
 /* 기안서 내용 */
+
+/*240610*/
+.draftList2 .draftDiv {
+    margin: 0px !important;
+    /* height: 100px !important; */
+}
+
+.draftDiv div:nth-child(2) {
+    margin: 0px;
+}
+
+.draftList2 .draftDiv .draftImg {
+    margin-top: 0px !important;
+}
+
+/************/
+
 .draftLabel {
     width: 580px;
 }
