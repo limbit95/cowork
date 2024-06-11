@@ -26,13 +26,19 @@ document.querySelector("#createDraftForm").addEventListener("submit", (e) => {
         return;
     }
 
-    if(draftContent.value == '<p><br></p>' || noticeContent.value == '<br>') {
+    if(draftContent.value.trim() == '<p><br></p>' || noticeContent.value.trim() == '') {
         alert("내용을 작성해주세요.");
         draftContent.focus();
         e.preventDefault();
         return;
     }
 
+});
+
+/* 전자결재 문서관리 */
+document.getElementById("createDraft").addEventListener("click", () => {
+
+    location.href = "edsmList";
 });
 
 // 스마트에디터 적용

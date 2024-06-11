@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cowork.employee.survey.model.dto.SurveyData;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.cowork.employee.chatting.model.dto.Employee;
@@ -45,6 +47,13 @@ public class SurveyController {
 	
 	
 	
+   @PostMapping("/survey2")
+   @ResponseBody
+    public SurveyData handleSurvey(@RequestBody SurveyData surveyData) {
+        // 여기서 surveyData를 처리합니다.
+        // 예를 들어, surveyData의 내용을 로그로 출력할 수 있습니다.
+        System.out.println("Received Survey Data: " + surveyData);
+
    @PostMapping("/insertSurvey")
    @ResponseBody
     public SurveyData insertSurvey(@RequestBody SurveyData surveyData,
