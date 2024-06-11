@@ -12055,3 +12055,583 @@ java.lang.ClassCastException
 !MESSAGE Exception occurred in listener of Java element change notification
 !STACK 0
 java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 04:27:49.078
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 04:27:49.080
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 05:38:24.378
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 05:38:24.379
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 06:40:33.955
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 06:40:33.955
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 07:24:16.607
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 07:24:16.608
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 08:00:22.681
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 08:00:22.681
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 08:12:21.223
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 08:12:21.223
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 08:21:33.257
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 08:21:33.267
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 08:27:39.173
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 08:27:39.173
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 08:36:47.515
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 08:36:47.515
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 08:48:51.122
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 08:48:51.122
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 08:54:52.696
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 08:54:52.696
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 09:25:30.954
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 09:25:31.044
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 10:26:37.865
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 10:26:37.865
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 11:43:37.534
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 11:43:37.534
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 12:28:34.859
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 12:28:34.859
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 13:29:33.860
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 13:29:33.860
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 14:25:51.450
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 14:25:51.450
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 14:34:49.280
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 14:34:49.280
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 14:40:56.260
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 14:40:56.260
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 14:55:20.641
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 14:55:20.739
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 15:04:31.323
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 15:04:31.323
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 15:13:34.011
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 15:13:34.011
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 15:19:45.030
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 15:19:45.030
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 15:31:37.783
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 15:31:37.784
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 15:37:54.889
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 15:37:54.889
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 15:50:00.202
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 15:50:00.203
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 15:56:07.516
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 15:56:07.517
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 16:07:29.478
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 16:07:29.478
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 16:16:40.953
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 16:16:40.953
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 16:25:44.372
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 16:25:44.372
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 16:37:50.349
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 16:37:50.349
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 16:47:01.349
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 16:47:01.349
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 16:59:05.942
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 16:59:05.942
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 17:08:09.587
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 17:08:09.587
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 17:17:21.126
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 17:17:21.127
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 17:29:26.078
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 17:29:26.078
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 17:38:34.998
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 17:38:34.999
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 17:47:38.121
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 17:47:38.121
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 17:56:49.830
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 17:56:49.831
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 18:08:54.579
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 18:08:54.579
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 18:18:06.388
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 18:18:06.388
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 18:27:10.064
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 18:27:10.064
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 18:39:14.895
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 18:39:14.896
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 18:48:26.732
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 18:48:26.732
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 18:57:30.444
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 18:57:30.444
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 19:06:37.960
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 19:06:37.961
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 19:15:49.380
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 19:15:49.380
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 19:25:00.227
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 19:25:00.228
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 19:31:38.088
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 19:31:38.089
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 19:37:45.626
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 19:37:45.626
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 19:49:49.876
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 19:49:49.877
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 19:58:58.942
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 19:58:58.942
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 20:08:02.774
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 20:08:02.774
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 20:17:14.136
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 20:17:14.137
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 20:29:22.079
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 20:29:22.079
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 20:38:10.009
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 20:38:10.009
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 20:42:19.345
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 20:42:19.346
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 2 2024-06-11 21:13:28.499
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core".
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.jdt.core 4 4 2024-06-11 21:13:28.500
+!MESSAGE Exception occurred in listener of Java element change notification
+!STACK 0
+java.lang.ClassCastException
