@@ -5,11 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -385,7 +387,7 @@ public class TodoServiceImpl implements TodoService{
 		  try {
 	            // 순서대로 삭제
 	            mapper.deleteTodoFiles(todoNos);
-	            mapper.deleteTodoManager(todoNos);
+	            mapper.deleteTodoManagers(todoNos);
 	            return mapper.deleteTodos(todoNos);
 	            
 	        } catch (Exception e) {
@@ -442,7 +444,7 @@ public class TodoServiceImpl implements TodoService{
 	}
 
 
-	@Override
+/*	@Override
 	public int todoUpdate(Todo inputTodo, List<TodoFile> newFileList, List<TodoFile> uploadedFileList,
 			List<TodoFile> deletedFileList) throws FileNotFoundException, IOException {
 		
@@ -537,19 +539,143 @@ public class TodoServiceImpl implements TodoService{
 		            
 
 		    return result;
-	}
+	}*/
 
 
+	@Override
+	public int todoUpdate(Todo inputTodo, List<MultipartFile> files, String deleteOrder, String updateOrder,List<String> inChargeEmpList)
+			throws FileNotFoundException, IOException {
+		
+		int todoNo = inputTodo.getTodoNo();
+		
+		log.info("inChargeEmpList : " + inChargeEmpList);
+		if (inChargeEmpList == null) {
+            inChargeEmpList = new ArrayList<>();
+        }
+        List<String> oldInChargeEmpList = mapper.getEmpList(todoNo);
+        if (oldInChargeEmpList == null) {
+            oldInChargeEmpList = new ArrayList<>();
+        }
 
+        // 기존 담당자와 새로운 담당자 비교하여 삭제할 것과 추가할 것 결정
+        List<String> toDelete = new ArrayList<>(oldInChargeEmpList);
+        toDelete.removeAll(inChargeEmpList);
 
+        List<String> toAdd = new ArrayList<>(inChargeEmpList);
+        toAdd.removeAll(oldInChargeEmpList);
 
-	
+        // 삭제할 담당자 처리
+        for (String emp : toDelete) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("todoNo", todoNo);
+            map.put("inChargeEmp", emp);
+            log.info("담당자 삭제: " + map);
 
+            int result = mapper.deleteTodoManager(map);
 
+            if (result == 0) {
+                log.error("투두 담당자 삭제 실패!! 담당자: " + emp);
+                return 0;
+            }
+        }
 
-	
+        // 추가할 담당자 처리
+        for (String emp : toAdd) {
+            if (emp != null && !emp.isEmpty()) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("todoNo", todoNo);
+                map.put("inChargeEmp", emp);
+                log.info("담당자 등록: " + map);
 
+                int result = mapper.insertTodoManagerList(map);
 
+                if (result == 0) {
+                    log.error("투두 담당자 등록 실패!! 담당자: " + emp);
+                    return 0;
+                }
+            }
+        }
+
+        // 할 일 업데이트
+        int result = mapper.todoUpdate(inputTodo);
+        
+        if (result == 0) {
+            log.error("투두 업데이트 실패!!");
+            return 0;
+        }
+
+        // 기존 파일 목록 가져오기
+        List<TodoFile> existingFiles = mapper.todoFiles(todoNo);
+
+        // 삭제할 파일 처리
+        if (deleteOrder != null && !deleteOrder.isEmpty()) {
+            List<Integer> deleteFileOrders = Arrays.stream(deleteOrder.split(","))
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
+            for (TodoFile file : existingFiles) {
+                if (deleteFileOrders.contains(file.getFileOrder())) {
+                    mapper.deleteTodoFile(file.getFileNo());
+                }
+            }
+        }
+
+        // 새로운 파일 업로드 처리
+        if (files != null && !files.isEmpty()) {
+            List<TodoFile> uploadList = new ArrayList<>();
+            for (int i = 0; i < files.size(); i++) {
+                MultipartFile multipartFile = files.get(i);
+                if (!multipartFile.isEmpty()) {
+                    String originalName = multipartFile.getOriginalFilename();
+                    long fileSize = multipartFile.getSize();
+
+                    boolean isDuplicate = existingFiles.stream().anyMatch(f -> 
+                        f.getFileOriginName().equals(originalName) && f.getFileSize() == fileSize);
+
+                    if (!isDuplicate) {
+                        String rename = Utility.fileRename(originalName);
+                        TodoFile todoFile = TodoFile.builder()
+                                .fileOriginName(originalName)
+                                .fileRename(rename)
+                                .filePath(webPath)
+                                .todoNo(todoNo)
+                                .fileOrder(i)
+                                .uploadFile(multipartFile)
+                                .fileSize(fileSize)  // 추가된 필드
+                                .build();
+
+                        uploadList.add(todoFile);
+                    }
+                }
+            }
+
+            if (!uploadList.isEmpty()) {
+                result = mapper.insertUploadList(uploadList);
+                if (result != uploadList.size()) {
+                    throw new IOException("파일 업로드 실패");
+                }
+                for (TodoFile file : uploadList) {
+                    files.get(file.getFileOrder()).transferTo(new File(folderPath + file.getFileRename()));
+                }
+            }
+        }
+
+        return result;
+        
+        
+	}	
 	
 
 }
+
+
+
+	
+
+
+
+	
+
+
+	
+
+

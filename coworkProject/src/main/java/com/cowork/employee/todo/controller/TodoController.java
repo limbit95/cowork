@@ -281,41 +281,37 @@ public class TodoController {
 	}*/
 	
 	@ResponseBody
-	@PostMapping("update")
-	public int todoUpdate(@RequestBody Map<String, Object> requestData, 
-	                      @SessionAttribute("loginEmp") Employee2 loginEmp) throws IllegalStateException, IOException {
+	@PostMapping("update/{todoNo}")
+	public int todoUpdate(	@PathVariable("todoNo") int todoNo,
+							Todo inputTodo, 
+							@RequestParam("files") List<MultipartFile> files,
+							@RequestParam(value="deleteOrder", required=false) String deleteOrder,
+							@RequestParam(value="updateOrder", required=false) String updateOrder,
+	                      	@SessionAttribute("loginEmp") Employee2 loginEmp,
+	                      	@RequestParam(value="queryString", required = false, defaultValue="") String querystring) throws IllegalStateException, IOException {
 
-	    int empCode = loginEmp.getEmpCode(); 
-
-	    // Todo 객체 생성 및 데이터 설정
-	    Todo inputTodo = new Todo();
-	    inputTodo.setTodoNo(Integer.parseInt(requestData.get("todoNo").toString()));
-	    inputTodo.setTodoTitle((String) requestData.get("todoTitle"));
-	    inputTodo.setTodoContent((String) requestData.get("todoContent"));
-	    inputTodo.setTodoEndDate((String) requestData.get("todoEndDate"));
-	    inputTodo.setRequestEmp((String) requestData.get("requestEmp"));
-	    inputTodo.setInChargeEmp((String) requestData.get("inChargeEmp"));
-	    inputTodo.setEmpCode(empCode);
-
-	    if (requestData.containsKey("inChargeEmp")) {
-	        String inChargeEmpStr = (String) requestData.get("inChargeEmp");
-	        List<String> inChargeEmpList = Arrays.asList(inChargeEmpStr.split("\\s*,\\s*"));
-	        inputTodo.setInChargeEmpList(inChargeEmpList);
-	    } else {
-	        inputTodo.setInChargeEmpList(new ArrayList<>());
+		log.info("files :    : " + files); 
+		log.info("Received request to update Todo with id: " + todoNo);
+	    log.info("Files: " + files);
+	    log.info("Delete Order: " + deleteOrder);
+	    log.info("Update Order: " + updateOrder);
+		
+		inputTodo.setEmpCode(loginEmp.getEmpCode()); 
+		
+		if (files == null) {
+	        files = new ArrayList<>();
 	    }
+		
+		// 담당자 여러명인 경우 
+	    String inChargeEmpStr = inputTodo.getInChargeEmp(); 
+	    List<String> inChargeEmpList = Arrays.asList(inChargeEmpStr.split("\\s*,\\s*")); 
 
-	    // 파일 리스트 파싱
-	    ObjectMapper objectMapper = new ObjectMapper();
-	    List<TodoFile> uploadedFileList = objectMapper.convertValue(requestData.get("uploadedFiles"), new TypeReference<List<TodoFile>>(){});
-	    List<TodoFile> newFileList = objectMapper.convertValue(requestData.get("newFiles"), new TypeReference<List<TodoFile>>(){});
-	    List<TodoFile> deletedFileList = objectMapper.convertValue(requestData.get("deletedFiles"), new TypeReference<List<TodoFile>>(){});
-
-	    log.info("업로드 리스트 : " + uploadedFileList); 
-	    log.info("새 파일 리스트 : " + newFileList); 
-	    log.info("삭제 리스트 : " + deletedFileList); 
-
-	    return service.todoUpdate(inputTodo, newFileList, uploadedFileList, deletedFileList); 
+	    log.info("담당자 여러명일때 넘겨받은 리스트 : " + inChargeEmpList.toString());
+		
+		int result = service.todoUpdate(inputTodo, files, deleteOrder, updateOrder, inChargeEmpList); 
+				
+		return result; 
+	     
 	}
 	
 	

@@ -71,8 +71,9 @@ public interface TodoMapper {
 
 	/** 담당자 삭제 
 	 * @param todoNos
+	 * @return 
 	 */
-	void deleteTodoManager(@Param("todoIds") List<Integer> todoNos);
+	int deleteTodoManagers(@Param("todoIds") List<Integer> todoNos);
 
 	/** 파일 조회 
 	 * @param todoNo
@@ -134,8 +135,12 @@ public interface TodoMapper {
 	 */
 	void deleteTodoManagerOne(int todoNo);
 	
-	 // 파일 삭제 메서드
-    int deleteOriginFile(@Param("fileNo") int fileNo);
+	 
+    /** 파일 수정시 삭제 
+     * @param map
+     * @return
+     */
+    int deleteOriginFile(Map<String, Object> map);
 
     // 파일 삽입 메서드
     int insertNewFiles(@Param("todoFileList") List<TodoFile> todoFileList, @Param("todoNo") int todoNo);
@@ -143,6 +148,17 @@ public interface TodoMapper {
 	int insertNewFiles(List<TodoFile> newFileList);
 
 	int insertNewFile(TodoFile file);
+
+	
+	/** 파일 수정시 업로드 
+	 * @param todoFile
+	 * @return
+	 */
+///	int updateUploadList(TodoFile todoFile);
+
+	void deleteTodoFile(int fileNo);
+
+	int deleteTodoManager(Map<String, Object> map);
 	
 	
 

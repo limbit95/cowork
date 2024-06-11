@@ -30,4 +30,6 @@ public class TodoFile {
 	private String updateFileOrder; 
 	
 	private String fileData; // Base64 인코딩된 파일 데이터
+
+	private long fileSize;  
 }

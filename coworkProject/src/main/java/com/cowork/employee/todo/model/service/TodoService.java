@@ -84,8 +84,8 @@ public interface TodoService {
 	 */
 	List<String> getEmpList(int todoNo);
 
-	int todoUpdate(Todo inputTodo, List<TodoFile> newFileList, List<TodoFile> uploadedFileList,
-			List<TodoFile> deletedFileList) throws FileNotFoundException, IOException;
+	int todoUpdate(Todo inputTodo, List<MultipartFile> files, String deleteOrder,
+			String updateOrder, List<String> inChargeEmpList) throws FileNotFoundException, IOException;
 
 	
 		
