@@ -38,4 +38,10 @@ public interface CalendarService {
 	 */
 	int calendarDelete(String eventCalendarNo);
 
+	/** 일정 수정
+	 * @param updateCalendar
+	 * @return result
+	 */
+	int calendarUpdate(Calendar updateCalendar);
+
 }

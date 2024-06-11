@@ -283,6 +283,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     "comNo" : comNo
                 }
 
+                // 캘린더에 이벤트를 즉시 추가
+                var newEvent = calendar.addEvent({
+                    title: updateTitle,
+                    start: info.startStr,
+                    end: info.endStr,
+                    backgroundColor: selectedColor,
+                    description : updateContent
+                });
+
                 fetch("/calendar/calendarInsert", {
                     method : "POST",
                     headers : {"Content-Type" : "application/json"},
@@ -321,14 +330,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         selectDept.value = selectDeptDefalut;
                         selectTeam.value = selectTeamDefalut;
 
-                        calendar.addEvent({
-
-                        });
-
-
                         alert("일정이 추가되었습니다.");
-                        
-                        calendar.render();
 
                     } else {
 
@@ -359,6 +361,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         selectDept.value = selectDeptDefalut;
                         selectTeam.value = selectTeamDefalut;
+
+                        newEvent.remove();
 
                         alert("일정 추가 실패");
                     }

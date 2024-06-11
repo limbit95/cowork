@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -74,10 +75,6 @@ public class CalendarController {
 	    List<String> shareList = inputCalendar.getShareList();
 	    String calendarShare = String.join("^^^", shareList);
 	    inputCalendar.setCalendarShare(calendarShare);
-	    
-	    log.info("shareListString == {}", calendarShare);
-		
-		log.info("inputCalendar의 shareList 출력 == {}", inputCalendar.getShareList());
 
 		return service.calendarInsert(inputCalendar);
 	}
@@ -114,12 +111,20 @@ public class CalendarController {
 		return "employee/calendar/myCalendar";
 	}
 	
+	/** 일정 삭제
+	 * @param eventCalendarNo
+	 * @return result
+	 */
 	@ResponseBody
 	@DeleteMapping("calendarDelete")
 	public int calendarDelete(@RequestBody String eventCalendarNo) {
-		
-		log.info("wddakg=={}", eventCalendarNo);
-		
 		return service.calendarDelete(eventCalendarNo);
 	}
+	
+	@ResponseBody
+	@PutMapping("calendarUpdate")
+	public int calendarUpdate(@RequestBody Calendar updateCalendar) {
+		return service.calendarUpdate(updateCalendar);
+	}
+	
 }

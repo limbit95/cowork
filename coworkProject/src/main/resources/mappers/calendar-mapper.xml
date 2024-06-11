@@ -79,4 +79,14 @@
 	<delete id="calendarDelete">
 		DELETE FROM CALENDAR  WHERE CALENDAR_NO = #{eventCalendarNo}
 	</delete>
+	
+	<!-- 일정 수정 -->
+	<update id="calendarUpdate">
+		UPDATE CALENDAR
+		SET CALENDAR_TITLE = #{calendarTitle},
+			CALENDAR_CONTENT = #{calendarContent},
+			CALENDAR_COLOR = #{calendarColor},
+			CALENDAR_SHARE = #{calendarShare}
+		WHERE CALENDAR_NO = #{calendarNo}
+	</update>
 </mapper>

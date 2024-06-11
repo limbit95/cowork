@@ -97,4 +97,12 @@ public class CalendarServiceImpl implements CalendarService {
 		return mapper.calendarDelete(eventCalendarNo);
 	}
 
+	/** 일정 수정
+	 * @return result
+	 */
+	@Override
+	public int calendarUpdate(Calendar updateCalendar) {
+		return mapper.calendarUpdate(updateCalendar);
+	}
+
 }

@@ -283,6 +283,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     "comNo" : comNo
                 }
 
+                // 캘린더에 이벤트를 즉시 추가
+                var newEvent = calendar.addEvent({
+                    title: updateTitle,
+                    start: info.startStr,
+                    end: info.endStr,
+                    backgroundColor: selectedColor,
+                    description : updateContent
+                });
+
                 fetch("/calendar/calendarInsert", {
                     method : "POST",
                     headers : {"Content-Type" : "application/json"},
@@ -321,11 +330,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         selectDept.value = selectDeptDefalut;
                         selectTeam.value = selectTeamDefalut;
 
-                        calendar.addEvent({
-
-                        });
-
-
                         alert("일정이 추가되었습니다.");
                         
                         calendar.render();
@@ -360,6 +364,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         selectDept.value = selectDeptDefalut;
                         selectTeam.value = selectTeamDefalut;
 
+                        newEvent.remove();
+
                         alert("일정 추가 실패");
                     }
 
@@ -393,6 +399,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 삭제 버튼 눌렀을 때
             document.querySelector("#calendarDeleteBtn").addEventListener("click", () => {
+                
+                eventCalendarNo = info.event.extendedProps.calendarNo;
+
                 fetch("/calendar/calendarDelete", {
                     method : "DELETE",
                     headers : {"Content-Type" : "application/json"},
@@ -410,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 })
             })
-
+            
             // 수정 버튼 클릭했을 때
             document.querySelector("#calendarUpdateBtn").addEventListener("click", () => {
 
@@ -460,7 +469,74 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                     .then(resp => resp.text())
                     .then(result => {
+                        if(result > 0) {
 
+                            document.querySelector("#updateTitle").value = "";
+                            document.querySelector("#selectedColor").value = "";
+                            document.querySelector(".selectView").innerHTML = "";
+                            document.querySelector(".selectView").classList.add("calendarHidden");
+                            document.querySelector("#updateContent").value = "";
+                            calendarModal.classList.add("calendarHidden");
+    
+                            // 선택된 색상에 border 없애주기
+                            const clickColors = document.querySelectorAll(".clickColor");
+                            clickColors.forEach(div => {
+                                div.classList.remove("addBorder");
+                            });
+    
+                            // select 태그 쪽
+                            const selectCompany = document.querySelector(".selectCompany");
+                            const selectDept = document.querySelector(".selectDept");
+                            const selectTeam = document.querySelector(".selectTeam");
+    
+                            selectCompany.classList.remove("calendarHidden");
+                            selectDept.classList.remove("calendarHidden");
+                            selectTeam.classList.remove("calendarHidden");
+                            
+                            const selectDeptDefalut = document.querySelector(".selectDeptDefalut").value;
+                            const selectTeamDefalut = document.querySelector(".selectTeamDefalut").value;
+    
+                            selectDept.value = selectDeptDefalut;
+                            selectTeam.value = selectTeamDefalut;
+
+                            document.querySelector(".modalUpdateBtn").classList.remove("modalModifyTempBtn");
+
+                            alert("일정 수정 완료");
+
+                        } else {
+
+                            document.querySelector("#updateTitle").value = "";
+                            document.querySelector("#selectedColor").value = "";
+                            document.querySelector(".selectView").innerHTML = "";
+                            document.querySelector(".selectView").classList.add("calendarHidden");
+                            document.querySelector("#updateContent").value = "";
+                            calendarModal.classList.add("calendarHidden");
+    
+                            // 선택된 색상에 border 없애주기
+                            const clickColors = document.querySelectorAll(".clickColor");
+                            clickColors.forEach(div => {
+                                div.classList.remove("addBorder");
+                            });
+    
+                            // select 태그 쪽
+                            const selectCompany = document.querySelector(".selectCompany");
+                            const selectDept = document.querySelector(".selectDept");
+                            const selectTeam = document.querySelector(".selectTeam");
+    
+                            selectCompany.classList.remove("calendarHidden");
+                            selectDept.classList.remove("calendarHidden");
+                            selectTeam.classList.remove("calendarHidden");
+                            
+                            const selectDeptDefalut = document.querySelector(".selectDeptDefalut").value;
+                            const selectTeamDefalut = document.querySelector(".selectTeamDefalut").value;
+    
+                            selectDept.value = selectDeptDefalut;
+                            selectTeam.value = selectTeamDefalut;
+
+                            document.querySelector(".modalUpdateBtn").classList.remove("modalModifyTempBtn");
+
+                            alert("일정 수정 실패");
+                        }
                     })
                 })
 
