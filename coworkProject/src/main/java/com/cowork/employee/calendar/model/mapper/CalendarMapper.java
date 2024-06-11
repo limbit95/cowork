@@ -41,10 +41,22 @@ public interface CalendarMapper {
 	 */
 	int calendarInsert(Calendar inputCalendar);
 
-	/** 회사 부서, 회사 팀 조회해오기
+	/** 회사 전체 일정 보여주기
 	 * @param empCode
 	 */
-	Calendar selectTeamSearch(int empCode);
+	List<Calendar> selectCalendarList(int empCode);
+
+	/** 내가 작성한 일정 보여주기
+	 * @param empCode
+	 * @return myCalendarList
+	 */
+	List<Calendar> selectMyCalendarList(int empCode);
+
+	/** 일정 삭제
+	 * @param eventCalendarNo
+	 * @return result
+	 */
+	int calendarDelete(String eventCalendarNo);
 
 
 }

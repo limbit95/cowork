@@ -38,5 +38,4 @@ public class Employee {
 	
 	// Department 테이블 
 	private String deptNm;
-	
 }

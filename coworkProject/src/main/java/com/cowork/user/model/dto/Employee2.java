@@ -39,6 +39,7 @@ public class Employee2 {
 	private String deptNm; // 부서명
 	private String teamNm; // 팀명
 	private String positionNm; // 직급명
+	private String domain; // 도메인
 	
 	
 	
