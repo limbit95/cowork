@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.employee.survey.model.mapper.SurveyMapper"> 
+
+
+<select id="positionList">
+	SELECT POSITION_NM FROM POSITION 
+	WHERE COM_NO = #{comNo}
+</select>
+
+<select id="empList">
+	SELECT E.*, T.TEAM_NM
+	FROM EMPLOYEE E
+	LEFT JOIN TEAM T ON (T.TEAM_NO = E.TEAM_NO)
+	WHERE E.COM_NO = #{comNo}
+	AND  CONCAT(E.EMP_LAST_NAME, E.EMP_FIRST_NAME) LIKE '%' || #{empNickname} || '%'
+</select>
+
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

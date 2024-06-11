@@ -44,13 +44,13 @@ public class ChattingController {
 	@GetMapping("/chat/wowns590")
 	public String chattingWowns590(HttpServletRequest request) {
 		Employee emp = new Employee();
-		emp.setEmpCode(1);
-		emp.setEmpId("wowns590");
-		emp.setEmpPw("123");
-		emp.setEmpFirstName("최");
-		emp.setEmpLastName("재준");
+		emp.setEmpCode(55);
+		emp.setEmpId("limbit5");
+		emp.setEmpFirstName("임");
+		emp.setEmpLastName("성혁");
+		emp.setComNo(10);		
 		HttpSession session = request.getSession();
-		session.setAttribute("loginMember", emp);
+		session.setAttribute("loginEmp", emp);
 		return "/employee/chatting/chatting";
 	}
 	
@@ -63,7 +63,7 @@ public class ChattingController {
 		emp.setEmpFirstName("송");
 		emp.setEmpLastName("지윤");		
 		HttpSession session = request.getSession();
-		session.setAttribute("loginMember", emp);
+		session.setAttribute("loginEmp", emp);
 		return "/employee/chatting/chatting";
 	}	
 	

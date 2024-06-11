@@ -9,8 +9,6 @@
     AND EMP_CODE != #{empCode}
 </select>
 
-
-
 <insert id="makeChat" useGeneratedKeys="true" keyProperty="roomNo" keyColumn="ROOM_NO">
 	INSERT INTO CHAT_ROOM VALUES 
 	(SEQ_CHAT_ROOM.NEXTVAL, #{roomName}, SYSDATE, #{empCode})
@@ -102,48 +100,6 @@
 
 
 
-	
-	<!--	
-	<select id="findMessageIds"> 
-		SELECT MESSAGE_ID FROM CHAT_MESSAGE
-		WHERE ROOM_ID = #{roomId}
-	</select>
-	
-	<select id="findAllMessageByRoomId">
-		SELECT * FROM CHAT_MESSAGE 
-		WHERE ROOM_ID = #{roomId}
-		ORDER BY MESSAGE_ID 
-	</select>
-
-	
-	<insert id="insertMessage">
-		INSERT INTO CHAT_MESSAGE
-		VALUES (SEQ_CHAT_MESSAGE.NEXTVAL, #{roomId}, #{senderId}, #{messageType}, #{content}, NULL,SYSDATE)
-	</insert>
-
--->
-
-
-
-	<!--
-	<update id="updateReadFl">
-		UPDATE CHAT_MESSAGE_READ 
-		SET READ_FL = 'Y'
-		WHERE MESSAGE_ID = #{messageId}
-		AND MEMBER_NO = #{memberNo}
-	</update>
-	-->
-	
-	
-		
-	<!--
-	<select id="findUnreadCount">
-		SELECT COUNT(*) FROM CHAT_MESSAGE_READ
-		WHERE READ_FL = 'N'
-		AND MESSAGE_ID = #{messageId}
-	</select>
-	-->
-	
 	
 	
 </mapper>
