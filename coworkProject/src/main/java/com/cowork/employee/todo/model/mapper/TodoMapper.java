@@ -133,23 +133,12 @@ public interface TodoMapper {
 	 * @param todoNo
 	 */
 	void deleteTodoManagerOne(int todoNo);
+	
+	 // 파일 삭제 메서드
+    int deleteOriginFile(@Param("fileNo") int fileNo, @Param("todoNo") int todoNo);
 
-	/** 파일 넘버 비교해서 파일 삭제 
-	 * @param map
-	 * @return 
-	 */
-	int deleteOriginFile(Map<String, Object> map);
-
-	/** 파일 이름 비교해서 안겹치는 파일 업로드 
-	 * @param uploadFile
-	 * @param todoNo 
-	 * @return 
-	 */
-	int insertNewFiles(TodoFile uploadFile, int todoNo);
-
-	int insertNewFiles(Map<String, Object> params);
-
-	int todoFileUpdate(TodoFile todoFile);
+    // 파일 삽입 메서드
+    int insertNewFiles(@Param("todoFileList") List<TodoFile> todoFileList, @Param("todoNo") int todoNo);
 
 	
 

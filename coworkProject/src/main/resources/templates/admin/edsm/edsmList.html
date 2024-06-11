@@ -54,7 +54,7 @@
                 </div>
                 <div class="draftBtn">
                     <label th:onclick="|location.href='@{edsmUpdateDraft/{draftNo} (draftNo=*{draftNo})}'|">수정</label>
-                    <label th:if="*{draftFlag eq '7'}">삭제</label>
+                    <label th:if="*{draftFlag eq '7'}" th:onclick="deleteDraft([[*{draftNo}]])">삭제</label>
                 </div>
             </div>
 

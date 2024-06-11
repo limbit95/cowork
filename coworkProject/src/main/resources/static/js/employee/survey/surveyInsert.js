@@ -304,6 +304,7 @@ forBottomEmptySpace.addEventListener('click', function(){
 		console.log(lastChild.children[0].children[0].innerText);
 		/* 여기까지는 옴 */
 		if(lastChild.children[0].children[0].innerText.trim() == 'multiple'){
+
 			
 			// 객관식인 경우 
 						
@@ -377,6 +378,7 @@ forBottomEmptySpace.addEventListener('click', function(){
         'questions': questions
     };
 	
+
     fetch('/survey/insertSurvey', {
         method: 'POST',
         headers: {
@@ -483,7 +485,6 @@ findEmpInput.addEventListener('input', function(){
 	
 	
 })
-
 
 
 

@@ -40,6 +40,7 @@
 		ORDER BY DRAFT_FLAG, DRAFT_NO
 	</select>
 	
+	<!-- 양식 상세 -->
 	<select id="edsmDetailDraft">
 		SELECT 
 			 DRAFT_NO
@@ -50,5 +51,19 @@
 		FROM DRAFT
 		WHERE DRAFT_NO = #{draftNo}
 	</select>
+	
+	<!-- 양식 수정 -->
+	<update id="edsmUpdateDraft">
+		UPDATE DRAFT SET
+			 DRAFT_TITLE = #{draftTitle}
+			,DRAFT_CONTENT = #{draftContent}
+		WHERE DRAFT_NO = #{draftNo}
+	</update>
+	
+	<!-- 양식 삭제 -->
+	<delete id="edsmDeleteDraft">
+		DELETE FROM DRAFT
+		WHERE DRAFT_NO = #{draftNo}
+	</delete>
 
 </mapper>
