@@ -30,21 +30,22 @@
                         
                         <div class="li-hover">
                             <i class="fa-solid fa-angle-down"></i>
-                            <div>
+                            <div class="myAll">
                                 <i class="fa-solid fa-user"></i>
                                 <span>개인 주소록</span>
                             </div>
                         </div>
 
-                        <ul th:if="${myAddr}">
+                        <ul th:if="${groupList}">
 
-                            <li class="favorite" th:each="addr : ${myAddr}">
+                            <li class="favorite" th:each="group : ${groupList}">
 
-                                <div class="li-hover personal">
+                                <div class="li-hover">
                                     <i class="fa-solid fa-angle-down"></i>
-                                    <div>
+                                    <div class="personal" th:data-addr-name="${group.addrName}">
                                         <i class="fa-solid fa-star"></i>
-                                        <span th:text="${addr.addrName}">즐겨찾기</span>
+                                        <span th:text="${group.addrName}" id="addrName">즐겨찾기</span>
+                                        <input hidden th:value="${group.addrBookNo}" id="addrBookNo">
                                     </div>
                                 </div>
 
@@ -211,9 +212,9 @@
                         <div>전화번호</div>
                     </div>
 
-                    <th:block th:if="${groupList}"
-                              th:each="group : ${groupList}"
-                              th:object="${group}">
+                    <th:block th:if="${addrList}"
+                              th:each="addr : ${addrList}"
+                              th:object="${addr}">
                         <div class="employee">
                             <div><input id="check" type="checkbox"></div>
                             <div class="info">
@@ -222,6 +223,7 @@
                                 <div><span th:text="*{positionNm}">팀장</span></div>
                                 <div><span th:text="*{empEmail}">park@naver.com</span></div>
                                 <div><span th:text="*{phone}">010-1234-1234</span></div>
+                                <input hidden th:value="*{empCode}" id="empCode">
                             </div>
                         </div>
                     </th:block>
@@ -235,105 +237,6 @@
                             <div><span>park@naver.com</span></div>
                             <div><span>010-1234-1234</span></div>
                         </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>정윤희</span></div>
-                            <div><span>과장</span></div>
-                            <div><span>jung@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>최재준</span></div>
-                            <div><span>차장</span></div>
-                            <div><span>choi@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>송지윤</span></div>
-                            <div><span>대리</span></div>
-                            <div><span>song@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
                     </div> -->
 
                 </div>
@@ -344,10 +247,10 @@
                     <ul class="pagination" th:if="${pagination}" th:object="${pagination}">
     
                         <!-- 첫 페이지로 이동 -->
-                        <li><a th:href="@{/employee/addr/myGroupList(groupCode=${groupCode}, empCode=${empCode}, cp=1)}">&lt;&lt;</a></li>
+                        <li><a th:href="@{/employee/addr(groupCode=${groupCode}, cp=1)}">&lt;&lt;</a></li>
     
                         <!-- 이전 목록 마지막 번호로 이동 -->
-                        <li><a th:href="@{/employee/addr/myGroupList(groupCode=${groupCode}, empCode=${empCode}, cp=*{prevPage})}">&lt;</a></li>
+                        <li><a th:href="@{/employee/addr(groupCode=${groupCode}, cp=*{prevPage})}">&lt;</a></li>
     
                         <!-- 특정 페이지로 이동 -->
                         <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
@@ -359,17 +262,17 @@
                             
                             <!-- 보고있지 않은 페이지 -->
                             <li th:unless="${i} == *{currentPage}">
-                                <a th:href="@{/employee/addr/myGroupList(groupCode=${groupCode}, empCode=${empCode}, cp=${i})}" 
+                                <a th:href="@{/employee/addr(groupCode=${groupCode}, cp=${i})}" 
                                    th:text="${i}">2</a>
                             </li>
     
                         </th:block>
     
                         <!-- 다음 목록 시작 번호로 이동 -->
-                        <li><a th:href="@{/employee/addr/myGroupList(groupCode=${groupCode}, empCode=${empCode}, cp=*{nextPage})}">&gt;</a></li>
+                        <li><a th:href="@{/employee/addr(groupCode=${groupCode}, cp=*{nextPage})}">&gt;</a></li>
     
                         <!-- 끝 페이지로 이동 -->
-                        <li><a th:href="@{/employee/addr/myGroupList(groupCode=${groupCode}, empCode=${empCode}, cp=*{maxPage})}">&gt;&gt;</a></li>
+                        <li><a th:href="@{/employee/addr(groupCode=${groupCode}, cp=*{maxPage})}">&gt;&gt;</a></li>
                     </ul>
                 </div>
 
@@ -384,7 +287,6 @@
         <div id="addDeptgroup">그룹 추가</div>
         <div id="groupNameChange">그룹명 변경</div>
         <div id="deleteGroup">그룹 삭제</div>
-        <!-- <div id="addAll">전부 추가</div> -->
     </div>
 
     <script src="/js/employee/addr/userAddr.js"></script>
