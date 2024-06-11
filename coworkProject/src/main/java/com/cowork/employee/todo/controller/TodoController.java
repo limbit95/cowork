@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("todo")
 @Controller
 public class TodoController {
-	
+	// 김선규 왔다감
 	private final TodoService service; 
 	
 	/**
@@ -245,28 +245,27 @@ public class TodoController {
 	}
 	*/
 	
-	@ResponseBody
+/*	@ResponseBody
 	@PostMapping("update")
-	public int todoUpdate(@RequestParam("files") List<MultipartFile> files, 
+	public int todoUpdate(@RequestParam(value="files", required=false) List<MultipartFile> files, 
 	                      @RequestParam("todoNo") int todoNo,
 	                      Model model, 
 	                      Todo inputTodo, 
-	                      @RequestParam(value="deleteOrder", required = false) String deleteOrder, 
-	                      @RequestParam(value="updateOrder", required=false) String updateOrder,
+	                      @RequestParam(value="uploadedFiles", required=false) String uploadedFiles, 
+	                      @RequestParam(value="newFiles", required=false) String newFiles, 
+	                      @RequestParam(value="deletedFiles", required=false) String deletedFiles, 
 	                      @SessionAttribute("loginEmp") Employee2 loginEmp) throws IllegalStateException, IOException {
 
-		 int empCode = loginEmp.getEmpCode(); 
+		int empCode = loginEmp.getEmpCode(); 
 		    inputTodo.setEmpCode(empCode); 
 		    inputTodo.setTodoNo(todoNo); 
 		    
-		 // 로그 추가
-	    log.info("Received files: " + files.size());
-	    for (MultipartFile file : files) {
-	        log.info("파일 이름: " + file.getOriginalFilename());
-	        log.info("파일 크기: " + file.getSize() + " bytes");
-	    }
-	    log.info("Received deleteOrder: " + deleteOrder);
-	    log.info("Received updateOrder: " + updateOrder);
+		  
+		  
+		    log.info("업로드 리스트트트트트트트 : " + uploadedFileList); 
+		    log.info("새파일 리스트트트트트트트 : " + newFileList); 
+		    log.info("삭제 리스트트트트트트트 : " + deletedFileList); 
+		    log.info("넘어온 파일 리스트 : " + files.size()); 
 
 	    // 담당자 여러명인 경우 
 	    String inChargeEmpStr = inputTodo.getInChargeEmp(); 
@@ -274,11 +273,49 @@ public class TodoController {
 
 	    log.info("담당자 여러명일때 넘겨받은 리스트 : " + inChargeEmpList.toString());
 
-	    int result = service.todoUpdate(inputTodo, files, inChargeEmpList, deleteOrder, updateOrder); 
+	    int result = service.todoUpdate(inputTodo, files, inChargeEmpList, uploadedFileList, newFileList, deletedFileList); 
 
 	    model.addAttribute("todo", inputTodo);
 
 	    return result; 
+	}*/
+	
+	@ResponseBody
+	@PostMapping("update")
+	public int todoUpdate(@RequestBody Map<String, Object> requestData, 
+	                      @SessionAttribute("loginEmp") Employee2 loginEmp) throws IllegalStateException, IOException {
+
+	    int empCode = loginEmp.getEmpCode(); 
+
+	    // Todo 객체 생성 및 데이터 설정
+	    Todo inputTodo = new Todo();
+	    inputTodo.setTodoNo(Integer.parseInt(requestData.get("todoNo").toString()));
+	    inputTodo.setTodoTitle((String) requestData.get("todoTitle"));
+	    inputTodo.setTodoContent((String) requestData.get("todoContent"));
+	    inputTodo.setTodoEndDate((String) requestData.get("todoEndDate"));
+	    inputTodo.setRequestEmp((String) requestData.get("requestEmp"));
+	    inputTodo.setInChargeEmp((String) requestData.get("inChargeEmp"));
+	    inputTodo.setEmpCode(empCode);
+
+	    if (requestData.containsKey("inChargeEmp")) {
+	        String inChargeEmpStr = (String) requestData.get("inChargeEmp");
+	        List<String> inChargeEmpList = Arrays.asList(inChargeEmpStr.split("\\s*,\\s*"));
+	        inputTodo.setInChargeEmpList(inChargeEmpList);
+	    } else {
+	        inputTodo.setInChargeEmpList(new ArrayList<>());
+	    }
+
+	    // 파일 리스트 파싱
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    List<TodoFile> uploadedFileList = objectMapper.convertValue(requestData.get("uploadedFiles"), new TypeReference<List<TodoFile>>(){});
+	    List<TodoFile> newFileList = objectMapper.convertValue(requestData.get("newFiles"), new TypeReference<List<TodoFile>>(){});
+	    List<TodoFile> deletedFileList = objectMapper.convertValue(requestData.get("deletedFiles"), new TypeReference<List<TodoFile>>(){});
+
+	    log.info("업로드 리스트 : " + uploadedFileList); 
+	    log.info("새 파일 리스트 : " + newFileList); 
+	    log.info("삭제 리스트 : " + deletedFileList); 
+
+	    return service.todoUpdate(inputTodo, newFileList, uploadedFileList, deletedFileList); 
 	}
 	
 	

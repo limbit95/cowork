@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendar</title>
+    <title>myCalendar</title>
 
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.13/index.global.min.js"></script>
     <script src='https://fullcalendar.io/releases/fullcalendar/3.10.2/lib/moment.min.js'></script>
@@ -16,7 +16,7 @@
 
     <section class="container">
         <!-- 캘린더 제목 -->
-        <div class="title"><span>회사 전체 일정보기</span></div>
+        <div class="title"><span>내가 작성한 일정 보기</span></div>
 
         <!-- 버튼 영역 -->
         <div class="myCalendarBtnTop">
@@ -79,25 +79,16 @@
             <select class="selectDept">
                 <option th:text="${#lists.isEmpty(deptList) ? '없음' : '부서 선택'}" class="selectDeptDefalut">부서 선택</option>
                 <option th:each="dept : ${deptList}" th:value="${dept.deptNo}" th:text="${dept.deptNm}">부서명</option>
-                <!-- <input th:each="dept : ${deptList}" th:value="${dept.deptNo}" hidden> -->
             </select>
 
             <select class="selectTeam">
                 <option th:text="${#lists.isEmpty(teamList) ? '없음' : '팀 선택'}" class="selectTeamDefalut">팀 선택</option>
                 <option th:each="team : ${teamList}" th:value="${team.teamNo}" th:text="${team.teamNm}">팀명</option>
-                <!-- <input th:each="team : ${teamList}" th:value="${team.teamNo}" hidden> -->
             </select>
         </div>
 
         <!-- 선택한 값들이 들어올 곳 -->
-        <div class="selectView calendarHidden">
-            <!-- <span class="selectedDiv">
-                <div>
-                    <p>회사 전체</p>
-                    <span class="selectCancel">&times;</span>
-                </div>
-            </span> -->
-        </div>
+        <div class="selectView calendarHidden"></div>
 
         <div class="modalContent">
             <textarea id="updateContent" rows="7" cols="50"></textarea>
@@ -109,7 +100,7 @@
         </div>
     </div>
 
-    <!-- 전체 캘린더에서 제목을 클릭했을 경우 뜨는 모달창 -->
+    <!-- 제목 클릭했을 때 보여질 모달창 -->
     <div id="calendarModalUpdate" class="calendarHidden">
         <div class="calendarModalSpace">
             <span class="spanX">&times;</span>
@@ -126,14 +117,19 @@
         </div>
 
         <div class="modalUpdateSpace"></div>
+
+        <div class="modalBtn updateModalBtn">
+            <button id="calendarUpdateBtn" class="default-btn glucose-border-btn modalUpdateBtn">수정</button>
+            <button id="calendarDeleteBtn" class="default-btn glucose-border-btn modalCancelBtn">삭제</button>
+        </div>
     </div>
 
     <!-- Full Calendar API JS -->
-    <script src="/js/employee/calendar/calendar.js"></script>
+    <script src="/js/employee/calendar/myCalendar.js"></script>
     
     <!-- 값 담아주기 -->
     <script th:inline="javascript">
-        const calendarList = /*[[${calendarList}]]*/ "캘린더 리스트";
+        const myCalendarList = /*[[${myCalendarList}]]*/ "캘린더 리스트";
         const comNo = /*[[${loginEmp.comNo}]]*/ "회사 기본키";
         const empCode = /*[[${loginEmp.empCode}]]*/ "사원 기본키";
     </script>

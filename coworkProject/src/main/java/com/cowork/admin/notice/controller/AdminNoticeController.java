@@ -108,6 +108,8 @@ public class AdminNoticeController {
 		
 		Notice inputNotice = new Notice();
 		
+		noticeContent = noticeContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
+		
 		inputNotice.setEmpCode(loginEmp.getEmpCode());
 		inputNotice.setNoticeTitle(noticeTitle);
 		inputNotice.setNoticeContent(noticeContent);
@@ -138,7 +140,7 @@ public class AdminNoticeController {
 			path = "redirect:noticeList";
 			message = "게시글이 삭제되었습니다.";
 		} else {
-			path = "admin/notice/noticeDetail";
+			path = "redirect:noticeDetail" + noticeNo;
 			message = "게시글 삭제 실패";
 		}
 		
@@ -187,6 +189,8 @@ public class AdminNoticeController {
 			) throws IllegalStateException, IOException {
 		
 		Notice inputNotice = new Notice();
+		
+		noticeContent = noticeContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
 		
 		inputNotice.setNoticeNo(noticeNo);
 		inputNotice.setNoticeTitle(noticeTitle);

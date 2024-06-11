@@ -5,8 +5,18 @@
     justify-content: flex-end;
 }
 
+.myCalendarBtnTop {
+    display: flex;
+    width: 60%;
+    justify-content: flex-end;
+}
+
 .calendarBtnMargin {
     margin-left: 5px;
+}
+
+.calendarBtnInner a {
+    text-decoration: none;
 }
 
 /* 캘린더 크기 축소 및 가운데 정렬 */
@@ -33,7 +43,7 @@
 } */
 
 /* pop-up */
-#calendarModal{
+#calendarModal, #calendarModalUpdate{
 	width: 30%;
 	height: 60%;
 	background-color: white;
@@ -52,10 +62,23 @@
     z-index: 5;
 }
 
+#calendarModalUpdate {
+    height: 40%;
+}
+
 .calendarModalSpace {
     background-color: var(--main4-color);
     height: 5%;
     width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.spanX {
+    padding-top: 2px;
+    padding-right: 2px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .modalTitle{
@@ -74,7 +97,7 @@
     text-align: center;
 }
 
-#updateTitle {
+#updateTitle, #modalUpdateTitle {
     width: 75%;
     border-radius: 5px;
     border: 1px solid var(--main6-color);
@@ -180,7 +203,7 @@
     overflow: hidden; /* 넘치는 콘텐츠 숨김 */
 }
 
-#updateContent {
+#updateContent, #modalUpdateContent {
     resize: none;
     width: 100%; /* textarea의 너비를 부모의 100%로 설정 */
     height: 100%; /* 필요에 따라 높이 설정 */
@@ -194,6 +217,10 @@
 	display: none !important; 
 }
 
+.modalUpdateSpace {
+    height: 30%;
+}
+
 /* 모달 button */
 .modalBtn {
     display: flex;
@@ -204,4 +231,8 @@
 .modalBtn button {
     border: 1px solid var(--main6-color);
     margin-left: 5px;
+}
+
+.fc-event-time {
+    display: none !important;
 }
