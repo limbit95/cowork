@@ -6,10 +6,17 @@ function initialize() {
     // 등록하기 버튼 클릭시 
     document.getElementById('insertBtn').addEventListener('click', toggleInsertForm);
     // 파일 업로드 관련 
-    document.querySelector('#uploadFile + .uploadFileLabel').addEventListener('click', () => document.getElementById('uploadFile').click());
-    document.getElementById('uploadFile').addEventListener('change', handleFileUpload);
-    document.querySelector('#detailUploadFile + .uploadFileLabel').addEventListener('click', () => document.getElementById('detailUploadFile').click());
-    document.getElementById('detailUploadFile').addEventListener('change', handleFileUpload);
+    document.querySelector('#uploadFile + .uploadFileLabel').addEventListener('click', (event) => {
+        document.getElementById('uploadFile').click('change', handleFileUpload);
+        event.stopPropagation();
+    });
+   // document.getElementById('uploadFile').addEventListener('change', handleFileUpload);
+    document.getElementById('todoUpdateForm').addEventListener('submit', handleFormSubmit);
+    document.querySelector('#detailUploadFile + .uploadFileLabel').addEventListener('click', (event) => {
+        document.getElementById('detailUploadFile').click('change', handleFileUpload);
+        event.stopPropagation();
+    });
+    //document.getElementById('detailUploadFile').addEventListener('change', handleFileUpload);
     // 내 할 일
     document.getElementById('meInCharge').querySelector('a').addEventListener('click', handleMeInChargeClick);
     // 내가 요청한 
@@ -224,11 +231,11 @@ function toggleInsertForm(e) {
         applyTodoStyles('normal');
     }
 }
-let uploadedFiles = [];
-let newFiles = [];
-let deletedFiles = [];
 
-// 파일 업로드 
+let formDataFiles = [];
+let deleteOrder = new Set();
+let updateOrder = new Set();
+
 function handleFileUpload(event) {
     const fileList = event.target.id === 'uploadFile' ? document.getElementById('fileList') : document.getElementById('detailFileList');
     const files = Array.from(event.target.files);
@@ -239,30 +246,292 @@ function handleFileUpload(event) {
     }
 
     files.forEach(file => {
-        const li = document.createElement('li');
-        const fileName = document.createElement('span');
-        const removeButton = document.createElement('button');
+        const existingFile = formDataFiles.find(f => f.name === file.name && f.size === file.size);
+        if (!existingFile) {
+            const li = document.createElement('li');
+            const fileName = document.createElement('span');
+            const removeButton = document.createElement('button');
 
-        fileName.textContent = file.name;
-        removeButton.textContent = 'x';
-        removeButton.style.marginLeft = '10px';
-        li.appendChild(fileName);
-        li.appendChild(removeButton);
-        fileList.appendChild(li);
+            fileName.textContent = file.name;
+            removeButton.textContent = 'x';
+            removeButton.className = 'fileRemove';
+            removeButton.dataset.index = `file-${formDataFiles.length}`;
+            removeButton.dataset.name = file.name;
+            li.appendChild(fileName);
+            li.appendChild(removeButton);
+            fileList.appendChild(li);
 
-        newFiles.push(file);
+            formDataFiles.push(file);
 
-        removeButton.addEventListener('click', function() {
-            fileList.removeChild(li);
-            newFiles = newFiles.filter(f => f.name !== file.name);
-            if (fileList.children.length === 0) {
-                const noFileLi = document.createElement('li');
-                noFileLi.textContent = '첨부파일 없음';
-                fileList.appendChild(noFileLi);
-            }
-        });
+            removeButton.addEventListener('click', function () {
+                const removeTargetName = removeButton.dataset.name;
+                formDataFiles = formDataFiles.filter(f => f.name !== removeTargetName);
+                fileList.removeChild(li);
+                deleteOrder.add(removeTargetName);  // 삭제된 파일을 deleteOrder에 추가
+
+                if (fileList.children.length === 0) {
+                    const noFileLi = document.createElement('li');
+                    noFileLi.textContent = '첨부파일 없음';
+                    fileList.appendChild(noFileLi);
+                }
+            });
+        }
     });
 }
+
+function handleFormSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(document.getElementById('todoUpdateForm'));
+    formDataFiles.forEach(file => formData.append('files', file));
+
+    const deleteOrderArray = Array.from(deleteOrder).join(',');
+    const updateOrderArray = Array.from(updateOrder).join(',');
+
+    formData.append('updateOrder', updateOrderArray);
+    formData.append('deleteOrder', deleteOrderArray);
+
+    fetch('/todo/update', {
+        method: 'POST',
+        body: formData
+    }).then(resp => resp.text())
+      .then(result => {
+        if (result > 0) {
+            alert('수정 성공했습니다.');
+            location.reload();
+        } else {
+            alert('수정 실패했습니다.');
+        }
+      }).catch(error => {
+          console.error('Error:', error);
+      });
+}
+
+function showTodoDetail(todo) {
+    const detailArea = document.getElementById('todoDetailArea');
+    const todoInsertArea = document.getElementById('todoInsertArea');
+
+    if (todoInsertArea) {
+        todoInsertArea.classList.remove('show');
+        setTimeout(() => todoInsertArea.style.display = 'none', 300);
+    }
+
+    if (detailArea) {
+        detailArea.style.display = 'block';
+        setTimeout(() => detailArea.classList.add('show'), 10);
+
+        document.querySelector('[name="todoEndDate"]').value = todo.todoEndDate ? todo.todoEndDate.split(' ')[0] : '';
+        document.querySelector('[name="requestEmp"]').value = todo.requestEmp || '';
+        const inChargeEmpStr = todo.inChargeEmpList ? todo.inChargeEmpList.join(', ') : todo.inChargeEmp || '';
+        document.querySelector('[name="inChargeEmp"]').value = inChargeEmpStr;
+        document.querySelector('[name="todoTitle"]').value = todo.todoTitle || '';
+        document.querySelector('[name="todoContent"]').value = todo.todoContent || '';
+
+        const fileListElement = document.getElementById('detailFileList');
+        fileListElement.innerHTML = '';
+
+        let uploadedFiles = todo.fileList ? [...todo.fileList] : [];
+
+        if (uploadedFiles.length > 0) {
+            uploadedFiles.forEach(file => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+
+                a.href = file.filePath + file.fileRename;
+                a.textContent = file.fileOriginName;
+                a.setAttribute('download', file.fileOriginName);
+
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'x';
+                removeButton.className = 'fileRemove';
+                removeButton.style.marginLeft = '10px';
+                removeButton.dataset.index = `uploaded-file-${file.fileOrder}`;
+                removeButton.dataset.name = file.fileOriginName;
+                li.appendChild(a);
+                li.appendChild(removeButton);
+                fileListElement.appendChild(li);
+
+                removeButton.addEventListener('click', function () {
+                    const removeTargetName = removeButton.dataset.name;
+                    deleteOrder.add(removeTargetName);  // 삭제된 파일을 deleteOrder에 추가
+                    uploadedFiles = uploadedFiles.filter(f => f.fileOriginName !== removeTargetName);
+                    fileListElement.removeChild(li);
+
+                    if (fileListElement.children.length === 0) {
+                        const noFileLi = document.createElement('li');
+                        noFileLi.textContent = '첨부파일 없음';
+                        fileListElement.appendChild(noFileLi);
+                    }
+                });
+            });
+        } else {
+            const li = document.createElement('li');
+            li.textContent = '첨부파일 없음';
+            fileListElement.appendChild(li);
+        }
+
+        const updateBtn = document.getElementById('updateBtn');
+        const todoEmpCode = String(todo.empCode);
+        const loginEmp = document.getElementById('loginEmp').value;
+
+        if (loginEmp === todoEmpCode) {
+            updateBtn.style.display = 'block';
+        } else {
+            updateBtn.style.display = 'none';
+        }
+    }
+}
+
+/*
+let formDataFiles = [];
+let deleteOrder = new Set();
+let updateOrder = new Set();
+
+function handleFileUpload(event) {
+    const fileList = event.target.id === 'uploadFile' ? document.getElementById('fileList') : document.getElementById('detailFileList');
+    const files = Array.from(event.target.files);
+
+    const noFileLi = fileList.querySelector('li');
+    if (noFileLi && noFileLi.textContent === '첨부파일 없음') {
+        fileList.removeChild(noFileLi);
+    }
+
+    files.forEach(file => {
+        const existingFile = formDataFiles.find(f => f.name === file.name && f.size === file.size);
+        if (!existingFile) {
+            const li = document.createElement('li');
+            const fileName = document.createElement('span');
+            const removeButton = document.createElement('button');
+
+            fileName.textContent = file.name;
+            removeButton.textContent = 'x';
+            removeButton.className = 'fileRemove';
+            removeButton.dataset.index = `file-${formDataFiles.length}`;
+            removeButton.dataset.name = file.name;
+            li.appendChild(fileName);
+            li.appendChild(removeButton);
+            fileList.appendChild(li);
+
+            formDataFiles.push(file);
+
+            removeButton.addEventListener('click', function () {
+                const removeTargetName = removeButton.dataset.name;
+                formDataFiles = formDataFiles.filter(f => f.name !== removeTargetName);
+                fileList.removeChild(li);
+
+                if (fileList.children.length === 0) {
+                    const noFileLi = document.createElement('li');
+                    noFileLi.textContent = '첨부파일 없음';
+                    fileList.appendChild(noFileLi);
+                }
+            });
+        }
+    });
+}
+
+function handleFormSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(document.getElementById('todoUpdateForm'));
+    formDataFiles.forEach(file => formData.append('files', file));
+
+    const clone = new FormData();
+    clone.append('updateOrder', Array.from(updateOrder).join(','));
+    clone.append('deleteOrder', Array.from(deleteOrder).join(','));
+
+    for (const pair of formData.entries()) {
+        clone.append(pair[0], pair[1]);
+    }
+
+    fetch('/todo/update', {
+        method: 'POST',
+        body: clone
+    }).then(resp => resp.text())
+      .then(result => {
+        if (result > 0) {
+            alert('수정 성공했습니다.');
+            location.reload();
+        } else {
+            alert('수정 실패했습니다.');
+        }
+      }).catch(error => {
+          console.error('Error:', error);
+      });
+}
+
+function showTodoDetail(todo) {
+    const detailArea = document.getElementById('todoDetailArea');
+    const todoInsertArea = document.getElementById('todoInsertArea');
+
+    if (todoInsertArea) {
+        todoInsertArea.classList.remove('show');
+        setTimeout(() => todoInsertArea.style.display = 'none', 300);
+    }
+
+    if (detailArea) {
+        detailArea.style.display = 'block';
+        setTimeout(() => detailArea.classList.add('show'), 10);
+
+        document.querySelector('[name="todoEndDate"]').value = todo.todoEndDate ? todo.todoEndDate.split(' ')[0] : '';
+        document.querySelector('[name="requestEmp"]').value = todo.requestEmp || '';
+        const inChargeEmpStr = todo.inChargeEmpList ? todo.inChargeEmpList.join(', ') : todo.inChargeEmp || '';
+        document.querySelector('[name="inChargeEmp"]').value = inChargeEmpStr;
+        document.querySelector('[name="todoTitle"]').value = todo.todoTitle || '';
+        document.querySelector('[name="todoContent"]').value = todo.todoContent || '';
+
+        const fileListElement = document.getElementById('detailFileList');
+        fileListElement.innerHTML = '';
+
+        let uploadedFiles = todo.fileList ? [...todo.fileList] : [];
+        let deletedFiles = [];
+
+        if (uploadedFiles.length > 0) {
+            uploadedFiles.forEach(file => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+
+                a.href = file.filePath + file.fileRename;
+                a.textContent = file.fileOriginName;
+                a.setAttribute('download', file.fileOriginName);
+
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'x';
+                removeButton.className = 'fileRemove';
+                removeButton.style.marginLeft = '10px';
+                removeButton.dataset.index = `uploaded-file-${file.fileOrder}`;
+                removeButton.dataset.name = file.fileOriginName;
+                li.appendChild(a);
+                li.appendChild(removeButton);
+                fileListElement.appendChild(li);
+
+                removeButton.addEventListener('click', function () {
+                    const removeTargetName = removeButton.dataset.name;
+                    deletedFiles.push(removeTargetName);
+                    uploadedFiles = uploadedFiles.filter(f => f.fileOriginName !== removeTargetName);
+                    fileListElement.removeChild(li);
+
+                    if (fileListElement.children.length === 0) {
+                        const noFileLi = document.createElement('li');
+                        noFileLi.textContent = '첨부파일 없음';
+                        fileListElement.appendChild(noFileLi);
+                    }
+                });
+            });
+        } else {
+            const li = document.createElement('li');
+            li.textContent = '첨부파일 없음';
+            fileListElement.appendChild(li);
+        }
+
+        const updateBtn = document.getElementById('updateBtn');
+        const todoEmpCode = String(todo.empCode);
+        const loginEmp = document.getElementById('loginEmp').value;
+
+        if (loginEmp === todoEmpCode) {
+            updateBtn.style.display = 'block';
+        } else {
+            updateBtn.style.display = 'none';
+        }
+    }
+}*/
 
 // 완료 한 일 보기 토글  
 function toggleDoneList() {
@@ -350,7 +619,7 @@ function toggleDetailForm() {
 }
 
 // 상세(수정) 폼
-function showTodoDetail(todo) {
+/*function showTodoDetail(todo) {
     const detailArea = document.getElementById('todoDetailArea');
     const todoInsertArea = document.getElementById('todoInsertArea');
 
@@ -373,9 +642,9 @@ function showTodoDetail(todo) {
         const fileListElement = document.getElementById('detailFileList');
         fileListElement.innerHTML = '';
 
-        uploadedFiles = todo.fileList ? [...todo.fileList] : [];
-        newFiles = [];
-        deletedFiles = [];
+        // 로컬 변수로 선언
+        let uploadedFiles = todo.fileList ? [...todo.fileList] : [];
+        let deletedFiles = [];
 
         if (uploadedFiles.length > 0) {
             uploadedFiles.forEach(file => {
@@ -396,7 +665,7 @@ function showTodoDetail(todo) {
                 removeButton.addEventListener('click', function() {
                     fileListElement.removeChild(li);
                     deletedFiles.push(file);
-                    uploadedFiles = uploadedFiles.filter(f => f.filePath + f.fileRename !== file.filePath + file.fileRename);
+                    uploadedFiles = uploadedFiles.filter(f => f !== file);
 
                     if (fileListElement.children.length === 0) {
                         const noFileLi = document.createElement('li');
@@ -411,11 +680,10 @@ function showTodoDetail(todo) {
             fileListElement.appendChild(li);
         }
 
+
         const updateBtn = document.getElementById('updateBtn');
         const todoEmpCode = String(todo.empCode);
-        var loginEmp = document.getElementById('loginEmp').value;
-        console.log(todoEmpCode);
-        console.log(loginEmp);
+        const loginEmp = document.getElementById('loginEmp').value;
 
         if (loginEmp === todoEmpCode) {
             updateBtn.style.display = 'block';
@@ -424,48 +692,11 @@ function showTodoDetail(todo) {
         }
     }
 }
-
-function updateTodo() {
-    const formData = new FormData(document.getElementById('todoUpdateForm'));
-
-    // 기존 파일 목록을 FormData에 추가
-    uploadedFiles.forEach(file => {
-        if (file.filePath) {
-            formData.append('existingFiles', JSON.stringify(file));
-        }
-    });
-
-    // 새 파일 목록을 FormData에 추가
-    newFiles.forEach(file => {
-        formData.append('newFiles', file);
-    });
-
-    // 삭제된 파일 목록을 FormData에 추가
-    deletedFiles.forEach(file => {
-        formData.append('deletedFiles', JSON.stringify(file));
-    });
-
-    fetch('/todo/update', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('업데이트 성공');
-            location.reload();
-        } else {
-            alert('업데이트 실패');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
+*/
 
 //삭제하기 
-function handleDelete(event) {
-    event.preventDefault();
+function handleDelete(e) {
+    e.preventDefault();
 
     const checkedCheckboxes = document.querySelectorAll('.todoCheckbox:checked');
     const todoIds = Array.from(checkedCheckboxes).map(checkbox => parseInt(checkbox.getAttribute('data-todo-id')));

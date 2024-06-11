@@ -37,9 +37,11 @@ public interface TodoService {
 	 * @param inputTodo
 	 * @param files
 	 * @param inChargeEmpList 
+	 * @param updateOrder 
+	 * @param deleteOrder 
 	 * @return
 	 */
-	int todoUpdate(Todo inputTodo, List<MultipartFile> files, List<String> inChargeEmpList) throws IllegalStateException, IOException;
+	int todoUpdate(Todo inputTodo, List<MultipartFile> files, List<String> inChargeEmpList, String deleteOrder, String updateOrder) throws IllegalStateException, IOException; 
 
 	/** 할 일 삭제 
 	 * @param todoNoList
@@ -78,6 +80,9 @@ public interface TodoService {
 	 * @return
 	 */
 	List<String> getEmpList(int todoNo);
+
+	
+		
 
 
 }

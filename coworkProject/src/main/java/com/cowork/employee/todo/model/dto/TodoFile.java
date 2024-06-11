@@ -26,4 +26,6 @@ public class TodoFile {
 	
 	private int todoNo; 
 	private MultipartFile uploadFile; 
+	
+	private String updateFileOrder; 
 }

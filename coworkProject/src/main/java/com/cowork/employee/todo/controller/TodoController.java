@@ -25,6 +25,8 @@ import com.cowork.employee.todo.model.dto.Todo;
 import com.cowork.employee.todo.model.dto.TodoFile;
 import com.cowork.employee.todo.model.service.TodoService;
 import com.cowork.user.model.dto.Employee2;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -194,6 +196,7 @@ public class TodoController {
 		return "redirect:/todo/todoList"; 
 	} 
 	
+
 	/** 할 일 수정 
 	 * @param files
 	 * @param model
@@ -203,7 +206,7 @@ public class TodoController {
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 */
-	@PostMapping("update")
+/*	@PostMapping("update")
 	public String todoUpdate(@RequestParam("files") List<MultipartFile> files, 
 							Model model,
 							Todo inputTodo, 
@@ -239,6 +242,43 @@ public class TodoController {
 		
 		
 		return "redirect:/todo/todoList"; 
+	}
+	*/
+	
+	@ResponseBody
+	@PostMapping("update")
+	public int todoUpdate(@RequestParam("files") List<MultipartFile> files, 
+	                      @RequestParam("todoNo") int todoNo,
+	                      Model model, 
+	                      Todo inputTodo, 
+	                      @RequestParam(value="deleteOrder", required = false) String deleteOrder, 
+	                      @RequestParam(value="updateOrder", required=false) String updateOrder,
+	                      @SessionAttribute("loginEmp") Employee2 loginEmp) throws IllegalStateException, IOException {
+
+		 int empCode = loginEmp.getEmpCode(); 
+		    inputTodo.setEmpCode(empCode); 
+		    inputTodo.setTodoNo(todoNo); 
+		    
+		 // 로그 추가
+	    log.info("Received files: " + files.size());
+	    for (MultipartFile file : files) {
+	        log.info("파일 이름: " + file.getOriginalFilename());
+	        log.info("파일 크기: " + file.getSize() + " bytes");
+	    }
+	    log.info("Received deleteOrder: " + deleteOrder);
+	    log.info("Received updateOrder: " + updateOrder);
+
+	    // 담당자 여러명인 경우 
+	    String inChargeEmpStr = inputTodo.getInChargeEmp(); 
+	    List<String> inChargeEmpList = Arrays.asList(inChargeEmpStr.split("\\s*,\\s*")); 
+
+	    log.info("담당자 여러명일때 넘겨받은 리스트 : " + inChargeEmpList.toString());
+
+	    int result = service.todoUpdate(inputTodo, files, inChargeEmpList, deleteOrder, updateOrder); 
+
+	    model.addAttribute("todo", inputTodo);
+
+	    return result; 
 	}
 	
 	
