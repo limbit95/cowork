@@ -832,3 +832,4 @@ java.io.FileNotFoundException: C:\workspace\CoWork\.metadata\.plugins\org.eclips
 	at org.eclipse.core.internal.resources.Workspace.save(Workspace.java:2489)
 	at org.eclipse.ui.internal.ide.application.IDEWorkbenchAdvisor.lambda$1(IDEWorkbenchAdvisor.java:553)
 	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:124)
+2024-06-11 10:11:21,024 [Worker-2: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
