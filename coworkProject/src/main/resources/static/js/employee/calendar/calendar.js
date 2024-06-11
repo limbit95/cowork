@@ -218,6 +218,15 @@ if(modalCancelBtn != null) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+
+    const showCalendar = calendarList.map(event => ({
+        title: event.calendarTitle,
+        start: event.calendarStart,
+        end: event.calendarEnd,
+        color: event.calendarColor,
+        description : event.calendarContent
+    }));
+
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -230,8 +239,16 @@ document.addEventListener('DOMContentLoaded', function() {
         timeZone: 'UTC',
         droppable: true,
         dayMaxEvents: true,
-        events: 'https://fullcalendar.io/api/demo-feeds/events.json',
+        events: showCalendar,
         select: function(info) {
+
+            document.querySelector("#calendarModalUpdate").classList.add("calendarHidden");
+
+            document.querySelector("#updateTitle").value = "";
+            document.querySelector("#selectedColor").value = "";
+            document.querySelector(".selectView").innerHTML = "";
+            document.querySelector(".selectView").classList.add("calendarHidden");
+            document.querySelector("#updateContent").value = "";
 
             // 캘린더 선택 시 모달창 띄워주기
             calendarModal.classList.remove("calendarHidden");
@@ -280,10 +297,38 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.querySelector("#selectedColor").value = "";
                         document.querySelector(".selectView").innerHTML = "";
                         document.querySelector(".selectView").classList.add("calendarHidden");
-                        document.querySelector("#updateContent").innerText = "";
+                        document.querySelector("#updateContent").value = "";
                         calendarModal.classList.add("calendarHidden");
 
+                        // 선택된 색상에 border 없애주기
+                        const clickColors = document.querySelectorAll(".clickColor");
+                        clickColors.forEach(div => {
+                            div.classList.remove("addBorder");
+                        });
+
+                        // select 태그 쪽
+                        const selectCompany = document.querySelector(".selectCompany");
+                        const selectDept = document.querySelector(".selectDept");
+                        const selectTeam = document.querySelector(".selectTeam");
+
+                        selectCompany.classList.remove("calendarHidden");
+                        selectDept.classList.remove("calendarHidden");
+                        selectTeam.classList.remove("calendarHidden");
+                        
+                        const selectDeptDefalut = document.querySelector(".selectDeptDefalut").value;
+                        const selectTeamDefalut = document.querySelector(".selectTeamDefalut").value;
+
+                        selectDept.value = selectDeptDefalut;
+                        selectTeam.value = selectTeamDefalut;
+
+                        calendar.addEvent({
+
+                        });
+
+
                         alert("일정이 추가되었습니다.");
+                        
+                        calendar.render();
 
                     } else {
 
@@ -291,8 +336,29 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.querySelector("#selectedColor").value = "";
                         document.querySelector(".selectView").innerHTML = "";
                         document.querySelector(".selectView").classList.add("calendarHidden");
-                        document.querySelector("#updateContent").innerText = "";
+                        document.querySelector("#updateContent").value = "";
                         calendarModal.classList.add("calendarHidden");
+
+                        // 선택된 색상에 border 없애주기
+                        const clickColors = document.querySelectorAll(".clickColor");
+                        clickColors.forEach(div => {
+                            div.classList.remove("addBorder");
+                        });
+
+                        // select 태그 쪽
+                        const selectCompany = document.querySelector(".selectCompany");
+                        const selectDept = document.querySelector(".selectDept");
+                        const selectTeam = document.querySelector(".selectTeam");
+
+                        selectCompany.classList.remove("calendarHidden");
+                        selectDept.classList.remove("calendarHidden");
+                        selectTeam.classList.remove("calendarHidden");
+                        
+                        const selectDeptDefalut = document.querySelector(".selectDeptDefalut").value;
+                        const selectTeamDefalut = document.querySelector(".selectTeamDefalut").value;
+
+                        selectDept.value = selectDeptDefalut;
+                        selectTeam.value = selectTeamDefalut;
 
                         alert("일정 추가 실패");
                     }
@@ -303,6 +369,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
             })
 
+        },
+        eventClick: function(info) {
+            var eventTitle = info.event.title;
+            var eventContent = info.event.extendedProps.description;
+
+            document.getElementById('modalUpdateTitle').value = eventTitle;
+            document.getElementById('modalUpdateContent').value = eventContent;
+            
+            document.getElementById('calendarModalUpdate').classList.remove('calendarHidden');
+
+            var popovers = document.querySelectorAll('.fc-popover');
+            popovers.forEach(function(popover) {
+                popover.style.display = 'none';
+            });
+
+            const spanX = document.querySelector(".spanX");
+
+            // 모달 팝업 떴을 때 x 버튼 누른 경우
+            spanX.addEventListener("click", () => {
+                document.getElementById('calendarModalUpdate').classList.add('calendarHidden');
+            });
         }
     });
 

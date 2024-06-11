@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/employee/addr/userAddr.css">
 </head>
 <body>
+	<div th:replace="~{employee/userMain/leftSideBar}"></div>
 
     <section class="container">
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
@@ -31,16 +32,31 @@
                         
                         <div class="li-hover">
                             <i class="fa-solid fa-angle-down"></i>
-                            <div>
+                            <div class="myAll">
                                 <i class="fa-solid fa-user"></i>
                                 <span>개인 주소록</span>
                             </div>
                         </div>
 
+                        <ul th:if="${session.groupList}">
+
+                            <li class="favorite" th:each="group : ${session.groupList}">
+
+                                <div class="li-hover">
+                                    <i class="fa-solid fa-angle-down"></i>
+                                    <div class="personal" th:data-addr-name="${group.addrName}">
+                                        <i class="fa-solid fa-star"></i>
+                                        <span th:text="${group.addrName}" id="addrName">즐겨찾기</span>
+                                        <input hidden th:value="${group.addrBookNo}" id="addrBookNo">
+                                    </div>
+                                </div>
+
+                            </li>
+
+                        </ul>
+
                         <!-- <ul>    
-
                             <li class="favorite">
-
                                 <div class="li-hover">
                                     <i class="fa-solid fa-angle-down"></i>
                                     <div>
@@ -48,14 +64,11 @@
                                         <span>즐겨찾기</span>
                                     </div>
                                 </div>
-
                             </li>
-
                         </ul> -->
 
                     </li>
                 </ul>
-
 
                 <!-- 회사 주소록 -->
                 <ul>
@@ -175,13 +188,11 @@
             <!-- 오른쪽 영역(구성원 정보 상세 조회 영역) -->
             <div class="employeeDetail">
     
-                <div class="detailHeader">
-                    <!-- 프로필 사진 -->
+                <!-- <div class="detailHeader">
                     <div>
                         <img src="" alt="">
                     </div>
             
-                    <!-- 이름, 부서, 직급, 아이디 -->
                     <div>
                         <span>임성혁</span>
                         <span>운영팀 / 대리</span>
@@ -267,7 +278,7 @@
                         </div>
             
                     </div>
-                </div>
+                </div> -->
             
             </div>
 
@@ -278,10 +289,8 @@
     <!-- 드롭다운 -->
     <div class="dropdown-menu" id="contextMenu">
         <div id="addDeptgroup">그룹 추가</div>
-        <!-- <div id="addTeamgroup">팀 추가</div> -->
         <div id="groupNameChange">그룹명 변경</div>
         <div id="deleteGroup">그룹 삭제</div>
-        <!-- <div id="addAll">전부 추가</div> -->
     </div>
 
     <script src="/js/employee/addr/userAddr.js"></script>

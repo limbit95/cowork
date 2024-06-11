@@ -6,10 +6,7 @@
     <title>Calendar</title>
 
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.13/index.global.min.js"></script>
-    <link href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' rel='stylesheet' />
     <script src='https://fullcalendar.io/releases/fullcalendar/3.10.2/lib/moment.min.js'></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
-    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js'></script>
 
     <link rel="stylesheet" href="/css/employee/calendar/calendar.css">
     <link rel="icon" href="/images/favicon.png">
@@ -19,15 +16,15 @@
 
     <section class="container">
         <!-- 캘린더 제목 -->
-        <div class="title"><span>캘린더</span></div>
+        <div class="title"><span>회사 전체 일정보기</span></div>
 
         <!-- 버튼 영역 -->
-        <div class="calendarBtnTop">
+        <div class="myCalendarBtnTop">
     
             <div class="calendarBtnInner">
-                <button class="default-btn glucose-border-btn">회사 일정 보기</button>
+                <a href="/calendar/calendar" class="default-btn glucose-border-btn">내가 포함된 일정 보기</a>
 
-                <button class="default-btn glucose-border-btn calendarBtnMargin">내 일정 보기</button>
+                <a href="/calendar/myCalendar" class="default-btn glucose-border-btn calendarBtnMargin">내가 작성한 일정 보기</a>
             </div>
 
         </div>
@@ -80,13 +77,13 @@
 
             <!-- 로그인한 회원의 회사 기본키로 회사에 존재하는 부서 보여줌 -->
             <select class="selectDept">
-                <option th:text="${#lists.isEmpty(deptList) ? '없음' : '부서 선택'}">부서 선택</option>
+                <option th:text="${#lists.isEmpty(deptList) ? '없음' : '부서 선택'}" class="selectDeptDefalut">부서 선택</option>
                 <option th:each="dept : ${deptList}" th:value="${dept.deptNo}" th:text="${dept.deptNm}">부서명</option>
                 <!-- <input th:each="dept : ${deptList}" th:value="${dept.deptNo}" hidden> -->
             </select>
 
             <select class="selectTeam">
-                <option th:text="${#lists.isEmpty(teamList) ? '없음' : '팀 선택'}">팀 선택</option>
+                <option th:text="${#lists.isEmpty(teamList) ? '없음' : '팀 선택'}" class="selectTeamDefalut">팀 선택</option>
                 <option th:each="team : ${teamList}" th:value="${team.teamNo}" th:text="${team.teamNm}">팀명</option>
                 <!-- <input th:each="team : ${teamList}" th:value="${team.teamNo}" hidden> -->
             </select>
@@ -112,32 +109,31 @@
         </div>
     </div>
 
-    <!-- 전체 캘린더에서 제목 클릭했을 경우 뜨는 모달창 BootStrap -->
-    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p id="eventDescription"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
+    <!-- 전체 캘린더에서 제목을 클릭했을 경우 뜨는 모달창 -->
+    <div id="calendarModalUpdate" class="calendarHidden">
+        <div class="calendarModalSpace">
+            <span class="spanX">&times;</span>
         </div>
-    </div>
 
+        <!-- 제목 작성 부분 -->
+        <div class="modalTitle">
+            <p>일정 제목</p>
+            <input type="text" id="modalUpdateTitle" readonly>
+        </div>
+
+        <div class="modalContent">
+            <textarea id="modalUpdateContent" rows="7" cols="50" readonly></textarea>
+        </div>
+
+        <div class="modalUpdateSpace"></div>
+    </div>
 
     <!-- Full Calendar API JS -->
     <script src="/js/employee/calendar/calendar.js"></script>
     
     <!-- 값 담아주기 -->
     <script th:inline="javascript">
+        const calendarList = /*[[${calendarList}]]*/ "캘린더 리스트";
         const comNo = /*[[${loginEmp.comNo}]]*/ "회사 기본키";
         const empCode = /*[[${loginEmp.empCode}]]*/ "사원 기본키";
     </script>

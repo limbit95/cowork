@@ -12,10 +12,10 @@
 
     <div th:replace="~{admin/left/adminLeftSideBar}"></div>
 
-    <form class="container" id="createDraftForm" action="edsmCreateDraft" method="post">
+    <form class="container" id="updateDraftForm" th:action="@{../edsmUpdateDraft/{draftNo}(draftNo=${draft.draftNo})}" method="post">
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
 
-        <div class="title"><span>양식 생성 </span></div>
+        <div class="title"><span>양식 수정</span></div>
         
         <div class="default-line default-padding" th:object="${draft}">
 
@@ -43,8 +43,8 @@
 
         <!-- 버튼 -->
         <div class="defaultBtn insBtn">
-            <button type="submit" class="default-btn glucose-btn">등록</button>
-            <button type="button" class="default-btn glucose-btn margin10">취소</button>
+            <button type="submit" class="default-btn glucose-btn" id="updateDraft">수정</button>
+            <button type="button" class="default-btn glucose-btn margin10" id="createDraft">취소</button>
         </div>
 
     </form>

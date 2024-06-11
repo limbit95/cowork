@@ -37,9 +37,7 @@ public class DraftServiceImpl implements DraftService {
 		
 		if(result == 0) return 0;
 		
-		int draftNo = inputDraft.getComNo();
-		
-		return draftNo;
+		return inputDraft.getDraftNo();
 	}
 
 	// 양식 상세
@@ -54,6 +52,13 @@ public class DraftServiceImpl implements DraftService {
 	public int edsmUpdateDraft(Draft inputDraft) {
 		// TODO Auto-generated method stub
 		return mapper.edsmUpdateDraft(inputDraft);
+	}
+
+	// 양식 삭제
+	@Override
+	public int edsmDeleteDraft(int draftNo) {
+		// TODO Auto-generated method stub
+		return mapper.edsmDeleteDraft(draftNo);
 	}
 
 }

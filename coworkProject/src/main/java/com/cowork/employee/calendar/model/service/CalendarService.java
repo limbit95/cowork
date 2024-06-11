@@ -26,4 +26,16 @@ public interface CalendarService {
 	 */
 	List<Calendar> selectCalendarList(Employee2 loginEmp);
 
+	/** 내가 작성한 일정 보기
+	 * @param loginEmp
+	 * @return myCalendarList
+	 */
+	List<Calendar> selectMyCalendarList(Employee2 loginEmp);
+
+	/** 일정 삭제
+	 * @param eventCalendarNo
+	 * @return result
+	 */
+	int calendarDelete(String eventCalendarNo);
+
 }
