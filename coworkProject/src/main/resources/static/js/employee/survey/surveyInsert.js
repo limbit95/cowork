@@ -255,7 +255,6 @@ function removeOption(button){
 	} else{
 		alert('삭제할 문항이 존재하지 않습니다.');
 	}
-
 }
 
 
@@ -273,8 +272,6 @@ function addOption(button){
 	
     let optionArea = button.parentElement.nextElementSibling;
 	optionArea.appendChild(newDiv);	
-	
-	
 	
 }
 
@@ -380,7 +377,7 @@ forBottomEmptySpace.addEventListener('click', function(){
         'questions': questions
     };
 	
-    fetch('/survey/survey2', {
+    fetch('/survey/insertSurvey', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -396,17 +393,116 @@ forBottomEmptySpace.addEventListener('click', function(){
     
 })
 
-/* 
-// 현재, 객관식질문의 제목, 객관식 옵션(선택지) 를 얻어왔음. 
-let multipleQuestionObj = {
-	type: 'multiple',
-	title: title,
-	options: options
-}
+/* ----------------설문의 대상 관련 js----------------- */
 
-questions.push(multipleQuestionObj);
+let entire = document.querySelector('#entire');
+let position = document.querySelector('#position');
+let findEmp = document.querySelector('#findEmp');
+let positionArea = document.querySelector('#positionArea');
+let empListArea = document.querySelector('#empListArea');
+
+position.addEventListener('click', function(){
+	
+	positionArea.style.display = 'flex';
+		
+	
+		fetch('/survey/positionList')
+		 .then(response => {
+	    if (!response.ok) {
+	      throw new Error('Network response was not ok');
+	    }
+	    return response.json();
+	  })
+	  .then(data => {
+		
+		let selectTag = document.createElement('select');
+		selectTag.id = "position";
+		selectTag.name = "position";
+		
+		console.log(data);
+		for(let i = 0; i < data.length; i++){
+			let newOption = document.createElement('option');
+		    let position = document.createTextNode(data[i]);
+			newOption.appendChild(position);
+			selectTag.appendChild(newOption);
+		};
+		
+		let positionArea = document.querySelector('#positionArea');
+	    positionArea.appendChild(selectTag);
+			
+	  })
+	  .catch(error => console.error('There has been a problem with your fetch operation:', error));
+})
+
+document.querySelector('#findEmp').addEventListener('click', function(){
+	
+	empListArea.style.display = 'flex';	
+})
+
+let findEmpInput = document.querySelector('#findEmpInput');
+findEmpInput.addEventListener('input', function(){
+	
+	
+	
+	fetch("/survey/empList", {
+		method : "POST",
+		headers : {"Content-Type" : "application/json"},
+		body : JSON.stringify({'empNickname' : findEmpInput.value})// 단순 문자열 형태의 하나의 데이터만 보내는 경우.
+	})
+	.then(resp => resp.json())
+	.then(empList => {
+		
+		for(let emp of empList ){
+			
+				let empDiv= document.createElement('div');
+				let empProfileImg = document.createElement('img');
+				empProfileImg.src =  emp.profileImg;
+				empDiv.appendChild(empDiv);
+				
+				let empNicknameNode = document.createTextNode(emp.empLastName + emp.empFirstName);
+				let nicknameDiv = document.createElement('div');
+				nicknameDiv.appendChild(empNicknameNode);
+				
+				let teamNm = document.createTextNode(emp.teamNm);
+				let teamNameDiv = document.createElement('div');
+				teamNameDiv.appendChild(teamNm);
+				
+				
+				
+				
+		}		
+
+		
+		
+		
+
+		
+	})	
+	
+	
+	
+	
+})
 
 
-*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
