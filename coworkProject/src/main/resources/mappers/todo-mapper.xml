@@ -316,20 +316,7 @@
 	        #{todoId}
 	    </foreach>
 	</delete>
-	
-	<!-- 파일 수정 시 기존 파일 삭제 -->
-	<delete id="deleteOriginTodoFiles" parameterType="int">
-	    DELETE FROM TODO_FILE
-	    WHERE TODO_NO = #{todoNo}
-	</delete>
-	
-	<!-- 파일 수정 시 파일 넘버 비교 파일 삭제 -->
-	<delete id="deleteOriginFile">
-	    DELETE FROM TODO_FILE
-	    WHERE FILE_ORIGIN_NAME IN (#{deleteOrder})
-	    AND TODO_NO = #{todoNo} 
-	</delete>
-	
+		
 	<!-- 사원 이름 조회 -->
 	<select id="getEmpName">
 		SELECT EMP_LAST_NAME || EMP_FIRST_NAME AS EMP_NAME
@@ -337,25 +324,20 @@
 		WHERE EMP_CODE = #{empCode} 
 	</select>
 	
-	<insert id="insertNewFiles" parameterType="map">
-	   INSERT INTO "TODO_FILE"
-	    <foreach collection="list" item="file" 
-	    		open ="(" close=")" separator=" UNION ">
-	       SELECT NEXT_TODO_FILE_NO(), 
-	       #{file.filePath}, #{file.fileOriginName}, 
-	       #{file.fileRename}, SYSDATE, #{file.fileOrder}, #{file.todoNo}
-	       FROM DUAL 
-	    </foreach>
-	</insert>
-	
-	<update id="todoFileUpdate">
-		UPDATE TODO_FILE SET
-		FILE_ORDER = #{fileOrder}
-		WHERE FILE_ORDER = #{fileOrder}
-		AND TODO_NO = #{todoNo}
-	</update>
-	
+	<!-- 파일 수정시 삭제 -->
+	 <delete id="deleteOriginFile">
+        DELETE FROM TODO_FILE 
+        WHERE FILE_NO = #{fileNo} 
+        AND TODO_NO = #{todoNo}
+    </delete>
 
+     <insert id="insertNewFiles">
+        INSERT INTO TODO_FILE (FILE_NO, FILE_ORIGIN_NAME, FILE_RENAME, FILE_PATH, TODO_NO, FILE_ORDER)
+        <foreach collection="todoFileList" item="file" separator=" UNION ALL ">
+            SELECT SEQ_TODO_FILE.NEXTVAL, #{file.fileOriginName}, #{file.fileRename}, #{file.filePath}, #{todoNo}, #{file.fileOrder} FROM DUAL
+        </foreach>
+    </insert>
+    
 </mapper>
 
 	
