@@ -95,7 +95,17 @@
 	margin-top: 5vh;
 }
 
+/* 대상 관련 css 시작 */
+#positionArea{
+	display: none;
+}
 
+#empListArea{
+	display: none;
+}
+
+
+/* 대상 관련 css 끝 */
 
 
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.admin.notice.model.exception.BoardFileDeleteException;
@@ -272,7 +273,10 @@ public class TodoServiceImpl implements TodoService{
 	*/
 	
 	@Override
-	public int todoUpdate(Todo inputTodo, List<MultipartFile> files, List<String> inChargeEmpList,  String deleteOrder, String updateOrder) throws IllegalStateException, IOException {
+	public int todoUpdate(	Todo inputTodo, 
+							@RequestParam List<MultipartFile> files, 
+							List<String> inChargeEmpList,
+							List<TodoFile> uploadedFileList, List<TodoFile> newFileList, List<TodoFile> deletedFileList) throws IllegalStateException, IOException {
 
 	    int result = mapper.todoUpdate(inputTodo);
 
@@ -284,11 +288,11 @@ public class TodoServiceImpl implements TodoService{
 	    int todoNo = inputTodo.getTodoNo();
 	    int empCode = inputTodo.getEmpCode();
 	    String empName = mapper.getEmpName(empCode);
-	
-	    log.info("Received deleteOrder: " + deleteOrder);
-	    log.info("Received updateOrder: " + updateOrder);
-
-
+	    
+	    log.info("업로드 리스트트트트트트트 : " + uploadedFileList); 
+	    log.info("새파일 리스트트트트트트트 : " + newFileList); 
+	    log.info("삭제 리스트트트트트트트 : " + deletedFileList); 
+	    
 	    // requestEmp 값이 비어 있는 경우
 	    if (inputTodo.getRequestEmp() == null || inputTodo.getRequestEmp().isEmpty()) {
 	        inputTodo.setRequestEmp(empName);
@@ -315,78 +319,71 @@ public class TodoServiceImpl implements TodoService{
 	            }
 	        }
 	    }
+	    
+	    // 기존 파일 처리
+	    if (uploadedFileList != null && !uploadedFileList.isEmpty()) {
+	        List<TodoFile> originFiles = mapper.todoFiles(todoNo);
 
-	 
-	 // 파일 삭제 로직
-	    if(deleteOrder != null && !deleteOrder.isEmpty()) {
-	        Map<String, Object> map = new HashMap<>();
-	        map.put("deleteOrder", deleteOrder);
-	        map.put("todoNo", todoNo);
+	        // 기존 파일과의 비교
+	        for (TodoFile originFile : originFiles) {
+	            boolean fileExists = uploadedFileList.stream()
+	                .anyMatch(uploadFile -> uploadFile.getFileOriginName().equals(originFile.getFileOriginName()));
 
-	        result = mapper.deleteOriginFile(map);
+	            if (!fileExists) {
+	                // 기존 파일 목록에서 사라진 경우 삭제
+	                result = mapper.deleteOriginFile(originFile.getFileNo(), todoNo);
 
-	        if(result == 0) throw new TodoDeleteException();
-	    }
-
-	    // 파일 업데이트 로직
-	    if(updateOrder != null && !updateOrder.isEmpty()) {
-	        String[] updateArr = updateOrder.split(",");
-	        for(int i = 0; i < updateArr.length; i++) {
-	            String originalName = files.get(i).getOriginalFilename();
-	            String rename = Utility.fileRename(originalName);
-
-	            TodoFile todoFile = TodoFile.builder()
-	                .fileOriginName(originalName)
-	                .fileRename(rename)
-	                .filePath(webPath)
-	                .todoNo(todoNo)
-	                .fileOrder(i)
-	                .uploadFile(files.get(i))
-	                .build();
-
-	            result = mapper.todoFileUpdate(todoFile);
-
-	            // 파일을 서버에 저장
-	            files.get(i).transferTo(new File(folderPath + rename));
-	        }
-	    }
-
-	    // 새로운 파일 업로드 로직
-	    if(files != null) {
-	        List<TodoFile> uploadList = new ArrayList<>();
-
-	        for(int i = 0; i < files.size(); i++) {
-	            if(!files.get(i).isEmpty()) {
-	                String originalName = files.get(i).getOriginalFilename();
-	                String rename = Utility.fileRename(originalName);
-
-	                TodoFile todoFile = TodoFile.builder()
-	                    .fileOriginName(originalName)
-	                    .fileRename(rename)
-	                    .filePath(webPath)
-	                    .todoNo(todoNo)
-	                    .fileOrder(i)
-	                    .uploadFile(files.get(i))
-	                    .build();
-
-	                uploadList.add(todoFile);
-	            }
-	        }
-
-	        if(!uploadList.isEmpty()) {
-	            result = mapper.insertUploadList(uploadList);
-
-	            if(result == uploadList.size()) {
-	                for(TodoFile file : uploadList) {
-	                    file.getUploadFile().transferTo(new File(folderPath + file.getFileRename()));
+	                if (result > 0) {
+	                    File fileToDelete = new File(folderPath + originFile.getFileRename());
+	                    if (fileToDelete.exists()) {
+	                        fileToDelete.delete();
+	                    }
 	                }
-	            } else {
-	                throw new TodoInsertException("파일이 정상 삽입되지 않음");
+	            }
+	        }
+	        
+	        for (TodoFile uploadFile : uploadedFileList) {
+	            boolean isNewFile = originFiles.stream()
+	                .noneMatch(originFile -> originFile.getFileOriginName().equals(uploadFile.getFileOriginName()));
+
+	            if (isNewFile) {
+	                result = mapper.insertNewFiles(newFileList, todoNo);
+	                if (result > 0) {
+	                    uploadFile.getUploadFile().transferTo(new File(folderPath + uploadFile.getFileRename()));
+	                } else {
+	                    throw new TodoInsertException("파일 업로드 중 예외 발생");
+	                }
 	            }
 	        }
 	    }
 
+	    // 새로 추가된 파일 처리
+	    if (newFileList != null && !newFileList.isEmpty()) {
+	        for (TodoFile newFile : newFileList) {
+	            result = mapper.insertNewFiles(newFileList, todoNo);
+	            if (result > 0) {
+	                newFile.getUploadFile().transferTo(new File(folderPath + newFile.getFileRename()));
+	            } else {
+	                throw new TodoInsertException("새 파일 업로드 중 예외 발생");
+	            }
+	        }
+	    }
+
+	    // 삭제된 파일 처리
+	    if (deletedFileList != null && !deletedFileList.isEmpty()) {
+	        for (TodoFile deletedFile : deletedFileList) {
+	            result = mapper.deleteOriginFile(deletedFile.getFileNo(), todoNo);
+	            if (result > 0) {
+	                File fileToDelete = new File(folderPath + deletedFile.getFileRename());
+	                if (fileToDelete.exists()) {
+	                    fileToDelete.delete();
+	                }
+	            }
+	        }
+	    }
+	    
 	    return result;
+
 	}
 
 

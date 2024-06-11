@@ -6,17 +6,11 @@ function initialize() {
     // 등록하기 버튼 클릭시 
     document.getElementById('insertBtn').addEventListener('click', toggleInsertForm);
     // 파일 업로드 관련 
-    document.querySelector('#uploadFile + .uploadFileLabel').addEventListener('click', (event) => {
-        document.getElementById('uploadFile').click('change', handleFileUpload);
-        event.stopPropagation();
-    });
-   // document.getElementById('uploadFile').addEventListener('change', handleFileUpload);
-    document.getElementById('todoUpdateForm').addEventListener('submit', handleFormSubmit);
-    document.querySelector('#detailUploadFile + .uploadFileLabel').addEventListener('click', (event) => {
-        document.getElementById('detailUploadFile').click('change', handleFileUpload);
-        event.stopPropagation();
-    });
-    //document.getElementById('detailUploadFile').addEventListener('change', handleFileUpload);
+    document.querySelector('#uploadFile + .uploadFileLabel').addEventListener('click', () => document.getElementById('uploadFile').click());
+    document.getElementById('uploadFile').addEventListener('change', handleFileUpload);
+    document.querySelector('#detailUploadFile + .uploadFileLabel').addEventListener('click', () => document.getElementById('detailUploadFile').click());
+    document.getElementById('detailUploadFile').addEventListener('change', handleFileUpload);
+    document.getElementById('updateBtn').addEventListener('click', handleFormSubmit);
     // 내 할 일
     document.getElementById('meInCharge').querySelector('a').addEventListener('click', handleMeInChargeClick);
     // 내가 요청한 
@@ -232,10 +226,11 @@ function toggleInsertForm(e) {
     }
 }
 
-let formDataFiles = [];
-let deleteOrder = new Set();
-let updateOrder = new Set();
+const formData = new FormData(); 
+const deleteOrder = new Set(); 
+const updateOrder = new Set(); 
 
+// 파일 업로드 
 function handleFileUpload(event) {
     const fileList = event.target.id === 'uploadFile' ? document.getElementById('fileList') : document.getElementById('detailFileList');
     const files = Array.from(event.target.files);
@@ -245,66 +240,133 @@ function handleFileUpload(event) {
         fileList.removeChild(noFileLi);
     }
 
-    files.forEach(file => {
-        const existingFile = formDataFiles.find(f => f.name === file.name && f.size === file.size);
-        if (!existingFile) {
-            const li = document.createElement('li');
-            const fileName = document.createElement('span');
-            const removeButton = document.createElement('button');
+    files.forEach((file, index) => {
+        const li = document.createElement('li');
+        li.id = `${file.lastModified}`;
+        const fileName = document.createElement('span');
+        const removeButton = document.createElement('button');
+        const hiddenInput = document.createElement('input');
+        const fileOrder = newFiles.length;
+        
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'fileOrder';
+        hiddenInput.value = fileOrder;
 
-            fileName.textContent = file.name;
-            removeButton.textContent = 'x';
-            removeButton.className = 'fileRemove';
-            removeButton.dataset.index = `file-${formDataFiles.length}`;
-            removeButton.dataset.name = file.name;
-            li.appendChild(fileName);
-            li.appendChild(removeButton);
-            fileList.appendChild(li);
+        fileName.textContent = file.name;
+        removeButton.textContent = 'x';
+        removeButton.style.marginLeft = '10px';
+        li.appendChild(fileName);
+        li.appendChild(removeButton);
+        li.appendChild(hiddenInput); 
+        fileList.appendChild(li);
 
-            formDataFiles.push(file);
+        const newFile = {
+            fileOrder: fileOrder,
+            fileOriginName: file.name,
+            fileRename: file.name, // 적절히 파일 이름을 변경할 필요가 있음
+            filePath: '/images/todo', // 적절한 경로로 설정해야 함
+            uploadFile: file
+        };
+        newFiles.push(newFile);
 
-            removeButton.addEventListener('click', function () {
-                const removeTargetName = removeButton.dataset.name;
-                formDataFiles = formDataFiles.filter(f => f.name !== removeTargetName);
-                fileList.removeChild(li);
-                deleteOrder.add(removeTargetName);  // 삭제된 파일을 deleteOrder에 추가
+        console.log("파일 추가됨:", newFile);
+        console.log("현재 newFiles 리스트:", newFiles);
+        
+        file.fileOrder = fileOrder; 
 
-                if (fileList.children.length === 0) {
-                    const noFileLi = document.createElement('li');
-                    noFileLi.textContent = '첨부파일 없음';
-                    fileList.appendChild(noFileLi);
-                }
-            });
-        }
+        removeButton.classList.add('fileRemove'); 
+        removeButton.dataset.name = `${file.name}`;
+        removeButton.dataset.index = `${file.lastModified}`; 
+
+        removeButton.addEventListener('click', (e) => {
+            fileList.removeChild(li);
+            const removeTargetId = e.target.dataset.index; 
+            const removeTarget = document.getElementById('removeTargetId'); 
+            const removeTargetName = e.target.dataset.name;
+
+            const fileOrder = e.target.nextSibling; 
+            newFiles = newFiles.filter(f => f.fileOriginName !== file.name);
+            deleteOrder.add(fileOrder); 
+            console.log("파일 제거됨:", file);
+            console.log("현재 newFiles 리스트:", newFiles);
+            console.log("삭제할 순서 : ", Array.from(deleteOrder));
+           
+            if (fileList.children.length === 0) {
+                const noFileLi = document.createElement('li');
+                noFileLi.textContent = '첨부파일 없음';
+                fileList.appendChild(noFileLi);
+            }
+        });
     });
 }
 
+
 function handleFormSubmit(e) {
     e.preventDefault();
+    console.log("handleFormSubmit 호출됨");
+    console.log("업로드된 파일들:", uploadedFiles); 
+    console.log("새 파일들:", newFiles);
+    console.log("삭제된 파일들:", deletedFiles);
+
     const formData = new FormData(document.getElementById('todoUpdateForm'));
-    formDataFiles.forEach(file => formData.append('files', file));
+   
+     // 기존 파일 정보 추가
+     uploadedFiles.forEach(file => {
+        formData.append('uploadedFiles', new Blob([JSON.stringify({
+            fileNo: file.fileNo,
+            filePath: file.filePath,
+            fileOriginName: file.fileOriginName,
+            fileRename: file.fileRename,
+            fileUploadDate: file.fileUploadDate,
+            fileOrder: file.fileOrder,
+            todoNo: file.todoNo,
+            updateFileOrder: file.updateFileOrder
+        })], {type : "application/json"}));
+    });
 
-    const deleteOrderArray = Array.from(deleteOrder).join(',');
-    const updateOrderArray = Array.from(updateOrder).join(',');
+    // 새로운 파일 정보 및 실제 파일 추가
+    newFiles.forEach(file => {
+        formData.append('newFiles', file.uploadFile);
+        formData.append('newFileInfos', new Blob([JSON.stringify({
+            fileOrder: file.fileOrder,
+            fileOriginName: file.fileOriginName,
+            fileRename: file.fileRename,
+            filePath: file.filePath
+        })], {type : "application/json"}));
+    });
 
-    formData.append('updateOrder', updateOrderArray);
-    formData.append('deleteOrder', deleteOrderArray);
+    // 삭제된 파일 정보 추가
+    deletedFiles.forEach(file => {
+        formData.append('deletedFiles', new Blob([JSON.stringify({
+            fileNo: file.fileNo,
+            filePath: file.filePath,
+            fileOriginName: file.fileOriginName,
+            fileRename: file.fileRename,
+            fileUploadDate: file.fileUploadDate,
+            fileOrder: file.fileOrder,
+            todoNo: file.todoNo,
+            updateFileOrder: file.updateFileOrder
+        })], {type : "application/json"}));
+    });
 
     fetch('/todo/update', {
         method: 'POST',
         body: formData
-    }).then(resp => resp.text())
-      .then(result => {
+    })
+    .then(response => response.json())
+    .then(result => {
         if (result > 0) {
-            alert('수정 성공했습니다.');
+            alert('업데이트 성공');
             location.reload();
         } else {
-            alert('수정 실패했습니다.');
+            alert('업데이트 실패');
         }
-      }).catch(error => {
-          console.error('Error:', error);
-      });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
+
 
 function showTodoDetail(todo) {
     const detailArea = document.getElementById('todoDetailArea');
@@ -329,12 +391,18 @@ function showTodoDetail(todo) {
         const fileListElement = document.getElementById('detailFileList');
         fileListElement.innerHTML = '';
 
-        let uploadedFiles = todo.fileList ? [...todo.fileList] : [];
+        uploadedFiles = todo.fileList ? [...todo.fileList] : [];
+        newFiles = [];
+        deletedFiles = [];
 
         if (uploadedFiles.length > 0) {
-            uploadedFiles.forEach(file => {
+            uploadedFiles.forEach((file, index )=> {
                 const li = document.createElement('li');
+                const hiddenInput = document.createElement('input');
                 const a = document.createElement('a');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'fileOrder';
+                hiddenInput.value = file.fileOrder;
 
                 a.href = file.filePath + file.fileRename;
                 a.textContent = file.fileOriginName;
@@ -342,19 +410,19 @@ function showTodoDetail(todo) {
 
                 const removeButton = document.createElement('button');
                 removeButton.textContent = 'x';
-                removeButton.className = 'fileRemove';
                 removeButton.style.marginLeft = '10px';
-                removeButton.dataset.index = `uploaded-file-${file.fileOrder}`;
-                removeButton.dataset.name = file.fileOriginName;
                 li.appendChild(a);
                 li.appendChild(removeButton);
+                li.appendChild(hiddenInput);
                 fileListElement.appendChild(li);
 
-                removeButton.addEventListener('click', function () {
-                    const removeTargetName = removeButton.dataset.name;
-                    deleteOrder.add(removeTargetName);  // 삭제된 파일을 deleteOrder에 추가
-                    uploadedFiles = uploadedFiles.filter(f => f.fileOriginName !== removeTargetName);
+                removeButton.addEventListener('click', function() {
                     fileListElement.removeChild(li);
+                    deletedFiles.push(file);
+                    uploadedFiles = uploadedFiles.filter(f => f.filePath + f.fileRename !== file.filePath + file.fileRename);
+                    console.log("파일 제거됨:", file);
+                    console.log("현재 uploadedFiles 리스트:", uploadedFiles);
+                    console.log("현재 deletedFiles 리스트:", deletedFiles);
 
                     if (fileListElement.children.length === 0) {
                         const noFileLi = document.createElement('li');
@@ -371,7 +439,9 @@ function showTodoDetail(todo) {
 
         const updateBtn = document.getElementById('updateBtn');
         const todoEmpCode = String(todo.empCode);
-        const loginEmp = document.getElementById('loginEmp').value;
+        var loginEmp = document.getElementById('loginEmp').value;
+        console.log(todoEmpCode);
+        console.log(loginEmp);
 
         if (loginEmp === todoEmpCode) {
             updateBtn.style.display = 'block';
@@ -380,6 +450,9 @@ function showTodoDetail(todo) {
         }
     }
 }
+
+
+
 
 /*
 let formDataFiles = [];

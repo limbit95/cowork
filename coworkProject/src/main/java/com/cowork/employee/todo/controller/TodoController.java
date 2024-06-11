@@ -247,26 +247,29 @@ public class TodoController {
 	
 	@ResponseBody
 	@PostMapping("update")
-	public int todoUpdate(@RequestParam("files") List<MultipartFile> files, 
+	public int todoUpdate(@RequestParam(value="files", required=false) List<MultipartFile> files, 
 	                      @RequestParam("todoNo") int todoNo,
 	                      Model model, 
 	                      Todo inputTodo, 
-	                      @RequestParam(value="deleteOrder", required = false) String deleteOrder, 
-	                      @RequestParam(value="updateOrder", required=false) String updateOrder,
+	                      @RequestParam(value="uploadedFiles", required=false) String uploadedFiles, 
+	                      @RequestParam(value="newFiles", required=false) String newFiles, 
+	                      @RequestParam(value="deletedFiles", required=false) String deletedFiles, 
 	                      @SessionAttribute("loginEmp") Employee2 loginEmp) throws IllegalStateException, IOException {
 
-		 int empCode = loginEmp.getEmpCode(); 
+			int empCode = loginEmp.getEmpCode(); 
 		    inputTodo.setEmpCode(empCode); 
 		    inputTodo.setTodoNo(todoNo); 
 		    
-		 // 로그 추가
-	    log.info("Received files: " + files.size());
-	    for (MultipartFile file : files) {
-	        log.info("파일 이름: " + file.getOriginalFilename());
-	        log.info("파일 크기: " + file.getSize() + " bytes");
-	    }
-	    log.info("Received deleteOrder: " + deleteOrder);
-	    log.info("Received updateOrder: " + updateOrder);
+		    ObjectMapper objectMapper = new ObjectMapper();
+	        List<TodoFile> uploadedFileList = uploadedFiles != null ? objectMapper.readValue(uploadedFiles, new TypeReference<List<TodoFile>>() {}) : null;
+	        List<TodoFile> newFileList = newFiles != null ? objectMapper.readValue(newFiles, new TypeReference<List<TodoFile>>() {}) : null;
+	        List<TodoFile> deletedFileList = deletedFiles != null ? objectMapper.readValue(deletedFiles, new TypeReference<List<TodoFile>>() {}) : null;
+		  
+		    log.info("업로드 리스트트트트트트트 : " + uploadedFileList); 
+		    log.info("새파일 리스트트트트트트트 : " + newFileList); 
+		    log.info("삭제 리스트트트트트트트 : " + deletedFileList); 
+	        
+		    log.info("넘어온 파일 리스트 : " + files.size()); 
 
 	    // 담당자 여러명인 경우 
 	    String inChargeEmpStr = inputTodo.getInChargeEmp(); 
@@ -274,7 +277,7 @@ public class TodoController {
 
 	    log.info("담당자 여러명일때 넘겨받은 리스트 : " + inChargeEmpList.toString());
 
-	    int result = service.todoUpdate(inputTodo, files, inChargeEmpList, deleteOrder, updateOrder); 
+	    int result = service.todoUpdate(inputTodo, files, inChargeEmpList, uploadedFileList, newFileList, deletedFileList); 
 
 	    model.addAttribute("todo", inputTodo);
 

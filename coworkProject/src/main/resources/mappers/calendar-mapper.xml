@@ -40,11 +40,43 @@
 		)
 	</insert>
 	
-	<select id="selectTeamSearch">
-		SELECT E.EMP_CODE, T.TEAM_NM, D.DEPT_NM
-		FROM EMPLOYEE E
-		JOIN TEAM T ON E.TEAM_NO = T.TEAM_NO
-		JOIN DEPARTMENT D ON T.DEPT_NO = D.DEPT_NO
-		WHERE E.EMP_CODE = #{empCode}
+	<!-- 회사 전체 일정 보여주기 -->
+	<select id="selectCalendarList">
+		SELECT C.CALENDAR_NO, 
+		       C.CALENDAR_TITLE, 
+		       C.CALENDAR_CONTENT, 
+		       C.CALENDAR_COLOR, 
+		       C.EMP_CODE,
+		       TO_DATE(C.CALENDAR_START, 'YYYY-MM-DD') AS CALENDAR_START,
+		       TO_DATE(C.CALENDAR_END, 'YYYY-MM-DD') AS CALENDAR_END
+		FROM CALENDAR C
+		JOIN (
+		    SELECT T.TEAM_NM, D.DEPT_NM, E.COM_NO
+		    FROM EMPLOYEE E
+		    JOIN TEAM T ON E.TEAM_NO = T.TEAM_NO
+		    JOIN DEPARTMENT D ON T.DEPT_NO = D.DEPT_NO
+		    WHERE E.EMP_CODE = #{empCode}
+		) E_TD 
+		ON (C.CALENDAR_SHARE LIKE '%' || E_TD.TEAM_NM || '%'
+		    OR C.CALENDAR_SHARE LIKE '%' || E_TD.DEPT_NM || '%'
+		    OR (C.COM_NO = E_TD.COM_NO AND C.CALENDAR_SHARE LIKE '%회사 전체%'))
 	</select>
+	
+	<!-- 내가 작성한 일정 보여주기 -->
+	<select id="selectMyCalendarList">
+		SELECT CALENDAR_NO, 
+		     CALENDAR_TITLE, 
+		     CALENDAR_CONTENT, 
+		     CALENDAR_COLOR, 
+		     EMP_CODE,
+		     TO_DATE(CALENDAR_START, 'YYYY-MM-DD') AS CALENDAR_START,
+		     TO_DATE(CALENDAR_END, 'YYYY-MM-DD') AS CALENDAR_END
+		FROM CALENDAR
+		WHERE EMP_CODE = #{empCode}
+	</select>
+	
+	<!-- 일정 삭제 -->
+	<delete id="calendarDelete">
+		DELETE FROM CALENDAR  WHERE CALENDAR_NO = #{eventCalendarNo}
+	</delete>
 </mapper>

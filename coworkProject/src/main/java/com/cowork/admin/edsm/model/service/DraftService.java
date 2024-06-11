@@ -31,4 +31,10 @@ public interface DraftService {
 	 */
 	int edsmUpdateDraft(Draft inputDraft);
 
+	/** 양식 삭제
+	 * @param draftNo
+	 * @return
+	 */
+	int edsmDeleteDraft(int draftNo);
+
 }
