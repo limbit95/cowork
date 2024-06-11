@@ -135,11 +135,15 @@ public interface TodoMapper {
 	void deleteTodoManagerOne(int todoNo);
 	
 	 // 파일 삭제 메서드
-    int deleteOriginFile(@Param("fileNo") int fileNo, @Param("todoNo") int todoNo);
+    int deleteOriginFile(@Param("fileNo") int fileNo);
 
     // 파일 삽입 메서드
     int insertNewFiles(@Param("todoFileList") List<TodoFile> todoFileList, @Param("todoNo") int todoNo);
 
+	int insertNewFiles(List<TodoFile> newFileList);
+
+	int insertNewFile(TodoFile file);
+	
 	
 
 

@@ -247,7 +247,6 @@ function handleFileUpload(event) {
         const removeButton = document.createElement('button');
         const hiddenInput = document.createElement('input');
         const fileOrder = newFiles.length;
-        
         hiddenInput.type = 'hidden';
         hiddenInput.name = 'fileOrder';
         hiddenInput.value = fileOrder;
@@ -259,20 +258,11 @@ function handleFileUpload(event) {
         li.appendChild(removeButton);
         li.appendChild(hiddenInput); 
         fileList.appendChild(li);
-
-        const newFile = {
-            fileOrder: fileOrder,
-            fileOriginName: file.name,
-            fileRename: file.name, // 적절히 파일 이름을 변경할 필요가 있음
-            filePath: '/images/todo', // 적절한 경로로 설정해야 함
-            uploadFile: file
-        };
-        newFiles.push(newFile);
-
-        console.log("파일 추가됨:", newFile);
-        console.log("현재 newFiles 리스트:", newFiles);
         
         file.fileOrder = fileOrder; 
+        newFiles.push(file);
+        console.log("파일 추가됨:", file);
+        console.log("현재 newFiles 리스트:", newFiles);
 
         removeButton.classList.add('fileRemove'); 
         removeButton.dataset.name = `${file.name}`;
@@ -283,14 +273,17 @@ function handleFileUpload(event) {
             const removeTargetId = e.target.dataset.index; 
             const removeTarget = document.getElementById('removeTargetId'); 
             const removeTargetName = e.target.dataset.name;
-
+            // 기존 파일 삭제 순서  
             const fileOrder = e.target.nextSibling; 
-            newFiles = newFiles.filter(f => f.fileOriginName !== file.name);
-            deleteOrder.add(fileOrder); 
+
+            // 기존 파일 순서 저장 
+            if(fileOrder.innerText != "") deleteOrder.add(fileOrder.innerText); 
+            formData.delete(removeTargetName); 
+            removeTarget.remove();
+
+            newFiles = newFiles.filter(f => f.name !== file.name);
             console.log("파일 제거됨:", file);
             console.log("현재 newFiles 리스트:", newFiles);
-            console.log("삭제할 순서 : ", Array.from(deleteOrder));
-           
             if (fileList.children.length === 0) {
                 const noFileLi = document.createElement('li');
                 noFileLi.textContent = '첨부파일 없음';
@@ -300,58 +293,78 @@ function handleFileUpload(event) {
     });
 }
 
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
 
-function handleFormSubmit(e) {
+
+async function handleFormSubmit(e) {
     e.preventDefault();
+    const todoUpdateForm = document.getElementById('todoUpdateForm');
+    const formData = new FormData(todoUpdateForm);
+    
+    const uploadedFiles = []; // 업로드된 파일 목록
+    const newFiles = []; // 새 파일 목록
+    const deletedFiles = []; // 삭제된 파일 목록
+
+    for (let file of formData.getAll('uploadedFiles')) {
+        uploadedFiles.push({
+            fileNo: file.fileNo,
+            filePath: file.filePath,
+            fileOriginName: file.fileOriginName,
+            fileRename: file.fileRename,
+            fileOrder: file.fileOrder
+        });
+    }
+
+    for (let file of formData.getAll('newFiles')) {
+        const base64File = await getBase64(file);
+        newFiles.push({
+            fileOriginName: file.name,
+            fileData: base64File,
+            fileOrder: newFiles.length
+        });
+    }
+
+    for (let file of formData.getAll('deletedFiles')) {
+        deletedFiles.push({
+            fileNo: file.fileNo,
+            filePath: file.filePath,
+            fileOriginName: file.fileOriginName,
+            fileRename: file.fileRename
+        });
+    }
+
+    const todoData = {
+        todoNo: formData.get('todoNo'),
+        todoTitle: formData.get('todoTitle'),
+        todoContent: formData.get('todoContent'),
+        todoEndDate: formData.get('todoEndDate'),
+        requestEmp: formData.get('requestEmp'),
+        inChargeEmp: formData.get('inChargeEmp'),
+        uploadedFiles: uploadedFiles,
+        newFiles: newFiles,
+        deletedFiles: deletedFiles
+    };
+
     console.log("handleFormSubmit 호출됨");
     console.log("업로드된 파일들:", uploadedFiles); 
     console.log("새 파일들:", newFiles);
     console.log("삭제된 파일들:", deletedFiles);
+    console.log("todoData 는 느느느느느느는 : ", todoData);
 
-    const formData = new FormData(document.getElementById('todoUpdateForm'));
-   
-     // 기존 파일 정보 추가
-     uploadedFiles.forEach(file => {
-        formData.append('uploadedFiles', new Blob([JSON.stringify({
-            fileNo: file.fileNo,
-            filePath: file.filePath,
-            fileOriginName: file.fileOriginName,
-            fileRename: file.fileRename,
-            fileUploadDate: file.fileUploadDate,
-            fileOrder: file.fileOrder,
-            todoNo: file.todoNo,
-            updateFileOrder: file.updateFileOrder
-        })], {type : "application/json"}));
-    });
-
-    // 새로운 파일 정보 및 실제 파일 추가
-    newFiles.forEach(file => {
-        formData.append('newFiles', file.uploadFile);
-        formData.append('newFileInfos', new Blob([JSON.stringify({
-            fileOrder: file.fileOrder,
-            fileOriginName: file.fileOriginName,
-            fileRename: file.fileRename,
-            filePath: file.filePath
-        })], {type : "application/json"}));
-    });
-
-    // 삭제된 파일 정보 추가
-    deletedFiles.forEach(file => {
-        formData.append('deletedFiles', new Blob([JSON.stringify({
-            fileNo: file.fileNo,
-            filePath: file.filePath,
-            fileOriginName: file.fileOriginName,
-            fileRename: file.fileRename,
-            fileUploadDate: file.fileUploadDate,
-            fileOrder: file.fileOrder,
-            todoNo: file.todoNo,
-            updateFileOrder: file.updateFileOrder
-        })], {type : "application/json"}));
-    });
 
     fetch('/todo/update', {
         method: 'POST',
-        body: formData
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(todoData)
     })
     .then(response => response.json())
     .then(result => {
