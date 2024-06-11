@@ -73,6 +73,11 @@ public class AdminEdsmController {
 				RedirectAttributes ra
 			) {
 		
+		String content = inputDraft.getDraftContent();
+		
+		content = content.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
+		
+		inputDraft.setDraftContent(content);
 		inputDraft.setComNo(loginEmp.getComNo());
 		
 		int draftNo = service.edsmCreateDraft(inputDraft);
@@ -110,11 +115,17 @@ public class AdminEdsmController {
 	}
 	
 	@PostMapping("edsmUpdateDraft/{draftNo:[0-9]+}")
-	public String eduUpdateDraft(
+	public String edsmUpdateDraft(
 				@PathVariable("draftNo") int draftNo,
 				@ModelAttribute Draft inputDraft,
 				RedirectAttributes ra
 			) {
+		
+		String content = inputDraft.getDraftContent();
+		
+		content = content.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
+		
+		inputDraft.setDraftContent(content);
 		
 		int result = service.edsmUpdateDraft(inputDraft);
 		
@@ -125,6 +136,29 @@ public class AdminEdsmController {
 		
 		ra.addFlashAttribute("message", message);
 		
-		return "redirect:edsmUpdateDraft/" + draftNo;
+		return "redirect:../edsmUpdateDraft/" + draftNo;
+	}
+	
+	/** 양식 삭제
+	 * @param draftNo
+	 * @param ra
+	 * @return
+	 */
+	@GetMapping("edsmDeleteDraft")
+	public String edsmDeleteDraft(
+				@RequestParam("draftNo") int draftNo,
+				RedirectAttributes ra
+			) {
+		
+		int result = service.edsmDeleteDraft(draftNo);
+		
+		String message = null;
+		
+		if(result > 0) message = "기안 양식이 삭제되었습니다.";
+		else           message = "기안 양식 삭제 실패";
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:edsmList";
 	}
 }

@@ -1,134 +1,30 @@
-body {
-    margin: 0;
-    padding: 0;
-}
-:root {	
-	--main-color: #426DA7;
-    --main2-color: #3667A6;
-    --main3-color: #214177;
-    --main4-color: #E5F2FE;
-    --main5-color: #BDD8F1;
-    --main6-color: #82A6CB;
-
-	--sub-color: #CEEEC3;
-    --sub2-color: #B8E2AA;
-    --sub3-color: #FFE0E6;
-    --sub4-color: #F1B8B8;
-
-    --gray-color: #D9D9D9;
-}
-/* 왼쪽 네비바 조그만 거 */
-#leftSideBarMini{
-	width: 60px; /*0605 yoon*/
-	height: 100vh;
-	position: fixed;
-	z-index: 10;
-	display: flex;
-	flex-direction: column;
-	background-color: #ECF2FA;
-	transition: transform 0.5s ease, opacity 0.3s;
-	justify-content: center;/*240531 PEB*/
-
-}
-#leftSideBarMini>div:nth-child(1){
-	flex-basis: 10%;
-	display: flex;
-	justify-content: center;
-	justify-content: center;
-	align-items: center;
-	background-color: #ECF2FA;
-}
-#showLeftSideBarBtn{
-	cursor: pointer;
-    font-size: 26px;/*240531 PEB*/
-	color: #426da7;/*240531 PEB*/
-}
-/* 왼쪽 네비바 조그만 거 */
-
-
-#leftSideBar{
-	width: 300px; /*0605 yoon*/
-	height: 100vh;
-	position: fixed;
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	background-color: #ECF2FA;
-	transition: transform 0.5s ease, opacity 0.3s;
-	transform: translateX(-100%);
-}
-#closeLeftSideBar{
-	margin-top: 50px;
-	margin-bottom: 50px;
-	cursor: pointer;
-}
-
-#CompanyLogo{
-	flex-basis: 10%;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-    background-image: url('/images/naverLogo.png');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: contain;
-}
-#businessCard{
-	margin-top: 10px;
-	flex-basis: 10%;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-#businessCard>div{
-	width: 150px; 
-	height: 100%;
-    background-image: url('/images/businessCard.png');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: contain;
-
-}
-#logOutLink{
-	flex-basis: 2%;
-	width: 100%;
-	display: flex;
-	justify-content: flex-end;
-	margin-right:140px;
-	font-weight:  bold;
-	transition: background-color 0.3s;
-	cursor: pointer;
-	font-size: 12px;
-	color: #426DA7;
-	
-}
-#logOutLink:hover{
-	color: #426DA7;
-}
-#noticeLink{
-}
-
 /* 드롭 다운 */
-.dropdown{
-	padding: 0;
-	margin: 0;
+.dropdown {
+    padding: 0;
+    margin: 0;
+
+	/* 0611 PEB */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .dropbtn{
 	display: block;
-	width: 15vw; 
+	width: 100%; 
 	border: none; 
-	background-color: #ECF2FA;
-	transition: background-color 0.3s;
+	background-color: transparent;
+	/*transition: background-color 0.3s;*/
 	cursor: pointer;
 	font-size: 16px;
 	font-weight: bold;
-	height: 5vh;
+	height: 6.5vh;  /* 0611 PEB */
 }
-.dropbtn:hover{
+
+.active, .dropbtn:hover {
 	background-color: #3667A6;
+	color: white;
 }
 
 .dropdownContent{
@@ -152,8 +48,9 @@ body {
 	height: 3vh;
 }
 .dropdownContent > a:hover{
-	background-color: #82A6CB;
-	
+	/* 0611 PEB */
+	/*background-color: #82A6CB;*/
+	font-weight: bold;
 }
 
 .show{
@@ -163,7 +60,10 @@ body {
 	opacity: 0.3s;
 }
 
-
+/* 로그아웃 */
+#logOutLink {
+	margin-bottom: 30px;
+}
 
 
 

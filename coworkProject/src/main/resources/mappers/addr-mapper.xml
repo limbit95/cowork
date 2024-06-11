@@ -7,6 +7,7 @@
 		SELECT ADDR_BOOK_NO, ADDR_NAME, EMP_CODE
 		FROM PERSONAL_ADDR_BOOK
 		WHERE EMP_CODE = #{empCode}
+		ORDER BY ADDR_BOOK_NO
 	</select>
 	
 	<!-- 개인 주소록 그룹 인원 리스트 조회 -->
@@ -18,6 +19,15 @@
 		AND P.EMP_CODE = #{empCode}
 	</select>
 	
+	<!-- 개인 주소록 전체 리스트 개수 조회 -->
+	<select id="getFullListCount">
+		SELECT E.EMP_CODE 
+		FROM ADD_EMP E
+		JOIN PERSONAL_ADDR_BOOK P ON(P.ADDR_BOOK_NO = E.ADDR_BOOK_NO)
+		WHERE P.EMP_CODE = #{empCode}
+		GROUP BY E.EMP_CODE
+	</select>
+	
 	<!-- 주소록 그룹 코드 조회 -->
 	<select id="getGroupCode" resultType="_int">
 		SELECT ADDR_BOOK_NO 
@@ -27,7 +37,7 @@
 	</select>
 	
 	<!-- 주소록 그룹의 리스트 조회 -->
-	<select id="selectMyAddrList">
+	<select id="selectAddrList">
 		SELECT AE.EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_EMAIL, 
 		C.COM_NM, DEPT_NM, TEAM_NM, POSITION_NM
 		FROM ADD_EMP AE
@@ -41,6 +51,68 @@
 		AND P.ADDR_BOOK_NO = #{groupCode}
 		AND P.EMP_CODE =  #{empCode}
 		ORDER BY "LEVEL" ASC
+	</select>
+	
+	<!-- 개인 주소록 전체 리스트 조회 -->
+	<select id="selectAllAddrList">
+		SELECT DISTINCT AE.EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_EMAIL, 
+		C.COM_NM, DEPT_NM, TEAM_NM, POSITION_NM, "LEVEL"
+		FROM ADD_EMP AE
+		JOIN PERSONAL_ADDR_BOOK P ON(P.ADDR_BOOK_NO = AE.ADDR_BOOK_NO)
+		JOIN EMPLOYEE E ON(E.EMP_CODE = AE.EMP_CODE)
+		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
+		JOIN TEAM T USING(TEAM_NO)
+		JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		JOIN POSITION USING(POSITION_NO)
+		WHERE E.EMP_DEL_FL = 'N'
+		AND P.EMP_CODE =  #{empCode}
+		ORDER BY "LEVEL" ASC
+	</select>
+	
+	<!-- DB에 있는 주소록들은 그룹명만 업데이트 -->
+	<update id="changeGroupName">
+		UPDATE PERSONAL_ADDR_BOOK SET
+		ADDR_NAME = #{addrName}
+		WHERE ADDR_BOOK_NO = #{addrBookNo}
+	</update>
+	
+	<!-- 기존 DB에 없는 주소록 INSERT -->
+	<insert id="insertGroup">
+		INSERT INTO PERSONAL_ADDR_BOOK VALUES(
+			SEQ_PERSONAL_ADDR_BOOK.NEXTVAL,
+			#{addrName},
+			#{loginEmpCode}
+		)
+	</insert>
+	
+	<!-- 그룹 삭제 -->
+	<delete id="deleteGroup">
+		DELETE FROM PERSONAL_ADDR_BOOK
+		WHERE EMP_CODE = #{loginEmpCode}
+		AND ADDR_BOOK_NO NOT IN(${groupIdx})
+	</delete>
+	
+	<!-- 주소록 이름 중복 검사 -->
+	<select id="checkAddrName">
+		SELECT COUNT(*)
+		FROM PERSONAL_ADDR_BOOK
+		WHERE ADDR_NAME = #{addrName}
+	</select>
+	
+	<!-- 주소록에 등록된 사원 정보 상세 조회 -->
+	<select id="empDetail" resultType="Employee2">
+		SELECT EMP_NO, EMP_ID, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_ADDRESS, 
+		TO_CHAR(EMP_BIRTH, 'YYYY-MM-DD') EMP_BIRTH, TO_CHAR(HIRE_DATE, 'YYYY-MM-DD') HIRE_DATE, 
+		CONTRACT_TYPE, EMP_TEL, WORK_PLACE, EMP_EMAIL, PROFILE_IMG,  
+		DEPT_NM, TEAM_NM, POSITION_NM, "DOMAIN"
+		FROM EMPLOYEE E
+		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
+		JOIN TEAM T USING(TEAM_NO)
+		JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		JOIN POSITION USING(POSITION_NO)
+		WHERE EMP_DEL_FL = 'N'
+		AND EMP_CODE = #{empCode}
+		AND E.COM_NO = #{comNo}
 	</select>
 	
 </mapper>
