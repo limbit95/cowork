@@ -219,12 +219,13 @@ if(modalCancelBtn != null) {
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    const showCalendar = calendarList.map(event => ({
+    const showCalendar = myCalendarList.map(event => ({
         title: event.calendarTitle,
         start: event.calendarStart,
         end: event.calendarEnd,
         color: event.calendarColor,
-        description : event.calendarContent
+        description : event.calendarContent,
+        calendarNo: event.calendarNo
     }));
 
     var calendarEl = document.getElementById('calendar');
@@ -240,6 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
         droppable: true,
         dayMaxEvents: true,
         events: showCalendar,
+        eventDisplay: 'block',
         select: function(info) {
 
             document.querySelector("#calendarModalUpdate").classList.add("calendarHidden");
@@ -263,8 +265,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const updateContent = document.querySelector("#updateContent").value;
 
                 const shareList = Array.from(document.querySelectorAll('p[name="share"]')).map(p => p.innerText);
-
-                console.log("공유 리스트", shareList);
 
                 if(updateTitle.trim().length == 0) {
                     alert("제목은 필수 작성입니다.");
@@ -365,14 +365,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 })
 
-
-
             })
 
         },
         eventClick: function(info) {
+            
             var eventTitle = info.event.title;
             var eventContent = info.event.extendedProps.description;
+            var eventCalendarNo = info.event.extendedProps.calendarNo;
 
             document.getElementById('modalUpdateTitle').value = eventTitle;
             document.getElementById('modalUpdateContent').value = eventContent;
@@ -387,9 +387,86 @@ document.addEventListener('DOMContentLoaded', function() {
             const spanX = document.querySelector(".spanX");
 
             // 모달 팝업 떴을 때 x 버튼 누른 경우
-            spanX.addEventListener("click", () => {
+            spanX.addEventListener("click", e => {
                 document.getElementById('calendarModalUpdate').classList.add('calendarHidden');
             });
+
+            // 삭제 버튼 눌렀을 때
+            document.querySelector("#calendarDeleteBtn").addEventListener("click", () => {
+                fetch("/calendar/calendarDelete", {
+                    method : "DELETE",
+                    headers : {"Content-Type" : "application/json"},
+                    body : JSON.stringify(eventCalendarNo)
+                })
+                .then(resp => resp.text())
+                .then(result => {
+                    if(result > 0) {
+                        info.event.remove(); // fullCalendar에서 이벤트 제거
+                        document.getElementById('calendarModalUpdate').classList.add('calendarHidden');
+                        alert("일정이 삭제되었습니다.");
+                    } else {
+                        document.getElementById('calendarModalUpdate').classList.add('calendarHidden');
+                        alert("일정 삭제 실패");
+                    }
+                })
+            })
+
+            // 수정 버튼 클릭했을 때
+            document.querySelector("#calendarUpdateBtn").addEventListener("click", () => {
+
+                document.getElementById('calendarModalUpdate').classList.add('calendarHidden');
+                document.getElementById('calendarModal').classList.remove('calendarHidden');
+
+                const updateTitle = document.querySelector("#updateTitle");
+                const updateContent = document.querySelector("#updateContent");
+
+                updateTitle.value = eventTitle;
+                updateContent.value = eventContent;
+
+                document.querySelector(".modalUpdateBtn").classList.add("modalModifyTempBtn");
+
+                // 등록 버튼 클릭 시
+                document.querySelector(".modalModifyTempBtn").addEventListener("click", e => {
+
+                    const updateTitle = document.querySelector("#updateTitle").value;
+                    const selectedColor = document.querySelector("#selectedColor").value;
+    
+                    const updateContent = document.querySelector("#updateContent").value;
+    
+                    const shareList = Array.from(document.querySelectorAll('p[name="share"]')).map(p => p.innerText);
+    
+                    if(updateTitle.trim().length == 0) {
+                        alert("제목은 필수 작성입니다.");
+                        e.preventDefault();
+                        return;
+                    }
+
+                    const updateObj = {
+                        "calendarTitle" : updateTitle,
+                        "calendarContent" : updateContent,
+                        "calendarColor" : selectedColor,
+                        "shareList" : shareList,
+                        "empCode" : empCode,
+                        "calendarStart" : info.startStr,
+                        "calendarEnd" : info.endStr,
+                        "comNo" : comNo,
+                        "calendarNo" : eventCalendarNo
+                    }
+
+                    fetch("/calendar/calendarUpdate", {
+                        method : "PUT",
+                        headers : {"Content-Type" : "application/json"},
+                        body : JSON.stringify(updateObj)
+                    })
+                    .then(resp => resp.text())
+                    .then(result => {
+
+                    })
+                })
+
+
+            })
+
         }
     });
 
