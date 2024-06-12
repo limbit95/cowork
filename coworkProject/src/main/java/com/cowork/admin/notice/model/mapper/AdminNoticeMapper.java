@@ -41,7 +41,7 @@ public interface AdminNoticeMapper {
 	 * @param uploadList
 	 * @return
 	 */
-	int boardFileinsert(List<BoardFile> uploadList);
+	int boardFileInsert(List<BoardFile> uploadList);
 
 	/** 게시판 파일 목록
 	 * @param boardFileMap

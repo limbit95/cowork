@@ -6,8 +6,10 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cowork.admin.edsm.model.dto.Draft;
+import com.cowork.employee.edsm.model.dto.Approver;
 import com.cowork.employee.edsm.model.dto.DraftKeep;
 import com.cowork.employee.edsm.model.dto.Edsm;
+import com.cowork.employee.edsm.model.dto.EdsmFile;
 
 @Mapper
 public interface EdsmMapper {
@@ -29,6 +31,22 @@ public interface EdsmMapper {
 	 */
 	void draftKeepInsert(DraftKeep draftKeep);
 
+	/** 전자결재 등록
+	 * @param inputEdsm
+	 * @return
+	 */
 	int edsmRequest(Edsm inputEdsm);
+	
+	/** 전자결재 파일업로드
+	 * @param uploadList
+	 * @return
+	 */
+	int edsmFileInsert(List<EdsmFile> uploadList);
+
+	/** 결재자 등록
+	 * @param approverMap
+	 * @return
+	 */
+	int approverInsert(List<Approver> approverList);
 
 }

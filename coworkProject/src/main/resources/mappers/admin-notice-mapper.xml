@@ -136,8 +136,8 @@
 		)
 	</insert>
 	
-	<!-- 게시판 다중 이미지 등록 -->
-	<insert id="boardFileinsert" parameterType="list">
+	<!-- 게시판 다중 파일 등록 -->
+	<insert id="boardFileInsert" parameterType="list">
 		INSERT INTO BOARD_FILE
 		
 		<foreach collection="list" item="file" 

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.cowork.admin.edsm.model.dto.Draft;
 import com.cowork.employee.edsm.model.dto.Edsm;
+import com.cowork.employee.edsm.model.dto.EdsmFile;
 
 @Mapper
 public interface DraftMapper {

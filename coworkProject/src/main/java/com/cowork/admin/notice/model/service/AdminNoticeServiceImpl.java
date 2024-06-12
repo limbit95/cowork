@@ -122,7 +122,7 @@ public class AdminNoticeServiceImpl implements AdminNoticeService {
 			
 			if(uploadList.isEmpty()) return noticeNo;
 			
-			result = mapper.boardFileinsert(uploadList);
+			result = mapper.boardFileInsert(uploadList);
 			
 			// 다중 파일 성공확인
 			if(result == uploadList.size()) {
@@ -132,7 +132,7 @@ public class AdminNoticeServiceImpl implements AdminNoticeService {
 					file.getUploadFile().transferTo(new File(folderPath + file.getFileRename()));
 				}
 			} else {
-				throw new BoardInsertException("이미지가 정상 삽입되지 않음");
+				throw new BoardInsertException("공지사항 파일이 정상 삽입되지 않음");
 			}
 		
 		}
@@ -238,7 +238,7 @@ public class AdminNoticeServiceImpl implements AdminNoticeService {
 			
 			if(uploadList.isEmpty()) return noticeNo;
 			
-			result = mapper.boardFileinsert(uploadList);
+			result = mapper.boardFileInsert(uploadList);
 			
 			// 다중 파일 성공확인
 			if(result == uploadList.size()) {
