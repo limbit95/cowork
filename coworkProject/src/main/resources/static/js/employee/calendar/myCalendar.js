@@ -417,6 +417,21 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 수정 버튼 클릭했을 때
             document.querySelector("#calendarUpdateBtn").addEventListener("click", () => {
+                // 현재 날짜를 가져오고 시간을 00:00:00으로 설정
+                var today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                // 이벤트 시작 날짜를 가져옴 (info는 외부에서 정의되어 있다고 가정)
+                var eventStart = new Date(info.event.startStr);
+                eventStart.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 설정
+
+                // 이벤트 시작 날짜가 현재 날짜보다 이전인지 확인
+                if (eventStart < today) {
+                    alert('지난 날짜는 일정을 수정할 수 없습니다.');
+                    calendar.unselect(); // 선택 취소
+                    document.getElementById('calendarModalUpdate').classList.add('calendarHidden');
+                    return;
+                }
 
                 document.getElementById('calendarModalUpdate').classList.add('calendarHidden');
                 document.getElementById('calendarModal').classList.remove('calendarHidden');
