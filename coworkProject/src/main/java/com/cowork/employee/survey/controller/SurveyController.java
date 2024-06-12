@@ -100,21 +100,5 @@ public class SurveyController {
 	
 	
 	
-	/*
-	@GetMapping("surveyList")
-	public String serveyList() {
-		log.info("log");
-		return "employee/survey/surveyList";
-	}
-	
-	@GetMapping("surveyInsert")
-	public String serveyInsert() {
-		return "employee/survey/surveyInsert";
-	}
-	
-	@GetMapping("surveyDetail")
-	public String surveyDetail() {
-		return "employee/survey/surveyDetail";
-	}
-	*/
+
 }

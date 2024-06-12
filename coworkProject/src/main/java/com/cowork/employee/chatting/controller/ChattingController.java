@@ -71,7 +71,7 @@ public class ChattingController {
 	/* 이름, 부서, 팀 조회으로 사원조회 */
     @PostMapping("/chat/empList")
     @ResponseBody
-    public List<Employee> empList(@SessionAttribute("loginMember") Employee loginMember,
+    public List<Employee> empList(@SessionAttribute("loginEmp") Employee loginMember,
     									@RequestBody Map<String, String> paramMap) {
     	String inputData = paramMap.get("inputData");
     	// db 에서 조회해오자. 

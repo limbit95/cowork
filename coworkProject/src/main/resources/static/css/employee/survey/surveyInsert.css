@@ -2,6 +2,7 @@
 	display: flex; 
 	flex-direction: column;
 	align-items: center;
+	background-color: aquamarine;
 }
 
 
@@ -98,11 +99,33 @@
 /* 대상 관련 css 시작 */
 #positionArea{
 	display: none;
+	
 }
 
 #empListArea{
 	display: none;
+	background-color: #214177;
+	width: 50%;
+	
 }
+#findEmpInputDiv{
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	
+}
+#findEmpInput{
+	width: 30%;
+	height: 5vh;
+}
+
+#empList{
+	background-color: blue;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 
 
 /* 대상 관련 css 끝 */
