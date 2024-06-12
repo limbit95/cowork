@@ -142,13 +142,6 @@ public interface TodoMapper {
      */
     int deleteOriginFile(Map<String, Object> map);
 
-    // 파일 삽입 메서드
-    int insertNewFiles(@Param("todoFileList") List<TodoFile> todoFileList, @Param("todoNo") int todoNo);
-
-	int insertNewFiles(List<TodoFile> newFileList);
-
-	int insertNewFile(TodoFile file);
-
 	
 	/** 파일 수정시 업로드 
 	 * @param todoFile
@@ -156,9 +149,13 @@ public interface TodoMapper {
 	 */
 	int updateUploadList(TodoFile todoFile);
 
-	void deleteTodoFile(int fileNo);
+	int deleteTodoFile(int fileNo);
 
 	int deleteTodoManager(Map<String, Object> map);
+
+	int fileOrderUpdate(TodoFile updateFile);
+
+	int deleteFiles(Map<String, Object> map);
 	
 	
 

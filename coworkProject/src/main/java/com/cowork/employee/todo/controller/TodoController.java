@@ -302,6 +302,7 @@ public class TodoController {
 	        files = new ArrayList<>();
 	    }
 		
+				
 		// 담당자 여러명인 경우 
 	    String inChargeEmpStr = inputTodo.getInChargeEmp(); 
 	    List<String> inChargeEmpList = Arrays.asList(inChargeEmpStr.split("\\s*,\\s*")); 

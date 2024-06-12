@@ -1,5 +1,3 @@
-let orderFileList;
-
 document.addEventListener('DOMContentLoaded', () => {
     initialize();
 });
@@ -209,14 +207,16 @@ function addEventListeners() {
 
 // 수정 폼 제출 막기 
 function invalidateUpdateForm(e) {
+    e.preventDefault(); // 이벤트 객체의 preventDefault 호출
     let inChargeEmp = document.querySelector('#todoUpdateForm input[name="inChargeEmp"]').value.trim(); 
     let todoTitle = document.querySelector('#todoUpdateForm input[name="todoTitle"]').value.trim(); 
     let todoContent = document.querySelector('#todoUpdateForm textarea[name="todoContent"]').value.trim(); 
 
-    if(inChargeEmp === "" || todoTitle === "" || todoContent === "") {
+    if (inChargeEmp === "" || todoTitle === "" || todoContent === "") {
         alert("담당자, 요청 제목, 요청 내용은 모두 입력해주세요."); 
-        e.preventDefault(); 
+        return false; 
     }
+    return true;
 }
 
 // 등록 폼 제출 막기 
@@ -252,12 +252,11 @@ function toggleInsertForm(e) {
 }
 
 let newFiles = [];
-let deleteOrder = new Set();
-let updateOrder = new Set();
+let deleteOrder = [];
+let updateOrder = []; 
 let formData = new FormData();
+let orderFileList = []; // 기존 파일 목록
 
-
-// 파일 업로드 
 function handleFileUpload(event) {
     const fileList = document.getElementById('fileList');
     const files = Array.from(event.target.files);
@@ -265,7 +264,7 @@ function handleFileUpload(event) {
     const noFileLi = fileList.querySelector('li');
     if (noFileLi && noFileLi.textContent === '첨부파일 없음') {
         fileList.removeChild(noFileLi);
-    } 
+    }
 
     files.forEach(file => {
         if (!newFiles.some(f => f.name === file.name && f.lastModified === file.lastModified)) {
@@ -301,28 +300,18 @@ function handleFileUpload(event) {
 
             removeButton.addEventListener('click', (e) => {
                 fileList.removeChild(li);
-                const removeTargetId = e.target.dataset.index;
-                const removeTarget = document.getElementById(removeTargetId);
                 const removeTargetName = e.target.dataset.name;
-                const fileOrder = e.target.nextSibling.value;
-
-                if (fileOrder !== "") {
-                    deleteOrder.add(fileOrder);
-                    console.log("파일 삭제 순서 추가됨:", fileOrder);
-                    console.log("현재 deleteOrder 리스트:", Array.from(deleteOrder));
-                }
-                
                 formData.delete(removeTargetName);
-                removeTarget.remove();
+                newFiles = newFiles.filter(f => f.name !== removeTargetName);
 
-                newFiles = newFiles.filter(f => f.name !== file.name);
-                console.log("파일 제거됨:", file);
-                console.log("현재 newFiles 리스트:", newFiles);
                 if (fileList.children.length === 0) {
                     const noFileLi = document.createElement('li');
                     noFileLi.textContent = '첨부파일 없음';
                     fileList.appendChild(noFileLi);
                 }
+
+                console.log("파일 제거됨:", file);
+                console.log("현재 newFiles 리스트:", newFiles);
             });
         }
     });
@@ -331,64 +320,54 @@ function handleFileUpload(event) {
 function handleFormSubmit(e) {
     e.preventDefault(); // 폼 제출 기본 동작 막기
 
-    if (invalidateUpdateForm()) {
-        document.getElementById('todoUpdateForm').submit(); // 폼이 유효하면 제출
-    }
+    if (invalidateUpdateForm(e)) {
+        const form = document.getElementById('todoUpdateForm');
+        const clone = new FormData(form);
 
-    const clone = new FormData(document.getElementById('todoUpdateForm'));
+        for(let file of orderFileList) {
+            let isToDelete = false; 
 
-    for (let file of orderFileList) {
-        let isToDelete = false;
-    
-        if (deleteOrder.size > 0) {
-            for (const order of deleteOrder) {
-
-                if (order == file.fileOrder) {
-                    isToDelete = true;
-                    break; 
+            if(deleteOrder.size > 0) {
+                for(const order of deleteOrder) {
+                    if(order == file.fileOrder) {
+                        isToDelete = true; 
+                        break; 
+                    }
                 }
             }
-        }
     
-        if (!isToDelete) {
-            updateOrder.add(file.fileOrder); // deleteOrder 배열에 포함되지 않은 경우에만 updateOrder에 추가
+            if(!isToDelete) {
+                updateOrder.push(file.fileOrder); 
+            }
+
         }
+        clone.append('deleteOrder', deleteOrder.join(',')); 
+        clone.append('updateOrder', updateOrder.join(','));
+
+        console.log('deleteOrder 는 ! ' , deleteOrder); 
+        console.log('updateOrder 는 ! ' , updateOrder); 
+
+        fetch('/todo/update/' + clone.get('todoNo'), {
+            method: 'POST',
+            body: clone
+        })
+        .then(resp => {
+            console.log("Server response status:", resp.status);
+            return resp.text();
+        })
+        .then(result => {
+            console.log("폼 데이터 : " , result );
+            if (result > 0) {
+                alert('할 일 수정되었습니다');
+                location.reload();
+            } else {
+                alert('할 일 수정 실패');
+            }
+        })
+        .catch(error => {
+            console.error('Error during form submission:', error);
+        });
     }
-
-    clone.append('updateOrder', Array.from(updateOrder).join(','));
-    clone.append('deleteOrder', Array.from(deleteOrder).join(','));
-
-    for (const pair of formData.entries()) {
-        clone.append(pair[0], pair[1]);
-    }
-
-    console.log("Submitting form with data:");
-    for (const pair of clone.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
-    }
-
-    fetch('/todo/update/' + clone.get('todoNo'), {
-        method: 'POST',
-        body: clone
-    })
-    .then(resp => {
-        console.log("Server response status:", resp.status);
-        return resp.text();
-    })
-    .then(result => {
-        console.log("폼 데이타 : ");
-        console.log("updateOrder: ", Array.from(updateOrder).join(','));
-        console.log("deleteOrder: ", Array.from(deleteOrder).join(','));
-        if (result > 0) {
-            alert('할 일 수정되었습니다');
-            location.reload();
-        } else {
-            alert('할 일 수정 실패');
-        }
-    })
-    .catch(error => {
-        console.error('Error during form submission:', error);
-    });
 }
 
 /*
@@ -533,15 +512,14 @@ function showTodoDetail(todo) {
         const fileListElement = document.getElementById('detailFileList');
         fileListElement.innerHTML = '';
 
-       uploadedFiles = todo.fileList ? [...todo.fileList] : [];
-       orderFileList = uploadedFiles;
+        orderFileList = todo.fileList ? [...todo.fileList] : [];
 
         newFiles = [];
-        deleteOrder.clear(); // Clear the deleteOrder set
-        deletedFiles = [];
+        deleteOrder = []; 
 
-        if (uploadedFiles.length > 0) {
-            uploadedFiles.forEach((file, index) => {
+
+        if (orderFileList.length > 0) {
+            orderFileList.forEach((file, index) => {
                 const li = document.createElement('li');
                 const hiddenInput = document.createElement('input');
                 const a = document.createElement('a');
@@ -563,11 +541,8 @@ function showTodoDetail(todo) {
 
                 removeButton.addEventListener('click', function() {
                     fileListElement.removeChild(li);
-                    deleteOrder.add(file.fileOrder); // Add fileOrder to deleteOrder set
-                    console.log("deleteOrder 리스트:", Array.from(deleteOrder));
-                    uploadedFiles = uploadedFiles.filter(f => f.filePath + f.fileRename !== file.filePath + file.fileRename);
-                    console.log("파일 제거됨:", file);
-                    console.log("현재 uploadedFiles 리스트:", uploadedFiles);
+                    deleteOrder.push(file.fileOrder); // Add fileOrder to deleteOrder
+                    orderFileList = orderFileList.filter(f => f.fileOrder !== file.fileOrder);
 
                     if (fileListElement.children.length === 0) {
                         const noFileLi = document.createElement('li');
@@ -595,7 +570,6 @@ function showTodoDetail(todo) {
         }
     }
 }
-
 
 
 /*

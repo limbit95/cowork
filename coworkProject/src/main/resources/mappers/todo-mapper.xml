@@ -341,24 +341,28 @@
         WHERE FILE_NO = #{fileNo}
     </delete>
 
-     <insert id="insertNewFiles" parameterType="list">
-        INSERT INTO TODO_FILE (FILE_NO, FILE_ORIGIN_NAME, FILE_RENAME, FILE_PATH, TODO_NO, FILE_ORDER)
-        <foreach collection="list" item="file" separator=",">
-            SELECT SEQ_TODO_FILE.NEXTVAL, #{file.fileOriginName}, #{file.fileRename}, #{file.filePath}, #{todoNo}, #{file.fileOrder} FROM DUAL
-        </foreach>
-    </insert>
-    
-    <insert id="insertNewFile">
-    	INSERT INTO TODO_FILE
-    	VALUES(SEQ_TODO_FILE.NEXTVAL, #{file.fileOriginName}, #{file.fileRename}, #{file.filePath}, #{todoNo}, #{file.fileOrder})
-    </insert>
-    
+
     <insert id="updateUploadList" parameterType="list">
     INSERT INTO TODO_FILE
      <foreach collection="list" item="file" separator=",">
             SELECT SEQ_TODO_FILE.NEXTVAL, #{file.fileOriginName}, #{file.fileRename}, #{file.filePath}, #{todoNo}, #{file.fileOrder} FROM DUAL
 		</foreach>
     </insert>
+    
+    <!-- 파일 순서 수정 -->
+	<update id="fileOrderUpdate">
+		UPDATE TODO_FILE SET
+			FILE_ORDER = #{fileOrder}
+		WHERE FILE_ORDER = #{updateFileOrder}
+		AND TODO_NO = #{todoNo}
+	</update>
+	
+	<delete id="deleteFiles">
+		DELETE FROM TODO_FILE
+		WHERE FILE_ORDER IN(${deleteOrder})
+		AND TODO_NO = #{todoNo}
+	</delete>
+    
     
 </mapper>
 

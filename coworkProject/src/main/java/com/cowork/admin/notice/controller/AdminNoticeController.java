@@ -191,7 +191,8 @@ public class AdminNoticeController {
 		Notice inputNotice = new Notice();
 		
 		noticeContent = noticeContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
-		
+		log.info(deleteOrder);
+		log.info(updateOrder);
 		inputNotice.setNoticeNo(noticeNo);
 		inputNotice.setNoticeTitle(noticeTitle);
 		inputNotice.setNoticeContent(noticeContent);
