@@ -1,5 +1,6 @@
 package com.cowork.employee.todo.model.service;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -35,16 +36,16 @@ public interface TodoService {
 
 	/** 할 일 수정 
 	 * @param inputTodo
-	 * @param files
+	 * @param files 
 	 * @param inChargeEmpList 
 	 * @param deletedFileList 
 	 * @param newFileList 
 	 * @param uploadedFileList 
 	 * @return
 	 */
-	int todoUpdate(Todo inputTodo, List<MultipartFile> files, List<String> inChargeEmpList, 
-			List<TodoFile> uploadedFileList, List<TodoFile> newFileList, List<TodoFile> deletedFileList) throws IllegalStateException, IOException; 
-
+//	int todoUpdate(Todo inputTodo, List<MultipartFile> files, List<String> inChargeEmpList, 
+//			List<TodoFile> uploadedFileList, List<TodoFile> newFileList, List<TodoFile> deletedFileList) throws IllegalStateException, IOException; 
+	
 	/** 할 일 삭제 
 	 * @param todoNoList
 	 * @return
@@ -82,6 +83,9 @@ public interface TodoService {
 	 * @return
 	 */
 	List<String> getEmpList(int todoNo);
+
+	int todoUpdate(Todo inputTodo, List<MultipartFile> files, String deleteOrder,
+			String updateOrder, List<String> inChargeEmpList) throws FileNotFoundException, IOException;
 
 	
 		
