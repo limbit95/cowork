@@ -42,30 +42,23 @@
                 
                 <div class="draftMenu">
                     <div class="draftMenu drftScroll">
-                        <div class="draftBtn">
-                            <div><i class="fa-solid fa-file-signature draftImg"></i></div>
-                            <label>기안서</label>
+                        <div class="draftBtn" th:each="draftKeep : ${draftKeepList}" th:object="${draftKeep}"
+                                th:onclick="|location.href='@{edsmRequest/{draftNo} (draftNo=*{draftNo})}'|">
+                            <div>
+                                <i class="draftImg"
+                                    th:classappend="*{draftFlag eq '2' ? 'fa-solid fa-file-circle-plus' 
+                                    : draftFlag eq '3' ? 'fa-regular fa-paste'
+                                    : draftFlag eq '4' ? 'fa-regular fa-file-lines'
+                                    : draftFlag eq '5' ? 'fa-regular fa-file-word'
+                                    : draftFlag eq '6' ? 'fa-regular fa-file'
+                                    : 'fa-solid fa-file-signature'}"></i>
+                            </div>
+                            <label th:text="*{draftTitle}">기안서</label>
                         </div>
-                        <div class="draftBtn">
+                        <!--<div class="draftBtn">
                             <div><i class="fa-solid fa-file-circle-plus draftImg"></i></div>
                             <label>협조문</label>
-                        </div>
-                        <div class="draftBtn">
-                            <div><i class="fa-regular fa-paste draftImg"></i></div>
-                            <label>품의서</label>
-                        </div>
-                        <div class="draftBtn">
-                            <div><i class="fa-regular fa-file-lines draftImg"></i></div>
-                            <label>지출결의서</label>
-                        </div>
-                        <div class="draftBtn">
-                            <div><i class="fa-regular fa-file-word draftImg"></i></div>
-                            <label>경조사 신청서</label>
-                        </div>
-                        <div class="draftBtn">
-                            <div><i class="fa-regular fa-file draftImg"></i></div>
-                            <label>회의록</label>
-                        </div>
+                        </div>-->
                     </div>
                     <!--<div class="draftBtn addBtn">
                         <div><i class="fa-solid fa-plus draftImg"></i></div>
@@ -79,6 +72,12 @@
         <!-----------------------------------------------   기안 목록  ------------------------------------------------------------------>
         <div class="draftList2">
             <div class="default-line" th:each="draft : ${draftList}" th:object="${draft}">
+                <div class="keep">
+                    <i th:if="*{draftFlag == '7'}"  class="fa-solid fa-star"
+                        th:classappend="*{keepYn eq 'N' ? 'noStar':'yesStar'}"
+                        th:onclick="|location.href='@{draftKeepYn/{draftNo} (draftNo=*{draftNo}, keepYn=*{keepYn})}'|"
+                    ></i>
+                </div>
                 <div class="draftDiv">
                     <div class="draftImg"
                         th:classappend="*{draftFlag eq '2' ? 'fa-solid fa-file-circle-plus' 

@@ -21,13 +21,15 @@
 	<!-- 전자결재 문서 관리 -->
 	<select id="draftList">
 		SELECT 
-			 DRAFT_NO
+			 D.DRAFT_NO
 			,DRAFT_TITLE
 			,DRAFT_CONTENT
 			,COM_NO
 			,DRAFT_FLAG
 			,DECODE(DRAFT_FLAG, '2', '협조문', '3', '품의서', '4', '지출결의서','5', '경조사 신청서', '6', '회의록', '기안서') AS DRAFT_NM
-		FROM DRAFT
+			,(CASE WHEN KEEP_NO IS NULL OR KEEP_YN = 'N' THEN 'N' ELSE 'Y' END) AS KEEP_YN
+		FROM DRAFT D
+		LEFT OUTER JOIN DRAFT_KEEP K ON D.DRAFT_NO = K.DRAFT_NO 
 		WHERE COM_NO = #{comNo}
 		<choose>
 			<when test='key != "0" and key != null and key != "1"'> 

@@ -39,7 +39,9 @@
 }
 
 .draftKeepMenu select {
-    height: 103px;
+    text-align: center;
+    padding: 41px 0;
+    height: 102px !important;
     margin-right: 5px;
 }
 
@@ -47,6 +49,7 @@
     margin: 0px !important;
 }
 
+/* 스크롤 */
 .drftScroll {
     width: 754px;
     display: ruby;
@@ -61,6 +64,26 @@
 .drftScroll .draftBtn {
     margin: 0 !important;
 }
+
+/*즐겨찾기*/
+.keep {
+    width: 20px;
+    cursor: pointer;
+}
+
+i.fa-solid.fa-star {
+    font-size: 18px;
+}
+
+.noStar, .yesStar:hover {
+    color: var(--gray-color);
+}
+
+.yesStar, .noStar:hover {
+    color: #ffe200;
+}
+
+/***********************/
 
 @media (max-width: 576px) {
     .drftScroll {
