@@ -17,6 +17,13 @@
         <!-- 회의실 예약 제목 -->
         <div class="title"><span>회의실 예약 현황</span></div>
     </section>
+
+    <!-- 버튼 영역 -->
+    <div class="reservationBtnTop">
+        <div class="reservationBtnInner">
+            <a href="/reservation/reservationInsert" class="default-btn glucose-btn">회의실 예약하기</a>
+        </div>
+    </div>
     
     <!-- 캘린더 API -->
     <section class="calendarSection">
@@ -26,29 +33,41 @@
     </section>
 
     <!-- 제목 클릭했을 때 보여질 모달창 -->
-    <div id="reservationModal">
+    <div id="reservationModal" class="reservationHidden">
         <div class="reservationModalSpace">
             <span class="spanX">&times;</span>
         </div>
 
-        <div class="reservationDiv">
-            <p>예약일</p>
-        </div>
-
-        <div class="reservationDiv">
-            <p>부서</p>
-        </div>
-
-        <div class="reservationDiv">
-            <p>회의실</p>
-        </div>
-
-        <div class="reservationDiv">
-            <p>시작 시간</p>
-        </div>
-
-        <div class="reservationDiv">
-            <p>종료 시간</p>
+        <div class="paddingDiv">
+            <div class="reservationDiv borderDiv">
+                <p>예약일</p>
+                <input readonly class="reservationDay">
+                <i class="fa-regular fa-calendar-days"></i>
+            </div>
+    
+            <div class="reservationDiv">
+                <p>부서</p>
+                <input readonly class="reservationDept">
+                <i class="fa-solid fa-briefcase"></i>
+            </div>
+    
+            <div class="reservationDiv">
+                <p>회의실</p>
+                <input readonly class="reservationRoom">
+                <i class="fa-solid fa-people-roof"></i>
+            </div>
+    
+            <div class="reservationDiv">
+                <p>시작 시간</p>
+                <input readonly class="reservationStart">
+                <i class="fa-solid fa-hourglass-start"></i>
+            </div>
+    
+            <div class="reservationDiv">
+                <p>종료 시간</p>
+                <input readonly class="reservationEnd">
+                <i class="fa-solid fa-hourglass-end"></i>
+            </div>
         </div>
     </div>
 

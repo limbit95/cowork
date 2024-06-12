@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation status</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.13/index.global.min.js"></script>
+    <script src='https://fullcalendar.io/releases/fullcalendar/3.10.2/lib/moment.min.js'></script>
+
+    <link rel="stylesheet" href="/css/employee/reservation/reservation.css">
+</head>
+<body>
+    <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
+
+    <section class="container">
+        <!-- 회의실 예약 제목 -->
+        <div class="title"><span>회의실 예약</span></div>
+    </section>
+
+    <!-- 버튼 영역 -->
+    <div class="reservationBtnTop">
+        <div class="reservationBtnInner">
+            <a href="/reservation/reservation" class="default-btn glucose-btn">회의실 예약하기</a>
+        </div>
+    </div>
+    
+    <!-- 캘린더 API -->
+    <section class="calendarSection">
+        <div class="calendarBox">
+            <div id='calendar'></div>
+        </div>
+    </section>
+
+    <!-- 시간 선택하면 보여질 모달창 -->
+    <div id="reservationInsertModal">
+
+        <!-- 지정색 선택 부분 -->
+        <div class="titleColor">
+            <div class="clickColor" style="background-color: #fc8b8b;">
+                <input value="#fc8b8b" hidden>
+            </div>
+            <div class="clickColor" style="background-color: #eb9234;">
+                <input value="#eb9234" hidden>
+            </div>
+            <div class="clickColor" style="background-color: #accf9b;">
+                <input value="#accf9b" hidden>
+            </div>
+            <div class="clickColor" style="background-color: #6d8ec7;">
+                <input value="#6d8ec7" hidden>
+            </div>
+            <div class="clickColor" style="background-color: #b09dc9;">
+                <input value="#b09dc9" hidden>
+            </div>
+        </div>
+        <!-- 선택된 색상을 저장해둘 곳 -->
+        <input id="selectedColor" hidden>
+
+        <!-- 팀 전체, 부서, 팀 선택 -->
+        <div class="selectSection">
+            <button class="selectCompany">
+                회사 전체
+            </button>
+
+            <!-- 로그인한 회원의 회사 기본키로 회사에 존재하는 부서 보여줌 -->
+            <select class="selectDept">
+                <option th:text="${#lists.isEmpty(deptList) ? '없음' : '부서 선택'}" class="selectDeptDefalut">부서 선택</option>
+                <option th:each="dept : ${deptList}" th:value="${dept.deptNo}" th:text="${dept.deptNm}">부서명</option>
+                <input th:each="dept : ${deptList}" th:value="${dept.deptNo}" hidden>
+            </select>
+
+            <select class="selectTeam">
+                <option th:text="${#lists.isEmpty(teamList) ? '없음' : '팀 선택'}" class="selectTeamDefalut">팀 선택</option>
+                <option th:each="team : ${teamList}" th:value="${team.teamNo}" th:text="${team.teamNm}">팀명</option>
+                <input th:each="team : ${teamList}" th:value="${team.teamNo}" hidden>
+            </select>
+
+            <!-- 선택한 값들이 들어올 곳 -->
+            <div class="selectView calendarHidden">
+                <!-- <span class="selectedDiv">
+                    <div>
+                        <p>회사 전체</p>
+                        <span class="selectCancel">&times;</span>
+                    </div>
+                </span> -->
+            </div>
+
+            <div class="modalContent">
+                <textarea id="updateContent" rows="7" cols="50"></textarea>
+            </div>
+
+            <div class="modalBtn">
+                <button class="default-btn glucose-border-btn modalUpdateBtn">등록</button>
+                <button class="default-btn glucose-border-btn modalCancelBtn">취소</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Full Calendar API JS -->
+    <script src="/js/employee/reservation/reservationInsert.js"></script>
+</body>
+</html>
