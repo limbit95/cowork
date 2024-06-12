@@ -115,5 +115,14 @@
 		AND D.DEPT_NO = #{deptNo}
 		ORDER BY "LEVEL" ASC
 	</select>
+	
+	<!-- 선택한 부서의 하위 팀 리스트만 조회 -->
+	<select id="getTeamList2" resultType="Team">
+		SELECT T.TEAM_NO, T.TEAM_NM, T.DEPT_NO
+		FROM TEAM T
+		JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		WHERE D.DEPT_NO = #{deptNo}
+		AND D.COM_NO = #{comNo}
+	</select>
 		
 </mapper>

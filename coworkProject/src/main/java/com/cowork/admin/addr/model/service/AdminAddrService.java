@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cowork.admin.companyInfo.model.dto.Department;
+import com.cowork.admin.companyInfo.model.dto.Team;
 import com.cowork.user.model.dto.Employee2;
 
 public interface AdminAddrService {
@@ -34,5 +35,11 @@ public interface AdminAddrService {
 	 * @return
 	 */
 	Map<String, Object> selectTeamList(Map<String, Object> data, int cp);
+
+	/** 선택한 부서의 하위 팀 리스트만 조회
+	 * @param map
+	 * @return
+	 */
+	List<Team> getTeamList(Map<String, Object> map);
 
 }

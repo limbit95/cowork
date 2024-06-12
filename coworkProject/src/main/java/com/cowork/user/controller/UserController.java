@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@SessionAttributes({"loginEmp", "comAddrList"})
+@SessionAttributes({"loginEmp", "comAddrList", "positionList"})
 @RequestMapping("user")
 public class UserController {
 
@@ -192,6 +192,9 @@ public class UserController {
 		List<Department> comAddrList = adminAddrService.selectComAddrList(loginEmp);
 		model.addAttribute("comAddrList", comAddrList);
 		
+		List<Map<String, Object>> positionList = service.getpositionList(loginEmp);
+		model.addAttribute("positionList", positionList);
+		
 		model.addAttribute("loginEmp", loginEmp);
 		ra.addFlashAttribute("message", loginEmp.getEmpLastName() + loginEmp.getEmpFirstName() + "님 환영합니다.");
 
@@ -287,6 +290,9 @@ public class UserController {
 		
 		List<Department> comAddrList = adminAddrService.selectComAddrList(loginEmp);
 		model.addAttribute("comAddrList", comAddrList);
+		
+		List<Map<String, Object>> positionList = service.getpositionList(loginEmp);
+		model.addAttribute("positionList", positionList);
 		
 		model.addAttribute("loginEmp", loginEmp);
 		ra.addFlashAttribute("message", loginEmp.getEmpLastName() + loginEmp.getEmpFirstName() + "님 환영합니다.");
