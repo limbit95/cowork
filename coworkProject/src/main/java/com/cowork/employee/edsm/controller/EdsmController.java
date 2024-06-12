@@ -1,5 +1,6 @@
 package com.cowork.employee.edsm.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.cowork.admin.edsm.model.dto.Draft;
 import com.cowork.admin.edsm.model.service.DraftService;
 import com.cowork.employee.edsm.model.dto.DraftKeep;
+import com.cowork.employee.edsm.model.dto.Edsm;
 import com.cowork.employee.edsm.model.service.EdsmService;
 import com.cowork.user.model.dto.Employee2;
 
@@ -59,10 +61,17 @@ public class EdsmController {
 		return "employee/edsm/edsmDraftList";
 	}
 	
-	@GetMapping("draftKeepYn/{keepNo:[0-9]+}")
+	/** 자주쓰는 결재
+	 * @param draftNo
+	 * @param keepYn
+	 * @param loginEmp
+	 * @param ra
+	 * @return
+	 */
+	@GetMapping("draftKeepYn/{draftNo:[0-9]+}")
 	public String draftKeepYn(
 				@PathVariable("draftNo") int draftNo,
-				@PathVariable("keepYn") String keepYn,
+				@RequestParam("keepYn") String keepYn,
 				@SessionAttribute("loginEmp") Employee2 loginEmp,
 				RedirectAttributes ra
 			) {
@@ -109,14 +118,24 @@ public class EdsmController {
 	 */
 	@PostMapping("edsmRequest/{draftNo:[0-9]+}")
 	public int edsmRequest(
-				@RequestParam("noticeTitle") String noticeTitle,
-	            @RequestParam("noticeContent") String noticeContent,
+				@RequestParam("edsmTitle") String edsmTitle,
+	            @RequestParam("edsmContent") String edsmContent,
+	            @RequestParam("draftNo") int draftNo,
 	            @SessionAttribute("loginEmp") Employee2 loginEmp, 
 				@RequestParam(value="files", required=false) List<MultipartFile> files,
 				RedirectAttributes ra
-			) {
+			) throws IllegalStateException, IOException {
 		
-		int result = 0;
+		edsmContent = edsmContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
+		
+		Edsm inputEdsm = Edsm.builder()
+				.edsmTitle(edsmTitle)
+				.edsmContent(edsmContent)
+				.empCode(loginEmp.getEmpCode())
+				.draftNo(draftNo)
+				.build();
+		
+		int result = serviceEdsm.edsmRequest(inputEdsm, files);
 		
 		return result;
 	}

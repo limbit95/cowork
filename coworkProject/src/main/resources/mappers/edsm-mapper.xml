@@ -9,6 +9,7 @@
 			,DRAFT_TITLE
 			,COM_NO
 			,DRAFT_FLAG
+			,'N' KEEP_YN
 		FROM DRAFT
 		WHERE COM_NO = #{comNo}
 		<![CDATA[AND DRAFT_FLAG <= 6]]>
@@ -18,13 +19,15 @@
 			,DRAFT_TITLE
 			,COM_NO
 			,DRAFT_FLAG
+			,KEEP_YN
 		FROM DRAFT
 		JOIN DRAFT_KEEP USING (DRAFT_NO)
 		WHERE EMP_CODE = #{empCode}
+		AND KEEP_YN = 'Y'
 		ORDER BY DRAFT_FLAG, DRAFT_NO
 	</select>
 	
-	<!-- 자주찾는 결재 수정 -->
+	<!-- 자주쓰는 결재 수정 -->
 	<update id="draftKeepUpdate">
 		UPDATE DRAFT_KEEP SET
 			KEEP_YN = #{keepYn}
@@ -32,13 +35,32 @@
 		AND EMP_CODE = #{empCode}
 	</update>
 	
-	<!-- 자주찾는 결재 등록 -->
+	<!-- 자주쓰는결재 등록 -->
 	<insert id="draftKeepInsert">
-		INSERT INTO DRAFT_KEEP VALUE(
+		INSERT INTO DRAFT_KEEP VALUES(
 			 SEQ_DRAFT_KEEP.NEXTVAL
 			,#{draftNo}
 			,#{empCode}
 			,DEFAULT
+		)
+	</insert>
+	
+	<!-- 전자결재 등록 -->
+	<insert id="edsmRequest" useGeneratedKeys="true" parameterType="Edsm">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="edsmNo">
+			SELECT SEQ_EDSM.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO EDSM
+		VALUES(
+			 #{edsmNo}
+			,#{edsmTitle}
+			,#{edsmContent}
+			,DEFAULT
+			,DEFAULT
+			,#{empCode}
+			,DEFAULT
+			,#{draftNo}
 		)
 	</insert>
 

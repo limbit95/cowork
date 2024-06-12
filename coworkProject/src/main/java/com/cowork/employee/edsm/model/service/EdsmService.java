@@ -1,8 +1,13 @@
 package com.cowork.employee.edsm.model.service;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.cowork.employee.edsm.model.dto.DraftKeep;
+import com.cowork.employee.edsm.model.dto.Edsm;
 
 public interface EdsmService {
 
@@ -17,5 +22,12 @@ public interface EdsmService {
 	 * @return
 	 */
 	int draftKeepYn(DraftKeep draftKeep);
+
+	/** 전자결재 등록
+	 * @param inputEdsm
+	 * @param files
+	 * @return
+	 */
+	int edsmRequest(Edsm inputEdsm, List<MultipartFile> files) throws IllegalStateException, IOException;
 
 }
