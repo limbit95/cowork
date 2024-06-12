@@ -17,6 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.edsm.model.dto.Draft;
 import com.cowork.admin.edsm.model.service.DraftService;
+import com.cowork.employee.edsm.model.dto.DraftKeep;
+import com.cowork.employee.edsm.model.service.EdsmService;
 import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class EdsmController {
 	
 	private final DraftService service;
+	private final EdsmService serviceEdsm;
 
 	/** 전자결재 기안서 양식 목록
 	 * @return
@@ -45,13 +48,39 @@ public class EdsmController {
 		if(key != "undefined")  paramMap.put("key", key);
 		
 		paramMap.put("comNo", loginEmp.getComNo());
+		paramMap.put("empCode", loginEmp.getEmpCode());
 		
 		// 조회 서비스 호출 후 결과 반환
-		List<Draft> draftList = service.draftList(paramMap);
+		Map<String, Object> map = serviceEdsm.edsmDraftList(paramMap);
 		
-		model.addAttribute("draftList", draftList);
+		model.addAttribute("draftList", map.get("draftList"));
+		model.addAttribute("draftKeepList", map.get("draftKeepList"));
 		
 		return "employee/edsm/edsmDraftList";
+	}
+	
+	@GetMapping("draftKeepYn/{keepNo:[0-9]+}")
+	public String draftKeepYn(
+				@PathVariable("draftNo") int draftNo,
+				@PathVariable("keepYn") String keepYn,
+				@SessionAttribute("loginEmp") Employee2 loginEmp,
+				RedirectAttributes ra
+			) {
+		
+		if(keepYn.equals("Y")) keepYn = "N";
+		else if(keepYn.equals("N")) keepYn = "Y";
+		
+		DraftKeep draftKeep = DraftKeep.builder()
+						.draftNo(draftNo)
+						.empCode(loginEmp.getEmpCode())
+						.keepYn(keepYn)
+						.build();
+		
+		int result = serviceEdsm.draftKeepYn(draftKeep);
+		
+		if(result == 0) ra.addFlashAttribute("message", "자주찾는 결제 수정 실패");
+		
+		return "redirect:../edsmDraftList";
 	}
 	
 	/** 전자결재 신청 화면

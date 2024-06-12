@@ -20,5 +20,7 @@ public class Draft {
 	private String draftContent;
 	private int comNo;
 	private String draftFlag;
+	
 	private String draftNm; /* 기안서 명칭 */
+	private String keepYn; /* 즐겨찾기 여부*/
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.employee.edsm.model.mapper.EdsmMapper">
+
+	<!-- 자주찾는 결재 목록 -->
+	<select id="draftKeepList">
+		SELECT 
+			 DRAFT_NO
+			,DRAFT_TITLE
+			,COM_NO
+			,DRAFT_FLAG
+		FROM DRAFT
+		WHERE COM_NO = #{comNo}
+		<![CDATA[AND DRAFT_FLAG <= 6]]>
+		UNION 
+		SELECT 
+			 DRAFT_NO
+			,DRAFT_TITLE
+			,COM_NO
+			,DRAFT_FLAG
+		FROM DRAFT
+		JOIN DRAFT_KEEP USING (DRAFT_NO)
+		WHERE EMP_CODE = #{empCode}
+		ORDER BY DRAFT_FLAG, DRAFT_NO
+	</select>
+	
+	<!-- 자주찾는 결재 수정 -->
+	<update id="draftKeepUpdate">
+		UPDATE DRAFT_KEEP SET
+			KEEP_YN = #{keepYn}
+		WHERE DRAFT_NO = #{draftNo}
+		AND EMP_CODE = #{empCode}
+	</update>
+	
+	<!-- 자주찾는 결재 등록 -->
+	<insert id="draftKeepInsert">
+		INSERT INTO DRAFT_KEEP VALUE(
+			 SEQ_DRAFT_KEEP.NEXTVAL
+			,#{draftNo}
+			,#{empCode}
+			,DEFAULT
+		)
+	</insert>
+
+</mapper>
