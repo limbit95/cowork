@@ -11,6 +11,7 @@ import com.cowork.employee.chatting.model.dto.Employee;
 import com.cowork.employee.survey.model.dto.Question;
 import com.cowork.employee.survey.model.dto.SurveyData;
 import com.cowork.employee.survey.model.mapper.SurveyMapper;
+import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class SurveyServiceImpl implements SurveyService{
 	private final SurveyMapper surveyMapper; 
 	
 	@Override
-	public void insertSurvey(SurveyData surveyData, Employee emp ) {
+	public void insertSurvey(SurveyData surveyData, Employee2 emp ) {
 	
 		// empCode 사원번호 얻어오기 
 		Integer empCode = emp.getEmpCode();
@@ -66,7 +67,7 @@ public class SurveyServiceImpl implements SurveyService{
 	 * 현재 로그인한 사원의 회사 내 직급들을 모두 가져와서 List<String> 타입 자료구조에 담아주는 메서드 
 	 */
 	@Override
-	public List<String> positionList(Employee emp) {
+	public List<String> positionList(Employee2 emp) {
 		// 회사(COMPANY) 테이블의 기본키를 파라미터로 받은 emp 에서 얻어온다. 
 		Integer comNo = emp.getComNo();
 		// 그 회사의 직급들을 모두 가져온다. 
@@ -76,13 +77,13 @@ public class SurveyServiceImpl implements SurveyService{
 	}
 
 	@Override
-	public List<Employee> empList(String empNickname, Integer comNo) {
+	public List<Employee2> empList(String empNickname, Integer comNo) {
 		
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("empNickname", empNickname);
 		paramMap.put("comNo", comNo);
 		
-		List<Employee> empList = surveyMapper.empList(paramMap);
+		List<Employee2> empList = surveyMapper.empList(paramMap);
 		
 		log.debug("empList=={}", empList);
 		log.debug("empNickname=={}", empNickname);

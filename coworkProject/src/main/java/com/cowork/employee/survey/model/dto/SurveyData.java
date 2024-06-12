@@ -21,6 +21,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder // 인스턴스 쉽게 만들게해줌.
 public class SurveyData {
+	private Boolean entire;
+	private String position;
+	private List<String> empCodeList;
     private String title;
     private List<Question> questions;
 
