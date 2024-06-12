@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.cowork.admin.edsm.model.dto.Draft;
 import com.cowork.employee.edsm.model.dto.DraftKeep;
+import com.cowork.employee.edsm.model.dto.Edsm;
 
 @Mapper
 public interface EdsmMapper {
@@ -27,5 +28,7 @@ public interface EdsmMapper {
 	 * @param draftKeep
 	 */
 	void draftKeepInsert(DraftKeep draftKeep);
+
+	int edsmRequest(Edsm inputEdsm);
 
 }

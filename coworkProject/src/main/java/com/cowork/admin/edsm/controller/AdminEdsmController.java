@@ -86,7 +86,7 @@ public class AdminEdsmController {
 		
 		if(draftNo > 0) {
 			message = "기안 양식이 생성되었습니다";
-			path = "edsmUpdateDraft/" + draftNo;
+			path = "edsmList";
 		}
 		else {
 			message = "기안 양식이 생성 실패";
@@ -130,13 +130,19 @@ public class AdminEdsmController {
 		int result = service.edsmUpdateDraft(inputDraft);
 		
 		String message = null;
+		String path = null;
 		
-		if(result > 0) message = "기안 양식이 수정되었습니다";
-		else           message = "기안 양식이 수정 실패";
+		if(result > 0) {
+			message = "기안 양식이 수정되었습니다";
+			path = "../edsmList";
+		} else {
+			message = "기안 양식이 수정 실패";
+			path = "../edsmUpdateDraft/" + draftNo;
+		}
 		
 		ra.addFlashAttribute("message", message);
 		
-		return "redirect:../edsmUpdateDraft/" + draftNo;
+		return "redirect:" + path;
 	}
 	
 	/** 양식 삭제
