@@ -15,4 +15,10 @@ public interface MailMapper {
 	 */
 	List<Mail> mailList(int empCode);
 
+	/** 메일 상세 조회 
+	 * @param mailNo
+	 * @return
+	 */
+	int mailDetail(int mailNo);
+
 }

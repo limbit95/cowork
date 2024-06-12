@@ -198,92 +198,20 @@ public class TodoController {
 	
 
 	/** 할 일 수정 
-	 * @param files
-	 * @param model
+	 * @param todoNo
 	 * @param inputTodo
-	 * @param ra
+	 * @param files
+	 * @param deleteOrder
+	 * @param updateOrder
+	 * @param loginEmp
+	 * @param querystring
 	 * @return
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 */
-/*	@PostMapping("update")
-	public String todoUpdate(@RequestParam("files") List<MultipartFile> files, 
-							Model model,
-							Todo inputTodo, 
-							RedirectAttributes ra, 
-							@SessionAttribute("loginEmp") Employee2 loginEmp) throws IllegalStateException, IOException {
-		
-		int todoNo = inputTodo.getTodoNo(); 
-		int empCode = loginEmp.getEmpCode(); 
-		
-		inputTodo.setEmpCode(empCode);
-		
-		log.info("todoNo ::: " + todoNo);
-		log.info("파일 개수 : " + files.size());
-		
-		// 담당자 여러명인 경우 
-		String inChargeEmpStr = inputTodo.getInChargeEmp(); 
-		List<String> inChargeEmpList = Arrays.asList(inChargeEmpStr.split("\\s*,\\s*")); 
-
-		int result = service.todoUpdate(inputTodo, files, inChargeEmpList); 
-		
-		model.addAttribute("todo", inputTodo); 
-		
-		
-		String message; 
-		
-		if(result > 0) {
-			message = "수정 완료"; 
-		} else {
-			message = "수정 실패"; 
-		}
-		
-		ra.addFlashAttribute("message", message); 
-		
-		
-		return "redirect:/todo/todoList"; 
-	}
-	*/
-	
-/*	@ResponseBody
-	@PostMapping("update")
-	public int todoUpdate(@RequestParam(value="files", required=false) List<MultipartFile> files, 
-	                      @RequestParam("todoNo") int todoNo,
-	                      Model model, 
-	                      Todo inputTodo, 
-	                      @RequestParam(value="uploadedFiles", required=false) String uploadedFiles, 
-	                      @RequestParam(value="newFiles", required=false) String newFiles, 
-	                      @RequestParam(value="deletedFiles", required=false) String deletedFiles, 
-	                      @SessionAttribute("loginEmp") Employee2 loginEmp) throws IllegalStateException, IOException {
-
-		int empCode = loginEmp.getEmpCode(); 
-		    inputTodo.setEmpCode(empCode); 
-		    inputTodo.setTodoNo(todoNo); 
-		    
-		  
-		  
-		    log.info("업로드 리스트트트트트트트 : " + uploadedFileList); 
-		    log.info("새파일 리스트트트트트트트 : " + newFileList); 
-		    log.info("삭제 리스트트트트트트트 : " + deletedFileList); 
-		    log.info("넘어온 파일 리스트 : " + files.size()); 
-
-	    // 담당자 여러명인 경우 
-	    String inChargeEmpStr = inputTodo.getInChargeEmp(); 
-	    List<String> inChargeEmpList = Arrays.asList(inChargeEmpStr.split("\\s*,\\s*")); 
-
-	    log.info("담당자 여러명일때 넘겨받은 리스트 : " + inChargeEmpList.toString());
-
-	    int result = service.todoUpdate(inputTodo, files, inChargeEmpList, uploadedFileList, newFileList, deletedFileList); 
-
-	    model.addAttribute("todo", inputTodo);
-
-	    return result; 
-	}*/
-	
 	@ResponseBody
 	@PostMapping("update/{todoNo}")
-	public int todoUpdate(	@PathVariable("todoNo") int todoNo,
-							Todo inputTodo, 
+	public int todoUpdate(	@PathVariable("todoNo") int todoNo, Todo inputTodo,
 							@RequestParam("files") List<MultipartFile> files,
 							@RequestParam(value="deleteOrder", required=false) String deleteOrder,
 							@RequestParam(value="updateOrder", required=false) String updateOrder,

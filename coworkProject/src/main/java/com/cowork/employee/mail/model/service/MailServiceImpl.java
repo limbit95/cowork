@@ -26,4 +26,11 @@ public class MailServiceImpl implements MailService {
 		return mapper.mailList(empCode);
 	}
 
+	// 메일 상세 조회 
+	@Override
+	public int mailDetail(int mailNo) {
+		
+		return mapper.mailDetail(mailNo);
+	}
+
 }

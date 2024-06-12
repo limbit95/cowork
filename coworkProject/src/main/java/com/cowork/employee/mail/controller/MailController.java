@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.cowork.employee.mail.model.dto.Mail;
@@ -90,9 +92,15 @@ public class MailController {
 	/** 메일상세
 	 * @return
 	 */
-	@GetMapping("mailDetail")
-	public String mailDetail() {
+	@GetMapping("mailDetail/{mailNo}")
+	public int mailDetail(	@PathVariable("mailNo") int mailNo,
+								@SessionAttribute("loginEmp") Employee2 loginEmp,
+								Mail mail) {
+		int EmpCode = loginEmp.getEmpCode(); 
 		
-		return "employee/mail/mailDetail";
+		int result = service.mailDetail(mailNo); 
+		
+		
+		return 0;
 	}
-}
+} 
