@@ -114,7 +114,7 @@ body {
 }
 
 #noticeLink, #boardLink, #addrLink, #calendarLink, #todoLink,
-#chattingLink, #mailLink, #attendanceLink, #surveyLink{
+#chattingLink, #mailLink, #attendanceLink, #surveyLink, #reservationLink{
 	flex-basis: 6%;
 	width: 100%;
 	display: flex;
@@ -126,7 +126,7 @@ body {
 	font-size: 16px; /*240531 PEB*/
 }
 #noticeLink:hover, #boardLink:hover, #addrLink:hover, #calendarLink:hover, #todoLink:hover,
-#chattingLink:hover, #mailLink:hover, #attendanceLink:hover, #surveyLink:hover{
+#chattingLink:hover, #mailLink:hover, #attendanceLink:hover, #surveyLink:hover, #reservationLink:hover{
 		background-color: 	#426DA7;
 		color: white;
 }

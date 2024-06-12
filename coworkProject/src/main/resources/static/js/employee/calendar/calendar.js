@@ -242,6 +242,15 @@ document.addEventListener('DOMContentLoaded', function() {
         events: showCalendar,
         select: function(info) {
 
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+  
+            if (info.start < today) {
+              alert('지난 날짜는 일정을 추가할 수 없습니다.');
+              calendar.unselect(); // 선택 취소
+              return;
+            }
+
             document.querySelector("#calendarModalUpdate").classList.add("calendarHidden");
 
             document.querySelector("#updateTitle").value = "";

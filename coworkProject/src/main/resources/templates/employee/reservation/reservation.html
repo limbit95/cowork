@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservation</title>
+    <title>Reservation status</title>
 
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.13/index.global.min.js"></script>
-    <link rel="icon" href="/images/favicon.png">
-    <link rel="stylesheet" href="/css/employee/calendar/calendar.css">
+    <script src='https://fullcalendar.io/releases/fullcalendar/3.10.2/lib/moment.min.js'></script>
+
+    <link rel="stylesheet" href="/css/employee/reservation/reservation.css">
 </head>
 <body>
     <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
 
     <section class="container">
         <!-- 회의실 예약 제목 -->
-        <div class="title"><span>회의실 예약</span></div>
+        <div class="title"><span>회의실 예약 현황</span></div>
     </section>
     
     <!-- 캘린더 API -->
@@ -24,7 +25,34 @@
         </div>
     </section>
 
+    <!-- 제목 클릭했을 때 보여질 모달창 -->
+    <div id="reservationModal">
+        <div class="reservationModalSpace">
+            <span class="spanX">&times;</span>
+        </div>
+
+        <div class="reservationDiv">
+            <p>예약일</p>
+        </div>
+
+        <div class="reservationDiv">
+            <p>부서</p>
+        </div>
+
+        <div class="reservationDiv">
+            <p>회의실</p>
+        </div>
+
+        <div class="reservationDiv">
+            <p>시작 시간</p>
+        </div>
+
+        <div class="reservationDiv">
+            <p>종료 시간</p>
+        </div>
+    </div>
+
     <!-- Full Calendar API JS -->
-    <script src="/js/employee/calendar/calendar.js"></script>
+    <script src="/js/employee/reservation/reservation.js"></script>
 </body>
 </html>

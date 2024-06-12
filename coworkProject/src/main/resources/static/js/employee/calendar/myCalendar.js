@@ -244,6 +244,15 @@ document.addEventListener('DOMContentLoaded', function() {
         eventDisplay: 'block',
         select: function(info) {
 
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+  
+            if (info.start < today) {
+              alert('지난 날짜는 일정을 추가할 수 없습니다.');
+              calendar.unselect(); // 선택 취소
+              return;
+            }
+
             document.querySelector("#calendarModalUpdate").classList.add("calendarHidden");
 
             document.querySelector("#updateTitle").value = "";
@@ -402,22 +411,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 eventCalendarNo = info.event.extendedProps.calendarNo;
 
-                fetch("/calendar/calendarDelete", {
-                    method : "DELETE",
-                    headers : {"Content-Type" : "application/json"},
-                    body : JSON.stringify(eventCalendarNo)
-                })
-                .then(resp => resp.text())
-                .then(result => {
-                    if(result > 0) {
-                        info.event.remove(); // fullCalendar에서 이벤트 제거
-                        document.getElementById('calendarModalUpdate').classList.add('calendarHidden');
-                        alert("일정이 삭제되었습니다.");
-                    } else {
-                        document.getElementById('calendarModalUpdate').classList.add('calendarHidden');
-                        alert("일정 삭제 실패");
-                    }
-                })
+                location.href = "/calendar/calendarDelete?calendarNo=" + eventCalendarNo;
+                
             })
             
             // 수정 버튼 클릭했을 때

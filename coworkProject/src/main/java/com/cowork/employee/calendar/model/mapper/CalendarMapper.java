@@ -56,7 +56,7 @@ public interface CalendarMapper {
 	 * @param eventCalendarNo
 	 * @return result
 	 */
-	int calendarDelete(String eventCalendarNo);
+	int calendarDelete(int calendarNo);
 
 	/** 일정 수정
 	 * @param updateCalendar

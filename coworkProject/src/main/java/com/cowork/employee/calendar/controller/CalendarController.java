@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.employee.calendar.model.dto.Calendar;
@@ -115,10 +116,23 @@ public class CalendarController {
 	 * @param eventCalendarNo
 	 * @return result
 	 */
-	@ResponseBody
-	@DeleteMapping("calendarDelete")
-	public int calendarDelete(@RequestBody String eventCalendarNo) {
-		return service.calendarDelete(eventCalendarNo);
+	@GetMapping("calendarDelete")
+	public String calendarDelete(@RequestParam("calendarNo") int calendarNo,
+			RedirectAttributes ra) {
+		int result = service.calendarDelete(calendarNo);
+		
+		String message = "";
+		
+		if(result > 0) {
+			message = "일정 삭제 성공";
+		} else {
+			message = "일정 삭제 실패";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:myCalendar";
+		
 	}
 	
 	@ResponseBody

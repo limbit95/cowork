@@ -77,7 +77,7 @@
 	
 	<!-- 일정 삭제 -->
 	<delete id="calendarDelete">
-		DELETE FROM CALENDAR  WHERE CALENDAR_NO = #{eventCalendarNo}
+		DELETE FROM CALENDAR  WHERE CALENDAR_NO = #{calendarNo}
 	</delete>
 	
 	<!-- 일정 수정 -->
