@@ -3,6 +3,7 @@ package com.cowork.admin.companyInfo.model.service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.admin.companyInfo.model.dto.Company;
+import com.cowork.user.model.dto.Employee2;
 
 public interface CompanyInfoService {
 
@@ -12,7 +13,7 @@ public interface CompanyInfoService {
 	 * @return result
 	 * @throws Exception
 	 */
-	int companyLogoUpdate(MultipartFile comLogo, Company myCompany) throws Exception;
+	int companyLogoUpdate(MultipartFile comLogo, Company myCompany, Employee2 loginEmp) throws Exception;
 
 	/** 회사 정보 수정
 	 * @param inputCompany

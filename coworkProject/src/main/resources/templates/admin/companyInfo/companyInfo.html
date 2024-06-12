@@ -29,18 +29,12 @@
 		<form class="companyInfoUpdate" id="companyLogoUpdate" action="companyLogoUpdate" method="POST" name="companyLogoImgForm" enctype="multipart/form-data">
 			<div id="companyTitle">회사 정보 수정</div>
 			<div th:if="${session.myCompany.comLogo}" id="contentContainerInCompanyInfo">
-				<img th:src="${session.myCompany.comLogo}" id="companyLogoImg">
+				<img th:src="${session.myCompany.comLogo}" id="companyLogoUpdateImg">
 			</div>
 			<div th:unless="${session.myCompany.comLogo}" id="contentContainerInCompanyInfo">
-				<img th:src="${session.myCompany.comLogo}" id="companyLogoImg">
+				<img th:src="${session.myCompany.comLogo}" id="companyLogoUpdateImg">
 			</div>
-			<!-- <div id="contentContainerInCompanyInfo">
-				<img src="/images/whiteLogo.png" id="companyLogoImg">
-			</div> -->
-			<!-- <div id="contentContainerInCompanyInfo">
-				<img th:with="logo=#{logo.default.image}"
-					th:src="${session.myCompany.comLogo ?: logo}" id="companyLogoImg">
-			</div> -->
+
 			<div class="logoImgBtnDiv">
 				<label class="default-btn glucose-border-btn logoImgBtn" for="imageInput">로고 선택</label>
             	<input type="file" name="comLogo" id="imageInput" accept="image/*">

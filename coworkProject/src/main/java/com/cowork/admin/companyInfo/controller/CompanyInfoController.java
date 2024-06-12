@@ -60,13 +60,14 @@ public class CompanyInfoController {
 	public String companyLogoUpdate(
 			@RequestParam("comLogo") MultipartFile comLogo,
 			@SessionAttribute("myCompany") Company myCompany,
+			@SessionAttribute("loginEmp") Employee2 loginEmp,
 			RedirectAttributes ra) throws Exception {
 		// 로그인 구현 완료되면 로그인한 회원에서 comNo 꺼내서 comLogo 조회해서
 		// session scope 에 myCompany 실어주기 myCompany 에서 comLogo 꺼내오기
 		// myCompany는 Company 사용자 정의 자료형
 		// leftBar에 보여줘야함. 회사 로고 수정 페이지에서도 comLogo 경로 보여줘야함
 		
-		int result = service.companyLogoUpdate(comLogo, myCompany);
+		int result = service.companyLogoUpdate(comLogo, myCompany, loginEmp);
 		
 		String message = null;
 		

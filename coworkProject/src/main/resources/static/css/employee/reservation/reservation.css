@@ -39,7 +39,7 @@
 }
 
 /* 제목 클릭 시 보여지는 모달창 부분 */
-#reservationModal {
+#reservationModal, #reservationInsertModal {
 	width: 30%;
     height: 40%;
 	background-color: white;

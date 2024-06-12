@@ -60,6 +60,7 @@
 		ON (C.CALENDAR_SHARE LIKE '%' || E_TD.TEAM_NM || '%'
 		    OR C.CALENDAR_SHARE LIKE '%' || E_TD.DEPT_NM || '%'
 		    OR (C.COM_NO = E_TD.COM_NO AND C.CALENDAR_SHARE LIKE '%회사 전체%'))
+		WHERE C.COM_NO = #{comNo}
 	</select>
 	
 	<!-- 내가 작성한 일정 보여주기 -->

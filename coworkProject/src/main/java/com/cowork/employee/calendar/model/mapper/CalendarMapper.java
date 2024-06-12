@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.admin.companyInfo.model.dto.Team;
 import com.cowork.employee.calendar.model.dto.Calendar;
+import com.cowork.user.model.dto.Employee2;
 
 @Mapper
 public interface CalendarMapper {
@@ -44,7 +45,7 @@ public interface CalendarMapper {
 	/** 회사 전체 일정 보여주기
 	 * @param empCode
 	 */
-	List<Calendar> selectCalendarList(int empCode);
+	List<Calendar> selectCalendarList(Employee2 loginEmp);
 
 	/** 내가 작성한 일정 보여주기
 	 * @param empCode
