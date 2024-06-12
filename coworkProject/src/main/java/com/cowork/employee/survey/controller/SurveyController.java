@@ -86,11 +86,8 @@ public class SurveyController {
 	   log.debug("surveyData.getTitle()={}", surveyData.getTitle());
 	   log.debug("surveyData.getQuestions()={}", surveyData.getQuestions());
 	   
-	   
 	   surveyService.insertSurvey(surveyData, emp);
 
-	   
-	   
         // 처리 후 응답 반환 (여기서는 간단히 입력 데이터를 그대로 반환)
         return surveyData;
    }
