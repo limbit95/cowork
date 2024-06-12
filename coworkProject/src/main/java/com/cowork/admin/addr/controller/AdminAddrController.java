@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.addr.model.service.AdminAddrService;
 import com.cowork.admin.companyInfo.model.dto.Department;
+import com.cowork.admin.companyInfo.model.dto.Team;
 import com.cowork.employee.addr.model.dto.MyAddr;
 import com.cowork.employee.addr.model.service.AddrService;
 import com.cowork.user.model.dto.Employee2;
@@ -166,6 +167,12 @@ public class AdminAddrController {
 	@GetMapping("employeeDetailPage")
 	public String employeeDetail() {
 		return "admin/addr/employeeDetail";
+	}
+	
+	@ResponseBody
+	@PostMapping("getTeamList")
+	public List<Team> getTeamList(){
+		return null;
 	}
 
 	

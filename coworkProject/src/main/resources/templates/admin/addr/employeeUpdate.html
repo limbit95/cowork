@@ -149,8 +149,11 @@
                 
                             <div>
                                 <span>부서</span>
-                                <select class="default-line" name="" id="">
+                                <select class="default-line" name="" id="updateDept" th:data-dept-list="${session.comAddrList}">
                                     <option th:value="*{deptNm}">[[*{deptNm}]]</option>
+                                    <th:block th:each="dept : ${session.comAddrList}">
+                                        <option th:if="*{deptNm} != ${dept.deptNm}" th:value="${dept.deptNm}">[[${dept.deptNm}]]</option>
+                                    </th:block>
                                 </select>
                             </div>
                 
@@ -193,7 +196,6 @@
         </section>
             
     </form>
-
 
     <!-- 드롭다운 -->
     <div class="dropdown-menu" id="contextMenu">

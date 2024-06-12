@@ -205,6 +205,7 @@ public class AddrController {
 					       @RequestParam Map<String, Object> data, 
 					       @RequestParam(value="cp", required=false, defaultValue="1") int cp
 					       ) {
+		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
@@ -220,6 +221,30 @@ public class AddrController {
 
 		return "employee/addr/addrBook";
 	}
+	
+	/** 개인 주소록에 사원 추가
+	 * @param request
+	 * @param data
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("addAddr")
+	public int addAddr(HttpServletRequest request,
+					   @RequestBody List<Map<String, Object>> data) {
+		
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		return service.addAddr(data);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

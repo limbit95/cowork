@@ -191,12 +191,24 @@ main {
     height: 30px;
     margin-bottom: 15px;
 }
-.right > :nth-child(2) button {
+.right > :nth-child(2) > button {
     display: none;
 }
 .right > :nth-child(2) > :nth-child(1) {
     margin-right: 10px;
 }
+
+/* 개인 주소록 저장할 때 개인 주소록 그룹 select 태그 */
+.selectGroup {
+    display: none;
+}
+section.container .selectGroup > select {
+    width: 150px;
+}
+#cancelMyAddr {
+    margin-left: 5px;
+}
+
 
 * {
     /* border: 1px solid blue; */
