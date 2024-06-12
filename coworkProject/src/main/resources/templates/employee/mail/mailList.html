@@ -49,9 +49,9 @@
 
             <div class="table-body">
                 <div class="checkDiv">
-                    <input type="checkbox">
+                    <input type="checkbox" id="checkAll">
                     <i class="fa-solid fa-sort-down"></i>
-                    <label class="delBtn">삭제</label>
+                    <label class="deleteBtn" id="deleteBtn">삭제</label>
                 </div>
                 <div></div>
                 <div></div>
@@ -69,12 +69,14 @@
 
             <div class="table-body row" th:each="mail : ${mail}">
                 <div class="checkDiv">
-                    <input type="checkbox">
-                    <div><span th:text="${mail.senderTeamNm}">팀이름</span>&nbsp;<span th:text="${mail.sender}">이름</span></div>
+                    <input type="checkbox" data-todo-id="${mail.mailNo}">
+                    <div><span th:text="${mail.senderTeamNm}" id="senderTeamNm">팀이름</span>&nbsp;<span th:text="${mail.sender}">이름</span></div>
                 </div>
-                <div th:text="${mail.mailTitle}">메일 제목</div>
-                <div></div>
-                <div th:text="${mail.mailWriteDate}">2메일 보낸 시각</div>
+               
+                <div th:text="|${session.loginEmp.empCode == mail.empCode ? '[보낸 메일함]' : '[받은 메일함]'} &nbsp; ${mail.mailTitle}|" id="mailTitle">
+                    메일 제목
+                </div>
+                <div th:text="${mail.mailWriteDate}" id="mailWriteDate">메일 보낸 시각</div>
             </div>
 
 
@@ -115,5 +117,8 @@
             </div>
         </div>
     </section>
+
+    <script src="/js/employee/mail/mailList.js"></script>
+
 </body>
 </html>

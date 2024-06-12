@@ -106,6 +106,12 @@ function fetchTodos(todoComplete, sortBy, filters = {}) {
         .then(response => response.json())
         .then(todos => {
             todoList.innerHTML = ''; // 기존 목록 초기화
+            if (todos.length === 0) {
+                noTodosMessage.style.display = 'block';
+                document.getElementById('todoInsertArea').classList.add('fixed');
+                document.getElementById('todoInsertArea').classList.remove('normal');
+            } else {
+
             todos.forEach(todo => {
                 const todoDiv = document.createElement('div');
                 todoDiv.className = 'todo';
@@ -124,6 +130,8 @@ function fetchTodos(todoComplete, sortBy, filters = {}) {
                 `;
                 todoList.appendChild(todoDiv);
             });
+
+        }
             addEventListeners(); // 새롭게 추가된 할 일 항목에 대해 이벤트 리스너를 다시 추가합니다.
         })
         .catch(error => console.error('Error fetching todos:', error));
@@ -202,7 +210,7 @@ function addEventListeners() {
             const todoId = this.getAttribute('data-todo-id');
     
             fetch(`/todo/${todoId}`)
-                .then(response => response.json())
+                .then(resp => resp.json())
                 .then(data => {
                     showTodoDetail(data);
                     document.getElementById('todoNo').value = data.todoNo;
