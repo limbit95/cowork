@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("todo")
 @Controller
 public class TodoController {
-	
+	// 김선규 왔다감
 	private final TodoService service; 
 	
 	/**
@@ -245,7 +245,7 @@ public class TodoController {
 	}
 	*/
 	
-	@ResponseBody
+/*	@ResponseBody
 	@PostMapping("update")
 	public int todoUpdate(@RequestParam(value="files", required=false) List<MultipartFile> files, 
 	                      @RequestParam("todoNo") int todoNo,
@@ -256,19 +256,15 @@ public class TodoController {
 	                      @RequestParam(value="deletedFiles", required=false) String deletedFiles, 
 	                      @SessionAttribute("loginEmp") Employee2 loginEmp) throws IllegalStateException, IOException {
 
-			int empCode = loginEmp.getEmpCode(); 
+		int empCode = loginEmp.getEmpCode(); 
 		    inputTodo.setEmpCode(empCode); 
 		    inputTodo.setTodoNo(todoNo); 
 		    
-		    ObjectMapper objectMapper = new ObjectMapper();
-	        List<TodoFile> uploadedFileList = uploadedFiles != null ? objectMapper.readValue(uploadedFiles, new TypeReference<List<TodoFile>>() {}) : null;
-	        List<TodoFile> newFileList = newFiles != null ? objectMapper.readValue(newFiles, new TypeReference<List<TodoFile>>() {}) : null;
-	        List<TodoFile> deletedFileList = deletedFiles != null ? objectMapper.readValue(deletedFiles, new TypeReference<List<TodoFile>>() {}) : null;
+		  
 		  
 		    log.info("업로드 리스트트트트트트트 : " + uploadedFileList); 
 		    log.info("새파일 리스트트트트트트트 : " + newFileList); 
 		    log.info("삭제 리스트트트트트트트 : " + deletedFileList); 
-	        
 		    log.info("넘어온 파일 리스트 : " + files.size()); 
 
 	    // 담당자 여러명인 경우 
@@ -282,6 +278,40 @@ public class TodoController {
 	    model.addAttribute("todo", inputTodo);
 
 	    return result; 
+	}*/
+	
+	@ResponseBody
+	@PostMapping("update/{todoNo}")
+	public int todoUpdate(	@PathVariable("todoNo") int todoNo,
+							Todo inputTodo, 
+							@RequestParam("files") List<MultipartFile> files,
+							@RequestParam(value="deleteOrder", required=false) String deleteOrder,
+							@RequestParam(value="updateOrder", required=false) String updateOrder,
+	                      	@SessionAttribute("loginEmp") Employee2 loginEmp,
+	                      	@RequestParam(value="queryString", required = false, defaultValue="") String querystring) throws IllegalStateException, IOException {
+
+		log.info("files :    : " + files); 
+		log.info("Received request to update Todo with id: " + todoNo);
+	    log.info("Files: " + files);
+	    log.info("Delete Order: " + deleteOrder);
+	    log.info("Update Order: " + updateOrder);
+		
+		inputTodo.setEmpCode(loginEmp.getEmpCode()); 
+		
+		if (files == null) {
+	        files = new ArrayList<>();
+	    }
+		
+		// 담당자 여러명인 경우 
+	    String inChargeEmpStr = inputTodo.getInChargeEmp(); 
+	    List<String> inChargeEmpList = Arrays.asList(inChargeEmpStr.split("\\s*,\\s*")); 
+
+	    log.info("담당자 여러명일때 넘겨받은 리스트 : " + inChargeEmpList.toString());
+		
+		int result = service.todoUpdate(inputTodo, files, deleteOrder, updateOrder, inChargeEmpList); 
+				
+		return result; 
+	     
 	}
 	
 	

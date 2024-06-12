@@ -11,11 +11,12 @@ import com.cowork.employee.chatting.model.dto.ChatParticipant;
 import com.cowork.employee.chatting.model.dto.ChatRoom;
 import com.cowork.employee.chatting.model.dto.Employee;
 import com.cowork.employee.chatting.model.dto.SubscribeAddr;
+import com.cowork.user.model.dto.Employee2;
 
 @Mapper
 public interface ChatMapper {
 
-	List<Employee> empList(Map<String, Object> paramMap);
+	List<Employee2> empList(Map<String, Object> paramMap);
 
 	void makeChat(ChatRoom chatRoom);
 
@@ -42,7 +43,7 @@ public interface ChatMapper {
 
 	List<String> chatRoomEmpCodeList(Integer roomNo);
 
-	Employee empDetail(String empCode);
+	Employee2 empDetail(String empCode);
 
 
 

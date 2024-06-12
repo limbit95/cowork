@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("employee/addr")
-@SessionAttributes({"groupList"})
+@SessionAttributes({"groupList", "empDetail"})
 public class AddrController {
 	
 	private final AddrService service;
@@ -50,8 +50,6 @@ public class AddrController {
 		
 		model.addAttribute("groupList", groupList);
 		
-		log.info("map : " + map);
-
 		map.put("empCode", loginEmp.getEmpCode());
 		if((map.get("groupName") == null && map.get("groupCode") == null) || 
 				(map.get("groupCode") != null && map.get("groupCode").equals("myAll"))) {
@@ -97,14 +95,19 @@ public class AddrController {
 	@ResponseBody
 	@PostMapping("employeeDetail")
 	public Employee2 employeeDetail(@RequestBody Map<String, Object> map, 
-									HttpServletRequest request) {
+									HttpServletRequest request,
+									Model model) {
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
 		map.put("comNo", loginEmp.getComNo());
 		
-		return service.empDetail(map);
+		Employee2 empDetail = service.empDetail(map);
+		
+		model.addAttribute("empDetail", empDetail);
+		
+		return empDetail;
 	}
 	
 	/** 사원 정보 상세 조회 페이지로 이동
@@ -112,9 +115,19 @@ public class AddrController {
 	 */
 	@GetMapping("employeeDetailPage")
 	public String employeeDetail() {
-		
-		
 		return "employee/addr/userEmployeeDetail";
+	}
+	
+	
+	/** 개인 주소록에 등록한 사원 삭제
+	 * @param map
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("deleteAddr")
+	public int employeeDetail(@RequestBody List<Map<String, String>> map) {
+		return service.deleteAddr(map);
 	}
 	
 }

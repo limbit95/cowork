@@ -13,5 +13,3 @@ closeLeftSideBar.addEventListener('click', function(){
     leftSideBarMini.style.transform = "translateX(0%)";
     leftSideBar.style.transform = "translateX(-100%)";
 })
-
-

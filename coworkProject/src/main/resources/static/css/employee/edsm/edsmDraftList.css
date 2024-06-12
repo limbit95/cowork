@@ -1,44 +1,54 @@
-/* 타이틀 */
-.baby-blue-span {
-    background: var(--main5-color);
-    border: 1px solid var(--main5-color);
-    font-size: 16px;
-    color: black !important;
-    font-weight: 300 !important;
-    padding: 10px 83px;
-    
-}
-
-.margin5 {
-    margin-top: 5% !important;
-}
-
-/***************** 기안서 메뉴 */
-.draftMenu {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.draftMenu select {
-    text-align: center;
-    padding: 41px 0;
-    height: 102px !important;
-    margin-right: 20px;
-}
-
-.draftBtn {
-    width: 100px;
-    height: 100px;
+/* 메뉴 넓이 */
+.menuW {
+    width: 863px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    border: 1px solid var(--gray-color);
+}
+
+/* 카테고리 메뉴 */
+.kategorie {
+    display: flex;
+    border-bottom: 1px solid var(--gray-color);
+    width: 100%;
+}
+
+.kategorie div {
+    margin: 5px !important;
+    font-size: 16px;
+    margin: 0px !important;
+    padding: 5px;
+}
+
+.kategorie div:hover {
+    border-bottom: 3px solid var(--main5-color);
+    color: var(--gray-color);
+    cursor: pointer;
+}
+
+.kategorie div:nth-child(1) {
+    border-bottom: 3px solid var(--main5-color);
+    color: var(--gray-color);
+}
+
+/* 즐겨찾는 메뉴 */
+.draftKeepMenu {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.draftKeepMenu select {
+    height: 103px;
+    margin-right: 5px;
+}
+
+.draftKeepMenu .draftMenu {
+    margin: 0px !important;
 }
 
 .drftScroll {
-    width: 630px;
+    width: 754px;
     display: ruby;
     overflow: scroll;
     overflow: auto;
@@ -52,174 +62,53 @@
     margin: 0 !important;
 }
 
-/* 아래의 모든 코드는 영역::코드로 사용 */
-.drftScroll::-webkit-scrollbar {
-    width: 10px;  /* 스크롤바의 너비 */
-    height: 5px;
-}
-
-.drftScroll::-webkit-scrollbar-thumb {
-    height: 30%; /* 스크롤바의 길이 */
-    background: var(--main6-color); /* 스크롤바의 색상 */
-    
-    border-radius: 10px;
-}
-
-.drftScroll::-webkit-scrollbar-track {
-    background: var(--gray-color);  /*스크롤바 뒷 배경 색상*/
-}
-
-/* 기안서 이미지 크기 */
-.draftImg {
-    font-size: xx-large;
-    color: var(--main-color);
-}
-
-/***************** 기안서 목록 */
-.draftList2 .default-line {
-    width: 819px;
-    height: 100px;
-    margin: 0px !important;
-    display: flex;
-    align-items: center;
-    padding: 5px 20px !important;
-    margin-bottom: 20px !important;
-    justify-content: space-around;
-}
-
-/* 기안서 이미지 */
-.draftDiv {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-}
-
-/*.draftList2 .default-line:hover {
-    background: var(--gray-color);
-}*/
-
-/*.draftList2 .default-line div {
-    margin: 8px !important;
-}*/
-
-/* 버튼 */
-.draftMenu .draftBtn {
-    display: flex;
-    flex-direction: column;
-}
-
-.draftList2 .draftBtn {
-    display: flex;
-    flex-direction: row;
-    border : none;
-
-    margin: 0px !important;
-    height: 50px !important;
-}
-
-
-.draftList2 .draftBtn label:nth-child(2) {
-    margin-left: 10px;
-}
-
-.draftList2 .draftBtn label:hover {
-    border-bottom: 1px solid black;
-    cursor: pointer;
-}
-
-/* 기안서 내용 */
-
-/*240610*/
-.draftList2 .draftDiv {
-    margin: 0px !important;
-    /* height: 100px !important; */
-}
-
-.draftDiv div:nth-child(2) {
-    margin: 0px;
-}
-
-.draftList2 .draftDiv .draftImg {
-    margin-top: 0px !important;
-}
-
-/************/
-
-.draftLabel {
-    width: 580px;
-}
-
-.draftLabel2 {
-    width: 475px;
-}
-
-.draftLabel3 {
-    width: 125px;
-}
-
 @media (max-width: 576px) {
     .drftScroll {
-        max-width: 207px;
-    }  
-    
-    .draftList2 .default-line {
-        max-width: 399px;
-    }
+        max-width: 336px;
+    } 
 
-    .draftLabel3 {
-        width: 195px;
+    .menuW {
+        max-width: 442px;
     }
 }
 
 @media (min-width: 576px) {
     .drftScroll {
-        max-width: 207px;
-    }  
-    
-    .draftList2 .default-line {
-        max-width: 399px;
+        max-width: 336px;
     }
 
-    .draftLabel3 {
-        width: 195px;
+    .menuW {
+        max-width: 442px;
     }
 }
 
 @media (min-width: 600px) {
     /* 기안서 즐겨찾기 목록 */
     .drftScroll {
-        max-width: 420px;
-    } 
-
-    /* 기안서 목록 */
-    .draftList2 .default-line {
-        max-width: 610px;
+        max-width: 548px;
     }
 
-    /* 기안서 부서명 */
-    .draftLabel3 {
-        width: 125px;
+    .menuW {
+        max-width: 655px;
     }
 }
 
 @media (min-width: 768px) {
     .drftScroll {
-        max-width: 525px;
-    } 
+        max-width: 657px;
+    }
 
-    .draftList2 .default-line {
-        max-width: 718px;
+    .menuW {
+        max-width: 763px;
     }
 }
 
 @media (min-width: 992px) {
     .drftScroll {
-        max-width: 630px;
-    } 
+        max-width: 754px;
+    }
 
-    .draftList2 .default-line {
-        max-width: 819px;
+    .menuW {
+        max-width: 863px;
     }
 }

@@ -170,18 +170,13 @@
             </div>
         </section>
 
+        <script th:inline="javascript">
+            var loginEmp= /*[[${session.loginEmp.empCode}]]*/ "loginEmp";
+        </script>
+
         <script src="/js/employee/todo/todo.js"></script>
 
-        <script th:inline="javascript">
-            /*<![CDATA[*/
-            document.addEventListener('DOMContentLoaded', function() {
-                var loginEmp= /*[[${session.loginEmp.empCode}]]*/ "loginEmp";
-                console.log(loginEmp)
-            }); 
-            /*]]>*/
-
-
-        </script>
+        
     
     </body>
 </html>

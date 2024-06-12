@@ -24,6 +24,7 @@ import com.cowork.employee.chatting.model.dto.ChatRoom;
 import com.cowork.employee.chatting.model.dto.Employee;
 import com.cowork.employee.chatting.model.dto.SubscribeAddr;
 import com.cowork.employee.chatting.model.mapper.ChatMapper;
+import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,17 +47,17 @@ public class ChatServiceImpl implements ChatService{
 	 * 부서, 팀, 이름 으로 사원들 조회 
 	 */
 	@Override
-	public List<Employee> empList(String inputData, Integer empCode) {
+	public List<Employee2> empList(String inputData, Integer empCode) {
 		
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("inputData", inputData);
 		paramMap.put("empCode", empCode);
 		
-		List<Employee> empList = chatMapper.empList(paramMap);
+		List<Employee2> empList = chatMapper.empList(paramMap);
 		
 		
 		
-		for(Employee emp : empList) {
+		for(Employee2 emp : empList) {
 			if(emp.getTeamNo() != null) {
 				Employee findEmpDeptTeam = chatMapper.DeptNameTeamNameDetail(emp.getTeamNo());
 				emp.setTeamNm(findEmpDeptTeam.getTeamNm());
@@ -168,7 +169,7 @@ public List<ChatRoom> getChattingRooms(String empCode) {
 		
 		// 지금 exposedEmpCode 에는 보여질 사원의 EmpCode 가 들어있음. 
 		// 이를 이용해서 EMPLOYEE 테이블에서 해당 사원에 대한 정보를 가져와보자. 
-		Employee findEmp = chatMapper.empDetail(exposedEmpCode);
+		Employee2 findEmp = chatMapper.empDetail(exposedEmpCode);
 		chatRoom.setEmpLastName(findEmp.getEmpLastName());
 		chatRoom.setEmpFirstName(findEmp.getEmpFirstName());
 
@@ -225,7 +226,7 @@ public List<ChatMessageMe> getChatMessage(Map<String, String> paramMap) {
  * 메세지 쓰면 그 메세지를 저장하는 역할을 하는 메서드 
  */
 @Override
-public Employee insertTextMessage(ChatMessage chatMessage) {
+public Employee2 insertTextMessage(ChatMessage chatMessage) {
 	//ROOM_ID 필요
 	String roomNo = chatMessage.getRoomNo();
 	String senderEmpCode = chatMessage.getSenderEmpCode();
@@ -238,7 +239,7 @@ public Employee insertTextMessage(ChatMessage chatMessage) {
 	paramMap.put("messageType", 1);
 	chatMapper.insertMessage(paramMap);	
 	
-	Employee findEmp = chatMapper.empDetail(senderEmpCode);
+	Employee2 findEmp = chatMapper.empDetail(senderEmpCode);
 	return findEmp;
 }
 
@@ -264,7 +265,7 @@ public Map<String, String> insertFileMessage(ChatMessage chatMessage) throws Ill
 		}
 	}
 	
-	Employee findEmp = chatMapper.empDetail(chatMessage.getSenderEmpCode());
+	Employee2 findEmp = chatMapper.empDetail(chatMessage.getSenderEmpCode());
 	
 	Map<String, String> paramMap = new HashMap<>();
 	paramMap.put("empLastName", findEmp.getEmpLastName());

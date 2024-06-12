@@ -1,0 +1,195 @@
+/* 타이틀 */
+.baby-blue-span {
+    background: var(--main5-color);
+    border: 1px solid var(--main5-color);
+    font-size: 16px;
+    color: black !important;
+    font-weight: 300 !important;
+    padding: 10px 83px;
+    
+}
+
+.margin5 {
+    margin-top: 5% !important;
+}
+
+/***************** 기안서 메뉴 */
+.draftMenu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.draftMenu select {
+    text-align: center;
+    padding: 41px 0;
+    height: 102px !important;
+    margin-right: 20px;
+}
+
+.draftBtn {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--gray-color);
+}
+
+/* 아래의 모든 코드는 영역::코드로 사용 */
+.drftScroll::-webkit-scrollbar {
+    width: 10px;  /* 스크롤바의 너비 */
+    height: 5px;
+}
+
+.drftScroll::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: var(--main6-color); /* 스크롤바의 색상 */
+    
+    border-radius: 10px;
+}
+
+.drftScroll::-webkit-scrollbar-track {
+    background: var(--gray-color);  /*스크롤바 뒷 배경 색상*/
+}
+
+/* 기안서 이미지 크기 */
+.draftImg {
+    font-size: xx-large;
+    color: var(--main-color);
+}
+
+/***************** 기안서 목록 */
+.draftList2 .default-line {
+    width: 819px;
+    height: 100px;
+    margin: 0px !important;
+    display: flex;
+    align-items: center;
+    padding: 5px 20px !important;
+    margin-bottom: 20px !important;
+    justify-content: space-around;
+}
+
+/* 기안서 이미지 */
+.draftDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+}
+
+.drftScroll .draftBtn:hover, .addBtn:hover {
+    background: var(--gray-color);
+    cursor: pointer;
+}
+
+/*.draftList2 .default-line div {
+    margin: 8px !important;
+}*/
+
+/* 버튼 */
+.draftMenu .draftBtn {
+    display: flex;
+    flex-direction: column;
+}
+
+.draftList2 .draftBtn {
+    display: flex;
+    flex-direction: row;
+    border : none;
+
+    margin: 0px !important;
+    height: 50px !important;
+}
+
+
+.draftList2 .draftBtn label:nth-child(2) {
+    margin-left: 10px;
+}
+
+.draftList2 .draftBtn label:hover {
+    border-bottom: 1px solid black;
+    cursor: pointer;
+}
+
+/* 기안서 내용 */
+
+/*240610*/
+.draftList2 .draftDiv {
+    margin: 0px !important;
+    /* height: 100px !important; */
+}
+
+.draftDiv div:nth-child(2) {
+    margin: 0px;
+}
+
+.draftList2 .draftDiv .draftImg {
+    margin-top: 0px !important;
+}
+
+/************/
+
+.draftLabel {
+    width: 580px;
+}
+
+.draftLabel2 {
+    width: 475px;
+}
+
+.draftLabel3 {
+    width: 125px;
+}
+
+@media (max-width: 576px) {
+    
+    .draftList2 .default-line {
+        max-width: 399px;
+    }
+
+    .draftLabel3 {
+        width: 195px;
+    }
+}
+
+@media (min-width: 576px) {
+    
+    .draftList2 .default-line {
+        max-width: 399px;
+    }
+
+    .draftLabel3 {
+        width: 195px;
+    }
+}
+
+@media (min-width: 600px) {
+
+    /* 기안서 목록 */
+    .draftList2 .default-line {
+        max-width: 610px;
+    }
+
+    /* 기안서 부서명 */
+    .draftLabel3 {
+        width: 125px;
+    }
+}
+
+@media (min-width: 768px) {
+
+    .draftList2 .default-line {
+        max-width: 718px;
+    }
+}
+
+@media (min-width: 992px) {
+
+    .draftList2 .default-line {
+        max-width: 819px;
+    }
+}
