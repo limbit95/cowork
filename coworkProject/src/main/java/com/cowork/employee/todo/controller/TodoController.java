@@ -211,7 +211,8 @@ public class TodoController {
 	 */
 	@ResponseBody
 	@PostMapping("update/{todoNo}")
-	public int todoUpdate(	@PathVariable("todoNo") int todoNo, Todo inputTodo,
+	public int todoUpdate(	@PathVariable("todoNo") int todoNo, 
+							Todo inputTodo,
 							@RequestParam("files") List<MultipartFile> files,
 							@RequestParam(value="deleteOrder", required=false) String deleteOrder,
 							@RequestParam(value="updateOrder", required=false) String updateOrder,
