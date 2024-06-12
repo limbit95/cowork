@@ -6,13 +6,14 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cowork.employee.chatting.model.dto.Employee;
+import com.cowork.user.model.dto.Employee2;
 
 @Mapper
 public interface SurveyMapper {
 
 	List<String> positionList(Integer comNo);
 
-	List<Employee> empList(Map<String, Object> paramMap);
+	List<Employee2> empList(Map<String, Object> paramMap);
 
 
 

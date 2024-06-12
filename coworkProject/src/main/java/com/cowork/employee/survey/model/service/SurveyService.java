@@ -4,13 +4,14 @@ import java.util.List;
 
 import com.cowork.employee.chatting.model.dto.Employee;
 import com.cowork.employee.survey.model.dto.SurveyData;
+import com.cowork.user.model.dto.Employee2;
 
 public interface SurveyService {
 
-	void insertSurvey(SurveyData surveyData, Employee emp);
+	void insertSurvey(SurveyData surveyData, Employee2 emp);
 
-	List<String> positionList(Employee emp);
+	List<String> positionList(Employee2 emp);
 
-	List<Employee> empList(String empNickname, Integer comNo);
+	List<Employee2> empList(String empNickname, Integer comNo);
 
 }
