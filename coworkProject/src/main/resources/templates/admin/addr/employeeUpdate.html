@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/admin/addr/adminAddr.css">
 </head>
 <body>
+	<div th:replace="~{admin/left/adminLeftSideBar}"></div>
 
     <form action="/admin/addr/employeeUpdate" method="post">
 
@@ -25,121 +26,64 @@
             <main>
     
                 <!-- 왼쪽 영역(주소록 그룹) -->
-                <div class="left">
-                    
-                    <ul>
-                        <li class="company">
-                            
-                            <div class="li-hover">
-                                <i hidden></i>
-                                <div>
-                                    <i class="fa-solid fa-building"></i>
-                                    <span>(주)HS애드</span>
-                                </div>
+            <div class="left">
+                
+                <ul>
+                    <li class="company">
+                        
+                        <div class="li-hover">
+                            <i class="fa-solid fa-angle-down"></i>
+                            <div class="comp">
+                                <i class="fa-solid fa-building"></i>
+                                <span th:text="${session.loginEmp.comNm}"></span>
                             </div>
-    
-                            <ul>    
-    
-                                <li class="department">
+                        </div>
+
+                        <ul>    
+
+                            <th:block th:if="${session.comAddrList}">
+
+                                <li class="department" th:each="deptList : ${session.comAddrList}" th:object="${deptList}">
     
                                     <div class="li-hover">
                                         <i class="fa-solid fa-angle-down"></i>
-                                        <div>
+                                        <div class="dept" th:data-dept-no="*{deptNo}">
                                             <i class="fa-solid fa-network-wired"></i>
-                                            <span>운영본부</span>
+                                            <span th:text="*{deptNm}"></span>
+                                            <input hidden th:value="*{deptNo}">
                                         </div>
                                     </div>
     
                                     <ul>
                                         
-                                        <li class="team">
-                                            <div class="li-hover"> 
-                                                <i class="fa-solid fa-angle-down"></i>
-                                                <div>
-                                                    <i class="fa-solid fa-people-group"></i>
-                                                    <span>운영1팀</span>
+                                        <th:block th:if="*{teamList}">
+
+                                            <li class="team" th:each="t : *{teamList}">
+                                                <div class="li-hover"> 
+                                                    <i class="fa-solid fa-angle-down"></i>
+                                                    <div class="tim" th:data-team-no="${t.teamNo}">
+                                                        <i class="fa-solid fa-people-group"></i>
+                                                        <span th:text="${t.teamNm}"></span>
+                                                        <input hidden th:value="${t.teamNo}">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                        
-                                        <li class="team">
-                                            <div class="li-hover"> 
-                                                <i class="fa-solid fa-angle-down"></i>
-                                                <div>
-                                                    <i class="fa-solid fa-people-group"></i>
-                                                    <span>운영2팀</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        
-                                        <li class="team">
-                                            <div class="li-hover"> 
-                                                <i class="fa-solid fa-angle-down"></i>
-                                                <div>
-                                                    <i class="fa-solid fa-people-group"></i>
-                                                    <span>운영3팀</span>
-                                                </div>
-                                            </div>
-                                        </li>
+                                            </li>
+                                            
+                                        </th:block>
     
                                     </ul>
     
                                 </li>
-    
                                 
-                                <li class="department">
-                                    
-                                    <div class="li-hover">
-                                        <i class="fa-solid fa-angle-down"></i>
-                                        <div>
-                                            <i class="fa-solid fa-network-wired"></i>
-                                            <span>재무부</span>
-                                        </div>
-                                    </div>
-    
-                                    <ul>
-                                        
-                                        <li class="team">
-                                            <div class="li-hover">
-                                                <i class="fa-solid fa-angle-down"></i>
-                                                <div>
-                                                    <i class="fa-solid fa-people-group"></i>
-                                                    <span>재무 기획팀</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        
-                                        <li class="team">
-                                            <div class="li-hover">
-                                                <i class="fa-solid fa-angle-down"></i>
-                                                <div>
-                                                    <i class="fa-solid fa-people-group"></i>
-                                                    <span>재무 분석팀</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        
-                                        <li class="team">
-                                            <div class="li-hover">
-                                                <i class="fa-solid fa-angle-down"></i>
-                                                <div>
-                                                    <i class="fa-solid fa-people-group"></i>
-                                                    <span>투자 관리팀</span>
-                                                </div>
-                                            </div>
-                                        </li>
-    
-                                    </ul>
-    
-                                </li>
-    
-                            </ul>
-    
-    
-                        </li>
-                    </ul>
-    
-                </div>
+                            </th:block>
+
+                        </ul>
+
+                    </li>
+                    
+                </ul>
+
+            </div>
     
                 <!-- 오른쪽 영역(구성원 정보 상세 조회 영역) -->
                 <div class="employeeDetail">

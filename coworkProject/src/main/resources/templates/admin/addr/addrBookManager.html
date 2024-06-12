@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/admin/addr/adminAddr.css">
 </head>
 <body>
+	<div th:replace="~{admin/left/adminLeftSideBar}"></div>
 
     <section class="container">
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
@@ -30,63 +31,51 @@
                     <li class="company">
                         
                         <div class="li-hover">
-                            <i hidden></i>
-                            <div>
+                            <i class="fa-solid fa-angle-down"></i>
+                            <div class="comp">
                                 <i class="fa-solid fa-building"></i>
-                                <span>(주)HS애드</span>
+                                <span th:text="${session.loginEmp.comNm}"></span>
                             </div>
                         </div>
 
                         <ul>    
 
-                            <li class="department">
+                            <th:block th:if="${session.comAddrList}">
 
-                                <div class="li-hover">
-                                    <i class="fa-solid fa-angle-down"></i>
-                                    <div>
-                                        <i class="fa-solid fa-network-wired"></i>
-                                        <span>운영본부</span>
+                                <li class="department" th:each="deptList : ${session.comAddrList}" th:object="${deptList}">
+    
+                                    <div class="li-hover">
+                                        <i class="fa-solid fa-angle-down"></i>
+                                        <div class="dept" th:data-dept-no="*{deptNo}">
+                                            <i class="fa-solid fa-network-wired"></i>
+                                            <span th:text="*{deptNm}"></span>
+                                        </div>
                                     </div>
-                                </div>
+    
+                                    <ul>
+                                        
+                                        <th:block th:if="*{teamList}">
 
-                                <ul>
-                                    
-                                    <li class="team">
-                                        <div class="li-hover"> 
-                                            <i class="fa-solid fa-angle-down"></i>
-                                            <div>
-                                                <i class="fa-solid fa-people-group"></i>
-                                                <span>운영1팀</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
-                                    <li class="team">
-                                        <div class="li-hover"> 
-                                            <i class="fa-solid fa-angle-down"></i>
-                                            <div>
-                                                <i class="fa-solid fa-people-group"></i>
-                                                <span>운영2팀</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
-                                    <li class="team">
-                                        <div class="li-hover"> 
-                                            <i class="fa-solid fa-angle-down"></i>
-                                            <div>
-                                                <i class="fa-solid fa-people-group"></i>
-                                                <span>운영3팀</span>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                </ul>
-
-                            </li>
+                                            <li class="team" th:each="t : *{teamList}">
+                                                <div class="li-hover"> 
+                                                    <i class="fa-solid fa-angle-down"></i>
+                                                    <div class="tim" th:data-team-no="${t.teamNo}">
+                                                        <i class="fa-solid fa-people-group"></i>
+                                                        <span th:text="${t.teamNm}"></span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            
+                                        </th:block>
+    
+                                    </ul>
+    
+                                </li>
+                                
+                            </th:block>
 
                             
-                            <li class="department">
+                            <!-- <li class="department">
                                 
                                 <div class="li-hover">
                                     <i class="fa-solid fa-angle-down"></i>
@@ -130,12 +119,12 @@
 
                                 </ul>
 
-                            </li>
+                            </li> -->
 
                         </ul>
 
-
                     </li>
+                    
                 </ul>
 
             </div>
@@ -161,7 +150,7 @@
                 <div class="employeeList">
 
                     <div>
-                        <div><input id="wholeCheck" type="checkbox"></div>
+                        <div><input id="wholeCheck" type="checkbox" class="mine"></div>
                         <div>부서</div>
                         <div>이름</div>
                         <div>직급</div>
@@ -169,210 +158,109 @@
                         <div>전화번호</div>
                     </div>
 
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>박은별</span></div>
-                            <div><span>팀장</span></div>
-                            <div><span>park@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
+                    <!-- 회사별 조회 -->
+                    <th:block th:if="${comList}" th:each="emp : ${comList}" th:object="${emp}">
+                        <div class="employee">
+                            <div><input id="check" type="checkbox" class="mine"></div>
+                            <div class="info">
+                                <div><span th:text="|*{deptNm} / *{teamNm}|">운영팀</span></div>
+                                <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
+                                <div><span th:text="*{positionNm}">팀장</span></div>
+                                <div><span th:text="*{empEmail}">park@naver.com</span></div>
+                                <div><span th:text="*{phone}">010-1234-1234</span></div>
+                            </div>
                         </div>
-                    </div>
+                    </th:block>
 
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>정윤희</span></div>
-                            <div><span>과장</span></div>
-                            <div><span>jung@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
+                    <!-- 부서별 조회 -->
+                    <th:block th:if="${deptList}" th:each="emp : ${deptList}" th:object="${emp}">
+                        <div class="employee">
+                            <div><input id="check" type="checkbox" class="mine"></div>
+                            <div class="info">
+                                <div><span th:text="|*{deptNm} / *{teamNm}|">운영팀</span></div>
+                                <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
+                                <div><span th:text="*{positionNm}">팀장</span></div>
+                                <div><span th:text="*{empEmail}">park@naver.com</span></div>
+                                <div><span th:text="*{phone}">010-1234-1234</span></div>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>최재준</span></div>
-                            <div><span>차장</span></div>
-                            <div><span>choi@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>송지윤</span></div>
-                            <div><span>대리</span></div>
-                            <div><span>song@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
-
-                    <div class="employee">
-                        <div><input id="check" type="checkbox"></div>
-                        <div class="info">
-                            <div><span>운영팀</span></div>
-                            <div><span>임성혁</span></div>
-                            <div><span>사원</span></div>
-                            <div><span>lim@naver.com</span></div>
-                            <div><span>010-1234-1234</span></div>
-                        </div>
-                    </div>
+                    </th:block>
 
                 </div>
 
                 <!-- 페이지네이션 -->
                 <div class="pagination-area">
         
-                    <ul class="pagination">
-    
-                        <!-- 첫 페이지로 이동 -->
-                        <li><a>&lt;&lt;</a></li>
-    
-                        <!-- 이전 목록 마지막 번호로 이동 -->
-                        <li><a>&lt;</a></li>
-    
-                        <!-- 특정 페이지로 이동 -->
-                        <th:block>
-                            
-                        <!-- 현재 보고있는 페이지 -->
-                            <li>
-                                <a class="current" >1</a>
-                            </li>
-                            
-                            <!-- 보고있지 않은 페이지 -->
-                            <li>
-                                <a>2</a>
-                            </li>
-    
-                        </th:block>
-    
-                        <!-- 다음 목록 시작 번호로 이동 -->
-                        <li><a>&gt;</a></li>
-    
-                        <!-- 끝 페이지로 이동 -->
-                        <li><a>&gt;&gt;</a></li>
-                    </ul>
+                    <!-- 회사별 조회 -->
+                    <th:block th:if="${comList}">
+                        <ul class="pagination" th:if="${pagination}" th:object="${pagination}">
+                            <!-- 첫 페이지로 이동 -->
+                            <li><a th:href="@{/admin/addr/comList(cp=1)}">&lt;&lt;</a></li>
+        
+                            <!-- 이전 목록 마지막 번호로 이동 -->
+                            <li><a th:href="@{/admin/addr/comList(cp=*{prevPage})}">&lt;</a></li>
+        
+                            <!-- 특정 페이지로 이동 -->
+                            <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+                                
+                            <!-- 현재 보고있는 페이지 -->
+                                <li th:if="${i} == *{currentPage}">
+                                    <a class="current" th:text="${i}">1</a>
+                                </li>
+                                
+                                <!-- 보고있지 않은 페이지 -->
+                                <li th:unless="${i} == *{currentPage}">
+                                    <a th:href="@{/admin/addr/comList(cp=${i})}" 
+                                       th:text="${i}">2</a>
+                                </li>
+        
+                            </th:block>
+        
+                            <!-- 다음 목록 시작 번호로 이동 -->
+                            <li><a th:href="@{/admin/addr/comList(cp=*{nextPage})}">&gt;</a></li>
+        
+                            <!-- 끝 페이지로 이동 -->
+                            <li><a th:href="@{/admin/addr/comList(cp=*{maxPage})}">&gt;&gt;</a></li>
+                        </ul>
+                    </th:block>
+
+                    <!-- 부서별 조회 -->
+                    <th:block th:if="${deptList}">
+                        <ul class="pagination" th:if="${pagination}" th:object="${pagination}">
+                            <!-- 첫 페이지로 이동 -->
+                            <li><a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=1)}">&lt;&lt;</a></li>
+        
+                            <!-- 이전 목록 마지막 번호로 이동 -->
+                            <li><a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=*{prevPage})}">&lt;</a></li>
+        
+                            <!-- 특정 페이지로 이동 -->
+                            <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+                                
+                            <!-- 현재 보고있는 페이지 -->
+                                <li th:if="${i} == *{currentPage}">
+                                    <a class="current" th:text="${i}">1</a>
+                                </li>
+                                
+                                <!-- 보고있지 않은 페이지 -->
+                                <li th:unless="${i} == *{currentPage}">
+                                    <a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=${i})}" 
+                                       th:text="${i}">2</a>
+                                </li>
+        
+                            </th:block>
+        
+                            <!-- 다음 목록 시작 번호로 이동 -->
+                            <li><a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=*{nextPage})}">&gt;</a></li>
+        
+                            <!-- 끝 페이지로 이동 -->
+                            <li><a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=*{maxPage})}">&gt;&gt;</a></li>
+                        </ul>
+                    </th:block>
+                    
+                    
                 </div>
 
             </div>
-
-            <!-- <th:block th:replace="~{admin/addr/addrEmployee}"></th:block> -->
 
         </main>
 

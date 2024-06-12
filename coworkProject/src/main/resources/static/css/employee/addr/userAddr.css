@@ -85,7 +85,7 @@ main {
 }
 .left .li-hover > :nth-child(2) {
     display: flex;
-    height: 30px;
+    height: 32px;
     align-items: center;
     padding-left: 5px;
     padding-right: 5px;

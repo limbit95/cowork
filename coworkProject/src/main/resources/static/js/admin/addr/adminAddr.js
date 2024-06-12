@@ -1,3 +1,6 @@
+document.querySelector('#fncMenu').classList.add('active');
+document.querySelector('#addrSub').style.fontWeight = 'bold'; // 주소록
+
 // 전체 체크박스
 const wholeCheck = document.querySelector("#wholeCheck");
 // 개별 체크박스
@@ -65,8 +68,24 @@ if(check != null) {
 const downArrow = document.querySelector(".fa-angle-down");
 
 document.querySelectorAll('.li-hover').forEach(item => {
-    item.addEventListener('click', event => {
-        // console.log(item.children[0]);
+    item.children[1].addEventListener('click', event => {
+        const className = item.children[1].getAttribute("class");
+
+        if(className == null || item.children[1].children[1].getAttribute("class") === "default-line openInput") {
+            return;
+        }
+        if(className.includes('tim')){
+            console.log(item.children[1].dataset.teamNo);
+            location.href = '/admin/addr/teamList?teamNo=' + item.children[1].dataset.teamNo;
+        }
+        if(className.includes('dept')){
+            console.log(item.children[1].dataset.deptNo);
+            location.href = '/admin/addr/deptList?deptNo=' + item.children[1].dataset.deptNo;
+        }
+        if(className.includes('comp')){
+            location.href = '/admin/addr/comList';
+        }
+
     });
     item.children[0].addEventListener('click', event => {
         let nextUl = item.nextElementSibling;
@@ -118,20 +137,20 @@ document.querySelectorAll('.li-hover').forEach(item => {
                 newLi.classList.add("department");
                 newLi.innerHTML = `
                     <div class="li-hover">
-                        <i class="fa-solid fa-angle-down"></i>
+                        <i class="fa-solid fa-angle-down" style="color: white;"></i>
                         <div>
-                            <i class="fa-solid fa-network-wired"></i>
-                            <span>New Department</span>
+                            <i class="fa-solid fa-network-wired" style="color: white;"></i>
+                            <span style="color: white;">New Department</span>
                         </div>
                     </div>
                     
                     <ul>
                         <li class="team">
                             <div class="li-hover">
-                                <i class="fa-solid fa-angle-down"></i>
+                                <i class="fa-solid fa-angle-down" style="color: white;"></i>
                                 <div>
-                                    <i class="fa-solid fa-people-group"></i>
-                                    <span>New Team</span>
+                                    <i class="fa-solid fa-people-group" style="color: white;"></i>
+                                    <span style="color: white;">New Team</span>
                                 </div>
                             </div>
                         </li>
@@ -185,10 +204,10 @@ document.querySelectorAll('.li-hover').forEach(item => {
                 newLi.classList.add("team");
                 newLi.innerHTML = `
                     <div class="li-hover">
-                        <i class="fa-solid fa-angle-down"></i>
+                        <i class="fa-solid fa-angle-down" style="color: white;"></i>
                         <div>
-                            <i class="fa-solid fa-people-group"></i>
-                            <span>New Team</span>
+                            <i class="fa-solid fa-people-group" style="color: white;"></i>
+                            <span style="color: white;">New Team</span>
                         </div>
                     </div>
                 `;
@@ -218,7 +237,6 @@ document.querySelectorAll('.li-hover').forEach(item => {
         
         // "그룹명 변경"을 클릭했을 때의 동작
         groupNameChange.onclick = () => {
-            // Check if there is already an open input field
             const openInput = document.querySelector('.openInput');
             if (openInput) {
                 const span = document.createElement('span');
@@ -230,8 +248,7 @@ document.querySelectorAll('.li-hover').forEach(item => {
                 const span = targetLi.querySelector('span'); // Get the span tag within the li
                 const groupName = span.textContent; // Get the current group name
                 var style = span.style;
-                var width = style.width;
-                console.log(width);
+
                 // span 태그를 input 태그로 변경합니다.
                 const input = document.createElement('input');
                 input.classList.add("default-line", "openInput");
@@ -244,17 +261,29 @@ document.querySelectorAll('.li-hover').forEach(item => {
                 input.type = 'text';
                 input.value = groupName;
 
-                span.parentNode.replaceChild(input, span); // Replace span with input
+                span.parentNode.replaceChild(input, span);
                 input.focus();
 
                 input.addEventListener('keydown', e => {
                     if (e.key === "Enter") {
                         const newGroupName = input.value;
-                        input.parentNode.replaceChild(span, input); // Replace input with span
-                        span.textContent = newGroupName; // Set new group name
+                        input.parentNode.replaceChild(span, input);
+                        span.textContent = newGroupName;
                     }
                     if (e.key === "Escape") {
-                        input.parentNode.replaceChild(span, input); // Replace input with span
+                        input.parentNode.replaceChild(span, input);
+                    }
+                });
+                // 두 번째 시도에 null 값 오류 해결해야함
+                document.addEventListener('click', function(event) {
+                    if (document.querySelector('#contextMenu').contains(event.target)) {
+                        return;
+                    }
+                    if(document.querySelector('.openInput') != null) {
+                        if (!document.querySelector('.openInput').contains(event.target)) {
+                            console.log(input.parentNode);
+                            input.parentNode.replaceChild(span, input);
+                        }
                     }
                 });
             }
