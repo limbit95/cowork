@@ -197,36 +197,41 @@
 
                 <!-- 체크박스 체크 시 노출되는 버튼(이동, 삭제) -->
                 <div class="subBtnDiv">
-                    <button class="default-btn glucose-btn" id="addToMyAddr">주소록 추가</button>
+                    <button class="default-btn glucose-btn" id="addToMyAddr">추가</button>
+                    <button class="default-btn glucose-btn" id="deleteToMyAddr">삭제</button>
                 </div>
                 
                 <!-- 구성원 목록 -->
                 <div class="employeeList">
 
-                    <div>
-                        <div><input id="wholeCheck" type="checkbox"></div>
-                        <div>부서</div>
-                        <div>이름</div>
-                        <div>직급</div>
-                        <div>이메일</div>
-                        <div>전화번호</div>
-                    </div>
+                    <th:block th:if="${addrList}">
 
-                    <th:block th:if="${addrList}"
-                              th:each="addr : ${addrList}"
-                              th:object="${addr}">
-                        <div class="employee">
-                            <div><input id="check" type="checkbox"></div>
-                            <div class="info">
-                                <div><span th:text="|*{deptNm} / *{teamNm}|">운영팀</span></div>
-                                <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
-                                <div><span th:text="*{positionNm}">팀장</span></div>
-                                <div><span th:text="*{empEmail}">park@naver.com</span></div>
-                                <div><span th:text="*{phone}">010-1234-1234</span></div>
-                                <input hidden th:value="*{empCode}" id="empCode">
-                            </div>
+                        <div>
+                            <div><input id="wholeCheck" class="mine" type="checkbox"></div>
+                            <div>부서</div>
+                            <div>이름</div>
+                            <div>직급</div>
+                            <div>이메일</div>
+                            <div>전화번호</div>
                         </div>
+
+                        <th:block th:each="addr : ${addrList}" th:object="${addr}">
+                            <div class="employee">
+                                <div><input id="check" type="checkbox" class="mine"></div>
+                                <div class="info">
+                                    <div><span th:text="|*{deptNm} / *{teamNm}|">운영팀</span></div>
+                                    <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
+                                    <div><span th:text="*{positionNm}">팀장</span></div>
+                                    <div><span th:text="*{empEmail}">park@naver.com</span></div>
+                                    <div><span th:text="*{phone}">010-1234-1234</span></div>
+                                    <input hidden th:value="*{empCode}" id="empCode">
+                                </div>
+                            </div>
+                        </th:block>
+
                     </th:block>
+
+                    
 
                     <!-- <div class="employee">
                         <div><input id="check" type="checkbox"></div>
@@ -245,35 +250,37 @@
                 <div class="pagination-area">
         
                     <ul class="pagination" th:if="${pagination}" th:object="${pagination}">
-    
-                        <!-- 첫 페이지로 이동 -->
-                        <li><a th:href="@{/employee/addr(groupCode=${groupCode}, cp=1)}">&lt;&lt;</a></li>
-    
-                        <!-- 이전 목록 마지막 번호로 이동 -->
-                        <li><a th:href="@{/employee/addr(groupCode=${groupCode}, cp=*{prevPage})}">&lt;</a></li>
-    
-                        <!-- 특정 페이지로 이동 -->
-                        <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
-                            
-                        <!-- 현재 보고있는 페이지 -->
-                            <li th:if="${i} == *{currentPage}">
-                                <a class="current" th:text="${i}">1</a>
-                            </li>
-                            
-                            <!-- 보고있지 않은 페이지 -->
-                            <li th:unless="${i} == *{currentPage}">
-                                <a th:href="@{/employee/addr(groupCode=${groupCode}, cp=${i})}" 
-                                   th:text="${i}">2</a>
-                            </li>
-    
+                        <th:block th:if="${addrList.size()} > 0">
+                            <!-- 첫 페이지로 이동 -->
+                            <li><a th:href="@{/employee/addr(groupCode=${groupCode}, cp=1)}">&lt;&lt;</a></li>
+        
+                            <!-- 이전 목록 마지막 번호로 이동 -->
+                            <li><a th:href="@{/employee/addr(groupCode=${groupCode}, cp=*{prevPage})}">&lt;</a></li>
+        
+                            <!-- 특정 페이지로 이동 -->
+                            <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+                                
+                            <!-- 현재 보고있는 페이지 -->
+                                <li th:if="${i} == *{currentPage}">
+                                    <a class="current" th:text="${i}">1</a>
+                                </li>
+                                
+                                <!-- 보고있지 않은 페이지 -->
+                                <li th:unless="${i} == *{currentPage}">
+                                    <a th:href="@{/employee/addr(groupCode=${groupCode}, cp=${i})}" 
+                                       th:text="${i}">2</a>
+                                </li>
+        
+                            </th:block>
+        
+                            <!-- 다음 목록 시작 번호로 이동 -->
+                            <li><a th:href="@{/employee/addr(groupCode=${groupCode}, cp=*{nextPage})}">&gt;</a></li>
+        
+                            <!-- 끝 페이지로 이동 -->
+                            <li><a th:href="@{/employee/addr(groupCode=${groupCode}, cp=*{maxPage})}">&gt;&gt;</a></li>
                         </th:block>
-    
-                        <!-- 다음 목록 시작 번호로 이동 -->
-                        <li><a th:href="@{/employee/addr(groupCode=${groupCode}, cp=*{nextPage})}">&gt;</a></li>
-    
-                        <!-- 끝 페이지로 이동 -->
-                        <li><a th:href="@{/employee/addr(groupCode=${groupCode}, cp=*{maxPage})}">&gt;&gt;</a></li>
                     </ul>
+                    
                 </div>
 
             </div>
@@ -292,6 +299,7 @@
     <script src="/js/employee/addr/userAddr.js"></script>
     <script th:inline="javascript">
         const loginEmpCode = /*[[${session.loginEmp.empCode}]]*/ "로그인 사원";
+        const groupCode = /*[[${groupCode}]]*/ "로그인 사원";
     </script>
 </body>
 </html>
