@@ -210,6 +210,10 @@ if(modalCancelBtn != null) {
     modalCancelBtn.addEventListener("click", () => {
         document.querySelector("#updateTitle").value = "";
         document.querySelector("#selectedColor").value = "";
+        const clickColors = document.querySelectorAll(".clickColor");
+        clickColors.forEach(div => {
+            div.classList.remove("addBorder");
+        });
         document.querySelector(".selectView").innerHTML = "";
         document.querySelector(".selectView").classList.add("calendarHidden");
         document.querySelector("#updateContent").innerText = "";
@@ -260,6 +264,14 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector(".selectView").classList.add("calendarHidden");
             document.querySelector("#updateContent").value = "";
 
+            // selectDept와 selectTeam에서 calendarHidden 클래스 제거
+            document.querySelector(".selectDept").classList.remove("calendarHidden");
+            document.querySelector(".selectTeam").classList.remove("calendarHidden");
+
+            // select 태그 기본값 설정
+            document.querySelector(".selectDept").value = document.querySelector(".selectDeptDefalut").value;
+            document.querySelector(".selectTeam").value = document.querySelector(".selectTeamDefalut").value;
+
             // 캘린더 선택 시 모달창 띄워주기
             calendarModal.classList.remove("calendarHidden");
 
@@ -268,7 +280,15 @@ document.addEventListener('DOMContentLoaded', function() {
             modalUpdateBtn.addEventListener("click", e => {
 
                 const updateTitle = document.querySelector("#updateTitle").value;
-                const selectedColor = document.querySelector("#selectedColor").value;
+
+                const selectedColor = document.querySelector("#selectedColor");
+                
+                // input 태그의 value가 비어 있는지 확인
+                if (!selectedColor.value) {
+                    alert("색상을 선택해주세요.");
+                    e.preventDefault();
+                    return;
+                }
 
                 const updateContent = document.querySelector("#updateContent").value;
 
@@ -283,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const obj = {
                     "calendarTitle" : updateTitle,
                     "calendarContent" : updateContent,
-                    "calendarColor" : selectedColor,
+                    "calendarColor" : selectedColor.value,
                     "shareList" : shareList,
                     "empCode" : empCode,
                     "calendarStart" : info.startStr,
@@ -296,7 +316,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     title: updateTitle,
                     start: info.startStr,
                     end: info.endStr,
-                    backgroundColor: selectedColor,
+                    backgroundColor: selectedColor.value,
                     description : updateContent
                 });
 

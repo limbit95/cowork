@@ -21,7 +21,7 @@
     <!-- 버튼 영역 -->
     <div class="reservationBtnTop">
         <div class="reservationBtnInner">
-            <a href="/reservation/reservation" class="default-btn glucose-btn">회의실 예약하기</a>
+            <a href="/reservation/selectMonth" class="default-btn glucose-btn">회의실 예약 현황 보기</a>
         </div>
     </div>
     
@@ -92,7 +92,7 @@
         <!-- 선택한 회의실 값 들어올 곳 -->
         <div class="meetingRoomSelectView reservationHidden"></div>
 
-        <div class="modalBtn">
+        <div class="reservationModalBtn">
             <button class="default-btn glucose-border-btn modalUpdateBtn">등록</button>
             <button class="default-btn glucose-border-btn modalCancelBtn">취소</button>
         </div>
@@ -101,5 +101,9 @@
 
     <!-- Full Calendar API JS -->
     <script src="/js/employee/reservation/selectDay.js"></script>
+
+    <script th:inline="javascript">
+        const comNo = /*[[${session.loginEmp.comNo}]]*/ "회사 기본키";
+    </script>
 </body>
 </html>

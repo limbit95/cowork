@@ -212,6 +212,10 @@ if(modalCancelBtn != null) {
         document.querySelector("#selectedColor").value = "";
         document.querySelector(".selectView").innerHTML = "";
         document.querySelector(".selectView").classList.add("calendarHidden");
+        const clickColors = document.querySelectorAll(".clickColor");
+        clickColors.forEach(div => {
+            div.classList.remove("addBorder");
+        });
         document.querySelector("#updateContent").innerText = "";
         calendarModal.classList.add("calendarHidden");
     })
@@ -261,15 +265,22 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector(".selectView").classList.add("calendarHidden");
             document.querySelector("#updateContent").value = "";
 
+            // selectDept와 selectTeam에서 calendarHidden 클래스 제거
+            document.querySelector(".selectDept").classList.remove("calendarHidden");
+            document.querySelector(".selectTeam").classList.remove("calendarHidden");
+
+            // select 태그 기본값 설정
+            document.querySelector(".selectDept").value = document.querySelector(".selectDeptDefalut").value;
+            document.querySelector(".selectTeam").value = document.querySelector(".selectTeamDefalut").value;
+
             // 캘린더 선택 시 모달창 띄워주기
             calendarModal.classList.remove("calendarHidden");
-
+            
             // 등록 버튼을 눌렀을 때
             const modalUpdateBtn = document.querySelector(".modalUpdateBtn");
             modalUpdateBtn.addEventListener("click", e => {
 
                 const updateTitle = document.querySelector("#updateTitle").value;
-                const selectedColor = document.querySelector("#selectedColor").value;
 
                 const updateContent = document.querySelector("#updateContent").value;
 
@@ -281,10 +292,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
+                const selectedColor = document.querySelector("#selectedColor");
+                
+                // input 태그의 value가 비어 있는지 확인
+                if (!selectedColor.value) {
+                    alert("색상을 선택해주세요.");
+                    e.preventDefault();
+                    return;
+                }
+
                 const obj = {
                     "calendarTitle" : updateTitle,
                     "calendarContent" : updateContent,
-                    "calendarColor" : selectedColor,
+                    "calendarColor" : selectedColor.value,
                     "shareList" : shareList,
                     "empCode" : empCode,
                     "calendarStart" : info.startStr,
@@ -433,6 +453,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
+                // selectDept와 selectTeam에서 calendarHidden 클래스 제거
+                document.querySelector(".selectDept").classList.remove("calendarHidden");
+                document.querySelector(".selectTeam").classList.remove("calendarHidden");
+
+                // select 태그 기본값 설정
+                document.querySelector(".selectDept").value = document.querySelector(".selectDeptDefalut").value;
+                document.querySelector(".selectTeam").value = document.querySelector(".selectTeamDefalut").value;
+
                 document.getElementById('calendarModalUpdate').classList.add('calendarHidden');
                 document.getElementById('calendarModal').classList.remove('calendarHidden');
 
@@ -448,14 +476,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.querySelector(".modalModifyTempBtn").addEventListener("click", e => {
 
                     const updateTitle = document.querySelector("#updateTitle").value;
-                    const selectedColor = document.querySelector("#selectedColor").value;
-    
+                    const selectedColor = document.querySelector("#selectedColor");
+
+                    
                     const updateContent = document.querySelector("#updateContent").value;
-    
+                    
                     const shareList = Array.from(document.querySelectorAll('p[name="share"]')).map(p => p.innerText);
-    
+                    
                     if(updateTitle.trim().length == 0) {
                         alert("제목은 필수 작성입니다.");
+                        e.preventDefault();
+                        return;
+                    }
+                        
+                    if (!selectedColor.value) {
+                        alert("색상을 선택해주세요.");
                         e.preventDefault();
                         return;
                     }
@@ -463,7 +498,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const updateObj = {
                         "calendarTitle" : updateTitle,
                         "calendarContent" : updateContent,
-                        "calendarColor" : selectedColor,
+                        "calendarColor" : selectedColor.value,
                         "shareList" : shareList,
                         "empCode" : empCode,
                         "calendarStart" : info.startStr,

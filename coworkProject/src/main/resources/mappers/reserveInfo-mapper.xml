@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.employee.reservation.model.mapper.ReservationMapper">
+
+	<!-- 회의실 예약 -->
+	<insert id="reservationInsert">
+		INSERT INTO RESERVE_INFO VALUES(
+			SEQ_RESERVE_INFO.NEXTVAL, #{reserveInfoTitle},
+			#{reserveInfoColor}, #{empCode},
+			#{meetingRoomNo}, #{reserveInfoStart},
+			#{reserveInfoEnd}, #{teamShare},
+			#{deptShare}, #{comReserve}
+		)
+	</insert>
+</mapper>
