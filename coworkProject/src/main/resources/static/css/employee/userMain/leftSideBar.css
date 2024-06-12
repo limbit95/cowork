@@ -143,28 +143,8 @@ body {
 
 .leftMenu a:hover {
     background-color: 	#426DA7;
-	color: white;
+	  color: white;
 }
-
-
-
-/*#noticeLink, #boardLink, #addrLink, #calendarLink, #todoLink,
-#chattingLink, #mailLink, #attendanceLink, #surveyLink{
-	flex-basis: 6%;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-weight:  bold;
-	transition: background-color 0.3s;
-	cursor: pointer;
-	font-size: 16px; /*240531 PEB*/
-/*}*/
-/*#noticeLink:hover, #boardLink:hover, #addrLink:hover, #calendarLink:hover, #todoLink:hover,
-#chattingLink:hover, #mailLink:hover, #attendanceLink:hover, #surveyLink:hover{
-		background-color: 	#426DA7;
-		color: white;
-}*/
 
 /*=========================================================*/
 #userMainFullContainer{

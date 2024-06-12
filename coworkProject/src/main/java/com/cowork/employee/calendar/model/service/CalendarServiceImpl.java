@@ -93,8 +93,16 @@ public class CalendarServiceImpl implements CalendarService {
 	 * @return result
 	 */
 	@Override
-	public int calendarDelete(String eventCalendarNo) {
-		return mapper.calendarDelete(eventCalendarNo);
+	public int calendarDelete(int calendarNo) {
+		return mapper.calendarDelete(calendarNo);
+	}
+
+	/** 일정 수정
+	 * @return result
+	 */
+	@Override
+	public int calendarUpdate(Calendar updateCalendar) {
+		return mapper.calendarUpdate(updateCalendar);
 	}
 
 }

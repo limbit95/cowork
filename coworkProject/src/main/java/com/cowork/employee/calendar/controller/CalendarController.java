@@ -8,11 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.employee.calendar.model.dto.Calendar;
@@ -74,10 +76,6 @@ public class CalendarController {
 	    List<String> shareList = inputCalendar.getShareList();
 	    String calendarShare = String.join("^^^", shareList);
 	    inputCalendar.setCalendarShare(calendarShare);
-	    
-	    log.info("shareListString == {}", calendarShare);
-		
-		log.info("inputCalendar의 shareList 출력 == {}", inputCalendar.getShareList());
 
 		return service.calendarInsert(inputCalendar);
 	}
@@ -114,12 +112,33 @@ public class CalendarController {
 		return "employee/calendar/myCalendar";
 	}
 	
-	@ResponseBody
-	@DeleteMapping("calendarDelete")
-	public int calendarDelete(@RequestBody String eventCalendarNo) {
+	/** 일정 삭제
+	 * @param eventCalendarNo
+	 * @return result
+	 */
+	@GetMapping("calendarDelete")
+	public String calendarDelete(@RequestParam("calendarNo") int calendarNo,
+			RedirectAttributes ra) {
+		int result = service.calendarDelete(calendarNo);
 		
-		log.info("wddakg=={}", eventCalendarNo);
+		String message = "";
 		
-		return service.calendarDelete(eventCalendarNo);
+		if(result > 0) {
+			message = "일정 삭제 성공";
+		} else {
+			message = "일정 삭제 실패";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:myCalendar";
+		
 	}
+	
+	@ResponseBody
+	@PutMapping("calendarUpdate")
+	public int calendarUpdate(@RequestBody Calendar updateCalendar) {
+		return service.calendarUpdate(updateCalendar);
+	}
+	
 }

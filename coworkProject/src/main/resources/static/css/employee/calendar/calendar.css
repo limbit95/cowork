@@ -38,9 +38,9 @@
 }
 
 /* 캘린더 년, 월 글씨 색 지정 */
-/* #fc-dom-1 {
+#fc-dom-1 {
     color: var(--main-color);
-} */
+}
 
 /* pop-up */
 #calendarModal, #calendarModalUpdate{
