@@ -26,8 +26,9 @@ public interface EdsmService {
 	/** 전자결재 등록
 	 * @param inputEdsm
 	 * @param files
+	 * @param approverMap 
 	 * @return
 	 */
-	int edsmRequest(Edsm inputEdsm, List<MultipartFile> files) throws IllegalStateException, IOException;
+	int edsmRequest(Edsm inputEdsm, List<MultipartFile> files, Map<Integer, String> approverMap) throws IllegalStateException, IOException;
 
 }

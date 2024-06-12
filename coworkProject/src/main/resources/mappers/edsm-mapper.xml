@@ -63,5 +63,40 @@
 			,#{draftNo}
 		)
 	</insert>
+	
+	<!-- 전자결재 다중 파일 등록 -->
+	<insert id="edsmFileInsert" parameterType="list">
+		INSERT INTO EDSM_FILE
+		
+		<foreach collection="list" item="file"
+			open="(" close=")" separator=" UNION ">
+			SELECT
+				 NEXT_EDSM_FILE()
+				,#{file.filePath}
+				,#{file.fileOriginName}
+				,#{file.fileRename}
+				,SYSDATE
+				,#{file.fileOrder}
+				,#{file.edsmNo}
+			FROM DUAL
+		</foreach>
+	</insert>
+	
+	<!-- 결재자 다중 등록 -->
+	<insert id="approverInsert" parameterType="list">
+		INSERT INTO APPROVER
+		
+		<foreach collection="list" item="approver"
+			open="(" close=")" separator=" UNION ">
+			SELECT
+				 NEXT_APPROVER()
+				,#{approver.approverFlage}
+				,#{approver.empCode}
+				,NULL
+				,NULL
+				,#{approverNo}=
+			FROM DUAL
+		</foreach>
+	</insert>
 
 </mapper>

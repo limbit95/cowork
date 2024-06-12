@@ -25,8 +25,7 @@ public class EdsmFile {
 	private String fileRename;
 	private String fileUploadDate;
 	private int fileOrder;
-	private int boardNo;
-	private String boardNm;
+	private int edsmNo;
 	
 	// 게시글 파일 삽입/수정 때 사용
 	private MultipartFile uploadFile;

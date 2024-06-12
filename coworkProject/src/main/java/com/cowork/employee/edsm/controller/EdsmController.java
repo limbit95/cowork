@@ -121,6 +121,7 @@ public class EdsmController {
 				@RequestParam("edsmTitle") String edsmTitle,
 	            @RequestParam("edsmContent") String edsmContent,
 	            @RequestParam("draftNo") int draftNo,
+	            @RequestParam("approvers") Map<Integer, String> approverMap,
 	            @SessionAttribute("loginEmp") Employee2 loginEmp, 
 				@RequestParam(value="files", required=false) List<MultipartFile> files,
 				RedirectAttributes ra
@@ -135,7 +136,7 @@ public class EdsmController {
 				.draftNo(draftNo)
 				.build();
 		
-		int result = serviceEdsm.edsmRequest(inputEdsm, files);
+		int result = serviceEdsm.edsmRequest(inputEdsm, files, approverMap);
 		
 		return result;
 	}
