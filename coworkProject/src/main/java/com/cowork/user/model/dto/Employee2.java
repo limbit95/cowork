@@ -40,6 +40,7 @@ public class Employee2 {
 	private String teamNm; // 팀명
 	private String positionNm; // 직급명
 	private String domain; // 도메인
+	private int generalManager; // 관리자 번호
 	
 	//재준
 	private Integer teamNo;

@@ -1,3 +1,22 @@
+/* 제목 밑 버튼 부분 */
+.reservationBtnTop {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.reservationBtnInner {
+    width: 60%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* a 태그 밑줄 삭제 */
+.reservationBtnInner a {
+    text-decoration: none;
+}
+
+/* 캘린더 API 부분 */
 .calendarSection {
     display: flex;
     justify-content: center; /* 가로로 가운데 정렬 */
@@ -19,12 +38,12 @@
     color: var(--main-color);
 }
 
+/* 제목 클릭 시 보여지는 모달창 부분 */
 #reservationModal {
 	width: 30%;
     height: 40%;
 	background-color: white;
-	position: fixed; /* 브라우저에서 위치 고정 */
-	/* 브라우저 정가운데 배치 */
+	position: fixed;
 	margin: auto;
 	top: 0;
 	bottom: 0;
@@ -33,7 +52,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
     z-index: 5;
 }
@@ -57,6 +76,34 @@
     display: none !important;
 }
 
+.paddingDiv {
+    width: 90%;
+    height: 100%;
+}
+
 .reservationDiv {
-    height: 18%;
+    width: 100%;
+    height: 19%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.reservationDiv p {
+    width: 20%;
+    color: var(--main2-color);
+}
+
+.reservationDiv input {
+    border: none;
+    width: 65%;
+}
+
+.reservationDiv i {
+    width: 5%;
+    color: var(--main2-color);
+}
+
+.borderDiv {
+    border-bottom: 2px solid var(--main2-color);
 }

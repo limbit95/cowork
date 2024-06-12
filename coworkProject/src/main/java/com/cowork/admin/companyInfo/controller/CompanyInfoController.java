@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.companyInfo.model.dto.Company;
 import com.cowork.admin.companyInfo.model.service.CompanyInfoService;
+import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,30 +22,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("admin/companyInfo")
 @RequiredArgsConstructor
-@SessionAttributes({"myCompany"})
+@SessionAttributes("myCompany")
 public class CompanyInfoController {
 
 	private final CompanyInfoService service;
-	
-	@GetMapping("company")
-	public String company(Model model) {
-		Company temp = Company.builder()
-				.comNo(1)
-				.build();
-		
-		Company myCompany = service.selectCompany(temp.getComNo());
-		
-		model.addAttribute("myCompany", myCompany);
-		
-		return "redirect:companyInfo";
-	}
 	
 	/** 관리자 회사 정보 메인페이지
 	 * @return companyInfo.html
 	 */
 	@GetMapping("companyInfo")
 	public String companyInfo(Model model,
-			@SessionAttribute("myCompany") Company myCompany) {
+			@SessionAttribute("loginEmp") Employee2 loginEmp) {
+		
+		Company myCompany = service.selectCompany(loginEmp.getComNo());
+		
+		model.addAttribute("myCompany", myCompany);
 		
 		// 기본 정보 보여줘야함
 		String comAddr = myCompany.getComAddr();
@@ -98,9 +90,7 @@ public class CompanyInfoController {
 		// inputCompany 에 회사명, 회사 번호 들어있음
 		// myCompany 안에 있는 comNo 를 inputCompany에 넣어줌
 		inputCompany.setComNo(myCompany.getComNo());
-		
-		log.info("회사 이메일 ===== {}", inputCompany.getComEmail());
-		
+
 		// 회사 정보 수정 서비스 호출
 		int result = service.companyInfoUpdate(inputCompany, comAddr);
 		
