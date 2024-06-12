@@ -9,17 +9,21 @@
     <link rel="stylesheet" href="/css/employee/board/board.css">
 </head>
 <body>
+
+    <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
+
     <section class="container">
+
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
 
         <div class="title"><span class="">결재신청</span></div>
         
-        <div class="default-line default-padding">
+        <div class="default-line default-padding" th:object="${draft}">
 
             <!-- 제목 -->
             <div class="ins-css insertForm">
                 <div><label>제목</label></div>
-                <input class="default-line listBtn">
+                <input class="default-line listBtn" th:value="*{draftTitle}">
             </div>
 
             <!-- 결재인 -->
@@ -54,7 +58,8 @@
                     </table>
 
                     <div id="smarteditor">
-                        <textarea name="ir1" id="ir1" rows="10" cols="100">에디터에 기본으로 삽입할 글(수정 모드)이 없다면 이 value 값을 지정하지 않으시면 됩니다.</textarea>
+                        <textarea name="edsmContentEdit" id="edsmContentEdit" rows="10" cols="100"></textarea>
+                        <textarea name="edsmContent" id="edsmContent" rows="10" cols="100" hidden></textarea>
                     </div>
                 </div>
                 
@@ -73,11 +78,15 @@
 
     </section>
 
+    <script th:inline="javascript">
+        const draftContent = /*[[${draft.draftContent}]]*/"양식 내용";
+    </script>
+
     <!-- 스마트 에디터 -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/lib/smarteditor2/se/js/service/HuskyEZCreator.js" data-cfasync="false"></script>
 
     <script src="/js/employee/edsm/edsmRequest.js"></script>
-    <script src="https://kit.fontawesome.com/247c6d7026.js" crossorigin="anonymous"></script>
+    <script src="/js/employee/edsm/edsm.js"></script>
 </body>
 </html>
