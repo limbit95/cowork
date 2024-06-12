@@ -19,8 +19,15 @@
 		<div id="closeLeftSideBar">
 			<i class="fa-solid fa-x"></i>
 		</div>
-		
-		<div id="CompanyLogo"></div>
+
+		<!-- 로고 부분 -->
+		<div th:if="${session.loginEmp.comLogo}" id="CompanyLogo">
+			<img th:src="${session.loginEmp.comLogo}" id="companyLogoImg">
+		</div>
+		<div th:unless="${session.loginEmp.comLogo}" id="CompanyLogo">
+			<img th:src="${session.loginEmp.comLogo}" id="companyLogoImg">
+		</div>
+
 		<div id="businessCard">
 			<div></div>
 		</div>

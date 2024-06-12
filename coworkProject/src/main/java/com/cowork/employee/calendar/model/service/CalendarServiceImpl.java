@@ -76,9 +76,8 @@ public class CalendarServiceImpl implements CalendarService {
 	@Override
 	public List<Calendar> selectCalendarList(Employee2 loginEmp) {
 
-		List<Calendar> calendarList = mapper.selectCalendarList(loginEmp.getEmpCode());
-		
-		return calendarList;
+		return mapper.selectCalendarList(loginEmp);
+
 	}
 
 	/** 로그인한 사람이 작성한 일정 보여주기

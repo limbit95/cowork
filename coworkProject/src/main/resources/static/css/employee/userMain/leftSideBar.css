@@ -66,15 +66,20 @@ body {
 }
 
 #CompanyLogo{
-	flex-basis: 10%;
+	/* flex-basis: 10%;
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-    background-image: url('/images/naverLogo.png');
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: contain;
+    background-size: contain; */
+	height: 100px;
+	width: 600px;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-content: center;
 }
 #businessCard{
 	margin-top: 10px;

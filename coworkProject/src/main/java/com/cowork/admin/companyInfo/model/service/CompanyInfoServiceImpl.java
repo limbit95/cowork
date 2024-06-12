@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cowork.admin.companyInfo.model.dto.Company;
 import com.cowork.admin.companyInfo.model.mapper.CompanyInfoMapper;
 import com.cowork.common.utility.Utility;
+import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,7 +30,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 	private String logoFolderPath;
 
 	@Override
-	public int companyLogoUpdate(MultipartFile comLogo, Company myCompany) throws Exception {
+	public int companyLogoUpdate(MultipartFile comLogo, Company myCompany, Employee2 loginEmp) throws Exception {
 		// 수정할 경로
 		String updatePath = null;
 		
@@ -55,6 +56,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 				.comLogo(updatePath)
 				.build();
 		
+		
 		// UPDATE 수행
 		int result = mapper.companyLogoUpdate(com);
 		
@@ -70,6 +72,7 @@ public class CompanyInfoServiceImpl implements CompanyInfoService {
 			// 세션 회사 정보에서 로고 이미지 경로를
 			// 업데이트한 경로로 변경
 			myCompany.setComLogo(updatePath);
+			loginEmp.setComLogo(updatePath);
 		}
 		return result;
 	}

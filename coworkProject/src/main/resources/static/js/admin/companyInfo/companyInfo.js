@@ -34,7 +34,7 @@ let statusCheck = -1;
 let backupInput;
 
 // 로고 수정에 사용할 요소 모두 얻어오기
-const companyLogoImg = document.querySelector("#companyLogoImg");
+const companyLogoUpdateImg = document.querySelector("#companyLogoUpdateImg");
 let imageInput = document.querySelector("#imageInput");
 
 const changeImageFn = e => {
@@ -48,6 +48,7 @@ const changeImageFn = e => {
         const temp = backupInput.cloneNode(true);
         imageInput.after(backupInput);
         imageInput.remove();
+        imageInput = backupInput;
         imageInput.addEventListener("change", changeImageFn);
         backupInput = temp;
         return;
@@ -61,6 +62,7 @@ const changeImageFn = e => {
             imageInput.value = '';
         } else {
             const temp = backupInput.cloneNode(true);
+            imageInput.after(backupInput);
             imageInput.remove();
             imageInput = backupInput;
             imageInput.addEventListener("change", changeImageFn);
@@ -74,7 +76,7 @@ const changeImageFn = e => {
     reader.readAsDataURL(file);
     reader.addEventListener("load", e => {
         const url = e.target.result;
-        companyLogoImg.setAttribute("src", url);
+        companyLogoUpdateImg.setAttribute("src", url);
         statusCheck = 1;
         backupInput = imageInput.cloneNode(true);
     });

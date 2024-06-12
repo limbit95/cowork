@@ -240,6 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
         droppable: true,
         dayMaxEvents: true,
         events: showCalendar,
+        eventDisplay: 'block',
         select: function(info) {
 
             var today = new Date();
@@ -272,8 +273,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const updateContent = document.querySelector("#updateContent").value;
 
                 const shareList = Array.from(document.querySelectorAll('p[name="share"]')).map(p => p.innerText);
-
-                console.log("공유 리스트", shareList);
 
                 if(updateTitle.trim().length == 0) {
                     alert("제목은 필수 작성입니다.");
