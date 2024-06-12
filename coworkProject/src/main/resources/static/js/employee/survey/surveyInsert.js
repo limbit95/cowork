@@ -152,7 +152,7 @@ makeSubjectiveQuestion.addEventListener('click', function(){
 		 /*
 	       새로운 시도 시작
 	        */
-		   
+		   		   
 		   console.log('aaaaaaaaaaaaaaaaa');
 			console.log(questionArea.lastElementChild);
 		   console.log('aaaaaaaaaaaaaaaaa');
@@ -177,13 +177,13 @@ makeSubjectiveQuestion.addEventListener('click', function(){
 					
 					// 제목 가져오기 
 					alert("객관식 입니다");	
-					let title  = lastElementChild.children[0].children[1].children[1].value;
+					let title  = questionArea.lastElementChild.children[0].children[1].children[1].value;
 					console.log("title!!!!!!=" +title);
 					
 
 					// 대제목, 항목 모두를 모아서 JSON 형태의 문자열을 담는 자바스크립트 배열안에 넣어야함. 
 					let options = [];
-					let optionArea = lastElementChild.children[0].children[2].children[1];
+					let optionArea = questionArea.lastElementChild.children[0].children[2].children[1];
 
 					let optionCount = countChildTags(optionArea, 'input');
 					
@@ -216,7 +216,6 @@ makeSubjectiveQuestion.addEventListener('click', function(){
 					}
 					
 					questions.push(subjectiveQuestionObj);
-										
 				} 
 				
 				
@@ -237,7 +236,7 @@ makeSubjectiveQuestion.addEventListener('click', function(){
                 	<div style="display:none;">subjective</div>
 
 	                <div>
-		                <span class="questionOrder">질문 ${questionCount}: </span>
+		                <span class="questionOrder">Q. </span>
     		            <input type="text" class="questionText">
         		        <i class="fa-solid fa-x" onclick="removeQuestion(this)"></i>
                 	</div>
@@ -263,8 +262,9 @@ function removeOption(button){
 
 
 function addOption(button){
+	
 	let newDiv = document.createElement('div');
-	let multipleOrderNode = document.createTextNode(multipleOrder);
+	let multipleOrderNode = document.createTextNode("-");
 	let numberDiv = document.createElement('div');
 	numberDiv.appendChild(multipleOrderNode);
 	
@@ -280,12 +280,25 @@ function addOption(button){
 }
 
 function removeQuestion(iTag){	
+	
+	
 	let dummyCode = iTag.parentElement.parentElement.parentElement;
 	dummyCode.remove();
 	console.log(dummyCode);
 	
+	
 	questionCount--;
 	multipleOrder = 1;
+	
+		
+	// questions 에서 방금 삭제된 질문을 지워줘야해. 
+	let beDeletedTitle = iTag.previousElementSibling;
+	console.log('sssssss');
+	console.log(beDeletedTitle.value);
+	console.log('sssssss');
+
+	questions = questions.filter(question => question.title !== beDeletedTitle.value);
+	
 	
 };
 
@@ -432,6 +445,9 @@ findEmpInput.addEventListener('input', function(){
 let entireFlag = false;
 
 document.querySelector('#entire').addEventListener('click',  function(){
+	
+	console.log(questions);
+		
 	// 대상 중 전체를 누른 경우, 
 	// 1. 직급과 관련된 거 무효화 + 2. 개인과 관련된 거 무효화
 	
@@ -540,12 +556,30 @@ forBottomEmptySpace.addEventListener('click', function(){
 */	
 	let surveyData;
 	
+	// 날짜 값 가져오기
+	let surveyStartDate = document.querySelector('#surveyStartDate');
+	let surveyEndDate = document.querySelector('#surveyEndDate');
+	
+	alert(surveyStartDate.value);
+	
+	if(surveyStartDate.value == ''){
+		alert('설문시작일을 입력해주세요');
+		return;
+	} 
+	if(surveyEndDate.value == ''){
+		alert('설문종료일을 입력해주세요');
+		return; 
+	}
+	
+	
 	if(entireFlag){
 		// 설문 데이터 생성
     	surveyData = {
 			'entire': true,
 	        'title': surveyTitle.value,
-	        'questions': questions
+	        'questions': questions,
+	        'surveyStartDate': surveyStartDate.value,
+	        'surveyEndDate': surveyEndDate.value
     	};
 		
 		
@@ -572,6 +606,9 @@ forBottomEmptySpace.addEventListener('click', function(){
 	        'questions': questions
     	};
 		
+	}else{
+		alert('대상을 선택해주세요');
+		return;	
 	}
 	
 

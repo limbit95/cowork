@@ -77,12 +77,18 @@ public class SurveyController {
     		@SessionAttribute("loginEmp") Employee2 emp 
     		) {
         // 여기서 surveyData를 처리합니다.
-        // 예를 들어, surveyData의 내용을 로그로 출력할 수 있습니다.	   
-	   surveyService.insertSurvey(surveyData, emp);
-	   
+        // 예를 들어, surveyData의 내용을 로그로 출력할 수 있습니다.	   	   
 	   log.debug("surveyData.getEntire=={}", surveyData.getEntire());
-	   log.debug("surveyData.getEntire=={}", surveyData.getPosition());
-	   log.debug("surveyData.getEntire=={}", surveyData.getEmpCodeList());
+	   log.debug("surveyData.getPosition()={}", surveyData.getPosition());
+	   log.debug("surveyData.getEmpCodeList()={}", surveyData.getEmpCodeList());
+	   log.debug("surveyData.getSurveyStartDate()={}", surveyData.getSurveyStartDate());
+	   log.debug("surveyData.getSurveyEndDate()={}", surveyData.getSurveyEndDate());
+	   log.debug("surveyData.getTitle()={}", surveyData.getTitle());
+	   log.debug("surveyData.getQuestions()={}", surveyData.getQuestions());
+	   
+	   
+	   surveyService.insertSurvey(surveyData, emp);
+
 	   
 	   
         // 처리 후 응답 반환 (여기서는 간단히 입력 데이터를 그대로 반환)
