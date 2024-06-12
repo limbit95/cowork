@@ -75,7 +75,7 @@ public class CompanyInfoController {
 		
 		ra.addFlashAttribute("message", message);
 		
-		return "redirect:company";
+		return "redirect:companyInfo";
 	}
 	
 	/** 관리자 회사 정보 수정
@@ -104,6 +104,6 @@ public class CompanyInfoController {
 			ra.addAttribute("message", "회원 정보 수정 실패");
 		}
 		
-		return "redirect:company";
+		return "redirect:companyInfo";
 	}
 }
