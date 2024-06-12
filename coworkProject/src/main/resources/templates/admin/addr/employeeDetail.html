@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/admin/addr/adminAddr.css">
 </head>
 <body>
+	<div th:replace="~{admin/left/adminLeftSideBar}"></div>
 
     <section class="container">
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
@@ -31,112 +32,55 @@
                     <li class="company">
                         
                         <div class="li-hover">
-                            <i hidden></i>
-                            <div>
+                            <i class="fa-solid fa-angle-down"></i>
+                            <div class="comp">
                                 <i class="fa-solid fa-building"></i>
-                                <span>(주)HS애드</span>
+                                <span th:text="${session.loginEmp.comNm}"></span>
                             </div>
                         </div>
 
                         <ul>    
 
-                            <li class="department">
+                            <th:block th:if="${session.comAddrList}">
 
-                                <div class="li-hover">
-                                    <i class="fa-solid fa-angle-down"></i>
-                                    <div>
-                                        <i class="fa-solid fa-network-wired"></i>
-                                        <span>운영본부</span>
+                                <li class="department" th:each="deptList : ${session.comAddrList}" th:object="${deptList}">
+    
+                                    <div class="li-hover">
+                                        <i class="fa-solid fa-angle-down"></i>
+                                        <div class="dept" th:data-dept-no="*{deptNo}">
+                                            <i class="fa-solid fa-network-wired"></i>
+                                            <span th:text="*{deptNm}"></span>
+                                            <input hidden th:value="*{deptNo}">
+                                        </div>
                                     </div>
-                                </div>
+    
+                                    <ul>
+                                        
+                                        <th:block th:if="*{teamList}">
 
-                                <ul>
-                                    
-                                    <li class="team">
-                                        <div class="li-hover"> 
-                                            <i class="fa-solid fa-angle-down"></i>
-                                            <div>
-                                                <i class="fa-solid fa-people-group"></i>
-                                                <span>운영1팀</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
-                                    <li class="team">
-                                        <div class="li-hover"> 
-                                            <i class="fa-solid fa-angle-down"></i>
-                                            <div>
-                                                <i class="fa-solid fa-people-group"></i>
-                                                <span>운영2팀</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
-                                    <li class="team">
-                                        <div class="li-hover"> 
-                                            <i class="fa-solid fa-angle-down"></i>
-                                            <div>
-                                                <i class="fa-solid fa-people-group"></i>
-                                                <span>운영3팀</span>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                </ul>
-
-                            </li>
-
-                            
-                            <li class="department">
+                                            <li class="team" th:each="t : *{teamList}">
+                                                <div class="li-hover"> 
+                                                    <i class="fa-solid fa-angle-down"></i>
+                                                    <div class="tim" th:data-team-no="${t.teamNo}">
+                                                        <i class="fa-solid fa-people-group"></i>
+                                                        <span th:text="${t.teamNm}"></span>
+                                                        <input hidden th:value="${t.teamNo}">
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            
+                                        </th:block>
+    
+                                    </ul>
+    
+                                </li>
                                 
-                                <div class="li-hover">
-                                    <i class="fa-solid fa-angle-down"></i>
-                                    <div>
-                                        <i class="fa-solid fa-network-wired"></i>
-                                        <span>재무부</span>
-                                    </div>
-                                </div>
-
-                                <ul>
-                                    
-                                    <li class="team">
-                                        <div class="li-hover">
-                                            <i class="fa-solid fa-angle-down"></i>
-                                            <div>
-                                                <i class="fa-solid fa-people-group"></i>
-                                                <span>재무 기획팀</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
-                                    <li class="team">
-                                        <div class="li-hover">
-                                            <i class="fa-solid fa-angle-down"></i>
-                                            <div>
-                                                <i class="fa-solid fa-people-group"></i>
-                                                <span>재무 분석팀</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
-                                    <li class="team">
-                                        <div class="li-hover">
-                                            <i class="fa-solid fa-angle-down"></i>
-                                            <div>
-                                                <i class="fa-solid fa-people-group"></i>
-                                                <span>투자 관리팀</span>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                </ul>
-
-                            </li>
+                            </th:block>
 
                         </ul>
 
-
                     </li>
+                    
                 </ul>
 
             </div>

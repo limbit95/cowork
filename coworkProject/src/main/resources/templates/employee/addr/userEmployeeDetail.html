@@ -186,17 +186,17 @@
             </div>
 
             <!-- 오른쪽 영역(구성원 정보 상세 조회 영역) -->
-            <div class="employeeDetail">
+            <div class="employeeDetail" th:if="${session.empDetail}" th:object="${session.empDetail}">
     
-                <!-- <div class="detailHeader">
+                <div class="detailHeader">
                     <div>
                         <img src="" alt="">
                     </div>
             
                     <div>
-                        <span>임성혁</span>
-                        <span>운영팀 / 대리</span>
-                        <span>202405240001@company</span>
+                        <span th:text="|*{empLastName}*{empFirstName}|">임성혁</span>
+                        <span th:text="|*{teamNm} / *{positionNm}|">운영팀 / 대리</span>
+                        <span th:text="*{empId}">202405240001@company</span>
                     </div>
                 </div>
                 
@@ -205,37 +205,37 @@
             
                         <div>
                             <span>ID</span>
-                            <span>202405240001</span>
+                            <span th:text="*{empId}">202405240001</span>
                         </div>
             
                         <div>
                             <span>성</span>
-                            <span>임</span>
+                            <span th:text="*{empLastName}">임</span>
                         </div>
             
                         <div>
                             <span>이름</span>
-                            <span>성혁</span>
+                            <span th:text="*{empFirstName}">성혁</span>
                         </div>
             
                         <div>
                             <span>휴대번호</span>
-                            <span>010-2770-6055</span>
+                            <span th:text="*{phone}">010-2770-6055</span>
                         </div>
             
                         <div>
                             <span>이메일</span>
-                            <span>limbit@naver.com</span>
+                            <span th:text="*{empEmail}">limbit@naver.com</span>
                         </div>
             
                         <div>
                             <span>생일</span>
-                            <span>1995-05-16</span>
+                            <span th:text="*{empBirth}">1995-05-16</span>
                         </div>
             
                         <div>
                             <span>입사일</span>
-                            <span>2024-05-24</span>
+                            <span th:text="*{hireDate}">2024-05-24</span>
                         </div>
             
                     </div>
@@ -244,41 +244,41 @@
                         
                         <div>
                             <span>사번</span>
-                            <span>없음</span>
+                            <span th:text="*{empNo}">없음</span>
                         </div>
             
                         <div>
                             <span>부서</span>
-                            <span>본부</span>
+                            <span th:text="*{deptNm}">본부</span>
                         </div>
             
                         <div>
                             <span>팀</span>
-                            <span>운영팀</span>
+                            <span th:text="*{teamNm}">운영팀</span>
                         </div>
             
                         <div>
                             <span>직급</span>
-                            <span>대리</span>
+                            <span th:text="*{positionNm}">대리</span>
                         </div>
             
                         <div>
                             <span>근무처</span>
-                            <span>1층 지원 데스크</span>
+                            <span th:text="*{workPlace}">1층 지원 데스크</span>
                         </div>
             
                         <div>
                             <span>계약 형태</span>
-                            <span>정규직</span>
+                            <span th:text="*{contractType}">정규직</span>
                         </div>
             
                         <div>
                             <span>내선 번호</span>
-                            <span>02-000-0000</span>
+                            <span th:text="*{empTel}">02-000-0000</span>
                         </div>
             
                     </div>
-                </div> -->
+                </div>
             
             </div>
 

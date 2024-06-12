@@ -79,4 +79,10 @@ public interface AddrMapper {
 	 */
 	Employee2 empDetail(Map<String, Object> map);
 
+	/** 개인 주소록에 등록된 사원 삭제
+	 * @param map
+	 * @return
+	 */
+	int deleteAddr(Map<String, String> map);
+
 }
