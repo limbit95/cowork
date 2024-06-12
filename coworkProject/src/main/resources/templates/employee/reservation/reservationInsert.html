@@ -35,6 +35,10 @@
     <!-- 시간 선택하면 보여질 모달창 -->
     <div id="reservationInsertModal" class="reservationHidden">
 
+        <div class="reservationModalSpace">
+            <span class="spanX">&times;</span>
+        </div>
+
         <!-- 지정색 선택 부분 -->
         <div class="titleColor">
             <div class="clickColor" style="background-color: #fc8b8b;">
@@ -74,30 +78,26 @@
                 <option th:each="team : ${teamList}" th:value="${team.teamNo}" th:text="${team.teamNm}">팀명</option>
                 <input th:each="team : ${teamList}" th:value="${team.teamNo}" hidden>
             </select>
+        </div>
 
-            <!-- 선택한 값들이 들어올 곳 -->
-            <div class="selectView calendarHidden">
-                <!-- <span class="selectedDiv">
-                    <div>
-                        <p>회사 전체</p>
-                        <span class="selectCancel">&times;</span>
-                    </div>
-                </span> -->
-            </div>
+        <!-- 선택한 부서, 팀 값 들어올 곳 -->
+        <div class="selectView reservationHidden"></div>
 
-            <div class="modalContent">
-                <textarea id="updateContent" rows="7" cols="50"></textarea>
-            </div>
+        <!-- 회사 회의실 조회해와서 회의실 선택할 수 있게 해줘야함 -->
 
-            <div class="modalBtn">
-                <button class="default-btn glucose-border-btn modalUpdateBtn">등록</button>
-                <button class="default-btn glucose-border-btn modalCancelBtn">취소</button>
-            </div>
+        <div class="modalBtn">
+            <button class="default-btn glucose-border-btn modalUpdateBtn">등록</button>
+            <button class="default-btn glucose-border-btn modalCancelBtn">취소</button>
         </div>
 
     </div>
 
     <!-- Full Calendar API JS -->
     <script src="/js/employee/reservation/reservationInsert.js"></script>
+
+    <!-- DB에서 조회해온 값들 담아둘 곳 -->
+    <script th:inline="javascript">
+        // 회의실 예약 현황, deptList, teamList 조회해와야함
+    </script>
 </body>
 </html>

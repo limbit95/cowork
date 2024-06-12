@@ -1,4 +1,6 @@
-if(calendarModal != null) {
+const reservationInsertModal = document.querySelector("#reservationInsertModal");
+
+if(reservationInsertModal != null) {
     
     // 색상 클릭해서 선택
     const clickColors = document.querySelectorAll(".clickColor");
@@ -34,7 +36,7 @@ if(calendarModal != null) {
     if(selectCompany != null) {
 
         selectCompany.addEventListener("click", () => {
-            selectView.classList.remove("calendarHidden");
+            selectView.classList.remove("reservationHidden");
 
             let text = selectCompany.innerText;
 
@@ -43,8 +45,8 @@ if(calendarModal != null) {
             selectView.innerHTML = "";
             // 회사 전체 쌓아주기
 
-            selectDept.classList.add("calendarHidden");
-            selectTeam.classList.add("calendarHidden");
+            selectDept.classList.add("reservationHidden");
+            selectTeam.classList.add("reservationHidden");
 
             // selectedDiv 요소 생성
             const selectedDiv = document.createElement('span');
@@ -83,7 +85,7 @@ if(calendarModal != null) {
             
             if(!(e.target.value=='부서 선택' || e.target.value=='없음')) {
 
-                selectView.classList.remove("calendarHidden");
+                selectView.classList.remove("reservationHidden");
 
                 let text = e.target.options[e.target.selectedIndex].text;
 
@@ -132,7 +134,7 @@ if(calendarModal != null) {
         selectTeam.addEventListener("change", e => {
             
             if(!(e.target.value=='팀 선택' || e.target.value=='없음')) {
-                selectView.classList.remove("calendarHidden");
+                selectView.classList.remove("reservationHidden");
 
                 let text = e.target.options[e.target.selectedIndex].text;
 
@@ -177,6 +179,39 @@ if(calendarModal != null) {
 
 }
 
+const selectView = document.querySelector(".selectView");
+
+if(selectView != null) {
+    selectView.addEventListener('click', function(event) {
+        if(event.target.classList.contains('selectCancel')) {
+            const selectedDiv = event.target.closest('.selectedDiv');
+            if(selectedDiv) {
+                selectedDiv.remove();
+            }
+        }
+
+        if(selectView.innerText == "") {
+            selectView.classList.add("reservationHidden");
+            const selectDept = document.querySelector(".selectDept");
+            const selectTeam = document.querySelector(".selectTeam");
+            selectDept.classList.remove("reservationHidden");
+            selectTeam.classList.remove("reservationHidden");
+        }
+    })
+}
+
+// 취소 버튼 클릭 시 모든 값들을 비워주고 모달창 없애기
+const modalCancelBtn = document.querySelector(".modalCancelBtn");
+
+if(modalCancelBtn != null) {
+    modalCancelBtn.addEventListener("click", () => {
+        document.querySelector("#selectedColor").value = "";
+        document.querySelector(".selectView").innerHTML = "";
+        document.querySelector(".selectView").classList.add("reservationHidden");
+        reservationInsertModal.classList.add("reservationHidden");
+    })
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 
     var calendarEl = document.getElementById('calendar');
@@ -207,7 +242,22 @@ document.addEventListener('DOMContentLoaded', function() {
             // 예약할 부서, 팀 선택 => 회사 전체 부서와 팀 보여주기
             // p 태그로 내용 넣기
             // 회의실 선택하기 comNo
+            
+            document.querySelector("#selectedColor").value = "";
+            document.querySelector(".selectView").innerHTML = "";
+            document.querySelector(".selectView").classList.add("calendarHidden");
+            
+            
+            document.querySelector("#reservationInsertModal").classList.remove("reservationHidden");
 
+            const spanX = document.querySelector(".spanX");
+
+            spanX.addEventListener("click", () => {
+                document.querySelector("#selectedColor").value = "";
+                document.querySelector(".selectView").innerHTML = "";
+                document.querySelector(".selectView").classList.add("reservationHidden");
+                reservationInsertModal.classList.add("reservationHidden");
+            })
 
         },
         eventClick: function(info) {
@@ -220,8 +270,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const spanX = document.querySelector(".spanX");
 
             // 모달 팝업 떴을 때 x 버튼 누른 경우
-            spanX.addEventListener("click", e => {
-                document.getElementById('reservationModal').classList.add('reservationHidden');
+            spanX.addEventListener("click", () => {
+
+                
             });
 
 

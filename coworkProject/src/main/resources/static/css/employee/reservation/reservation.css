@@ -38,7 +38,7 @@
     color: var(--main-color);
 }
 
-/* 제목 클릭 시 보여지는 모달창 부분 */
+/* 예약하기 제목 클릭 시 보여지는 모달창 부분 */
 #reservationModal, #reservationInsertModal {
 	width: 30%;
     height: 40%;
@@ -57,25 +57,146 @@
     z-index: 5;
 }
 
+/* 예약하기 모달창 윗 부분 */
 .reservationModalSpace {
     background-color: var(--main4-color);
-    height: 5%;
+    height: 8%;
     width: 100%;
     display: flex;
     justify-content: flex-end;
 }
 
+/* 예약하기 모달창 x 버튼 */
 .spanX {
-    padding-top: 2px;
-    padding-right: 2px;
+    padding-top: 8px;
+    padding-right: 8px;
     cursor: pointer;
     font-weight: bold;
 }
 
+/* 예약하기 색 선택 부분 */
+.titleColor {
+    margin-top: 15px;
+    width: 75%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.clickColor {
+    border-radius: 50%;
+    height: 5vh;
+    width: 5vh;
+    cursor: pointer;
+}
+
+.addBorder {
+    border: 1px solid black !important; 
+}
+
+.clickColor:hover {
+    border: 1px solid black;
+}
+
+/* select option 부분 */
+.selectSection {
+    margin-top: 15px;
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.selectCompany {
+    background-color: white;
+}
+
+.selectCompany:hover {
+    background-color: var(--main6-color);
+    color: white;
+    transition:0.2s;
+}
+
+.selectSection select, .selectCompany {
+    padding: 5px;
+    border: 1px solid var(--main6-color);
+    border-radius: 5px;
+}
+
+/* selectView 부분 */
+.selectView {
+    display: flex;
+    width: 75%;
+    height: 15%;
+    border: 1px solid var(--main6-color);
+    box-sizing: border-box;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    margin-top: 15px;
+    border-radius: 5px;
+    align-items: center;
+}
+
+.selectedDiv {
+    display: flex;
+    border: 1px solid var(--main6-color);
+    box-sizing: border-box;
+    border-radius: 5px;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    padding: 5px;
+    height: 40%;
+}
+
+.selectedDiv > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selectedDiv p {
+    margin: 0; /* 문단의 기본 여백 제거 */
+    white-space: nowrap;
+}
+
+.selectedDiv span {
+    cursor: pointer; /* 포인터 커서 설정 */
+    flex-shrink: 0;
+}
+
+/* 내용 작성 부분 */
+.modalContent {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid var(--main6-color);
+    width: 75%;
+    border-radius: 5px;
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 박스 크기 계산 */
+    overflow: hidden; /* 넘치는 콘텐츠 숨김 */
+}
+
+#updateContent {
+    resize: none;
+    width: 100%; /* textarea의 너비를 부모의 100%로 설정 */
+    height: 100%; /* 필요에 따라 높이 설정 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 박스 크기 계산 */
+    resize: none;
+    border: none;
+    outline: none;
+}
+
+
+
+
+
+
+
+
+/* 예약 숨기기 */
 .reservationHidden {
     display: none !important;
 }
 
+/* 예약 현황 모달창 부분 */
 .paddingDiv {
     width: 90%;
     height: 100%;
