@@ -70,13 +70,11 @@
             <select class="selectDept">
                 <option th:text="${#lists.isEmpty(deptList) ? '없음' : '부서 선택'}" class="selectDeptDefalut">부서 선택</option>
                 <option th:each="dept : ${deptList}" th:value="${dept.deptNo}" th:text="${dept.deptNm}">부서명</option>
-                <input th:each="dept : ${deptList}" th:value="${dept.deptNo}" hidden>
             </select>
 
             <select class="selectTeam">
                 <option th:text="${#lists.isEmpty(teamList) ? '없음' : '팀 선택'}" class="selectTeamDefalut">팀 선택</option>
                 <option th:each="team : ${teamList}" th:value="${team.teamNo}" th:text="${team.teamNm}">팀명</option>
-                <input th:each="team : ${teamList}" th:value="${team.teamNo}" hidden>
             </select>
         </div>
 
@@ -84,6 +82,15 @@
         <div class="selectView reservationHidden"></div>
 
         <!-- 회사 회의실 조회해와서 회의실 선택할 수 있게 해줘야함 -->
+        <div class="meetingRoomSelectDiv">
+            <select class="selectMeetingRoom">
+                <option th:text="${#lists.isEmpty(meetingRoomList) ? '없음' : '회의실 선택'}" class="selectMeetingRoomDefault">회의실 선택</option>
+                <option th:each="meetingRoom : ${meetingRoomList}" th:value="${meetingRoom.meetingRoomNo}" th:text="${meetingRoom.meetingRoomNm}">회의실이름</option>
+            </select>
+        </div>
+
+        <!-- 선택한 회의실 값 들어올 곳 -->
+        <div class="meetingRoomSelectView reservationHidden"></div>
 
         <div class="modalBtn">
             <button class="default-btn glucose-border-btn modalUpdateBtn">등록</button>
@@ -93,11 +100,6 @@
     </div>
 
     <!-- Full Calendar API JS -->
-    <script src="/js/employee/reservation/reservationInsert.js"></script>
-
-    <!-- DB에서 조회해온 값들 담아둘 곳 -->
-    <script th:inline="javascript">
-        // 회의실 예약 현황, deptList, teamList 조회해와야함
-    </script>
+    <script src="/js/employee/reservation/selectDay.js"></script>
 </body>
 </html>

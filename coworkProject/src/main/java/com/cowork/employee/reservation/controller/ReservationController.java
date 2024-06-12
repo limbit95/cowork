@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.admin.companyInfo.model.dto.Team;
+import com.cowork.admin.meetingRoom.model.dto.MeetingRoom;
+import com.cowork.admin.meetingRoom.model.service.MeetingRoomService;
 import com.cowork.employee.calendar.model.service.CalendarService;
 import com.cowork.user.model.dto.Employee2;
 
@@ -22,10 +24,11 @@ import lombok.RequiredArgsConstructor;
 public class ReservationController {
 
 	private final CalendarService cs;
+	private final MeetingRoomService ms;
 	
 	@GetMapping("reservation")
 	public String reservation() {
-		return "employee/reservation/reservation";
+		return "employee/reservation/selectMonth";
 	}
 	
 	@GetMapping("reservationInsert")
@@ -43,10 +46,14 @@ public class ReservationController {
 			}
 		}
 		
+		// 회사 번호로 회사에 있는 회의실 조회해오기
+		List<MeetingRoom> meetingRoomList = ms.meetingRoomList(loginEmp.getComNo());
+		
 		model.addAttribute("loginEmp", loginEmp);
 		model.addAttribute("deptList", deptList);
 		model.addAttribute("teamList", teamList);
+		model.addAttribute("meetingRoomList", meetingRoomList);
 		
-		return "employee/reservation/reservationInsert";
+		return "employee/reservation/selectDay";
 	}
 }
