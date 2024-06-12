@@ -130,11 +130,9 @@ function fetchTodos(todoComplete, sortBy, filters = {}) {
                 `;
                 todoList.appendChild(todoDiv);
             });
-
+            addEventListeners(); 
         }
-            addEventListeners(); // 새롭게 추가된 할 일 항목에 대해 이벤트 리스너를 다시 추가합니다.
-        })
-        .catch(error => console.error('Error fetching todos:', error));
+        }).catch(error => console.error('Error fetching todos:', error));
 }
 
 
