@@ -111,7 +111,7 @@ function fetchTodos(todoComplete, sortBy, filters = {}) {
                 document.getElementById('todoInsertArea').classList.add('fixed');
                 document.getElementById('todoInsertArea').classList.remove('normal');
             } else {
-
+            noTodosMessage.style.display = 'none';
             todos.forEach(todo => {
                 const todoDiv = document.createElement('div');
                 todoDiv.className = 'todo';
@@ -131,6 +131,7 @@ function fetchTodos(todoComplete, sortBy, filters = {}) {
                 todoList.appendChild(todoDiv);
             });
             addEventListeners(); 
+
         }
         }).catch(error => console.error('Error fetching todos:', error));
 }
