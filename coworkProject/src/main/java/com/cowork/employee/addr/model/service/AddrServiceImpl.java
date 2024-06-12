@@ -190,4 +190,23 @@ public class AddrServiceImpl implements AddrService {
 		return result;
 	}
 
+	// 개인 주소록에 사원 추가
+	@Override
+	public int addAddr(List<Map<String, Object>> data) {
+		for(int i = 0; i < data.size(); i++) {
+			// 중복 사원 있는지 검사
+			int result = mapper.checkAddrEmp(data.get(i));
+			
+			if(result == 0) {
+				int addResult = mapper.addToMyAddr(data.get(i));
+				
+				if(addResult == 0) {
+					return 0;
+				}
+			}
+		}
+		
+		return 1;
+	}
+
 }

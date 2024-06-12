@@ -93,4 +93,16 @@ public interface AddrMapper {
 	 */
 	int deleteAllGroup(String loginEmpCode);
 
+	/** 개인 주소록에 이미 추가된 사원인지 중복 검사
+	 * @param map
+	 * @return
+	 */
+	int checkAddrEmp(Map<String, Object> map);
+
+	/** 개인 주소록에 사원 추가
+	 * @param map
+	 * @return
+	 */
+	int addToMyAddr(Map<String, Object> map);
+
 }

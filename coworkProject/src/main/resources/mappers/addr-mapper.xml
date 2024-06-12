@@ -129,4 +129,23 @@
 		AND EMP_CODE = #{empCode}
 	</delete>
 	
+	<!-- 개인 주소록에 이미 추가된 사원인이 중복 검사 -->
+	<select id="checkAddrEmp" resultType="_int">
+		SELECT COUNT(*)
+		FROM PERSONAL_ADDR_BOOK P
+		JOIN ADD_EMP AE ON(AE.ADDR_BOOK_NO = P.ADDR_BOOK_NO)
+		WHERE P.EMP_CODE = #{loginEmpCode}
+		AND P.ADDR_BOOK_NO = #{selectValue}
+		AND AE.EMP_CODE = #{empCode}
+	</select>
+	
+	<!-- 개인 주소록에 사원 추가 -->
+	<insert id="addToMyAddr">
+		INSERT INTO ADD_EMP VALUES(
+			SEQ_ADD_EMP.NEXTVAL,
+			#{selectValue},
+			#{empCode}
+		)
+	</insert>
+	
 </mapper>

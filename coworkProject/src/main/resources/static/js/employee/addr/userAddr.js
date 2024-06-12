@@ -2,6 +2,10 @@
 const wholeCheck = document.querySelector("#wholeCheck");
 // 개별 체크박스
 const check = document.querySelectorAll("#check");
+// 개인 주소록 그룹 리스트 선택할 수 있는 select 태그 노출
+const selectGroup = document.querySelector(".selectGroup")
+const saveMyAddr = document.querySelector("#saveMyAddr")
+const cancelMyAddr = document.querySelector("#cancelMyAddr")
 
 function anyCheckboxChecked() {
     for (let i = 0; i < check.length; i++) {
@@ -46,6 +50,9 @@ if(wholeCheck != null) {
                     check.forEach((i) => {
                         i.checked = true;
                     })
+                    if(selectGroup.style.display == 'block') {
+                        return;
+                    }
                     subBtnDiv.children[0].style.display = "block"
                     return;
                 }
@@ -54,6 +61,7 @@ if(wholeCheck != null) {
                         i.checked = false;
                     })
                     subBtnDiv.children[0].style.display = "none"
+                    selectGroup.style.display = 'none';
                     return;
                 }
             }
@@ -83,11 +91,15 @@ if(check != null) {
             if(i.getAttribute("class") == "notMine") {
                 if(anyCheckboxChecked()){
                     subBtnDiv.children[0].style.display = "none"
+                    selectGroup.style.display = 'none';
                     wholeCheck.checked = false;
                     return;
                 }
                 if(wholeCheck.checked == true){return;}
                 if(i.checked == true){
+                    if(selectGroup.style.display == 'block') {
+                        return;
+                    }
                     subBtnDiv.children[0].style.display = "block"
                     return;
                 }
@@ -105,35 +117,56 @@ if(check != null) {
 // 주소록 추가
 const addToMyAddr = document.querySelector("#addToMyAddr");
 
+// 추가 버튼 클릭시 어느 주소록 그룹에 추가할지 선택할 수 있는 select 태그 노출
 if(addToMyAddr != null) {
     addToMyAddr.addEventListener("click", e => {
+        selectGroup.style.display = 'block';
+        addToMyAddr.style.display = 'none';
+    });
+}
 
-
+// 저장
+if(saveMyAddr != null) {
+    saveMyAddr.addEventListener("click", e => {
+        const selectValue = document.querySelector("#selectValue");
 
         const obj = [];
 
         check.forEach((i) => {
             if(i.checked == true) {
-                obj.push({ "empCode" : i.parentElement.nextElementSibling.children[5].value, "groupCode" : groupCode })
+                obj.push({ "empCode" : i.parentElement.nextElementSibling.children[5].value, "loginEmpCode" : loginEmpCode, "selectValue" : selectValue.value })
             }
         });
 
-        // fetch("/employee/addr/addToMyAddr", {
-        //     method : "post",
-        //     headers : {"Content-Type" : "application/json"},
-        //     body : JSON.stringify(obj)
-        // })
-        // .then(resp => resp.text())
-        // .then(result => {
-        //     if(result == 0){
-        //         alert("삭제 실패");
-        //         return;
-        //     }
-        //     alert("삭제되었습니다.");
-        //     location.href = '/employee/addr?groupCode=' + groupCode;
-        // });
+        console.log(obj);
+
+        fetch("/employee/addr/addAddr", {
+            method : "post",
+            headers : {"Content-Type" : "application/json"},
+            body : JSON.stringify(obj)
+        })
+        .then(resp => resp.text())
+        .then(result => {
+            if(result == 0){
+                alert("추가 실패");
+                return;
+            }
+            alert("추가되었습니다.");
+            location.href = '/employee/addr';
+        });
     });
-}
+};
+
+// 취소
+if(cancelMyAddr != null) {
+    cancelMyAddr.addEventListener("click", e => {
+        selectGroup.style.display = 'none';
+        wholeCheck.checked = false;
+        check.forEach((i) => {
+            i.checked = false;
+        });
+    });
+};
 
 // 주소록 삭제
 const deleteToMyAddr = document.querySelector("#deleteToMyAddr");

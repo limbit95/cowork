@@ -416,13 +416,13 @@ section.container .detailBody {
     font-size: 14px;
 }
 
-.detailBody select {
+section.container .detailBody select {
     padding: 4px;
     font-size: 14px;
     width: 173px;
     height: 33px;
 }
-.detailBody option {
+section.container .detailBody option {
     font-size: 14px;
-    height: 33px;
+    height: 83px;
 }
