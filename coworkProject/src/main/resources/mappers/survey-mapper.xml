@@ -16,6 +16,36 @@
 	AND  CONCAT(E.EMP_LAST_NAME, E.EMP_FIRST_NAME) LIKE '%' || #{empNickname} || '%'
 </select>
 
+<select id="surveyNoDetail">
+	SELECT SEQ_SURVEY.NEXTVAL FROM DUAL
+</select>
+
+<insert id="insertSurvey">
+	INSERT INTO SURVEY
+	VALUES (#{surveyNo},  #{empCode}, #{title},  #{surveyStartDate}, #{surveyEndDate}, #{surveyEntireTargetFl})
+</insert>
+
+<select id="specificPositionEmpList"> 
+	SELECT E.EMP_CODE 
+	FROM POSITION P 
+	LEFT JOIN EMPLOYEE E ON (P.POSITION_NO = E.POSITION_NO)
+	WHERE P.POSITION_NM = #{position}
+	AND P.COM_NO = #{comNo}
+</select>
+
+<insert id="insertSurveyTarget">
+	INSERT INTO SURVEY_TARGET
+	VALUES (SEQ_SURVEY_TARGET.NEXTVAL,  #{EmpCode2}, #{surveyNo})
+</insert>
+
+<select id="findNextSequenceVal">
+	SELECT SEQ_SURVEY_SUB.NEXTVAL FROM DUAL 
+</select>
+
+<insert id="insertSurveySub">
+ INSERT INTO SURVEY_SUB VALUES 
+ (#{surveySubNo}, #{surveyNo}, #{surveySubTitle}, #{questionType})
+</insert>
 	
 </mapper>
 

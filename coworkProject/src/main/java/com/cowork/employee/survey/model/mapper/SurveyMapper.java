@@ -15,6 +15,18 @@ public interface SurveyMapper {
 
 	List<Employee2> empList(Map<String, Object> paramMap);
 
+	void insertSurvey(Map<String, Object> paramMap);
+
+	List<Integer> specificPositionEmpList(Map<String, Object> paramMap2);
+
+	Integer surveyNoDetail();
+
+	void insertSurveyTarget(Map<String, Object> paramMap3);
+
+	int findNextSequenceVal();
+
+	void insertSurveySub(Map<String, Object> paramMap5);
+
 
 
 }
