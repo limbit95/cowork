@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cowork.admin.addr.model.mapper.AdminAddrMapper;
 import com.cowork.admin.companyInfo.model.dto.Department;
+import com.cowork.admin.companyInfo.model.dto.Team;
 import com.cowork.common.utility.model.dto.Pagination;
 import com.cowork.user.model.dto.Employee2;
 
@@ -97,6 +98,12 @@ public class AdminAddrServiceImpl implements AdminAddrService {
 		map.put("teamList", teamList);
 		
 		return map;
+	}
+
+	// 선택한 부서의 하위 팀 리스트만 조회
+	@Override
+	public List<Team> getTeamList(Map<String, Object> map) {
+		return mapper.getTeamList2(map);
 	}
 	
 }

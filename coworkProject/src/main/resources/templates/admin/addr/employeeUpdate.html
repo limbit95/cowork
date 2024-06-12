@@ -150,17 +150,22 @@
                             <div>
                                 <span>부서</span>
                                 <select class="default-line" name="" id="updateDept" th:data-dept-list="${session.comAddrList}">
-                                    <option th:value="*{deptNm}">[[*{deptNm}]]</option>
                                     <th:block th:each="dept : ${session.comAddrList}">
-                                        <option th:if="*{deptNm} != ${dept.deptNm}" th:value="${dept.deptNm}">[[${dept.deptNm}]]</option>
+                                        <option th:if="*{deptNm} == ${dept.deptNm}" th:value="${dept.deptNo}">[[*{deptNm}]]</option>
+                                    </th:block>
+                                    <th:block th:each="dept : ${session.comAddrList}">
+                                        <option th:if="*{deptNm} != ${dept.deptNm}" th:value="${dept.deptNo}">[[${dept.deptNm}]]</option>
                                     </th:block>
                                 </select>
                             </div>
                 
                             <div>
                                 <span>팀</span>
-                                <select class="default-line" name="" id="">
-                                    <option th:value="*{teamNm}">[[*{teamNm}]]</option>
+                                <select class="default-line" name="" id="updateTeam">
+                                    <th:block th:each="dept : ${session.comAddrList}" th:if="*{deptNm} == ${dept.deptNm}">
+                                        <option th:each="t : ${dept.teamList}" th:if="*{teamNm} == ${t.teamNm}" th:value="${t.teamNo}">[[*{teamNm}]]</option>
+                                        <option th:each="t : ${dept.teamList}" th:if="*{teamNm} != ${t.teamNm}" th:value="${t.teamNo}">[[${t.teamNm}]]</option>
+                                    </th:block>
                                 </select>
                             </div>
                             
@@ -168,6 +173,9 @@
                                 <span>직급</span>
                                 <select class="default-line" name="" id="">
                                     <option th:value="*{positionNm}">[[*{positionNm}]]</option>
+                                    <th:block th:each="p : ${session.positionList}">
+                                        <option th:value="${p.positionNo}">[[${p.positionNm}]]</option>
+                                    </th:block>
                                 </select>
                             </div>
                 
@@ -206,5 +214,10 @@
     </div>
 
     <script src="/js/admin/addr/adminAddr.js"></script>
+    <script th:inline="javascript">
+        const loginEmpCode = /*[[${session.loginEmp.empCode}]]*/ "로그인 사원 식별키";
+        const comNo = /*[[${session.loginEmp.comNo}]]*/ "회사 식별키";
+        const teamNm = /*[[${session.empDetail.teamNm}]]*/ "정보 수정 대상 사원의 팀 이름";
+    </script> 
 </body>
 </html>

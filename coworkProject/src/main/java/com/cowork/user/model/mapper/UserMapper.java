@@ -1,5 +1,6 @@
 package com.cowork.user.model.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -92,6 +93,12 @@ public interface UserMapper {
 	 * @return
 	 */
 	int updateAuthKey(Map<String, Object> map);
+
+	/** 회사별 직급 리스트 조회
+	 * @param loginEmp
+	 * @return
+	 */
+	List<Map<String, Object>> getpositionList(Employee2 loginEmp);
 
 
 	

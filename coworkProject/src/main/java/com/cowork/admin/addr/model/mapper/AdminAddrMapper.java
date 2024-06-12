@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import com.cowork.admin.companyInfo.model.dto.Department;
+import com.cowork.admin.companyInfo.model.dto.Team;
 import com.cowork.user.model.dto.Employee2;
 
 @Mapper
@@ -56,6 +57,12 @@ public interface AdminAddrMapper {
 	 * @return
 	 */
 	List<Employee2> selectTeamList(Map<String, Object> data, RowBounds rowBounds);
+
+	/** 선택한 부서의 하위 팀 리스트만 조회
+	 * @param map
+	 * @return
+	 */
+	List<Team> getTeamList2(Map<String, Object> map);
 
 
 }

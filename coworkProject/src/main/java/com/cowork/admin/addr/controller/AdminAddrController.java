@@ -169,10 +169,15 @@ public class AdminAddrController {
 		return "admin/addr/employeeDetail";
 	}
 	
+	/** 사원 정보 수정 페이지에서 부서 select 태그 서 선택한 부서 기준 하위 팀 리스트만 조회
+	 * @param map
+	 * @return
+	 */
 	@ResponseBody
 	@PostMapping("getTeamList")
-	public List<Team> getTeamList(){
-		return null;
+	public List<Team> getTeamList(@RequestBody Map<String, Object> map){
+		log.info("map : " + map);
+		return service.getTeamList(map);
 	}
 
 	

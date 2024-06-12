@@ -1,6 +1,7 @@
 package com.cowork.user.model.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,7 +195,11 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
-
+	// 회사별 직급 리스트 조회
+	@Override
+	public List<Map<String, Object>> getpositionList(Employee2 loginEmp) {
+		return mapper.getpositionList(loginEmp);
+	}
 	
 	
 	

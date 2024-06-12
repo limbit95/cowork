@@ -292,6 +292,11 @@ document.querySelectorAll('.li-hover').forEach(item => {
 
 
         deleteGroup.onclick = () => {
+            if(targetLi.parentElement.childElementCount == 1){
+                alert("최소 한 개의 팀은 유지되어야 합니다.");
+                contextMenu.style.display = 'none';
+                return;
+            }
             if (targetLi) {
                 targetLi.remove();
             }
@@ -374,7 +379,7 @@ if(cancel != null) {
 
 if(deleteEmployee != null) {
     deleteEmployee.addEventListener("click", function () {
-        if(confirm("정말로 삭제하시겠습니까?")){
+        if(confirm("정말로 삭제하시겠습니까? 삭제된 시점부터 해당 사원은 CoWork 서비스를 이용할 수 없게 됩니다.")){
             return;
         }
     });
@@ -385,6 +390,73 @@ if(deleteEmployee != null) {
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
 // 그룹 저장
+const saveGroup = document.querySelector("#saveGroup");
+
+if(saveGroup != null) {
+    saveGroup.addEventListener("click", e => {
+        const groupList = [{"loginEmpCode" : loginEmpCode }];
+        const test = [
+            // 삽입, 수정, 삭제할 때 구분할 키
+            [{ "loginEmpCode" : loginEmpCode, "comNo" : comNo }],
+            // 부서 리스트
+            [],
+            // 팀 리스트
+            []
+        ];
+
+        for(let i = 0; i < document.querySelectorAll("#deptNo").length; i++) {
+            test[0].push({ 
+                "deptNo" : document.querySelectorAll("#deptNo")[i].dataset.deptNo, 
+                "deptNm" : document.querySelectorAll("#deptNo")[i].innerText, 
+                "loginEmpCode" : loginEmpCode, 
+                "comNo" : comNo 
+            })
+        }
+        
+        return; 
+        // for(let i = 0; i < document.querySelectorAll("#addrName").length; i++) {
+
+        // }
+        
+        for(let i = 0; i < document.querySelectorAll("#addrName").length; i++) {
+
+            if(addrBookNo[i] != undefined) {
+                groupList.push({ "addrBookNo" : addrBookNo[i].value, "addrName" : document.querySelectorAll("#addrName")[i].innerText });
+            } else {
+                groupList.push({ "addrBookNo" : "null", "addrName" : document.querySelectorAll("#addrName")[i].innerText, "loginEmpCode" : loginEmpCode });
+            }
+        }
+
+        // fetch("/employee/addr/insertGroupList", {
+        //     method : "post",
+        //     headers : {"Content-Type" : "application/json"},
+        //     body : JSON.stringify(groupList)
+        // })
+        // .then(resp => resp.text())
+        // .then(result => {
+        //     if(result == -1){
+        //         alert("그룹이 없습니다. 새로운 그룹을 생성해주세요.");
+        //         return; 
+        //     }
+        //     if(result == -2){
+        //         alert("중복된 그룹명이 있습니다. 다른 이름으로 변경해주세요.");
+        //         return;
+        //     }
+        //     if(result == 2){
+        //         alert("그룹명 변경 실패");
+        //         return;
+        //     }
+        //     if(result == 3){
+        //         alert("그룹명 저장 실패");
+        //         return;
+        //     }
+            
+        //     alert("그룹이 저장되었습니다.");
+        //     location.href = '/employee/addr';
+        // })
+    });
+};
+
 
 
 
@@ -398,7 +470,8 @@ const updateDept = document.querySelector("#updateDept");
 if(updateDept != null) {
     updateDept.addEventListener("click", e => {
         const obj = {
-            "deptNo" : updateDept.value
+            "deptNo" : updateDept.value,
+            "comNo" : comNo
         };
         
         fetch("/admin/addr/getTeamList", {
@@ -408,7 +481,23 @@ if(updateDept != null) {
         })
         .then(resp => resp.json())
         .then(teamList => {
-            
+            if(teamList.length == 0){
+                alert("불러오기 실패");
+                return;
+            }
+
+            const updateTeam = document.querySelector("#updateTeam");
+            updateTeam.innerHTML = '';
+            teamList.forEach((i) => {
+                if(updateTeam.value == i.teamNm) {
+                    return;
+                }
+                const opt = document.createElement("option");
+                opt.value = i.teamNo;
+                opt.innerText = i.teamNm;
+
+                updateTeam.append(opt);
+            });
         })
     });
 };

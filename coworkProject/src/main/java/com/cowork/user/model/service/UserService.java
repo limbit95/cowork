@@ -1,5 +1,6 @@
 package com.cowork.user.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.cowork.admin.companyInfo.model.dto.Company;
@@ -66,6 +67,12 @@ public interface UserService {
 	 * @return
 	 */
 	int resetPw(Employee2 inputEmp);
+
+	/** 회사별 직급 리스트 조회
+	 * @param loginEmp
+	 * @return
+	 */
+	List<Map<String, Object>> getpositionList(Employee2 loginEmp);
 
 
 	
