@@ -92,11 +92,18 @@
 		AND ADDR_BOOK_NO NOT IN(${groupIdx})
 	</delete>
 	
+	<!-- 그룹 하나만 남았을 때 삭제 기능 수행 시 테이블 전부 비우기 -->
+	<delete id="deleteAllGroup">
+		DELETE FROM PERSONAL_ADDR_BOOK
+		WHERE EMP_CODE = #{loginEmpCode}
+	</delete>
+	
 	<!-- 주소록 이름 중복 검사 -->
-	<select id="checkAddrName">
+	<select id="checkAddrName" resultType="_int">
 		SELECT COUNT(*)
 		FROM PERSONAL_ADDR_BOOK
 		WHERE ADDR_NAME = #{addrName}
+		AND EMP_CODE = #{loginEmpCode}
 	</select>
 	
 	<!-- 주소록에 등록된 사원 정보 상세 조회 -->

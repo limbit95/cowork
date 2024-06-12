@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cowork.admin.addr.model.service.AdminAddrService;
 import com.cowork.employee.addr.model.dto.MyAddr;
 import com.cowork.employee.addr.model.service.AddrService;
 import com.cowork.user.model.dto.Employee2;
@@ -28,10 +29,12 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("employee/addr")
-@SessionAttributes({"groupList", "empDetail"})
+@SessionAttributes({"groupList", "empDetail", "backPageLocation"})
 public class AddrController {
 	
 	private final AddrService service;
+
+	private final AdminAddrService adminAddrService;
 	
 	/** 개인 주소록 그룹 조회 및 그룹 리스트 조회
 	 * @return
@@ -106,6 +109,7 @@ public class AddrController {
 		Employee2 empDetail = service.empDetail(map);
 		
 		model.addAttribute("empDetail", empDetail);
+		model.addAttribute("backPageLocation", map.get("backPageLocation"));
 		
 		return empDetail;
 	}
@@ -129,5 +133,93 @@ public class AddrController {
 	public int employeeDetail(@RequestBody List<Map<String, String>> map) {
 		return service.deleteAddr(map);
 	}
+	
+	
+	
+	
+	
+	
+	// -----------------------------------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------------------------
+	// AdminAddrService 가져다 사용
+	/** 회사별 사원 리스트 조회
+	 * @param request
+	 * @param model
+	 * @param map
+	 * @param cp
+	 * @return
+	 */
+	@GetMapping("comList")
+	public String comList(HttpServletRequest request, 
+					      Model model, 
+					      @RequestParam(value="cp", required=false, defaultValue="1") int cp
+					      ) {
+		
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		Map<String, Object> map = adminAddrService.selectComList(loginEmp, cp);
+		
+		model.addAttribute("pagination", map.get("pagination"));
+		model.addAttribute("comList", map.get("comList"));
+
+		return "employee/addr/addrBook";
+	}
+	
+	/** 부서별 사원 리스트 조회
+	 * @param request
+	 * @param model
+	 * @param cp
+	 * @return
+	 */
+	@GetMapping("deptList")
+	public String deptList(HttpServletRequest request, 
+					       Model model, 
+					       @RequestParam Map<String, Object> data, 
+					       @RequestParam(value="cp", required=false, defaultValue="1") int cp
+					       ) {
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		data.put("comNo", loginEmp.getComNo());
+		
+		Map<String, Object> selectDeptList = adminAddrService.selectDeptList(data, cp);
+		
+		model.addAttribute("pagination", selectDeptList.get("pagination"));
+		model.addAttribute("deptList", selectDeptList.get("deptList"));
+		model.addAttribute("deptNo", data.get("deptNo"));
+
+		return "employee/addr/addrBook";
+	}
+	
+	/** 팀별 사원 리스트 조회
+	 * @param request
+	 * @param model
+	 * @param data
+	 * @param cp
+	 * @return
+	 */
+	@GetMapping("teamList")
+	public String teamList(HttpServletRequest request, 
+					       Model model, 
+					       @RequestParam Map<String, Object> data, 
+					       @RequestParam(value="cp", required=false, defaultValue="1") int cp
+					       ) {
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		String[] arr = ((String)data.get("teamNo")).split("/");
+		data.put("deptNo", arr[0]);
+		data.put("teamNo", arr[1]);
+		
+		Map<String, Object> selectTeamList = adminAddrService.selectTeamList(data, cp);
+		
+		model.addAttribute("pagination", selectTeamList.get("pagination"));
+		model.addAttribute("teamList", selectTeamList.get("teamList"));
+		model.addAttribute("teamNo", data.get("deptNo") + "/" + data.get("teamNo"));
+
+		return "employee/addr/addrBook";
+	}
+	
 	
 }

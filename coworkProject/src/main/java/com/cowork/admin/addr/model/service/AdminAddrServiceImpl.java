@@ -59,7 +59,7 @@ public class AdminAddrServiceImpl implements AdminAddrService {
 	@Override
 	public Map<String, Object> selectDeptList(Map<String, Object> data, int cp) {
 
-		// 회사 전체 사원 수 조회
+		// 부서별 사원 수 조회
 		int listCount = mapper.getDeptListCount(data);
 		
 		Pagination pagination = new Pagination(cp, listCount);
@@ -73,6 +73,28 @@ public class AdminAddrServiceImpl implements AdminAddrService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("pagination", pagination);
 		map.put("deptList", deptList);
+		
+		return map;
+	}
+
+	// 팀별 사원 리스트 조회
+	@Override
+	public Map<String, Object> selectTeamList(Map<String, Object> data, int cp) {
+
+		// 팀별 사원 수 조회
+		int listCount = mapper.getTeamListCount(data);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		int limit = pagination.getLimit();
+		int offset = (cp - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<Employee2> teamList = mapper.selectTeamList(data, rowBounds);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pagination", pagination);
+		map.put("teamList", teamList);
 		
 		return map;
 	}

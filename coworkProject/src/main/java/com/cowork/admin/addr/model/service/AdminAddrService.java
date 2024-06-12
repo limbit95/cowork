@@ -28,4 +28,11 @@ public interface AdminAddrService {
 	 */
 	Map<String, Object> selectDeptList(Map<String, Object> data, int cp);
 
+	/** 팀별 사원 리스트 조회
+	 * @param data
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> selectTeamList(Map<String, Object> data, int cp);
+
 }

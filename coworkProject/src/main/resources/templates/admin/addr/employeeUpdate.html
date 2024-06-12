@@ -50,7 +50,6 @@
                                         <div class="dept" th:data-dept-no="*{deptNo}">
                                             <i class="fa-solid fa-network-wired"></i>
                                             <span th:text="*{deptNm}"></span>
-                                            <input hidden th:value="*{deptNo}">
                                         </div>
                                     </div>
     
@@ -61,10 +60,9 @@
                                             <li class="team" th:each="t : *{teamList}">
                                                 <div class="li-hover"> 
                                                     <i class="fa-solid fa-angle-down"></i>
-                                                    <div class="tim" th:data-team-no="${t.teamNo}">
+                                                    <div class="tim" th:data-team-no="|*{deptNo}/${t.teamNo}|">
                                                         <i class="fa-solid fa-people-group"></i>
                                                         <span th:text="${t.teamNm}"></span>
-                                                        <input hidden th:value="${t.teamNo}">
                                                     </div>
                                                 </div>
                                             </li>
@@ -86,7 +84,7 @@
             </div>
     
                 <!-- 오른쪽 영역(구성원 정보 상세 조회 영역) -->
-                <div class="employeeDetail">
+                <div class="employeeDetail" th:if="${session.empDetail}" th:object="${session.empDetail}">
         
                     <div class="detailHeader">
                         <!-- 프로필 사진 -->
@@ -96,9 +94,9 @@
                 
                         <!-- 이름, 부서, 직급, 아이디 -->
                         <div>
-                            <span>임성혁</span>
-                            <span>운영팀 / 대리</span>
-                            <span>202405240001@company</span>
+                            <span th:text="|*{empLastName}*{empFirstName}|">임성혁</span>
+                            <span th:text="|*{teamNm} / *{positionNm}|">운영팀 / 대리</span>
+                            <span th:text="*{empId}">202405240001@company</span>
                         </div>
                     </div>
                     
@@ -107,37 +105,37 @@
                 
                             <div>
                                 <span>ID</span>
-                                <input class="default-line" type="text" spellcheck="false" value="202405240001">
+                                <input class="default-line" type="text" spellcheck="false" th:value="*{empId}">
                             </div>
                 
                             <div>
                                 <span>성</span>
-                                <input class="default-line" type="text" spellcheck="false" value="임">
+                                <input class="default-line" type="text" spellcheck="false" th:value="*{empLastName}">
                             </div>
                 
                             <div>
                                 <span>이름</span>
-                                <input class="default-line" type="text" spellcheck="false" value="성혁">
+                                <input class="default-line" type="text" spellcheck="false" th:value="*{empFirstName}">
                             </div>
                 
                             <div>
                                 <span>휴대번호</span>
-                                <input class="default-line" type="text" spellcheck="false" value="010-2770-6055">
+                                <input class="default-line" type="text" spellcheck="false" th:value="*{phone}">
                             </div>
                 
                             <div>
                                 <span>이메일</span>
-                                <input class="default-line" type="text" spellcheck="false" value="limbit@naver.com">
+                                <input class="default-line" type="text" spellcheck="false" th:value="*{empEmail}">
                             </div>
                 
                             <div>
                                 <span>생일</span>
-                                <input class="default-line" type="text" spellcheck="false" value="1995-05-16">
+                                <input class="default-line" type="text" spellcheck="false" th:value="*{empBirth}">
                             </div>
                 
                             <div>
                                 <span>입사일</span>
-                                <input class="default-line" type="text" spellcheck="false" value="2024-05-24">
+                                <input class="default-line" type="text" spellcheck="false" th:value="*{hireDate}">
                             </div>
                 
                         </div>
@@ -146,43 +144,43 @@
                             
                             <div>
                                 <span>사번</span>
-                                <input class="default-line" type="text" spellcheck="false" value="없음">
+                                <input class="default-line" type="text" spellcheck="false" th:value="*{empNo}">
                             </div>
                 
                             <div>
                                 <span>부서</span>
                                 <select class="default-line" name="" id="">
-                                    <option value="">본부</option>
+                                    <option th:value="*{deptNm}">[[*{deptNm}]]</option>
                                 </select>
                             </div>
                 
                             <div>
                                 <span>팀</span>
                                 <select class="default-line" name="" id="">
-                                    <option value="">운영팀</option>
+                                    <option th:value="*{teamNm}">[[*{teamNm}]]</option>
                                 </select>
                             </div>
-                
+                            
                             <div>
                                 <span>직급</span>
                                 <select class="default-line" name="" id="">
-                                    <option value="">대리</option>
+                                    <option th:value="*{positionNm}">[[*{positionNm}]]</option>
                                 </select>
                             </div>
                 
                             <div>
                                 <span>근무처</span>
-                                <input class="default-line" type="text" spellcheck="false" value="1층 지원 데스크">
+                                <input class="default-line" type="text" spellcheck="false" th:value="*{workPlace}">
                             </div>
                 
                             <div>
                                 <span>계약 형태</span>
-                                <input class="default-line" type="text" spellcheck="false" value="정규직">
+                                <input class="default-line" type="text" spellcheck="false" th:value="*{contractType}">
                             </div>
                 
                             <div>
                                 <span>내선 번호</span>
-                                <input class="default-line" type="text" spellcheck="false" value="02-000-0000">
+                                <input class="default-line" type="text" spellcheck="false" th:value="*{empTel}">
                             </div>
                 
                         </div>

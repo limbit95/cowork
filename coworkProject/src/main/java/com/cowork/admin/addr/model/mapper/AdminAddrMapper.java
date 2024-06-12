@@ -44,5 +44,18 @@ public interface AdminAddrMapper {
 	 */
 	List<Employee2> selectDeptList(Map<String, Object> data, RowBounds rowBounds);
 
+	/** 팀별 사원 수 조회
+	 * @param data
+	 * @return
+	 */
+	int getTeamListCount(Map<String, Object> data);
+
+	/** 팀별 사원 리스트 조회
+	 * @param data
+	 * @param rowBounds
+	 * @return
+	 */
+	List<Employee2> selectTeamList(Map<String, Object> data, RowBounds rowBounds);
+
 
 }

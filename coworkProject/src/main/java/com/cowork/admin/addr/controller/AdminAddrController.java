@@ -7,14 +7,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.addr.model.service.AdminAddrService;
 import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.employee.addr.model.dto.MyAddr;
+import com.cowork.employee.addr.model.service.AddrService;
 import com.cowork.user.model.dto.Employee2;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,10 +29,12 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("admin/addr")
-@SessionAttributes({"comAddrList"})
+@SessionAttributes({"empDetail", "backPageLocation"})
 public class AdminAddrController {
 	
 	private final AdminAddrService service;
+	
+	private final AddrService addrService;
 	
 	/** 회사 주소록 부서, 팀 조회
 	 * @param request
@@ -42,12 +47,13 @@ public class AdminAddrController {
 	public String adminAddrMain(HttpServletRequest request, 
 							    Model model) {
 		
-		HttpSession session = request.getSession();
-		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
-		
-		List<Department> comAddrList = service.selectComAddrList(loginEmp);
-		
-		model.addAttribute("comAddrList", comAddrList);
+//		// 로그인 할 때 조회해서 sessin scope에 담아서 필요없어짐
+//		HttpSession session = request.getSession();
+//		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+//		
+//		List<Department> comAddrList = service.selectComAddrList(loginEmp);
+//		
+//		model.addAttribute("comAddrList", comAddrList);
 		
 		return "admin/addr/addrBookManager";
 	}
@@ -101,15 +107,68 @@ public class AdminAddrController {
 		return "admin/addr/addrBookManager";
 	}
 	
+	/** 팀별 사원 리스트 조회
+	 * @param request
+	 * @param model
+	 * @param data
+	 * @param cp
+	 * @return
+	 */
+	@GetMapping("teamList")
+	public String teamList(HttpServletRequest request, 
+					       Model model, 
+					       @RequestParam Map<String, Object> data, 
+					       @RequestParam(value="cp", required=false, defaultValue="1") int cp
+					       ) {
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		String[] arr = ((String)data.get("teamNo")).split("/");
+		data.put("deptNo", arr[0]);
+		data.put("teamNo", arr[1]);
+		
+		Map<String, Object> selectTeamList = service.selectTeamList(data, cp);
+		
+		model.addAttribute("pagination", selectTeamList.get("pagination"));
+		model.addAttribute("teamList", selectTeamList.get("teamList"));
+		model.addAttribute("teamNo", data.get("deptNo") + "/" + data.get("teamNo"));
+		
+		return "admin/addr/addrBookManager";
+	}
 	
 	
 	
+	/** 주소록에 등록된 사원 정보 상세 조회
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("employeeDetail")
+	public Employee2 employeeDetail(@RequestBody Map<String, Object> map, 
+									HttpServletRequest request,
+									Model model) {
+		
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		map.put("comNo", loginEmp.getComNo());
+		
+		Employee2 empDetail = addrService.empDetail(map);
+		
+		model.addAttribute("empDetail", empDetail);
+		model.addAttribute("backPageLocation", map.get("backPageLocation"));
+		
+		return empDetail;
+	}
 	
-	
-	@GetMapping("employeeDetail")
+	/** 사원 정보 상세 조회 페이지로 이동
+	 * @return
+	 */
+	@GetMapping("employeeDetailPage")
 	public String employeeDetail() {
 		return "admin/addr/employeeDetail";
 	}
+
+	
 	
 	@GetMapping("employeeUpdate")
 	public String employeeUpdate() {
@@ -118,7 +177,7 @@ public class AdminAddrController {
 	
 	@PostMapping("employeeUpdate")
 	public String employeeUpdate(RedirectAttributes ra) {
-		return "redirect:/admin/addr/employeeDetail";
+		return "redirect:/admin/addr/employeeDetailPage";
 	}
 
 }
