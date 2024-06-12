@@ -104,6 +104,70 @@ public class AdminAddrServiceImpl implements AdminAddrService {
 	@Override
 	public List<Team> getTeamList(Map<String, Object> map) {
 		return mapper.getTeamList2(map);
+	} 
+	
+	// 회사 주소록 CRUD
+	@Override
+	public int insertGroupList(List<List<Map<String, Object>>> data) {
+		// -1 : 그룹이 하나도 없음
+		// -2 : 중복된 이름의 주소록이 있음
+		// 1 : 그룹 저장 성공
+		// 2 : 그룹명 변경 실패
+		// 3 : 그룹 insert 실패
+		// 4 : 그룹 delete 실패
+		
+		// 부서 그룹 삭제
+		String idx = "";
+		log.info("data : " + data.get(0).size());
+		for(int i = 0; i < data.get(0).size(); i++) {
+			
+			log.info("data : " + data.get(0).get(i).get("deptNm"));
+			if(!data.get(0).get(i).get("deptNo").equals("null")) {
+				if(data.get(0).get(i).size() == 1) {
+					idx += "'" + data.get(0).get(i).get("deptNo") + "'";
+					continue;
+				}
+				
+				if(i == data.get(0).size() - 1) {
+					idx += "'" + data.get(0).get(i).get("deptNo") + "'";
+					continue;
+				}
+				idx += "'" + data.get(0).get(i).get("deptNo") + "',";
+			}
+		}
+		log.info("idx : " + idx);
+		// 부서 그룹이 하나 이상 존재할 때
+		if(idx.length() > 0) {
+			if(idx.charAt(idx.length()-1) == ',') {
+				idx = idx.substring(0, idx.length()-1);
+			}
+			
+			Map<String, Object> deleteMap = new HashMap<String, Object>();
+			data.get(0).get(0).put("groupIdx", idx);
+			
+			int deleteResult = mapper.deleteGroup(data.get(0).get(0));
+		} 
+//		if(idx.length() == 0) {
+//			int deleteResult = mapper.deleteAllGroup(data.get(0).get(i));
+//		}
+		
+		
+		// 부서 그룹 삽입 및 수정
+		for(int i = 0; i < data.get(0).size(); i++) {
+			// 기존에 있던 부서 그룹이면 이름만 업데이트
+			// 기존과 같은 이름이면 같은 이름을 업데이트 하므로 변동사항 없음
+			if(!data.get(0).get(i).get("deptNo").equals("null")) {
+				int changeResult = mapper.changeGroupName(data.get(0).get(i));
+//				if(changeResult == 0) {
+//					return 2;
+//				}
+			}
+			if(data.get(0).get(i).get("deptNo").equals("null")) {
+				int insertResult = mapper.insertGroup(data.get(0).get(i));
+			}
+		}
+		
+		return 1;
 	}
 	
 }

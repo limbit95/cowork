@@ -61,7 +61,10 @@
                                                     <i class="fa-solid fa-angle-down"></i>
                                                     <div class="tim" th:data-team-no="|*{deptNo}/${t.teamNo}|">
                                                         <i class="fa-solid fa-people-group"></i>
-                                                        <span th:text="${t.teamNm}"></span>
+                                                        <span th:text="${t.teamNm}" 
+                                                              th:data-team-no="${t.teamNo}" 
+                                                              th:data-dept-no="*{deptNo}" 
+                                                              id="teamNo"></span>
                                                     </div>
                                                 </div>
                                             </li>

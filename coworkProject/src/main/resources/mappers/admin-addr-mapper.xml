@@ -55,7 +55,7 @@
 		JOIN POSITION USING(POSITION_NO)
 		WHERE E.EMP_DEL_FL = 'N'
 		AND E.COM_NO =  #{comNo}
-		ORDER BY "LEVEL" ASC
+		ORDER BY "LEVEL", D.DEPT_NO ASC
 	</select>
 	
 	<!-- 회사별 사원 수 조회 -->
@@ -90,7 +90,7 @@
 		WHERE E.EMP_DEL_FL = 'N'
 		AND E.COM_NO =  #{comNo}
 		AND D.DEPT_NO = #{deptNo}
-		ORDER BY "LEVEL" ASC
+		ORDER BY "LEVEL", TEAM_NO ASC
 	</select>
 	
 	<!-- 팀별 사원 수 조회 -->
@@ -124,5 +124,29 @@
 		WHERE D.DEPT_NO = #{deptNo}
 		AND D.COM_NO = #{comNo}
 	</select>
+	
+	<!-- 기존에 있는 부서 그룹들은 이름만 업데이트 -->
+	<update id="changeGroupName">
+		UPDATE DEPARTMENT SET
+		DEPT_NM = #{deptNm}
+		WHERE COM_NO = #{comNo}
+		AND DEPT_NO = #{deptNo}
+	</update>
+	
+	<!-- 새로운 부서 그룹 INSERT -->
+	<insert id="insertGroup">
+		INSERT INTO DEPARTMENT VALUES(
+			SEQ_DEPARTMENT.NEXTVAL,
+			#{deptNm},
+			#{comNo}
+		)
+	</insert>
+	
+	<!-- 부서 그룹 삭제 -->
+	<delete id="deleteGroup">
+		DELETE FROM DEPARTMENT
+		WHERE COM_NO = #{comNo}
+		AND DEPT_NO NOT IN(${groupIdx})
+	</delete>
 		
 </mapper>
