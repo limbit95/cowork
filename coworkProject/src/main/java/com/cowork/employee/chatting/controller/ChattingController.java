@@ -25,6 +25,7 @@ import com.cowork.employee.chatting.model.dto.Employee;
 import com.cowork.employee.chatting.model.dto.MakeChat;
 import com.cowork.employee.chatting.model.service.ChatService;
 import com.cowork.employee.chatting.model.service.GPTService;
+import com.cowork.user.model.dto.Employee2;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -41,16 +42,16 @@ public class ChattingController {
 	private final GPTService gptService;
 	
 	
-	@GetMapping("/chat/wowns590")
+	@GetMapping("/chat")
 	public String chattingWowns590(HttpServletRequest request) {
-		Employee emp = new Employee();
-		emp.setEmpCode(55);
-		emp.setEmpId("limbit5");
-		emp.setEmpFirstName("임");
-		emp.setEmpLastName("성혁");
-		emp.setComNo(10);		
-		HttpSession session = request.getSession();
-		session.setAttribute("loginEmp", emp);
+//		Employee emp = new Employee();
+//		emp.setEmpCode(55);
+//		emp.setEmpId("limbit5");
+//		emp.setEmpFirstName("임");
+//		emp.setEmpLastName("성혁");
+//		emp.setComNo(10);		
+//		HttpSession session = request.getSession();
+//		session.setAttribute("loginEmp", emp);
 		return "/employee/chatting/chatting";
 	}
 	
@@ -71,11 +72,11 @@ public class ChattingController {
 	/* 이름, 부서, 팀 조회으로 사원조회 */
     @PostMapping("/chat/empList")
     @ResponseBody
-    public List<Employee> empList(@SessionAttribute("loginEmp") Employee loginMember,
+    public List<Employee2> empList(@SessionAttribute("loginEmp") Employee2 loginMember,
     									@RequestBody Map<String, String> paramMap) {
     	String inputData = paramMap.get("inputData");
     	// db 에서 조회해오자. 
-    	List<Employee> empList = chatService.empList(inputData, loginMember.getEmpCode());
+    	List<Employee2> empList = chatService.empList(inputData, loginMember.getEmpCode());
     	return empList;    	
     }
     
@@ -121,7 +122,6 @@ public class ChattingController {
     @ResponseBody
     public List<ChatMessageMe> getChatMessage(@RequestBody Map<String, String> paramMap) {
     	List<ChatMessageMe> messageList = chatService.getChatMessage(paramMap);
-    	
     	for(ChatMessageMe m : messageList) {
     		log.debug("asd={}",m);
     	}
@@ -162,7 +162,7 @@ public class ChattingController {
     		}
     		
     		
-    		Employee findEmp = chatService.insertTextMessage(chatMessage);
+    		Employee2 findEmp = chatService.insertTextMessage(chatMessage);
         	if(findEmp != null) {
         		chatMessage.setProfileImg(findEmp.getProfileImg());
         		chatMessage.setEmpLastName(findEmp.getEmpLastName());

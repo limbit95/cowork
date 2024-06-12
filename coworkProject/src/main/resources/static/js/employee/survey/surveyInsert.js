@@ -468,7 +468,6 @@ findEmpInput.addEventListener('input', function(){
 			
 				let empDiv= document.createElement('div');
 				
-				
 				let empProfileImg = document.createElement('img');
 				empProfileImg.src =  emp.profileImg;
 				empDiv.appendChild(empProfileImg);
@@ -495,20 +494,21 @@ findEmpInput.addEventListener('input', function(){
 				empListDiv.appendChild(empDiv);
 				
 				empDiv.addEventListener('click', function(){
-
-					empCodeList.push(emp.empCode);
-				    alert(empCodeList);
-					alert(emp.empCode);
-					alert(empCodeList);
+						empListDiv.innerHTML = '';
 					
-					console.log(empList);
-					
-					
-					let empNicknameDiv = this.children[1];
-					
-					let selectedEmpList = document.querySelector('#selectedEmpList');
-					selectedEmpList.appendChild(empNicknameDiv);
-					
+						empCodeList.push(emp.empCode);
+						
+						console.log(empList);
+						
+						let empNicknameDiv = this.children[1];
+					    empNicknameDiv.style.border = '1px solid #3667A6';
+					    empNicknameDiv.style.display = 'inline';
+					    empNicknameDiv.style.padding = '5px';
+					    empNicknameDiv.style.borderRadius = '5px';
+						
+						let selectedEmpList = document.querySelector('#selectedEmpList');
+						selectedEmpList.appendChild(empNicknameDiv);
+						
 				})
 				
 				
@@ -516,7 +516,10 @@ findEmpInput.addEventListener('input', function(){
 	})		
 })
 
-alert(empCodeList);
+document.querySelector('#entire').addEventListener('click',  function(){
+	// 대상 중 전체를 누른 경우, 
+	// 1. 직급과 관련된 거 
+})
 
 
 
