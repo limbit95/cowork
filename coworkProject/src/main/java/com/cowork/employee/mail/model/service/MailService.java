@@ -18,4 +18,16 @@ public interface MailService {
 	 */
 	int mailDetail(int mailNo);
 
+	/** 전체 메일 개수 조회 
+	 * @param empCode
+	 * @return
+	 */
+	int mailCount(int empCode);
+
+	/** 안 읽은 메일 개수 조회 
+	 * @param empCode
+	 * @return
+	 */
+	int noReadCount(int empCode);
+
 }

@@ -23,6 +23,8 @@ public class Mail {
 	private String mailFlag; 
 	private int empCode; 
 	private String readFl; //확인 여부 
+	private int noReadCount; // 안읽은 메일 개수 
+	private int mailCount; //전체메일개수 
 	
 	private int recipientNo; 
 	private String sender; // 보낸 사람 이름

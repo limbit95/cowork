@@ -33,4 +33,18 @@ public class MailServiceImpl implements MailService {
 		return mapper.mailDetail(mailNo);
 	}
 
+	// 전체 메일 개수 조회 
+	@Override
+	public int mailCount(int empCode) {
+		
+		return mapper.mailCount(empCode);
+	}
+
+	// 안 읽은 메일 개수 조회 
+	@Override
+	public int noReadCount(int empCode) {
+		
+		return mapper.noReadCount(empCode);
+	}
+
 }

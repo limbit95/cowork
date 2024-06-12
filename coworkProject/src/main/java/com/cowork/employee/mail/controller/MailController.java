@@ -37,9 +37,18 @@ public class MailController {
 		int empCode = loginEmp.getEmpCode(); 
 		
 		List<Mail> mailList = service.mailList(empCode); 
+		// 전체 메일 개수 
+		int mailCount = service.mailCount(empCode); 
+		// 안읽은 메일 개수 
+		int noReadCount = service.noReadCount(empCode); 
 		
 		model.addAttribute("mail", mailList); 
 		model.addAttribute("empCode", empCode); 
+		model.addAttribute("mailCount", mailCount); 
+		model.addAttribute("noReadCount", noReadCount); 
+		
+		log.info("mailCount" + mailCount);
+		log.info("noReadCount" + noReadCount);
 		
 		return "employee/mail/mailList";
 	}
@@ -96,11 +105,13 @@ public class MailController {
 	public int mailDetail(	@PathVariable("mailNo") int mailNo,
 								@SessionAttribute("loginEmp") Employee2 loginEmp,
 								Mail mail) {
+		log.info("mailNo는? : " + mailNo);
+		
 		int EmpCode = loginEmp.getEmpCode(); 
 		
 		int result = service.mailDetail(mailNo); 
 		
 		
-		return 0;
+		return result;
 	}
 } 

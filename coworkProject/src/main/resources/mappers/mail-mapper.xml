@@ -8,7 +8,7 @@
 		    M.MAIL_NO,
 		    M.MAIL_TITLE,
 		    M.MAIL_CONTENT,
-		    M.MAIL_WRITE_DATE,
+		    TO_CHAR(M.MAIL_WRITE_DATE, 'YY-MM-DD HH24:MI') AS MAIL_WRITE_DATE,
 		    M.MAIL_FLAG,
 		    M.EMP_CODE AS SENDER_EMP_CODE, 
 		    SENDER.EMP_ID AS senderMail,
@@ -39,6 +39,22 @@
 		    (R.EMP_CODE = #{empCode} OR M.EMP_CODE = #{empCode})
 		ORDER BY 
 		    M.MAIL_WRITE_DATE DESC
+	</select>
+	
+	<!-- 메일 개수 조회 -->
+	<select id="mailCount">
+	    SELECT NVL(COUNT(*), 0)
+	    FROM MAIL M
+	    LEFT JOIN RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
+	    WHERE (M.EMP_CODE = #{empCode} OR R.EMP_CODE = #{empCode})
+	</select>
+	
+	<!--  안 읽은 메일 개수 조회 -->
+	<select id="noReadCount">
+	    SELECT NVL(SUM(CASE WHEN READ_FL = '1' THEN 1 ELSE 0 END), 0)
+	    FROM MAIL M
+	    LEFT JOIN RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
+	    WHERE (M.EMP_CODE = #{empCode} OR R.EMP_CODE = #{empCode})
 	</select>
 	
 	<!-- 메일 상세 조회 -->
