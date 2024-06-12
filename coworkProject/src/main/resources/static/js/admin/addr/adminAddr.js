@@ -313,59 +313,52 @@ window.addEventListener("click", function hideContextMenu(event) {
     }
 });
 
-
+// ---------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
 // 구성원 row 클릭 시
 const info = document.querySelectorAll(".info");
-const employee = document.querySelectorAll(".employee");
-
-// 구성원 정보 상세 조회
-const employeeDetail = document.querySelector(".employeeDetail");
 // 이전으로 돌아가기 버튼
 const backPage = document.querySelector("#backPage");
+
+info.forEach((i) => {
+    i.addEventListener("click", e => {
+        const obj = {
+            "empCode" : i.children[5].value,
+            "backPageLocation" : location.pathname + location.search
+        }
+
+        fetch("/admin/addr/employeeDetail", {
+            method : "post",
+            headers : {"Content-Type" : "application/json"},
+            body : JSON.stringify(obj)
+        })
+        .then(resp => resp.text())
+        .then(result => {
+            if(result == "") {
+                alert("사원 정보가 존재하지 않습니다.");
+                return;
+            }
+            location.href = '/admin/addr/employeeDetailPage';
+        });
+    })
+});
+
+if(backPage != null) {
+    backPage.addEventListener("click", function () {
+        location.href = backPageLocation;
+    });
+};
+
+// ---------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
 // 구성원 수정 페이지 이동 버튼
 const updateEmployeePage = document.querySelector("#updateEmployeePage");
 // 구성원 수정 페이지에서 취소 버튼
 const cancel = document.querySelector("#cancel");
 // 구성원 삭제 버튼
 const deleteEmployee = document.querySelector("#deleteEmployee");
-
-// 클릭 시 선택했다는 표시로 employee 영역 배경색 변경 효과
-// function clickOtherEmployee() {
-//     for (let i = 0; i < employee.length; i++) {
-//         employee[i].style.backgroundColor = "white";
-//         employee[i].style.cursor = "auto";
-//     }
-// }
-
-// for(let i = 0; i < employee.length; i++){
-//     info[i].addEventListener("click", e => {
-//         clickOtherEmployee();
-//         if(employee[i].style.backgroundColor == "white"){
-//             employee[i].style.backgroundColor = "var(--main4-color)";
-//             employee[i].style.cursor = "pointer";
-//         }
-//     })
-// }
-
-// info.forEach((i) => {
-//     i.addEventListener("click", e => {
-//         right.style.display = "none";
-//         employeeDetail.style.display = "flex";
-//     })
-// })
-
-info.forEach((i) => {
-    i.addEventListener("click", e => {
-        location.href = "/admin/addr/employeeDetail";
-    })
-})
-
-if(backPage != null) {
-    backPage.addEventListener("click", function () {
-        location.href = "/admin/addr";
-    });
-}
 
 if(updateEmployeePage != null) {
     updateEmployeePage.addEventListener("click", function () {
@@ -375,7 +368,7 @@ if(updateEmployeePage != null) {
 
 if(cancel != null) {
     cancel.addEventListener("click", function () {
-        location.href = "/admin/addr/employeeDetail";
+        location.href = "/admin/addr/employeeDetailPage";
     });
 }
 

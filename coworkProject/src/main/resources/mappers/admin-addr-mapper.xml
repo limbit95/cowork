@@ -92,5 +92,28 @@
 		AND D.DEPT_NO = #{deptNo}
 		ORDER BY "LEVEL" ASC
 	</select>
+	
+	<!-- 팀별 사원 수 조회 -->
+	<select id="getTeamListCount">
+		SELECT COUNT(*)
+		FROM TEAM T
+		JOIN EMPLOYEE E ON(E.TEAM_NO = T.TEAM_NO)
+		JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		WHERE T.TEAM_NO = #{teamNo}
+		AND D.DEPT_NO = #{deptNo}
+	</select>
+	
+	<!-- 팀별 사원 리스트 조회 -->
+	<select id="selectTeamList">
+		SELECT EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_EMAIL, 
+		DEPT_NM, TEAM_NM, POSITION_NM, "LEVEL"
+		FROM TEAM T
+		JOIN EMPLOYEE E ON(E.TEAM_NO = T.TEAM_NO)
+		JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		JOIN POSITION USING(POSITION_NO)
+		WHERE T.TEAM_NO = #{teamNo}
+		AND D.DEPT_NO = #{deptNo}
+		ORDER BY "LEVEL" ASC
+	</select>
 		
 </mapper>

@@ -2,6 +2,7 @@ package com.cowork.user.controller;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cowork.admin.addr.model.service.AdminAddrService;
 import com.cowork.admin.companyInfo.model.dto.Company;
+import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.email.model.service.EmailService;
 import com.cowork.user.model.dto.Employee2;
 import com.cowork.user.model.service.UserService;
@@ -27,13 +30,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@SessionAttributes({"loginEmp"})
+@SessionAttributes({"loginEmp", "comAddrList"})
 @RequestMapping("user")
 public class UserController {
 
 	private final UserService service;
 	
 	private final EmailService emailService;
+	
+	private final AdminAddrService adminAddrService;
 	
 	@Value("${my.public.data.service.key.decode}")
 	private String decodeServiceKey;
@@ -184,6 +189,9 @@ public class UserController {
 			return "redirect:/user/companyInfo";
 		}
 		
+		List<Department> comAddrList = adminAddrService.selectComAddrList(loginEmp);
+		model.addAttribute("comAddrList", comAddrList);
+		
 		model.addAttribute("loginEmp", loginEmp);
 		ra.addFlashAttribute("message", loginEmp.getEmpLastName() + loginEmp.getEmpFirstName() + "님 환영합니다.");
 
@@ -276,6 +284,10 @@ public class UserController {
 							 RedirectAttributes ra,
 							 Model model) {
 		Employee2 loginEmp = service.quickLogin(empId);
+		
+		List<Department> comAddrList = adminAddrService.selectComAddrList(loginEmp);
+		model.addAttribute("comAddrList", comAddrList);
+		
 		model.addAttribute("loginEmp", loginEmp);
 		ra.addFlashAttribute("message", loginEmp.getEmpLastName() + loginEmp.getEmpFirstName() + "님 환영합니다.");
 		return "redirect:/userMain";

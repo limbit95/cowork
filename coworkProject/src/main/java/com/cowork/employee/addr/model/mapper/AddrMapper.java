@@ -85,4 +85,12 @@ public interface AddrMapper {
 	 */
 	int deleteAddr(Map<String, String> map);
 
+	/** 기존 삭제 로직의 요건인 not in 에 들어갈 그룹 식별키가 넘어오지 않아
+	 * 그룹이 하나만 남아있을 때는 삭제 기능 수행이 되지 않으므로
+	 * 그룹이 하나만 남아있을 때 해당 그 그룹을 삭제시 로그인 회원의 주소록 전부 다 비우기 로직을 추가함
+	 * @param loginEmpCode
+	 * @return
+	 */
+	int deleteAllGroup(String loginEmpCode);
+
 }

@@ -17,44 +17,47 @@ const subBtnDiv = document.querySelector(".subBtnDiv");
 
 if(wholeCheck != null) {
     wholeCheck.addEventListener("change", e => {
-        if(wholeCheck.getAttribute("class") == "mine") {
-            if(check.length == 0){
-                return;
+        if(check[0] != null){
+            if(check[0].getAttribute("class") == "mine") {
+                if(check.length == 0){
+                    return;
+                }
+                if(wholeCheck.checked == true){
+                    check.forEach((i) => {
+                        i.checked = true;
+                    })
+                    subBtnDiv.children[1].style.display = "block"
+                    return;
+                }
+                if(wholeCheck.checked == false){
+                    check.forEach((i) => {
+                        i.checked = false;
+                    })
+                    subBtnDiv.children[1].style.display = "none"
+                    return;
+                }
             }
-            if(wholeCheck.checked == true){
-                check.forEach((i) => {
-                    i.checked = true;
-                })
-                subBtnDiv.children[1].style.display = "block"
-                return;
-            }
-            if(wholeCheck.checked == false){
-                check.forEach((i) => {
-                    i.checked = false;
-                })
-                subBtnDiv.children[1].style.display = "none"
-                return;
+    
+            if(check[0].getAttribute("class") == "notMine") {
+                if(check.length == 0){
+                    return;
+                }
+                if(wholeCheck.checked == true){
+                    check.forEach((i) => {
+                        i.checked = true;
+                    })
+                    subBtnDiv.children[0].style.display = "block"
+                    return;
+                }
+                if(wholeCheck.checked == false){
+                    check.forEach((i) => {
+                        i.checked = false;
+                    })
+                    subBtnDiv.children[0].style.display = "none"
+                    return;
+                }
             }
         }
-        // if(check.length == 0){
-        //     return;
-        // }
-        // if(wholeCheck.checked == true){
-        //     check.forEach((i) => {
-        //         i.checked = true;
-        //     })
-        //     subBtnDiv.children[0].style.display = "block"
-        //     // subBtnDiv.children[1].style.display = "block"
-        //     return;
-        // }
-        // if(wholeCheck.checked == false){
-        //     check.forEach((i) => {
-        //         i.checked = false;
-        //     })
-        //     subBtnDiv.children[0].style.display = "none"
-        //     // subBtnDiv.children[1].style.display = "none"
-        //     return;
-        // }
     });
 }
 
@@ -77,26 +80,62 @@ if(check != null) {
                 }
             }
 
-            // if(anyCheckboxChecked()){
-            //     subBtnDiv.children[0].style.display = "none"
-            //     // subBtnDiv.children[1].style.display = "none"
-            //     wholeCheck.checked = false;
-            //     return;
-            // }
-            // if(wholeCheck.checked == true){return;}
-            // if(i.checked == true){
-            //     subBtnDiv.children[0].style.display = "block"
-            //     // subBtnDiv.children[1].style.display = "block"
-            //     return;
-            // }
-            // if(anyCheckboxChecked()){
-            //     subBtnDiv.children[0].style.display = "none"
-            //     // subBtnDiv.children[1].style.display = "none"
-            // }
+            if(i.getAttribute("class") == "notMine") {
+                if(anyCheckboxChecked()){
+                    subBtnDiv.children[0].style.display = "none"
+                    wholeCheck.checked = false;
+                    return;
+                }
+                if(wholeCheck.checked == true){return;}
+                if(i.checked == true){
+                    subBtnDiv.children[0].style.display = "block"
+                    return;
+                }
+                if(anyCheckboxChecked()){
+                    subBtnDiv.children[0].style.display = "none"
+                }
+            }
         })
     })
 }
+ 
+// ---------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------
+// 주소록 추가
+const addToMyAddr = document.querySelector("#addToMyAddr");
 
+if(addToMyAddr != null) {
+    addToMyAddr.addEventListener("click", e => {
+
+
+
+        const obj = [];
+
+        check.forEach((i) => {
+            if(i.checked == true) {
+                obj.push({ "empCode" : i.parentElement.nextElementSibling.children[5].value, "groupCode" : groupCode })
+            }
+        });
+
+        // fetch("/employee/addr/addToMyAddr", {
+        //     method : "post",
+        //     headers : {"Content-Type" : "application/json"},
+        //     body : JSON.stringify(obj)
+        // })
+        // .then(resp => resp.text())
+        // .then(result => {
+        //     if(result == 0){
+        //         alert("삭제 실패");
+        //         return;
+        //     }
+        //     alert("삭제되었습니다.");
+        //     location.href = '/employee/addr?groupCode=' + groupCode;
+        // });
+    });
+}
+
+// 주소록 삭제
 const deleteToMyAddr = document.querySelector("#deleteToMyAddr");
 
 if(deleteToMyAddr != null) {
@@ -144,14 +183,30 @@ document.querySelectorAll('.li-hover').forEach(item => {
     item.children[1].addEventListener('click', event => {
         const className = item.children[1].getAttribute("class");
 
+        // 그룹명 변경하는 주소록 클릭시 조회 방지
         if(className == null || item.children[1].children[1].getAttribute("class") === "default-line openInput") {
             return;
         }
+
+        // 개인 주소록
         if(className.includes('personal')){
             location.href = '/employee/addr?groupName=' + item.children[1].dataset.addrName;
         }
         if(className.includes('myAll')){
             location.href = '/employee/addr';
+        }
+
+        // 회사 주소록
+        if(className.includes('tim')){
+            console.log(item.children[1].dataset.teamNo);
+            location.href = '/employee/addr/teamList?teamNo=' + item.children[1].dataset.teamNo;
+        }
+        if(className.includes('dept')){
+            console.log(item.children[1].dataset.deptNo);
+            location.href = '/employee/addr/deptList?deptNo=' + item.children[1].dataset.deptNo;
+        }
+        if(className.includes('comp')){
+            location.href = '/employee/addr/comList';
         }
         
     });
@@ -372,18 +427,14 @@ window.addEventListener("click", function hideContextMenu(event) {
 // ---------------------------------------------------------------------------------------------------------------
 // 구성원 row 클릭 시
 const info = document.querySelectorAll(".info");
-const employee = document.querySelectorAll(".employee");
-
-// 구성원 정보 상세 조회
-const employeeDetail = document.querySelector(".employeeDetail");
 // 이전으로 돌아가기 버튼
 const backPage = document.querySelector("#backPage");
 
 info.forEach((i) => {
     i.addEventListener("click", e => {
-        // location.href = "/employee/addr/employeeDetail";
         const obj = {
-            "empCode" : i.children[5].value
+            "empCode" : i.children[5].value,
+            "backPageLocation" : location.pathname + location.search
         }
 
         fetch("/employee/addr/employeeDetail", {
@@ -404,7 +455,7 @@ info.forEach((i) => {
 
 if(backPage != null) {
     backPage.addEventListener("click", function () {
-        location.href = "/employee/addr";
+        location.href = backPageLocation;
     });
 };
 

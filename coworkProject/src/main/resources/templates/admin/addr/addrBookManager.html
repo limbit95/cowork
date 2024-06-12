@@ -59,7 +59,7 @@
                                             <li class="team" th:each="t : *{teamList}">
                                                 <div class="li-hover"> 
                                                     <i class="fa-solid fa-angle-down"></i>
-                                                    <div class="tim" th:data-team-no="${t.teamNo}">
+                                                    <div class="tim" th:data-team-no="|*{deptNo}/${t.teamNo}|">
                                                         <i class="fa-solid fa-people-group"></i>
                                                         <span th:text="${t.teamNm}"></span>
                                                     </div>
@@ -73,53 +73,6 @@
                                 </li>
                                 
                             </th:block>
-
-                            
-                            <!-- <li class="department">
-                                
-                                <div class="li-hover">
-                                    <i class="fa-solid fa-angle-down"></i>
-                                    <div>
-                                        <i class="fa-solid fa-network-wired"></i>
-                                        <span>재무부</span>
-                                    </div>
-                                </div>
-
-                                <ul>
-                                    
-                                    <li class="team">
-                                        <div class="li-hover">
-                                            <i class="fa-solid fa-angle-down"></i>
-                                            <div>
-                                                <i class="fa-solid fa-people-group"></i>
-                                                <span>재무 기획팀</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
-                                    <li class="team">
-                                        <div class="li-hover">
-                                            <i class="fa-solid fa-angle-down"></i>
-                                            <div>
-                                                <i class="fa-solid fa-people-group"></i>
-                                                <span>재무 분석팀</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
-                                    <li class="team">
-                                        <div class="li-hover">
-                                            <i class="fa-solid fa-angle-down"></i>
-                                            <div>
-                                                <i class="fa-solid fa-people-group"></i>
-                                                <span>투자 관리팀</span>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                </ul>
-
-                            </li> -->
 
                         </ul>
 
@@ -168,6 +121,7 @@
                                 <div><span th:text="*{positionNm}">팀장</span></div>
                                 <div><span th:text="*{empEmail}">park@naver.com</span></div>
                                 <div><span th:text="*{phone}">010-1234-1234</span></div>
+                                <input hidden th:value="*{empCode}" id="empCode">
                             </div>
                         </div>
                     </th:block>
@@ -182,6 +136,22 @@
                                 <div><span th:text="*{positionNm}">팀장</span></div>
                                 <div><span th:text="*{empEmail}">park@naver.com</span></div>
                                 <div><span th:text="*{phone}">010-1234-1234</span></div>
+                                <input hidden th:value="*{empCode}" id="empCode">
+                            </div>
+                        </div>
+                    </th:block>
+
+                    <!-- 팀별 조회 -->
+                    <th:block th:if="${teamList}" th:each="emp : ${teamList}" th:object="${emp}">
+                        <div class="employee">
+                            <div><input id="check" type="checkbox" class="mine"></div>
+                            <div class="info">
+                                <div><span th:text="|*{deptNm} / *{teamNm}|">운영팀</span></div>
+                                <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
+                                <div><span th:text="*{positionNm}">팀장</span></div>
+                                <div><span th:text="*{empEmail}">park@naver.com</span></div>
+                                <div><span th:text="*{phone}">010-1234-1234</span></div>
+                                <input hidden th:value="*{empCode}" id="empCode">
                             </div>
                         </div>
                     </th:block>
@@ -256,7 +226,39 @@
                             <li><a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=*{maxPage})}">&gt;&gt;</a></li>
                         </ul>
                     </th:block>
-                    
+
+                    <!-- 팀별 조회 -->
+                    <th:block th:if="${teamList}">
+                        <ul class="pagination" th:if="${pagination}" th:object="${pagination}">
+                            <!-- 첫 페이지로 이동 -->
+                            <li><a th:href="@{/admin/addr/teamList(teamNo=${teamNo}, cp=1)}">&lt;&lt;</a></li>
+        
+                            <!-- 이전 목록 마지막 번호로 이동 -->
+                            <li><a th:href="@{/admin/addr/teamList(teamNo=${teamNo}, cp=*{prevPage})}">&lt;</a></li>
+        
+                            <!-- 특정 페이지로 이동 -->
+                            <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+                                
+                            <!-- 현재 보고있는 페이지 -->
+                                <li th:if="${i} == *{currentPage}">
+                                    <a class="current" th:text="${i}">1</a>
+                                </li>
+                                
+                                <!-- 보고있지 않은 페이지 -->
+                                <li th:unless="${i} == *{currentPage}">
+                                    <a th:href="@{/admin/addr/teamList(teamNo=${teamNo}, cp=${i})}" 
+                                       th:text="${i}">2</a>
+                                </li>
+        
+                            </th:block>
+        
+                            <!-- 다음 목록 시작 번호로 이동 -->
+                            <li><a th:href="@{/admin/addr/teamList(teamNo=${teamNo}, cp=*{nextPage})}">&gt;</a></li>
+        
+                            <!-- 끝 페이지로 이동 -->
+                            <li><a th:href="@{/admin/addr/teamList(teamNo=${teamNo}, cp=*{maxPage})}">&gt;&gt;</a></li>
+                        </ul>
+                    </th:block>
                     
                 </div>
 

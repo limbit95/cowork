@@ -90,14 +90,17 @@ public class AddrServiceImpl implements AddrService {
 		// 1 : 그룹 저장 성공
 		// 2 : 그룹명 변경 실패
 		// 3 : 그룹 insert 실패
+		// 4 : 그룹 delete 실패
 		
-		if(map.size() == 0) {
-			return -1;
-		}
+//		if(map.size() == 0) {
+//			return -1;
+//		}
+		
+		// 그룹명 중복 검사
 		for(int i = 0; i < map.size(); i++) {
 			if(map.get(i).get("addrBookNo").equals("null")) {
 				int checkAddrName = mapper.checkAddrName(map.get(i));
-				
+
 				if(checkAddrName > 0) {
 					return -2;
 				}
@@ -106,8 +109,15 @@ public class AddrServiceImpl implements AddrService {
 		
 		String idx = "";
 		
+		log.info("map : " + map);
+		
 		for(int i = 0; i < map.size(); i++) {
 			if(!map.get(i).get("addrBookNo").equals("null")) {
+				if(map.size() == 1) {
+					idx += "'" + map.get(i).get("addrBookNo") + "'";
+					break;
+				}
+				
 				if(i == map.size() - 1) {
 					idx += "'" + map.get(i).get("addrBookNo") + "'";
 					break;
@@ -116,17 +126,24 @@ public class AddrServiceImpl implements AddrService {
 			}
 		}
 		
-		if(idx.charAt(idx.length()-1) == ',') {
-			idx = idx.substring(0, idx.length()-1);
+		// 그룹 주소록이 하나 이상 존재할 때
+		if(idx.length() > 0) {
+			if(idx.charAt(idx.length()-1) == ',') {
+				idx = idx.substring(0, idx.length()-1);
+				log.info("idx : " + idx);
+			}
+			
 			log.info("idx : " + idx);
+			Map<String, Object> deleteMap = new HashMap<String, Object>();
+			deleteMap.put("groupIdx", idx);
+			deleteMap.put("loginEmpCode", loginEmpCode);
+			
+			int deleteResult = mapper.deleteGroup(deleteMap);
+		} 
+		if(idx.length() == 0) {
+			int deleteResult = mapper.deleteAllGroup(loginEmpCode);
 		}
 		
-		log.info("idx : " + idx);
-		Map<String, Object> deleteMap = new HashMap<String, Object>();
-		deleteMap.put("groupIdx", idx);
-		deleteMap.put("loginEmpCode", loginEmpCode);
-		
-		int deleteResult = mapper.deleteGroup(deleteMap);
 		
 		for(int i = 0; i < map.size(); i++) {
 			// DB에 있는 주소록은 수정되었을 수도 있는 이름만 변경
