@@ -608,7 +608,7 @@ public class TodoServiceImpl implements TodoService{
         List<TodoFile> existingFiles = mapper.todoFiles(todoNo);
 
         // 삭제할 파일 처리
-        if (deleteOrder != null && !deleteOrder.isEmpty()) {
+   /*     if (deleteOrder != null && !deleteOrder.isEmpty()) {
             List<Integer> deleteFileOrders = Arrays.stream(deleteOrder.split(","))
                     .map(Integer::parseInt)
                     .collect(Collectors.toList());
@@ -617,58 +617,90 @@ public class TodoServiceImpl implements TodoService{
                     mapper.deleteTodoFile(file.getFileNo());
                 }
             }
+        } */
+        
+        if(deleteOrder != null && !deleteOrder.equals("")) {
+        	Map<String, Object> map = new HashMap<>(); 
+        	
+        	map.put("deleteOrder", deleteOrder); 
+        	map.put("todoNo", todoNo); 
+        	
+        	result = mapper.deleteFiles(map); 
+        	
+        	if(result == 0) throw new TodoDeleteException(); 
+             
+             if(updateOrder != null && !updateOrder.equals("")) {
+            	 
+            	 String[] updateArr = updateOrder.split(","); 
+            	 
+            	 for(int i=0; i<updateArr.length; i++) {
+            		 TodoFile updateFile = TodoFile.builder()
+ 							.fileOrder(i)
+ 							.todoNo(todoNo)
+ 							.updateFileOrder(updateArr[i])
+ 							.build();
+            		 
+            		 result = mapper.fileOrderUpdate(updateFile); 
+            	 }
+             }
+        	
         }
-
+             
         // 새로운 파일 업로드 처리
         if (files != null && !files.isEmpty()) {
         	
             List<TodoFile> uploadList = new ArrayList<>();
             
-            for (int i = 0; i < files.size(); i++) {
-                MultipartFile multipartFile = files.get(i);
-                if (!multipartFile.isEmpty()) {
-                    String originalName = multipartFile.getOriginalFilename();
-                    long fileSize = multipartFile.getSize();
-
-                    boolean isDuplicate = existingFiles.stream().anyMatch(f -> 
-                        f.getFileOriginName().equals(originalName) && f.getFileSize() == fileSize);
-
-                    if (!isDuplicate) {
-                        String rename = Utility.fileRename(originalName);
-                        TodoFile todoFile = TodoFile.builder()
-                                .fileOriginName(originalName)
-                                .fileRename(rename)
-                                .filePath(webPath)
-                                .todoNo(todoNo)
-                                .fileOrder(i)
-                                .uploadFile(multipartFile)
-                                .fileSize(fileSize)  // 추가된 필드
-                                .build();
-
-                        uploadList.add(todoFile);
-                    }
-                }
+            int fileOrder = 0; 
+            
+            String[] updateArr = null; 
+            
+            if(updateOrder != null && updateOrder.equals("")) {
+            	updateArr = updateOrder.split(",");
+            	fileOrder = updateArr.length; 
             }
             
+            for (int i = 0; i < files.size(); i++) {
+            	
+            	if(updateOrder != null ) fileOrder +=1; 
+            	else fileOrder = i;
+            	
+            	if(!files.get(i).isEmpty()) {
+            	String originalName = files.get(i).getOriginalFilename(); // 원본명
+				String rename = Utility.fileRename(originalName);
+				
+				TodoFile file = TodoFile.builder()
+						.filePath(webPath)
+						.fileOriginName(originalName)
+						.fileRename(rename)
+						.fileOrder(fileOrder)
+						.todoNo(todoNo)
+						.uploadFile(files.get(i))
+						.build();
+				uploadList.add(file);
+		}
+	}
+                
+                if(uploadList.isEmpty()) return todoNo; 
+                
+                result = mapper.insertUploadList(uploadList); 
 
-            if (!uploadList.isEmpty()) {
-                result = mapper.updateUploadList(uploadList);
-                if (result != uploadList.size()) {
-                    throw new IOException("파일 업로드 실패");
-                }
-                for (TodoFile file : uploadList) {
-                    files.get(file.getFileOrder()).transferTo(new File(folderPath + file.getFileRename()));
+                if(result == uploadList.size()) {
+                	for(TodoFile file : uploadList) {
+                		file.getUploadFile().transferTo(new File(folderPath + file.getFileRename()));
+                	}
+                } else {
+                	throw new TodoInsertException("파일 업로드 중 예외 발생"); 
                 }
             }
-        }
-
-        return result;
         
+        return result;
         
 	}	
 	
 
 }
+	
 
 
 
