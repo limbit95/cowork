@@ -355,16 +355,8 @@
     
     <insert id="updateUploadList" parameterType="list">
     INSERT INTO TODO_FILE
-		<foreach collection="list" item="file" 
-			open="(" close=")" separator=" UNION ">
-			 SELECT NEXT_TODO_FILE_NO() 
-				,#{file.filePath}
-				,#{file.fileOriginName}
-				,#{file.fileRename}
-				,SYSDATE
-				,#{file.fileOrder}
-				,#{file.todoNo}
-			FROM DUAL	
+     <foreach collection="list" item="file" separator=",">
+            SELECT SEQ_TODO_FILE.NEXTVAL, #{file.fileOriginName}, #{file.fileRename}, #{file.filePath}, #{todoNo}, #{file.fileOrder} FROM DUAL
 		</foreach>
     </insert>
     

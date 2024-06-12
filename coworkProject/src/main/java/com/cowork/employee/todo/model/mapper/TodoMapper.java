@@ -154,7 +154,7 @@ public interface TodoMapper {
 	 * @param todoFile
 	 * @return
 	 */
-///	int updateUploadList(TodoFile todoFile);
+	int updateUploadList(TodoFile todoFile);
 
 	void deleteTodoFile(int fileNo);
 

@@ -1,3 +1,5 @@
+let orderFileList;
+
 document.addEventListener('DOMContentLoaded', () => {
     initialize();
 });
@@ -5,12 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
 function initialize() {
     // 등록하기 버튼 클릭시 
     document.getElementById('insertBtn').addEventListener('click', toggleInsertForm);
+   // document.getElementById('todoUpdateForm').addEventListener('submit',invalidateUpdateForm); 
+    document.getElementById('todoInsertForm').addEventListener('submit',invalidateInsertForm); 
+    document.getElementById('updateBtn').addEventListener('click', handleFormSubmit);
     // 파일 업로드 관련 
     document.querySelector('#uploadFile + .uploadFileLabel').addEventListener('click', () => document.getElementById('uploadFile').click());
     document.getElementById('uploadFile').addEventListener('change', handleFileUpload);
     document.querySelector('#detailUploadFile + .uploadFileLabel').addEventListener('click', () => document.getElementById('detailUploadFile').click());
     document.getElementById('detailUploadFile').addEventListener('change', handleFileUpload);
-    document.getElementById('updateBtn').addEventListener('click', handleFormSubmit);
+    
     // 내 할 일
     document.getElementById('meInCharge').querySelector('a').addEventListener('click', handleMeInChargeClick);
     // 내가 요청한 
@@ -33,10 +38,6 @@ function initialize() {
     });
     window.addEventListener('resize', positionModalAboveButton);
     window.addEventListener('scroll', positionModalAboveButton);
-
-    document.getElementById('todoUpdateForm').addEventListener('submit',invalidateUpdateForm); 
-    document.getElementById('todoInsertForm').addEventListener('submit',invalidateInsertForm); 
-    
     // 처음 페이지 로드했을 때 
     fetchInitialTodos();
 }
@@ -206,6 +207,30 @@ function addEventListeners() {
     });
 }
 
+// 수정 폼 제출 막기 
+function invalidateUpdateForm(e) {
+    let inChargeEmp = document.querySelector('#todoUpdateForm input[name="inChargeEmp"]').value.trim(); 
+    let todoTitle = document.querySelector('#todoUpdateForm input[name="todoTitle"]').value.trim(); 
+    let todoContent = document.querySelector('#todoUpdateForm textarea[name="todoContent"]').value.trim(); 
+
+    if(inChargeEmp === "" || todoTitle === "" || todoContent === "") {
+        alert("담당자, 요청 제목, 요청 내용은 모두 입력해주세요."); 
+        e.preventDefault(); 
+    }
+}
+
+// 등록 폼 제출 막기 
+function invalidateInsertForm(e) {
+    let inChargeEmp = document.querySelector('#todoInsertForm input[name="inChargeEmp"]').value.trim(); 
+    let todoTitle = document.querySelector('#todoInsertForm input[name="todoTitle"]').value.trim(); 
+    let todoContent = document.querySelector('#todoInsertForm textarea[name="todoContent"]').value.trim(); 
+
+    if(inChargeEmp === "" || todoTitle === "" || todoContent === "") {
+        alert("담당자, 요청 제목, 요청 내용은 모두 입력해주세요."); 
+        e.preventDefault(); 
+    }
+}
+
 
 // 등록하기 
 function toggleInsertForm(e) {
@@ -230,17 +255,17 @@ let newFiles = [];
 let deleteOrder = new Set();
 let updateOrder = new Set();
 let formData = new FormData();
-let todoFileList = []; // 기존 파일 목록
+
 
 // 파일 업로드 
 function handleFileUpload(event) {
-    const fileList = event.target.id === 'uploadFile' ? document.getElementById('fileList') : document.getElementById('detailFileList');
+    const fileList = document.getElementById('fileList');
     const files = Array.from(event.target.files);
 
     const noFileLi = fileList.querySelector('li');
     if (noFileLi && noFileLi.textContent === '첨부파일 없음') {
         fileList.removeChild(noFileLi);
-    }
+    } 
 
     files.forEach(file => {
         if (!newFiles.some(f => f.name === file.name && f.lastModified === file.lastModified)) {
@@ -304,12 +329,29 @@ function handleFileUpload(event) {
 }
 
 function handleFormSubmit(e) {
-    e.preventDefault();
+    e.preventDefault(); // 폼 제출 기본 동작 막기
+
+    if (invalidateUpdateForm()) {
+        document.getElementById('todoUpdateForm').submit(); // 폼이 유효하면 제출
+    }
+
     const clone = new FormData(document.getElementById('todoUpdateForm'));
 
-    for (let file of todoFileList) {
-        if (!deleteOrder.has(file.fileOrder)) {
-            updateOrder.add(file.fileOrder);
+    for (let file of orderFileList) {
+        let isToDelete = false;
+    
+        if (deleteOrder.size > 0) {
+            for (const order of deleteOrder) {
+
+                if (order == file.fileOrder) {
+                    isToDelete = true;
+                    break; 
+                }
+            }
+        }
+    
+        if (!isToDelete) {
+            updateOrder.add(file.fileOrder); // deleteOrder 배열에 포함되지 않은 경우에만 updateOrder에 추가
         }
     }
 
@@ -348,6 +390,8 @@ function handleFormSubmit(e) {
         console.error('Error during form submission:', error);
     });
 }
+
+/*
 function handleFileUpload(event) {
     const fileList = event.target.id === 'uploadFile' ? document.getElementById('fileList') : document.getElementById('detailFileList');
     const files = Array.from(event.target.files);
@@ -464,7 +508,7 @@ function handleFormSubmit(e) {
     });
 }
 
-
+*/
 
 function showTodoDetail(todo) {
     const detailArea = document.getElementById('todoDetailArea');
@@ -489,7 +533,8 @@ function showTodoDetail(todo) {
         const fileListElement = document.getElementById('detailFileList');
         fileListElement.innerHTML = '';
 
-        uploadedFiles = todo.fileList ? [...todo.fileList] : [];
+       uploadedFiles = todo.fileList ? [...todo.fileList] : [];
+       orderFileList = uploadedFiles;
 
         newFiles = [];
         deleteOrder.clear(); // Clear the deleteOrder set
@@ -870,26 +915,3 @@ function hideForms() {
     }
 }
 
-// 수정 폼 제출 막기 
-function invalidateUpdateForm(e) {
-    let inChargeEmp = document.querySelector('#todoUpdateForm input[name="inChargeEmp"]').value.trim(); 
-    let todoTitle = document.querySelector('#todoUpdateForm input[name="todoTitle"]').value.trim(); 
-    let todoContent = document.querySelector('#todoUpdateForm textarea[name="todoContent"]').value.trim(); 
-
-    if(inChargeEmp === "" || todoTitle === "" || todoContent === "") {
-        alert("담당자, 요청 제목, 요청 내용은 모두 입력해주세요."); 
-        e.preventDefault(); 
-    }
-}
-
-// 등록 폼 제출 막기 
-function invalidateInsertForm(e) {
-    let inChargeEmp = document.querySelector('#todoInsertForm input[name="inChargeEmp"]').value.trim(); 
-    let todoTitle = document.querySelector('#todoInsertForm input[name="todoTitle"]').value.trim(); 
-    let todoContent = document.querySelector('#todoInsertForm textarea[name="todoContent"]').value.trim(); 
-
-    if(inChargeEmp === "" || todoTitle === "" || todoContent === "") {
-        alert("담당자, 요청 제목, 요청 내용은 모두 입력해주세요."); 
-        e.preventDefault(); 
-    }
-}

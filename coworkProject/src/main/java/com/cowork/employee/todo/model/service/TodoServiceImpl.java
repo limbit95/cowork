@@ -621,7 +621,9 @@ public class TodoServiceImpl implements TodoService{
 
         // 새로운 파일 업로드 처리
         if (files != null && !files.isEmpty()) {
+        	
             List<TodoFile> uploadList = new ArrayList<>();
+            
             for (int i = 0; i < files.size(); i++) {
                 MultipartFile multipartFile = files.get(i);
                 if (!multipartFile.isEmpty()) {
@@ -647,9 +649,10 @@ public class TodoServiceImpl implements TodoService{
                     }
                 }
             }
+            
 
             if (!uploadList.isEmpty()) {
-                result = mapper.insertUploadList(uploadList);
+                result = mapper.updateUploadList(uploadList);
                 if (result != uploadList.size()) {
                     throw new IOException("파일 업로드 실패");
                 }
