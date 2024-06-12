@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded 이벤트가 트리거됨');
     initialize();
 });
 
 function initialize() {
+    console.log('이벤트 리스너가 초기화됨');
     addEventListeners();
 }
 
@@ -17,21 +19,6 @@ function addEventListeners() {
             });
         });
     }
-
-    // 메일 제목 클릭 시 상세 페이지로 이동
-    const mailTitles = document.querySelectorAll('.mail-title');
-    mailTitles.forEach(mailTitle => {
-        mailTitle.addEventListener('click', function() {
-            const mailNo = this.getAttribute('data-mail-id');
-            if (mailNo && !isNaN(mailNo)) {
-                const mailNoInt = parseInt(mailNo, 10);
-                window.location.href = `/mail/mailDetail/${mailNoInt}`;
-            } else {
-                console.error('Invalid mail number:', mailNo);
-            }
-        });
-    });
-
 
     // 드롭다운 메뉴 기능
     document.querySelectorAll('.dropdown-toggle').forEach(toggle => {

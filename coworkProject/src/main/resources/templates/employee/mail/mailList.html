@@ -62,16 +62,17 @@
                 </div>
             </div>
 
-            <div class="table-body row" th:each="mail : ${mail}">
+            <div class="table-body row" th:each="mail : ${mail}" th:object="${mail}" 
+                th:onclick="|location.href='@{/mail/mailDetail/{mailNo} (mailNo=*{mailNo})}'|">
                 <div class="checkDiv">
-                    <input type="checkbox" data-mail-id="${mail.mailNo}">
+                    <input type="checkbox" th:attr="data-mail-id=${mail.mailNo}" >
                     <div><span th:text="${mail.senderTeamNm}" id="senderTeamNm">팀이름</span>&nbsp;<span th:text="${mail.sender}">이름</span></div>
                 </div>
-               
-                <div data-mail-id="${mail.mailNo}" th:text="|${session.loginEmp.empCode == mail.empCode ? '[보낸 메일함]' : '[받은 메일함]'} 
-                            &nbsp; ${mail.mailTitle}|" id="mailTitle" class="mail-title">
+                <div th:attr="data-mail-id=${mail.mailNo}"  th:text="|${session.loginEmp.empCode == mail.empCode ? '[보낸 메일함]' : '[받은 메일함]'} 
+                            &nbsp; ${mail.mailTitle}|" id="mailTitle" class="mailTitle">
                     메일 제목
                 </div>
+                
                 <div th:text="${mail.mailWriteDate}" id="mailWriteDate">메일 보낸 시각</div>
             </div>
 

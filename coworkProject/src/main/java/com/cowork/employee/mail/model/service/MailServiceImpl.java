@@ -1,11 +1,14 @@
 package com.cowork.employee.mail.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cowork.employee.mail.model.dto.Mail;
+import com.cowork.employee.mail.model.dto.MailFile;
 import com.cowork.employee.mail.model.mapper.MailMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -28,9 +31,20 @@ public class MailServiceImpl implements MailService {
 
 	// 메일 상세 조회 
 	@Override
-	public int mailDetail(int mailNo) {
+	public Map<String, Object> mailDetail(int mailNo) {
 		
-		return mapper.mailDetail(mailNo);
+		Map<String, Object> map = new HashMap<>(); 
+		Map<String, Object> fileMap = new HashMap<>(); 
+		
+		fileMap.put("mailNo", mailNo); 
+		
+		Mail mail = mapper.mailDetail(mailNo);
+		List<MailFile> fileList = mapper.fileList(fileMap); 
+		
+		map.put("mail", mail); 
+		map.put("fileList", fileList);
+		
+		return map;
 	}
 
 	// 전체 메일 개수 조회 
@@ -45,6 +59,13 @@ public class MailServiceImpl implements MailService {
 	public int noReadCount(int empCode) {
 		
 		return mapper.noReadCount(empCode);
+	}
+
+	// 파일 조회 
+	@Override
+	public List<MailFile> getMailFiles(int mailNo) {
+		
+		return mapper.getMailFiles(mailNo);
 	}
 
 }

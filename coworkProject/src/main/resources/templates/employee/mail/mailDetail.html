@@ -57,32 +57,37 @@
 
             <div class="table-body2">
                 <!-- 제목 -->
-                <div class="ins-css insertForm" >
-                    <label class="mailTitile">[수강 승인 안내] 중간 만족도 조사</label>
+                <div class="ins-css insertForm">
+                    <div><label>제목</label></div>
+                    <span th:text="${mail.mailTitle}" class="mailTitle"></span>
                 </div>
 
                 <!-- 보낸사람 -->
                 <div class="ins-css insertForm mailInfo">
-                    <div><label>보낸사람</label></div>
-                    <label class="default-label lavenderLabel">song@home.com</label>
+                    <div><label>보낸 사람</label></div>
+                    <div th:text="${mail.sender}"></div>
+                    <div th:text="${mail.senderMail}" class="default-label lavenderLabel"></div>
                 </div>
 
                 <!-- 참조 -->
                 <div class="ins-css insertForm mailInfo">
                     <div><label>참조</label></div>
+                    <div></div>
                     <label class="default-label lavenderLabel">songfianl@home.com</label>
                 </div>
 
                 <!-- 받는사람 -->
                 <div class="ins-css insertForm mailInfo">
-                    <div><label>받는사람</label></div>
-                    <label class="default-label lavenderLabel">final@home.com</label>
-                    <label class="default-label lavenderLabel">songfianl@home.com</label>
+                    <div><label>받는 사람</label></div>
+                    <div th:text="${mail.recipient}">받는사람</div>
+                    <div th:text="${mail.recipientMail}" class="default-label lavenderLabel"></div>
+                    <div class="default-label lavenderLabel">songfianl@home.com</div>
                 </div>
 
                 <!-- 날짜 -->
                 <div class="ins-css insertForm mailInfo">
-                    <label class="delBtn">2024년 05월 23일 16시 49분</label>
+                    <div><label>보낸 시각</label></div>
+                    <div th:text="${mail.mailWriteDate}" class="delBtn">2024년 05월 23일 16시 49분</div>
                 </div>
 
                 <!-- 파일 -->

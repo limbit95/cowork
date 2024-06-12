@@ -1,8 +1,10 @@
 package com.cowork.employee.mail.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cowork.employee.mail.model.dto.Mail;
+import com.cowork.employee.mail.model.dto.MailFile;
 
 public interface MailService {
 
@@ -16,7 +18,7 @@ public interface MailService {
 	 * @param mailNo
 	 * @return
 	 */
-	int mailDetail(int mailNo);
+	Map<String, Object> mailDetail(int mailNo);
 
 	/** 전체 메일 개수 조회 
 	 * @param empCode
@@ -29,5 +31,11 @@ public interface MailService {
 	 * @return
 	 */
 	int noReadCount(int empCode);
+
+	/** 파일 조회 
+	 * @param mailNo
+	 * @return
+	 */
+	List<MailFile> getMailFiles(int mailNo);
 
 }

@@ -1,6 +1,7 @@
 package com.cowork.employee.mail.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,9 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.employee.mail.model.dto.Mail;
+import com.cowork.employee.mail.model.dto.MailFile;
 import com.cowork.employee.mail.model.service.MailService;
 import com.cowork.user.model.dto.Employee2;
 
@@ -46,6 +50,7 @@ public class MailController {
 		model.addAttribute("empCode", empCode); 
 		model.addAttribute("mailCount", mailCount); 
 		model.addAttribute("noReadCount", noReadCount); 
+		model.addAttribute("loginEmp", loginEmp);
 		
 		log.info("mailCount" + mailCount);
 		log.info("noReadCount" + noReadCount);
@@ -101,17 +106,30 @@ public class MailController {
 	/** 메일상세
 	 * @return
 	 */
-	@GetMapping("mailDetail/{mailNo}")
-	public int mailDetail(	@PathVariable("mailNo") int mailNo,
+	@GetMapping("mailDetail/{mailNo:[0-9]+}")
+	public String mailDetail(	@PathVariable("mailNo") int mailNo,
 								@SessionAttribute("loginEmp") Employee2 loginEmp,
-								Mail mail) {
+								Mail mail,
+								Model model, 
+								RedirectAttributes ra) {
+		
 		log.info("mailNo는? : " + mailNo);
 		
-		int EmpCode = loginEmp.getEmpCode(); 
+		Map<String, Object> map = service.mailDetail(mailNo); 
 		
-		int result = service.mailDetail(mailNo); 
+		String path; 
+		String message; 
 		
+		if(map.get("mail") == null) {
+			path = "redirect:/mailList";
+			ra.addFlashAttribute("message", "해당 메일 조회 실패했습니다.");
+		} else {
+			path = "employee/mail/mailDetail";
+			
+			model.addAttribute("mail", map.get("mail")); 
+			model.addAttribute("fileList", map.get("fileList"));
+		}
 		
-		return result;
+		return path;
 	}
 } 
