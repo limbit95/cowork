@@ -402,17 +402,17 @@ let position = document.querySelector('#position');
 let findEmp = document.querySelector('#findEmp');
 let positionArea = document.querySelector('#positionArea');
 let empListArea = document.querySelector('#empListArea');
+let empListDiv = document.querySelector('#empList');
 
 position.addEventListener('click', function(){
+	
 	
 	positionArea.style.display = 'flex';
 		
 	
 		fetch('/survey/positionList')
 		 .then(response => {
-	    if (!response.ok) {
-	      throw new Error('Network response was not ok');
-	    }
+
 	    return response.json();
 	  })
 	  .then(data => {
@@ -437,12 +437,20 @@ position.addEventListener('click', function(){
 })
 
 document.querySelector('#findEmp').addEventListener('click', function(){
-	
 	empListArea.style.display = 'flex';	
+	empListArea.style.flexDirection = 'column';
 })
+
+
+
+let empCodeList = [];
 
 let findEmpInput = document.querySelector('#findEmpInput');
 findEmpInput.addEventListener('input', function(){
+	
+    if(this.value == '' || this.value == null){
+		return;
+	}
 	
 	
 	
@@ -454,38 +462,64 @@ findEmpInput.addEventListener('input', function(){
 	.then(resp => resp.json())
 	.then(empList => {
 		
+		empListDiv.innerHTML = '';
+		
 		for(let emp of empList ){
 			
 				let empDiv= document.createElement('div');
+				
 				let empProfileImg = document.createElement('img');
 				empProfileImg.src =  emp.profileImg;
-				empDiv.appendChild(empDiv);
+				empDiv.appendChild(empProfileImg);
 				
 				let empNicknameNode = document.createTextNode(emp.empLastName + emp.empFirstName);
 				let nicknameDiv = document.createElement('div');
 				nicknameDiv.appendChild(empNicknameNode);
+				empDiv.appendChild(nicknameDiv);
+				nicknameDiv.style.marginLeft = '5%';
 				
 				let teamNm = document.createTextNode(emp.teamNm);
 				let teamNameDiv = document.createElement('div');
 				teamNameDiv.appendChild(teamNm);
+				empDiv.appendChild(teamNameDiv);
+				teamNameDiv.style.marginLeft = '5%';
+
+				empDiv.style.display = 'flex';
+
+				empDiv.style.alignItems = 'center';
+				empDiv.style.backgroundColor = 'purple';
+				empDiv.style.width = '30%';
+				empDiv.style.height = '5vh';
 				
+				empListDiv.appendChild(empDiv);
 				
+				empDiv.addEventListener('click', function(){
+						empListDiv.innerHTML = '';
+					
+						empCodeList.push(emp.empCode);
+						
+						console.log(empList);
+						
+						let empNicknameDiv = this.children[1];
+					    empNicknameDiv.style.border = '1px solid #3667A6';
+					    empNicknameDiv.style.display = 'inline';
+					    empNicknameDiv.style.padding = '5px';
+					    empNicknameDiv.style.borderRadius = '5px';
+						
+						let selectedEmpList = document.querySelector('#selectedEmpList');
+						selectedEmpList.appendChild(empNicknameDiv);
+						
+				})
 				
 				
 		}		
-
-		
-		
-		
-
-		
-	})	
-	
-	
-	
-	
+	})		
 })
 
+document.querySelector('#entire').addEventListener('click',  function(){
+	// 대상 중 전체를 누른 경우, 
+	// 1. 직급과 관련된 거 
+})
 
 
 

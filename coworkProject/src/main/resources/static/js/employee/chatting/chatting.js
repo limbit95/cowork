@@ -185,7 +185,7 @@ makeChatButton.addEventListener('click', function(){
 		'empCodeList': empCodeList,
 		'makeEmpCode': empCode,					
 	};
-	fetch('makeChat', {
+	fetch('/chat/makeChat', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
@@ -200,7 +200,12 @@ makeChatButton.addEventListener('click', function(){
 		subscribeAddr = getSubscribeAddr;
 		connect(subscribeAddr);
 		// 채팅방을 만들어줘야 함.
+		
+		alert(empCode);
+		
 		getChattingRooms(empCode);
+		
+		alert('asdfasdf');
 	})
 	// 사람들 이름이 띄워져 있던 div 태그인 id="addedEmpContent" 를 비워주도록 한다.
 	addedEmpContent.innerHTML = '';
@@ -222,7 +227,7 @@ function getChattingRooms(empCode){
 	// 그 상대방들에게 그 채팅방에 대한 걸 실시간으로 보여줘야 함. 
 	// 어떻게 할 수 있을까? 
 	let empCodeStr = String(empCode); // 문자열로 변경 
-	fetch('getChattingRooms', {
+	fetch('/chat/getChattingRooms', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
@@ -360,6 +365,7 @@ function getChattingRooms(empCode){
 					<input type="hidden" value="roomNo"/> 
 				</div> 
 			*/
+			
 			let hiddenInput = document.createElement('input');
 			hiddenInput.type = 'hidden';
 			hiddenInput.value = room.roomNo;
@@ -387,7 +393,8 @@ function getChattingRooms(empCode){
 				// 채팅방을 클릭할때마다 그 값이 바뀌도록 하기 위해 바로 아래 한줄의 코드를 추가했다. 
 				roomNoOriginal = String(room.roomNo);
 				
-				fetch('getChatMessage', {
+				
+				fetch('/chat/getChatMessage', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -839,6 +846,7 @@ function connect(subscribeAddr2) {
     
     
 }
+
 
 //======================================================================================================
 // 다른 사람이 채팅방을 만들어서 메세지를 보냈을 떄, 이를 받는 놈에게 실시간으로 그걸 보여주기 위해서 

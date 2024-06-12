@@ -41,6 +41,7 @@ public class Employee2 {
 	private String positionNm; // 직급명
 	private String domain; // 도메인
 	
-	
+	//재준
+	private Integer teamNo;
 	
 }

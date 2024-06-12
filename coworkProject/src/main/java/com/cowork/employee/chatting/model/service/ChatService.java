@@ -8,10 +8,11 @@ import com.cowork.employee.chatting.model.dto.ChatMessage;
 import com.cowork.employee.chatting.model.dto.ChatMessageMe;
 import com.cowork.employee.chatting.model.dto.ChatRoom;
 import com.cowork.employee.chatting.model.dto.Employee;
+import com.cowork.user.model.dto.Employee2;
 
 public interface ChatService {
 
-	List<Employee> empList(String inputData, Integer empCode);
+	List<Employee2> empList(String inputData, Integer empCode);
 
 	String makeChat(List<String> empCodeList, String empCode);
 
@@ -19,7 +20,7 @@ public interface ChatService {
 
 	List<ChatMessageMe> getChatMessage(Map<String, String> paramMap);
 
-	Employee insertTextMessage(ChatMessage chatMessage);
+	Employee2 insertTextMessage(ChatMessage chatMessage);
 
 	Map<String, String> insertFileMessage(ChatMessage chatMessage) throws IllegalStateException, IOException;
 
