@@ -33,6 +33,11 @@ a:hover {
     overflow-y: auto;
 }
 
+/* 할 일 초기 아무것도 등록되어있지 않을때  투두리스트 영역*/
+#noTodosMessage {
+    width: 680px;
+}
+
 
 /* ------ 할 일 헤드 영역 ------ */
 .todoHead {
@@ -83,6 +88,17 @@ a:hover {
     width: 100px;
 }
 */
+
+#todoInsertArea.fixed {
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+#todoInsertArea.normal {
+    position: static;
+    width: auto;
+    box-shadow: none;
+}
+
 .todo{
     width: 1000px;
     display: flex;
@@ -285,7 +301,7 @@ input[type="date"]:hover {
 
 /* ------ 파일 업로드 영역 ----- */
 
-/* 파일 업로드 버튼 역할 label 
+
 .fileInput {
     opacity: 0;
     position: absolute;
@@ -304,7 +320,7 @@ input[type="date"]:hover {
     padding-top: 4px;
     margin-top: 3px;
     cursor: pointer;
-}*/
+}
 
 /* 파일 리스트 보여주는 영역 */
 .fileList, .detailFileList {
@@ -314,10 +330,9 @@ input[type="date"]:hover {
     border: 1px solid #ccc;
     overflow-y: auto; /* 스크롤바 추가 */
     padding: 10px;
-    text-align: center;
     box-sizing: border-box; /* 패딩과 테두리를 포함하여 크기 계산 */
-    text-align: center;
 }
+
 .fileList {
     width: 250px;
     padding: 10px;
@@ -330,6 +345,7 @@ input[type="date"]:hover {
 
 .fileList li, .detailFileList li {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     padding: 5px;
 }
@@ -342,6 +358,9 @@ input[type="date"]:hover {
     border-radius: 3px;
     padding: 3px 6px;
     margin-left: 10px;
+    height: 18px;
+    display: flex;
+    align-items:center; 
 }
 
 .fileList button:hover, .detailFileList button:hover {
@@ -419,7 +438,7 @@ input[type="date"]:hover {
 /* 모달 스타일 */
 .modal {
     display: none; 
-    position: fixed;
+    position: absolute;
     z-index: 1;
    /*  left: 75%;
     top: 18%;

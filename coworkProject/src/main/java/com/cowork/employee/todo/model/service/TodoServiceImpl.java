@@ -619,6 +619,8 @@ public class TodoServiceImpl implements TodoService{
             }
         } */
         
+        int fileOrder = 0; 
+        
         if(deleteOrder != null && !deleteOrder.equals("")) {
         	Map<String, Object> map = new HashMap<>(); 
         	
@@ -640,30 +642,30 @@ public class TodoServiceImpl implements TodoService{
  							.updateFileOrder(updateArr[i])
  							.build();
             		 
+            		 fileOrder = i;
             		 result = mapper.fileOrderUpdate(updateFile); 
             	 }
              }
         	
         }
              
-        // 새로운 파일 업로드 처리
+        // 
         if (files != null && !files.isEmpty()) {
         	
             List<TodoFile> uploadList = new ArrayList<>();
-            
-            int fileOrder = 0; 
-            
+
             String[] updateArr = null; 
             
             if(updateOrder != null && updateOrder.equals("")) {
             	updateArr = updateOrder.split(",");
             	fileOrder = updateArr.length; 
-            }
+            } //else {
+            	//  fileOrder = existingFiles.size();
+           // }
+            
+            fileOrder += 1;
             
             for (int i = 0; i < files.size(); i++) {
-            	
-            	if(updateOrder != null ) fileOrder +=1; 
-            	else fileOrder = i;
             	
             	if(!files.get(i).isEmpty()) {
             	String originalName = files.get(i).getOriginalFilename(); // 원본명
@@ -678,10 +680,14 @@ public class TodoServiceImpl implements TodoService{
 						.uploadFile(files.get(i))
 						.build();
 				uploadList.add(file);
+				
+				fileOrder++;
 		}
 	}
                 
                 if(uploadList.isEmpty()) return todoNo; 
+                
+                
                 
                 result = mapper.insertUploadList(uploadList); 
 
