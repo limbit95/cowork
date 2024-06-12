@@ -27,37 +27,51 @@ public class SurveyServiceImpl implements SurveyService{
 	@Override
 	public void insertSurvey(SurveyData surveyData, Employee2 emp ) {
 	
+		// 설문을 넣을 거임. 
+		// SURVEY 테이블 
+		// 1. 시퀀스 값 => SEQ_SURVEY.NEXTVAL
+		// 2. 설문 대제목 
+		String title = surveyData.getTitle();
+		// 3. 설문 작성자 
+		Integer empCode = emp.getEmpCode();
+		// 4. 설문 시작일 
+		String surveyStartDate = surveyData.getSurveyStartDate();
+		// 5. 설문 종료일 
+		String surveyEndDate = surveyData.getSurveyEndDate();
+		
+		
+		
+		
+		
+		
 		// empCode 사원번호 얻어오기 
 		Integer empCode = emp.getEmpCode();
 		
 		// 설문 테이블에 행을 삽입하면 됨.
-		String big= surveyData.getTitle();
+		String title = surveyData.getTitle();
+		
+		//
 		
 		
 		
-		//  
+		
+		
 		
 		
 	
 		List<Question> questionList = surveyData.getQuestions();
 		for(Question question : questionList) {
 			log.debug("question 객체 =={}", question);
-			
 			String type = question.getType();
 			String title = question.getTitle();
-			
 			log.debug(type);
 			log.debug(title);
-			
 			List<String> optionsList = question.getOptions();
-			
 			if(optionsList != null) {
 				for(String option : optionsList) {
 					log.debug(option);
 					}				
 			}
-
-			
 		}
 	
 	
