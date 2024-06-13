@@ -116,12 +116,15 @@ public class AdminAddrServiceImpl implements AdminAddrService {
 		// 3 : 그룹 insert 실패
 		// 4 : 그룹 delete 실패
 		
+		// -----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
+		// 부서 그룹 CRUD
+		
 		// 부서 그룹 삭제
 		String idx = "";
-		log.info("data : " + data.get(0).size());
 		for(int i = 0; i < data.get(0).size(); i++) {
 			
-			log.info("data : " + data.get(0).get(i).get("deptNm"));
 			if(!data.get(0).get(i).get("deptNo").equals("null")) {
 				if(data.get(0).get(i).size() == 1) {
 					idx += "'" + data.get(0).get(i).get("deptNo") + "'";
@@ -135,20 +138,18 @@ public class AdminAddrServiceImpl implements AdminAddrService {
 				idx += "'" + data.get(0).get(i).get("deptNo") + "',";
 			}
 		}
-		log.info("idx : " + idx);
 		// 부서 그룹이 하나 이상 존재할 때
 		if(idx.length() > 0) {
 			if(idx.charAt(idx.length()-1) == ',') {
 				idx = idx.substring(0, idx.length()-1);
 			}
 			
-			Map<String, Object> deleteMap = new HashMap<String, Object>();
 			data.get(0).get(0).put("groupIdx", idx);
 			
-			int deleteResult = mapper.deleteGroup(data.get(0).get(0));
+			int deleteResult = mapper.deleteDeptGroup(data.get(0).get(0));
 		} 
 		if(idx.length() == 0) {
-			int deleteResult = mapper.deleteAllGroup(loginEmp);
+			int deleteResult = mapper.deleteAllDeptGroup(loginEmp);
 		}
 		
 		// 부서 그룹 삽입 및 수정
@@ -156,13 +157,51 @@ public class AdminAddrServiceImpl implements AdminAddrService {
 			// 기존에 있던 부서 그룹이면 이름만 업데이트
 			// 기존과 같은 이름이면 같은 이름을 업데이트 하므로 변동사항 없음
 			if(!data.get(0).get(i).get("deptNo").equals("null")) {
-				int changeResult = mapper.changeGroupName(data.get(0).get(i));
-//				if(changeResult == 0) {
-//					return 2;
-//				}
+				int changeResult = mapper.changeDeptName(data.get(0).get(i));
 			}
 			if(data.get(0).get(i).get("deptNo").equals("null")) {
-				int insertResult = mapper.insertGroup(data.get(0).get(i));
+				int insertResult = mapper.insertDept(data.get(0).get(i));
+			}
+		}
+		
+		// -----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
+		// -----------------------------------------------------------------------------
+		// 팀 그룹 CRUD 
+		
+		// 팀 그룹 삭제
+		for(int i = 0; i < data.get(0).size(); i++) {
+			String idx2 = "";
+			
+			for(int x = 0; x < data.get(1).size(); x++) {
+				if(data.get(1).get(x).get("teamNo").equals("null")) {
+					continue;
+				}
+				if(data.get(0).get(i).get("deptNo").equals(data.get(1).get(x).get("deptNo"))) {
+					idx2 += "'" + data.get(1).get(x).get("teamNo") + "',";
+				}
+			}
+			// 팀 그룹이 하나 이상 존재할 때
+			if(idx2.length() > 0) {
+				idx2 = idx2.substring(0, idx2.length()-1);
+				
+				Map<String, Object> deleteMap = new HashMap<String, Object>();
+				deleteMap.put("deptNo", data.get(0).get(i).get("deptNo"));
+				deleteMap.put("groupIdx", idx2);
+				
+				int deleteResult = mapper.deleteTeamGroup(deleteMap);
+			} 
+		}
+		
+		// 팀 그룹 삽입 및 수정
+		for(int i = 0; i < data.get(1).size(); i++) {
+			// 기존에 있던 팀 그룹이면 이름만 업데이트
+			// 기존과 같은 이름이면 같은 이름을 업데이트 하므로 변동사항 없음
+			if(!data.get(1).get(i).get("teamNo").equals("null")) {
+				int changeResult = mapper.changeTeamName(data.get(1).get(i));
+			}
+			if(data.get(1).get(i).get("teamNo").equals("null")) {
+				int insertResult = mapper.insertTeam(data.get(1).get(i));
 			}
 		}
 		

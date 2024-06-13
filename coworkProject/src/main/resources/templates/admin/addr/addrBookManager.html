@@ -20,6 +20,29 @@
             <button class="default-btn glucose-btn" id="saveGroup">그룹 저장</button>
             <button class="default-btn glucose-btn" id="addEmployeeInBulk">구성원 일괄 추가</button>
             <button class="default-btn glucose-btn" id="addEmployee">구성원 추가</button>
+    
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-row">
+                        <div>
+                            <input type="radio" id="admin" name="registration" value="admin">
+                            <label for="admin">관리자가 등록</label>
+                        </div>
+                        <div class="test-text" id="admin-text">관리자가 직접 구성원 정보를 등록합니다.</div>
+                    </div>
+                    <div class="modal-row">
+                        <div>
+                            <input type="radio" id="member" name="registration" value="member">
+                            <label for="member">구성원이 등록</label>
+                        </div>
+                        <div class="test-text" id="member-text">초대 받은 구성원이 직접 정보를 등록합니다.</div>
+                    </div>
+                    <div class="addEmployeeBtnDiv">
+                        <button class="default-btn glucose-btn" id="addEmployeeconfirm">확인</button>
+                        <button class="default-btn glucose-btn" id="addEmployeecancel">취소</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <main>
@@ -167,99 +190,105 @@
                     <!-- 회사별 조회 -->
                     <th:block th:if="${comList}">
                         <ul class="pagination" th:if="${pagination}" th:object="${pagination}">
-                            <!-- 첫 페이지로 이동 -->
-                            <li><a th:href="@{/admin/addr/comList(cp=1)}">&lt;&lt;</a></li>
-        
-                            <!-- 이전 목록 마지막 번호로 이동 -->
-                            <li><a th:href="@{/admin/addr/comList(cp=*{prevPage})}">&lt;</a></li>
-        
-                            <!-- 특정 페이지로 이동 -->
-                            <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
-                                
-                            <!-- 현재 보고있는 페이지 -->
-                                <li th:if="${i} == *{currentPage}">
-                                    <a class="current" th:text="${i}">1</a>
-                                </li>
-                                
-                                <!-- 보고있지 않은 페이지 -->
-                                <li th:unless="${i} == *{currentPage}">
-                                    <a th:href="@{/admin/addr/comList(cp=${i})}" 
-                                       th:text="${i}">2</a>
-                                </li>
-        
+                            <th:block th:if="${comList.size()} > 0">
+                                <!-- 첫 페이지로 이동 -->
+                                <li><a th:href="@{/admin/addr/comList(cp=1)}">&lt;&lt;</a></li>
+            
+                                <!-- 이전 목록 마지막 번호로 이동 -->
+                                <li><a th:href="@{/admin/addr/comList(cp=*{prevPage})}">&lt;</a></li>
+            
+                                <!-- 특정 페이지로 이동 -->
+                                <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+                                    
+                                <!-- 현재 보고있는 페이지 -->
+                                    <li th:if="${i} == *{currentPage}">
+                                        <a class="current" th:text="${i}">1</a>
+                                    </li>
+                                    
+                                    <!-- 보고있지 않은 페이지 -->
+                                    <li th:unless="${i} == *{currentPage}">
+                                        <a th:href="@{/admin/addr/comList(cp=${i})}" 
+                                           th:text="${i}">2</a>
+                                    </li>
+            
+                                </th:block>
+            
+                                <!-- 다음 목록 시작 번호로 이동 -->
+                                <li><a th:href="@{/admin/addr/comList(cp=*{nextPage})}">&gt;</a></li>
+            
+                                <!-- 끝 페이지로 이동 -->
+                                <li><a th:href="@{/admin/addr/comList(cp=*{maxPage})}">&gt;&gt;</a></li>
                             </th:block>
-        
-                            <!-- 다음 목록 시작 번호로 이동 -->
-                            <li><a th:href="@{/admin/addr/comList(cp=*{nextPage})}">&gt;</a></li>
-        
-                            <!-- 끝 페이지로 이동 -->
-                            <li><a th:href="@{/admin/addr/comList(cp=*{maxPage})}">&gt;&gt;</a></li>
                         </ul>
                     </th:block>
 
                     <!-- 부서별 조회 -->
                     <th:block th:if="${deptList}">
                         <ul class="pagination" th:if="${pagination}" th:object="${pagination}">
-                            <!-- 첫 페이지로 이동 -->
-                            <li><a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=1)}">&lt;&lt;</a></li>
-        
-                            <!-- 이전 목록 마지막 번호로 이동 -->
-                            <li><a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=*{prevPage})}">&lt;</a></li>
-        
-                            <!-- 특정 페이지로 이동 -->
-                            <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
-                                
-                            <!-- 현재 보고있는 페이지 -->
-                                <li th:if="${i} == *{currentPage}">
-                                    <a class="current" th:text="${i}">1</a>
-                                </li>
-                                
-                                <!-- 보고있지 않은 페이지 -->
-                                <li th:unless="${i} == *{currentPage}">
-                                    <a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=${i})}" 
-                                       th:text="${i}">2</a>
-                                </li>
-        
+                            <th:block th:if="${deptList.size()} > 0">
+                                <!-- 첫 페이지로 이동 -->
+                                <li><a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=1)}">&lt;&lt;</a></li>
+            
+                                <!-- 이전 목록 마지막 번호로 이동 -->
+                                <li><a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=*{prevPage})}">&lt;</a></li>
+            
+                                <!-- 특정 페이지로 이동 -->
+                                <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+                                    
+                                <!-- 현재 보고있는 페이지 -->
+                                    <li th:if="${i} == *{currentPage}">
+                                        <a class="current" th:text="${i}">1</a>
+                                    </li>
+                                    
+                                    <!-- 보고있지 않은 페이지 -->
+                                    <li th:unless="${i} == *{currentPage}">
+                                        <a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=${i})}" 
+                                           th:text="${i}">2</a>
+                                    </li>
+            
+                                </th:block>
+            
+                                <!-- 다음 목록 시작 번호로 이동 -->
+                                <li><a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=*{nextPage})}">&gt;</a></li>
+            
+                                <!-- 끝 페이지로 이동 -->
+                                <li><a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=*{maxPage})}">&gt;&gt;</a></li>
                             </th:block>
-        
-                            <!-- 다음 목록 시작 번호로 이동 -->
-                            <li><a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=*{nextPage})}">&gt;</a></li>
-        
-                            <!-- 끝 페이지로 이동 -->
-                            <li><a th:href="@{/admin/addr/deptList(deptNo=${deptNo}, cp=*{maxPage})}">&gt;&gt;</a></li>
                         </ul>
                     </th:block>
 
                     <!-- 팀별 조회 -->
                     <th:block th:if="${teamList}">
                         <ul class="pagination" th:if="${pagination}" th:object="${pagination}">
-                            <!-- 첫 페이지로 이동 -->
-                            <li><a th:href="@{/admin/addr/teamList(teamNo=${teamNo}, cp=1)}">&lt;&lt;</a></li>
-        
-                            <!-- 이전 목록 마지막 번호로 이동 -->
-                            <li><a th:href="@{/admin/addr/teamList(teamNo=${teamNo}, cp=*{prevPage})}">&lt;</a></li>
-        
-                            <!-- 특정 페이지로 이동 -->
-                            <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
-                                
-                            <!-- 현재 보고있는 페이지 -->
-                                <li th:if="${i} == *{currentPage}">
-                                    <a class="current" th:text="${i}">1</a>
-                                </li>
-                                
-                                <!-- 보고있지 않은 페이지 -->
-                                <li th:unless="${i} == *{currentPage}">
-                                    <a th:href="@{/admin/addr/teamList(teamNo=${teamNo}, cp=${i})}" 
-                                       th:text="${i}">2</a>
-                                </li>
-        
+                            <th:block th:if="${teamList.size()} > 0">
+                                <!-- 첫 페이지로 이동 -->
+                                <li><a th:href="@{/admin/addr/teamList(teamNo=${teamNo}, cp=1)}">&lt;&lt;</a></li>
+            
+                                <!-- 이전 목록 마지막 번호로 이동 -->
+                                <li><a th:href="@{/admin/addr/teamList(teamNo=${teamNo}, cp=*{prevPage})}">&lt;</a></li>
+            
+                                <!-- 특정 페이지로 이동 -->
+                                <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+                                    
+                                <!-- 현재 보고있는 페이지 -->
+                                    <li th:if="${i} == *{currentPage}">
+                                        <a class="current" th:text="${i}">1</a>
+                                    </li>
+                                    
+                                    <!-- 보고있지 않은 페이지 -->
+                                    <li th:unless="${i} == *{currentPage}">
+                                        <a th:href="@{/admin/addr/teamList(teamNo=${teamNo}, cp=${i})}" 
+                                           th:text="${i}">2</a>
+                                    </li>
+            
+                                </th:block>
+            
+                                <!-- 다음 목록 시작 번호로 이동 -->
+                                <li><a th:href="@{/admin/addr/teamList(teamNo=${teamNo}, cp=*{nextPage})}">&gt;</a></li>
+            
+                                <!-- 끝 페이지로 이동 -->
+                                <li><a th:href="@{/admin/addr/teamList(teamNo=${teamNo}, cp=*{maxPage})}">&gt;&gt;</a></li>
                             </th:block>
-        
-                            <!-- 다음 목록 시작 번호로 이동 -->
-                            <li><a th:href="@{/admin/addr/teamList(teamNo=${teamNo}, cp=*{nextPage})}">&gt;</a></li>
-        
-                            <!-- 끝 페이지로 이동 -->
-                            <li><a th:href="@{/admin/addr/teamList(teamNo=${teamNo}, cp=*{maxPage})}">&gt;&gt;</a></li>
                         </ul>
                     </th:block>
                     
@@ -278,6 +307,10 @@
         <div id="groupNameChange">그룹명 변경</div>
         <div id="deleteGroup">그룹 삭제</div>
     </div>
+
+
+    
+
 
     <script src="/js/admin/addr/adminAddr.js"></script>
     <script th:inline="javascript">

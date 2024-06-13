@@ -20,21 +20,23 @@ const subBtnDiv = document.querySelector(".subBtnDiv");
 
 if(wholeCheck != null) {
     wholeCheck.addEventListener("change", e => {
-        if(wholeCheck.checked == true){
-            check.forEach((i) => {
-                i.checked = true;
-            })
-            subBtnDiv.children[0].style.display = "block"
-            subBtnDiv.children[1].style.display = "block"
-            return;
-        }
-        if(wholeCheck.checked == false){
-            check.forEach((i) => {
-                i.checked = false;
-            })
-            subBtnDiv.children[0].style.display = "none"
-            subBtnDiv.children[1].style.display = "none"
-            return;
+        if(check[0] != null){
+            if(wholeCheck.checked == true){
+                check.forEach((i) => {
+                    i.checked = true;
+                })
+                subBtnDiv.children[0].style.display = "block"
+                subBtnDiv.children[1].style.display = "block"
+                return;
+            }
+            if(wholeCheck.checked == false){
+                check.forEach((i) => {
+                    i.checked = false;
+                })
+                subBtnDiv.children[0].style.display = "none"
+                subBtnDiv.children[1].style.display = "none"
+                return;
+            }
         }
     });
 }
@@ -130,6 +132,11 @@ document.querySelectorAll('.li-hover').forEach(item => {
 
         addDeptgroup.onclick = () => {
             if (targetLi) { 
+                targetLi.querySelectorAll(".department").forEach((i) => {
+                    if(i.children[0].children[1].children[1].innerText == 'New Department' + sequence) {
+                        sequence++;
+                    }
+                })
                 let subUl = targetLi.querySelector('ul');
                 if (!subUl) {
                     subUl = document.createElement('ul');
@@ -198,6 +205,11 @@ document.querySelectorAll('.li-hover').forEach(item => {
 
         addTeamgroup.onclick = () => {
             if (targetLi) {
+                targetLi.querySelectorAll(".team").forEach((i) => {
+                    if(i.children[0].children[1].children[1].innerText == 'New Team' + sequence2) {
+                        sequence2++;
+                    }
+                })
                 let subUl = targetLi.querySelector('ul');
                 if (!subUl) {
                     subUl = document.createElement('ul');
@@ -491,6 +503,28 @@ if(saveGroup != null) {
             }
         }
 
+        let flag3 = true;
+        obj[0].forEach((i, index) => {
+            obj[0].forEach((x, index) => {
+                if(i.deptNo != x.deptNo) {
+                    if(i.deptNm.includes(x.deptNm)) {
+                        flag3 = false;
+                        return;
+                    }
+                } 
+                if(!flag3) {
+                    return;
+                }
+            })
+            if(!flag3) {
+                return;
+            }
+        })
+        if(!flag3) {
+            alert("중복된 부서명이 있습니다.");
+            return;
+        }
+
         console.log(obj);
         
         fetch("/admin/addr/insertGroupList", {
@@ -567,3 +601,109 @@ if(updateDept != null) {
         })
     });
 };
+
+
+// ---------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
+// 구성원 추가
+
+const addEmployee = document.querySelector("#addEmployee");
+
+const modal = document.getElementById('modal');
+
+const testText = document.querySelectorAll(".test-text");
+const radio2 = document.querySelectorAll("input[name='registration'");
+
+function hide2() {
+    modal.style.display = 'none';
+    testText[0].style.display = 'none';
+    radio2[0].checked = false;
+    testText[1].style.display = 'none';
+    radio2[1].checked = false;
+    radio2[0].nextElementSibling.style.color = 'black';
+    radio2[0].nextElementSibling.style.fontWeight = 'normal';
+    radio2[1].nextElementSibling.style.color = 'black';
+    radio2[1].nextElementSibling.style.fontWeight = 'normal';
+}
+
+if(addEmployee != null) {
+    addEmployee.addEventListener("click", e => {
+        modal.style.display = 'block';
+        const rect = event.target.getBoundingClientRect();
+        modal.style.top = rect.bottom + 5 + 'px';
+        modal.style.left = rect.left + 'px';
+    });
+};
+
+document.addEventListener('click', function(event) {
+    if(document.getElementById('modal').style.display == 'block') {
+        if (!modal.contains(event.target) && event.target.id !== 'addEmployee') {
+            modal.style.display = 'none';
+            testText[0].style.display = 'none';
+            radio2[0].checked = false;
+            testText[1].style.display = 'none';
+            radio2[1].checked = false;
+            radio2[0].nextElementSibling.style.color = 'black';
+            radio2[0].nextElementSibling.style.fontWeight = 'normal';
+            radio2[1].nextElementSibling.style.color = 'black';
+            radio2[1].nextElementSibling.style.fontWeight = 'normal';
+        }
+    }
+});
+
+document.querySelectorAll('input[name="registration"]').forEach((radio) => {
+    radio.addEventListener('change', (event) => {
+        radio2[0].nextElementSibling.style.color = 'black';
+        radio2[0].nextElementSibling.style.fontWeight = 'normal';
+        radio2[1].nextElementSibling.style.color = 'black';
+        radio2[1].nextElementSibling.style.fontWeight = 'normal';
+        document.querySelectorAll('.test-text').forEach((text) => {
+            text.style.display = 'none';
+        });
+
+        const selectedText = document.getElementById(event.target.id + '-text');
+        if (selectedText) {
+            selectedText.style.display = 'block';
+            radio.nextElementSibling.style.color = 'var(--main6-color)';
+            radio.nextElementSibling.style.fontWeight = 'bold';
+        }
+    });
+});
+
+
+const addEmployeeconfirm = document.querySelector("#addEmployeeconfirm");
+const addEmployeecancel = document.querySelector("#addEmployeecancel");
+
+// 취소
+if(addEmployeecancel != null) {
+    addEmployeecancel.addEventListener("click", e => {
+        modal.style.display = 'none';
+        testText[0].style.display = 'none';
+        radio2[0].checked = false;
+        testText[1].style.display = 'none';
+        radio2[1].checked = false;
+        radio2[0].nextElementSibling.style.color = 'black';
+        radio2[0].nextElementSibling.style.fontWeight = 'normal';
+        radio2[1].nextElementSibling.style.color = 'black';
+        radio2[1].nextElementSibling.style.fontWeight = 'normal';
+    });
+};
+
+// 확인
+if(addEmployeeconfirm != null) {
+    addEmployeeconfirm.addEventListener("click", e => {
+        if(radio2[0].checked == false && radio2[1].checked == false) {
+            alert("등록 유형을 선택해주세요.");
+        }
+        // 관리자가 등록
+        if(radio2[0].checked == true) {
+            hide2();
+        }
+        // 구성원이 등록
+        if(radio2[1].checked == true) {
+            hide2();
+        }
+    });
+};
+

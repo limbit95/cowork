@@ -210,6 +210,7 @@ public class AddrController {
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		data.put("comNo", loginEmp.getComNo());
 		
 		String[] arr = ((String)data.get("teamNo")).split("/");
 		data.put("deptNo", arr[0]);

@@ -35,6 +35,7 @@
 		JOIN COMPANY C ON(C.COM_NO = D.COM_NO)
 		JOIN EMPLOYEE E ON(E.COM_NO = C.COM_NO)
 		WHERE E.EMP_CODE = #{empCode}
+		ORDER BY D.DEPT_NO ASC
 	</select>
 	
 	<!-- 회사 팀 조회 -->
@@ -42,6 +43,7 @@
 		SELECT TEAM_NM, TEAM_NO, DEPT_NO
 		FROM TEAM 
 		WHERE DEPT_NO = #{deptNo}
+		ORDER BY TEAM_NO ASC
 	</select>
 	
 	<!-- 회사별 전체 사원 리스트 조회 -->
@@ -113,6 +115,7 @@
 		JOIN POSITION USING(POSITION_NO)
 		WHERE T.TEAM_NO = #{teamNo}
 		AND D.DEPT_NO = #{deptNo}
+		AND E.COM_NO = #{comNo}
 		ORDER BY "LEVEL" ASC
 	</select>
 	
@@ -126,7 +129,7 @@
 	</select>
 	
 	<!-- 기존에 있는 부서 그룹들은 이름만 업데이트 -->
-	<update id="changeGroupName">
+	<update id="changeDeptName">
 		UPDATE DEPARTMENT SET
 		DEPT_NM = #{deptNm}
 		WHERE COM_NO = #{comNo}
@@ -134,7 +137,7 @@
 	</update>
 	
 	<!-- 새로운 부서 그룹 INSERT -->
-	<insert id="insertGroup">
+	<insert id="insertDept">
 		INSERT INTO DEPARTMENT VALUES(
 			SEQ_DEPARTMENT.NEXTVAL,
 			#{deptNm},
@@ -143,16 +146,48 @@
 	</insert>
 	
 	<!-- 부서 그룹 삭제 -->
-	<delete id="deleteGroup">
+	<delete id="deleteDeptGroup">
 		DELETE FROM DEPARTMENT
 		WHERE COM_NO = #{comNo}
 		AND DEPT_NO NOT IN(${groupIdx})
 	</delete>
 	
 	<!-- 부서 그룹 삭제 -->
-	<delete id="deleteAllGroup">
+	<delete id="deleteAllDeptGroup">
 		DELETE FROM DEPARTMENT
 		WHERE COM_NO = #{comNo}
+	</delete>
+	
+	<!-- 기존에 있는 팀 그룹들은 이름만 업데이트 -->
+	<update id="changeTeamName">
+		UPDATE TEAM SET
+		TEAM_NM = #{teamNm}
+		WHERE TEAM_NO = #{teamNo}
+		AND DEPT_NO = #{deptNo}
+	</update>
+	
+	<!-- 새로운 팀 그룹 INSERT -->
+	<insert id="insertTeam">
+		INSERT INTO TEAM VALUES(
+			SEQ_TEAM.NEXTVAL,
+			#{teamNm},
+			<if test="deptNo == 'null'">
+			(SELECT DEPT_NO 
+			 FROM DEPARTMENT
+			 WHERE DEPT_NM = #{deptNm}
+			 AND COM_NO = #{comNo})
+			</if>
+			<if test="deptNo != 'null'">
+			#{deptNo}
+			</if>
+		)
+	</insert>
+	
+	<!-- 팀 그룹 삭제 -->
+	<delete id="deleteTeamGroup">
+		DELETE FROM TEAM
+		WHERE DEPT_NO = #{deptNo}
+		AND TEAM_NO NOT IN(${groupIdx}) 
 	</delete>
 		
 </mapper>
