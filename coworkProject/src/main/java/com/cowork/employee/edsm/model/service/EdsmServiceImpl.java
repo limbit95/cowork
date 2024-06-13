@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.admin.edsm.model.dto.Draft;
-import com.cowork.admin.edsm.model.mapper.DraftMapper;
+import com.cowork.admin.edsm.model.mapper.AdminEdsmMapper;
 import com.cowork.admin.notice.model.exception.BoardInsertException;
 import com.cowork.common.utility.Utility;
 import com.cowork.employee.edsm.model.dto.Approver;
@@ -22,6 +22,7 @@ import com.cowork.employee.edsm.model.dto.DraftKeep;
 import com.cowork.employee.edsm.model.dto.Edsm;
 import com.cowork.employee.edsm.model.dto.EdsmFile;
 import com.cowork.employee.edsm.model.mapper.EdsmMapper;
+import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class EdsmServiceImpl implements EdsmService{
 	
-	private final DraftMapper mapperDraft;
+	private final AdminEdsmMapper mapperDraft;
 	private final EdsmMapper mapper;
 	
 	@Value("${edsm.file.web-path}")
@@ -69,10 +70,24 @@ public class EdsmServiceImpl implements EdsmService{
 		
 		return result;
 	}
+	
+	// 전자결재 양식 상세
+	@Override
+	public Map<String, Object> edsmDetailDraft(int draftNo, int comNo) {
+		
+		Draft draft = mapperDraft.edsmDetailDraft(draftNo); // 양식 상세
+		List<Employee2> employeeList = mapper.employeeSearch(comNo); // 결재인, 참조인 검색
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("draft", draft);
+		map.put("employeeList", employeeList);
+		
+		return map;
+	}
 
 	// 전자결재 등록
 	@Override
-	public int edsmRequest(Edsm inputEdsm, List<MultipartFile> files, Map<Integer, String> approverMap) throws IllegalStateException, IOException {
+	public int edsmRequest(Edsm inputEdsm, List<MultipartFile> files, String approver , String referrer) throws IllegalStateException, IOException {
 		
 		// 전자결재 등록
 		int result = mapper.edsmRequest(inputEdsm);
@@ -81,10 +96,33 @@ public class EdsmServiceImpl implements EdsmService{
 		
 		int edsmNo = inputEdsm.getEdsmNo(); // 삽입된 전자결재 번호를 변수로 저장
 		
-		// 결재자 APPROVER에 넣기
+		// 결재자, 참조자 APPROVER에 넣기
 		List<Approver> approverList = new ArrayList<>();
 		
-		for (Map.Entry<Integer, String> entry : approverMap.entrySet()) {
+		String[] approverArr = approver.split(","); // 결재자
+		String[] referrerArr = referrer.split(","); // 참조자
+		
+		for(int i=0; i<approverArr.length; i++) {
+			Approver appr = Approver.builder()
+					.approverFlage("1")
+					.empCode(Integer.parseInt(approverArr[i]))
+					.edsmNo(edsmNo)
+					.build();
+		    
+		    approverList.add(appr);
+		}
+		
+		for(int i=0; i<referrerArr.length; i++) {
+			Approver appr = Approver.builder()
+					.approverFlage("2")
+					.empCode(Integer.parseInt(referrerArr[i]))
+					.edsmNo(edsmNo)
+					.build();
+		    
+		    approverList.add(appr);
+		}
+		
+		/*for (Map.Entry<Integer, String> entry : approverMap.entrySet()) {
 			
 		    Approver approver = Approver.builder()
 					.approverFlage(entry.getValue())
@@ -93,7 +131,7 @@ public class EdsmServiceImpl implements EdsmService{
 					.build();
 		    
 		    approverList.add(approver);
-		}
+		}*/
 		
 		// 결재자 등록
 		result = mapper.approverInsert(approverList);
@@ -144,6 +182,13 @@ public class EdsmServiceImpl implements EdsmService{
 		
 		
 		return edsmNo;
+	}
+
+	// 결재인, 참조인 검색
+	@Override
+	public Employee2 edsmSerach(String empFirstName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

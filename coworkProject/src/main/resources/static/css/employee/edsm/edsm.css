@@ -145,6 +145,48 @@
     width: 125px;
 }
 
+/************/
+
+/* 결재인 */
+.inputApprover {
+    width: 238px;
+    margin-right: 10px !important;
+}
+
+.displayNone {
+    display: none;
+}
+
+.displayTable {
+    display: flex;
+    flex-direction: column;
+}
+
+.searchTable {
+    border: 1px solid var(--gray-color);
+    margin-top: 0 !important;
+    margin-left: 85px !important;
+    border-radius: 6px;
+    padding: 9px;
+    height: 100px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.searchTr {
+    display: flex;
+    margin: 0px !important;
+}
+
+.searchTr:hover {
+    background-color: var(--gray-color);
+    cursor: pointer;
+}
+
+.searchTr div {
+    margin: 0 !important;
+}
+
 @media (max-width: 576px) {
     
     .draftList2 .default-line {

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cowork.admin.edsm.model.dto.Draft;
-import com.cowork.admin.edsm.model.mapper.DraftMapper;
+import com.cowork.admin.edsm.model.mapper.AdminEdsmMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional(rollbackFor = Exception.class)
 @PropertySource("classpath:/config.properties")
 @Slf4j
-public class DraftServiceImpl implements DraftService {
+public class AdminEdsmServiceImpl implements AdminEdsmService {
 	
-	private final DraftMapper mapper;
+	private final AdminEdsmMapper mapper;
 	
 	// 전자결재 문서 관리
 	@Override
