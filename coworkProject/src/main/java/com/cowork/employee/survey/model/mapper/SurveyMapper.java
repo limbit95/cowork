@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.cowork.employee.chatting.model.dto.Employee;
 import com.cowork.employee.survey.model.dto.Survey;
+import com.cowork.employee.survey.model.dto.SurveySub;
 import com.cowork.user.model.dto.Employee2;
 
 @Mapper
@@ -48,6 +49,13 @@ public interface SurveyMapper {
 
 	Integer checkAlreadyWrite(Map<String, Object> paramMap);
 
+	Survey entireTargetSurvey(String surveyNo);
+
+	Survey getSurvey(String surveyNo);
+
+	List<SurveySub> surveySubList(String surveyNo);
+
+	
 
 
 

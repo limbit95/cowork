@@ -34,10 +34,7 @@ public class Survey {
 	private Boolean answerFl;
 	
 	
-	// SURVEY_SUB 테이블 
-	private Integer surveySubNo;
-	private String surveySubTitle; // 소제목 
-	private String questionType; // 소제목이 객관식인지 주관식인지 
+
 	
 	
 	//SURVEY_MULTIPLE 테이블 
@@ -46,5 +43,7 @@ public class Survey {
 	
 	// EMPLOYEE 테이블 
 	private String fullName;
+	
+	
 
 }

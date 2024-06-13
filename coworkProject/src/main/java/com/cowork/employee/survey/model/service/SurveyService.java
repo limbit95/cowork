@@ -23,4 +23,6 @@ public interface SurveyService {
 
 	Boolean checkAlreadyWrite(String surveyNo, Employee2 loginEmp);
 
+	void getSurvey(String surveyNo, Model model);
+
 }

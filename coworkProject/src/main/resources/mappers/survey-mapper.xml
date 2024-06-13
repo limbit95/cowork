@@ -109,7 +109,7 @@ AND S.SURVEY_END_DATE + 1 >= SYSDATE
 </select>
 
 <select id="countForValidate">
-	SELECT COUNT(*) SURVEY_TARGET 
+	SELECT COUNT(*)  FROM SURVEY_TARGET 
 	WHERE EMP_CODE = #{empCode}
 	AND SURVEY_NO = #{surveyNo}
 </select>
@@ -120,6 +120,40 @@ AND S.SURVEY_END_DATE + 1 >= SYSDATE
 	WHERE EMP_CODE = #{empCode}
 	AND SURVEY_SUB_NO = #{surveySubNo}
 </select>
+
+<select id="getSurvey">
+	SELECT * FROM SURVEY 
+	WHERE SURVEY_NO = #{surveyNo}
+</select>
+
+<select id="surveySubList" resultMap="survey_rm">
+	SELECT * FROM SURVEY_SUB 
+	WHERE SURVEY_NO = #{surveyNo}
+</select>
+
+<resultMap type="SurveySub" id="survey_rm">
+	<id property="surveySubNo" column="SURVEY_SUB_NO" />
+    <result property="surveyMultipleNo" column="SURVEY_MULTIPLE_NO"/>
+    <result property="surveySubNo" column="SURVEY_SUB_NO"/>
+    <result property="multipleQuestion" column="MULTIPLE_QUESTION"/>
+
+	
+	<collection property="options"              
+		select="selectSurveyMultiple"
+		column= "SURVEY_SUB_NO"
+		javaType="java.util.ArrayList"
+		ofType= "SurveyMultiple"
+	/>
+</resultMap>
+
+<select id="selectSurveyMultiple" resultType="SurveyMultiple">
+	SELECT * FROM SURVEY_MULTIPLE
+	WHERE SURVEY_SUB_NO = #{surveySubNo}
+</select>
+
+
+
+
 	
 </mapper>
 
