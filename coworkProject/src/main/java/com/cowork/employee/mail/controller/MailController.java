@@ -47,7 +47,7 @@ public class MailController {
 		
 		// 전체 메일 개수 
 		int mailCount = service.mailCount(empCode); 
-		// 안읽은 메일 개수 
+		// 안 읽은 메일 개수 
 		int noReadCount = service.noReadCount(empCode); 
 		
 		Map<String, Object> map = service.mailList(paramMap, cp); 
@@ -191,4 +191,30 @@ public class MailController {
 		
 		return path;
 	}
+	
+	
+	/** 사원 검색 - 받는이, 참조 
+	 * @param empName
+	 * @param loginEmp
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/mailInsert/empSearch")
+	public List<Employee2> empSearch( @RequestParam("empName") String empName,
+									   @SessionAttribute("loginEmp") Employee2 loginEmp,
+									   Model model ) {
+		
+		return service.mailEmpSearch(empName, loginEmp.getComNo()); 
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 } 

@@ -46,4 +46,7 @@ public class Employee2 {
 	//재준
 	private Integer teamNo;
 	
+	// 사원 이름용 
+	private String empName;
+	
 }

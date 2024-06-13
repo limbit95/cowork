@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.cowork.employee.mail.model.dto.Mail;
 import com.cowork.employee.mail.model.dto.MailFile;
+import com.cowork.user.model.dto.Employee2;
 
 /**
  * 
@@ -79,6 +80,13 @@ public interface MailService {
 	 * @return
 	 */
 	int inMailNoReadCount(int empCode);
+
+	/** 사원 검색 - 받는이, 참조 
+	 * @param empName
+	 * @param comNo
+	 * @return
+	 */
+	List<Employee2> mailEmpSearch(String empName, int comNo);
 
 
 

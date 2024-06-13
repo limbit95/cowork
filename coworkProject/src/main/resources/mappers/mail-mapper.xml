@@ -26,9 +26,9 @@
 		    MAIL_FILE.FILE_UPLOAD_DATE,
 		    MAIL_FILE.FILE_ORDER,
 		    REF_EMP.EMP_CODE AS REFERENCE_EMP_CODE,
-		    REF_EMP.EMP_ID AS referenceMail,
-		    REF_EMP.EMP_LAST_NAME || REF_EMP.EMP_FIRST_NAME AS reference,
-		    REF_TEAM.TEAM_NM AS referenceTeamNm
+		    REF_EMP.EMP_ID AS refererMail,
+		    REF_EMP.EMP_LAST_NAME || REF_EMP.EMP_FIRST_NAME AS referer,
+		    REF_TEAM.TEAM_NM AS refererTeamNm
 		FROM 
 		    MAIL M
 		LEFT JOIN 
@@ -154,10 +154,10 @@
 		    MAIL_FILE.FILE_RENAME,
 		    MAIL_FILE.FILE_UPLOAD_DATE,
 		    MAIL_FILE.FILE_ORDER,
-		    REF_EMP.EMP_CODE AS REFERENCE_EMP_CODE,
-		    REF_EMP.EMP_ID AS referenceMail,
-		    REF_EMP.EMP_LAST_NAME || REF_EMP.EMP_FIRST_NAME AS reference,
-		    REF_TEAM.TEAM_NM AS referenceTeamNm
+		    REF_EMP.EMP_CODE AS refererEmpCode,
+		    REF_EMP.EMP_ID AS refererMail,
+		    REF_EMP.EMP_LAST_NAME || REF_EMP.EMP_FIRST_NAME AS referer,
+		    REF_TEAM.TEAM_NM AS refererTeamNm
 		FROM 
 		    MAIL M
 		LEFT JOIN 
@@ -230,10 +230,10 @@
 		    MAIL_FILE.FILE_RENAME,
 		    MAIL_FILE.FILE_UPLOAD_DATE,
 		    MAIL_FILE.FILE_ORDER,
-		    REF_EMP.EMP_CODE AS REFERENCE_EMP_CODE,
-		    REF_EMP.EMP_ID AS referenceMail,
-		    REF_EMP.EMP_LAST_NAME || REF_EMP.EMP_FIRST_NAME AS reference,
-		    REF_TEAM.TEAM_NM AS referenceTeamNm
+		    REF_EMP.EMP_CODE AS refererEmpCode,
+		    REF_EMP.EMP_ID AS refererMail,
+		    REF_EMP.EMP_LAST_NAME || REF_EMP.EMP_FIRST_NAME AS referer,
+		    REF_TEAM.TEAM_NM AS refererTeamNm
 		FROM 
 		    MAIL M
 		LEFT JOIN 
@@ -322,10 +322,10 @@
 		    MAIL_FILE.FILE_RENAME,
 		    MAIL_FILE.FILE_UPLOAD_DATE,
 		    MAIL_FILE.FILE_ORDER,
-		    REF_EMP.EMP_CODE AS REFERENCE_EMP_CODE,
-		    REF_EMP.EMP_ID AS referenceMail,
-		    REF_EMP.EMP_LAST_NAME || REF_EMP.EMP_FIRST_NAME AS reference,
-		    REF_TEAM.TEAM_NM AS referenceTeamNm
+		    REF_EMP.EMP_CODE AS refererEmpCode,
+		    REF_EMP.EMP_ID AS refererMail,
+		    REF_EMP.EMP_LAST_NAME || REF_EMP.EMP_FIRST_NAME AS referer,
+		    REF_TEAM.TEAM_NM AS refererTeamNm
 		FROM 
 		    MAIL M
 		LEFT JOIN 
@@ -467,6 +467,43 @@
 		</if>
 	</select>
 	
+	<!-- 사원 검색 -->
+	<select id="employeeSearch">
+		SELECT 
+			 E.EMP_CODE,
+			 E.EMP_ID,
+			 T.TEAM_NM,
+			 E.EMP_LAST_NAME || E.EMP_FIRST_NAME AS EMP_NAME,
+			 P."POSITION_NM"
+		FROM EMPLOYEE E
+		LEFT JOIN TEAM T ON E.TEAM_NO = T.TEAM_NO 
+		LEFT JOIN "POSITION" P ON E.POSITION_NO  = P."POSITION_NO"
+		WHERE E.COM_NO = #{comNo}
+		ORDER BY T.TEAM_NO, P."LEVEL"
+	</select>
+	
+	<!-- 사원 검색 찾기 -->
+	<select id="employeeListSearch">
+		SELECT * 
+		FROM (
+			SELECT 
+				 E.EMP_CODE,
+				 E.EMP_ID,
+				 T.TEAM_NM,
+				 E.EMP_LAST_NAME || E.EMP_FIRST_NAME AS EMP_NAME,
+				 P."POSITION_NM"
+			FROM EMPLOYEE E
+			LEFT JOIN TEAM T ON E.TEAM_NO = T.TEAM_NO 
+			LEFT JOIN "POSITION" P ON E.POSITION_NO  = P."POSITION_NO"
+			WHERE E.COM_NO = #{comNo}
+			ORDER BY T.TEAM_NO, P."LEVEL"
+		)
+		WHERE 1=1
+		AND (EMP_ID LIKE '%' || #{empName} || '%'
+		OR TEAM_NM LIKE '%' || #{empName} || '%'
+		OR EMP_NAME LIKE '%' || #{empName} || '%'
+		OR POSITION_NM LIKE '%' || #{empName} || '%')
+	</select>
 	
 </mapper>
 
