@@ -21,14 +21,15 @@ a:hover {
 }
 
 /* 목록 + 상세 전체 감싸는 div */
-.todoListArea{
+.todoListArea {
     display: flex;
     margin: 0 !important;
 }
 
 /* ! 목록 !*/
-.todoList{
+.todoList {
     margin: 0 !important;
+    min-height: 700px;
     max-height: 740px;
     overflow-y: auto;
 }
@@ -99,7 +100,7 @@ a:hover {
     box-shadow: none;
 }
 
-.todo{
+.todo {
     width: 1000px;
     display: flex;
     align-items: center;
@@ -115,9 +116,6 @@ a:hover {
     width: 86%;
     cursor: pointer;
 }
-/*.todo div:nth-of-type(3){
-    margin-left: 100px;
-}*/
 
 
 /* ! select ! */
@@ -142,12 +140,16 @@ ul{
     padding: 8px;
 }
 
+/* 진행중 */
 .select .selected.in-progress {
-    background-color: #CEEEC3; /* 진행중 색상 */
+    background-color: #CEEEC3; 
+    z-index: 1;
 }
 
+/* 완료 색상 */
 .select .selected.completed {
-    background-color: #FFE0E6; /* 완료 색상 */
+    background-color: #FFE0E6; 
+    z-index: 1;
 }
 
 .optionList {

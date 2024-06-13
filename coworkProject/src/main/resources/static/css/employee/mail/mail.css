@@ -29,6 +29,12 @@ label.delBtn {
     margin: 0 !important;
 }
 
+.table-body.row {
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
 .table-body.row:hover {
     font-weight: bold;
 }

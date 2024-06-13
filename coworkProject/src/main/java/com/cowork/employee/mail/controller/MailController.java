@@ -1,5 +1,6 @@
 package com.cowork.employee.mail.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,25 +36,31 @@ public class MailController {
 	 * @return
 	 */
 	@GetMapping("mailList")
-	public String mainList(@SessionAttribute("loginEmp") Employee2 loginEmp,
-							Model model) {
+	public String mainList(	@SessionAttribute("loginEmp") Employee2 loginEmp,
+						   	@RequestParam Map<String, Object> paramMap,
+						   	@RequestParam(value="cp", required=false, defaultValue="1") int cp,
+						   	Model model ) {
 		
 		int empCode = loginEmp.getEmpCode(); 
+		paramMap.put("empCode", loginEmp.getEmpCode()); 
+		paramMap.put("comNo", loginEmp.getEmpNo()); 
 		
-		List<Mail> mailList = service.mailList(empCode); 
 		// 전체 메일 개수 
 		int mailCount = service.mailCount(empCode); 
 		// 안읽은 메일 개수 
 		int noReadCount = service.noReadCount(empCode); 
 		
-		model.addAttribute("mail", mailList); 
+		Map<String, Object> map = service.mailList(paramMap, cp); 
+		
+		model.addAttribute("mail", map.get("mailList")); 
+		model.addAttribute("pagination", map.get("pagination")); 
+		model.addAttribute("mailCount", map.get("mailCount")); 
+		model.addAttribute("noReadCount", map.get("noReadCount")); 
 		model.addAttribute("empCode", empCode); 
-		model.addAttribute("mailCount", mailCount); 
-		model.addAttribute("noReadCount", noReadCount); 
 		model.addAttribute("loginEmp", loginEmp);
 		
-		log.info("mailCount" + mailCount);
-		log.info("noReadCount" + noReadCount);
+		log.info("mailCount : " + mailCount);
+		log.info("noReadCount : " + noReadCount);
 		
 		return "employee/mail/mailList";
 	}
@@ -62,7 +69,31 @@ public class MailController {
 	 * @return
 	 */
 	@GetMapping("inbox")
-	public String inbox() {
+	public String inbox(	@SessionAttribute("loginEmp") Employee2 loginEmp,
+		   					@RequestParam Map<String, Object> paramMap,
+	   						@RequestParam(value="cp", required=false, defaultValue="1") int cp,
+	   						Model model ) {
+		
+		int empCode = loginEmp.getEmpCode(); 
+		paramMap.put("empCode", loginEmp.getEmpCode()); 
+		paramMap.put("comNo", loginEmp.getEmpNo()); 
+		
+		// 전체 메일 개수 
+		int inMailCount = service.inMailCount(empCode); 
+		// 안읽은 메일 개수 
+		int inMailNoReadCount = service.inMailNoReadCount(empCode); 
+		
+		Map<String, Object> map = service.inMailList(paramMap, cp); 
+		
+		model.addAttribute("inMail", map.get("inMailList")); 
+		model.addAttribute("pagination", map.get("pagination")); 
+		model.addAttribute("inMailCount", map.get("inMailCount")); 
+		model.addAttribute("inMailNoReadCount", map.get("inMailNoReadCount")); 
+		model.addAttribute("empCode", empCode); 
+		model.addAttribute("loginEmp", loginEmp);
+		
+		log.info("inMailCount : " + inMailCount);
+		log.info("noReadCount : " + inMailNoReadCount);
 		
 		return "employee/mail/inbox";
 	}
@@ -71,7 +102,31 @@ public class MailController {
 	 * @return
 	 */
 	@GetMapping("sentbox")
-	public String sentbox() {
+	public String sentbox(	@SessionAttribute("loginEmp") Employee2 loginEmp,
+							@RequestParam Map<String, Object> paramMap,
+							@RequestParam(value="cp", required=false, defaultValue="1") int cp,
+							Model model ) {
+		
+		int empCode = loginEmp.getEmpCode(); 
+		paramMap.put("empCode", loginEmp.getEmpCode()); 
+		paramMap.put("comNo", loginEmp.getEmpNo()); 
+		
+		// 전체 메일 개수 
+		int sentMailCount = service.sentMailCount(empCode); 
+		// 안읽은 메일 개수 
+		int sentMailNoReadCount = service.sentMailNoReadCount(empCode); 
+		
+		Map<String, Object> map = service.sentMailList(paramMap, cp); 
+		
+		model.addAttribute("sentMail", map.get("sentMailList")); 
+		model.addAttribute("pagination", map.get("pagination")); 
+		model.addAttribute("sentMailCount", map.get("sentMailCount")); 
+		model.addAttribute("sentMailNoReadCount", map.get("sentMailNoReadCount")); 
+		model.addAttribute("empCode", empCode); 
+		model.addAttribute("loginEmp", loginEmp);
+		
+		log.info("sentMailCount : " + sentMailCount);
+		log.info("sentMailNoReadCount : " + sentMailNoReadCount);
 		
 		return "employee/mail/sentbox";
 	}
