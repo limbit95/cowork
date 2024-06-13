@@ -43,6 +43,6 @@ public interface EdsmService {
 	 * @param empFirstName
 	 * @return
 	 */
-	Employee2 edsmSerach(String empFirstName);
+	List<Employee2> edsmSerach(String empFirstName, int comNo);
 
 }
