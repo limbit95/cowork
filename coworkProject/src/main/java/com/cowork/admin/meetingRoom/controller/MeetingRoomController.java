@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.meetingRoom.model.dto.MeetingRoom;
 import com.cowork.admin.meetingRoom.model.service.MeetingRoomService;
+import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("meetingRoom")
 @RequiredArgsConstructor
+@SessionAttributes("meetingRoomList")
 public class MeetingRoomController {
 
 	private final MeetingRoomService service;
@@ -32,11 +36,9 @@ public class MeetingRoomController {
 	 * @return meetingRoomList
 	 */
 	@GetMapping("meetingRoomList")
-	public String meetingRoomList(Model model) {
-		// 매개변수로 loginMember 가져와서 com_no 꺼내와야함
-		int comNo = 1;
+	public String meetingRoomList(@SessionAttribute("loginEmp") Employee2 loginEmp, Model model) {
 		
-		List<MeetingRoom> meetingRoomList = service.meetingRoomList(comNo);
+		List<MeetingRoom> meetingRoomList = service.meetingRoomList(loginEmp.getComNo());
 		
 		model.addAttribute("meetingRoomList", meetingRoomList);
 		
@@ -45,7 +47,8 @@ public class MeetingRoomController {
 	
 	@PostMapping("meetingRoomInsert")
 	public String meetingRoomInsert(RedirectAttributes ra,
-			@RequestParam(value="meetingRoomNm") String meetingRoomNm) {
+			@RequestParam(value="meetingRoomNm") String meetingRoomNm,
+			@SessionAttribute("loginEmp") Employee2 loginEmp) {
 		// 매개변수로 loginMember 가져와서 com_no 꺼내와야함
 		// 넣어줘야하는 값 seq, 회의실 이름, com_no 보내줘야함
 		
@@ -53,7 +56,7 @@ public class MeetingRoomController {
 		
 		meetingRoom.setMeetingRoomNm(meetingRoomNm);
 		// loginMember 에서 꺼낸 com_no 넣어줘야함
-		meetingRoom.setComNo(1);
+		meetingRoom.setComNo(loginEmp.getComNo());
 		
 		int result = service.meetingRoomInsert(meetingRoom);
 		
@@ -77,12 +80,11 @@ public class MeetingRoomController {
 	 */
 	@ResponseBody
 	@DeleteMapping("delete")
-	public int meetingRoomDelete(@RequestBody int meetingRoomNo) {
-		// 로그인한 회원의 회사 정보도 같이 넘겨줘야함
-		int comNo = 1;
+	public int meetingRoomDelete(@RequestBody int meetingRoomNo,
+			@SessionAttribute("loginEmp") Employee2 loginEmp) {
 		
 		MeetingRoom meetingRoom = new MeetingRoom();
-		meetingRoom.setComNo(comNo);
+		meetingRoom.setComNo(loginEmp.getComNo());
 		meetingRoom.setMeetingRoomNo(meetingRoomNo);
 		
 		return service.meetingRoomDelete(meetingRoom);
