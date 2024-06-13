@@ -1,5 +1,7 @@
 package com.cowork.employee.reservation.model.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,14 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public int reservationInsert(ReserveInfo inputReserveInfo) {
 		return mapper.reservationInsert(inputReserveInfo);
+	}
+
+	/** 회의실 예약 정보 조회
+	 * @return reserveInfoList
+	 */
+	@Override
+	public List<ReserveInfo> selectReserveInfoList(int comNo) {
+		return mapper.selectReserveInfoList(comNo);
 	}
 
 }

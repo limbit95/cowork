@@ -373,7 +373,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const selectedDeptList = Array.from(document.querySelectorAll('input[name="selectedDeptNo"]')).map(input => input.value);
                 const selectedTeamList = Array.from(document.querySelectorAll('input[name="selectedTeamNo"]')).map(input => input.value);
                 const selectedMeetingRoomNo = document.querySelector('input[name="selectedMeetingRoomNo"]').value;
-                const selectedMeetingRoomNM = document.querySelector('p[name="selectedMeetingRoomNm"]').value;
+                const selectedMeetingRoomNM = document.querySelector('p[name="selectedMeetingRoomNm"]').innerText;
                 
                 const date = new Date(info.start);
                 const endDate = new Date(info.end);
@@ -409,7 +409,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 const obj = {
-                    "reserveInfoTitle" : `${formattedStartTime}부터 ${formattedEndTime}까지 ${selectedMeetingRoomNo} 예약됨`,
+                    "reserveInfoTitle" : `${formattedStartTime}부터 ${formattedEndTime}까지 ${selectedMeetingRoomNM} 예약됨`,
                     "reserveInfoStart" : info.start,
                     "reserveInfoEnd" : info.end,
                     "reserveInfoColor" : selectedColor.value,

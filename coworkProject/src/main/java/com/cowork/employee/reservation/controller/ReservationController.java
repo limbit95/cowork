@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.admin.companyInfo.model.dto.Team;
@@ -29,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping("reservation")
 @RequiredArgsConstructor
+@SessionAttributes("reserveInfoList")
 public class ReservationController {
 
 	private final CalendarService cs;
@@ -36,8 +38,18 @@ public class ReservationController {
 	
 	private final ReservationService service;
 	
+	/** 회의실 예약 첫 화면
+	 * @return
+	 */
 	@GetMapping("selectMonth")
-	public String selectMonth() {
+	public String selectMonth(@SessionAttribute("loginEmp") Employee2 loginEmp,
+			Model model) {
+		
+		// 회사 번호로 예약 정보 가져오기 세션에 실어줄 거임
+		List<ReserveInfo> reserveInfoList = service.selectReserveInfoList(loginEmp.getComNo());
+		
+		model.addAttribute("reserveInfoList", reserveInfoList);
+		
 		return "employee/reservation/selectMonth";
 	}
 	

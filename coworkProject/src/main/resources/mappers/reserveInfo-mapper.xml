@@ -12,4 +12,26 @@
 			#{deptShare}, #{comReserve}
 		)
 	</insert>
+	
+	<!-- 회의실 예약 목록 조회 -->
+	<select id="selectReserveInfoList">
+		SELECT 
+	    r.RESERVE_INFO_TITLE, 
+	    r.RESERVE_INFO_START, 
+	    r.RESERVE_INFO_END, 
+	    r.RESERVE_INFO_COLOR, 
+	    r.EMP_CODE,
+	    r.TEAM_RESERVE, 
+	    r.DEPT_RESERVE, 
+	    r.COM_RESERVE, 
+	    r.MEETING_ROOM_NO, 
+	    r.COM_NO,
+	    m.MEETING_ROOM_NM
+	FROM 
+	    RESERVE_INFO r
+	JOIN 
+	    MEETING_ROOM m ON r.MEETING_ROOM_NO = m.MEETING_ROOM_NO
+	WHERE 
+	    r.COM_NO = #{comNo}
+	</select>
 </mapper>

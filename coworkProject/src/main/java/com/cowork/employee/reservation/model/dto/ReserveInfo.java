@@ -26,6 +26,8 @@ public class ReserveInfo {
 	private List<String> teamReserve;
 	private List<String> deptReserve;
 	private int comReserve;
+	private int comNo;
+	private String meetingRoomNm;
 	
 	private String deptShare;
 	private String teamShare;
