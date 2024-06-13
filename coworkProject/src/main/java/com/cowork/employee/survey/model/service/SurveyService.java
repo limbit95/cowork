@@ -19,4 +19,8 @@ public interface SurveyService {
 
 	void receiveSurvey(Employee2 loginEmp, String currentPage, Model model);
 
+	Boolean validate(String surveyNo, Employee2 loginEmp);
+
+	Boolean checkAlreadyWrite(String surveyNo, Employee2 loginEmp);
+
 }

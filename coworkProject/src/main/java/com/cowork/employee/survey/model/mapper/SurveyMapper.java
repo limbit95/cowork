@@ -40,6 +40,14 @@ public interface SurveyMapper {
 
 	Integer answerCount(Map<String, Object> paramMap11);
 
+	Survey surveyDetail(String surveyNo);
+
+	Integer findComNo(Integer empCode);
+
+	Integer countForValidate(Map<String, Object> paramMap);
+
+	Integer checkAlreadyWrite(Map<String, Object> paramMap);
+
 
 
 

@@ -98,6 +98,28 @@ AND S.SURVEY_END_DATE + 1 >= SYSDATE
 	AND EMP_CODE = #{empCode}
 </select>
 
+<select id="surveyDetail">
+	SELECT * FROM SURVEY 
+	WHERE SURVEY_NO = #{surveyNo}
+</select>
+
+<select id="findComNo">
+	SELECT COM_NO FROM EMPLOYEE
+	WHERE EMP_CODE = #{empCode}
+</select>
+
+<select id="countForValidate">
+	SELECT COUNT(*) SURVEY_TARGET 
+	WHERE EMP_CODE = #{empCode}
+	AND SURVEY_NO = #{surveyNo}
+</select>
+
+
+<select id="checkAlreadyWrite">
+	SELECT COUNT(*) FROM SURVEY_ANSWER
+	WHERE EMP_CODE = #{empCode}
+	AND SURVEY_SUB_NO = #{surveySubNo}
+</select>
 	
 </mapper>
 

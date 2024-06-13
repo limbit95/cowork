@@ -81,8 +81,13 @@
 	
 	
 	
+	<script th:inline="javascript">
+	    const noAuthority =  /*[[${noAuthority}]]*/ "전달 받은 message";
+	  
+	    if(noAuthority != null) alert(noAuthority);		
+	</script>
 	
-	
+
 	
 	
 	

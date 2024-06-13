@@ -313,6 +313,79 @@ public class SurveyServiceImpl implements SurveyService{
 		
 		
 	}
+
+	@Override
+	public Boolean validate(String surveyNo, Employee2 loginEmp) {
+		// 일단, 해당 설문이 전체대상설문인지를 확인하기 위해서 설문 테이블에서 해당 설문을 가져온다. 
+		Survey survey = surveyMapper.surveyDetail(surveyNo);
+		String surveyEntireTargetFl = survey.getSurveyEntireTargetFl();
+		
+		if(surveyEntireTargetFl.equals("Y")) {
+			//전체 대상 설문인 경우 
+			// 해당 사원이 속한 회사의 전체대상 설문인지를 검증해주면 됨 
+			Integer empCode = survey.getEmpCode(); // <- 해당 설문을 작성한 놈의 EMP_CODE 임 
+			Integer requestEmpCode = loginEmp.getEmpCode();	// 현재 http요청 보낸 사원의 EMP_CODE
+			
+			Integer comNo1 = surveyMapper.findComNo(empCode);
+			Integer comNo2 = surveyMapper.findComNo(empCode);
+			
+			if(comNo1 == comNo2) {
+				// 자격 있다! 
+				return true;
+				
+			} else {
+				// 자격 없다!
+				return false;
+			}
+			
+		} else {
+			// 전체 대상 설문이 아닌 경우  ==> 해당 사원이 그 설문의 대상인지를 설문 대상 테이블에서 조회해보면 됨 
+			Map<String, Object> paramMap = new HashMap<>();
+			Integer requestEmpCode = loginEmp.getEmpCode();	// 현재 http요청 보낸 사원의 EMP_CODE
+
+			paramMap.put("empCode", requestEmpCode);
+			paramMap.put("surveyNo", surveyNo);
+			
+			Integer count = surveyMapper.countForValidate(paramMap);
+			
+			if(count == 0) {
+				// 조회된 게 없다 => 자격 없다 
+				return false; 
+				
+			} else{ //(count == 1) 
+				// 조회된 게 있다 => 자격 있다 
+				return true;
+			}
+		
+		}
+		
+
+		
+	}
+
+	@Override
+	public Boolean checkAlreadyWrite(String surveyNo, Employee2 loginEmp) {
+		// 해당 설문에 포함된 소제목 기본키 하나만 가져와 
+		List<Integer> surveySubNoList = surveyMapper.findSurveySubNo(Integer.parseInt(surveyNo));		
+		Integer firstSurveySubNo = surveySubNoList.get(0); // firstSurveySubNo 은 해당 설문 중 첫번째 질문의 소제목 기본키 
+		
+		// 설문 답변 테이블(SURVEY_ANSWER) 에서 해당 소제목에 해당하는 EMP_CODE 가 존재하는지 확인
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("surveySubNo", firstSurveySubNo);
+		paramMap.put("empCode", loginEmp.getEmpCode());
+		
+		Integer count = surveyMapper.checkAlreadyWrite(paramMap);
+		
+		if(count > 0) {
+			// 작성한 적이 있다 
+			return true;
+		}else {
+			// 작성한 적이 없다 
+			return false;
+		}
+		
+		
+	}
 	
 	
 }
