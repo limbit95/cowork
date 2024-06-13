@@ -10,6 +10,7 @@ import com.cowork.employee.edsm.model.dto.Approver;
 import com.cowork.employee.edsm.model.dto.DraftKeep;
 import com.cowork.employee.edsm.model.dto.Edsm;
 import com.cowork.employee.edsm.model.dto.EdsmFile;
+import com.cowork.user.model.dto.Employee2;
 
 @Mapper
 public interface EdsmMapper {
@@ -48,5 +49,11 @@ public interface EdsmMapper {
 	 * @return
 	 */
 	int approverInsert(List<Approver> approverList);
+
+	/** 결재인, 참조인 검색
+	 * @param comNo
+	 * @return
+	 */
+	List<Employee2> employeeSearch(int comNo);
 
 }

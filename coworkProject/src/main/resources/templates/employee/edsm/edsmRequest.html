@@ -7,6 +7,7 @@
 
     <th:block th:replace="~{common/common}"></th:block>
     <link rel="stylesheet" href="/css/employee/board/board.css">
+    <link rel="stylesheet" href="/css/employee/edsm/edsm.css">
 </head>
 <body>
 
@@ -27,18 +28,46 @@
             </div>
 
             <!-- 결재인 -->
-            <div class="ins-css insertForm">
+            <div class="ins-css insertForm approverForm">
                 <div><label>결재인</label></div>
-                <input class="default-line inputBtn">
-                <button class="default-btn glucose-btn">검색</button>
+                <input class="default-line inputApprover" id="approver1"><input id="empCode1" hidden/>
+                <!--<datalist id="approver1" th:each="employee : ${employeeList}" th:object="${employee}">
+                    <option th:value="*{empFirstName}"></option>
+                </datalist>-->
+                <input class="default-line inputApprover" id="approver2"><input id="empCode2" hidden/>
+                <input class="default-line inputApprover" id="approver3"><input id="empCode3" hidden/>
+                <!--<button class="default-btn glucose-btn">검색</button>-->
+            </div>
+
+            <div class="searchTable displayNone searchApp">
+                <div class="searchTr trApp" th:each="employee : ${employeeList}" th:object="${employee}"
+                    >
+                    <div th:text="*{empCode}" hidden>64</div>
+                    <div th:text="*{empId}" id="empId">sample1</div>
+                    <div th:text="*{deptNm}" id="deptNm">본부팀</div>
+                    <div th:text="*{empFirstName}" id="empNm">임성혁</div>
+                    <div th:text="*{positionNm}">대리</div>
+                </div>
             </div>
 
             <!-- 참조인 -->
-            <div class="ins-css insertForm">
+            <div class="ins-css insertForm referrerForm">
                 <div><label>참조인</label></div>
-                <input class="default-line inputBtn">
-                <button class="default-btn glucose-btn">검색</button>
+                <input class="default-line listBtn" id="referrer"><input id="empCode" hidden/>
+                <!--<button class="default-btn glucose-btn">검색</button>-->
             </div>
+
+            <div class="searchTable displayNone searchRef">
+                <div class="searchTr trRef" th:each="employee : ${employeeList}" th:object="${employee}"
+                    >
+                    <div th:text="*{empCode}" hidden>64</div>
+                    <div th:text="*{empId}" id="empId">sample1</div>
+                    <div th:text="*{deptNm}" id="deptNm">본부팀</div>
+                    <div th:text="*{empFirstName}" id="empNm">임성혁</div>
+                    <div th:text="*{positionNm}">대리</div>
+                </div>
+            </div>
+
 
             <!-- 파일 -->
             <div class="fileUploadForm">

@@ -94,9 +94,24 @@
 				,#{approver.empCode}
 				,NULL
 				,NULL
-				,#{approverNo}=
+				,#{approverNo}
 			FROM DUAL
 		</foreach>
 	</insert>
+	
+	<!-- 결재인, 참조인 검색 -->
+	<select id="employeeSearch">
+		SELECT 
+			 E.EMP_CODE
+			,E.EMP_ID
+			,T.TEAM_NM
+			,E.EMP_LAST_NAME || E.EMP_FIRST_NAME AS EMP_FIRST_NAME
+			,P."POSITION_NM"
+		FROM EMPLOYEE E
+		LEFT JOIN TEAM T ON E.TEAM_NO = T.TEAM_NO 
+		LEFT JOIN "POSITION" P ON E.POSITION_NO  = P."POSITION_NO"
+		WHERE E.COM_NO = #{comNo}
+		ORDER BY T.TEAM_NO, P."LEVEL"
+	</select>
 
 </mapper>

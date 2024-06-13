@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.edsm.model.dto.Draft;
-import com.cowork.admin.edsm.model.service.DraftService;
+import com.cowork.admin.edsm.model.service.AdminEdsmService;
 import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("admin/edsm")
 public class AdminEdsmController {
 	
-	private final DraftService service;
+	private final AdminEdsmService service;
 	
 	/** 전자결재 문서 관리
 	 * @return
@@ -114,6 +114,7 @@ public class AdminEdsmController {
 		return "admin/edsm/edsmUpdateDraft";
 	}
 	
+	// 양식 수정
 	@PostMapping("edsmUpdateDraft/{draftNo:[0-9]+}")
 	public String edsmUpdateDraft(
 				@PathVariable("draftNo") int draftNo,

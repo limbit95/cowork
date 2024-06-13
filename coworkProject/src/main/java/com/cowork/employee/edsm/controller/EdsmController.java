@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.edsm.model.dto.Draft;
-import com.cowork.admin.edsm.model.service.DraftService;
+import com.cowork.admin.edsm.model.service.AdminEdsmService;
 import com.cowork.employee.edsm.model.dto.DraftKeep;
 import com.cowork.employee.edsm.model.dto.Edsm;
 import com.cowork.employee.edsm.model.service.EdsmService;
@@ -32,8 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("employee/edsm")
 public class EdsmController {
 	
-	private final DraftService service;
-	private final EdsmService serviceEdsm;
+	private final EdsmService service;
 
 	/** 전자결재 기안서 양식 목록
 	 * @return
@@ -53,7 +52,7 @@ public class EdsmController {
 		paramMap.put("empCode", loginEmp.getEmpCode());
 		
 		// 조회 서비스 호출 후 결과 반환
-		Map<String, Object> map = serviceEdsm.edsmDraftList(paramMap);
+		Map<String, Object> map = service.edsmDraftList(paramMap);
 		
 		model.addAttribute("draftList", map.get("draftList"));
 		model.addAttribute("draftKeepList", map.get("draftKeepList"));
@@ -85,7 +84,7 @@ public class EdsmController {
 						.keepYn(keepYn)
 						.build();
 		
-		int result = serviceEdsm.draftKeepYn(draftKeep);
+		int result = service.draftKeepYn(draftKeep);
 		
 		if(result == 0) ra.addFlashAttribute("message", "자주찾는 결제 수정 실패");
 		
@@ -98,14 +97,28 @@ public class EdsmController {
 	@GetMapping("edsmRequest/{draftNo:[0-9]+}")
 	public String edsmRequest(
 				@PathVariable("draftNo") int draftNo,
+				@SessionAttribute("loginEmp") Employee2 loginEmp,
 				Model model
 			) {
 		
-		Draft draft = service.edsmDetailDraft(draftNo);
+		Map<String, Object> map = service.edsmDetailDraft(draftNo, loginEmp.getComNo());
 		
-		model.addAttribute("draft", draft);
+		model.addAttribute("draft", map.get("draft"));
+		model.addAttribute("employeeList", map.get("employeeList"));
 		
 		return "employee/edsm/edsmRequest";
+	}
+	
+	public Model edsmSerach(
+				@RequestParam("empFirstName") String empFirstName,
+				Model model
+			) {
+		
+		Employee2 employeeList = service.edsmSerach(empFirstName);
+		
+		model.addAttribute("employeeList", employeeList);
+		
+		return model;
 	}
 	
 	/** 전자결재 신청
@@ -121,7 +134,9 @@ public class EdsmController {
 				@RequestParam("edsmTitle") String edsmTitle,
 	            @RequestParam("edsmContent") String edsmContent,
 	            @RequestParam("draftNo") int draftNo,
-	            @RequestParam("approvers") Map<Integer, String> approverMap,
+	            @RequestParam("approver") String approver, /* 결재자 */
+	            @RequestParam("referrer") String referrer, /* 참조자 */
+	            //@RequestParam("approvers") Map<Integer, String> approverMap,
 	            @SessionAttribute("loginEmp") Employee2 loginEmp, 
 				@RequestParam(value="files", required=false) List<MultipartFile> files,
 				RedirectAttributes ra
@@ -136,7 +151,7 @@ public class EdsmController {
 				.draftNo(draftNo)
 				.build();
 		
-		int result = serviceEdsm.edsmRequest(inputEdsm, files, approverMap);
+		int result = service.edsmRequest(inputEdsm, files, approver , referrer);
 		
 		return result;
 	}

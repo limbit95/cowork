@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.employee.edsm.model.dto.DraftKeep;
 import com.cowork.employee.edsm.model.dto.Edsm;
+import com.cowork.user.model.dto.Employee2;
 
 public interface EdsmService {
 
@@ -22,6 +23,13 @@ public interface EdsmService {
 	 * @return
 	 */
 	int draftKeepYn(DraftKeep draftKeep);
+	
+	/** 전자결재 양식 상세
+	 * @param draftNo
+	 * @param comNo
+	 * @return
+	 */
+	Map<String, Object> edsmDetailDraft(int draftNo, int comNo);
 
 	/** 전자결재 등록
 	 * @param inputEdsm
@@ -29,6 +37,12 @@ public interface EdsmService {
 	 * @param approverMap 
 	 * @return
 	 */
-	int edsmRequest(Edsm inputEdsm, List<MultipartFile> files, Map<Integer, String> approverMap) throws IllegalStateException, IOException;
+	int edsmRequest(Edsm inputEdsm, List<MultipartFile> files, String approver , String referrer) throws IllegalStateException, IOException;
+
+	/** 결재인, 참조인 검색
+	 * @param empFirstName
+	 * @return
+	 */
+	Employee2 edsmSerach(String empFirstName);
 
 }
