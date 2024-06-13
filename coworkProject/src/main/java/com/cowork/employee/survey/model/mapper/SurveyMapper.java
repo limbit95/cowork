@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cowork.employee.chatting.model.dto.Employee;
+import com.cowork.employee.survey.model.dto.Survey;
 import com.cowork.user.model.dto.Employee2;
 
 @Mapper
@@ -26,6 +27,19 @@ public interface SurveyMapper {
 	int findNextSequenceVal();
 
 	void insertSurveySub(Map<String, Object> paramMap5);
+
+	void insertSurveyMultiple(Map<String, Object> paramMap6);
+
+	List<Survey> entireTargetSurvey(Integer empCode);
+	
+	List<Survey> receiveSurvey(Integer empCode);
+
+	String findEmpFullName(Integer empCode2);
+
+	List<Integer> findSurveySubNo(Integer surveyNo);
+
+	Integer answerCount(Map<String, Object> paramMap11);
+
 
 
 

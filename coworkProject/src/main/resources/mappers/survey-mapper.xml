@@ -22,7 +22,7 @@
 
 <insert id="insertSurvey">
 	INSERT INTO SURVEY
-	VALUES (#{surveyNo},  #{empCode}, #{title},  #{surveyStartDate}, #{surveyEndDate}, #{surveyEntireTargetFl})
+	VALUES (#{surveyNo},  #{empCode}, #{title}, #{surveyEntireTargetFl}, TO_DATE(#{surveyStartDate}, 'YYYY-MM-DD') , TO_DATE(#{surveyEndDate}, 'YYYY-MM-DD'))
 </insert>
 
 <select id="specificPositionEmpList"> 
@@ -35,7 +35,7 @@
 
 <insert id="insertSurveyTarget">
 	INSERT INTO SURVEY_TARGET
-	VALUES (SEQ_SURVEY_TARGET.NEXTVAL,  #{EmpCode2}, #{surveyNo})
+	VALUES (SEQ_SURVEY_TARGET.NEXTVAL,  #{Empcode2}, #{surveyNo})
 </insert>
 
 <select id="findNextSequenceVal">
@@ -43,9 +43,61 @@
 </select>
 
 <insert id="insertSurveySub">
- INSERT INTO SURVEY_SUB VALUES 
- (#{surveySubNo}, #{surveyNo}, #{surveySubTitle}, #{questionType})
+	INSERT INTO SURVEY_SUB VALUES 
+	(#{surveySubNo}, #{surveyNo}, #{surveySubTitle}, #{questionType})
 </insert>
+
+<insert id="insertSurveyMultiple">
+	INSERT INTO SURVEY_MULTIPLE
+	VALUES (SEQ_SURVEY_MULTIPLE.NEXTVAL, #{surveySubNo}, #{multipleQuestion})
+</insert>
+
+<select id="entireTargetSurvey">
+	SELECT 
+    S.SURVEY_NO, 
+    S.EMP_CODE, 
+    S.SURVEY_MAIN_TITLE, 
+    S.SURVEY_ENTIRE_TARGET_FL, 
+    S.SURVEY_START_DATE AS SURVEY_START_DATE_DATE, 
+    S.SURVEY_END_DATE + 1 AS SURVEY_END_DATE_DATE, 
+    E.EMP_LAST_NAME || ' ' || E.EMP_FIRST_NAME AS FULL_NAME 
+FROM SURVEY S 
+LEFT JOIN EMPLOYEE E ON S.EMP_CODE = E.EMP_CODE 
+WHERE S.SURVEY_ENTIRE_TARGET_FL = 'Y' 
+AND S.SURVEY_END_DATE + 1 >= SYSDATE
+
+</select>
+
+<select id="receiveSurvey">
+	SELECT 
+	S.SURVEY_NO, 
+	S.EMP_CODE, 
+	S.SURVEY_MAIN_TITLE, 
+	S.SURVEY_ENTIRE_TARGET_FL, 
+	S.SURVEY_START_DATE SURVEY_START_DATE_DATE, 
+	S.SURVEY_END_DATE + 1 SURVEY_END_DATE_DATE
+	FROM SURVEY_TARGET ST
+	LEFT JOIN SURVEY S ON (ST.SURVEY_NO = S.SURVEY_NO)
+	WHERE ST.EMP_CODE = #{empCode}
+</select>
+
+<select id="findEmpFullName">
+	SELECT EMP_LAST_NAME || EMP_FIRST_NAME
+	FROM EMPLOYEE 
+	WHERE EMP_CODE = #{empCode2}	
+</select>
+
+<select id="findSurveySubNo">
+	SELECT SURVEY_SUB_NO FROM SURVEY_SUB
+	WHERE SURVEY_NO = #{surveyNo}
+</select>
+
+<select id="answerCount">
+	SELECT COUNT(*) FROM  SURVEY_ANSWER
+	WHERE SURVEY_SUB_NO = #{firstSurveySubNo}
+	AND EMP_CODE = #{empCode}
+</select>
+
 	
 </mapper>
 

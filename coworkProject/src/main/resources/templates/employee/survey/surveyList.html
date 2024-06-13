@@ -35,13 +35,28 @@
             <div class="table-head">
                 <div>제목</div>
                 <div>작성자</div>
-                <div>작성일</div>
+                <div>기한</div>
             </div>
 
             <div class="table-body">
-                <div><a href="surveyDetail">설문조사 목록입니다. 투표해주세요.</a></div>
-                <div>정희윤</div>
-                <div>2024-05-22</div>
+				<th:block th:each="survey : ${newSurveyList}" >
+										
+					<a th:href="@{/survey/surveyDetail/{surveyNo}(surveyNo=${survey.surveyNo})}">
+						<div th:text="${survey.surveyMainTitle}" 
+						th:style="'color:' + (${survey.answerFl} ? 'red' : 'blue')"
+						></div>
+					</a>	
+					<div th:text="${survey.fullName}"
+					th:style="'color:' + (${survey.answerFl} ? 'red' : 'blue')"
+					></div>	
+					<div th:text="${survey.restDays} + ' 일'"
+					th:style="'color:' + (${survey.answerFl} ? 'red' : 'blue')"></div>					
+					
+					
+				</th:block>
+				
+				
+				
             </div>
             
         </div>

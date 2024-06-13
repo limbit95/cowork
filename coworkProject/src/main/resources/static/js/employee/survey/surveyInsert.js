@@ -595,7 +595,9 @@ forBottomEmptySpace.addEventListener('click', function(){
 		surveyData = {
 			'position': positionValue,
 	        'title': surveyTitle.value,
-	        'questions': questions
+	        'questions': questions,
+	        'surveyStartDate': surveyStartDate.value,
+	        'surveyEndDate': surveyEndDate.value
     	};
 		
 	}else if (findEmpFlag){
@@ -603,7 +605,9 @@ forBottomEmptySpace.addEventListener('click', function(){
 		surveyData = {
 			'empCodeList': empCodeList,
 	        'title': surveyTitle.value,
-	        'questions': questions
+	        'questions': questions,
+	        'surveyStartDate': surveyStartDate.value,
+	        'surveyEndDate': surveyEndDate.value
     	};
 		
 	}else{

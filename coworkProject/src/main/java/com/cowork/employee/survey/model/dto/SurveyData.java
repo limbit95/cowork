@@ -1,5 +1,6 @@
 package com.cowork.employee.survey.model.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -29,5 +30,4 @@ public class SurveyData {
     
     private String surveyStartDate;
     private String surveyEndDate;
-
 }
