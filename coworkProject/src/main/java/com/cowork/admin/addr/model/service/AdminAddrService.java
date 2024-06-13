@@ -42,4 +42,11 @@ public interface AdminAddrService {
 	 */
 	List<Team> getTeamList(Map<String, Object> map);
 
+	/** 회사 주소록 CRUD
+	 * @param data
+	 * @param loginEmp 
+	 * @return
+	 */
+	int insertGroupList(List<List<Map<String, Object>>> data, Employee2 loginEmp);
+
 }

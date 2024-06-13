@@ -210,6 +210,7 @@ if(deleteToMyAddr != null) {
 // ---------------------------------------------------------------------------------------------------------
 // 주소록 그룹 아코디언 및 마우스 오른쪽 클릭 시 드롭다운 형성
 const downArrow = document.querySelector(".fa-angle-down");
+let sequence = 1;
 
 document.querySelectorAll('.li-hover').forEach(item => {
     // 개인 주소록 그룹 클릭 시 해당 그룹에 추가된 주소록 리스트 오른쪽 섹션에 보이기
@@ -301,10 +302,11 @@ document.querySelectorAll('.li-hover').forEach(item => {
                         <i class="fa-solid fa-angle-down" style="color: white;"></i>
                         <div>
                             <i class="fa-solid fa-star" style="color: white;"></i>
-                            <span id="addrName" style="color: white;">새로운 주소록</span>
+                            <span id="addrName" style="color: white;">새로운 주소록${sequence}</span>
                         </div>
                     </div>
                 `;
+                sequence++;
                 subUl.appendChild(newLi);
                 newLi.querySelector('.fa-angle-down').addEventListener('click', function(event) {
                     let nextUl = this.parentElement.nextElementSibling;
@@ -401,9 +403,26 @@ document.querySelectorAll('.li-hover').forEach(item => {
 
                 input.addEventListener('keydown', e => {
                     if (e.key === "Enter") {
-                        const newGroupName = input.value;
-                        input.parentNode.replaceChild(span, input);
-                        span.textContent = newGroupName;
+                        let flag = true;
+                        document.querySelectorAll("#addrName").forEach((i) => {
+                            if(i.innerText === e.target.value){
+                                flag = false;
+                                return;
+                            }
+                        })
+                        if(!flag){
+                            alert("중복된 그룹명이 있습니다.");
+                        }
+                        if(flag){
+                            const newGroupName = input.value;
+                            input.parentNode.replaceChild(span, input);
+                            if(span.innerText != newGroupName) {
+                                targetLi.children[0].children[1].children[0].style.color = 'white';
+                                targetLi.children[0].children[1].children[1].style.color = 'white';
+                            }
+                            span.textContent = newGroupName;
+                        }
+
                     }
                     if (e.key === "Escape") {
                         input.parentNode.replaceChild(span, input);
@@ -503,13 +522,33 @@ const addrBookNo = document.querySelectorAll("#addrBookNo");
 
 if(saveGroup != null) {
     saveGroup.addEventListener("click", e => {
+        document.querySelectorAll("#addrName").forEach((i, index) => {
+            document.querySelectorAll("#addrName").forEach((x, index) => {
+                if(i.index == x.index) {
+                    
+                } else{
+                    if(x.innerText == i.innerText) {
+                        alert("중복된 그룹명이 있습니다.");
+                        return;
+                    }
+                }
+            })
+        })
+
         const groupList = [{"loginEmpCode" : loginEmpCode }];
         for(let i = 0; i < document.querySelectorAll("#addrName").length; i++) {
 
             if(addrBookNo[i] != undefined) {
-                groupList.push({ "addrBookNo" : addrBookNo[i].value, "addrName" : document.querySelectorAll("#addrName")[i].innerText });
+                groupList.push({ 
+                    "addrBookNo" : addrBookNo[i].value, 
+                    "addrName" : document.querySelectorAll("#addrName")[i].innerText 
+                });
             } else {
-                groupList.push({ "addrBookNo" : "null", "addrName" : document.querySelectorAll("#addrName")[i].innerText, "loginEmpCode" : loginEmpCode });
+                groupList.push({ 
+                    "addrBookNo" : "null", 
+                    "addrName" : document.querySelectorAll("#addrName")[i].innerText, 
+                    "loginEmpCode" : loginEmpCode 
+                });
             }
         }
 

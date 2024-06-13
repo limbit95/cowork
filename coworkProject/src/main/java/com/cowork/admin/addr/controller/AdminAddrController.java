@@ -25,12 +25,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import oracle.jdbc.proxy.annotation.Post;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("admin/addr")
-@SessionAttributes({"empDetail", "backPageLocation"})
+@SessionAttributes({"empDetail", "backPageLocation", "comAddrList"})
 public class AdminAddrController {
 	
 	private final AdminAddrService service;
@@ -48,13 +49,12 @@ public class AdminAddrController {
 	public String adminAddrMain(HttpServletRequest request, 
 							    Model model) {
 		
-//		// 로그인 할 때 조회해서 sessin scope에 담아서 필요없어짐
-//		HttpSession session = request.getSession();
-//		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
-//		
-//		List<Department> comAddrList = service.selectComAddrList(loginEmp);
-//		
-//		model.addAttribute("comAddrList", comAddrList);
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		List<Department> comAddrList = service.selectComAddrList(loginEmp);
+		
+		model.addAttribute("comAddrList", comAddrList);
 		
 		return "admin/addr/addrBookManager";
 	}
@@ -178,6 +178,21 @@ public class AdminAddrController {
 	public List<Team> getTeamList(@RequestBody Map<String, Object> map){
 		log.info("map : " + map);
 		return service.getTeamList(map);
+	}
+	
+	/** 회사 주소록 그룹 CRUD
+	 * @param data
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("insertGroupList")
+	public int insertGroupList(@RequestBody List<List<Map<String, Object>>> data,
+							   HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		return service.insertGroupList(data, loginEmp);
 	}
 
 	

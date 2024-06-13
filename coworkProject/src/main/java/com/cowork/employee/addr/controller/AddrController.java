@@ -61,6 +61,8 @@ public class AddrController {
 			model.addAttribute("pagination", selectAllAddrList.get("pagination"));
 			model.addAttribute("addrList", selectAllAddrList.get("addrList"));
 			model.addAttribute("groupCode", selectAllAddrList.get("groupCode"));
+			
+			return "employee/addr/addrBook";
 		}
 		
 		if(map.get("groupName") != null || map.get("groupCode") != null) {

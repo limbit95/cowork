@@ -66,6 +66,8 @@ if(check != null) {
 
 // 주소록 그룹 아코디언 및 마우스 오른쪽 클릭 시 드롭다운 형성
 const downArrow = document.querySelector(".fa-angle-down");
+let sequence = 1;
+let sequence2 = 1;
 
 document.querySelectorAll('.li-hover').forEach(item => {
     item.children[1].addEventListener('click', event => {
@@ -140,7 +142,7 @@ document.querySelectorAll('.li-hover').forEach(item => {
                         <i class="fa-solid fa-angle-down" style="color: white;"></i>
                         <div>
                             <i class="fa-solid fa-network-wired" style="color: white;"></i>
-                            <span style="color: white;">New Department</span>
+                            <span style="color: white;" id="deptNo">New Department${sequence}</span>
                         </div>
                     </div>
                     
@@ -150,13 +152,14 @@ document.querySelectorAll('.li-hover').forEach(item => {
                                 <i class="fa-solid fa-angle-down" style="color: white;"></i>
                                 <div>
                                     <i class="fa-solid fa-people-group" style="color: white;"></i>
-                                    <span style="color: white;">New Team</span>
+                                    <span style="color: white;" id="teamNo">New Team</span>
                                 </div>
                             </div>
                         </li>
                     </ul>
                 `;
                 subUl.appendChild(newLi);
+                sequence++;
                 newLi.querySelector('.fa-angle-down').addEventListener('click', function(event) {
                     let nextUl = this.parentElement.nextElementSibling;
                     if (nextUl && nextUl.tagName === 'UL') {
@@ -207,11 +210,12 @@ document.querySelectorAll('.li-hover').forEach(item => {
                         <i class="fa-solid fa-angle-down" style="color: white;"></i>
                         <div>
                             <i class="fa-solid fa-people-group" style="color: white;"></i>
-                            <span style="color: white;">New Team</span>
+                            <span style="color: white;" id="teamNo">New Team${sequence2}</span>
                         </div>
                     </div>
                 `;
                 subUl.appendChild(newLi);
+                sequence2++;
                 newLi.querySelector('.fa-angle-down').addEventListener('click', function(event) {
                     let nextUl = this.parentElement.nextElementSibling;
                     if (nextUl && nextUl.tagName === 'UL') {
@@ -266,9 +270,42 @@ document.querySelectorAll('.li-hover').forEach(item => {
 
                 input.addEventListener('keydown', e => {
                     if (e.key === "Enter") {
-                        const newGroupName = input.value;
-                        input.parentNode.replaceChild(span, input);
-                        span.textContent = newGroupName;
+                        let flag = 0;
+                        document.querySelectorAll("#deptNo").forEach((i) => {
+                            if(e.target.parentElement.parentElement.parentElement.getAttribute("class") == 'department') {
+                                if(i.innerText === e.target.value){
+                                    flag = 1;
+                                    return;
+                                }
+                            }
+                            
+                        })
+                        document.querySelectorAll("#teamNo").forEach((x) => {
+                            const deptNo = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].children[1].dataset.deptNo;
+                            console.log(deptNo);
+                            if(deptNo == x.dataset.deptNo) {
+                                if(x.innerText === e.target.value){
+                                    flag = 2;
+                                    return;
+                                }
+                            }
+                            
+                        })
+                        if(flag == 1){
+                            alert("중복된 부서명이 있습니다.");
+                        }
+                        if(flag == 2){
+                            alert("부서 내 중복된 팀명이 있습니다.");
+                        }
+                        if(flag == 0){
+                            const newGroupName = input.value;
+                            input.parentNode.replaceChild(span, input);
+                            if(span.innerText != newGroupName) {
+                                targetLi.children[0].children[1].children[0].style.color = 'white';
+                                targetLi.children[0].children[1].children[1].style.color = 'white';
+                            }
+                            span.textContent = newGroupName;
+                        }
                     }
                     if (e.key === "Escape") {
                         input.parentNode.replaceChild(span, input);
@@ -281,8 +318,8 @@ document.querySelectorAll('.li-hover').forEach(item => {
                     }
                     if(document.querySelector('.openInput') != null) {
                         if (!document.querySelector('.openInput').contains(event.target)) {
-                            console.log(input.parentNode);
                             input.parentNode.replaceChild(span, input);
+                            console.log(input.parentNode);
                         }
                     }
                 });
@@ -292,7 +329,7 @@ document.querySelectorAll('.li-hover').forEach(item => {
 
 
         deleteGroup.onclick = () => {
-            if(targetLi.parentElement.childElementCount == 1){
+            if(targetLi.getAttribute("class") == 'team' && targetLi.parentElement.childElementCount == 1){
                 alert("최소 한 개의 팀은 유지되어야 합니다.");
                 contextMenu.style.display = 'none';
                 return;
@@ -394,10 +431,7 @@ const saveGroup = document.querySelector("#saveGroup");
 
 if(saveGroup != null) {
     saveGroup.addEventListener("click", e => {
-        const groupList = [{"loginEmpCode" : loginEmpCode }];
-        const test = [
-            // 삽입, 수정, 삭제할 때 구분할 키
-            [{ "loginEmpCode" : loginEmpCode, "comNo" : comNo }],
+        const obj = [
             // 부서 리스트
             [],
             // 팀 리스트
@@ -405,55 +439,87 @@ if(saveGroup != null) {
         ];
 
         for(let i = 0; i < document.querySelectorAll("#deptNo").length; i++) {
-            test[0].push({ 
-                "deptNo" : document.querySelectorAll("#deptNo")[i].dataset.deptNo, 
-                "deptNm" : document.querySelectorAll("#deptNo")[i].innerText, 
-                "loginEmpCode" : loginEmpCode, 
-                "comNo" : comNo 
-            })
+            if(document.querySelectorAll("#deptNo")[i].dataset.deptNo != undefined) {
+                obj[0].push({
+                    "deptNo" : document.querySelectorAll("#deptNo")[i].dataset.deptNo, 
+                    "deptNm" : document.querySelectorAll("#deptNo")[i].innerText, 
+                    "loginEmpCode" : loginEmpCode,
+                    "comNo" : comNo 
+                })
+            } 
+            if(document.querySelectorAll("#deptNo")[i].dataset.deptNo == undefined) {
+                obj[0].push({   
+                    "deptNo" : 'null', 
+                    "deptNm" : document.querySelectorAll("#deptNo")[i].innerText, 
+                    "loginEmpCode" : loginEmpCode, 
+                    "comNo" : comNo 
+                })
+            }
+            
+            
         }
-        
-        return; 
-        // for(let i = 0; i < document.querySelectorAll("#addrName").length; i++) {
-
-        // }
-        
-        for(let i = 0; i < document.querySelectorAll("#addrName").length; i++) {
-
-            if(addrBookNo[i] != undefined) {
-                groupList.push({ "addrBookNo" : addrBookNo[i].value, "addrName" : document.querySelectorAll("#addrName")[i].innerText });
-            } else {
-                groupList.push({ "addrBookNo" : "null", "addrName" : document.querySelectorAll("#addrName")[i].innerText, "loginEmpCode" : loginEmpCode });
+        for(let i = 0; i < document.querySelectorAll("#teamNo").length; i++) {
+            if(document.querySelectorAll("#teamNo")[i].dataset.teamNo != undefined) {
+                obj[1].push({
+                    "deptNo" : document.querySelectorAll("#teamNo")[i].dataset.deptNo, 
+                    "teamNo" : document.querySelectorAll("#teamNo")[i].dataset.teamNo, 
+                    "teamNm" : document.querySelectorAll("#teamNo")[i].innerText, 
+                    "loginEmpCode" : loginEmpCode, 
+                    "comNo" : comNo 
+                })
+            }
+            if(document.querySelectorAll("#teamNo")[i].dataset.teamNo == undefined) {
+                const isDeptNo = document.querySelectorAll("#teamNo")[i].parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[1].children[1].dataset.deptNo;
+                if(isDeptNo != undefined) {
+                    obj[1].push({
+                        "deptNo" : isDeptNo,
+                        "teamNo" : 'null', 
+                        "teamNm" : document.querySelectorAll("#teamNo")[i].innerText, 
+                        "loginEmpCode" : loginEmpCode, 
+                        "comNo" : comNo 
+                    })
+                } else {
+                    obj[1].push({
+                        "deptNo" : 'null',
+                        "deptNm" : document.querySelectorAll("#teamNo")[i].parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[1].children[1].innerText,
+                        "teamNo" : 'null', 
+                        "teamNm" : document.querySelectorAll("#teamNo")[i].innerText, 
+                        "loginEmpCode" : loginEmpCode, 
+                        "comNo" : comNo 
+                    })
+                }
             }
         }
 
-        // fetch("/employee/addr/insertGroupList", {
-        //     method : "post",
-        //     headers : {"Content-Type" : "application/json"},
-        //     body : JSON.stringify(groupList)
-        // })
-        // .then(resp => resp.text())
-        // .then(result => {
-        //     if(result == -1){
-        //         alert("그룹이 없습니다. 새로운 그룹을 생성해주세요.");
-        //         return; 
-        //     }
-        //     if(result == -2){
-        //         alert("중복된 그룹명이 있습니다. 다른 이름으로 변경해주세요.");
-        //         return;
-        //     }
-        //     if(result == 2){
-        //         alert("그룹명 변경 실패");
-        //         return;
-        //     }
-        //     if(result == 3){
-        //         alert("그룹명 저장 실패");
-        //         return;
-        //     }
+        console.log(obj);
+        
+        fetch("/admin/addr/insertGroupList", {
+            method : "post",
+            headers : {"Content-Type" : "application/json"},
+            body : JSON.stringify(obj)
+        })
+        .then(resp => resp.text())
+        .then(result => {
+            if(result == -1){
+                alert("그룹이 없습니다. 새로운 그룹을 생성해주세요.");
+                return; 
+            }
+            if(result == -2){
+                alert("중복된 그룹명이 있습니다. 다른 이름으로 변경해주세요.");
+                return;
+            }
+            if(result == 2){
+                alert("그룹명 변경 실패");
+                return;
+            }
+            if(result == 3){
+                alert("그룹명 저장 실패");
+                return;
+            }
             
-        //     alert("그룹이 저장되었습니다.");
-        //     location.href = '/employee/addr';
-        // })
+            alert("그룹이 저장되었습니다.");
+            location.href = '/admin/addr';
+        })
     });
 };
 
