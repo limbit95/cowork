@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("todo")
 @Controller
 public class TodoController {
-	// 김선규 왔다감
+	
 	private final TodoService service; 
 	
 	/**

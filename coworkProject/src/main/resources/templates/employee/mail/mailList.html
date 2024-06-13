@@ -21,7 +21,11 @@
                     <a th:text="${noReadCount}">안 읽은 메일 개수</a> 
                     / <span th:text="${mailCount}">전체 메일 개수</span>
                 </div>
-                <div><button class="default-btn glucose-btn">메일쓰기</button></div>
+                <form th:action="@{/mail/mailInsert}" method="post" id="insertForm">
+                    <div>
+                        <button class="default-btn glucose-btn" id="sendBtn">메일쓰기</button>
+                    </div>
+                </form>
             </div>
             <div class="search">
                 <select class="default-line">
@@ -30,11 +34,10 @@
                     <option>보낸 사람</option>
                 </select>
     
-                <div class="default-line">
+                <form th:action="@{/mail/search}" method="get" class="default-line" id="searchForm">
                     <input type="text" name="mailQuery" id="SearchQuery" placeholder="검색">
-    
                     <i class="fa-solid fa-magnifying-glass"></i>
-                </div>
+                </form>
                 
             </div>
         </div>

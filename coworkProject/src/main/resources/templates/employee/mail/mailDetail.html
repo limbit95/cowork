@@ -16,8 +16,7 @@
 
         <div class="mailTitle">
             <div class="mailLabel">
-                <label>전체메일</label>
-                <div><label class="cntLabel">0</label><label>/300</label></div>
+                <label>메일</label>
             </div>
             <div class="search">
                 <select class="default-line">
@@ -70,18 +69,17 @@
                 </div>
 
                 <!-- 참조 -->
-                <div class="ins-css insertForm mailInfo">
+                <div class="ins-css insertForm mailInfo" th:each="${mail.referenceList}">
                     <div><label>참조</label></div>
-                    <div></div>
-                    <label class="default-label lavenderLabel">songfianl@home.com</label>
+                    <div th:text="${mail.reference}"></div>
+                    <div class="default-label lavenderLabel" th:text="${mail.referenceMail}">메일주소</div>
                 </div>
 
                 <!-- 받는사람 -->
-                <div class="ins-css insertForm mailInfo">
+                <div class="ins-css insertForm mailInfo" th:each="${mail.recipientList}">
                     <div><label>받는 사람</label></div>
                     <div th:text="${mail.recipient}">받는사람</div>
                     <div th:text="${mail.recipientMail}" class="default-label lavenderLabel"></div>
-                    <div class="default-label lavenderLabel">songfianl@home.com</div>
                 </div>
 
                 <!-- 날짜 -->

@@ -32,6 +32,7 @@ public class Mail {
 	private String recipient; // 받는 사람 이름 
 	private String recipientMail; 
 	private String reference; // 참조 
+	private String referenceMail;
 	
 	private String senderTeamNm; // 팀이름
 	private String recipientTeamNm; 
