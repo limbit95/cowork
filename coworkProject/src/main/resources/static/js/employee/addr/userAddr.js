@@ -290,6 +290,11 @@ document.querySelectorAll('.li-hover').forEach(item => {
 
         addDeptgroup.onclick = () => {
             if (targetLi) {
+                targetLi.querySelectorAll(".favorite").forEach((i) => {
+                    if(i.children[0].children[1].children[1].innerText == '새로운 주소록' + sequence) {
+                        sequence++;
+                    }
+                })
                 let subUl = targetLi.querySelector('ul');
                 if (!subUl) {
                     subUl = document.createElement('ul');

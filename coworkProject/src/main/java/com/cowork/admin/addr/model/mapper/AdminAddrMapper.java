@@ -68,25 +68,45 @@ public interface AdminAddrMapper {
 	 * @param map
 	 * @return
 	 */
-	int changeGroupName(Map<String, Object> map);
+	int changeDeptName(Map<String, Object> map);
 
 	/** 새로운 부서 그룹 insert
 	 * @param map
 	 * @return
 	 */
-	int insertGroup(Map<String, Object> map);
+	int insertDept(Map<String, Object> map);
 
 	/** 부서 삭제
 	 * @param map
 	 * @return
 	 */
-	int deleteGroup(Map<String, Object> map);
+	int deleteDeptGroup(Map<String, Object> map);
 
 	/** 부서 그룹 하나만 남았을 때 DEPARTMENT 테이블 전부 비워버리는 쿼리
 	 * @param loginEmp
 	 * @return
 	 */
-	int deleteAllGroup(Employee2 loginEmp);
+	int deleteAllDeptGroup(Employee2 loginEmp);
+
+	/** 팀 이름만 업데이트
+	 * @param map
+	 * @return
+	 */
+	int changeTeamName(Map<String, Object> map);
+	
+	/** 새로운 팀 그룹 insert
+	 * @param map
+	 * @return
+	 */
+	int insertTeam(Map<String, Object> map);
+	
+	/** 팀 삭제
+	 * @param map
+	 * @return
+	 */
+	int deleteTeamGroup(Map<String, Object> map);
+
+
 
 
 }
