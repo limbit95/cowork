@@ -104,7 +104,8 @@
 
     <script th:inline="javascript">
         const comNo = /*[[${session.loginEmp.comNo}]]*/ "회사 기본키";
-        const reserveInfoList = /*[[${reserveInfoList}]]*/ "회의실 예약 목록";
+
+        const reserveInfoList = /*[[${session.reserveInfoList}]]*/ "회의실 예약 리스트";
     </script>
 </body>
 </html>

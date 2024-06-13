@@ -73,5 +73,9 @@
 
     <!-- Full Calendar API JS -->
     <script src="/js/employee/reservation/selectMonth.js"></script>
+
+    <script th:inline="javascript">
+        const reserveInfoList = /*[[${session.reserveInfoList}]]*/ "회의실 예약 목록";
+    </script>
 </body>
 </html>

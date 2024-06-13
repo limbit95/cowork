@@ -9,7 +9,7 @@
 			#{reserveInfoColor}, #{empCode},
 			#{meetingRoomNo}, #{reserveInfoStart},
 			#{reserveInfoEnd}, #{teamShare},
-			#{deptShare}, #{comReserve}
+			#{deptShare}, #{comShare}, #{comNo}
 		)
 	</insert>
 	
@@ -21,9 +21,9 @@
 	    r.RESERVE_INFO_END, 
 	    r.RESERVE_INFO_COLOR, 
 	    r.EMP_CODE,
-	    r.TEAM_RESERVE, 
-	    r.DEPT_RESERVE, 
-	    r.COM_RESERVE, 
+	    r.TEAM_SHARE, 
+	    r.DEPT_SHARE, 
+	    r.COM_SHARE, 
 	    r.MEETING_ROOM_NO, 
 	    r.COM_NO,
 	    m.MEETING_ROOM_NM
@@ -33,5 +33,24 @@
 	    MEETING_ROOM m ON r.MEETING_ROOM_NO = m.MEETING_ROOM_NO
 	WHERE 
 	    r.COM_NO = #{comNo}
+	</select>
+	
+	<!-- deptNo으로 deptNm 조회 -->
+	<select id="selectDeptNm">
+		SELECT DEPT_NM FROM DEPARTMENT WHERE DEPT_NO = #{deptNo}
+	</select>
+	
+	<!-- teamNo로 teamNm 조회 -->
+	<select id="selectTeamNm">
+		SELECT TEAM_NM FROM TEAM WHERE TEAM_NO = #{teamNo}
+	</select>
+	
+	<!-- 회의실 이용 시간 체크 (시간 겹치면 0 이상) -->
+	<select id="checkMeetingRoom">
+		SELECT COUNT(*)
+		FROM RESERVE_INFO
+		WHERE MEETING_ROOM_NO = #{meetingRoomNo}
+		AND #{reserveInfoStart} &lt; RESERVE_INFO_END
+		AND #{reserveInfoEnd} &gt; RESERVE_INFO_START
 	</select>
 </mapper>

@@ -26,11 +26,13 @@ import com.cowork.employee.reservation.model.service.ReservationService;
 import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("reservation")
 @RequiredArgsConstructor
 @SessionAttributes("reserveInfoList")
+@Slf4j
 public class ReservationController {
 
 	private final CalendarService cs;
@@ -47,6 +49,44 @@ public class ReservationController {
 		
 		// 회사 번호로 예약 정보 가져오기 세션에 실어줄 거임
 		List<ReserveInfo> reserveInfoList = service.selectReserveInfoList(loginEmp.getComNo());
+		
+		int size = reserveInfoList.size();
+		
+		log.info("List size == {}", size);
+		
+		List<ReserveInfo> shareList = new ArrayList<>(size);
+				
+		for(int i = 0 ; i < reserveInfoList.size() ; i ++) {
+			ReserveInfo shareInfo = new ReserveInfo();
+			String share = "";
+			
+			// 회사 전체 공유일 때 comReserve
+			if(reserveInfoList.get(i).getComShare() != null) {
+				share = "회사 전체";
+			}
+			// 부서 공유 null 이 아닐 때
+			if(reserveInfoList.get(i).getDeptShare() != null) {
+				share += reserveInfoList.get(i).getDeptShare().replace("^^^", ", ");
+			}
+			// 팀 공유 null 이 아닐 때
+			if(reserveInfoList.get(i).getTeamShare() != null) {
+				
+				if(share != null) {
+					share += ", ";
+				}
+				
+				share += reserveInfoList.get(i).getTeamShare().replace("^^^", ", ");
+
+			}
+			
+			shareInfo.setShareStr(share);
+			shareList.add(shareInfo);
+			
+		}
+		
+		for(int i = 0 ; i < reserveInfoList.size() ; i ++) {
+			reserveInfoList.get(i).setShareStr(shareList.get(i).getShareStr());
+		}
 		
 		model.addAttribute("reserveInfoList", reserveInfoList);
 		
@@ -94,35 +134,75 @@ public class ReservationController {
 	@ResponseBody
 	@PostMapping("reservationInsert")
 	public int reservationInsert(@RequestBody ReserveInfo inputReserveInfo,
-			@SessionAttribute("loginEmp") Employee2 loginEmp) {
+			@SessionAttribute("loginEmp") Employee2 loginEmp,
+			@SessionAttribute("reserveInfoList") List<ReserveInfo> reserveInfoList,
+			Model model) {
 		
-		inputReserveInfo.setEmpCode(loginEmp.getEmpCode());
+		// 회의실 예약 시간 겹치는지 확인
+		int count = service.checkMeetingRoom(inputReserveInfo);
 		
-		// 회사 공유가 null 일 경우
-		if(inputReserveInfo.getComReserve() != loginEmp.getComNo()) {
-			inputReserveInfo.setComReserve(0);
+		// count 1 이상이면 겹치는 게 있는 거
+		if(count < 1) {
+			
+			inputReserveInfo.setEmpCode(loginEmp.getEmpCode());
+			inputReserveInfo.setComNo(loginEmp.getComNo());
+			
+			// 회사 공유가 null 일 경우
+			if(inputReserveInfo.getComReserve() != loginEmp.getComNo()) {
+				inputReserveInfo.setComReserve(0);
+				inputReserveInfo.setComShare(null);
+			} else {
+				inputReserveInfo.setComShare("회사 전체");
+			}
+			
+			// 부서 공유가 null 일 경우
+			if(inputReserveInfo.getDeptReserve().isEmpty() || inputReserveInfo.getDeptReserve() == null) {
+				inputReserveInfo.setDeptReserve(null);
+				inputReserveInfo.setDeptShare(null);
+			} else {
+				List<String> deptReserve = inputReserveInfo.getDeptReserve();
+				
+				List<String> newDeptReserve = new ArrayList<>();
+				String deptShare = "";
+				
+				for(int i = 0 ; i < deptReserve.size() ; i++) {
+					// deptNo 조회해온 거 이름으로 바꿔서 저장
+					String deptNm = service.selectDeptNm(deptReserve.get(i));
+					newDeptReserve.add(deptNm);
+				}
+				
+				deptShare = String.join("^^^", newDeptReserve);
+				inputReserveInfo.setDeptShare(deptShare);
+			}
+			
+			// 팀 공유가 null 일 경우
+			if(inputReserveInfo.getTeamReserve().isEmpty() || inputReserveInfo.getTeamReserve() == null) {
+				inputReserveInfo.setTeamReserve(null);
+				inputReserveInfo.setTeamShare(null);
+			} else {
+				List<String> teamReserve = inputReserveInfo.getTeamReserve();
+				
+				List<String> newTeamReserve = new ArrayList<>();
+				String teamShare = "";
+				
+				for(int i = 0 ; i < teamReserve.size() ; i ++) {
+					// teamNo로 조회해온 teamNm
+					String teamNm = service.selectTeamNm(teamReserve.get(i));
+					newTeamReserve.add(teamNm);
+				}
+				
+				teamShare = String.join("^^^", newTeamReserve);
+				inputReserveInfo.setTeamShare(teamShare);
+			}
+			
+			reserveInfoList.add(inputReserveInfo);
+			
+			return service.reservationInsert(inputReserveInfo);
 		}
 		
-		// 부서 공유가 null 일 경우
-		if(inputReserveInfo.getDeptReserve().isEmpty() || inputReserveInfo.getDeptReserve() == null) {
-			inputReserveInfo.setDeptReserve(null);
-			inputReserveInfo.setDeptShare(null);
-		} else {
-			List<String> deptReserve = inputReserveInfo.getDeptReserve();
-			String deptShare = String.join("^^^", deptReserve);
-			inputReserveInfo.setDeptShare(deptShare);
-		}
+		// count 1보다 클 때
+		return -1;
 		
-		// 팀 공유가 null 일 경우
-		if(inputReserveInfo.getTeamReserve().isEmpty() || inputReserveInfo.getTeamReserve() == null) {
-			inputReserveInfo.setTeamReserve(null);
-			inputReserveInfo.setTeamShare(null);
-		} else {
-			List<String> teamReserve = inputReserveInfo.getTeamReserve();
-			String teamShare = String.join("^^^", teamReserve);
-			inputReserveInfo.setTeamShare(teamShare);
-		}
 		
-		return service.reservationInsert(inputReserveInfo);
 	}
 }

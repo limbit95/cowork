@@ -29,6 +29,9 @@ public class ReserveInfo {
 	private int comNo;
 	private String meetingRoomNm;
 	
+	private String comShare;
 	private String deptShare;
 	private String teamShare;
+	
+	private String shareStr;
 }
