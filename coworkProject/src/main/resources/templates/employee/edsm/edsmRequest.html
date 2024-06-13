@@ -24,24 +24,27 @@
             <!-- 제목 -->
             <div class="ins-css insertForm">
                 <div><label>제목</label></div>
-                <input class="default-line listBtn" th:value="*{draftTitle}">
+                <input class="default-line listBtn" th:value="*{draftTitle}" name="edsmTitle" id="edsmTitle">
             </div>
 
             <!-- 결재인 -->
             <div class="ins-css insertForm approverForm">
-                <div><label>결재인</label></div>
-                <input class="default-line inputApprover" id="approver1"><input id="empCode1" hidden/>
+                <div><label>결재자</label></div>
+                <input class="default-line inputApprover" id="approver1" placeholder="하위 결재자">
+                <input class="inputempCode" id="empCode1" hidden/>
                 <!--<datalist id="approver1" th:each="employee : ${employeeList}" th:object="${employee}">
                     <option th:value="*{empFirstName}"></option>
                 </datalist>-->
-                <input class="default-line inputApprover" id="approver2"><input id="empCode2" hidden/>
-                <input class="default-line inputApprover" id="approver3"><input id="empCode3" hidden/>
+                <input class="default-line inputApprover" id="approver2" placeholder="중간 결재자" disabled>
+                <input class="inputempCode" id="empCode2" hidden/>
+                <input class="default-line inputApprover" id="approver3" placeholder="최상위 결재자">
+                <input class="inputempCode" id="empCode3" hidden/>
                 <!--<button class="default-btn glucose-btn">검색</button>-->
             </div>
 
             <div class="searchTable displayNone searchApp">
                 <div class="searchTr trApp" th:each="employee : ${employeeList}" th:object="${employee}"
-                    >
+                    th:onclick="searchtrAppClick([[*{empCode}]], [[*{empFirstName}]])">
                     <div th:text="*{empCode}" hidden>64</div>
                     <div th:text="*{empId}" id="empId">sample1</div>
                     <div th:text="*{deptNm}" id="deptNm">본부팀</div>
@@ -52,14 +55,17 @@
 
             <!-- 참조인 -->
             <div class="ins-css insertForm referrerForm">
-                <div><label>참조인</label></div>
-                <input class="default-line listBtn" id="referrer"><input id="empCode" hidden/>
+                <div><label>참조자</label></div>
+                <div class="default-line listBtn">
+                    <div class="listLabel"><!--<label>홍길동 &ensp; x</label>--></div>
+                    <input id="referrer"><input id="empCode" hidden/>
+                </div>
                 <!--<button class="default-btn glucose-btn">검색</button>-->
             </div>
 
             <div class="searchTable displayNone searchRef">
                 <div class="searchTr trRef" th:each="employee : ${employeeList}" th:object="${employee}"
-                    >
+                    th:onclick="searchtrReffClick([[*{empCode}]], [[*{empFirstName}]])">
                     <div th:text="*{empCode}" hidden>64</div>
                     <div th:text="*{empId}" id="empId">sample1</div>
                     <div th:text="*{deptNm}" id="deptNm">본부팀</div>
@@ -71,19 +77,19 @@
 
             <!-- 파일 -->
             <div class="fileUploadForm">
-                <button class="default-btn gray-border-btn">파일첨부</button>
+                
+                <div class="fileType default-btn gray-border-btn">
+                    <span class="">파일첨부</span>
+                    <span class="fileSelect"><input type="file" name="files" id="fileInput" accept="files/edsm/*" multiple="multiple"/></span>
+                </div>
 
                 <div>
-                    <div><i class="fa-solid fa-chevron-down"></i><label>첨부파일</label><label>3</label><label>개</label><label class="colorGray">(12.1KB)</label></div>
-                    <table class="default-line">
-                        <tr>
+                    <div><button type="button" class="fa-solid fa-chevron-up btnBoarder fileListInfo"></button><label>첨부파일</label><label id="fileCnt">0</label><label>개</label><!--<label class="colorGray">(12.1KB)</label>--></div>
+                    <table class="default-line preview">
+                        <!--<tr>
                             <td><i class="fa-solid fa-image"></i><label>검색.png</label><label class="colorGray">3.09KB</label></td>
                             <td><a class="fa-solid fa-xmark"></a></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fa-solid fa-image"></i><label>검색.png</label><label class="colorGray">3.09KB</label></td>
-                            <td><a class="fa-solid fa-xmark"></a></td>
-                        </tr>
+                        </tr>-->
                     </table>
 
                     <div id="smarteditor">
@@ -98,17 +104,17 @@
 
         <!-- 버튼 -->
         <div class="defaultBtn insBtn">
-            <button class="default-btn glucose-btn">등록</button>
-            <button class="default-btn glucose-btn margin10">취소</button>
+            <button class="default-btn glucose-btn" id="edsmRequest">등록</button>
+            <button class="default-btn glucose-btn margin10" onclick="location.href='/employee/edsm/edsmDraftList';">취소</button>
         </div>
-
-
-        
 
     </section>
 
     <script th:inline="javascript">
         const draftContent = /*[[${draft.draftContent}]]*/"양식 내용";
+        const draftNo = /*[[${draft.draftNo}]]*/"양식 번호";
+
+        console.log("draftNo : " + draftNo);
     </script>
 
     <!-- 스마트 에디터 -->

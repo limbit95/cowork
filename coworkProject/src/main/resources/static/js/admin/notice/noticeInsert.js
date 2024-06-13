@@ -84,7 +84,7 @@ const handler = {
     removeFile: () => {
         document.addEventListener('click', (e) => {
             console.log(e.target.className);
-            if(e.target.className !== 'fa-solid fa-xmark fileRemove') return;
+            if(e.target.className !== 'fa-solid fa-xmark fileRemove btnBoarder') return;
             const removeTargetId = e.target.dataset.index;
             const removeTarget = document.getElementById(removeTargetId);
             const removeTargetName = e.target.dataset.name;

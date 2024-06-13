@@ -1,6 +1,7 @@
 package com.cowork.employee.edsm.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -109,16 +112,20 @@ public class EdsmController {
 		return "employee/edsm/edsmRequest";
 	}
 	
-	public Model edsmSerach(
+	/** 결재자, 참조자 검색
+	 * @param empFirstName
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("edsmSerach")
+	public List<Employee2> edsmSerach(
 				@RequestParam("empFirstName") String empFirstName,
+				@SessionAttribute("loginEmp") Employee2 loginEmp,
 				Model model
 			) {
 		
-		Employee2 employeeList = service.edsmSerach(empFirstName);
-		
-		model.addAttribute("employeeList", employeeList);
-		
-		return model;
+		return service.edsmSerach(empFirstName, loginEmp.getComNo());
 	}
 	
 	/** 전자결재 신청
@@ -133,7 +140,7 @@ public class EdsmController {
 	public int edsmRequest(
 				@RequestParam("edsmTitle") String edsmTitle,
 	            @RequestParam("edsmContent") String edsmContent,
-	            @RequestParam("draftNo") int draftNo,
+	            @PathVariable("draftNo") int draftNo,
 	            @RequestParam("approver") String approver, /* 결재자 */
 	            @RequestParam("referrer") String referrer, /* 참조자 */
 	            //@RequestParam("approvers") Map<Integer, String> approverMap,

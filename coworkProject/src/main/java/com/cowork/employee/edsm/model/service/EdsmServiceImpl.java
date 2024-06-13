@@ -96,6 +96,8 @@ public class EdsmServiceImpl implements EdsmService{
 		
 		int edsmNo = inputEdsm.getEdsmNo(); // 삽입된 전자결재 번호를 변수로 저장
 		
+		log.info("edsmNo " + edsmNo);
+		
 		// 결재자, 참조자 APPROVER에 넣기
 		List<Approver> approverList = new ArrayList<>();
 		
@@ -112,14 +114,16 @@ public class EdsmServiceImpl implements EdsmService{
 		    approverList.add(appr);
 		}
 		
-		for(int i=0; i<referrerArr.length; i++) {
-			Approver appr = Approver.builder()
-					.approverFlage("2")
-					.empCode(Integer.parseInt(referrerArr[i]))
-					.edsmNo(edsmNo)
-					.build();
-		    
-		    approverList.add(appr);
+		if(!referrer.equals("")) {
+			for(int i=0; i<referrerArr.length; i++) {
+				Approver appr = Approver.builder()
+						.approverFlage("2")
+						.empCode(Integer.parseInt(referrerArr[i]))
+						.edsmNo(edsmNo)
+						.build();
+			    
+			    approverList.add(appr);
+			}
 		}
 		
 		/*for (Map.Entry<Integer, String> entry : approverMap.entrySet()) {
@@ -186,9 +190,23 @@ public class EdsmServiceImpl implements EdsmService{
 
 	// 결재인, 참조인 검색
 	@Override
-	public Employee2 edsmSerach(String empFirstName) {
+	public List<Employee2> edsmSerach(String empFirstName, int comNo) {
+		
+		List<Employee2> employeeList = new ArrayList<>();
+		
+		if(empFirstName.equals("")) {
+			employeeList = mapper.employeeSearch(comNo);
+		} else {
+			Map<String, Object> map = new HashMap<>();
+			
+			map.put("empFirstName", empFirstName);
+			map.put("comNo", comNo);
+			
+			employeeList = mapper.edsmSerach(map);
+		}
+		
 		// TODO Auto-generated method stub
-		return null;
+		return employeeList;
 	}
 
 }

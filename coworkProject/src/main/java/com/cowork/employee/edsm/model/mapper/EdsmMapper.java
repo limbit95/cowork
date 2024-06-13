@@ -56,4 +56,10 @@ public interface EdsmMapper {
 	 */
 	List<Employee2> employeeSearch(int comNo);
 
+	/** 결재인, 참조인 검색 찾기
+	 * @param map
+	 * @return
+	 */
+	List<Employee2> edsmSerach(Map<String, Object> map);
+
 }
