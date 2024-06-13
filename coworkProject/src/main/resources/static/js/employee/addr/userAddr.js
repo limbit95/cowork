@@ -416,6 +416,10 @@ document.querySelectorAll('.li-hover').forEach(item => {
                         if(flag){
                             const newGroupName = input.value;
                             input.parentNode.replaceChild(span, input);
+                            if(span.innerText != newGroupName) {
+                                targetLi.children[0].children[1].children[0].style.color = 'white';
+                                targetLi.children[0].children[1].children[1].style.color = 'white';
+                            }
                             span.textContent = newGroupName;
                         }
 

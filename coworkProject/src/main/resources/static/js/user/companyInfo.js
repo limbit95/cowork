@@ -110,7 +110,7 @@ domain.addEventListener("input", e => {
     const inputDomain = e.target;
 
     const englishOnly = /^[A-Za-z]*$/;
-    const regExp = /^[A-Za-z]{4,30}$/;
+    const regExp = /^[A-Za-z]{2,30}$/;
     
     if (!englishOnly.test(domain.value)) {
         domainMessage.innerText = "영어만 입력 가능합니다";
@@ -122,7 +122,7 @@ domain.addEventListener("input", e => {
     }
 
     if(domain.value.trim().length === 0){
-        domainMessage.innerText = "영어 대·소문자 4~30글자";
+        domainMessage.innerText = "영어 대·소문자 2~30글자";
         domainMessage.classList.remove("confirm", "error");
         domain.value = "";
         checkObj.domain = false;
@@ -130,7 +130,7 @@ domain.addEventListener("input", e => {
     }
 
     if(!regExp.test(domain.value)){
-        domainMessage.innerText = "4~30글자 이내로 작성해주세요";
+        domainMessage.innerText = "2~30글자 이내로 작성해주세요";
         domainMessage.classList.add("error");
         domainMessage.classList.remove("confirm");
         checkObj.domain = false;

@@ -82,11 +82,11 @@ public interface AdminAddrMapper {
 	 */
 	int deleteGroup(Map<String, Object> map);
 
-	/** 
-	 * @param map
+	/** 부서 그룹 하나만 남았을 때 DEPARTMENT 테이블 전부 비워버리는 쿼리
+	 * @param loginEmp
 	 * @return
 	 */
-	int deleteAllGroup(Map<String, Object> map);
+	int deleteAllGroup(Employee2 loginEmp);
 
 
 }

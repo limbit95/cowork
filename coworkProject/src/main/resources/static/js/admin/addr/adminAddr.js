@@ -300,6 +300,10 @@ document.querySelectorAll('.li-hover').forEach(item => {
                         if(flag == 0){
                             const newGroupName = input.value;
                             input.parentNode.replaceChild(span, input);
+                            if(span.innerText != newGroupName) {
+                                targetLi.children[0].children[1].children[0].style.color = 'white';
+                                targetLi.children[0].children[1].children[1].style.color = 'white';
+                            }
                             span.textContent = newGroupName;
                         }
                     }
@@ -314,8 +318,8 @@ document.querySelectorAll('.li-hover').forEach(item => {
                     }
                     if(document.querySelector('.openInput') != null) {
                         if (!document.querySelector('.openInput').contains(event.target)) {
-                            console.log(input.parentNode);
                             input.parentNode.replaceChild(span, input);
+                            console.log(input.parentNode);
                         }
                     }
                 });
@@ -325,7 +329,7 @@ document.querySelectorAll('.li-hover').forEach(item => {
 
 
         deleteGroup.onclick = () => {
-            if(targetLi.parentElement.childElementCount == 1){
+            if(targetLi.getAttribute("class") == 'team' && targetLi.parentElement.childElementCount == 1){
                 alert("최소 한 개의 팀은 유지되어야 합니다.");
                 contextMenu.style.display = 'none';
                 return;

@@ -148,5 +148,11 @@
 		WHERE COM_NO = #{comNo}
 		AND DEPT_NO NOT IN(${groupIdx})
 	</delete>
+	
+	<!-- 부서 그룹 삭제 -->
+	<delete id="deleteAllGroup">
+		DELETE FROM DEPARTMENT
+		WHERE COM_NO = #{comNo}
+	</delete>
 		
 </mapper>

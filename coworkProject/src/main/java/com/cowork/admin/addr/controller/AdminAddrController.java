@@ -186,8 +186,13 @@ public class AdminAddrController {
 	 */
 	@ResponseBody
 	@PostMapping("insertGroupList")
-	public int insertGroupList(@RequestBody List<List<Map<String, Object>>> data) {
-		return service.insertGroupList(data);
+	public int insertGroupList(@RequestBody List<List<Map<String, Object>>> data,
+							   HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		return service.insertGroupList(data, loginEmp);
 	}
 
 	

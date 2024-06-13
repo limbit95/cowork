@@ -108,7 +108,7 @@ public class AdminAddrServiceImpl implements AdminAddrService {
 	
 	// 회사 주소록 CRUD
 	@Override
-	public int insertGroupList(List<List<Map<String, Object>>> data) {
+	public int insertGroupList(List<List<Map<String, Object>>> data, Employee2 loginEmp) {
 		// -1 : 그룹이 하나도 없음
 		// -2 : 중복된 이름의 주소록이 있음
 		// 1 : 그룹 저장 성공
@@ -147,10 +147,9 @@ public class AdminAddrServiceImpl implements AdminAddrService {
 			
 			int deleteResult = mapper.deleteGroup(data.get(0).get(0));
 		} 
-//		if(idx.length() == 0) {
-//			int deleteResult = mapper.deleteAllGroup(data.get(0).get(i));
-//		}
-		
+		if(idx.length() == 0) {
+			int deleteResult = mapper.deleteAllGroup(loginEmp);
+		}
 		
 		// 부서 그룹 삽입 및 수정
 		for(int i = 0; i < data.get(0).size(); i++) {
