@@ -14,25 +14,12 @@
     
     <section class="container">
 
-        <div class="mailTitle">
+        <div class="mailHeader">
+
             <div class="mailLabel">
                 <label>메일</label>
             </div>
-            <div class="search">
-                <select class="default-line">
-                    <option>제목</option>
-                    <option>내용</option>
-                    <option>보낸 사람</option>
-                </select>
-    
-                <div class="default-line">
-                    <input >
-    
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </div>
-                
-            </div>
-            
+            <div></div>
         </div>
 
         <!-----------------------------------------------   테이블  ------------------------------------------------------------------>
@@ -68,18 +55,18 @@
                     <div th:text="${mail.senderMail}" class="default-label lavenderLabel"></div>
                 </div>
 
-                <!-- 참조 -->
-                <div class="ins-css insertForm mailInfo" th:each="${mail.referenceList}">
-                    <div><label>참조</label></div>
-                    <div th:text="${mail.reference}"></div>
-                    <div class="default-label lavenderLabel" th:text="${mail.referenceMail}">메일주소</div>
-                </div>
-
                 <!-- 받는사람 -->
-                <div class="ins-css insertForm mailInfo" th:each="${mail.recipientList}">
+                <div class="ins-css insertForm mailInfo" > <!-- th:each="${mail.recipientList}" -->
                     <div><label>받는 사람</label></div>
                     <div th:text="${mail.recipient}">받는사람</div>
                     <div th:text="${mail.recipientMail}" class="default-label lavenderLabel"></div>
+                </div>
+
+                <!-- 참조 -->
+                <div class="ins-css insertForm mailInfo"> <!-- th:each="${mail.referenceList}" -->
+                    <div><label>참조</label></div>
+                    <div th:text="${mail.reference}"></div>
+                    <div class="default-label lavenderLabel" th:text="${mail.referenceMail}">메일주소</div>
                 </div>
 
                 <!-- 날짜 -->
@@ -91,15 +78,15 @@
                 <!-- 파일 -->
                 <div class="ins-css">
 
-                    <div class=""><i class="fa-solid fa-chevron-down"></i><label>첨부파일</label><label>3</label><label>개</label><label class="colorGray">(12.1KB)</label></div>
-                    <table class="default-line">
-                        <tr>
-                            <td><i class="fa-solid fa-image"></i><label>검색.png</label><label class="colorGray">3.09KB</label></td>
-                            <td><a class="fa-solid fa-download"></a></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fa-solid fa-image"></i><label>검색.png</label><label class="colorGray">3.09KB</label></td>
-                            <td><a class="fa-solid fa-download"></a></td>
+                    <div class="">
+                        <button type="button" class="fa-solid fa-chevron-up btnBoarder fileListInfo"></button>
+                       <!-- <label th:text="|첨부파일 *{fileCnt}개|">첨부파일</label><label class="colorGray">(12.1KB)</label>-->
+                    </div>
+                    <table class="default-line preview">
+                        <tr th:each="file : ${fileList}" th:object="${file}">
+                            <td><i class="fa-solid fa-paperclip"></i><label th:text="*{fileOriginName}">검색.png</label></td>
+                            <td></td>
+                            <td><a class="fa-solid fa-download" th:href="|*{filePath}*{fileRename}|" th:download="*{fileOriginName}"></a></td>
                         </tr>
                     </table>
                     
