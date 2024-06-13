@@ -18,4 +18,22 @@ public interface ReservationService {
 	 */
 	List<ReserveInfo> selectReserveInfoList(int comNo);
 
+	/** deptNo으로 deptNm 조회
+	 * @param string
+	 * @return deptNm
+	 */
+	String selectDeptNm(String deptNo);
+
+	/** teamNo으로 teamNm 조회
+	 * @param string
+	 * @return teamNm
+	 */
+	String selectTeamNm(String teamNo);
+
+	/** 회의실 이용 시간 체크
+	 * @param inputReserveInfo
+	 * @return count
+	 */
+	int checkMeetingRoom(ReserveInfo inputReserveInfo);
+
 }

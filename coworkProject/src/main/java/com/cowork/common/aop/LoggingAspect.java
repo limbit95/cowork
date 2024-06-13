@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.cowork.user.model.dto.Employee2;
+
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,12 +39,13 @@ public class LoggingAspect {
 		sb.append(String.format("[%s.%s] 요청 / ip : %s", className, methodName, ip));
 		
 		// 로그인 완료된 후 주석 해제 예정
-//		if(req.getSession().getAttribute("loginMember") != null) {
-//			String memberEmail = 
-//					( (Member)req.getSession().getAttribute("loginMember") ).getMemberEmail();
-//			
-//			sb.append(String.format(", 요청 회원 : %s", memberEmail));
-//		}
+		if(req.getSession().getAttribute("loginEmp") != null) {
+			String empName = 
+					( (Employee2)req.getSession().getAttribute("loginEmp") ).getEmpLastName()
+					+ ( (Employee2)req.getSession().getAttribute("loginEmp") ).getEmpFirstName();
+			
+			sb.append(String.format(", 요청 회원 : %s", empName));
+		}
 		
 		log.info(sb.toString());
 	}

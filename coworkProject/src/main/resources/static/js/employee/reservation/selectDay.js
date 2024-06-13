@@ -264,6 +264,7 @@ if(reservationInsertModal != null) {
 
 }
 
+// 부서, 팀 선택한 쪽에서 x 버튼 클릭시
 const selectView = document.querySelector(".selectView");
 
 if(selectView != null) {
@@ -285,6 +286,24 @@ if(selectView != null) {
     })
 }
 
+// 회의실 선택한 쪽에서 x 버튼 클릭시
+const meetingRoomSelectView = document.querySelector(".meetingRoomSelectView");
+
+if(meetingRoomSelectView != null) {
+    meetingRoomSelectView.addEventListener("click", function(event) {
+        if(event.target.classList.contains('selectCancel')) {
+            const selectedDiv = event.target.closest('.selectedDiv');
+            if(selectedDiv) {
+                selectedDiv.remove();
+            }
+        }
+
+        if(meetingRoomSelectView.innerText == "") {
+            meetingRoomSelectView.classList.add("reservationHidden");
+        }
+    })
+}
+
 // 취소 버튼 클릭 시 모든 값들을 비워주고 모달창 없애기
 const modalCancelBtn = document.querySelector(".modalCancelBtn");
 
@@ -293,11 +312,28 @@ if(modalCancelBtn != null) {
         document.querySelector("#selectedColor").value = "";
         document.querySelector(".selectView").innerHTML = "";
         document.querySelector(".selectView").classList.add("reservationHidden");
+        const clickColors = document.querySelectorAll(".clickColor");
+        clickColors.forEach(div => {
+            div.classList.remove("addBorder");
+        });
         reservationInsertModal.classList.add("reservationHidden");
     })
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+
+    const showDayReserve = reserveInfoList.map(event => ({
+        title : event.meetingRoomNm,
+        start : event.reserveInfoStart,
+        end : event.reserveInfoEnd,
+        color : event.reserveInfoColor,
+        extendedProps : {
+            empCode : event.empCode,
+            meetingRoomNo : event.meetingRoomNo,
+            meetingRoomNm : event.meetingRoomNm,
+            shareStr : event.shareStr
+        }
+    }));
 
     var calendarEl = document.getElementById('calendar');
     var selectedDate = getDateFromUrl() || new Date().toISOString().split('T')[0];
@@ -312,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function() {
         timeZone: 'UTC',
         droppable: true,
         dayMaxEvents: true,
-        events: 'https://fullcalendar.io/api/demo-feeds/events.json',
+        events: showDayReserve,
         select: function(info) {
 
             // 지나간 시간은 예약 못함
@@ -341,6 +377,13 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector(".selectTeam").value = document.querySelector(".selectTeamDefalut").value;
             document.querySelector(".selectMeetingRoom").value = document.querySelector(".selectMeetingRoomDefault").value;
 
+            // 색 border remove
+            const clickColors = document.querySelectorAll(".clickColor");
+            clickColors.forEach(div => {
+                div.classList.remove("addBorder");
+            });
+
+            // 모달창 보여주기
             document.querySelector("#reservationInsertModal").classList.remove("reservationHidden");
 
             // 모달 창에 뜬 X 버튼 눌렀을 때
@@ -355,10 +398,6 @@ document.addEventListener('DOMContentLoaded', function() {
             })
 
             // 등록 버튼 클릭 시
-            // title은 회의실 이름만
-            // color 는 input 태그 값
-            // empCode 는 loginEmp empCode
-            // 팀 숫자들, 부서 숫자들, com 숫자, meetingRoomNo
             document.querySelector(".modalUpdateBtn").addEventListener("click", e => {
                 
                 const meetingRoomSelectView = document.querySelector(".meetingRoomSelectView");
@@ -378,11 +417,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 const date = new Date(info.start);
                 const endDate = new Date(info.end);
                 
-                const startHours = date.getHours();
-                const startMinutes = date.getMinutes();
+                const startHours = date.getUTCHours();
+                const startMinutes = date.getUTCMinutes();
                 
-                const endHours = endDate.getHours();
-                const endMinutes = endDate.getMinutes();
+                const endHours = endDate.getUTCHours();
+                const endMinutes = endDate.getUTCMinutes();
                 
                 const formattedStartHours = String(startHours).padStart(2, '0');
                 const formattedStartMinutes = String(startMinutes).padStart(2, '0');
@@ -397,6 +436,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 // input 태그의 value가 비어 있는지 확인
                 if (!selectedColor.value) {
                     alert("색상을 선택해주세요.");
+                    e.preventDefault();
+                    return;
+                }
+
+                // selectView 에 아무것도 없으면 안됨 회의실 예약할 때 태그 해야함
+                const selectView = document.querySelector(".selectView");
+
+                if(selectView.innerHTML == "") {
+                    alert("참여할 부서 또는 팀을 선택해주세요.");
                     e.preventDefault();
                     return;
                 }
@@ -422,8 +470,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 캘린더에 이벤트를 즉시 추가
                 // var newEvent = calendar.addEvent({
                 //     title : `${formattedStartTime}부터 ${formattedEndTime}까지 ${selectedMeetingRoomNM} 예약됨`,
-                //     start : info.start,
-                //     end : info.end,
                 //     backgroundColor : selectedColor.value
                 // });
 
@@ -436,9 +482,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(result => {
                     if(result > 0) {
                         alert("회의실 예약 성공");
+
+                        document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
+
                         calendar.render();
+                    } else if (result == -1){
+                        alert("이미 예약이 존재하는 회의실입니다.");
                     } else {
-                        newEvent.remove();
                         alert("회의실 예약 실패");
                     }
                 })

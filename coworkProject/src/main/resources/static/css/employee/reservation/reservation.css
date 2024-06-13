@@ -187,11 +187,18 @@
     margin-top: 30px;
 }
 
+/* Full Calendar API 자체 시간 보여주는 거 숨김 */
+.fc-event-time {
+    display: none !important;
+}
 
+.fc-timegrid-event-harness {
+    width: 15%;
+}
 
-
-
-
+.fc-event-title {
+    padding: 5px;
+}
 
 /* 예약 숨기기 */
 .reservationHidden {

@@ -35,4 +35,28 @@ public class ReservationServiceImpl implements ReservationService {
 		return mapper.selectReserveInfoList(comNo);
 	}
 
+	/** deptNo으로 deptNm 조회
+	 * @return deptNm
+	 */
+	@Override
+	public String selectDeptNm(String deptNo) {
+		return mapper.selectDeptNm(deptNo);
+	}
+
+	/** teamNo으로 teamNm 조회
+	 * @return teamNm
+	 */
+	@Override
+	public String selectTeamNm(String teamNo) {
+		return mapper.selectTeamNm(teamNo);
+	}
+
+	/** 회의실 이용 시간 체크
+	 * @return count
+	 */
+	@Override
+	public int checkMeetingRoom(ReserveInfo inputReserveInfo) {
+		return mapper.checkMeetingRoom(inputReserveInfo);
+	}
+
 }

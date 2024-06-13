@@ -2,6 +2,19 @@ console.log("reservation.js 연결 확인");
 
 document.addEventListener('DOMContentLoaded', function() {
 
+    const showMonthReserve = reserveInfoList.map(event => ({
+        title : event.reserveInfoTitle,
+        start : event.reserveInfoStart,
+        end : event.reserveInfoEnd,
+        color : event.reserveInfoColor,
+        extendedProps : {
+            empCode : event.empCode,
+            meetingRoomNo : event.meetingRoomNo,
+            meetingRoomNm : event.meetingRoomNm,
+            shareStr : event.shareStr
+        }
+    }));
+
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -12,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         timeZone: 'UTC',
         droppable: true,
         dayMaxEvents: true,
-        events: 'https://fullcalendar.io/api/demo-feeds/events.json',
+        events: showMonthReserve,
         dateClick: function(info) {
             var selectedDate = info.dateStr;
             // 날짜를 URL 파라미터로 전달하여 새로운 페이지로 이동
@@ -20,20 +33,15 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         eventClick: function(info) {
 
-            // 제목 클릭 시 보여질 모달
-            // title 은 DB 에 넣을 때 어떤 회의실 몇시부터 몇시까지 예약됨
-            // 이런 식으로 보여줄 거임
-            // 예약일, 부서, 회의실, 시작 시간, 종료 시간
-
             // 시간 포맷
             const date = new Date(info.event.start);
             const endDate = new Date(info.event.end);
 
-            const startHours = date.getHours();
-            const startMinutes = date.getMinutes();
+            const startHours = date.getUTCHours();
+            const startMinutes = date.getUTCMinutes();
 
-            const endHours = endDate.getHours();
-            const endMinutes = endDate.getMinutes();
+            const endHours = endDate.getUTCHours();
+            const endMinutes = endDate.getUTCMinutes();
 
             const formattedStartHours = String(startHours).padStart(2, '0');
             const formattedStartMinutes = String(startMinutes).padStart(2, '0');
@@ -60,12 +68,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector(".reservationDay").value = formattedDate;
             document.querySelector(".reservationStart").value = formattedStartTime;
             document.querySelector(".reservationEnd").value = formattedEndTime;
+            document.querySelector(".reservationDept").value = info.event.extendedProps.shareStr;
+            document.querySelector(".reservationRoom").value = info.event.extendedProps.meetingRoomNm;
 
             document.querySelector("#reservationModal").classList.remove("reservationHidden");
-            
-            
-
-
 
             var popovers = document.querySelectorAll('.fc-popover');
             popovers.forEach(function(popover) {
@@ -78,8 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
             spanX.addEventListener("click", e => {
                 document.getElementById('reservationModal').classList.add('reservationHidden');
             });
-
-
 
         }
     });
