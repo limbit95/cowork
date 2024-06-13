@@ -14,55 +14,32 @@
 
     <section class="container" id="surveyTitleBtn">
         <!-- 설문조사 상세 대제목 -->
-        <div class="title"><span>명절 선물 설문 조사</span></div>
-
-    </section>
-    
-    <!-- 설문조사 작성한 사람이 로그인한 경우 -->
-    <section class="container" id="surveyDelete">
-        <div id="surveyBtnTop">
-            <button href="surveyInsert" class="default-btn sapphire-border-btn" id="surveyDeleteBtn">삭제</button>
-        </div>
+        <div class="title"><span th:text="${mainTitle}"></span></div>
     </section>
 
     <!-- 객관식 선택할 경우 -->
     <form class="submitForm">
-        <!-- 객관식 질문 부분 -->
-        <section class="selectSection">
-            <div class="answerDiv">
-                <div class="answerTitle">Q. 명절 선물 뭐가 좋을까?</div>
+        
+        <!-- 소제목 시작 -->
+        <th:block th:each="surveySub : ${surveySubList}" class="questionArea">
+            <div th:if="${surveySub.questionType == '1'}" class="multipleQuestion">
+                
+                <!-- 객관식인 경우 -->
+                <div th:text="'Q. ' + ${surveySub.surveySubTitle}" class="multipleQuestionTitle"></div>
+                
+                <th:block th:each="option : ${surveySub.options}" class="option" style="background-color: aqua; display: flex;">
+                        <div th:text="${option.multipleQuestion}"></div>
+                </th:block>
+                
             </div>
-        </section>
-        <!-- 객관식 선택 부분 -->
-        <section class="selectRadio">
-            <div>
-                <label>
-                    <input type="radio" name="size">1. 객관식 1
-                </label>
+            <div th:if="${surveySub.questionType == '2'}" class="subjectiveQuestion">
+                <!-- 주관식인 경우 -->
+                <div th:text="'Q. ' + ${surveySub.surveySubTitle}" class="subjectiveQuestionTitle"></div>
+                <textarea></textarea>
+                
             </div>
-
-            <div>
-                <label>
-                    <input type="radio" name="size">2. 객관식 2
-                </label>
-            </div>
-
-            <div>
-                <label>
-                    <input type="radio" name="size">3. 객관식 3
-                </label>
-            </div>
-        </section>
-
-        <!-- 설문 제출하기 버튼 -->
-        <section class="surveySubmitBtnSection">
-            <div class="surveySubmitBtn">
-                <button class="default-btn sapphire-btn">제출하기</button>
-                <button class="default-btn sapphire-btn">목록으로</button>
-            </div>
-
-        </section>
-
+        </th:block>        
+        <!-- 소제목 끝 -->
     </form>
 
     <script src="/js/employee/survey/surveyDetail.js"></script>

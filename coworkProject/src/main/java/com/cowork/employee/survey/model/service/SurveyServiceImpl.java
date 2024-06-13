@@ -18,6 +18,7 @@ import com.cowork.employee.chatting.model.dto.Employee;
 import com.cowork.employee.survey.model.dto.Question;
 import com.cowork.employee.survey.model.dto.Survey;
 import com.cowork.employee.survey.model.dto.SurveyData;
+import com.cowork.employee.survey.model.dto.SurveySub;
 import com.cowork.employee.survey.model.mapper.SurveyMapper;
 import com.cowork.user.model.dto.Employee2;
 
@@ -331,10 +332,12 @@ public class SurveyServiceImpl implements SurveyService{
 			
 			if(comNo1 == comNo2) {
 				// 자격 있다! 
+				log.debug("aaaaaaaaaaa");
 				return true;
 				
 			} else {
 				// 자격 없다!
+				log.debug("bbbbbbbbbbbbb");
 				return false;
 			}
 			
@@ -349,10 +352,12 @@ public class SurveyServiceImpl implements SurveyService{
 			Integer count = surveyMapper.countForValidate(paramMap);
 			
 			if(count == 0) {
+				log.debug("ccccccccccccccc");
 				// 조회된 게 없다 => 자격 없다 
 				return false; 
 				
 			} else{ //(count == 1) 
+				log.debug("ddddddddddddddddd");
 				// 조회된 게 있다 => 자격 있다 
 				return true;
 			}
@@ -385,6 +390,38 @@ public class SurveyServiceImpl implements SurveyService{
 		}
 		
 		
+	}
+
+	@Override
+	public void getSurvey(String surveyNo, Model model ) {
+		
+		Survey survey = surveyMapper.getSurvey(surveyNo);
+		// 여기서 얻을 수 있는거? 
+		// main title 
+		String mainTitle = survey.getSurveyMainTitle();
+		
+		// 다음은 해당 설문과 관련된 모든 소제목들을 조회해올거임 
+		List<SurveySub> surveySubList= surveyMapper.surveySubList(surveyNo);
+		
+		for(SurveySub surveySub : surveySubList) {
+			log.debug("surveySub =={} ", surveySub);
+		}
+		// surveySub ==
+		// SurveySub(
+		
+		// surveySubNo=4, 
+		// surveySubTitle=선물로 뭐가 좋을까요?, 
+		// questionType=1,  // <- 1이 객관식임. 2가 주관식이고 
+		// options=[
+		// SurveyMultiple(surveyMultipleNo=11, surveySubNo=4, multipleQuestion=참치캔), 
+		// SurveyMultiple(surveyMultipleNo=12, surveySubNo=4, multipleQuestion=식용유), 
+		// SurveyMultiple(surveyMultipleNo=13, surveySubNo=4, multipleQuestion=휘발유)
+		// ]
+		
+		//) 
+		
+		model.addAttribute("mainTitle", mainTitle); // 설문 대제목 
+		model.addAttribute("surveySubList", surveySubList);			
 	}
 	
 	

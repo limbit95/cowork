@@ -76,7 +76,7 @@ public class SurveyController {
 		// 1. 지금 HTTP 요청 메세지를 보낸 사원이 이 설문을 작성할 권한이 있는 사람인지 검증 
 		Boolean flag = surveyService.validate(surveyNo, loginEmp);
 		
-		if(flag) { //  !flag ==> 작성할 권한이 없는 경우 
+		if(!flag) { //  !flag ==> 작성할 권한이 없는 경우 
 			model.addAttribute("noAuthority", "잘못된 접근입니다");
 			return "/employee/survey/surveyList";
 			
@@ -90,24 +90,19 @@ public class SurveyController {
 			
 			if(check) {
 				// 작성한적이 있다 
-				model.addAttribute("noAuthority", "이미 작성한 설문입니다");
+				model.addAttribute("noAuthority", "이미 작성한 설문입니다.");
 				// 시간이 되면, 이미 작성한 설문입니다. 작성한 설문을 수정할 수 있는 흐름도 만들어주면 좋겠네 )
 				return "/employee/survey/surveyList";
 			} else {
 				// 작성한 적이 없다 
 				// 해당 설문에 관한 걸 가져와서 뿌려주면 되겠네 
-				
+				surveyService.getSurvey(surveyNo, model);
 			}
 			
 			
 		}
 		
-
-		
-		// 3. 설문할 작성할 권한도 있고, 아직 작성한 적이 없다면, 이때에서야 설문을 작성할 수 있는 페이지로 안내한다. 
-		
-		
-		return "";
+		return "/employee/survey/surveyDetail";
 	}
 	
 	@GetMapping("mySurvey")
