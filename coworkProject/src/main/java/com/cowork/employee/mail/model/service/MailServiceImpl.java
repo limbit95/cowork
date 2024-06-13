@@ -49,7 +49,8 @@ public class MailServiceImpl implements MailService {
 		map.put("pagination", pagination); 
 		map.put("mailList", mailList); 
 		map.put("mailCount", mailCount); 
-		map.put("noReadCount", noReadCount); 
+		map.put("noReadCount", noReadCount);
+		map.put("listCount", listCount);
 		
 		return map;
 	}
@@ -117,7 +118,8 @@ public class MailServiceImpl implements MailService {
 		map.put("pagination", pagination); 
 		map.put("sentMailList", sentMailList); 
 		map.put("sentMailCount", sentMailCount); 
-		map.put("sentMailNoReadCount", sentMailNoReadCount); 
+		map.put("sentMailNoReadCount", sentMailNoReadCount);
+		map.put("sentListCount", sentListCount);
 		
 		return map;
 	}
@@ -161,6 +163,7 @@ public class MailServiceImpl implements MailService {
 		map.put("inMailList", inMailList); 
 		map.put("inMailCount", inMailCount); 
 		map.put("inMailNoReadCount", inMailNoReadCount); 
+		map.put("inListCount", inListCount);
 		
 		return map;
 		
