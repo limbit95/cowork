@@ -23,12 +23,16 @@ public class Mail {
 	private String mailFlag; 
 	private int empCode; 
 	private String readFl; //확인 여부 
+	private int noReadCount; // 안읽은 메일 개수 
+	private int mailCount; //전체메일개수 
 	
 	private int recipientNo; 
 	private String sender; // 보낸 사람 이름
 	private String senderMail; 
 	private String recipient; // 받는 사람 이름 
 	private String recipientMail; 
+	private String reference; // 참조 
+	private String referenceMail;
 	
 	private String senderTeamNm; // 팀이름
 	private String recipientTeamNm; 
@@ -36,6 +40,7 @@ public class Mail {
 	
 	private List<MailFile> fileList; 
 	private List<String> recieverList; // 받는 사람 리스트 
+	private List<String> referenceList; // 참조인 리스트 
 	
 	
 

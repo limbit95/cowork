@@ -1,5 +1,6 @@
 /* 스마트에디터 */
 var oEditors = [];
+const fileListBtn = document.querySelector('.fileListInfo')
 
 smartEditor = function() {
     nhn.husky.EZCreator.createInIFrame({

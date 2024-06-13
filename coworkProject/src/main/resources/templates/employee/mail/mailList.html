@@ -14,11 +14,18 @@
     
     <section class="container">
 
-        <div class="mailTitle">
+        <div class="mailHeader">
             <div class="mailLabel">
                 <label>전체메일</label>
-                <div><label class="cntLabel">안읽은개수</label><label>/전체메일개수</label></div>
-                <div><button class="default-btn glucose-btn">메일쓰기</button></div>
+                <div class="cntLabel">
+                    <a th:text="${noReadCount}">안 읽은 메일 개수</a> 
+                    / <span th:text="${mailCount}">전체 메일 개수</span>
+                </div>
+                <form th:action="@{/mail/mailInsert}" method="post" id="insertForm">
+                    <div>
+                        <button class="default-btn glucose-btn" id="sendBtn">메일쓰기</button>
+                    </div>
+                </form>
             </div>
             <div class="search">
                 <select class="default-line">
@@ -27,26 +34,17 @@
                     <option>보낸 사람</option>
                 </select>
     
-                <div class="default-line">
+                <form th:action="@{/mail/search}" method="get" class="default-line" id="searchForm">
                     <input type="text" name="mailQuery" id="SearchQuery" placeholder="검색">
-    
                     <i class="fa-solid fa-magnifying-glass"></i>
-                </div>
+                </form>
                 
             </div>
         </div>
 
-        <!-----------------------------------------------   테이블  ------------------------------------------------------------------>
+        <!-- 테이블 -->
 
         <div class="board">
-
-            <!--<div class="table-head">
-                <div>부서명</div>
-                <div>제목</div>
-                <div>작성자</div>
-                <div>작성일</div>
-            </div>-->
-
             <div class="table-body">
                 <div class="checkDiv">
                     <input type="checkbox" id="checkAll">
@@ -56,26 +54,28 @@
                 <div></div>
                 <div></div>
                 <div class="menuDiv">
-                    <div>
+                    <div class="sortByDate">
                         <i class="fa-solid fa-clock"></i>
                         <i class="fa-solid fa-sort-down"></i>
                     </div>
-                    <div>
+                    <div class="sortBy">
                         <i class="fa-solid fa-bars"></i>
                         <i class="fa-solid fa-sort-down"></i>
                     </div>
                 </div>
             </div>
 
-            <div class="table-body row" th:each="mail : ${mail}">
+            <div class="table-body row" th:each="mail : ${mail}" th:object="${mail}" 
+                th:onclick="|location.href='@{/mail/mailDetail/{mailNo} (mailNo=*{mailNo})}'|">
                 <div class="checkDiv">
-                    <input type="checkbox" data-todo-id="${mail.mailNo}">
+                    <input type="checkbox" th:attr="data-mail-id=${mail.mailNo}" >
                     <div><span th:text="${mail.senderTeamNm}" id="senderTeamNm">팀이름</span>&nbsp;<span th:text="${mail.sender}">이름</span></div>
                 </div>
-               
-                <div th:text="|${session.loginEmp.empCode == mail.empCode ? '[보낸 메일함]' : '[받은 메일함]'} &nbsp; ${mail.mailTitle}|" id="mailTitle">
+                <div th:attr="data-mail-id=${mail.mailNo}"  th:text="|${session.loginEmp.empCode == mail.empCode ? '[보낸 메일함]' : '[받은 메일함]'} 
+                            &nbsp; ${mail.mailTitle}|" id="mailTitle" class="mailTitle">
                     메일 제목
                 </div>
+                
                 <div th:text="${mail.mailWriteDate}" id="mailWriteDate">메일 보낸 시각</div>
             </div>
 

@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("todo")
 @Controller
 public class TodoController {
-	// 김선규 왔다감
+	
 	private final TodoService service; 
 	
 	/**
@@ -211,7 +211,8 @@ public class TodoController {
 	 */
 	@ResponseBody
 	@PostMapping("update/{todoNo}")
-	public int todoUpdate(	@PathVariable("todoNo") int todoNo, Todo inputTodo,
+	public int todoUpdate(	@PathVariable("todoNo") int todoNo, 
+							Todo inputTodo,
 							@RequestParam("files") List<MultipartFile> files,
 							@RequestParam(value="deleteOrder", required=false) String deleteOrder,
 							@RequestParam(value="updateOrder", required=false) String updateOrder,

@@ -8,7 +8,7 @@
 		    M.MAIL_NO,
 		    M.MAIL_TITLE,
 		    M.MAIL_CONTENT,
-		    M.MAIL_WRITE_DATE,
+		    TO_CHAR(M.MAIL_WRITE_DATE, 'YY-MM-DD HH24:MI') AS MAIL_WRITE_DATE,
 		    M.MAIL_FLAG,
 		    M.EMP_CODE AS SENDER_EMP_CODE, 
 		    SENDER.EMP_ID AS senderMail,
@@ -41,7 +41,85 @@
 		    M.MAIL_WRITE_DATE DESC
 	</select>
 	
+	<!-- 메일 개수 조회 -->
+	<select id="mailCount">
+	    SELECT NVL(COUNT(*), 0)
+	    FROM MAIL M
+	    LEFT JOIN RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
+	    WHERE (M.EMP_CODE = #{empCode} OR R.EMP_CODE = #{empCode})
+	</select>
+	
+	<!--  안 읽은 메일 개수 조회 -->
+	<select id="noReadCount">
+	    SELECT NVL(SUM(CASE WHEN READ_FL = '1' THEN 1 ELSE 0 END), 0)
+	    FROM MAIL M
+	    LEFT JOIN RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
+	    WHERE (M.EMP_CODE = #{empCode} OR R.EMP_CODE = #{empCode})
+	</select>
+	
 	<!-- 메일 상세 조회 -->
+	<select id="mailDetail">
+		SELECT 
+		    M.MAIL_NO,
+		    M.MAIL_TITLE,
+		    M.MAIL_CONTENT,
+		    TO_CHAR(M.MAIL_WRITE_DATE, 'YY-MM-DD HH24:MI') AS MAIL_WRITE_DATE,
+		    M.MAIL_FLAG,
+		    M.EMP_CODE AS SENDER_EMP_CODE,
+		    SENDER.EMP_ID AS senderMail,
+		    SENDER.EMP_LAST_NAME || SENDER.EMP_FIRST_NAME AS sender,
+		    SENDER_TEAM.TEAM_NM AS senderTeamNm,
+		    COMPANY.DOMAIN AS senderDomain,
+		    R.EMP_CODE AS RECIPIENT_EMP_CODE,
+		    RECIPIENT.EMP_ID AS recipientMail,
+		    RECIPIENT.EMP_LAST_NAME || RECIPIENT.EMP_FIRST_NAME AS recipient,
+		    RECIPIENT_TEAM.TEAM_NM AS recipientTeamNm,
+		    MAIL_FILE.FILE_NO,
+		    MAIL_FILE.FILE_PATH,
+		    MAIL_FILE.FILE_ORIGIN_NAME,
+		    MAIL_FILE.FILE_RENAME,
+		    MAIL_FILE.FILE_UPLOAD_DATE,
+		    MAIL_FILE.FILE_ORDER
+		FROM 
+		    MAIL M
+		LEFT JOIN 
+		    RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
+		LEFT JOIN 
+		    EMPLOYEE SENDER ON M.EMP_CODE = SENDER.EMP_CODE
+		LEFT JOIN 
+		    TEAM SENDER_TEAM ON SENDER.TEAM_NO = SENDER_TEAM.TEAM_NO
+		LEFT JOIN 
+		    COMPANY ON SENDER.COM_NO = COMPANY.COM_NO
+		LEFT JOIN 
+		    EMPLOYEE RECIPIENT ON R.EMP_CODE = RECIPIENT.EMP_CODE
+		LEFT JOIN 
+		    TEAM RECIPIENT_TEAM ON RECIPIENT.TEAM_NO = RECIPIENT_TEAM.TEAM_NO
+		LEFT JOIN 
+		    DEPARTMENT DEPT ON SENDER_TEAM.DEPT_NO = DEPT.DEPT_NO
+		LEFT JOIN 
+		    MAIL_FILE ON M.MAIL_NO = MAIL_FILE.MAIL_NO
+		WHERE 
+		    M.MAIL_NO = #{mailNo}	
+	</select>
+	
+	<!-- 파일 리스트 조회 - 상세 -->
+	<select id="getMailFiles" parameterType="int" resultType="MailFile">
+	    SELECT * 
+	    FROM 
+	        MAIL_FILE
+	    WHERE 
+	        MAIL_NO = #{mailNo}
+	    ORDER BY 
+	        FILE_ORDER
+	</select>
+	
+	<!-- 상세 파일리스트 조회 -->
+	<select id="fileList">
+		SELECT *
+		FROM MAIL_FILE
+		WHERE MAIL_NO = #{mailNo}
+		ORDER BY FILE_ORDER
+	</select>
 	
 </mapper>
 

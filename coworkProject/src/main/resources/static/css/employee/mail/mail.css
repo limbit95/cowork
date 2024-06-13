@@ -36,9 +36,10 @@ label.delBtn {
 /* 타이틀 */
 .cntLabel {
     color: var(--main2-color);
+    font-size: 16px;
 }
 
-.mailTitle {
+.mailHeader {
     width: 1140px;
     display: flex;
     justify-content: space-between;
@@ -69,12 +70,12 @@ label.delBtn {
 }
 
 /* 보내기버튼 */
-.mailTitle.mailTitleBtn {
+.mailHeader.mailTitleBtn {
     display: flex;
     justify-content: flex-start;
 }
 
-.mailTitle.mailTitleBtn div {
+.mailHeader.mailTitleBtn div {
     margin-right: 20px;
 }
 
@@ -135,4 +136,5 @@ input.insertMail {
 .table-body2 label.mailTitile {
     font-size: x-large;
     font-weight: bold;
+    border: none;
 }
