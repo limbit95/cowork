@@ -65,8 +65,8 @@
                 <!-- 참조 -->
                 <div class="ins-css insertForm mailInfo"> <!-- th:each="${mail.referenceList}" -->
                     <div><label>참조</label></div>
-                    <div th:text="${mail.reference}"></div>
-                    <div class="default-label lavenderLabel" th:text="${mail.referenceMail}">메일주소</div>
+                    <div th:text="${mail.referer}"></div>
+                    <div class="default-label lavenderLabel" th:text="${mail.refererMail}">메일주소</div>
                 </div>
 
                 <!-- 날짜 -->
@@ -93,7 +93,7 @@
                 </div>
             </div>
 
-            <div class="default-line smarteditorDetail">에디터에 기본으로 삽입할 글(수정 모드)이 없다면 이 value 값을 지정하지 않으시면 됩니다.</div>
+            <div class="default-line smarteditorDetail"></div>
 
             <div class="table-body row">
                 <div class="checkDiv">

@@ -32,7 +32,7 @@ public class Mail {
 	private String recipient; // 받는 사람 이름 
 	private String recipientMail; 
 	private String referer; // 참조인 이름 
-	private String referenceMail; // 참조인 메일 
+	private String refererMail; // 참조인 메일 
 	
 	private String senderTeamNm; // 보낸 사람 팀이름
 	private String recipientTeamNm; // 받은 사람 팀이름 

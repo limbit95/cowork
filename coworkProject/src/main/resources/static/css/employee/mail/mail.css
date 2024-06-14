@@ -37,6 +37,7 @@ label.delBtn {
 
 .table-body.row:hover {
     font-weight: bold;
+    cursor: pointer;
 }
 
 /* 타이틀 */

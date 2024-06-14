@@ -17,11 +17,13 @@ smartEditor = function() {
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    // 스마트 에디터 
     smartEditor(); 
 
     const recipientInput = document.getElementById('recipient');
     const refererInput = document.getElementById('referer');
 
+    // 받는 사람 입력시 
     recipientInput.addEventListener('input', () => {
         const empName = recipientInput.value;
         if (!document.getElementById('searchRecTable')) {
@@ -30,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         searchEmp(empName, 'trRec', '#searchRecTable');
     });
 
+    // 참조 입력시 
     refererInput.addEventListener('input', () => {
         const empName = refererInput.value;
         if (!document.getElementById('searchRefTable')) {
@@ -39,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// 사원 검색 영역 
 function createSearchTable(tableId, inputElement) {
     const searchTable = document.createElement('div');
     searchTable.className = 'searchTable';
@@ -46,6 +50,7 @@ function createSearchTable(tableId, inputElement) {
     inputElement.insertAdjacentElement('afterend', searchTable);
 }
 
+// 사원 검색 
 function searchEmp(empName, trId, tableId) {
     fetch("/mail/mailInsert/empSearch?empName=" + empName, {
         method: "GET",
@@ -78,6 +83,7 @@ function searchEmp(empName, trId, tableId) {
     .catch(error => console.error('Error:', error));
 }
 
+/*
 function setEqualRowWidth() {
     let idMaxWidth = 0; 
     let deptMaxWidth = 0; 
@@ -107,8 +113,10 @@ function setEqualRowWidth() {
         row.querySelector('#deptNm').style.width = deptMaxWidth + 'px';
         row.querySelector('#empNm').style.width = empMaxWidth + 'px';
     });
-}
+} */
 
+
+// 
 function searchtrRecClick(empCode, empId) {
     const recipientDiv = document.createElement('div');
     recipientDiv.className = 'default-label lavenderLabel putRecipient';
