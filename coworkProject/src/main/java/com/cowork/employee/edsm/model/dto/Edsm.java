@@ -30,5 +30,6 @@ public class Edsm {
 	private String positionNm;   // 직급
 	private int fileCnt;         // 파일개수
 	private String empName;      // 신청자
-	
+	private String approveFlag;  // 승인여부
+	private String approverFlag; // 결재자 구분
 }

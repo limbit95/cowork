@@ -205,6 +205,7 @@
 	</select>
 	
 	<select id="edsmConfirm">
+		<!-- 첫 번째 CTE 정의 -->
 		WITH RankedApprovers1 AS (
 		    SELECT 
 		        ROW_NUMBER() OVER (PARTITION BY EDSM_NO ORDER BY APPROVER_NO) AS ROW_NUM,
@@ -214,8 +215,10 @@
 		    FROM APPROVER
 		    WHERE APPROVER_FLAG = 1
 		      AND (APPROVE_FLAG != 1 OR APPROVE_FLAG IS NULL)
-		)
-		, RankedApprovers2 AS (
+		),
+		
+		<!-- 두 번째 CTE 정의 -->
+		RankedApprovers2 AS (
 		    SELECT 
 		        ROW_NUMBER() OVER (PARTITION BY EDSM_NO ORDER BY APPROVER_NO DESC) AS ROW_NUM,
 		        EMP_CODE,
@@ -224,49 +227,71 @@
 		        EDSM_NO
 		    FROM APPROVER
 		    WHERE APPROVER_FLAG = 1
+		),
+		
+		<!-- 메인 쿼리 정의 -->
+		FinalApprovers AS (
+		    SELECT 
+		        EDSM_NO,
+		        EMP_CODE
+		    FROM RankedApprovers1
+		    WHERE ROW_NUM = 1
+		
+		    UNION
+		
+		    SELECT 
+		        EDSM_NO,
+		        EMP_CODE
+		    FROM RankedApprovers2
+		    WHERE ROW_NUM = 1 AND APPROVE_FLAG = 1
 		)
+		
 		SELECT 
-			 E.EDSM_NO
-			,DECODE(D.DRAFT_FLAG, '2', '협조문', '3', '품의서', '4', '지출결의서','5', '경조사 신청서', '6', '회의록', '기안서') AS DRAFT_NM
-			,E.EDSM_TITLE
-			,EMP.EMP_LAST_NAME || EMP.EMP_FIRST_NAME  AS EMP_NAME
-			,P.POSITION_NM
-			,(
-			
-						SELECT 
-						 EMP_CODE
-					FROM (
-					SELECT 
-					    EMP_CODE,
-					    EDSM_NO
-					FROM RankedApprovers1
-					WHERE ROW_NUM = 1
-					
-					UNION
-					
-					SELECT 
-					    EMP_CODE,
-					    EDSM_NO
-					FROM RankedApprovers2
-					WHERE ROW_NUM = 1
-					  AND APPROVE_FLAG = 1
-					) WHERE EDSM_NO = E.EDSM_NO 
-			
-			) AS NAME
-			,E.EDSM_WRITE_DATE
-			,E.EDSM_DEL_FL
-			,E.EMP_CODE
-			,E.EDSM_FLAG
-			,E.DRAFT_NO
-			,A.APPROVER_FLAG
+			 Z.EDSM_NO
+			,Z.DRAFT_NM
+			,Z.EDSM_TITLE
+			,Z.EMP_NAME
+			,Z.POSITION_NM
+			,Z.APPROVER_CODE
+			,EMP.EMP_LAST_NAME || EMP.EMP_FIRST_NAME AS APPROVER_NAME
+			,P.POSITION_NM 
+			,Z.APPROVE_FLAG
+			,Z.EDSM_WRITE_DATE
+			,Z.EDSM_DEL_FL
+			,Z.EMP_CODE
+			,Z.EDSM_FLAG
+			,Z.DRAFT_NO
+			,Z.APPROVER_FLAG
+		FROM (
+		SELECT 
+		    E.EDSM_NO,
+		    DECODE(D.DRAFT_FLAG, '2', '협조문', '3', '품의서', '4', '지출결의서', '5', '경조사 신청서', '6', '회의록', '기안서') AS DRAFT_NM,
+		    E.EDSM_TITLE,
+		    EMP.EMP_LAST_NAME || EMP.EMP_FIRST_NAME AS EMP_NAME,
+		    P.POSITION_NM,
+		    (
+		        SELECT EMP_CODE
+		        FROM FinalApprovers
+		        WHERE EDSM_NO = E.EDSM_NO
+		    ) AS APPROVER_CODE,
+		    A.APPROVE_FLAG,
+		    E.EDSM_WRITE_DATE,
+		    E.EDSM_DEL_FL,
+		    E.EMP_CODE,
+		    E.EDSM_FLAG,
+		    E.DRAFT_NO,
+		    A.APPROVER_FLAG
 		FROM EDSM E
 		JOIN DRAFT D ON E.DRAFT_NO = D.DRAFT_NO
 		JOIN EMPLOYEE EMP ON E.EMP_CODE = EMP.EMP_CODE
-		JOIN "POSITION" P ON EMP.POSITION_NO  = P.POSITION_NO
+		JOIN "POSITION" P ON EMP.POSITION_NO = P.POSITION_NO
 		JOIN APPROVER A ON E.EDSM_NO = A.EDSM_NO
-		WHERE A.EMP_CODE = 64
-		AND EDSM_DEL_FL = 'N'
-		ORDER BY EDSM_NO DESC
+		WHERE A.EMP_CODE = #{empCode}
+		  AND E.EDSM_DEL_FL = 'N'
+		ORDER BY E.EDSM_NO DESC
+		) Z
+		JOIN EMPLOYEE EMP ON Z.APPROVER_CODE = EMP.EMP_CODE
+		JOIN "POSITION" P ON EMP.POSITION_NO  = P.POSITION_NO
 	</select>
 	
 	<!-- 결재자 조회 -->
