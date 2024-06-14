@@ -151,8 +151,26 @@ AND S.SURVEY_END_DATE + 1 >= SYSDATE
 	WHERE SURVEY_SUB_NO = #{surveySubNo}
 </select>
 
+<insert id="submitAnswer">
+	INSERT INTO SURVEY_ANSWER 
+	VALUES (SEQ_SURVEY_ANSWER.NEXTVAL, #{empCode}, #{surveySubNo}, #{answer})
+</insert>
+
+<select id="mySurvey">
+	SELECT * FROM SURVEY 
+	WHERE EMP_CODE = #{empCode}
+</select>
 
 
+<select id="countResponse">
+	SELECT COUNT(*) FROM SURVEY_ANSWER
+	WHERE SURVEY_SUB_NO = #{surveySubNo}
+</select>
+
+<select id="countMultipleOption">
+	SELECT COUNT(*) FROM SURVEY_ANSWER
+	WHERE ANSWER = #{surveyMultipleNo}
+</select>
 
 	
 </mapper>

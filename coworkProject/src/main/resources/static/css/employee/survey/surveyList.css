@@ -42,7 +42,7 @@
     border: 2px solid var(--main5-color);
 }
 
-#surveyListBtn, #voteCurrentBtn {
+#surveyListBtn, #mySurvey {
     width: 49%;
     height: 50px;
     font-size: 16px;

@@ -55,6 +55,14 @@ public interface SurveyMapper {
 
 	List<SurveySub> surveySubList(String surveyNo);
 
+	void submitAnswer(Map<String, Object> paramMap);
+
+	List<Survey> mySurvey(Integer empCode);
+
+	Integer countResponse(Integer surveySubNo);
+
+	Integer countMultipleOption(String surveyMultipleNo);
+
 	
 
 

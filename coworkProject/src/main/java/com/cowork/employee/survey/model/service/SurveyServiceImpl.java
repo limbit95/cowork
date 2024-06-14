@@ -18,6 +18,7 @@ import com.cowork.employee.chatting.model.dto.Employee;
 import com.cowork.employee.survey.model.dto.Question;
 import com.cowork.employee.survey.model.dto.Survey;
 import com.cowork.employee.survey.model.dto.SurveyData;
+import com.cowork.employee.survey.model.dto.SurveyMultiple;
 import com.cowork.employee.survey.model.dto.SurveySub;
 import com.cowork.employee.survey.model.mapper.SurveyMapper;
 import com.cowork.user.model.dto.Employee2;
@@ -422,6 +423,99 @@ public class SurveyServiceImpl implements SurveyService{
 		
 		model.addAttribute("mainTitle", mainTitle); // 설문 대제목 
 		model.addAttribute("surveySubList", surveySubList);			
+	}
+
+	@Override
+	public void submitAnswer(Map<String, String> answerMap, Employee2 loginEmp) {
+		
+		// key 만 분리
+		List<String> keysList = new ArrayList<>();
+		for(String key : answerMap.keySet()) {
+			keysList.add(key);
+		}
+		
+		// SURVEY_ANSWER 테이블에 행을 삽입해야함. 
+		// EMP_CODE 
+		Integer empCode = loginEmp.getEmpCode();
+		for(String key : keysList) {
+			String answer = answerMap.get(key);
+			Map<String,Object> paramMap = new HashMap<>();
+			paramMap.put("surveySubNo", key);
+			paramMap.put("empCode", empCode);
+			paramMap.put("answer", answer);
+			surveyMapper.submitAnswer(paramMap);
+		}
+		
+	}
+
+	@Override
+	public List<Survey> mySurvey(Integer empCode) {
+		List<Survey> surveyList = surveyMapper.mySurvey(empCode);
+		return surveyList;
+	}
+
+	@Override
+	public List<SurveySub> calculate(String surveyNo) {
+		
+		// 해당 설문 일단 그냥 가져와봤음.
+		Survey survey = surveyMapper.getSurvey(surveyNo);
+		
+		// 갑자기 드는 생각이 뭐냐면, 설문 소제목 기본키들을 모두 찾아와. 
+		// 그 다음에, 그 소제목이 주관식이라면? 그냥 어떤 리스트에 소제목 기본키만 담은 어떤 객체를 넣어두고 
+		// 객관식이라면, SURVEY_ANSWER 테이블에서 해당 소제목 기본키를 가진 놈들의 전체 개수를 구한다. 
+		// 이 전체 개수가 분모가 됨. 
+		// 그리고, 해당 객관식 소제목 기본키의 객관식 항목 기본키를 구한다. 
+		// 그리고 예를 들어, 1번문항의 개수를 SURVEY_ANSWER 에서 찾으면, 그 항목의 비율이 구해짐 이를 A라고 표현 
+		// A / 전체응답개수 * 100 => A 를 선택한 비율이다.이를 소제목 DTO 에 List 자료구조로 순서대로 껴넣는다면 
+		// 가능할 거 같은데 
+		// 이게 가능한 이유는, SURVEY_MULTIPLE 기본키가 시퀀스 값으로 고유하기 때문이다. 
+		
+		// 설문이 대상이 누구인지 신경 쓸 필요 있어? 없어 임마 
+		// 왜? 어차피 비율은 응답한 사람이 분모이기 때문. 
+		
+		
+		
+		// 시작선 ---------------------------------------------------------
+		// 설문 소제목 기본키들을 모두 찾아와. 
+		List<SurveySub> surveySubList = surveyMapper.surveySubList(surveyNo);
+		
+		List<SurveySub> surveySubListReturn = new ArrayList<>();
+		
+		for(SurveySub surveySub : surveySubList) {
+			if(surveySub.getQuestionType().equals("1")) {
+				// 객관식인 경우 
+				// 각 항목의 비율을 구해야해.
+				
+				// 일단 해당 소제목의 응답개수를 구해야해.
+				Integer surveySubNo = surveySub.getSurveySubNo();
+				Integer totalResponseCount = surveyMapper.countResponse(surveySubNo); // 전체 응답 개수 
+				if(totalResponseCount == 0) {
+					break;
+				}
+				List<SurveyMultiple> surveyMultipleList = surveySub.getOptions();
+				
+				
+				for(SurveyMultiple surveyMultiple : surveyMultipleList) {
+					Integer surveyMultipleNo = surveyMultiple.getSurveyMultipleNo();
+					Integer countMultipleOption= surveyMapper.countMultipleOption(String.valueOf(surveyMultipleNo));
+					Integer ratio = (countMultipleOption / totalResponseCount) * 100;
+					surveySub.getRatioList().add(ratio);
+				}
+				
+				surveySubListReturn.add(surveySub);
+				
+			}else {
+				// 주관식인 경우 
+				surveySubListReturn.add(surveySub);
+			}
+			
+		}
+		
+		return surveySubListReturn;
+		
+		
+		
+		
 	}
 	
 	

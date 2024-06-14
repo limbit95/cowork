@@ -32,42 +32,21 @@
                 <div>제목</div>
                 <div>작성자</div>
                 <div>작성일</div>
+				<th:block th:each="survey : ${surveyList}">
+				    <a th:href="@{/survey/calculate/{surveyNo}(surveyNo=${survey.surveyNo})}">Calculate</a>
+				    <div th:text="${survey.surveyMainTitle}"></div> <!-- survey.someField 를 원하는 필드로 교체 -->
+				</th:block>
             </div>
 
-            <div class="table-body">
-                <div><a href="surveyDetail">설문조사 목록입니다. 투표해주세요.</a></div>
-                <div>정희윤</div>
-                <div>2024-05-22</div>
-            </div>
+			
+
+
             
         </div>
         
     </section>
-
 	
-    <!-- 투표현황 보여질 곳 -->
-    <section class="container">
-        <div class="boardDiv">
-            <div class="table-body">
-                <div class="tableTitle">
-                    <a href="surveyVoteCurrent">설문 제목입니다. 눌러서 들어가면 투표현황을 확인할 수 있습니다.</a>
-                </div>
-                <div class="tableIcon"><i class="fa-solid fa-check-to-slot"></i></div>
-                <div class="tableVote">투표율 50%</div>
-            </div>
-        </div>
-    </section>
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-    <script src="/js/employee/survey/surveyList.js"></script>
+   <!-- <script src="/js/employee/survey/surveyList.js"></script>-->
     <script src="https://kit.fontawesome.com/247c6d7026.js" crossorigin="anonymous"></script>
 </body>
 </html>
