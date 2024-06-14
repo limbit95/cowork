@@ -171,7 +171,9 @@ function searchtrAppClick(empCode, empNm) {
     document.querySelector('#approver' + searchClick).value = empNm;
     document.querySelector('#empCode' + searchClick).value = empCode;
 
-    document.querySelector('#approver' + (searchClick+1)).disabled = false;
+    if(searchClick != 3) {
+        document.querySelector('#approver' + (searchClick+1)).disabled = false;
+    }
 
     searchApp.classList.remove('displayTable');
     searchApp.classList.add('displayNone');
@@ -408,7 +410,7 @@ document.querySelector("#edsmRequest").addEventListener("click", () => {
         if(result > 0) {
             alert("전자결재가 신청되었습니다");
 
-            location.href = "/edsm/edsm/edsmDraftList";
+            location.href = "/employee/edsm/edsmHistory";
 
         } else {
             alert("전자결재 신청 실패");

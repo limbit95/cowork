@@ -141,6 +141,23 @@ document.querySelector("#noticeInsert").addEventListener("click", () => {
         return;
     }
 
+    fetch("/admin/notice/noticeInsert" , {
+        method : "POST",
+        body : clone
+    })
+    .then(resp => resp.text())
+    .then(result => {
+
+        if(result > 0) {
+            alert("게시글이 작성되었습니다");
+
+            location.href = "/admin/notice/noticeDetail/" + result + "?cp=1";
+
+        } else {
+            alert("게시글 작성 실패");
+        }
+    });
+
 
 });
 

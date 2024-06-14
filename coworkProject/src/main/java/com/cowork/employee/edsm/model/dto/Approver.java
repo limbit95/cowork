@@ -15,9 +15,13 @@ import lombok.ToString;
 @Getter
 public class Approver {
 	private int approverNo;
-	private String approverFlage;
+	private String approverFlag;
 	private int empCode;
-	private String progeressFlage;
-	private String approveFlage;
+	private String progeressFlag;
+	private String approveFlag;
 	private int edsmNo;
+	
+	private String approverName; /* 결재자 & 참조자 명 */
+	private String positionNm; /* 직급 */
+	
 }

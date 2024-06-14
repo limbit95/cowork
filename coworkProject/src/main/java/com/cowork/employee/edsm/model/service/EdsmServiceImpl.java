@@ -22,6 +22,7 @@ import com.cowork.employee.edsm.model.dto.DraftKeep;
 import com.cowork.employee.edsm.model.dto.Edsm;
 import com.cowork.employee.edsm.model.dto.EdsmFile;
 import com.cowork.employee.edsm.model.mapper.EdsmMapper;
+import com.cowork.employee.notice.model.dto.BoardFile;
 import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
@@ -96,7 +97,7 @@ public class EdsmServiceImpl implements EdsmService{
 		
 		int edsmNo = inputEdsm.getEdsmNo(); // 삽입된 전자결재 번호를 변수로 저장
 		
-		log.info("edsmNo " + edsmNo);
+		//log.info("edsmNo " + edsmNo);
 		
 		// 결재자, 참조자 APPROVER에 넣기
 		List<Approver> approverList = new ArrayList<>();
@@ -106,7 +107,7 @@ public class EdsmServiceImpl implements EdsmService{
 		
 		for(int i=0; i<approverArr.length; i++) {
 			Approver appr = Approver.builder()
-					.approverFlage("1")
+					.approverFlag("1")
 					.empCode(Integer.parseInt(approverArr[i]))
 					.edsmNo(edsmNo)
 					.build();
@@ -117,7 +118,7 @@ public class EdsmServiceImpl implements EdsmService{
 		if(!referrer.equals("")) {
 			for(int i=0; i<referrerArr.length; i++) {
 				Approver appr = Approver.builder()
-						.approverFlage("2")
+						.approverFlag("2")
 						.empCode(Integer.parseInt(referrerArr[i]))
 						.edsmNo(edsmNo)
 						.build();
@@ -207,6 +208,39 @@ public class EdsmServiceImpl implements EdsmService{
 		
 		// TODO Auto-generated method stub
 		return employeeList;
+	}
+
+	// 전자결재 내역
+	@Override
+	public Map<String, Object> edsmHistory(Map<String, Object> paramMap) {
+		
+		List<Edsm> edsmList = mapper.edsmHistory(paramMap); // 결재내역 조회
+		List<Draft> draftKeepList = mapper.draftKeepList(paramMap); // 자주찾는 결재문서 조회
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("edsmList", edsmList);
+		map.put("draftKeepList", draftKeepList);
+		
+		return map;
+	}
+
+	// 전자결재 상세
+	@Override
+	public Map<String, Object> edsmDetail(int edsmNo) {
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		List<Approver> approverList = mapper.approverList(edsmNo); // 결재자
+		Approver referrerList = mapper.referrerList(edsmNo); // 참조자
+		Edsm edsm = mapper.edsmDetail(edsmNo); // 전자결재 상세
+		List<EdsmFile> fileList = mapper.edsmFileList(edsmNo);
+		
+		map.put("referrerList", referrerList);
+		map.put("approverList", approverList);
+		map.put("edsm", edsm);
+		map.put("fileList", fileList);
+		
+		return map;
 	}
 
 }
