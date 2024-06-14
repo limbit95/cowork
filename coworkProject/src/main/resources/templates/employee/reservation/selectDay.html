@@ -39,6 +39,26 @@
             <span class="spanX">&times;</span>
         </div>
 
+        <!-- 수정시 날짜 선택하는 부분 -->
+        <div class="reservationUpdateDate reservationHidden">
+            <div>
+                <p>예약 날짜 선택</p>
+                <input type="date" class="updateDate">
+            </div>
+    
+            <!-- 수정시 시작 시간 선택하는 부분 -->
+            <div>
+                <p>시작 시간 선택</p>
+                <input type="time" class="updateStartTime">
+            </div>
+    
+            <!-- 수정시 끝나는 시간 선택하는 부분 -->
+            <div>
+                <p>끝나는 시간 선택</p>
+                <input type="time" class="updateEndTime">
+            </div>
+        </div>
+
         <!-- 지정색 선택 부분 -->
         <div class="titleColor">
             <div class="clickColor" style="background-color: #fc8b8b;">
@@ -93,8 +113,55 @@
         <div class="meetingRoomSelectView reservationHidden"></div>
 
         <div class="reservationModalBtn">
-            <button class="default-btn glucose-border-btn modalUpdateBtn">등록</button>
+            <button class="default-btn glucose-border-btn modalInsertBtn">등록</button>
             <button class="default-btn glucose-border-btn modalCancelBtn">취소</button>
+        </div>
+
+    </div>
+
+    <!-- 제목 클릭하면 보여질 모달창 (수정, 삭제) -->
+    <div id="reservationUpdateModal" class="reservationHidden">
+
+        <div class="reservationModalSpace">
+            <span class="updateX">&times;</span>
+        </div>
+
+        <div class="paddingDiv">
+            <div class="reservationDiv borderDiv">
+                <p>예약일</p>
+                <input readonly class="reservationDay">
+                <i class="fa-regular fa-calendar-days dayUpdate"></i>
+            </div>
+    
+            <div class="reservationDiv">
+                <p>부서</p>
+                <input readonly class="reservationDept">
+                <i class="fa-solid fa-briefcase"></i>
+            </div>
+    
+            <div class="reservationDiv">
+                <p>회의실</p>
+                <input readonly class="reservationRoom">
+                <i class="fa-solid fa-people-roof"></i>
+            </div>
+    
+            <div class="reservationDiv">
+                <p>시작 시간</p>
+                <input readonly class="reservationStart">
+                <i class="fa-solid fa-hourglass-start"></i>
+            </div>
+    
+            <div class="reservationDiv">
+                <p>종료 시간</p>
+                <input readonly class="reservationEnd">
+                <i class="fa-solid fa-hourglass-end"></i>
+            </div>
+
+            <!-- 등록한 사람과 수정, 삭제하는 사람이 동일할 때 보여줄 버튼 부분 -->
+            <div class="reservationUpdateBtn reservationHidden">
+                <button class="default-btn glucose-border-btn modalUpdateBtn">수정</button>
+                <button class="default-btn glucose-border-btn modalCancelBtn">삭제</button>
+            </div>
         </div>
 
     </div>
@@ -104,7 +171,7 @@
 
     <script th:inline="javascript">
         const comNo = /*[[${session.loginEmp.comNo}]]*/ "회사 기본키";
-        const empCode = /*[[${session.loginEmp.empCode}]]*/ "회원 코드";
+        const loginEmpCode = /*[[${session.loginEmp.empCode}]]*/ "회원 코드";
         const reserveInfoList = /*[[${session.reserveInfoList}]]*/ "회의실 예약 리스트";
     </script>
 </body>
