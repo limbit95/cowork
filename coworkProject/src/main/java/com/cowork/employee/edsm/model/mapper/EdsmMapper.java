@@ -61,5 +61,35 @@ public interface EdsmMapper {
 	 * @return
 	 */
 	List<Employee2> edsmSerach(Map<String, Object> map);
+	
+	/** 전자결재 내역 조회
+	 * @param paramMap
+	 * @return
+	 */
+	List<Edsm> edsmHistory(Map<String, Object> paramMap);
+
+	/** 결재자 조회
+	 * @param edsmNo
+	 * @return
+	 */
+	List<Approver> approverList(int edsmNo);
+
+	/** 참조자 조회
+	 * @param edsmNo
+	 * @return
+	 */
+	Approver referrerList(int edsmNo);
+
+	/** 전자결재 상세
+	 * @param edsmNo
+	 * @return
+	 */
+	Edsm edsmDetail(int edsmNo);
+
+	/** 전자결재 파일
+	 * @param edsmNo
+	 * @return
+	 */
+	List<EdsmFile> edsmFileList(int edsmNo);
 
 }

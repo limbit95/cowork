@@ -90,7 +90,7 @@
 			open="(" close=")" separator=" UNION ">
 			SELECT
 				 NEXT_APPROVER()
-				,#{approver.approverFlage}
+				,#{approver.approverFlag}
 				,#{approver.empCode}
 				,NULL
 				,NULL
@@ -135,6 +135,132 @@
 		OR TEAM_NM LIKE '%' || #{empFirstName} || '%'
 		OR EMP_FIRST_NAME LIKE '%' || #{empFirstName} || '%'
 		OR POSITION_NM LIKE '%' || #{empFirstName} || '%')
+	</select>
+	
+	<!-- 전자결재 내역 조회 
+		1. 신청 2. 확인 3. 1차 4. 2차 5. 반려
+	-->
+	<select id="edsmHistory">
+		SELECT 
+			 EDSM_NO
+			,DRAFT_NM
+			,EDSM_TITLE
+			,E.EMP_LAST_NAME || E.EMP_FIRST_NAME AS APPROVER_NAME
+			,P.POSITION_NM 
+			,(CASE 
+				WHEN APPROVE_FLAG = 2 THEN '5' 
+				WHEN APPROVER_LEVEL = 1 AND PROGRESS_FLAG IS NULL THEN '1' 
+				WHEN APPROVER_LEVEL = 1 AND PROGRESS_FLAG = 1 THEN '2' 
+				WHEN APPROVER_LEVEL = 2 AND PROGRESS_FLAG = 1 THEN '3' 
+				WHEN APPROVER_LEVEL = 3 AND PROGRESS_FLAG = 1 THEN '4' 
+			END) AS APPROVER_INFO
+			,DRAFT_FLAG
+			,ROW_NUM
+			,APPROVER_NO 
+			,APPROVER_CODE
+			,E.COM_NO 
+			,E.POSITION_NO
+			,APPROVER_LEVEL
+			,APPROVE_FLAG
+			,EDSM_WRITE_DATE
+			,EDSM_DEL_FL
+			,Z.EMP_CODE
+			,EDSM_FLAG
+			,DRAFT_NO
+		FROM (
+			SELECT 
+				 E.EDSM_NO
+				,D.DRAFT_FLAG
+				,DECODE(D.DRAFT_FLAG, '2', '협조문', '3', '품의서', '4', '지출결의서','5', '경조사 신청서', '6', '회의록', '기안서') AS DRAFT_NM
+				,E.EDSM_TITLE
+				,ROW_NUMBER() OVER (PARTITION BY E.EDSM_NO ORDER BY A.APPROVER_NO) AS ROW_NUM
+				,ROW_NUMBER() OVER (PARTITION BY E.EDSM_NO ORDER BY A.APPROVER_NO) AS APPROVER_LEVEL
+				,A.APPROVER_NO 
+				,A.EMP_CODE AS APPROVER_CODE
+				,A.PROGRESS_FLAG
+				,A.APPROVE_FLAG
+				,E.EDSM_WRITE_DATE
+				,E.EDSM_DEL_FL
+				,E.EMP_CODE
+				,E.EDSM_FLAG
+				,E.DRAFT_NO
+			FROM EDSM E
+			JOIN DRAFT D ON E.DRAFT_NO = D.DRAFT_NO
+			JOIN APPROVER A ON (E.EDSM_NO = A.EDSM_NO AND APPROVER_FLAG  = 1 AND (APPROVE_FLAG != 1 OR APPROVE_FLAG IS NULL) )
+			WHERE E.EMP_CODE = #{empCode}
+			AND E.EDSM_DEL_FL = 'N'
+			ORDER BY EDSM_NO, APPROVER_NO
+		) Z
+		JOIN EMPLOYEE E ON Z.APPROVER_CODE = E.EMP_CODE
+		JOIN COMPANY C ON E.COM_NO = C.COM_NO 
+		JOIN "POSITION" P ON E.POSITION_NO  = P.POSITION_NO 
+		WHERE ROW_NUM = 1
+		<choose> 
+			<when test='key != "0" and key != null and key != "1"'> 
+				AND DRAFT_FLAG = #{key}
+			</when>
+			<when test='key == "1"'> <!-- 기안서 -->
+				AND DRAFT_FLAG IN ('1','7')
+			</when>
+		</choose>
+		ORDER BY EDSM_NO
+	</select>
+	
+	<!-- 결재자 조회 -->
+	<select id="approverList">
+		SELECT
+			 APPROVER_NO
+			,APPROVER_FLAG
+			,A.EMP_CODE
+			,E.EMP_LAST_NAME || E.EMP_FIRST_NAME AS APPROVER_NAME
+			,P.POSITION_NM 
+			,PROGRESS_FLAG
+			,APPROVE_FLAG
+			,EDSM_NO
+		FROM APPROVER A
+		JOIN EMPLOYEE E ON A.EMP_CODE  = E.EMP_CODE
+		<!-- JOIN COMPANY C ON E.COM_NO = C.COM_NO  -->
+		JOIN "POSITION" P ON E.POSITION_NO  = P.POSITION_NO 
+		WHERE EDSM_NO = #{edsmNo}
+		AND APPROVER_FLAG = 1
+		ORDER BY APPROVER_NO
+	</select>
+	
+	<!-- 참조자 조회 -->
+	<select id="referrerList">
+		SELECT NVL( LISTAGG(E.EMP_LAST_NAME || E.EMP_FIRST_NAME, ', ') WITHIN GROUP (ORDER BY A.APPROVER_NO), 'N') AS APPROVER_NAME
+		FROM APPROVER A
+		JOIN EMPLOYEE E ON A.EMP_CODE = E.EMP_CODE
+		WHERE EDSM_NO = #{edsmNo}
+		AND APPROVER_FLAG = 2
+	</select>
+	
+	<select id="edsmDetail">
+		SELECT 
+			 EDSM_NO
+			,EDSM_TITLE
+			,EDSM_CONTENT
+			,EDSM_WRITE_DATE
+			,EDSM_DEL_FL
+			,EMP_CODE
+			,EDSM_FLAG
+			,DRAFT_NO
+			,(SELECT COUNT(*) FROM EDSM_FILE WHERE EDSM_NO = #{edsmNo}) AS FILE_CNT
+		FROM EDSM
+		WHERE EDSM_NO = #{edsmNo}
+	</select>
+	
+	<select id="edsmFileList">
+		SELECT 
+			 FILE_NO
+			,FILE_PATH
+			,FILE_ORIGIN_NAME
+			,FILE_RENAME
+			,FILE_UPLOAD_DATE
+			,FILE_ORDER
+			,EDSM_NO
+		FROM EDSM_FILE
+		WHERE EDSM_NO = #{edsmNo}
 	</select>
 
 </mapper>

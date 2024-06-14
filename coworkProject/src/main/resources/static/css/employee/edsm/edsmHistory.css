@@ -11,6 +11,11 @@
     margin-bottom: 3px;
 }
 
+/* 신청 */
+.detailInfo.nueye {
+    color: #524e4e;
+}
+
 /* 확인 */
 .detailInfo.eye {
     color: var(--sub2-color);
@@ -29,4 +34,15 @@
 /* 1차, 2차 */
 .detailInfo.number {
     color: var(--main5-color);
+}
+
+.kategorie div:nth-child(2) {
+    border-bottom: 3px solid var(--main5-color);
+    color: var(--gray-color);
+}
+
+/* 목록 클릭 */
+.draftList2 .default-line:hover {
+    background-color: #eef5fc;
+    cursor: pointer;
 }

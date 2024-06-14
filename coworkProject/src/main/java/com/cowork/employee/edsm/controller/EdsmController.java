@@ -136,6 +136,7 @@ public class EdsmController {
 	 * @param ra
 	 * @return
 	 */
+	@ResponseBody
 	@PostMapping("edsmRequest/{draftNo:[0-9]+}")
 	public int edsmRequest(
 				@RequestParam("edsmTitle") String edsmTitle,
@@ -163,21 +164,62 @@ public class EdsmController {
 		return result;
 	}
 	
-	/** 전자결재 상세
-	 * @return
-	 */
-	@GetMapping("edsmDetail")
-	public String edsmDetail() {
-		
-		return "employee/edsm/edsmDetail";
-	}
-	
 	/** 전자결재 내역
 	 * @return
 	 */
 	@GetMapping("edsmHistory")
-	public String edsmHistory() {
+	public String edsmHistory(
+				@SessionAttribute("loginEmp") Employee2 loginEmp,
+				Model model,
+				@RequestParam(value="key", required=false) String key
+			) {
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		
+		if(key != "undefined")  paramMap.put("key", key);
+		
+		paramMap.put("comNo", loginEmp.getComNo());
+		paramMap.put("empCode", loginEmp.getEmpCode());
+		
+		// 조회 서비스 호출 후 결과 반환
+		Map<String, Object> map = service.edsmHistory(paramMap);
+		
+		model.addAttribute("edsmList", map.get("edsmList"));
+		model.addAttribute("draftKeepList", map.get("draftKeepList"));
 		
 		return "employee/edsm/edsmHistory";
 	}
+	
+	/** 전자결재 상세
+	 * @return
+	 */
+	@GetMapping("edsmDetail/{edsmNo:[0-9]+}")
+	public String edsmDetail(
+				@PathVariable("edsmNo") int edsmNo,
+				Model model,
+				RedirectAttributes ra
+			) {
+		
+		Map<String, Object> map = service.edsmDetail(edsmNo);
+		
+		String path = null;
+		
+		if(map.get("edsm") == null) {
+			
+			path = "redirect:/edsmHistory";
+			ra.addFlashAttribute("message", "전자결재가 존재하지 않습니다");
+		} else {
+			
+			path = "employee/edsm/edsmDetail";
+			
+			model.addAttribute("referrerList", map.get("referrerList"));
+			model.addAttribute("approverList", map.get("approverList"));
+			model.addAttribute("edsm", map.get("edsm"));
+			model.addAttribute("fileList", map.get("fileList"));
+		}
+		
+		return path;
+	}
+	
+	
 }
