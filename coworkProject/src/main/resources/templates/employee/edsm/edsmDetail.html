@@ -19,15 +19,22 @@
 
         <!-- 버튼 -->
         <div class="defaultBtn insBtn">
-            <button class="default-btn glucose-btn">목록</button>
+            <button class="default-btn glucose-btn"
+                th:onClick="|location.href='@{../{hrefName} (hrefName=*{hrefName})}'|"
+            >목록</button>
         </div>
         
         <div class="default-line default-padding" th:object="${edsm}">
 
             <!-- 버튼 -->
-            <div class="defaultBtn approveBtn">
-                <button class="default-btn glucose-btn">반려</button>
-                <button class="default-btn sapphire-btn margin10">결재</button>
+            <div class="defaultBtn approveBtn" > 
+                <th:block th:if="${edsm.approverCode eq session.loginEmp.empCode}">
+                    <button class="default-btn glucose-btn">반려</button>
+                    <button class="default-btn sapphire-btn margin10">결재</button>
+                </th:block>
+                <th:block th:if="${edsm.approverCode ne session.loginEmp.empCode and edsm.edsmFlag == '4'}">
+                    <button class="default-btn sapphire-btn margin10" id="edsmDelete">회수</button>
+                </th:block>
             </div>
 
             <!-- 결재자 -->
@@ -88,18 +95,18 @@
 
         </div>
 
-        
-
-
-        
-
     </section>
+
+    <script th:inline="javascript">
+        const edsmNo = /*[[${edsm.edsmNo}]]*/"전자결재번호";
+        const fileCnt = /*[[${edsm.edsmNo}]]*/"파일개수";
+    </script>
 
     <!-- 스마트 에디터 -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="/lib/smarteditor2/se/js/service/HuskyEZCreator.js" data-cfasync="false"></script>
 
     <script src="/js/employee/edsm/edsmDetail.js"></script>
-    <script src="https://kit.fontawesome.com/247c6d7026.js" crossorigin="anonymous"></script>
+    <script src="/js/employee/edsm/edsm.js"></script>
 </body>
 </html>

@@ -68,6 +68,12 @@ public interface EdsmMapper {
 	 */
 	List<Edsm> edsmHistory(Map<String, Object> paramMap);
 
+	/** 전자결재 수신
+	 * @param paramMap
+	 * @return
+	 */
+	List<Edsm> edsmConfirm(Map<String, Object> paramMap);
+
 	/** 결재자 조회
 	 * @param edsmNo
 	 * @return
@@ -91,5 +97,11 @@ public interface EdsmMapper {
 	 * @return
 	 */
 	List<EdsmFile> edsmFileList(int edsmNo);
+
+	/** 전자결재 회수
+	 * @param edsmNo
+	 * @return
+	 */
+	int edsmDelete(int edsmNo);
 
 }

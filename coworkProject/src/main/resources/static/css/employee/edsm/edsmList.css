@@ -1,0 +1,37 @@
+/* 내역 상태 */
+.draftDetail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50px;
+}
+
+.draftDetail .detailInfo {
+    font-size: x-large;
+    margin-bottom: 3px;
+}
+
+/* 신청 */
+.detailInfo.nueye {
+    color: #524e4e;
+}
+
+/* 확인 */
+.detailInfo.eye {
+    color: var(--sub2-color);
+}
+
+/* 완료 */
+.detailInfo.check {
+    color: var(--main2-color);
+}
+
+/* 반려 */
+.detailInfo.right {
+    color: var(--sub4-color);
+}
+
+/* 1차, 2차 */
+.detailInfo.number {
+    color: var(--main5-color);
+}

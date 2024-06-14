@@ -50,11 +50,23 @@ public interface EdsmService {
 	 * @return
 	 */
 	Map<String, Object> edsmHistory(Map<String, Object> paramMap);
+	
+	/** 전자결재 수신
+	 * @param paramMap
+	 * @return
+	 */
+	List<Edsm> edsmConfirm(Map<String, Object> paramMap);
 
 	/** 전자결재 상세 조회
 	 * @param edsmNo
 	 * @return
 	 */
-	Map<String, Object> edsmDetail(int edsmNo);
+	Map<String, Object> edsmDetail(int edsmNo, int approverCode);
+
+	/** 전자결재 회수
+	 * @param edsmNo
+	 * @return
+	 */
+	int edsmDelete(int edsmNo);
 
 }

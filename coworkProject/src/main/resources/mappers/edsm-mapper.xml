@@ -95,6 +95,7 @@
 				,NULL
 				,NULL
 				,#{approver.edsmNo}
+				,NULL
 			FROM DUAL
 		</foreach>
 	</insert>
@@ -138,7 +139,7 @@
 	</select>
 	
 	<!-- 전자결재 내역 조회 
-		1. 신청 2. 확인 3. 1차 4. 2차 5. 반려
+		EDSM_FLAG : 1.승인, 2반려, 3회수, 4.신청, 5.확인, 6.1차, 7.2차
 	-->
 	<select id="edsmHistory">
 		SELECT 
@@ -147,17 +148,12 @@
 			,EDSM_TITLE
 			,E.EMP_LAST_NAME || E.EMP_FIRST_NAME AS APPROVER_NAME
 			,P.POSITION_NM 
-			,(CASE 
-				WHEN APPROVE_FLAG = 2 THEN '5' 
-				WHEN APPROVER_LEVEL = 1 AND PROGRESS_FLAG IS NULL THEN '1' 
-				WHEN APPROVER_LEVEL = 1 AND PROGRESS_FLAG = 1 THEN '2' 
-				WHEN APPROVER_LEVEL = 2 AND PROGRESS_FLAG = 1 THEN '3' 
-				WHEN APPROVER_LEVEL = 3 AND PROGRESS_FLAG = 1 THEN '4' 
-			END) AS APPROVER_INFO
+			,EDSM_FLAG
 			,DRAFT_FLAG
 			,ROW_NUM
 			,APPROVER_NO 
 			,APPROVER_CODE
+			,REJECTED
 			,E.COM_NO 
 			,E.POSITION_NO
 			,APPROVER_LEVEL
@@ -167,6 +163,7 @@
 			,Z.EMP_CODE
 			,EDSM_FLAG
 			,DRAFT_NO
+			,(SELECT COUNT(*) FROM EDSM_FILE WHERE EDSM_NO = #{edsmNo}) AS FILE_CNT
 		FROM (
 			SELECT 
 				 E.EDSM_NO
@@ -179,6 +176,7 @@
 				,A.EMP_CODE AS APPROVER_CODE
 				,A.PROGRESS_FLAG
 				,A.APPROVE_FLAG
+				,A.REJECTED
 				,E.EDSM_WRITE_DATE
 				,E.EDSM_DEL_FL
 				,E.EMP_CODE
@@ -203,7 +201,72 @@
 				AND DRAFT_FLAG IN ('1','7')
 			</when>
 		</choose>
-		ORDER BY EDSM_NO
+		ORDER BY EDSM_NO DESC
+	</select>
+	
+	<select id="edsmConfirm">
+		WITH RankedApprovers1 AS (
+		    SELECT 
+		        ROW_NUMBER() OVER (PARTITION BY EDSM_NO ORDER BY APPROVER_NO) AS ROW_NUM,
+		        EMP_CODE,
+		        APPROVER_NO,
+		        EDSM_NO
+		    FROM APPROVER
+		    WHERE APPROVER_FLAG = 1
+		      AND (APPROVE_FLAG != 1 OR APPROVE_FLAG IS NULL)
+		)
+		, RankedApprovers2 AS (
+		    SELECT 
+		        ROW_NUMBER() OVER (PARTITION BY EDSM_NO ORDER BY APPROVER_NO DESC) AS ROW_NUM,
+		        EMP_CODE,
+		        APPROVER_NO,
+		        APPROVE_FLAG,
+		        EDSM_NO
+		    FROM APPROVER
+		    WHERE APPROVER_FLAG = 1
+		)
+		SELECT 
+			 E.EDSM_NO
+			,DECODE(D.DRAFT_FLAG, '2', '협조문', '3', '품의서', '4', '지출결의서','5', '경조사 신청서', '6', '회의록', '기안서') AS DRAFT_NM
+			,E.EDSM_TITLE
+			,EMP.EMP_LAST_NAME || EMP.EMP_FIRST_NAME  AS EMP_NAME
+			,P.POSITION_NM
+			,(
+			
+						SELECT 
+						 EMP_CODE
+					FROM (
+					SELECT 
+					    EMP_CODE,
+					    EDSM_NO
+					FROM RankedApprovers1
+					WHERE ROW_NUM = 1
+					
+					UNION
+					
+					SELECT 
+					    EMP_CODE,
+					    EDSM_NO
+					FROM RankedApprovers2
+					WHERE ROW_NUM = 1
+					  AND APPROVE_FLAG = 1
+					) WHERE EDSM_NO = E.EDSM_NO 
+			
+			) AS NAME
+			,E.EDSM_WRITE_DATE
+			,E.EDSM_DEL_FL
+			,E.EMP_CODE
+			,E.EDSM_FLAG
+			,E.DRAFT_NO
+			,A.APPROVER_FLAG
+		FROM EDSM E
+		JOIN DRAFT D ON E.DRAFT_NO = D.DRAFT_NO
+		JOIN EMPLOYEE EMP ON E.EMP_CODE = EMP.EMP_CODE
+		JOIN "POSITION" P ON EMP.POSITION_NO  = P.POSITION_NO
+		JOIN APPROVER A ON E.EDSM_NO = A.EDSM_NO
+		WHERE A.EMP_CODE = 64
+		AND EDSM_DEL_FL = 'N'
+		ORDER BY EDSM_NO DESC
 	</select>
 	
 	<!-- 결재자 조회 -->
@@ -262,5 +325,12 @@
 		FROM EDSM_FILE
 		WHERE EDSM_NO = #{edsmNo}
 	</select>
+	
+	<!-- 전자결재 삭제 -->
+	<update id="edsmDelete">
+		UPDATE EDSM SET
+			EDSM_DEL_FL = 'Y'
+		WHERE EDSM_NO = #{edsmNo}
+	</update>
 
 </mapper>

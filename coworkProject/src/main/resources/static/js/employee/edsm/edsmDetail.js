@@ -27,3 +27,15 @@ fileListBtn.addEventListener('click', () => {
         preview.style.display = 'block';
     }
 });
+
+
+/* 공지사항 삭제 */
+document.getElementById("edsmDelete").addEventListener("click", () => {
+
+    if( !confirm("결재를 회수하시겠습니까?") ) {
+        alert("회수가 취소되었습니다.");
+        return;
+    }
+
+    location.href = "../edsmDelete?edsmNo=" + edsmNo;
+});

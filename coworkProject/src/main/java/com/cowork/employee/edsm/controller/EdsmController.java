@@ -190,23 +190,50 @@ public class EdsmController {
 		return "employee/edsm/edsmHistory";
 	}
 	
+	/** 결재 수신
+	 * @return
+	 */
+	@GetMapping("edsmConfirm")
+	public String edsmConfirm(
+				@SessionAttribute("loginEmp") Employee2 loginEmp,
+				Model model,
+				@RequestParam(value="key", required=false) String key
+			) {
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		
+		if(key != "undefined")  paramMap.put("key", key);
+		
+		paramMap.put("empCode", loginEmp.getEmpCode());
+		
+		// 조회 서비스 호출 후 결과 반환
+		List<Edsm> edsmList = service.edsmConfirm(paramMap);
+		
+		model.addAttribute("edsmList", edsmList);
+		
+		return "employee/edsm/edsmConfirm";
+	}
+	
 	/** 전자결재 상세
 	 * @return
 	 */
 	@GetMapping("edsmDetail/{edsmNo:[0-9]+}")
 	public String edsmDetail(
 				@PathVariable("edsmNo") int edsmNo,
+				@RequestParam("approverCode") int approverCode,
+				@RequestParam("hrefName") String hrefName,
+				@SessionAttribute("loginEmp") Employee2 loginEmp,
 				Model model,
 				RedirectAttributes ra
 			) {
 		
-		Map<String, Object> map = service.edsmDetail(edsmNo);
+		Map<String, Object> map = service.edsmDetail(edsmNo, approverCode);
 		
 		String path = null;
 		
 		if(map.get("edsm") == null) {
 			
-			path = "redirect:/edsmHistory";
+			path = "redirect:/" + hrefName;
 			ra.addFlashAttribute("message", "전자결재가 존재하지 않습니다");
 		} else {
 			
@@ -216,10 +243,37 @@ public class EdsmController {
 			model.addAttribute("approverList", map.get("approverList"));
 			model.addAttribute("edsm", map.get("edsm"));
 			model.addAttribute("fileList", map.get("fileList"));
+			model.addAttribute("hrefName", hrefName);
 		}
 		
 		return path;
 	}
 	
+	/** 전자결재 회수
+	 * @return
+	 */
+	@GetMapping("edsmDelete")
+	public String edsmDelete(
+				@RequestParam("edsmNo") int edsmNo,
+				RedirectAttributes ra
+			) {
+		
+		int result = service.edsmDelete(edsmNo);
+		
+		String path = null;
+		String message = null;
+		
+		if(result > 0) {
+			path = "redirect:edsmHistory";
+			message = "결재가 회수되었습니다.";
+		} else {
+			path = "redirect:edsmDetail" + edsmNo;
+			message = "결재 회수 실패";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return path;
+	}
 	
 }
