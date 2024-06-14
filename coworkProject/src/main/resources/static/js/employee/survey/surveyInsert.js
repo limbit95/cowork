@@ -26,7 +26,6 @@ let questions = [];
 
 makeMultipleQuestion.addEventListener('click', function(){
 		
-		alert('객관식이다아아');
 		
 		multipleOrder = 1;
 	
@@ -35,16 +34,9 @@ makeMultipleQuestion.addEventListener('click', function(){
 	        */
 		   
          	  /* 만약, 이전 요소가 존재한다면, 데이터를 끄집어내서 obj 를 만든 후 배열 안에 집어넣을거임. */
-            if(questionArea && questionArea.lastElementChild){
-							alert('마지막 요소 존재함');
-							
-				let lastElementChild = questionArea.lastElementChild;
-				let questionType = lastElementChild.children[0].children[0].innerText;
-				
-				console.log(questionType.trim());
-				console.log(lastElementChild);
-				
-				
+            if(questionArea && questionArea.lastElementChild){							
+				let questionType = questionArea.lastElementChild.children[0].children[0].innerText;
+
 				if(questionType.trim() == 'multiple'){
 					// 객관식이라면, 어떻게 해야할까? 
 					// 일단 제목을 가져온다. 
@@ -52,14 +44,12 @@ makeMultipleQuestion.addEventListener('click', function(){
 					
 					// 제목 가져오기 
 					alert("객관식 입니다");	
-					let title  = lastElementChild.children[0].children[1].children[1].value;
+					let title  = questionArea.lastElementChild.children[0].children[1].children[1].value;
 					console.log("title!!!!!!=" +title);
-					
-		
 					
 					// 대제목, 항목 모두를 모아서 JSON 형태의 문자열을 담는 자바스크립트 배열안에 넣어야함. 
 					let options = [];
-					let optionArea = lastElementChild.children[0].children[2].children[1];
+					let optionArea = questionArea.lastElementChild.children[0].children[2].children[1];
 
 					let optionCount = countChildTags(optionArea, 'input');
 					
@@ -80,23 +70,24 @@ makeMultipleQuestion.addEventListener('click', function(){
 					
 					questions.push(multipleQuestionObj);
 					
-					
 				}else if(questionType.trim() == 'subjective'){
 					// 주관식이라면 어떻게 해야할까? 
 					alert('주관식입니다!');
-					let subjectiveQuestionTitle = lastElementChild.children[0].children[1].value;
+/*					let subjectiveQuestionTitle = questionArea.lastElementChild.children[0].children[1].value;*/
+					let subjectiveQuestionTitle = questionArea.lastElementChild.children[0].children[1].children[1].value;
 
+					
+					console.log('확인중');
+					console.log(subjectiveQuestionTitle);
+					console.log('확인중');
+					
 					let subjectiveQuestionObj = {
 						'type': 'subjective',
 						'title': subjectiveQuestionTitle
 					}
 					
 					questions.push(subjectiveQuestionObj);
-										
 				} 
-				
-				
-
 			}
 		   /* 
 		   새로운 시도 끝 
@@ -109,13 +100,13 @@ makeMultipleQuestion.addEventListener('click', function(){
             questionDiv.id = `question${questionCount}`; // id 지정 
             questionDiv.innerHTML = 
             `
-                <div>
+                <div class="multipleQuestionFullContainer">
                 
                 	<div style="display:none;">
                 		multiple
                 	</div>
                 
-	                <div>
+	                <div class="questionTitleDivContainer">
 		                <span class="questionOrder">Q.</span>
     		            <input type="text" class="questionText" placeholder="질문을 입력하세요">
         		        <i class="fa-solid fa-x" onclick="removeQuestion(this)"></i>
@@ -208,7 +199,8 @@ makeSubjectiveQuestion.addEventListener('click', function(){
 				}else if(questionType.trim() == 'subjective'){
 					// 주관식이라면 어떻게 해야할까? 
 					alert('주관식입니다!');
-					let subjectiveQuestionTitle = questionArea.lastElementChild.children[0].children[1].value;
+					let subjectiveQuestionTitle = questionArea.lastElementChild.children[0].children[1].children[1].value;
+
 
 					let subjectiveQuestionObj = {
 						'type': 'subjective',
@@ -232,12 +224,12 @@ makeSubjectiveQuestion.addEventListener('click', function(){
             questionDiv.id = `question${questionCount}`; // id 지정 
             questionDiv.innerHTML = 
             `
-                <div>
+                <div class="subjectiveQuestionFullContainer">
                 	<div style="display:none;">subjective</div>
 
-	                <div>
+	                <div class="subjectiveQuestion">
 		                <span class="questionOrder">Q. </span>
-    		            <input type="text" class="questionText">
+    		            <input type="text" class="questionText" placeholder="질문을 입력해주세요.">
         		        <i class="fa-solid fa-x" onclick="removeQuestion(this)"></i>
                 	</div>
 	           </div>
@@ -264,15 +256,27 @@ function removeOption(button){
 function addOption(button){
 	
 	let newDiv = document.createElement('div');
-	let multipleOrderNode = document.createTextNode("-");
+	newDiv.style.display = 'flex';
+	newDiv.style.justifyContent = 'center';
+	newDiv.style.alignItems = 'center';
+	newDiv.style.backgroundColor = '#E5F2FE';
+	newDiv.style.paddingBottom = '5px';
+	let multipleOrderNode = document.createTextNode("*");
+	let newIcon = document.createElement('i');
+	newIcon.classList.add('fa-solid', 'fa-angle-right');
+
 	let numberDiv = document.createElement('div');
-	numberDiv.appendChild(multipleOrderNode);
+	numberDiv.appendChild(newIcon);
+	numberDiv.style.marginRight = '1vw';
 	
 	newDiv.appendChild(numberDiv);
 	multipleOrder++;
 	
 	let multipleQuestionInput = document.createElement('input');
 	newDiv.appendChild(multipleQuestionInput);
+	multipleQuestionInput.style.width = '80%';
+	multipleQuestionInput.style.height = '4vh';
+
 	
     let optionArea = button.parentElement.nextElementSibling;
 	optionArea.appendChild(newDiv);	
@@ -500,6 +504,41 @@ forBottomEmptySpace.addEventListener('click', function(){
 	let surveyTitle = document.querySelector('#surveyTitle');
 	let questionArea = document.querySelector('#questionArea');
 	
+	if(surveyTitle.value == ''){
+		alert('설문의 제목을 입력해주세요');
+		surveyTitle.style.borderBottom = '1.5px solid coral';
+		return;
+	}
+	
+		// 날짜 값 가져오기
+	let surveyStartDate = document.querySelector('#surveyStartDate');
+	let surveyEndDate = document.querySelector('#surveyEndDate');
+	
+	
+	if(entireFlag == false && positionFlag == false && findEmpFlag == false){
+		alert('대상을 설정해주세요');
+		return;
+	}
+	
+	if(surveyStartDate.value == ''){
+		alert('설문시작일을 입력해주세요');
+		surveyStartDate.style.border = '1px solid coral';
+		surveyStartDate.addEventListener('click', function(){
+			surveyStartDate.style.border = '1px solid #426DA7';
+		})
+	
+		return;
+	} 
+	if(surveyEndDate.value == ''){
+		alert('설문종료일을 입력해주세요');
+		surveyEndDate.style.border = '1px solid coral';
+		surveyEndDate.addEventListener('click', function(){
+			surveyEndDate.style.border = '1px solid #426DA7';
+		})
+		return; 
+	}
+	
+	
 	if(questionArea.children[0] == null){
 		alert('질문이 하나도 없는데요?');
 		return;
@@ -512,7 +551,8 @@ forBottomEmptySpace.addEventListener('click', function(){
 		/* 여기까지는 옴 */
 		if(lastChild.children[0].children[0].innerText.trim() == 'multiple'){
 			// 객관식인 경우 
-						
+			console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+
 			let titleValue = lastChild.children[0].children[1].children[1].value;
 			
 			let optionArea = lastChild.children[0].children[2].children[1];
@@ -552,6 +592,7 @@ forBottomEmptySpace.addEventListener('click', function(){
 			// 주관식인 경우 
 			let subjectiveQuestionTitle = lastChild.children[0].children[1].children[1].value;
 			console.log(subjectiveQuestionTitle);
+			console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwww');
 			
 			alert(subjectiveQuestionTitle);
 			let subjectiveQuestionObj = {
@@ -576,21 +617,7 @@ forBottomEmptySpace.addEventListener('click', function(){
 */	
 	let surveyData;
 	
-	// 날짜 값 가져오기
-	let surveyStartDate = document.querySelector('#surveyStartDate');
-	let surveyEndDate = document.querySelector('#surveyEndDate');
-	
-	alert(surveyStartDate.value);
-	
-	if(surveyStartDate.value == ''){
-		alert('설문시작일을 입력해주세요');
-		return;
-	} 
-	if(surveyEndDate.value == ''){
-		alert('설문종료일을 입력해주세요');
-		return; 
-	}
-	
+
 	
 	if(entireFlag){
 		// 설문 데이터 생성
@@ -636,7 +663,8 @@ forBottomEmptySpace.addEventListener('click', function(){
 		return;	
 	}
 	
-
+	
+	console.log(surveyData);
 	
 
     fetch('/survey/insertSurvey', {
@@ -648,7 +676,9 @@ forBottomEmptySpace.addEventListener('click', function(){
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
+        location.href = '/survey/mySurvey';
+        
+        
 
     })    
     .catch(error => console.error('Error:', error));

@@ -30,6 +30,7 @@
     width: 800px;
     display: flex;
     justify-content: space-between;
+
 }
 
 .baby-blue-btn-survey {
@@ -53,11 +54,11 @@
     width: 800px;
 }
 
-.table-head div:nth-child(1), .table-body div:nth-child(1){
+.table-head div:nth-child(1){
     width: 60%;
 }
 
-.table-head div:nth-child(2), .table-body div:nth-child(2) {
+.table-head div:nth-child(2) {
     width: 20%;
 }
 
@@ -78,3 +79,73 @@
 .tableVote {
     flex-basis: 15%;
 }
+
+/* pagination*/
+#pagination{
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	width: 800px;
+}
+#first-page-a{
+	
+}
+#previous-a{
+	
+}
+#paginationMiddleContainer{
+	width: 35px;
+	height: 35px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.pagination-element{
+	width: 33px;
+	height: 33px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.current-page-span{
+
+	text-decoration: none;
+	color: #426DA7;
+	font-weight: bold;
+	color: #426DA7;
+	display: flex;
+	justify-content: center;
+	border-radius: 50%;
+	align-items: center;
+	width: 30px;
+	height: 30px;
+	font-weight: bold;
+	text-decoration: underline;
+}
+.pagination-a{
+
+	text-decoration: none;
+	color: #426DA7;
+	font-weight: bold;
+	color: white;
+	background-color: #426DA7;
+	display: flex;
+	justify-content: center;
+	border-radius: 50%;
+	align-items: center;
+	width: 30px;
+	height: 30px;
+}
+.table-body{
+	background-color: aquamarine;
+	width: 800px;
+	display: flex;
+}
+.oneRowDiv{
+	width: 800px; 
+	height: 4vh;
+	display: flex; 
+}
+
+
+

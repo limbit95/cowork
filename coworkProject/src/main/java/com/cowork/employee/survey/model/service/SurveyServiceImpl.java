@@ -92,7 +92,13 @@ public class SurveyServiceImpl implements SurveyService{
 			paramMap2.put("position", position);
 			paramMap2.put("comNo", comNo);
 			
+			log.debug("position=={}", position);
+			log.debug("comNo=={}", comNo);
+			
 			List<Integer> empCodeList = surveyMapper.specificPositionEmpList(paramMap2);
+			for(Integer empCode123 : empCodeList) {
+				log.debug("11111111111111111111111111111empCode== {}" , empCode123);			
+			}
 			
 			log.debug("asdasd=={}", empCodeList);
 			
@@ -304,12 +310,19 @@ public class SurveyServiceImpl implements SurveyService{
 			
 		}
 				
-		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("currentPage", Integer.valueOf(currentPage));
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("pageGroupSize", pageGroupSize);
 		model.addAttribute("currentGroupFirstPage", currentGroupFirstPage);
 		model.addAttribute("currentGroupLastPage", currentGroupLastPage);
 		model.addAttribute("newSurveyList", newSurveyList);
+		
+		log.debug("currentPage=={}", currentPage);
+		log.debug("totalPages=={}", totalPages);
+		log.debug("pageGroupSize=={}", pageGroupSize);
+		log.debug("currentGroupFirstPage=={}", currentGroupFirstPage);
+		log.debug("currentGroupLastPage=={}", currentGroupLastPage);
+		log.debug("newSurveyList=={}", newSurveyList);
 		
 		log.debug("newSurveyList======{}", newSurveyList);
 		
