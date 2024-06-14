@@ -17,21 +17,9 @@
         <div class="title"><span>받은 설문</span></div>
     </section>
 
-    <!-- 설문 목록, 투표 현황 Button -->
-    <section class="surveyListContainer">
-
-        <div class="surveyListDiv">
-            <button class="default-btn baby-blue-btn-survey" id="surveyListBtn">받은 설문</button>
-            <button class="default-btn baby-blue-boarder-btn" id="mySurvey">내 설문 관리</button>
-        </div>
-
-    </section>
-
     <!-- 설문 목록 보여질 곳 -->
     <section class="container">
-
         <div class="boardDiv">
-
             <div class="table-head">
                 <div>제목</div>
                 <div>작성자</div>
@@ -39,45 +27,51 @@
             </div>
 
             <div class="table-body">
-				<th:block th:each="survey : ${newSurveyList}" >
-										
-					<a th:href="@{/survey/surveyDetail/{surveyNo}(surveyNo=${survey.surveyNo})}">
-						<div th:text="${survey.surveyMainTitle}" 
-						th:style="'color:' + (${survey.answerFl} ? 'red' : 'blue')"
-						></div>
-					</a>	
-					<div th:text="${survey.fullName}"
-					th:style="'color:' + (${survey.answerFl} ? 'red' : 'blue')"
-					></div>	
-					<div th:text="${survey.restDays} + ' 일'"
-					th:style="'color:' + (${survey.answerFl} ? 'red' : 'blue')"></div>					
-					
-					
-				</th:block>
-				
-				
-				
+                <th:block th:each="survey : ${newSurveyList}">
+                    <div class="oneRowDiv">
+                        <a th:href="@{/survey/surveyDetail/{surveyNo}(surveyNo=${survey.surveyNo})}" class="oneRowA">
+                            <div th:text="${survey.surveyMainTitle}" 
+                                 th:classappend="${survey.answerFl} ? 'title-true' : 'title-false'"></div>
+                            <div th:text="${survey.fullName}"
+                                 th:classappend="${survey.answerFl} ? 'writer-true' : 'writer-false'"></div>    
+                            <div th:text="${survey.restDays} + ' 일'"
+                                 th:classappend="${survey.answerFl} ? 'gihan-true' : 'gihan-false'"></div>
+                        </a>    
+                    </div>
+                </th:block>
             </div>
             
+            <div id="pagination">
+                <!-- 처음 -->
+                <a th:if="${currentGroupFirstPage != 1}" th:href="@{/survey/receiveSurvey}" id="first-page-a">&lt;&lt;</a>
+                <a th:if="${currentGroupFirstPage != 1}" th:href="@{/survey/receiveSurvey(currentPage=${currentGroupFirstPage}-1)}" id="previous-a">&lt;</a>
+                
+                <!-- 중간 -->
+                <div th:if="${currentGroupLastPage != 0}" id="paginationMiddleContainer">
+                    <div th:each="i : ${#numbers.sequence(currentGroupFirstPage, currentGroupLastPage)}" class="pagination-element">
+                        <span th:if="${i == currentPage}" th:text="${i}" class="current-page-span">Current Page</span>
+                        <a th:if="${i != currentPage}" th:href="@{/survey/receiveSurvey(currentPage=${i})}" class="pagination-a"
+                            th:text="${i}">Page Link</a>
+                        &nbsp;&nbsp;
+                    </div>
+                </div>
+                
+                <div th:if="${currentGroupLastPage == 0}">
+                    <span style="color:#e06500;" class="current-page-span">1</span>
+                </div>
+
+                <!-- 끝 -->
+                <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/receiveSurvey(page=${currentGroupLastPage}+1)}" id="next-a">&gt;</a>
+                <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/receiveSurvey(page=${totalPages})}" id="last-page-a">&gt;&gt;</a>
+            </div>
         </div>
-        
     </section>
 
-	
+    <script th:inline="javascript">
+        const noAuthority = /*[[${noAuthority}]]*/ "전달 받은 message";
+        if (noAuthority != null) alert(noAuthority);        
+    </script>
 
-	
-	
-	
-	<script th:inline="javascript">
-	    const noAuthority =  /*[[${noAuthority}]]*/ "전달 받은 message";
-	  
-	    if(noAuthority != null) alert(noAuthority);		
-	</script>
-	
-
-	
-	
-	
     <script src="/js/employee/survey/surveyList.js"></script>
     <script src="https://kit.fontawesome.com/247c6d7026.js" crossorigin="anonymous"></script>
 </body>
