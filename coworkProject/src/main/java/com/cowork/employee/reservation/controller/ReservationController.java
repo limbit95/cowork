@@ -200,7 +200,7 @@ public class ReservationController {
 			return service.reservationInsert(inputReserveInfo);
 		}
 		
-		// count 1보다 클 때
+		// count 1보다 클 때 겹치는 게 있을 때
 		return -1;
 		
 		
