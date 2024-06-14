@@ -568,10 +568,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.querySelector("#reservationUpdateModal").classList.add("reservationHidden");
             });
 
-            document.querySelector(".dayUpdate").addEventListener("click", () => {
-                document.querySelector(".updateTime").classList.remove("reservationHidden");
-            })
-
 
 
             // 수정 버튼이 있다면 수정하는 모달 보여주기
@@ -603,27 +599,52 @@ document.addEventListener('DOMContentLoaded', function() {
                             updateDate.value = todayDate;
                         }
                     });
-
-                    const startTime = updateStartTime.value;
-                    const endTime = updateEndTime.value;
             
-                    updateEndTime.addEventListener("change", () => {
-                        if(startTime && endTime && endTime < startTime) {
+                    updateEndTime.addEventListener("change", e => {
+                        const startTime = updateStartTime.value;
+                        
+                        if(e.target.value < startTime) {
                             alert("끝나는 시간은 시작 시간보다 늦어야 합니다.");
                             updateEndTime.value = startTime;
                         }
                     })
+                    
 
-                    updateStartTime.addEventListener("change", () => {
-                        if(startTime && endTime && startTime > endTime) {
-                            alert("시작 시간이 끝나는 시간보다 빨라야 합니다.");
-                            updateStartTime.value = endTime;
+
+                    updateStartTime.addEventListener("change", e => {
+
+                        // 지나간 시간을 start 시간으로 선택 못하게 막기
+                        const selectedTime = updateStartTime.value;
+
+                        const now = new Date();
+                        const currentHour = now.getHours().toString().padStart(2, '0');
+                        const currentMinute = now.getMinutes().toString().padStart(2, '0');
+                        const currentTime = `${currentHour}:${currentMinute}`;
+                
+                        console.log(currentTime);
+
+                        if (selectedTime < currentTime) {
+                            alert('지난 시간은 선택할 수 없습니다.');
+                            updateStartTime.value = currentTime;
+                        }
+
+                        const endTime = updateEndTime.value;
+                        if(endTime != "") {
+                            if(e.target.value > endTime) {
+                                alert("시작 시간이 끝나는 시간보다 빨라야 합니다.");
+                                updateStartTime.value = endTime;
+                            }
                         }
                     })
+
+
 
                     // 수정 등록 버튼 눌렀을 때
                     const modalInsertBtn = document.querySelector(".modalInsertBtn");
                     modalInsertBtn.addEventListener("click", () => {
+
+
+
                         const updateDate = document.querySelector(".updateDate");
                         const updateStartTime = document.querySelector(".updateStartTime");
                         const updateEndTime = document.querySelector(".updateEndTime");
