@@ -137,6 +137,18 @@ public interface MailMapper {
 	 */
 	int mailFileInsert(List<MailFile> uploadList);
 
+	/** 수신자 리스트 
+	 * @param mailNo
+	 * @return
+	 */
+	List<Recipient> getRecipients(int mailNo);
+
+	/** 참조자 리스트 
+	 * @param mailNo
+	 * @return
+	 */
+	List<Recipient> getReferers(int mailNo);
+
 	
 
 	

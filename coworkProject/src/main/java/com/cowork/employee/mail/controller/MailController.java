@@ -232,6 +232,8 @@ public class MailController {
 			
 			model.addAttribute("mail", map.get("mail")); 
 			model.addAttribute("fileList", map.get("fileList"));
+			model.addAttribute("recipientList", map.get("recipientList")); 
+			model.addAttribute("refererList", map.get("refererList")); 
 		}
 		
 		return path;

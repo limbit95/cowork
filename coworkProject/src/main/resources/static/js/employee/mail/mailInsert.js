@@ -255,7 +255,7 @@ document.querySelector('#sendBtn').addEventListener('click', () => {
     oEditors.getById["mailContent"].exec("UPDATE_CONTENTS_FIELD", []);
 
     // 폼 데이터 수집
-    const formData = new FormData();
+    const clone = new FormData();
 
     const files = document.querySelector('#fileInput').files;
     const mailTitle = document.getElementById('mailTitle').value;
@@ -285,19 +285,19 @@ document.querySelector('#sendBtn').addEventListener('click', () => {
     }
 
     for(const pair of formData.entries()) {
-        formData.append('files', pair[1]); 
+        clone.append('files', pair[1]); 
     }
 
     // FormData에 추가
-    formData.append('mailTitle', mailTitle);
-    formData.append('mailContent', mailContent);
-    formData.append('recipient', recipient.join(','));
-    formData.append('referer', referer.join(','));
+    clone.append('mailTitle', mailTitle);
+    clone.append('mailContent', mailContent);
+    clone.append('recipient', recipient.join(','));
+    clone.append('referer', referer.join(','));
 
     // Fetch API를 사용하여 서버로 전송
     fetch("/mail/mailInsert", {
         method: "POST",
-        body: formData
+        body: clone
     })
     .then(resp => resp.text())
     .then(result => {

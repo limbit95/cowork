@@ -4,182 +4,175 @@
 
 	<!-- 메일 목록 조회 -->
 	 <select id="mailList">
-		SELECT 
-		    M.MAIL_NO,
-		    M.MAIL_TITLE,
-		    M.MAIL_CONTENT,
-		    TO_CHAR(M.MAIL_WRITE_DATE, 'YY-MM-DD HH24:MI') AS MAIL_WRITE_DATE,
-		    M.MAIL_FLAG,
-		    M.EMP_CODE AS SENDER_EMP_CODE,
-		    M.READ_FL,
-		    SENDER.EMP_ID AS senderMail,
-		    SENDER.EMP_LAST_NAME || SENDER.EMP_FIRST_NAME AS sender,
-		    SENDER_TEAM.TEAM_NM AS senderTeamNm,
-		    R.EMP_CODE AS RECIPIENT_EMP_CODE,
-		    RECIPIENT.EMP_ID AS recipientMail,
-		    RECIPIENT.EMP_LAST_NAME || RECIPIENT.EMP_FIRST_NAME AS recipient,
-		    RECIPIENT_TEAM.TEAM_NM AS recipientTeamNm,
-		    REF_EMP.EMP_CODE AS REFERENCE_EMP_CODE,
-		    REF_EMP.EMP_ID AS refererMail,
-		    REF_EMP.EMP_LAST_NAME || REF_EMP.EMP_FIRST_NAME AS referer,
-		    REF_TEAM.TEAM_NM AS refererTeamNm
-		FROM 
-		    MAIL M
-		LEFT JOIN 
-		    RECIPIENT R ON M.MAIL_NO = R.MAIL_NO AND R.REFERENCE_FL = '1'
-		LEFT JOIN 
-		    EMPLOYEE SENDER ON M.EMP_CODE = SENDER.EMP_CODE
-		LEFT JOIN 
-		    TEAM SENDER_TEAM ON SENDER.TEAM_NO = SENDER_TEAM.TEAM_NO
-		LEFT JOIN 
-		    COMPANY ON SENDER.COM_NO = COMPANY.COM_NO
-		LEFT JOIN 
-		    EMPLOYEE RECIPIENT ON R.EMP_CODE = RECIPIENT.EMP_CODE
-		LEFT JOIN 
-		    TEAM RECIPIENT_TEAM ON RECIPIENT.TEAM_NO = RECIPIENT_TEAM.TEAM_NO
-		LEFT JOIN 
-		    DEPARTMENT SENDER_DEPT ON SENDER_TEAM.DEPT_NO = SENDER_DEPT.DEPT_NO
-		LEFT JOIN 
-		    RECIPIENT REF ON M.MAIL_NO = REF.MAIL_NO AND REF.REFERENCE_FL = '2'
-		LEFT JOIN 
-		    EMPLOYEE REF_EMP ON REF.EMP_CODE = REF_EMP.EMP_CODE
-		LEFT JOIN 
-			TEAM REF_TEAM ON REF_TEAM.TEAM_NO = RECIPIENT.TEAM_NO AND REF.REFERENCE_FL ='2'
-		LEFT JOIN 
-		    DEPARTMENT RECIPIENT_DEPT ON RECIPIENT_TEAM.DEPT_NO = RECIPIENT_DEPT.DEPT_NO
-		WHERE 
-		    (R.EMP_CODE = #{empCode} OR M.EMP_CODE = #{empCode})
-		    <if test='mailQuery != null'>
-			    <choose>
-			        <when test='key == "1"'> <!-- 제목 -->
-			            AND MAIL_TITLE LIKE '%' || #{mailQuery} || '%'
-			        </when>
-			        <when test='key == "2"'> <!-- 내용 -->
-			            AND MAIL_CONTENT LIKE '%' || #{mailQuery} || '%'
-			        </when>
-			        <otherwise> <!-- 발신자 / 수신자 -->
-			            AND (
-			                SENDER_DEPT.DEPT_NM || ' ' || SENDER.EMP_LAST_NAME || SENDER.EMP_FIRST_NAME LIKE '%' || #{mailQuery} || '%' 
-			                OR
-			                RECIPIENT_DEPT.DEPT_NM || ' ' || RECIPIENT.EMP_LAST_NAME || RECIPIENT.EMP_FIRST_NAME LIKE '%' || #{mailQuery} || '%' 
-			            )    
-			        </otherwise>
-			    </choose>
-			</if>
-		ORDER BY 
-		    M.MAIL_WRITE_DATE DESC
-	</select>
+    SELECT 
+        M.MAIL_NO,
+        M.MAIL_TITLE,
+        M.MAIL_CONTENT,
+        TO_CHAR(M.MAIL_WRITE_DATE, 'YY-MM-DD HH24:MI') AS MAIL_WRITE_DATE,
+        M.MAIL_FLAG,
+        M.EMP_CODE AS SENDER_EMP_CODE,
+        M.READ_FL,
+        SENDER.EMP_ID AS senderMail,
+        SENDER.EMP_LAST_NAME || SENDER.EMP_FIRST_NAME AS sender,
+        SENDER_TEAM.TEAM_NM AS senderTeamNm,
+        COMPANY.DOMAIN AS senderDomain,
+        RECIPIENT.EMP_CODE AS RECIPIENT_EMP_CODE,
+        RECIPIENT.EMP_ID AS recipientMail,
+        RECIPIENT.EMP_LAST_NAME || RECIPIENT.EMP_FIRST_NAME AS recipient,
+        RECIPIENT_TEAM.TEAM_NM AS recipientTeamNm,
+        REF_EMP.EMP_CODE AS REFERENCE_EMP_CODE,
+        REF_EMP.EMP_ID AS refererMail,
+        REF_EMP.EMP_LAST_NAME || REF_EMP.EMP_FIRST_NAME AS referer,
+        REF_TEAM.TEAM_NM AS refererTeamNm
+    FROM 
+        MAIL M
+    LEFT JOIN 
+        (SELECT 
+            R.MAIL_NO,
+            R.EMP_CODE,
+            ROW_NUMBER() OVER (PARTITION BY R.MAIL_NO ORDER BY R.EMP_CODE) AS RN 
+        FROM 
+            RECIPIENT R 
+        WHERE 
+            R.REFERENCE_FL = '1') R ON M.MAIL_NO = R.MAIL_NO AND R.RN = 1
+    LEFT JOIN 
+        EMPLOYEE SENDER ON M.EMP_CODE = SENDER.EMP_CODE
+    LEFT JOIN 
+        TEAM SENDER_TEAM ON SENDER.TEAM_NO = SENDER_TEAM.TEAM_NO
+    LEFT JOIN 
+        COMPANY ON SENDER.COM_NO = COMPANY.COM_NO
+    LEFT JOIN 
+        EMPLOYEE RECIPIENT ON R.EMP_CODE = RECIPIENT.EMP_CODE
+    LEFT JOIN 
+        TEAM RECIPIENT_TEAM ON RECIPIENT.TEAM_NO = RECIPIENT_TEAM.TEAM_NO
+    LEFT JOIN 
+        (SELECT 
+            REF.MAIL_NO,
+            REF.EMP_CODE,
+            ROW_NUMBER() OVER (PARTITION BY REF.MAIL_NO ORDER BY REF.EMP_CODE) AS RN 
+        FROM 
+            RECIPIENT REF 
+        WHERE 
+            REF.REFERENCE_FL = '2') REF ON M.MAIL_NO = REF.MAIL_NO AND REF.RN = 1
+    LEFT JOIN 
+        EMPLOYEE REF_EMP ON REF.EMP_CODE = REF_EMP.EMP_CODE
+    LEFT JOIN 
+        TEAM REF_TEAM ON REF_EMP.TEAM_NO = REF_TEAM.TEAM_NO
+    WHERE 
+        (R.EMP_CODE = #{empCode} OR M.EMP_CODE = #{empCode})
+        <if test='mailQuery != null'>
+            <choose>
+                <when test='key == "1"'> <!-- 제목 -->
+                    AND M.MAIL_TITLE LIKE '%' || #{mailQuery} || '%'
+                </when>
+                <when test='key == "2"'> <!-- 내용 -->
+                    AND M.MAIL_CONTENT LIKE '%' || #{mailQuery} || '%'
+                </when>
+                <otherwise> <!-- 발신자 / 수신자 -->
+                    AND (
+                        SENDER_TEAM.TEAM_NM || ' ' || SENDER.EMP_LAST_NAME || SENDER.EMP_FIRST_NAME LIKE '%' || #{mailQuery} || '%'
+                        OR EXISTS (
+                            SELECT 1
+                            FROM RECIPIENT R2
+                            LEFT JOIN EMPLOYEE RECIPIENT2 ON R2.EMP_CODE = RECIPIENT2.EMP_CODE
+                            WHERE R2.MAIL_NO = M.MAIL_NO
+                            AND (RECIPIENT2.EMP_LAST_NAME || RECIPIENT2.EMP_FIRST_NAME LIKE '%' || #{mailQuery} || '%')
+                        )
+                    )    
+                </otherwise>
+            </choose>
+        </if>
+    ORDER BY 
+        M.MAIL_WRITE_DATE DESC
+</select>
+
 	
 	<!-- 메일 개수 조회 -->
 	<select id="listCount">
-	   SELECT COUNT(*)
-		FROM MAIL M
-		LEFT JOIN 
-		    RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
-		LEFT JOIN 
-		    EMPLOYEE SENDER ON M.EMP_CODE = SENDER.EMP_CODE
-		LEFT JOIN 
-		    TEAM SENDER_TEAM ON SENDER.TEAM_NO = SENDER_TEAM.TEAM_NO
-		LEFT JOIN 
-		    EMPLOYEE RECIPIENT ON R.EMP_CODE = RECIPIENT.EMP_CODE
-		LEFT JOIN 
-		    TEAM RECIPIENT_TEAM ON RECIPIENT.TEAM_NO = RECIPIENT_TEAM.TEAM_NO
-		LEFT JOIN 
-		    DEPARTMENT SENDER_DEPT ON SENDER_TEAM.DEPT_NO = SENDER_DEPT.DEPT_NO
-		LEFT JOIN 
-		    DEPARTMENT RECIPIENT_DEPT ON RECIPIENT_TEAM.DEPT_NO = RECIPIENT_DEPT.DEPT_NO
-		WHERE (M.EMP_CODE = #{empCode} OR R.EMP_CODE = #{empCode})
-		<if test='mailQuery != null'>
-		    <choose>
-		        <when test='key == "1"'> <!-- 제목 -->
-		            AND MAIL_TITLE LIKE '%' || #{query} || '%'
-		        </when>
-		        <when test='key == "2"'> <!-- 내용 -->
-		            AND MAIL_CONTENT LIKE '%' || #{query} || '%'
-		        </when>
-		        <otherwise> <!-- 발신자 / 수신자 -->
-		            AND (
-		                SENDER_DEPT.DEPT_NM || ' ' || SENDER.EMP_LAST_NAME || SENDER.EMP_FIRST_NAME LIKE '%' || #{query} || '%' 
-		                OR
-		                RECIPIENT_DEPT.DEPT_NM || ' ' || RECIPIENT.EMP_LAST_NAME || RECIPIENT.EMP_FIRST_NAME LIKE '%' || #{query} || '%' 
-		            )    
-		        </otherwise>
-		    </choose>
-		</if>
+	   SELECT COUNT(DISTINCT M.MAIL_NO)
+    FROM MAIL M
+    LEFT JOIN 
+        RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
+    LEFT JOIN 
+        EMPLOYEE SENDER ON M.EMP_CODE = SENDER.EMP_CODE
+    LEFT JOIN 
+        TEAM SENDER_TEAM ON SENDER.TEAM_NO = SENDER_TEAM.TEAM_NO
+    LEFT JOIN 
+        EMPLOYEE RECIPIENT ON R.EMP_CODE = RECIPIENT.EMP_CODE
+    LEFT JOIN 
+        TEAM RECIPIENT_TEAM ON RECIPIENT.TEAM_NO = RECIPIENT_TEAM.TEAM_NO
+    LEFT JOIN 
+        DEPARTMENT SENDER_DEPT ON SENDER_TEAM.DEPT_NO = SENDER_DEPT.DEPT_NO
+    LEFT JOIN 
+        DEPARTMENT RECIPIENT_DEPT ON RECIPIENT_TEAM.DEPT_NO = RECIPIENT_DEPT.DEPT_NO
+    WHERE 
+        (M.EMP_CODE = #{empCode} OR R.EMP_CODE = #{empCode})
+        <if test='mailQuery != null'>
+            <choose>
+                <when test='key == "1"'> <!-- 제목 -->
+                    AND M.MAIL_TITLE LIKE '%' || #{query} || '%'
+                </when>
+                <when test='key == "2"'> <!-- 내용 -->
+                    AND M.MAIL_CONTENT LIKE '%' || #{query} || '%'
+                </when>
+                <otherwise> <!-- 발신자 / 수신자 -->
+                    AND (
+                        SENDER_DEPT.DEPT_NM || ' ' || SENDER.EMP_LAST_NAME || SENDER.EMP_FIRST_NAME LIKE '%' || #{query} || '%' 
+                        OR
+                        RECIPIENT_DEPT.DEPT_NM || ' ' || RECIPIENT.EMP_LAST_NAME || RECIPIENT.EMP_FIRST_NAME LIKE '%' || #{query} || '%' 
+                    )    
+                </otherwise>
+            </choose>
+        </if>
 	</select>
 	
 	<select id="mailCount">
-		SELECT COUNT(*)
-	    FROM MAIL M
-	    LEFT JOIN RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
-	    WHERE (M.EMP_CODE = #{empCode} OR R.EMP_CODE = #{empCode})
+		 SELECT COUNT(DISTINCT M.MAIL_NO)
+	     FROM MAIL M
+	     LEFT JOIN 
+	        RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
+	     WHERE 
+	        (M.EMP_CODE = #{empCode} OR R.EMP_CODE = #{empCode})
 	</select>
 	
 	<!--  안 읽은 메일 개수 조회 -->
 	<select id="noReadCount">
-	    SELECT NVL(SUM(CASE WHEN READ_FL = '1' THEN 1 ELSE 0 END), 0)
-	    FROM MAIL M
-	    LEFT JOIN RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
-	    WHERE (M.EMP_CODE = #{empCode} OR R.EMP_CODE = #{empCode})
-	    
+	    SELECT SUM(CASE WHEN M.READ_FL = '1' THEN 1 ELSE 0 END)
+    	FROM (
+        SELECT DISTINCT M.MAIL_NO, M.READ_FL
+        FROM MAIL M
+        LEFT JOIN RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
+        WHERE (M.EMP_CODE = #{empCode} OR R.EMP_CODE = #{empCode})
+    ) M
 	</select>
 	
 	<!-- 메일 상세 조회 -->
 	<select id="mailDetail">
-		SELECT 
-		    M.MAIL_NO,
-		    M.MAIL_TITLE,
-		    M.MAIL_CONTENT,
-		    TO_CHAR(M.MAIL_WRITE_DATE, 'YY-MM-DD HH24:MI') AS MAIL_WRITE_DATE,
-		    M.MAIL_FLAG,
-		    M.EMP_CODE AS SENDER_EMP_CODE,
-		    SENDER.EMP_ID AS senderMail,
-		    SENDER.EMP_LAST_NAME || SENDER.EMP_FIRST_NAME AS sender,
-		    SENDER_TEAM.TEAM_NM AS senderTeamNm,
-		    COMPANY.DOMAIN AS senderDomain,
-		    R.EMP_CODE AS RECIPIENT_EMP_CODE,
-		    RECIPIENT.EMP_ID AS recipientMail,
-		    RECIPIENT.EMP_LAST_NAME || RECIPIENT.EMP_FIRST_NAME AS recipient,
-		    RECIPIENT_TEAM.TEAM_NM AS recipientTeamNm,
-		    MAIL_FILE.FILE_NO,
-		    MAIL_FILE.FILE_PATH,
-		    MAIL_FILE.FILE_ORIGIN_NAME,
-		    MAIL_FILE.FILE_RENAME,
-		    MAIL_FILE.FILE_UPLOAD_DATE,
-		    MAIL_FILE.FILE_ORDER,
-		    REF_EMP.EMP_CODE AS refererEmpCode,
-		    REF_EMP.EMP_ID AS refererMail,
-		    REF_EMP.EMP_LAST_NAME || REF_EMP.EMP_FIRST_NAME AS referer,
-		    REF_TEAM.TEAM_NM AS refererTeamNm
-		FROM 
-		    MAIL M
-		LEFT JOIN 
-		    RECIPIENT R ON M.MAIL_NO = R.MAIL_NO AND R.REFERENCE_FL = '1'
-		LEFT JOIN 
-		    EMPLOYEE SENDER ON M.EMP_CODE = SENDER.EMP_CODE
-		LEFT JOIN 
-		    TEAM SENDER_TEAM ON SENDER.TEAM_NO = SENDER_TEAM.TEAM_NO
-		LEFT JOIN 
-		    COMPANY ON SENDER.COM_NO = COMPANY.COM_NO
-		LEFT JOIN 
-		    EMPLOYEE RECIPIENT ON R.EMP_CODE = RECIPIENT.EMP_CODE
-		LEFT JOIN 
-		    TEAM RECIPIENT_TEAM ON RECIPIENT.TEAM_NO = RECIPIENT_TEAM.TEAM_NO
-		LEFT JOIN 
-		    DEPARTMENT SENDER_DEPT ON SENDER_TEAM.DEPT_NO = SENDER_DEPT.DEPT_NO
-		LEFT JOIN 
-		    MAIL_FILE ON M.MAIL_NO = MAIL_FILE.MAIL_NO
-		LEFT JOIN 
-		    RECIPIENT REF ON M.MAIL_NO = REF.MAIL_NO AND REF.REFERENCE_FL = '2'
-		LEFT JOIN 
-		    EMPLOYEE REF_EMP ON REF.EMP_CODE = REF_EMP.EMP_CODE
-		LEFT JOIN 
-			TEAM REF_TEAM ON REF_TEAM.TEAM_NO = RECIPIENT.TEAM_NO AND REF.REFERENCE_FL ='2'
-		LEFT JOIN 
-		    DEPARTMENT RECIPIENT_DEPT ON RECIPIENT_TEAM.DEPT_NO = RECIPIENT_DEPT.DEPT_NO
-		WHERE 
-		    M.MAIL_NO = #{mailNo}
+	   SELECT 
+        M.MAIL_NO AS mailNo,
+        M.MAIL_TITLE AS mailTitle,
+        M.MAIL_CONTENT AS mailContent,
+        TO_CHAR(M.MAIL_WRITE_DATE, 'YY-MM-DD HH24:MI') AS mailWriteDate,
+        M.MAIL_FLAG AS mailFlag,
+        M.EMP_CODE AS empCode,
+        M.READ_FL AS readFl,
+        SENDER.EMP_ID AS senderMail,
+        SENDER.EMP_LAST_NAME || SENDER.EMP_FIRST_NAME AS sender,
+        SENDER_TEAM.TEAM_NM AS senderTeamNm,
+        COMPANY.DOMAIN AS senderDomain
+    FROM 
+        MAIL M
+    LEFT JOIN 
+        EMPLOYEE SENDER ON M.EMP_CODE = SENDER.EMP_CODE
+    LEFT JOIN 
+        TEAM SENDER_TEAM ON SENDER.TEAM_NO = SENDER_TEAM.TEAM_NO
+    LEFT JOIN 
+        COMPANY ON SENDER.COM_NO = COMPANY.COM_NO
+    WHERE 
+        M.MAIL_NO = #{mailNo}
 	</select>
+
+
 	
 	<!-- 파일 리스트 조회 - 상세
 	<select id="getMailFiles" parameterType="int" resultType="MailFile">
@@ -538,18 +531,55 @@
 		<foreach collection="list" item="file"
 			open="(" close=")" separator=" UNION ">
 			SELECT
-				 NEXT_MAIL_FILE()
-				,#{file.filePath}
-				,#{file.fileOriginName}
-				,#{file.fileRename}
-				,SYSDATE
-				,#{file.fileOrder}
-				,#{file.mailNo}
+				 NEXT_MAIL_FILE(),
+				 #{file.filePath},
+				 #{file.fileOriginName},
+				 #{file.fileRename},
+				 SYSDATE,
+				 #{file.fileOrder},
+				 #{file.mailNo}
 			FROM DUAL
 		</foreach>
 	</insert>
 	
+	<!-- 수신자 리스트 -->
+	<select id="getRecipients" resultType="Recipient">
+	    SELECT 
+	        R.RECIPIENT_NO AS recipientNo,
+	        R.EMP_CODE AS empCode,
+	        R.MAIL_NO AS mailNo,
+	        E.EMP_LAST_NAME || E.EMP_FIRST_NAME AS recipient,
+	        E.EMP_ID AS recipientMail,
+	        T.TEAM_NM AS recipientTeamNm
+	    FROM 
+	        RECIPIENT R
+	    LEFT JOIN 
+	        EMPLOYEE E ON R.EMP_CODE = E.EMP_CODE
+	    LEFT JOIN 
+	        TEAM T ON E.TEAM_NO = T.TEAM_NO
+	    WHERE 
+	        R.MAIL_NO = #{mailNo} AND R.REFERENCE_FL = '1'
+	</select>
 	
+	<!-- 참조자 리스트 -->
+	<select id="getReferers" resultType="Recipient">
+	    SELECT 
+	        R.RECIPIENT_NO AS recipientNo,
+	        R.EMP_CODE AS empCode,
+	        R.MAIL_NO AS mailNo,
+	        E.EMP_LAST_NAME || E.EMP_FIRST_NAME AS referer,
+	        E.EMP_ID AS refererMail,
+	        T.TEAM_NM AS refererTeamNm
+	    FROM 
+	        RECIPIENT R
+	    LEFT JOIN 
+	        EMPLOYEE E ON R.EMP_CODE = E.EMP_CODE
+	    LEFT JOIN 
+	        TEAM T ON E.TEAM_NO = T.TEAM_NO
+	    WHERE 
+	        R.MAIL_NO = #{mailNo} AND R.REFERENCE_FL = '2'
+	</select>
+
 	
 </mapper>
 

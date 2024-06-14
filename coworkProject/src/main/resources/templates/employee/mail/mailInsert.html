@@ -11,8 +11,10 @@
     <link rel="stylesheet" href="/css/employee/mail/mailInsert.css">
 </head>
 <body>
-    <form class="container" id="sendMailForm" enctype="multipart/form-data" action="/mail/mailInsert" method="post">
 
+    <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
+
+    <form class="container" id="sendMailForm" enctype="multipart/form-data" action="/mail/mailInsert" method="post">
 
             <div class="mailTitle">
                 <div class="mailLabel">

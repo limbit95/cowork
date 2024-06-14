@@ -154,7 +154,7 @@ input.insertMail {
     border-radius: 6px;
     padding: 9px;
     overflow: scroll;
-    overflow-x: hidden;
+    overflow-x: hidden; 
 }
 
 #recipient:focus + .searchTable,
