@@ -1,150 +1,66 @@
-.surveyListContainer {
-    padding: 5% 10%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 0;
+#receiveSurveyTitle{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 10vh;
 }
-
-.container {
-    margin-bottom: 0;
-}
-
-#surveyBtnTop {
-    display: flex;
-    width: 800px;
-    margin-bottom: 30px;
-    justify-content: flex-end;
-}
-
-#surveyBtnTop a{
-    text-decoration: none;
-}
-
-#surveyContainer {
-    margin-bottom: 0;
-}
-
-/* 설문 목록, 투표 현황 Button 부분 */
-.surveyListDiv {
-    width: 800px;
-    display: flex;
-    justify-content: space-between;
+#receiveSurveyTitleDiv{
+	font-size: 25px;
+	font-weight: bold;
+	color: #426DA7;
 
 }
-
-.baby-blue-btn-survey {
-    background: var(--main5-color);
-    border: 1px solid var(--main5-color);
-}
-
-.baby-blue-boarder-btn {
-    background: white;
-    border: 2px solid var(--main5-color);
-}
-
-#surveyListBtn, #mySurvey {
-    width: 49%;
-    height: 50px;
-    font-size: 16px;
-    padding: 0;
-}
-
-.boardDiv {
-    width: 800px;
-}
-
-.table-head div:nth-child(1){
-    width: 60%;
-}
-
-.table-head div:nth-child(2) {
-    width: 20%;
-}
-
-.table-body a {
-    text-decoration: none;
-    color: black;
-}
-
-/* 투표현황 보여지는 곳 */
-.tableTitle {
-    flex-basis: 80%;
-}
-
-.tableIcon {
-    flex-basis: 5%;
-}
-
-.tableVote {
-    flex-basis: 15%;
-}
-
-/* pagination*/
-#pagination{
+#listContainer{
 	display: flex; 
 	justify-content: center;
 	align-items: center;
-	width: 800px;
-}
-#first-page-a{
-	
-}
-#previous-a{
-	
-}
-#paginationMiddleContainer{
-	width: 35px;
-	height: 35px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-.pagination-element{
-	width: 33px;
-	height: 33px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-.current-page-span{
-
-	text-decoration: none;
-	color: #426DA7;
-	font-weight: bold;
-	color: #426DA7;
-	display: flex;
-	justify-content: center;
-	border-radius: 50%;
-	align-items: center;
-	width: 30px;
-	height: 30px;
-	font-weight: bold;
-	text-decoration: underline;
-}
-.pagination-a{
-
-	text-decoration: none;
-	color: #426DA7;
-	font-weight: bold;
-	color: white;
-	background-color: #426DA7;
-	display: flex;
-	justify-content: center;
-	border-radius: 50%;
-	align-items: center;
-	width: 30px;
-	height: 30px;
-}
-.table-body{
-	background-color: aquamarine;
-	width: 800px;
-	display: flex;
-}
-.oneRowDiv{
-	width: 800px; 
+	width: 100vw; 
 	height: 4vh;
+	margin-top: 10vh;
+
+}
+#listContainerInnerDiv{
+	display: flex;
+	width: 50%; 
+	height: 100%; 
+	background-color:#426DA7;
+	color: white;
 	display: flex; 
+	border-radius: 5px;
+	font-weight: bold;
+	font-size: 16px;
+}
+#titleDiv{
+	color: white;
+	flex-basis: 50%; 
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#writerDiv{
+	color: white;
+	flex-basis: 25%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#endDateDiv{
+	color: white;
+	flex-basis: 25%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#receiveSurveyContainer{
+	width: 100vw;
+	height: 100vh;
+	background-color: yellow;
+	display: flex; 
+	justify-content: center;
+}
+.oneRowA{
+	display: flex; 
+	background-color: red;
 }
 
 
