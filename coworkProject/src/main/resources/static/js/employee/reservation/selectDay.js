@@ -468,10 +468,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                         
                 // 캘린더에 이벤트를 즉시 추가
-                // var newEvent = calendar.addEvent({
-                //     title : `${formattedStartTime}부터 ${formattedEndTime}까지 ${selectedMeetingRoomNM} 예약됨`,
-                //     backgroundColor : selectedColor.value
-                // });
+                var newEvent = calendar.addEvent({
+                    title : selectedMeetingRoomNM,
+                    start : info.start,
+                    end : info.end,
+                    color : selectedColor.value,
+                    extendedProps : {
+                        empCode : empCode,
+                        meetingRoomNo : selectedMeetingRoomNo,
+                        meetingRoomNm : selectedMeetingRoomNM,
+                        teamReserve : selectedTeamList,
+                        deptReserve : selectedDeptList,
+                        comReserve : selectedCompanyValue
+                    }
+                });
 
                 fetch("/reservation/reservationInsert", {
                     method : "POST",
@@ -488,8 +498,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         calendar.render();
                     } else if (result == -1){
                         alert("이미 예약이 존재하는 회의실입니다.");
+                        document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
+                        newEvent.remove();
                     } else {
                         alert("회의실 예약 실패");
+                        document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
+                        newEvent.remove();
                     }
                 })
 
