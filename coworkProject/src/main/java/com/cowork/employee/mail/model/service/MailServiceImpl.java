@@ -76,6 +76,9 @@ public class MailServiceImpl implements MailService {
 		Map<String, Object> map = new HashMap<>(); 
 		Map<String, Object> fileMap = new HashMap<>(); 
 		
+		List<Recipient> recipients = mapper.getRecipients(mailNo);
+		List<Recipient> referers = mapper.getReferers(mailNo);
+		
 		fileMap.put("mailNo", mailNo); 
 		
 		Mail mail = mapper.mailDetail(mailNo);
@@ -83,6 +86,8 @@ public class MailServiceImpl implements MailService {
 		
 		map.put("mail", mail); 
 		map.put("fileList", fileList);
+		map.put("recipientList", recipients); 
+		map.put("refererList", referers);
 		
 		return map;
 	}
@@ -225,6 +230,7 @@ public class MailServiceImpl implements MailService {
 		return employeeList;
 	}
 
+	// 메일 보내기 
 	@Override
 	public int sendMail(Mail inputMail, List<MultipartFile> files, String recipient, String referer) throws IllegalStateException, IOException {
 		

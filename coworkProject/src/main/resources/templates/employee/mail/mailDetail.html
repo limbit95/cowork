@@ -11,7 +11,8 @@
 
 </head>
 <body>
-    
+    <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
+
     <section class="container">
 
         <div class="mailHeader">
@@ -56,17 +57,21 @@
                 </div>
 
                 <!-- 받는사람 -->
-                <div class="ins-css insertForm mailInfo" th:each="${mail.recipientList}"> <!--  -->
+                <div class="ins-css insertForm mailInfo"> <!--  th:each="${mail.recipientList}" -->
                     <div><label>받는 사람</label></div>
-                    <div th:text="${mail.recipient}">받는사람</div>
-                    <div th:text="${mail.recipientMail}" class="default-label lavenderLabel"></div>
+                    <div th:each="recipient : ${recipientList}">
+                        <div th:text="${recipient.recipient}">받는사람</div>
+                        <div th:text="${recipient.recipientMail}" class="default-label lavenderLabel"></div>
+                    </div>
                 </div>
 
                 <!-- 참조 -->
-                <div class="ins-css insertForm mailInfo" th:each="${mail.refererList}"> <!--  -->
+                <div class="ins-css insertForm mailInfo"> <!-- th:each="${mail.refererList}" -->
                     <div><label>참조</label></div>
-                    <div th:text="${mail.referer}"></div>
-                    <div class="default-label lavenderLabel" th:text="${mail.refererMail}">메일주소</div>
+                        <div th:each="referer : ${refererList}">
+                        <div th:text="${referer.referer}"></div>
+                        <div class="default-label lavenderLabel" th:text="${referer.refererMail}">메일주소</div>
+                    </div>
                 </div>
 
                 <!-- 날짜 -->
