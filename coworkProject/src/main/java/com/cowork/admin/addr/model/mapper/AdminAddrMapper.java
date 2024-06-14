@@ -106,6 +106,18 @@ public interface AdminAddrMapper {
 	 */
 	int deleteTeamGroup(Map<String, Object> map);
 
+	/** 초대 링크 인증키 업데이트
+	 * @param data
+	 * @return
+	 */
+	int updateInviteAuthKey(Map<String, Object> data);
+
+	/** 업데이트 된 초대 링크 인증키를 EMPLOYEE 테이블의 INVITE_AUTHKEY 컬럼에 업데이트 
+	 * @param data
+	 * @return
+	 */
+	int updateEmployeeInviteAuthKey(Map<String, Object> data);
+
 
 
 

@@ -49,4 +49,10 @@ public interface AdminAddrService {
 	 */
 	int insertGroupList(List<List<Map<String, Object>>> data, Employee2 loginEmp);
 
+	/** 초대 링크 인증키 업데이트
+	 * @param empCode
+	 * @return
+	 */
+	int updateInviteAuthKey(int empCode);
+
 }

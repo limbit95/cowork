@@ -128,8 +128,6 @@ function sendInvite() {
             obj.push(i.value);
         })
 
-        // location.reload();
-
         fetch("http://localhost/admin/addr/registYourself", {
             method : "post",
             headers : {"Content-Type" : "application/json"},
@@ -151,8 +149,8 @@ if(inviteAuthKeyUpdate != null) {
     inviteAuthKeyUpdate.addEventListener("click", e => {
         document.getElementById('deleteModal').style.display = 'block';
 
-    })
-}
+    });
+};
 
 const cancel = document.getElementById('cancelBtn');
 const deleteBtn = document.getElementById('deleteBtn');
@@ -161,10 +159,12 @@ const deleteBtn = document.getElementById('deleteBtn');
 if(cancel != null) {
     cancel.addEventListener("click", e => {
         document.getElementById('deleteModal').style.display = 'none';
-    })
-}
+    });
+};
 
+// 이메일 입력 받는 인풋창 div
 const inviteDiv = document.querySelector(".inviteDiv");
+// 사용중인 초대 링크 없다는 텍스트를 담은 div 
 const modal2 = document.querySelector(".modal-content2");
 
 // "삭제"
@@ -174,6 +174,24 @@ if(deleteBtn != null) {
 
         modal2.style.display = 'flex';
         inviteDiv.style.display = 'none';
-        
-    })
-}
+
+        fetch("/admin/addr/updateInviteAuthKey")
+        .then(resp => resp.text())
+        .then(result => {
+            if(result == 0) {
+                alert("초대 링크 인증키 업데이트 실패");
+                return;
+            }
+            console.log("초대 링크 인증키 업데이트 성공");
+        })
+    });
+};
+
+// 초대 링크 생성 버튼
+const makeItAuthKey = document.querySelector("#makeItAuthKey");
+
+if(makeItAuthKey != null) {
+    makeItAuthKey.addEventListener("click", e => {
+        location.reload()
+    });
+};

@@ -189,5 +189,19 @@
 		WHERE DEPT_NO = #{deptNo}
 		AND TEAM_NO NOT IN(${groupIdx}) 
 	</delete>
+	
+	<!-- 초대 링크 인증키 업데이트 -->
+	<update id="updateInviteAuthKey">
+		UPDATE TB_AUTH_KEY SET 
+		AUTH_KEY = #{authKey}
+		WHERE EMAIL = #{email}
+	</update>
+	
+	<!-- 업데이트 된 초대 링크 인증키를 EMPLOYEE 테이블의 INVITE_AUTHKEY 컬럼에 업데이트  -->
+	<update id="updateEmployeeInviteAuthKey">
+		UPDATE EMPLOYEE SET
+		INVITE_AUTHKEY = #{authKey}
+		WHERE EMP_CODE = #{empCode}
+	</update>
 		
 </mapper>
