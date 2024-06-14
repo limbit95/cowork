@@ -326,6 +326,11 @@ position.addEventListener('click', function(){
 	
 	positionArea.innerHTML = '';	
 	empListArea.style.display = 'none';
+	
+	document.querySelector('#position').style.border = '1.5px solid #426DA7';
+	document.querySelector('#findEmp').style.border = '1.5px solid #BDD8F1';
+	document.querySelector('#entire').style.border = '1.5px solid #BDD8F1';
+
 
 	
 	fetch('/survey/positionList')
@@ -359,11 +364,16 @@ let findEmpFlag = false;
 document.querySelector('#findEmp').addEventListener('click', function(){
 	empListArea.style.display = 'flex';	
 	empListArea.style.flexDirection = 'column';
+
 	findEmpFlag = true; 
 	entireFlag = false;
 	positionFlag = false;
 	positionArea.style.display = 'none';	
-})
+	
+	document.querySelector('#position').style.border = '1.5px solid #BDD8F1';
+	document.querySelector('#findEmp').style.border = '1.5px solid #426DA7';
+	document.querySelector('#entire').style.border = '1.5px solid #BDD8F1';
+	})
 
 
 
@@ -372,6 +382,8 @@ let empCodeList = [];
 let findEmpInput = document.querySelector('#findEmpInput');
 
 findEmpInput.addEventListener('input', function(){
+	
+
 	
 	
     if(this.value == ''){
@@ -413,9 +425,9 @@ findEmpInput.addEventListener('input', function(){
 				empDiv.style.display = 'flex';
 
 				empDiv.style.alignItems = 'center';
-				empDiv.style.backgroundColor = 'purple';
-				empDiv.style.width = '30%';
+				empDiv.style.width = '100%';
 				empDiv.style.height = '5vh';
+				empDiv.style.borderBottom = '0.1px solid #426DA7';
 				
 				empListDiv.appendChild(empDiv);
 				
@@ -434,6 +446,10 @@ findEmpInput.addEventListener('input', function(){
 						
 						let selectedEmpList = document.querySelector('#selectedEmpList');
 						selectedEmpList.appendChild(empNicknameDiv);
+						empNicknameDiv.style.margin = '0px';
+						empNicknameDiv.style.marginRight = '10px';
+						
+					
 						
 				})
 				
@@ -462,6 +478,10 @@ document.querySelector('#entire').addEventListener('click',  function(){
 
 	positionArea.style.display = 'none';	
 	empListArea.style.display = 'none';
+	
+	document.querySelector('#position').style.border = '1.5px solid #BDD8F1';
+	document.querySelector('#findEmp').style.border = '1.5px solid #BDD8F1';
+	document.querySelector('#entire').style.border = '1.5px solid #426DA7';
 
 
 		
@@ -591,6 +611,7 @@ forBottomEmptySpace.addEventListener('click', function(){
 		console.log('position!!!!');
 		console.log(positionInput);
 		console.log(positionValue);
+		alert('surveyTitle.value==' + surveyTitle.value);
 		
 		surveyData = {
 			'position': positionValue,
@@ -637,12 +658,37 @@ forBottomEmptySpace.addEventListener('click', function(){
 
 
 
+/* ================================================================================= */
 
+let surveyTitle = document.querySelector('#surveyTitle');
+surveyTitle.addEventListener('click', function(){
+	surveyTitle.style.borderBottom = '1px solid #426DA7';
+	
+})
+surveyTitle.addEventListener('blur', function(){
+	surveyTitle.style.borderBottom = '1px solid lightgray';
+	
+})
 
+setMinDate();
+/* date타입 input 태그가 오늘 이전 날짜는 선택하지 못하도록 함. */
+function setMinDate() {
+    var dateInput = document.getElementById('surveyStartDate');
+    var today = new Date();
+    var day = String(today.getDate()).padStart(2, '0');
+    var month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0
+    var year = today.getFullYear();
+    var todayDate = year + '-' + month + '-' + day;
+    dateInput.setAttribute('min', todayDate);
+}
 
-
-
-
+/* 설문 종료일이 설문 시작일보다 이전날짜가 되지 않도록 함  */
+document.getElementById('surveyStartDate').addEventListener('change', updateEndDateMin);
+function updateEndDateMin() {
+    var startDate = document.getElementById('surveyStartDate').value;
+    var endDate = document.getElementById('surveyEndDate');
+    endDate.setAttribute('min', startDate);
+}
 
 
 

@@ -1,5 +1,6 @@
 package com.cowork.employee.survey.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cowork.employee.survey.model.dto.Survey;
 import com.cowork.employee.survey.model.dto.SurveyData;
+import com.cowork.employee.survey.model.dto.SurveySub;
+
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -40,27 +43,57 @@ public class SurveyController {
 	@GetMapping("loginBy61")
 	@ResponseBody
 	public String loginBy61(HttpServletRequest request) {
+//		HttpSession session = request.getSession();
+//		
+//		Employee2 emp2 = new Employee2();
+//		emp2.setEmpCode(61);
+//		emp2.setEmpId("emp2");
+//		emp2.setEmpLastName("임");
+//		emp2.setEmpFirstName("성혁");
+//		emp2.setPhone("01012341234");
+//		emp2.setEmpEmail("limbit@naver.com");
+//		emp2.setComNo(10);
+//		emp2.setTeamNo(10);
+//		
+//		session.setAttribute("loginEmp", emp2);
+		
+		Employee2 emp = new Employee2();
+		emp.setEmpCode(55);
+		emp.setEmpId("limbit5");
+		emp.setEmpFirstName("임");
+		emp.setEmpLastName("성혁");
+		emp.setComNo(10);		
 		HttpSession session = request.getSession();
-		
-		Employee2 emp2 = new Employee2();
-		emp2.setEmpCode(61);
-		emp2.setEmpId("emp2");
-		emp2.setEmpLastName("임");
-		emp2.setEmpFirstName("성혁");
-		emp2.setPhone("01012341234");
-		emp2.setEmpEmail("limbit@naver.com");
-		emp2.setComNo(10);
-		emp2.setTeamNo(10);
-		
-		session.setAttribute("loginEmp", emp2);
+		session.setAttribute("loginEmp", emp);
 		return "임성혁으로 로그인됨";
 	}
 	
 	@GetMapping("receiveSurvey")
 	public String surveyHome(@SessionAttribute("loginEmp") Employee2 loginEmp, Model model,
-			@RequestParam(value="currentPage", defaultValue = "1") String currentPage
+			@RequestParam(value="currentPage", defaultValue = "1") String currentPage,
+			HttpServletRequest request 
 			) {
 		// 로그인한 사원과 관련된 설문을 조회해오기 
+		
+		/* 지울 부분 */
+//		HttpSession session = request.getSession();
+		
+//		Employee2 emp2 = new Employee2();
+//		emp2.setEmpCode(61);
+//		emp2.setEmpId("emp2");
+//		emp2.setEmpLastName("임");
+//		emp2.setEmpFirstName("성혁");
+//		emp2.setPhone("01012341234");
+//		emp2.setEmpEmail("limbit@naver.com");
+//		emp2.setComNo(10);
+//		emp2.setTeamNo(10);
+//		session.setAttribute("loginEmp", emp2);
+		/* 지울 부분 */
+		
+
+		
+
+
 		
 		log.debug("asdlkajsdlkasjdasd=={}", loginEmp.getEmpCode());
 		
@@ -105,22 +138,37 @@ public class SurveyController {
 		return "/employee/survey/surveyDetail";
 	}
 	
-	@GetMapping("mySurvey")
-	public String mySurvey() {
-		return "/employee/survey/mySurvey";
+	@PostMapping("submitAnswer")
+	@ResponseBody
+	public String submitAnswer(@RequestParam Map<String, String> answerMap, Model model, @SessionAttribute("loginEmp") Employee2 loginEmp) {
+		
+		surveyService.submitAnswer(answerMap, loginEmp);
+		
+		return "hello";
 	}
+	
+	
+	@GetMapping("mySurvey")
+	public String mySurvey(@SessionAttribute("loginEmp") Employee2 loginEmp, Model model) {
+		Integer empCode = loginEmp.getEmpCode();
+		List<Survey> surveyList = surveyService.mySurvey(empCode);
+		model.addAttribute("surveyList", surveyList);
+		return "/employee/survey/mySurvey";
+	
+	}
+	
 	
 	@GetMapping("surveyInsert")
 	public String serveyInsert(HttpServletRequest request) {
 
-		Employee2 emp = new Employee2();
-		emp.setEmpCode(55);
-		emp.setEmpId("limbit5");
-		emp.setEmpFirstName("임");
-		emp.setEmpLastName("성혁");
-		emp.setComNo(10);		
-		HttpSession session = request.getSession();
-		session.setAttribute("loginEmp", emp);
+//		Employee2 emp = new Employee2();
+//		emp.setEmpCode(55);
+//		emp.setEmpId("limbit5");
+//		emp.setEmpFirstName("임");
+//		emp.setEmpLastName("성혁");
+//		emp.setComNo(10);		
+//		HttpSession session = request.getSession();
+//		session.setAttribute("loginEmp", emp);
 		
 		return "employee/survey/surveyInsert";
 	}
@@ -184,6 +232,21 @@ public class SurveyController {
 	   log.debug("empList== {}", empList);
 	   
 	   return empList;
+   }
+   
+   
+   @GetMapping("/calculate/{surveyNo}")
+   public String calculate (@PathVariable("surveyNo") String surveyNo, Model model) {
+	   
+	   // 해당 설문에 대한 통계를 가져와야 함. 
+	   List<SurveySub> surveySubList = surveyService.calculate(surveyNo);
+	   if(surveySubList.size() == 0) {
+		   
+	   }
+	   model.addAttribute("surveySubList", surveySubList);
+	   
+	   
+	   return "employee/survey/surveyCalculate";
    }
 	
 	

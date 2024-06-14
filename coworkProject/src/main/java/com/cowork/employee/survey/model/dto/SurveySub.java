@@ -1,5 +1,6 @@
 package com.cowork.employee.survey.model.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,10 +19,12 @@ import lombok.ToString;
 @Builder // 인스턴스 쉽게 만들게해줌.
 public class SurveySub {
 
-	// SURVEY_SUB 테이블 
+	// SURVEY_SUB 테이블
 	private Integer surveySubNo;
 	private String surveySubTitle; // 소제목 
 	private String questionType; // 소제목이 객관식인지 주관식인지 
 	
 	private List<SurveyMultiple> options;
+	
+	private List<Integer> ratioList = new ArrayList<>();
 }

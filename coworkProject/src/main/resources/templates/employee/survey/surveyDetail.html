@@ -18,7 +18,7 @@
     </section>
 
     <!-- 객관식 선택할 경우 -->
-    <form class="submitForm">
+    <form class="submitForm" action="/survey/submitAnswer" method="post">
         
         <!-- 소제목 시작 -->
         <th:block th:each="surveySub : ${surveySubList}" class="questionArea">
@@ -28,19 +28,31 @@
                 <div th:text="'Q. ' + ${surveySub.surveySubTitle}" class="multipleQuestionTitle"></div>
                 
                 <th:block th:each="option : ${surveySub.options}" class="option" style="background-color: aqua; display: flex;">
-                        <div th:text="${option.multipleQuestion}"></div>
+                        <input 
+							type="radio"
+							th:name="${surveySub.surveySubNo}"
+							th:value="${option.surveyMultipleNo}"
+							th:id="${option.surveyMultipleNo}"
+						/>
+						<label th:for="${option.surveyMultipleNo}" th:text="${option.multipleQuestion}"></label>
                 </th:block>
                 
             </div>
             <div th:if="${surveySub.questionType == '2'}" class="subjectiveQuestion">
                 <!-- 주관식인 경우 -->
                 <div th:text="'Q. ' + ${surveySub.surveySubTitle}" class="subjectiveQuestionTitle"></div>
-                <textarea></textarea>
+                <textarea th:name="${surveySub.surveySubNo}" 
+				
+				></textarea>
                 
             </div>
         </th:block>        
         <!-- 소제목 끝 -->
+		
+		<button type="submit"> 제출 </button>
     </form>
+	
+	
 
     <script src="/js/employee/survey/surveyDetail.js"></script>
 </body>

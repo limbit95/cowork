@@ -13,34 +13,47 @@
 		<div id="surveyWriteText">
 		 설문 작성 
 		</div>	
-		<div> 대상  
-
-			<button type="button" id="entire">전체</button>
-			<button type="button" id="position">직급</button>
-			<button type="button" id="findEmp">사원조회</button>
-		</div>
-		<!-- 해당 회사의 직급들을 보여줄 div 태그 -->
-		<div id="positionArea">
-		</div>
-		<!-- 사원조회 버튼을 누르면 보여질 것으로서, 이름을 입력할 수 있는 input 창이 있다 -->
-		<div id="empListArea">
-			<div id="findEmpInputDiv">
-				<input type="text" placeholder="조회할 사원의 이름을 입력해주세요" id="findEmpInput">	
-			</div>	
-			<div id="empList"></div>
-			<div id="selectedEmpList"></div>
-		</div>
-		
-		<div> 설문 시작일 <input type="date" id="surveyStartDate">  </div>
-		<div> 설문 종료일 		<input type="date" 	id="surveyEndDate"> </div>
 		<div id="surveyTitleDiv">
 			<span style="color: coral;">*</span>
 			<input type="text" placeholder="설문 제목을 작성해주세요" id="surveyTitle">
 		</div>	
 		
+		<div id="conditionDiv">
+			<div> 대상  
+			
+				<button type="button" id="entire">전체</button>
+				<button type="button" id="position">직급</button>
+				<button type="button" id="findEmp">사원조회</button>
+			</div>
+			<!-- 해당 회사의 직급들을 보여줄 div 태그 -->
+			<div id="positionArea">
+			</div>
+			<!-- 사원조회 버튼을 누르면 보여질 것으로서, 이름을 입력할 수 있는 input 창이 있다 -->
+			<div id="empListArea">
+				<div id="findEmpInputDiv">
+					<input type="text" placeholder="조회할 사원의 이름을 입력해주세요" id="findEmpInput">	
+				</div>	
+				<div id="empList"></div>
+				<div id="selectedEmpList"></div>
+			</div>
+			<div id="dateDiv">
+				<div> 설문 시작일 <input type="date" id="surveyStartDate">  </div>
+				<div style="margin-top: 2vh;"> 설문 종료일 		<input type="date" 	id="surveyEndDate"> </div>					
+			</div>
+
+		</div>
+		
+
+		
 		<div id="makeQuestionBtnDiv"> 
-			<button type="button" id="makeMultipleQuestion">객관식 추가</button>
-			<button 	type="button" id="makeSubjectiveQuestion">주관식 추가</button>			
+			<button type="button" id="makeMultipleQuestion">
+				객관식 
+				<i class="fa-solid fa-plus"></i>
+			</button>
+			<button 	type="button" id="makeSubjectiveQuestion">
+				주관식 
+				<i class="fa-solid fa-plus"></i>
+			</button>			
 		</div>
 		
 		<div id="questionArea">
