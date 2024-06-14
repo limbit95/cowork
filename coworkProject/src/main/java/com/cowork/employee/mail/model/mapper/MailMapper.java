@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import com.cowork.employee.mail.model.dto.Mail;
@@ -148,6 +149,42 @@ public interface MailMapper {
 	 * @return
 	 */
 	List<Recipient> getReferers(int mailNo);
+
+	/** 휴지통으로 보내기!
+	 * @param mailIds
+	 */
+	void updateMailFlag(@Param("list") List<Integer> mailIds);
+
+	/** 조회 여부 업데이트 
+	 * @param mailNo
+	 */
+	void updateReadFl(int mailNo);
+
+	/** 임시보관함 리스트 개수 
+	 * @param paramMap
+	 * @return
+	 */
+	int outListCount(Map<String, Object> paramMap);
+
+	/** 임시보관함 리스트 조회 
+	 * @param paramMap
+	 * @param rowBounds
+	 * @return
+	 */
+	List<Mail> outMailList(Map<String, Object> paramMap, RowBounds rowBounds);
+
+	/** 휴지통 리스트 개수 
+	 * @param paramMap
+	 * @return
+	 */
+	int binListCount(Map<String, Object> paramMap);
+
+	/** 휴지통 리스트 조회 
+	 * @param paramMap
+	 * @param rowBounds
+	 * @return
+	 */
+	List<Mail> binList(Map<String, Object> paramMap, RowBounds rowBounds);
 
 	
 

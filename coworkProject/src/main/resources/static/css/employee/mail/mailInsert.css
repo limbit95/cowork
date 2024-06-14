@@ -1,6 +1,6 @@
 /* 주소록 검색 */
 .ins-css.insertForm.mailInfo div:nth-child(2) {
-    border-bottom: 1px solid var(--gray-color);
+   /* border-bottom: 1px solid var(--gray-color); */
     padding-bottom: 5px;
     width: 75%;
     margin-right: 10px !important;

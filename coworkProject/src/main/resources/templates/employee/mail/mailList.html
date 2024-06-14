@@ -30,7 +30,7 @@
                 <select class="default-line" name="key" id="searchKey">
                     <option value="1">제목</option>
                     <option value="2">내용</option>
-                    <option value="3">보낸 사람</option>
+                    <option value="3">사원명</option>
                 </select>
                 <div class="default-line">
                     <input type="text" name="mailQuery" id="SearchQuery" placeholder="검색">
@@ -47,31 +47,36 @@
             <div class="table-body">
                 <div class="checkDiv">
                     <input type="checkbox" id="checkAll">
-                    <i class="fa-solid fa-sort-down"></i>
-                    <label class="delBtn" id="deleteBtn">삭제</label>
+                    <label class="delBtn" id="deleteBtn" >삭제</label>
                 </div>
                 <div></div>
                 <div></div>
                 <div class="menuDiv">
                     <div class="sortByDate">
                         <i class="fa-solid fa-clock"></i>
-                        <i class="fa-solid fa-sort-down"></i>
+                        <i class="fa-solid fa-sort-down dropdown-toggle"></i>
+                        <div class="dropdown-menu">
+                            <!-- 드롭다운 메뉴 항목들 -->
+                            <a href="#">Option 1</a>
+                            <a href="#">Option 2</a>
+                            <a href="#">Option 3</a>
+                        </div>
                     </div>
-                    <div class="sortBy">
+               <!--   <div class="sortBy">
                         <i class="fa-solid fa-bars"></i>
                         <i class="fa-solid fa-sort-down"></i>
-                    </div>
+                    </div>   -->  
                 </div>
             </div>
 
-            <div class="table-body row" th:each="mail : ${mail}" th:object="${mail}" 
-                th:onclick="|location.href='@{/mail/mailDetail/{mailNo} (mailNo=*{mailNo})}'|">
+            <div class="table-body row" th:each="mail : ${mail}" th:object="${mail}">
                 <div class="checkDiv">
                     <input type="checkbox" th:attr="data-mail-id=${mail.mailNo}">
                     <div><span th:text="${mail.senderTeamNm}" id="senderTeamNm">팀이름</span>&nbsp;<span th:text="${mail.sender}">이름</span></div>
                 </div>
                 <div th:attr="data-mail-id=${mail.mailNo}"  th:text="|${session.loginEmp.empCode == mail.empCode ? '[보낸 메일함]' : '[받은 메일함]'} 
-                            &nbsp; ${mail.mailTitle}|" id="mailTitle" class="mailTitle">
+                            &nbsp; ${mail.mailTitle}|" id="mailTitle" class="mailTitle"
+                            th:onclick="|location.href='@{/mail/mailDetail/{mailNo} (mailNo=*{mailNo})}'|">
                     메일 제목
                 </div>
                 

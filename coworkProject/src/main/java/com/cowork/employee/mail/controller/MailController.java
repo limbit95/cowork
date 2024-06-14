@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -142,7 +144,24 @@ public class MailController {
 	 * @return
 	 */
 	@GetMapping("outbox")
-	public String outbox() {
+	public String outbox(	@SessionAttribute("loginEmp") Employee2 loginEmp,
+							@RequestParam Map<String, Object> paramMap,
+							@RequestParam(value="cp", required=false, defaultValue="1") int cp,
+							Model model ) {
+		
+		int empCode = loginEmp.getEmpCode(); 
+		paramMap.put("empCode", loginEmp.getEmpCode()); 
+		paramMap.put("comNo", loginEmp.getEmpNo()); 
+
+		Map<String, Object> map = service.outMailList(paramMap, cp); 
+		
+		model.addAttribute("outMail", map.get("outMailList")); 
+		model.addAttribute("pagination", map.get("pagination")); 
+		model.addAttribute("outListCount", map.get("outListCount")); 		
+		model.addAttribute("empCode", empCode); 
+		model.addAttribute("loginEmp", loginEmp);
+		
+		log.info("outListCount : " + map.get("outListCount"));
 		
 		return "employee/mail/outbox";
 	}
@@ -151,7 +170,22 @@ public class MailController {
 	 * @return
 	 */
 	@GetMapping("bin")
-	public String bin() {
+	public String bin(	@SessionAttribute("loginEmp") Employee2 loginEmp,
+						@RequestParam Map<String, Object> paramMap,
+						@RequestParam(value="cp", required=false, defaultValue="1") int cp,
+						Model model ) {
+		
+		int empCode = loginEmp.getEmpCode(); 
+		paramMap.put("empCode", loginEmp.getEmpCode()); 
+		paramMap.put("comNo", loginEmp.getEmpNo()); 
+
+		Map<String, Object> map = service.binList(paramMap, cp); 
+		
+		model.addAttribute("bin", map.get("binList")); 
+		model.addAttribute("pagination", map.get("pagination")); 
+		model.addAttribute("binListCount", map.get("binListCount")); 		
+		model.addAttribute("empCode", empCode); 
+		model.addAttribute("loginEmp", loginEmp);
 		
 		return "employee/mail/bin";
 	}
@@ -256,6 +290,24 @@ public class MailController {
 		
 	}
 	
+	
+	/** 휴지통으로 보내기 
+	 * @param request
+	 * @return
+	 */
+	@PostMapping("delete")
+    public ResponseEntity<Map<String, Object>> toBin (@RequestBody Map<String, 
+    														List<Integer>> request) {
+        List<Integer> mailIds = request.get("mailIds");
+        
+        boolean success = service.toBin(mailIds);
+        
+        Map<String, Object> response = new HashMap<>();
+        
+        response.put("success", success);
+        
+        return ResponseEntity.ok(response);
+    }
 	
 	
 	

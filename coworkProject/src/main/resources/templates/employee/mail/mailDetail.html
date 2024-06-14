@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>전체메일</title>
+    <title>Detail</title>
 
     <th:block th:replace="~{common/common}"></th:block>
     <link rel="stylesheet" href="/css/employee/board/board.css">
@@ -36,7 +36,7 @@
                 <div></div>
                 <div></div>
                 <div class="menuDiv checkDiv">
-                    <div><label class="delBtn">목록</label></div>
+                    <div><label class="delBtn" onclick="location.href='/mail/mailList'">목록</label></div>
                     <i class="fa-solid fa-angle-up"></i>
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
@@ -57,7 +57,7 @@
                 </div>
 
                 <!-- 받는사람 -->
-                <div class="ins-css insertForm mailInfo"> <!--  th:each="${mail.recipientList}" -->
+                <div class="ins-css insertForm mailInfo">
                     <div><label>받는 사람</label></div>
                     <div th:each="recipient : ${recipientList}">
                         <div th:text="${recipient.recipient}">받는사람</div>
@@ -66,7 +66,7 @@
                 </div>
 
                 <!-- 참조 -->
-                <div class="ins-css insertForm mailInfo"> <!-- th:each="${mail.refererList}" -->
+                <div class="ins-css insertForm mailInfo"> 
                     <div><label>참조</label></div>
                         <div th:each="referer : ${refererList}">
                         <div th:text="${referer.referer}"></div>
@@ -82,10 +82,9 @@
 
                 <!-- 파일 -->
                 <div class="ins-css">
-
+                    <div><label>첨부파일</label></div>
                     <div class="">
                         <button type="button" class="fa-solid fa-chevron-up btnBoarder fileListInfo"></button>
-                       <!-- <label th:text="|첨부파일 *{fileCnt}개|">첨부파일</label><label class="colorGray">(12.1KB)</label>-->
                     </div>
                     <table class="default-line preview">
                         <tr th:each="file : ${fileList}" th:object="${file}">
@@ -98,9 +97,9 @@
                 </div>
             </div>
 
-            <div class="default-line smarteditorDetail"></div>
+            <div class="default-line smarteditorDetail" th:utext="${mail.mailContent}"></div>
 
-            <div class="table-body row">
+  <!--         <div class="table-body row">
                 <div class="checkDiv">
                     <i class="fa-solid fa-caret-up"></i>
                     <div>개발팀</div>
@@ -119,9 +118,25 @@
                 <div></div>
                 <div>2024-05-22 12:20</div>
             </div>
-
+--> 
 
         </div>
     </section>
+
+    <script>
+        const fileListBtn = document.querySelector('.fileListInfo'); 
+        const preview = document.querySelector('.preview'); 
+        fileListBtn.addEventListener('click', () => {
+            if(fileListBtn.classList.contains('fa-chevron-up')) {
+                fileListBtn.classList.remove('fa-chevron-up');
+                fileListBtn.classList.add('fa-chevron-down');
+                preview.style.display = 'none';
+            } else {
+                fileListBtn.classList.remove('fa-chevron-down');
+                fileListBtn.classList.add('fa-chevron-up');
+                preview.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>

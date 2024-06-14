@@ -89,6 +89,8 @@ public class MailServiceImpl implements MailService {
 		map.put("recipientList", recipients); 
 		map.put("refererList", referers);
 		
+		mapper.updateReadFl(mailNo); 
+		
 		return map;
 	}
 
@@ -326,6 +328,68 @@ public class MailServiceImpl implements MailService {
 		
 		
 		return 0;
+	}
+
+	// 휴지통으로 옮기기 
+	@Override
+	public boolean toBin(List<Integer> mailIds) {
+
+            mapper.updateMailFlag(mailIds); 
+            
+            return true;
+
+	}
+
+	// 임시보관함 조회 
+	@Override
+	public Map<String, Object> outMailList(Map<String, Object> paramMap, int cp) {
+		
+		int empCode = (int) paramMap.get("empCode"); 
+		log.info("empCode 넘어왔니? : " + empCode);
+		
+		int outListCount = mapper.outListCount(paramMap);				
+		
+		Pagination pagination = new Pagination(cp, outListCount); 
+		
+		int limit = pagination.getLimit();
+		int offset = (cp - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<Mail> outMailList = mapper.outMailList(paramMap, rowBounds);
+		
+		Map<String, Object> map = new HashMap<>(); 
+		
+		map.put("pagination", pagination); 
+		map.put("outMailList", outMailList); 
+		map.put("outListCount", outListCount);
+		
+		return map;
+	}
+
+	// 휴지통 
+	@Override
+	public Map<String, Object> binList(Map<String, Object> paramMap, int cp) {
+		
+		int empCode = (int) paramMap.get("empCode"); 
+		log.info("empCode 넘어왔니? : " + empCode);
+		
+		int binListCount = mapper.binListCount(paramMap);				
+		
+		Pagination pagination = new Pagination(cp, binListCount); 
+		
+		int limit = pagination.getLimit();
+		int offset = (cp - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<Mail> binList = mapper.binList(paramMap, rowBounds);
+		
+		Map<String, Object> map = new HashMap<>(); 
+		
+		map.put("pagination", pagination); 
+		map.put("binList", binList); 
+		map.put("binListCount", binListCount);
+		
+		return map;
 	}
 
 	

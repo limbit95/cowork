@@ -100,6 +100,26 @@ public interface MailService {
 	 */
 	int sendMail(Mail inputMail, List<MultipartFile> files, String recipient, String referer) throws IllegalStateException, IOException;
 
+	/** 휴지통으로 옮기기 
+	 * @param mailIds
+	 * @return
+	 */
+	boolean toBin(List<Integer> mailIds);
+
+	/** 임시 보관함 
+	 * @param paramMap
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> outMailList(Map<String, Object> paramMap, int cp);
+
+	/** 휴지통 
+	 * @param paramMap
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> binList(Map<String, Object> paramMap, int cp);
+
 
 
 	

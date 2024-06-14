@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Detail</title>
+
+    <th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/employee/board/board.css">
+    <link rel="stylesheet" href="/css/employee/mail/mail.css">
+
+</head>
+<body>
+    <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
+
+    <section class="container" id="outMailUpdateForm" th:object="${outMail}">
+
+        <div class="mailTitle">
+
+            <div class="mailLabel">
+                <label>수정히기</label>
+            </div>
+            <div></div>
+        </div>
+
+        <div class="mailHeader">
+            <div class="checkDiv">
+                <button class="default-btn sapphire-border-btn" id="sendBtn" type="button">보내기</button>
+                <label class="delBtn" id="toOutbox">임시저장</label>
+            </div>
+        </div>
+
+        <div class="board">
+            <div class="table-body2">
+                <!-- 받는사람 -->
+                <div class="ins-css insertForm mailInfo recipientForm">
+                    <div><label>받는사람</label></div>
+                    <div class="">
+                        <input class="default-line inputRecipient" 
+                                id="recipient" placeholder="받는 사람">
+                        <input class="inputEmpCode" id="empCode1" hidden>
+                    </div>
+                </div>
+
+                <!-- 참조 -->
+                <div class="ins-css insertForm mailInfo refererForm">
+                    <div><label>참조</label></div>
+                    <div class="">
+                        <input class="default-line inputReferer" id="referer" placeholder="참조">
+                        <input class="inputEmpCode" id="empCode2" hidden>
+                    </div>
+                </div>
+
+                <!-- 제목 -->
+                <div class="ins-css insertForm">
+                    <div><label>제목</label></div>
+                    <input class="default-line listBtn" id="mailTitle" th:value="*{mailTitle}">
+                </div>
+
+                <!-- 파일 -->
+                <div class="fileUploadForm">
+
+                    <div class="fileType default-btn gray-border-btn">
+                        <span class="">파일첨부</span>
+                        <span class="fileSelect"><input type="file" name="files" id="fileInput" accept="files/board/*" multiple="multiple"/></span>
+                    </div>
+                    <div>
+                        <div>
+                            <button type="button" class="fa-solid fa-chevron-up btnBoarder fileListInfo"></button>
+                            <label>첨부파일</label>
+                            <label id="fileCnt">0</label><label>개</label>
+                        </div>
+                        <table class="default-line preview">
+                            <tr th:each="file : ${fileList}" th:object="${file}">
+                                <td><i class="fa-solid fa-paperclip"></i><label th:text="*{fileOriginName}">검색.png</label></td>
+                                <td></td>
+                                <td><a class="fa-solid fa-download" th:href="|*{filePath}*{fileRename}|" th:download="*{fileOriginName}"></a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="smarteditor">
+                <textarea name="outMailContent" id="outMailContent" rows="10" cols="100" hidden>
+                </textarea>    
+            </div>
+        </div>
+
+</section>
+
+<script th:inline="javascript">
+    const outMailContent = /*[[${outMail.mailContent}]]*/"메일 내용";
+    const outMailFileList = /*[[${fileList}]]*/[]; /* 파일 정보 */
+    const mailNo = /*[[${outMail.mailNo}]]*/"메일 식별 번호";
+</script>
+
+<!-- 스마트 에디터 -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/lib/smarteditor2/se/js/service/HuskyEZCreator.js" data-cfasync="false"></script>
+
+<script src="/js/employee/mail/outMailUpdate.js"></script>
+</body>
+</html>

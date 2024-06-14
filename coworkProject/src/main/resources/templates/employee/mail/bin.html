@@ -14,212 +14,87 @@
     
     <section class="container">
 
-        <div class="mailTitle">
+        <div class="mailHeader">
             <div class="mailLabel">
                 <label>휴지통</label>
-                <div><label class="cntLabel">0</label><label>/300</label></div>
-                <!--<div><button class="default-btn glucose-btn">메일쓰기</button></div>-->
-            </div>
-            <div class="search">
-                <select class="default-line">
-                    <option>제목</option>
-                    <option>내용</option>
-                    <option>보낸 사람</option>
-                </select>
-    
-                <div class="default-line">
-                    <input >
-    
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                <div>
+                    <button class="default-btn glucose-btn" 
+                            >복구하기</button>
+                            <!--th:onclick="location.href='/mail/mailInsert'"-->
                 </div>
-                
             </div>
+            <form class="search" id="searchForm" th:action="@{bin}" method="get">
+                <select class="default-line" name="key" id="searchKey">
+                    <option value="1">제목</option>
+                    <option value="2">내용</option>
+                    <option value="3">사원명</option>
+                </select>  
+                <div class="default-line">
+                    <input type="text" name="mailQuery" id="SearchQuery" placeholder="검색">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>    
+        </form>   
         </div>
 
-        <!-----------------------------------------------   테이블  ------------------------------------------------------------------>
+        <!--- 테이블 --->
 
         <div class="board">
 
-            <!--<div class="table-head">
-                <div>부서명</div>
-                <div>제목</div>
-                <div>작성자</div>
-                <div>작성일</div>
-            </div>-->
-
             <div class="table-body">
                 <div class="checkDiv">
-                    <input type="checkbox">
-                    <i class="fa-solid fa-sort-down"></i>
-                    <label class="delBtn">영구 삭제</label>
+                    <input type="checkbox" id="checkAll">
+                    <label class="delBtn" id="deleteBtn">영구 삭제</label>
                 </div>
                 <div></div>
                 <div></div>
                 <div class="menuDiv">
-                    <div>
+                    <div class="sortByDate">
                         <i class="fa-solid fa-clock"></i>
-                        <i class="fa-solid fa-sort-down"></i>
-                    </div>
-                    <div>
-                        <i class="fa-solid fa-bars"></i>
-                        <i class="fa-solid fa-sort-down"></i>
                     </div>
                 </div>
             </div>
 
-            <div class="table-body row">
+            <div class="table-body row" th:each="bin : ${bin}" th:object="${bin}">
                 <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
+                    <input type="checkbox" th:attr="data-mail-id=${bin.mailNo}" >
+                    <div><span th:text="${bin.recipientTeamNm}" id="recipientTeamNm">받는 사람 팀이름</span>&nbsp;
+                        <span th:text="${bin.recipient}">이름</span></div>
                 </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
+                <div th:attr="data-mail-id=${bin.mailNo}" 
+                     th:text="${bin.mailTitle}" id="mailTitle" class="mailTitle"
+                     > <!-- th:onclick="|location.href='@{/mail/mailDetail/{mailNo} (mailNo=*{mailNo})}'|" -->
+                    메일 제목
                 </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-            
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
-
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <input type="checkbox">
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
+                
+                <div th:text="${bin.mailWriteDate}" id="mailWriteDate">메일 보낸 시각</div>
             </div>
 
             <!-----------------------------------------------   페이지  ------------------------------------------------------------------>
 
             <div class="pagination-area">
         
-                <ul class="pagination">
+                <ul class="pagination" th:object="${pagination}">
 
                     <!-- 첫 페이지로 이동 -->
-                    <li><a>&lt;&lt;</a></li>
-
+                    <li><a th:href="@{/mail/bin(cp=1, key=${param.key}, mailQuery=${param.mailQuery})}">&lt;&lt;</a></li>
                     <!-- 이전 목록 마지막 번호로 이동 -->
-                    <li><a>&lt;</a></li>
-
+                    <li><a th:href="@{/mail/bin(cp=*{prevPage}, key=${param.key}, mailQuery=${param.mailQuery})}">&lt;</a></li>
                     <!-- 특정 페이지로 이동 -->
-                    <th:block>
-                        
+                    <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">                       
                     <!-- 현재 보고있는 페이지 -->
-                        <li>
-                            <a class="current" >1</a>
-                        </li>
-                        
-                        <!-- 보고있지 않은 페이지 -->
-                        <li>
-                            <a>2</a>
-                        </li>
-
+                    <li th:if="${i} == *{currentPage}">
+                        <a class="current" th:text="${i}">1</a>
+                    </li>                       
+                    <!-- 보고있지 않은 페이지 -->
+                    <li th:unless="${i} == *{currentPage}">
+                        <a th:text="${i}" th:href="@{/mail/bin(cp=${i}, key=${param.key}, mailQuery=${param.mailQuery})}">2</a>
+                    </li>
                     </th:block>
-
                     <!-- 다음 목록 시작 번호로 이동 -->
-                    <li><a>&gt;</a></li>
-
+                    <li><a th:href="@{/mail/bin(cp=*{nextPage}, key=${param.key}, mailQuery=${param.mailQuery})}">&gt;</a></li>
                     <!-- 끝 페이지로 이동 -->
-                    <li><a>&gt;&gt;</a></li>
+                    <li><a th:href="@{/mail/bin(cp=*{maxPage}, key=${param.key}, mailQuery=${param.mailQuery})}">&gt;&gt;</a></li>
+
                 </ul>
             </div>
         </div>
