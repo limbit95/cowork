@@ -60,7 +60,13 @@ public class FileConfig implements WebMvcConfigurer {
 	    
 	    @Value("${chatting.file.resource-location}")
 	    private String chattingFileResourceLocation;
-
+	    
+	    // 메일 
+	    @Value("${mail.file.resource-handler}")
+	    private String mailFileResourceHandler;
+	    
+	    @Value("${mail.file.resource-location}")
+	    private String mailFileResourceLocation;
 	    
 	    
 	    @Override
@@ -69,6 +75,7 @@ public class FileConfig implements WebMvcConfigurer {
 	            .addResourceHandler("/images/todo/**") // 클라이언트 요청 주소 패턴
 	            .addResourceLocations("file:///C:/uploadFiles/todo/");
 
+	        // 투두 
 	        registry
 	            .addResourceHandler(todoFileResourceHandler) 
 	            .addResourceLocations(todoFileResourceLocation);
@@ -87,6 +94,11 @@ public class FileConfig implements WebMvcConfigurer {
 	        registry
 	        	.addResourceHandler(chattingFileResourceHandler)
 	        	.addResourceLocations(chattingFileResourceLocation);
+	        
+	        // 메일 
+	        registry
+	        .addResourceHandler(mailFileResourceHandler)
+	        .addResourceLocations(mailFileResourceLocation);
 	        
 	    }
 		

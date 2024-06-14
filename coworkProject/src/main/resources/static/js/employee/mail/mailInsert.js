@@ -5,23 +5,27 @@ var oEditors = [];
 smartEditor = function() {
     nhn.husky.EZCreator.createInIFrame({
         oAppRef: oEditors,
-        elPlaceHolder: "insertContentEdit", // textarea에 부여한 아이디와 동일해야합니다.
+        elPlaceHolder: "mailContent", // textarea에 부여한 아이디와 동일해야합니다.
         sSkinURI: "/lib/smarteditor2/se/SmartEditor2Skin.html", // 자신의 프로젝트에 맞게 경로 수정
         fCreator: "createSEditor2",
         fOnAppLoad: function() {
             // 에디터에 내용 넣기
-            oEditors.getById["insertContentEdit"].exec("PASTE_HTML", [insertContent]);
+            if (typeof mailContent !== 'string') {
+                mailContent = String(mailContent); // insertContent를 문자열로 변환
+            }
+            oEditors.getById["mailContent"].exec("PASTE_HTML", [mailContent]);
         }
     });
 }
+
+
+let recipientInput = document.getElementById('recipient');
+let refererInput = document.getElementById('referer');
 
 document.addEventListener('DOMContentLoaded', () => {
 
     // 스마트 에디터 
     smartEditor(); 
-
-    const recipientInput = document.getElementById('recipient');
-    const refererInput = document.getElementById('referer');
 
     // 받는 사람 입력시 
     recipientInput.addEventListener('input', () => {
@@ -64,7 +68,7 @@ function searchEmp(empName, trId, tableId) {
         employeeList.forEach(employee => {
             const div = document.createElement('div');
             div.classList.add('searchTr', trId);
-            div.setAttribute('onclick', `search${trId}Click(${employee.empCode}, '${employee.empId}')`);
+            div.setAttribute('onclick', `search${trId}Click(${employee.empCode}, '${employee.empName}')`);
 
             div.innerHTML = `
                 <div hidden>${employee.empCode}</div>
@@ -78,61 +82,87 @@ function searchEmp(empName, trId, tableId) {
         });
 
         isWidthIncreased = false;
-        setEqualRowWidth();
     })
     .catch(error => console.error('Error:', error));
 }
 
-/*
-function setEqualRowWidth() {
-    let idMaxWidth = 0; 
-    let deptMaxWidth = 0; 
-    let empMaxWidth = 0; 
-
-    document.querySelectorAll('.searchTr').forEach(row => {
-        const empIdWidth = row.querySelector('#empId').offsetWidth; 
-        idMaxWidth = Math.max(idMaxWidth, empIdWidth);
-
-        const deptNmWidth = row.querySelector('#deptNm').offsetWidth;
-        deptMaxWidth = Math.max(deptMaxWidth, deptNmWidth);
-
-        const empNmWidth = row.querySelector('#empNm').offsetWidth;
-        empMaxWidth = Math.max(empMaxWidth, empNmWidth);
-    }); 
-
-    document.querySelectorAll('.searchTr').forEach(row => {
-        if (!isWidthIncreased) {
-            idMaxWidth += 10;
-            deptMaxWidth += 10;
-            empMaxWidth += 10;
-
-            isWidthIncreased = true;
-        }
-
-        row.querySelector('#empId').style.width = idMaxWidth + 'px';
-        row.querySelector('#deptNm').style.width = deptMaxWidth + 'px';
-        row.querySelector('#empNm').style.width = empMaxWidth + 'px';
-    });
-} */
-
-
-// 
-function searchtrRecClick(empCode, empId) {
+// 받는사람 클릭시  
+function searchtrRecClick(empCode, empName) {
     const recipientDiv = document.createElement('div');
     recipientDiv.className = 'default-label lavenderLabel putRecipient';
     recipientDiv.dataset.empCode = empCode;
-    recipientDiv.textContent = empId;
+    recipientDiv.dataset.empName = empName;
+    recipientDiv.textContent = empName;
+    recipientDiv.appendChild(createDeleteButton(recipientDiv));
     document.querySelector('.recipientForm').appendChild(recipientDiv);
 }
 
-function searchtrRefClick(empCode, empId) {
+// 받는 사람 입력에 스페이스나 엔터를 눌렀을 때
+recipientInput.addEventListener('keydown', (event) => {
+    if (event.key === ' ' || event.key === 'Enter') {
+        event.preventDefault();
+        const empName = recipientInput.value.trim();
+        if (empName) {
+            addRecipientEmail(empName);
+            recipientInput.value = '';
+        }
+    }
+});
+
+// 이메일 받는 사람 추가 함수
+function addRecipientEmail(empName) {
+    const recipientDiv = document.createElement('div');
+    recipientDiv.className = 'default-label lavenderLabel putRecipient';
+    recipientDiv.textContent = empName;
+    recipientDiv.appendChild(createDeleteButton(recipientDiv));
+    document.querySelector('.recipientForm').appendChild(recipientDiv);
+}
+
+// 참조인 클릭시 
+function searchtrRefClick(empCode, empName) {
     const refererDiv = document.createElement('div');
     refererDiv.className = 'default-label lavenderLabel putReferer';
     refererDiv.dataset.empCode = empCode;
-    refererDiv.textContent = empId;
+    refererDiv.dataset.empName = empName;
+    refererDiv.textContent = empName;
+    refererDiv.appendChild(createDeleteButton(refererDiv));
     document.querySelector('.refererForm').appendChild(refererDiv);
 }
 
+// 참조 입력에 스페이스나 엔터를 눌렀을 때
+refererInput.addEventListener('keydown', (event) => {
+    if (event.key === ' ' || event.key === 'Enter') {
+        event.preventDefault();
+        const empName = refererInput.value.trim();
+        if (empName) {
+            addRefererEmail(empName);
+            refererInput.value = '';
+        }
+    }
+});
+
+// 이메일 참조인 추가 함수
+function addRefererEmail(empName) {
+    const refererDiv = document.createElement('div');
+    refererDiv.className = 'default-label lavenderLabel putReferer';
+    refererDiv.textContent = empName;
+    refererDiv.dataset.empCode = empCode; 
+    refererDiv.appendChild(createDeleteButton(refererDiv));
+    document.querySelector('.refererForm').appendChild(refererDiv);
+}
+
+// 삭제 버튼 생성 함수
+function createDeleteButton(parentDiv) {
+    const deleteButton = document.createElement('span');
+    deleteButton.className = 'delete-button';
+    deleteButton.textContent = 'X';
+    deleteButton.onclick = () => {
+        parentDiv.remove();
+    };
+    return deleteButton;
+}
+
+// 파일 
 const fileListBtn = document.querySelector('.fileListInfo'); 
 const preview = document.querySelector('.preview'); 
 const formData = new FormData(); 
@@ -219,63 +249,64 @@ fileHandler.init();
 fileHandler.removeFile();
 
 document.querySelector('#sendBtn').addEventListener('click', () => {
-    const clone = new FormData();
 
-    oEditors.getById["mailContentEdit"].exec("UPDATE_CONTENTS_FIELD", []);
+    console.log('Send button clicked'); // 버튼 클릭 로그
+    // 에디터 내용을 업데이트
+    oEditors.getById["mailContent"].exec("UPDATE_CONTENTS_FIELD", []);
 
-    const mailContent = document.getElementById('mailContentEdit');
-    document.getElementById('mailContent').value = mailContent.value; 
+    // 폼 데이터 수집
+    const formData = new FormData();
 
-    const inputRecipient = document.getElementById('recipient');
-    const inputReferer = document.getElementById('referer');
+    const files = document.querySelector('#fileInput').files;
+    const mailTitle = document.getElementById('mailTitle').value;
+    const mailContent = document.getElementById('mailContent').value;
+
+    // 검증 로직 추가
+
+    const recipient = Array.from(document.querySelectorAll('.putRecipient')).map(el => el.dataset.empCode);
+    if(recipient.length == 0) {
+        alert("받는 사람 정보를 다시 작성해주세요.");
+        document.getElementById('recipient').focus();
+        return;
+    }
+
+    const referer = Array.from(document.querySelectorAll('.putReferer')).map(el => el.dataset.empCode);
+  
+    if(mailTitle.trim().length == 0) {
+        alert("제목을 작성해주세요");
+        document.getElementById('mailTitle').focus();
+        return;
+    }
+
+    if(mailContent.trim().length == 0 || mailContent == '<p><br></p>' || mailContent == '<br>') {
+        alert("내용을 작성해주세요");
+        document.getElementById('mailContent').focus();
+        return;
+    }
 
     for(const pair of formData.entries()) {
-        clone.append('files', pair[1]);
+        formData.append('files', pair[1]); 
     }
 
-    if(mailTitle.value.trim().length == 0) {
-        alert("제목을 작성해주세요"); 
-        mailTitle.focus(); 
-        return; 
-    }
+    // FormData에 추가
+    formData.append('mailTitle', mailTitle);
+    formData.append('mailContent', mailContent);
+    formData.append('recipient', recipient.join(','));
+    formData.append('referer', referer.join(','));
 
-    if(mailContent.value == '<p><br></p>' || mailContent.value == '<br>') {
-        alert("내용을 작성해주세요"); 
-        mailTitle.focus(); 
-        return; 
-    }
-
-    const recipients = Array.from(document.querySelectorAll('.putRecipient')).map(el => el.dataset.empCode);
-    if(recipients.length == 0) {
-        alert("받는 사람 정보가 안맞거나 미입력되었습니다. 다시 작성해주세요.");
-        inputRecipient.focus();
-        return;
-    }
-
-    const referers = Array.from(document.querySelectorAll('.putReferer')).map(el => el.dataset.empCode);
-    if(referers.length == 0) {
-        alert("참조 사람 정보가 안맞거나 미입력되었습니다. 다시 작성해주세요.");
-        inputReferer.focus();
-        return;
-    }
-
-    clone.append('mailTitle', mailTitle.value); 
-    clone.append('mailContent', mailContent.value); 
-    clone.append('recipients', recipients.join(',')); 
-    clone.append('referers', referers.join(',')); 
-
-    fetch("/mail/mailInsert/", {
-        method : "POST", 
-        body : clone
+    // Fetch API를 사용하여 서버로 전송
+    fetch("/mail/mailInsert", {
+        method: "POST",
+        body: formData
     })
     .then(resp => resp.text())
     .then(result => {
         if(result > 0) {
-            alert("메일이 전송되었습니다."); 
+            alert("메일이 전송되었습니다.");
             location.href = "/mail/mailList";
         } else {
-            alert("메일 전송 실패하였습니다."); 
+            alert("메일 전송 실패하였습니다.");
         }
     })
-    .catch(error => console.error('Error:', error));
-})
+    .catch(error => console.error('Error : ', error));
+});

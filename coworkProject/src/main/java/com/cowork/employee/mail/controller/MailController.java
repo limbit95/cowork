@@ -1,5 +1,6 @@
 package com.cowork.employee.mail.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,10 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.employee.mail.model.dto.Mail;
@@ -59,10 +62,10 @@ public class MailController {
 		model.addAttribute("empCode", empCode); 
 		model.addAttribute("loginEmp", loginEmp);
 		
-		log.info("mailCount : " + mailCount);
-		log.info("noReadCount : " + noReadCount);
+		log.info("mailCount : " + map.get("mailCount"));
+		log.info("noReadCount : " + map.get("noReadCount"));
 		log.info("listCount : " + map.get("listCount"));
-		
+		log.info("loginEmpCode : " + loginEmp.getEmpCode());
 		
 		return "employee/mail/mailList";
 	}
@@ -161,6 +164,48 @@ public class MailController {
 		
 		return "employee/mail/mailInsert";
 	}
+	
+	/** 메일 보내기 
+	 * @param loginEmp
+	 * @param recipient
+	 * @param referer
+	 * @param mailTitle
+	 * @param mailContent
+	 * @param files
+	 * @param ra
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
+	@ResponseBody
+	@PostMapping("mailInsert")
+	public int sendMail( @SessionAttribute("loginEmp") Employee2 loginEmp, 
+							@RequestParam("recipient") String recipient, 
+							@RequestParam("referer") String referer, 
+							@RequestParam("mailTitle") String mailTitle, 
+							@RequestParam("mailContent") String mailContent, 
+							@RequestParam(value="files", required=false) List<MultipartFile> files,
+							RedirectAttributes ra) throws IllegalStateException, IOException {
+		
+		mailContent = mailContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
+		
+		log.info("recipient : 배열인가요 :" + recipient); 
+		log.info("referer : 배열인가요 : " + referer); 
+		//log.info("파일 첨부리스트.... : " + files.toString()); 
+		//log.info("파일 첨부리스트.... : " + files.size()); 
+		
+		Mail inputMail = Mail.builder()
+						.mailTitle(mailTitle)
+						.mailContent(mailContent)
+						.empCode(loginEmp.getEmpCode())
+						.build(); 
+
+		int result = service.sendMail(inputMail, files, recipient, referer);
+		
+		return result; 
+	
+	}
+	
 	
 	/** 메일상세
 	 * @return

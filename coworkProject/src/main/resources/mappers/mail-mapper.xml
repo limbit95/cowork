@@ -3,7 +3,7 @@
 <mapper namespace="com.cowork.employee.mail.model.mapper.MailMapper"> 
 
 	<!-- 메일 목록 조회 -->
-	<select id="mailList">
+	 <select id="mailList">
 		SELECT 
 		    M.MAIL_NO,
 		    M.MAIL_TITLE,
@@ -11,20 +11,14 @@
 		    TO_CHAR(M.MAIL_WRITE_DATE, 'YY-MM-DD HH24:MI') AS MAIL_WRITE_DATE,
 		    M.MAIL_FLAG,
 		    M.EMP_CODE AS SENDER_EMP_CODE,
+		    M.READ_FL,
 		    SENDER.EMP_ID AS senderMail,
 		    SENDER.EMP_LAST_NAME || SENDER.EMP_FIRST_NAME AS sender,
 		    SENDER_TEAM.TEAM_NM AS senderTeamNm,
-		    COMPANY.DOMAIN AS senderDomain,
 		    R.EMP_CODE AS RECIPIENT_EMP_CODE,
 		    RECIPIENT.EMP_ID AS recipientMail,
 		    RECIPIENT.EMP_LAST_NAME || RECIPIENT.EMP_FIRST_NAME AS recipient,
 		    RECIPIENT_TEAM.TEAM_NM AS recipientTeamNm,
-		    MAIL_FILE.FILE_NO,
-		    MAIL_FILE.FILE_PATH,
-		    MAIL_FILE.FILE_ORIGIN_NAME,
-		    MAIL_FILE.FILE_RENAME,
-		    MAIL_FILE.FILE_UPLOAD_DATE,
-		    MAIL_FILE.FILE_ORDER,
 		    REF_EMP.EMP_CODE AS REFERENCE_EMP_CODE,
 		    REF_EMP.EMP_ID AS refererMail,
 		    REF_EMP.EMP_LAST_NAME || REF_EMP.EMP_FIRST_NAME AS referer,
@@ -45,8 +39,6 @@
 		    TEAM RECIPIENT_TEAM ON RECIPIENT.TEAM_NO = RECIPIENT_TEAM.TEAM_NO
 		LEFT JOIN 
 		    DEPARTMENT SENDER_DEPT ON SENDER_TEAM.DEPT_NO = SENDER_DEPT.DEPT_NO
-		LEFT JOIN 
-		    MAIL_FILE ON M.MAIL_NO = MAIL_FILE.MAIL_NO
 		LEFT JOIN 
 		    RECIPIENT REF ON M.MAIL_NO = REF.MAIL_NO AND REF.REFERENCE_FL = '2'
 		LEFT JOIN 
@@ -129,6 +121,7 @@
 	    FROM MAIL M
 	    LEFT JOIN RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
 	    WHERE (M.EMP_CODE = #{empCode} OR R.EMP_CODE = #{empCode})
+	    
 	</select>
 	
 	<!-- 메일 상세 조회 -->
@@ -215,6 +208,7 @@
 		    M.MAIL_CONTENT,
 		    TO_CHAR(M.MAIL_WRITE_DATE, 'YY-MM-DD HH24:MI') AS MAIL_WRITE_DATE,
 		    M.MAIL_FLAG,
+		    M.READ_FL,
 		    M.EMP_CODE AS SENDER_EMP_CODE,
 		    SENDER.EMP_ID AS senderMail,
 		    SENDER.EMP_LAST_NAME || SENDER.EMP_FIRST_NAME AS sender,
@@ -307,6 +301,7 @@
 		    M.MAIL_CONTENT,
 		    TO_CHAR(M.MAIL_WRITE_DATE, 'YY-MM-DD HH24:MI') AS MAIL_WRITE_DATE,
 		    M.MAIL_FLAG,
+		    M.READ_FL,
 		    M.EMP_CODE AS SENDER_EMP_CODE,
 		    SENDER.EMP_ID AS senderMail,
 		    SENDER.EMP_LAST_NAME || SENDER.EMP_FIRST_NAME AS sender,
@@ -504,6 +499,57 @@
 		OR EMP_NAME LIKE '%' || #{empName} || '%'
 		OR POSITION_NM LIKE '%' || #{empName} || '%')
 	</select>
+	
+	<!-- 메일 보내기 -->
+	<insert id="sendMail" useGeneratedKeys="true" parameterType="Mail">
+	<selectKey order="BEFORE" resultType="_int" keyProperty="mailNo">
+		SELECT SEQ_MAIL.NEXTVAL FROM DUAL
+	</selectKey>
+		INSERT INTO MAIL
+		(MAIL_NO, MAIL_TITLE, MAIL_CONTENT, MAIL_WRITE_DATE, MAIL_FLAG, EMP_CODE, READ_FL)
+		VALUES (
+			#{mailNo}, 
+			#{mailTitle}, 
+			#{mailContent}, 
+			DEFAULT, 
+			DEFAULT, 
+			#{empCode}, 
+			DEFAULT
+		)
+	</insert>
+	
+	<!-- 수신자 리스트 -->
+	<insert id="recipientList" parameterType="list">
+	    INSERT INTO RECIPIENT (RECIPIENT_NO, EMP_CODE, MAIL_NO, REFERENCE_FL)
+	    <foreach collection="list" item="recipient" separator=" UNION ALL ">
+	        SELECT
+	            NEXT_RECIPIENT_NO(),
+	            #{recipient.empCode},
+	            #{recipient.mailNo},
+	            #{recipient.referenceFl}
+	        FROM DUAL
+	    </foreach>
+	</insert>
+
+	<!-- 메일 파일 insert -->
+	<insert id="mailFileInsert" parameterType="list">
+		INSERT INTO MAIL_FILE
+		
+		<foreach collection="list" item="file"
+			open="(" close=")" separator=" UNION ">
+			SELECT
+				 NEXT_MAIL_FILE()
+				,#{file.filePath}
+				,#{file.fileOriginName}
+				,#{file.fileRename}
+				,SYSDATE
+				,#{file.fileOrder}
+				,#{file.mailNo}
+			FROM DUAL
+		</foreach>
+	</insert>
+	
+	
 	
 </mapper>
 

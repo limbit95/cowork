@@ -1,7 +1,10 @@
 package com.cowork.employee.mail.model.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.employee.mail.model.dto.Mail;
 import com.cowork.employee.mail.model.dto.MailFile;
@@ -87,6 +90,15 @@ public interface MailService {
 	 * @return
 	 */
 	List<Employee2> mailEmpSearch(String empName, int comNo);
+
+	/** 메일 전송 
+	 * @param inputMail
+	 * @param files
+	 * @param recipient
+	 * @param referer
+	 * @return
+	 */
+	int sendMail(Mail inputMail, List<MultipartFile> files, String recipient, String referer) throws IllegalStateException, IOException;
 
 
 
