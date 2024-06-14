@@ -31,16 +31,17 @@ public class Mail {
 	private String senderMail; 
 	private String recipient; // 받는 사람 이름 
 	private String recipientMail; 
-	private String reference; // 참조인 이름 
-	private String referenceMail; // 참조인 메일 
+	private String referer; // 참조인 이름 
+	private String refererMail; // 참조인 메일 
 	
-	private String senderTeamNm; // 팀이름
-	private String recipientTeamNm; 
+	private String senderTeamNm; // 보낸 사람 팀이름
+	private String recipientTeamNm; // 받은 사람 팀이름 
+	private String refererTeamNm; // 참조인 팀이름 
 	private int comNo; //회사 식별키
 	
 	private List<MailFile> fileList; 
 	private List<String> recieverList; // 받는 사람 리스트 
-	private List<String> referenceList; // 참조인 리스트 
+	private List<String> refererList; // 참조인 리스트 
 	
 	
 

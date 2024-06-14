@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.cowork.employee.mail.model.dto.Mail;
 import com.cowork.employee.mail.model.dto.MailFile;
+import com.cowork.user.model.dto.Employee2;
 
 @Mapper
 public interface MailMapper {
@@ -104,6 +105,18 @@ public interface MailMapper {
 	 * @return
 	 */
 	int inListCount(Map<String, Object> paramMap);
+
+	/** 사원 검색 
+	 * @param comNo
+	 * @return
+	 */
+	List<Employee2> employeeSearch(int comNo);
+
+	/** 사원 리스트 검색 찾기  
+	 * @param map
+	 * @return
+	 */
+	List<Employee2> employeeListSearch(Map<String, Object> map);
 
 	
 

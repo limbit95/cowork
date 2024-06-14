@@ -1,5 +1,6 @@
 package com.cowork.employee.mail.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import com.cowork.employee.mail.model.dto.Mail;
 import com.cowork.employee.mail.model.dto.MailFile;
 import com.cowork.employee.mail.model.mapper.MailMapper;
 import com.cowork.employee.notice.model.dto.Notice;
+import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +51,8 @@ public class MailServiceImpl implements MailService {
 		map.put("pagination", pagination); 
 		map.put("mailList", mailList); 
 		map.put("mailCount", mailCount); 
-		map.put("noReadCount", noReadCount); 
+		map.put("noReadCount", noReadCount);
+		map.put("listCount", listCount);
 		
 		return map;
 	}
@@ -117,7 +120,8 @@ public class MailServiceImpl implements MailService {
 		map.put("pagination", pagination); 
 		map.put("sentMailList", sentMailList); 
 		map.put("sentMailCount", sentMailCount); 
-		map.put("sentMailNoReadCount", sentMailNoReadCount); 
+		map.put("sentMailNoReadCount", sentMailNoReadCount);
+		map.put("sentListCount", sentListCount);
 		
 		return map;
 	}
@@ -161,6 +165,7 @@ public class MailServiceImpl implements MailService {
 		map.put("inMailList", inMailList); 
 		map.put("inMailCount", inMailCount); 
 		map.put("inMailNoReadCount", inMailNoReadCount); 
+		map.put("inListCount", inListCount);
 		
 		return map;
 		
@@ -184,6 +189,28 @@ public class MailServiceImpl implements MailService {
 	public int mailCount(int empCode) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	// 사원 검색 - 받는이, 참조 
+	@Override
+	public List<Employee2> mailEmpSearch(String empName, int comNo) {
+		
+		List<Employee2> employeeList = new ArrayList<>(); 
+		
+		if(empName.equals("")) {
+			employeeList = mapper.employeeSearch(comNo); 
+		} else {
+			Map<String, Object> map = new HashMap<>(); 
+			
+			map.put("empName", empName); 
+			map.put("comNo", comNo); 
+			
+			employeeList = mapper.employeeListSearch(map); 
+		}
+		
+		log.info("empName  못가져왔냐고!! : " + empName);
+		
+		return employeeList;
 	}
 
 	

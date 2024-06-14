@@ -37,6 +37,7 @@ label.delBtn {
 
 .table-body.row:hover {
     font-weight: bold;
+    cursor: pointer;
 }
 
 /* 타이틀 */
@@ -144,3 +145,34 @@ input.insertMail {
     font-weight: bold;
     border: none;
 }
+.searchTable {
+    display: none;
+    border: 1px solid var(--gray-color);
+    margin-top: 0 !important;
+    margin-left: 85px !important;
+    border-radius: 6px;
+    padding: 9px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+#recipient:focus + .searchTable,
+#referer:focus + .searchTable {
+    display: block;
+}
+
+
+.searchTr {
+    display: flex;
+    margin: 0px !important;
+}
+
+.searchTr:hover {
+    background-color: var(--gray-color);
+    cursor: pointer;
+}
+
+.searchTr div {
+    margin: 0 !important;
+}
+

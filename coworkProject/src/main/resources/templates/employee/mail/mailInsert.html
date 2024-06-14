@@ -21,7 +21,7 @@
 
         <div class="mailTitle">
             <div class="checkDiv">
-                <button class="default-btn sapphire-border-btn">보내기</button>
+                <button class="default-btn sapphire-border-btn" id="sendBtn">보내기</button>
                 <label class="delBtn">임시저장</label>
             </div>
         </div>
@@ -29,25 +29,46 @@
         <div class="board">
             <div class="table-body2">
                 <!-- 받는사람 -->
-                <div class="ins-css insertForm mailInfo">
+                <div class="ins-css insertForm mailInfo recipientForm">
                     <div><label>받는사람</label></div>
                     <div class="">
-                        <input>
-                        <div class="default-label lavenderLabel">수신자메일</div>
-                        <div class="default-label lavenderLabel">수신자메일</div>
+                        <input class="default-line inputRecipient" id="recipient" placeholder="받는이">
+                        <input class="inputEmpCode" id="empCode1" hidden>
                     </div>
-                    <button class="default-btn glucose-btn">검색</button>
                 </div>
 
+                 <!-- emp 검색
+                 <div class="searchTable displayNone searchRec" id="searchRecTable">
+                    <div class="searchTr trRec" th:each="employee : ${employeeList}" th:object="${employee}"
+                        th:onclick="searchtrRecClick([[*{empCode}]], [[*{empName}]])">
+                        <div th:text="*{empCode}" hidden>64</div>
+                        <div th:text="*{empId}" id="empId">sample1</div>
+                        <div th:text="*{teamNm}" id="deptNm">본부팀</div>
+                        <div th:text="${empName}" id="empNm">임성혁</div>
+                        <div th:text="*{positionNm}">대리</div>
+                    </div>
+                </div>  -->
+
                 <!-- 참조 -->
-                <div class="ins-css insertForm mailInfo">
+                <div class="ins-css insertForm mailInfo refererForm">
                     <div><label>참조</label></div>
                     <div class="">
-                        <input>
-                        <label class="default-label lavenderLabel">songfianl@home.com</label>
+                        <input class="default-line inputReferer" id="referer" placeholder="참조">
+                        <input class="inputEmpCode" id="empCode2" hidden>
                     </div>
-                    <button class="default-btn glucose-btn">검색</button>
                 </div>
+
+                <!--
+                <div class="searchTable displayNone searchRef" id="searchRefTable">
+                    <div class="searchTr trRef" th:each="employee : ${employeeList}" th:object="${employee}"
+                        th:onclick="searchtrRefClick([[*{empCode}]], [[*{empName}]])">
+                        <div th:text="*{empCode}" hidden>64</div>
+                        <div th:text="*{empId}" id="empId">sample1</div>
+                        <div th:text="*{teamNm}" id="deptNm">본부팀</div>
+                        <div th:text="${empName}" id="empNm">임성혁</div>
+                        <div th:text="*{positionNm}">대리</div>
+                    </div>
+                </div> -->
 
                 <!-- 제목 -->
                 <div class="ins-css insertForm">
@@ -79,7 +100,10 @@
             </div>
 
             <div id="smarteditor">
-                <textarea name="ir1" id="ir1" rows="10" cols="100">에디터에 기본으로 삽입할 글(수정 모드)이 없다면 이 value 값을 지정하지 않으시면 됩니다.</textarea>
+                <textarea name="insertContentEdit" id="insertContentEdit" 
+                    rows="10" cols="100"> </textarea>
+                <textarea name="insertContent" id="insertContent" rows="10" cols="100" hidden>
+                </textarea>    
             </div>
         </div>
 
@@ -90,6 +114,5 @@
     <script type="text/javascript" src="/lib/smarteditor2/se/js/service/HuskyEZCreator.js" data-cfasync="false"></script>
 
     <script src="/js/employee/mail/mailInsert.js"></script>
-    <script src="https://kit.fontawesome.com/247c6d7026.js" crossorigin="anonymous"></script>
 </body>
 </html>
