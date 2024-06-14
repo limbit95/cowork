@@ -200,5 +200,60 @@ public class AdminAddrServiceImpl implements AdminAddrService {
 		
 		return 1;
 	}
+
+	// 초대 링크 인증키 업데이트
+	@Override
+	public int updateInviteAuthKey(int empCode) {
+		String authKey = createAuthKey();
+		String email = "cowork@invite.authKey." + empCode;
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("authKey", authKey);
+		data.put("email", email);
+		data.put("empCode", empCode);
+		
+		int result = mapper.updateInviteAuthKey(data);
+		
+		if(result == 0) {
+			return 0;
+		}
+		
+		return mapper.updateEmployeeInviteAuthKey(data);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	// 인증번호 생성 (영어 대문자 + 소문자 + 숫자 6자리)
+	public String createAuthKey() {
+   		String key = "";
+   	
+   		for(int i=0 ; i< 6 ; i++) {
+	        int sel1 = (int)(Math.random() * 3); // 0:숫자 / 1,2:영어
+	      
+	        if(sel1 == 0) {
+	          
+	            int num = (int)(Math.random() * 10); // 0~9
+	            key += num;
+	          
+	        }else {
+	        	char ch = (char)(Math.random() * 26 + 65); // A~Z
+	          
+	            int sel2 = (int)(Math.random() * 2); // 0:소문자 / 1:대문자
+	          
+	            if(sel2 == 0) {
+	                ch = (char)(ch + ('a' - 'A')); // 대문자로 변경
+	            }
+	          
+	            key += ch;
+	        }
+          
+   		}
+        return key;
+	}
 	
 }

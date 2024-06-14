@@ -208,7 +208,7 @@ public class AdminAddrController {
 		return "admin/addr/inviteEmployee";
 	}
 	
-	/** 
+	/** 구성원 초대 이메일 발송
 	 * @param emailList
 	 * @return
 	 */
@@ -228,6 +228,29 @@ public class AdminAddrController {
 		
 		return 1;
 	}
+	
+	/** 초대 링크 인증키 업데이트
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("updateInviteAuthKey")
+	public int updateInviteAuthKey(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		int result = service.updateInviteAuthKey(loginEmp.getEmpCode());
+		
+		if(result == 0) {
+			return 0;
+		}
+		
+		return 1;
+	}
+	
+	
+	
 
 	
 	
