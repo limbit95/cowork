@@ -32,7 +32,7 @@
                     <button class="default-btn glucose-btn">반려</button>
                     <button class="default-btn sapphire-btn margin10">결재</button>
                 </th:block>
-                <th:block th:if="${edsm.approverCode ne session.loginEmp.empCode and edsm.edsmFlag == '4'}">
+                <th:block th:if="${edsm.empCode eq session.loginEmp.empCode and edsm.edsmFlag == '4'}">
                     <button class="default-btn sapphire-btn margin10" id="edsmDelete">회수</button>
                 </th:block>
             </div>

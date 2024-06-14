@@ -54,9 +54,17 @@
                     <label th:text="|*{empName} *{positionNm}|">영업팀 송윤지</label>
                 </div>
                 <div class="draftDetail">
-                    <!-- 1. 신청 2. 확인 3. 1차 4. 2차 5. 반려 -->
-                    <i class="detailInfo fa-regular fa-eye nueye"></i>
-                    <label>확인</label>
+                    <i class="detailInfo"
+                        th:classappend="${edsm.approverFlag eq '2' ? 'fa-solid fa-user-plus number' 
+                            : edsm.approverCode ne session.loginEmp.empCode ? 'fa-solid fa-user-check number' 
+                            : edsm.approveFlag eq '1' ? 'fa-regular fa-circle-check check'
+                            : edsm.approveFlag eq '2' ? 'fa-solid fa-circle-chevron-left right'
+                             : 'fa-regular fa-eye eye' }"></i>
+                    <label th:text="${edsm.approverFlag eq '2' ? '참조' 
+                                : edsm.approverCode ne session.loginEmp.empCode ? edsm.approverName 
+                                : edsm.approveFlag eq '1' ? '승인'
+                                : edsm.approveFlag eq '2' ? '반려'
+                                : '결재' }">확인</label>
                 </div>
             </div>
 
