@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoWork Popup</title>
+
+    <th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/admin/addr/inviteEmployee.css">
+</head>
+<body>
+    <div class="popup">
+        <div class="inviteDiv">
+            <h2>초대하기</h2>
+            <span>초대 메일을 받은 구성원이 자신의 계정 정보를 직접 입력하여 COWORK에 가입합니다.</span>
+            <div id="email-container">
+                <div class="email-input-row">
+                    <input id="inviteEmail" type="email" placeholder="name@example.com" autocomplete="off" spellcheck="false">
+                    <button class="add">+</button>
+                </div>
+            </div>
+            <div class="btnClass">
+                <button class="default-btn glucose-border-btn" id="inviteAuthKeyUpdate">초대 링크 삭제</button>
+                <button class="default-btn glucose-border-btn" onclick="sendInvite()">초대 메일 보내기</button>
+            </div>
+        </div>
+        <div class="modal-content2">
+            <div>
+                <i class="fa-solid fa-exclamation"></i>
+            </div>
+            <h3 class="modal-header2">사용중인 초대 링크가 없습니다.</h3>
+            <h3 class="modal-header3">초대 링크를 생성하여 새로운 구성원을 초대해보세요.</h3>
+            <div class="modal-footer2">
+                <button class="cancel-btn2 default-btn glucose-border-btn" id="cancelBtn2">초대 링크 생성</button>
+            </div>
+        </div>
+        <hr>
+        <h2>구성원 계정을 직접 만들기</h2>
+        <span>자신이 관리자인 경우 구성원의 COWORK 계정을 직접 만들고, 로그인할 수 있도록 ID와 비밀번호를 설정할 수 있습니다.</span>
+        <div class="btnClass">
+            <button class="default-btn glucose-border-btn">구성원 계정 만들기</button>
+        </div>
+        <div class="vertual"></div>
+    </div>
+
+
+
+    <!-- 초대 링크 삭제하시겠습니까? 모달창 -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div>
+                <i class="fa-solid fa-exclamation"></i>
+            </div>
+            <div class="modal-header">초대 링크를 삭제하겠습니까?</div>
+            <div class="modal-body">
+                삭제 시 해당 초대 링크와 초대 코드로 가입이 불가능하며 기존 가입 신청 중인 건은 거절 처리 됩니다.
+            </div>
+            <div class="modal-footer">
+                <button class="cancel-btn" id="cancelBtn">취소</button>
+                <button class="delete-btn" id="deleteBtn">삭제</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/admin/addr/inviteEmployee.js"></script>
+    <script th:inline="javascript">
+        const loginEmpCode = /*[[${session.loginEmp.empCode}]]*/ "로그인 사원 식별키";
+        const comNo = /*[[${session.loginEmp.comNo}]]*/ "회사 식별키";
+    </script>
+</body>
+</html>

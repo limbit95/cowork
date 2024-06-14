@@ -100,6 +100,35 @@ public interface UserMapper {
 	 */
 	List<Map<String, Object>> getpositionList(Employee2 loginEmp);
 
+	/** 회원가입 성공 이후 회원가입한 empCode 조회
+	 * @return
+	 */
+	int selectEmpCode(String empId);
+
+	/** 최초 관리자 회원가입 시 구성원을 초대할 때 사용할 인증키 생성
+	 * @param empCode
+	 * @return
+	 */
+	int createInviteAuthkey(Map<String, Object> data);
+
+	/** 관리자용 초대링크 인증키 해당 회원의 DB Employee 테이블 INVITE_AUTH_KEY 컬럼에 수정 삽입
+	 * @param data
+	 * @return
+	 */
+	int insertInviteAuthKey(Map<String, Object> data);
+
+	/** 초대 받은 링크의 인증번호가 유효한지 확인
+	 * @param data
+	 * @return
+	 */
+	int checkInviteAuthKey(Map<String, Object> data);
+
+	/** 초대 받은 사람의 회원가입
+	 * @param data
+	 * @return
+	 */
+	int inviteSignUp(Map<String, Object> data);
+
 
 	
 }

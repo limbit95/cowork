@@ -1,5 +1,6 @@
 package com.cowork.admin.addr.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.cowork.admin.addr.model.service.AdminAddrService;
 import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.admin.companyInfo.model.dto.Team;
+import com.cowork.email.model.service.EmailService;
 import com.cowork.employee.addr.model.dto.MyAddr;
 import com.cowork.employee.addr.model.service.AddrService;
 import com.cowork.user.model.dto.Employee2;
@@ -37,6 +39,8 @@ public class AdminAddrController {
 	private final AdminAddrService service;
 	
 	private final AddrService addrService;
+	
+	private final EmailService emailService;
 	
 	/** 회사 주소록 부서, 팀 조회
 	 * @param request
@@ -194,6 +198,35 @@ public class AdminAddrController {
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
 		return service.insertGroupList(data, loginEmp);
+	}
+	
+	/** 구성원이 초대 메일 보내는 페이지 팝업창
+	 * @return
+	 */
+	@GetMapping("inviteEmployee")
+	public String registYourself() {
+		return "admin/addr/inviteEmployee";
+	}
+	
+	/** 
+	 * @param emailList
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("registYourself")
+	public int registYourself(@RequestBody String[] emailList,
+							  HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		String result = emailService.registYourself(emailList, loginEmp);
+		
+		if(result == null ) {
+			return 0;
+		}
+		
+		return 1;
 	}
 
 	

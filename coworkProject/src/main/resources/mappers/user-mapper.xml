@@ -33,7 +33,8 @@
 			NULL,
 			1,
 			DEFAULT,
-			DEFAULT
+			DEFAULT,
+			NULL
 		)
 	</insert>
 	
@@ -41,12 +42,13 @@
 	<select id="login">
 		SELECT EMP_CODE, EMP_NO, EMP_ID, EMP_PW, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_ADDRESS, 
 		TO_CHAR(EMP_BIRTH, 'YYYY-MM-DD') EMP_BIRTH, TO_CHAR(HIRE_DATE, 'YYYY-MM-DD') HIRE_DATE, 
-		CONTRACT_TYPE, EMP_TEL, WORK_PLACE, EMP_EMAIL, PROFILE_IMG, GENERAL_MANAGER, 
-		C.COM_NO, C.COM_NM, C.COM_LOGO, TEAM_NM, POSITION_NM
+		CONTRACT_TYPE, EMP_TEL, WORK_PLACE, EMP_EMAIL, PROFILE_IMG, GENERAL_MANAGER, INVITE_AUTH_KEY, 
+		C.COM_NO, C.COM_NM, C.COM_LOGO, C.DOMAIN, DEPT_NM, TEAM_NM, POSITION_NM
 		FROM EMPLOYEE E
 		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
-		JOIN TEAM USING(TEAM_NO)
-		JOIN POSITION USING(POSITION_NO)
+		LEFT JOIN TEAM T ON(T.TEAM_NO = E.TEAM_NO)
+		LEFT JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		LEFT JOIN POSITION USING(POSITION_NO)
 		WHERE EMP_DEL_FL = 'N'
 		AND EMP_ID =  #{empId}
 	</select>
@@ -55,10 +57,13 @@
 	<select id="adminLogin">
 		SELECT EMP_CODE, EMP_NO, EMP_ID, EMP_PW, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_ADDRESS, 
 		TO_CHAR(EMP_BIRTH, 'YYYY-MM-DD') EMP_BIRTH, TO_CHAR(HIRE_DATE, 'YYYY-MM-DD') HIRE_DATEE, 
-		CONTRACT_TYPE, EMP_TEL, WORK_PLACE, EMP_EMAIL, PROFILE_IMG, GENERAL_MANAGER, 
-		COM_NO, COM_NM, COM_LOGO
-		FROM EMPLOYEE
-		JOIN COMPANY USING(COM_NO)
+		CONTRACT_TYPE, EMP_TEL, WORK_PLACE, EMP_EMAIL, PROFILE_IMG, GENERAL_MANAGER, INVITE_AUTH_KEY, 
+		C.COM_NO, C.COM_NM, C.COM_LOGO, C.DOMAIN, DEPT_NM, TEAM_NM, POSITION_NM
+		FROM EMPLOYEE E
+		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
+		LEFT JOIN TEAM T ON(T.TEAM_NO = E.TEAM_NO)
+		LEFT JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		LEFT JOIN POSITION USING(POSITION_NO)
 		WHERE EMP_DEL_FL = 'N'
 		AND EMP_ID = #{empId}
 	</select>
@@ -157,5 +162,65 @@
 		WHERE COM_NO = #{comNo}
 		ORDER BY "LEVEL"
 	</select>
+	
+	<!-- 회원가입 성공 이후 회원가입한 empCode 조회 -->
+	<select id="selectEmpCode">
+		SELECT EMP_CODE 
+		FROM EMPLOYEE
+		WHERE EMP_ID = #{empId}
+	</select>
+	
+	<!-- 최초 관리자 회원가입 시 구성원을 초대할 때 사용할 인증키 생성 -->
+	<insert id="createInviteAuthkey">
+		INSERT INTO "TB_AUTH_KEY" VALUES(
+			SEQ_TB_AUTH_KEY.NEXTVAL,
+			#{inviterEmail},
+			#{authKey},
+			DEFAULT
+		)
+	</insert>
+	
+	<!-- 관리자용 초대링크 인증키 해당 회원의 DB Employee 테이블 INVITE_AUTH_KEY 컬럼에 수정 삽입 -->
+	<update id="insertInviteAuthKey">
+		UPDATE EMPLOYEE SET
+		INVITE_AUTH_KEY = #{authKey}
+		WHERE EMP_CODE = #{empCode}
+	</update>
+	
+	<!-- 초대 받은 링크의 인증번호가 유효한지 확인 -->
+	<select id="checkInviteAuthKey">
+		SELECT COUNT(*)
+		FROM TB_AUTH_KEY
+		WHERE "AUTH_KEY" = #{authKey}
+		AND "EMAIL" = #{email}
+	</select>
+	
+	<!-- 초대 받은 사람의 회원가입 -->
+	<insert id="inviteSignUp">
+		INSERT INTO EMPLOYEE VALUES(
+			SEQ_EMPLOYEE.NEXTVAL,
+			NULL,
+			#{empId},
+			#{empPw},
+			#{empLastName},
+			#{empFirstName},
+			#{phone},
+			#{empAddress},
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			#{empEmail},
+			#{comNo},
+			NULL,
+			NULL,
+			NULL,
+			2,
+			DEFAULT,
+			DEFAULT,
+			NULL
+		)
+	</insert>
 	
 </mapper>

@@ -18,7 +18,6 @@
 
         <div class="subBtnList">
             <button class="default-btn glucose-btn" id="backPage">이전으로 돌아가기</button>
-            <button class="default-btn glucose-btn" id="saveGroup">그룹 저장</button>
             <button class="default-btn glucose-btn" id="updateEmployeePage">수정</button>
             <button class="default-btn glucose-btn" id="deleteEmployee">삭제</button>
         </div>
@@ -39,7 +38,7 @@
                             </div>
                         </div>
 
-                        <ul>    
+                        <ul>
 
                             <th:block th:if="${session.comAddrList}">
 
@@ -49,7 +48,7 @@
                                         <i class="fa-solid fa-angle-down"></i>
                                         <div class="dept" th:data-dept-no="*{deptNo}">
                                             <i class="fa-solid fa-network-wired"></i>
-                                            <span th:text="*{deptNm}"></span>
+                                            <span th:text="*{deptNm}" th:data-dept-no="*{deptNo}" id="deptNo"></span>
                                         </div>
                                     </div>
     
@@ -62,7 +61,10 @@
                                                     <i class="fa-solid fa-angle-down"></i>
                                                     <div class="tim" th:data-team-no="|*{deptNo}/${t.teamNo}|">
                                                         <i class="fa-solid fa-people-group"></i>
-                                                        <span th:text="${t.teamNm}"></span>
+                                                        <span th:text="${t.teamNm}" 
+                                                              th:data-team-no="${t.teamNo}" 
+                                                              th:data-dept-no="*{deptNo}" 
+                                                              id="teamNo"></span>
                                                     </div>
                                                 </div>
                                             </li>

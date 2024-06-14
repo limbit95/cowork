@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!-- css, js 파일은 이메일 첨부 불가 -->
+    <!-- 대신 인라인 형식으로는 작성해서 구현 가능 -->
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <img src="cid:logo" width="200px">
+
+        <h1 style="text-align: center;">
+            COWORK에 <span style="color: #007bff;">초대</span>되었습니다.
+        </h1>
+
+<pre style="font-family: 'NanumBarunGothic';">
+<span style="color: #007bff;" th:text="${data.sender}"></span>님이 당신을 COWORK에 초대했습니다. 
+아래 [가입하기] 버튼을 눌러 시작해보세요.
+</pre>
+
+        <br>
+
+        <!-- 추후 http -> https 변경해야 할수도? -->
+        <form action="http://localhost/user/inviteSignUpPage" method="post">
+            <input hidden th:value="${data.authKey}" name="authKey">
+            <input hidden th:value="${data.comNo}" name="comNo">
+            <input hidden th:value="${data.domain}" name="domain">
+            <input hidden th:value="${data.empCode}" name="empCode">
+            <input hidden th:value="${data.sender}" name="sender">
+            <button style="
+            border-radius: 5px; padding: 5px 20px;
+            background-color: #426DA7; border: 2px solid #426DA7; width: 180px; height: 50px; font-size: 16px; color: white;
+            text-decoration: none; cursor: pointer;
+            ">가입하기</button>
+        </form>
+    </div>
+
+</body>
+</html>

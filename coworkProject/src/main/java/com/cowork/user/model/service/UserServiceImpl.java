@@ -200,6 +200,60 @@ public class UserServiceImpl implements UserService {
 	public List<Map<String, Object>> getpositionList(Employee2 loginEmp) {
 		return mapper.getpositionList(loginEmp);
 	}
+
+	// 회원가입 성공 이후 회원가입한 empCode 조회
+	@Override
+	public int selectEmpCode(String empId) {
+		return mapper.selectEmpCode(empId);
+	}
+
+	// 최초 관리자 회원가입 시 구성원을 초대할 때 사용할 인증키 생성
+	@Override
+	public int createInviteAuthkey(String inviterEmail, int empCode) {
+		String authKey =  createAuthKey();
+		inviterEmail += empCode;
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("authKey", authKey);
+		data.put("inviterEmail", inviterEmail);
+		data.put("empCode", empCode);
+		
+		int createInviteAuthKey = mapper.createInviteAuthkey(data);
+		
+		if(createInviteAuthKey == 0) {
+			return 0;
+		}
+		
+		// 관리자용 초대링크 인증키 해당 회원의 DB Employee 테이블 INVITE_AUTH_KEY 컬럼에 수정 삽입
+		int result = mapper.insertInviteAuthKey(data);
+		
+		if(result == 0) {
+			return 0;
+		}
+		
+		return 1;
+	}
+
+	// 초대 받은 링크의 인증번호가 유효한지 확인
+	@Override
+	public int checkInviteAuthKey(Map<String, Object> data) {
+		String email = "cowork@invite.authKey." + data.get("empCode");
+		data.put("email", email);
+		
+		return mapper.checkInviteAuthKey(data);
+	}
+		
+	// 초대 받은 사람의 회원가입
+	@Override
+	public int inviteSignUp(Map<String, Object> data) {
+		String encPw = bcrypt.encode((String)data.get("empPw"));
+		data.put("empPw", encPw);
+		
+		return mapper.inviteSignUp(data);
+	}
+	
+	
+	
 	
 	
 	
@@ -229,5 +283,5 @@ public class UserServiceImpl implements UserService {
    		}
         return key;
 	}
-	
+
 }
