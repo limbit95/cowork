@@ -25,8 +25,10 @@ public class Edsm {
 	
 	private String draftFlag;    // 양식 번호
 	private String draftNm;      // 양식 종류
+	private int approverCode;    // 결재자 번호
 	private String approverName; // 결재자 명
 	private String positionNm;   // 직급
-	private int approverInfo;    // 결재 정보
 	private int fileCnt;         // 파일개수
+	private String empName;      // 신청자
+	
 }

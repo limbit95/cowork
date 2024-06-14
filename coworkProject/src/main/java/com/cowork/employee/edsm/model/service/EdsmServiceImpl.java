@@ -223,10 +223,17 @@ public class EdsmServiceImpl implements EdsmService{
 		
 		return map;
 	}
+	
+	// 전자결재 수신
+	@Override
+	public List<Edsm> edsmConfirm(Map<String, Object> paramMap) {
+		// TODO Auto-generated method stub
+		return mapper.edsmConfirm(paramMap);
+	}
 
 	// 전자결재 상세
 	@Override
-	public Map<String, Object> edsmDetail(int edsmNo) {
+	public Map<String, Object> edsmDetail(int edsmNo, int approverCode) {
 		
 		Map<String, Object> map = new HashMap<>();
 		
@@ -235,12 +242,21 @@ public class EdsmServiceImpl implements EdsmService{
 		Edsm edsm = mapper.edsmDetail(edsmNo); // 전자결재 상세
 		List<EdsmFile> fileList = mapper.edsmFileList(edsmNo);
 		
+		edsm.setApproverCode(approverCode); // 현재 결재자 확인
+		
 		map.put("referrerList", referrerList);
 		map.put("approverList", approverList);
 		map.put("edsm", edsm);
 		map.put("fileList", fileList);
 		
 		return map;
+	}
+
+	// 전자결재 회수
+	@Override
+	public int edsmDelete(int edsmNo) {
+		// TODO Auto-generated method stub
+		return mapper.edsmDelete(edsmNo);
 	}
 
 }

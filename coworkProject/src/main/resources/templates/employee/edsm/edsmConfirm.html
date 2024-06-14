@@ -8,7 +8,7 @@
     <th:block th:replace="~{common/common}"></th:block>
     <link rel="stylesheet" href="/css/employee/edsm/edsm.css">
     <link rel="stylesheet" href="/css/employee/edsm/edsmList.css">
-    <link rel="stylesheet" href="/css/employee/edsm/edsmHistory.css">
+    <link rel="stylesheet" href="/css/employee/edsm/edsmConfirm.css">
 </head>
 <body>
 
@@ -17,57 +17,19 @@
     <section class="container">
 
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
-        <div class="title"><span class="">결재내역</span></div>
+        <div class="title"><span class="">결재수신</span></div>
 
         <div class="menuW">
             <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
             <div class="kategorie">
                 <div onclick="location.href='edsmDraftList'">결재문서</div>
-                <div>결재내역</div>
+                <div onclick="location.href='edsmHistory'">결재내역</div>
                 <div>결재완료</div>
-                <div onclick="location.href='edsmConfirm'">결재수신</div>
+                <div>결재수신</div>
             </div>
 
             <!-----------------------------------------------   기안서 선택  ------------------------------------------------------------------>
-            <div class="draftKeepMenu">
-                <select class="draftBtn" name="key" id="searchKey">
-                    <option value="0">전체</option>
-                    <option value="1">기안서</option>
-                    <option value="2">협조문</option>
-                    <option value="3">품의서</option>
-                    <option value="4">지출결의서</option>
-                    <option value="5">경조사 신청서</option>
-                    <option value="6">회의록</option>
-                </select>
-                
-                <div class="draftMenu">
-                    <div class="draftMenu drftScroll">
-                        <div class="draftBtn" th:each="draftKeep : ${draftKeepList}" th:object="${draftKeep}"
-                                th:onclick="|location.href='@{edsmRequest/{draftNo} (draftNo=*{draftNo})}'|">
-                            <div>
-                                <i class="draftImg"
-                                    th:classappend="*{draftFlag eq '2' ? 'fa-solid fa-file-circle-plus' 
-                                    : draftFlag eq '3' ? 'fa-regular fa-paste'
-                                    : draftFlag eq '4' ? 'fa-regular fa-file-lines'
-                                    : draftFlag eq '5' ? 'fa-regular fa-file-word'
-                                    : draftFlag eq '6' ? 'fa-regular fa-file'
-                                    : 'fa-solid fa-file-signature'}"></i>
-                            </div>
-                            <label th:text="*{draftTitle}">기안서</label>
-                        </div>
-                        <!--<div class="draftBtn">
-                            <div><i class="fa-solid fa-file-circle-plus draftImg"></i></div>
-                            <label>협조문</label>
-                        </div>-->
-                    </div>
-                    <!--<div class="draftBtn addBtn">
-                        <div><i class="fa-solid fa-plus draftImg"></i></div>
-                        <label>추가</label>
-                    </div>-->
-                </div>
-                
-            </div>
-        </div>
+            
 
         <!-----------------------------------------------   기안 목록  ------------------------------------------------------------------>
         <!-- th:onClick="|location.href='@{edsmDetail/{edsmNo} (edsmNo=*{edsmNo}, approverCode=*{approverCode})}'|" -->
@@ -75,7 +37,7 @@
             <div class="default-line" th:each="edsm : ${edsmList}" th:object="${edsm}"
                 th:onClick="|location.href='@{edsmDetail/{edsmNo} (edsmNo=*{edsmNo}, hrefName=edsmHistory, approverCode=*{approverCode})}'|">
                 <div class="draftDiv">
-                    <div class="draftImg"
+                    <div class="draftImg "
                         th:classappend="*{draftFlag eq '2' ? 'fa-solid fa-file-circle-plus' 
                             : draftFlag eq '3' ? 'fa-regular fa-paste'
                             : draftFlag eq '4' ? 'fa-regular fa-file-lines'
@@ -89,23 +51,12 @@
                     <label th:text="*{edsmTitle}">무슨 기안을 올릴까요 업무 기안서</label>
                 </div>
                 <div class="draftLabel3">
-                    <label th:text="|*{approverName} *{positionNm}|">영업팀 송윤지</label>
+                    <label th:text="|*{empName} *{positionNm}|">영업팀 송윤지</label>
                 </div>
                 <div class="draftDetail">
-                    <!-- 1.승인, 2반려, 3회수, 4.신청, 5.확인, 6.1차, 7.2차 -->
-                    <i class="detailInfo"
-                        th:classappend="*{edsmFlag eq '4' ? 'fa-regular fa-eye nueye' 
-                        : edsmFlag eq '5' ? 'fa-regular fa-eye eye'
-                        : edsmFlag eq '6' ? 'fa-solid fa-1 number'
-                        : edsmFlag eq '7' ? 'fa-solid fa-2 number'
-                        : 'fa-solid fa-circle-chevron-left right'}"
-                    ></i>
-                    <label th:text ="*{edsmFlag eq '4' ? '신청' 
-                            : edsmFlag eq '5' ? '확인'
-                            : edsmFlag eq '6' ? '1차'
-                            : edsmFlag eq '7' ? '2차'
-                            : '반려'}"
-                    >확인</label>
+                    <!-- 1. 신청 2. 확인 3. 1차 4. 2차 5. 반려 -->
+                    <i class="detailInfo fa-regular fa-eye nueye"></i>
+                    <label>확인</label>
                 </div>
             </div>
 
@@ -136,8 +87,6 @@
 
     </section>
 
-    <script src="/js/employee/edsm/edsmDraftList.js"></script>
     <script src="/js/employee/edsm/edsm.js"></script>
-    
 </body>
 </html>
