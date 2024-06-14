@@ -586,30 +586,47 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     document.querySelector(".reservationUpdateDate").classList.remove("reservationHidden");
 
+                    const updateDate = document.querySelector(".updateDate");
+                    const updateStartTime = document.querySelector(".updateStartTime");
+                    const updateEndTime = document.querySelector(".updateEndTime");
+
+                    // 오늘보다 이전 날짜 선택 못하게 막기
+                    const today = new Date();
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, '0');
+                    const day = String(today.getDate()).padStart(2, '0');
+                    const todayDate = `${year}-${month}-${day}`;
+
+                    updateDate.addEventListener("change", function() {
+                        if (updateDate.value < todayDate) {
+                            alert("오늘 이후의 날짜만 선택할 수 있습니다.");
+                            updateDate.value = todayDate;
+                        }
+                    });
+
+                    const startTime = updateStartTime.value;
+                    const endTime = updateEndTime.value;
+            
+                    updateEndTime.addEventListener("change", () => {
+                        if(startTime && endTime && endTime < startTime) {
+                            alert("끝나는 시간은 시작 시간보다 늦어야 합니다.");
+                            updateEndTime.value = startTime;
+                        }
+                    })
+
+                    updateStartTime.addEventListener("change", () => {
+                        if(startTime && endTime && startTime > endTime) {
+                            alert("시작 시간이 끝나는 시간보다 빨라야 합니다.");
+                            updateStartTime.value = endTime;
+                        }
+                    })
+
                     // 수정 등록 버튼 눌렀을 때
                     const modalInsertBtn = document.querySelector(".modalInsertBtn");
                     modalInsertBtn.addEventListener("click", () => {
                         const updateDate = document.querySelector(".updateDate");
                         const updateStartTime = document.querySelector(".updateStartTime");
                         const updateEndTime = document.querySelector(".updateEndTime");
-
-                        // 오늘 날짜를 YYYY-MM-DD 형식으로 얻어오기
-                        const today = new Date();
-                        const year = today.getFullYear();
-                        const month = String(today.getMonth() + 1).padStart(2, '0');
-                        const day = String(today.getDate()).padStart(2, '0');
-                        const todayDate = `${year}-${month}-${day}`;
-                        
-                        // 오늘 날짜를 최소 날짜로 설정
-                        updateDate.setAttribute("min", todayDate);
-                        
-                        // 추가적으로 사용자가 직접 입력하는 경우를 대비한 검사
-                        updateDate.addEventListener("input", function() {
-                            if (updateDate.value < todayDate) {
-                                alert("오늘 이후의 날짜만 선택할 수 있습니다.");
-                                updateDate.value = todayDate;
-                            }
-                        });
 
                         const reserveStart = `${updateDate.value}T${updateStartTime.value}:00`;
                         const reserveStartDate = new Date(reserveStart);
