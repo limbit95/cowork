@@ -33,6 +33,11 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         eventClick: function(info) {
 
+            var popovers = document.querySelectorAll('.fc-popover');
+            popovers.forEach(function(popover) {
+                popover.style.display = 'none';
+            });
+
             // 시간 포맷
             const date = new Date(info.event.start);
             const endDate = new Date(info.event.end);
@@ -73,17 +78,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
             document.querySelector("#reservationModal").classList.remove("reservationHidden");
 
-            var popovers = document.querySelectorAll('.fc-popover');
-            popovers.forEach(function(popover) {
-                popover.style.display = 'none';
-            });
-
             const spanX = document.querySelector(".spanX");
 
             // 모달 팝업 떴을 때 x 버튼 누른 경우
             spanX.addEventListener("click", e => {
                 document.getElementById('reservationModal').classList.add('reservationHidden');
             });
+
+            // 팝업이 떠 있는 상태에서 popover가 클릭될 때 모달을 숨김
+            document.addEventListener("click", function(event) {
+            if (event.target.closest(".fc-more-link")) {
+                document.getElementById('reservationModal').classList.add('reservationHidden');
+            }
+        });
 
         }
     });

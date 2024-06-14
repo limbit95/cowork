@@ -328,6 +328,7 @@ document.addEventListener('DOMContentLoaded', function() {
         end : event.reserveInfoEnd,
         color : event.reserveInfoColor,
         extendedProps : {
+            reserveInfoNo : event.reserveInfoNo,
             empCode : event.empCode,
             meetingRoomNo : event.meetingRoomNo,
             meetingRoomNm : event.meetingRoomNm,
@@ -398,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
 
             // 등록 버튼 클릭 시
-            document.querySelector(".modalUpdateBtn").addEventListener("click", e => {
+            document.querySelector(".modalInsertBtn").addEventListener("click", e => {
                 
                 const meetingRoomSelectView = document.querySelector(".meetingRoomSelectView");
                 const selectedRoom = meetingRoomSelectView.querySelector('.selectedDiv');
@@ -474,7 +475,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     end : info.end,
                     color : selectedColor.value,
                     extendedProps : {
-                        empCode : empCode,
+                        empCode : loginEmpCode,
                         meetingRoomNo : selectedMeetingRoomNo,
                         meetingRoomNm : selectedMeetingRoomNM,
                         teamReserve : selectedTeamList,
@@ -511,22 +512,98 @@ document.addEventListener('DOMContentLoaded', function() {
 
         },
         eventClick: function(info) {
-            
-            var popovers = document.querySelectorAll('.fc-popover');
-            popovers.forEach(function(popover) {
-                popover.style.display = 'none';
-            });
 
-            const spanX = document.querySelector(".spanX");
+            // 클릭된 event의 empCode 와 로그인한 사람의 empCode 비교해줘야함
+            if(info.event.extendedProps.empCode == loginEmpCode) {
+                document.querySelector(".reservationUpdateBtn").classList.remove("reservationHidden");
+            }
+
+            // 기존 내용 보여주기
+            // 시간 포맷
+            const date = new Date(info.event.start);
+            const endDate = new Date(info.event.end);
+
+            const startHours = date.getUTCHours();
+            const startMinutes = date.getUTCMinutes();
+
+            const endHours = endDate.getUTCHours();
+            const endMinutes = endDate.getUTCMinutes();
+
+            const formattedStartHours = String(startHours).padStart(2, '0');
+            const formattedStartMinutes = String(startMinutes).padStart(2, '0');
+            const formattedEndHours = String(endHours).padStart(2, '0');
+            const formattedEndMinutes = String(endMinutes).padStart(2, '0');
+
+            const formattedStartTime = `${formattedStartHours}시 ${formattedStartMinutes}분`;
+            const formattedEndTime = `${formattedEndHours}시 ${formattedEndMinutes}분`;
+
+            // 포맷팅 옵션 설정
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long'
+            };
+            
+            // 로케일 설정 (한국어)
+            const locale = 'ko-KR';
+            
+            // 날짜 포맷팅
+            const formattedDate = new Intl.DateTimeFormat(locale, options).format(date);
+
+            document.querySelector(".reservationDay").value = formattedDate;
+            document.querySelector(".reservationStart").value = formattedStartTime;
+            document.querySelector(".reservationEnd").value = formattedEndTime;
+            document.querySelector(".reservationDept").value = info.event.extendedProps.shareStr;
+            document.querySelector(".reservationRoom").value = info.event.extendedProps.meetingRoomNm;    
+
+            const reservationUpdateModal = document.querySelector("#reservationUpdateModal");
+
+            reservationUpdateModal.classList.remove("reservationHidden");
+
+            const updateX = document.querySelector(".updateX");
 
             // 모달 팝업 떴을 때 x 버튼 누른 경우
-            spanX.addEventListener("click", () => {
-
-                
+            updateX.addEventListener("click", () => {
+                document.querySelector("#reservationUpdateModal").classList.add("reservationHidden");
             });
 
+            document.querySelector(".dayUpdate").addEventListener("click", () => {
+                document.querySelector(".updateTime").classList.remove("reservationHidden");
+            })
 
 
+            // 수정 버튼이 있다면 수정하는 모달 보여주기
+            const modalUpdateBtn = document.querySelector(".modalUpdateBtn");
+
+            // if(modalUpdateBtn != null) {
+            //     modalUpdateBtn.addEventListener("click", () => {
+            //         // 수정 삭제 있는 거 없어지고 insert하는 모달창 띄워주기
+            //         document.querySelector("#reservationUpdateModal").classList.add("reservationHidden");
+
+            //         document.querySelector("#reservationInsertModal").classList.remove("reservationHidden");
+
+            //         document.querySelector(".updateTime").classList.remove("reservationHidden");
+
+            //         // 모달 창에 뜬 X 버튼 눌렀을 때
+            //         const spanX = document.querySelector(".spanX");
+
+            //         spanX.addEventListener("click", () => {
+
+            //             // 색 border remove
+            //             const clickColors = document.querySelectorAll(".clickColor");
+            //             clickColors.forEach(div => {
+            //                 div.classList.remove("addBorder");
+            //             });
+
+            //             document.querySelector("#selectedColor").value = "";
+            //             document.querySelector(".selectView").innerHTML = "";
+            //             document.querySelector(".selectView").classList.add("reservationHidden");
+            //             document.querySelector("#reservationInsertModal").innerHTML = "";
+            //             document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
+            //         })
+            //     });
+            // }
         }
     });
 

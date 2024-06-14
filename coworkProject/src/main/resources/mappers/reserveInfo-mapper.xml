@@ -15,7 +15,8 @@
 	
 	<!-- 회의실 예약 목록 조회 -->
 	<select id="selectReserveInfoList">
-		SELECT 
+		SELECT
+		r.RESERVE_INFO_NO, 
 	    r.RESERVE_INFO_TITLE, 
 	    r.RESERVE_INFO_START, 
 	    r.RESERVE_INFO_END, 
