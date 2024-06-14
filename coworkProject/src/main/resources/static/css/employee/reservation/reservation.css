@@ -276,11 +276,24 @@
     margin-left: 10px;
 }
 
-#reservationUpdateModal i {
-    cursor: pointer;
-    color: var(--sub4-color);
+/* 일정 수정 시 예약 날짜 선택하는 부분 */
+.reservationUpdateDate {
+    width: 75%;
 }
 
-#reservationUpdateModal i:hover {
-    color: var(--main6-color);
+.reservationUpdateDate div {
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.reservationUpdateDate p {
+    width: 30%;
+}
+
+.reservationUpdateDate input {
+    width: 70%;
+    border: 1px solid var(--main6-color);
+    padding: 3px;
+    border-radius: 5px;
 }

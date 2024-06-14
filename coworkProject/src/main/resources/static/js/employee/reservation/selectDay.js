@@ -563,7 +563,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const updateX = document.querySelector(".updateX");
 
-            // 모달 팝업 떴을 때 x 버튼 누른 경우
+            // 모달 수정 삭제 팝업 떴을 때 x 버튼 누른 경우
             updateX.addEventListener("click", () => {
                 document.querySelector("#reservationUpdateModal").classList.add("reservationHidden");
             });
@@ -573,37 +573,82 @@ document.addEventListener('DOMContentLoaded', function() {
             })
 
 
+
             // 수정 버튼이 있다면 수정하는 모달 보여주기
             const modalUpdateBtn = document.querySelector(".modalUpdateBtn");
 
-            // if(modalUpdateBtn != null) {
-            //     modalUpdateBtn.addEventListener("click", () => {
-            //         // 수정 삭제 있는 거 없어지고 insert하는 모달창 띄워주기
-            //         document.querySelector("#reservationUpdateModal").classList.add("reservationHidden");
+            if(modalUpdateBtn != null) {
+                modalUpdateBtn.addEventListener("click", () => {
+                    // 수정 삭제 있는 거 없어지고 insert하는 모달창 띄워주기
+                    document.querySelector("#reservationUpdateModal").classList.add("reservationHidden");
 
-            //         document.querySelector("#reservationInsertModal").classList.remove("reservationHidden");
+                    document.querySelector("#reservationInsertModal").classList.remove("reservationHidden");
 
-            //         document.querySelector(".updateTime").classList.remove("reservationHidden");
+                    document.querySelector(".reservationUpdateDate").classList.remove("reservationHidden");
 
-            //         // 모달 창에 뜬 X 버튼 눌렀을 때
-            //         const spanX = document.querySelector(".spanX");
+                    // 수정 등록 버튼 눌렀을 때
+                    const modalInsertBtn = document.querySelector(".modalInsertBtn");
+                    modalInsertBtn.addEventListener("click", () => {
+                        const updateDate = document.querySelector(".updateDate");
+                        const updateStartTime = document.querySelector(".updateStartTime");
+                        const updateEndTime = document.querySelector(".updateEndTime");
 
-            //         spanX.addEventListener("click", () => {
+                        // 오늘 날짜를 YYYY-MM-DD 형식으로 얻어오기
+                        const today = new Date();
+                        const year = today.getFullYear();
+                        const month = String(today.getMonth() + 1).padStart(2, '0');
+                        const day = String(today.getDate()).padStart(2, '0');
+                        const todayDate = `${year}-${month}-${day}`;
+                        
+                        // 오늘 날짜를 최소 날짜로 설정
+                        updateDate.setAttribute("min", todayDate);
+                        
+                        // 추가적으로 사용자가 직접 입력하는 경우를 대비한 검사
+                        updateDate.addEventListener("input", function() {
+                            if (updateDate.value < todayDate) {
+                                alert("오늘 이후의 날짜만 선택할 수 있습니다.");
+                                updateDate.value = todayDate;
+                            }
+                        });
 
-            //             // 색 border remove
-            //             const clickColors = document.querySelectorAll(".clickColor");
-            //             clickColors.forEach(div => {
-            //                 div.classList.remove("addBorder");
-            //             });
+                        const reserveStart = `${updateDate.value}T${updateStartTime.value}:00`;
+                        const reserveStartDate = new Date(reserveStart);
 
-            //             document.querySelector("#selectedColor").value = "";
-            //             document.querySelector(".selectView").innerHTML = "";
-            //             document.querySelector(".selectView").classList.add("reservationHidden");
-            //             document.querySelector("#reservationInsertModal").innerHTML = "";
-            //             document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
-            //         })
-            //     });
-            // }
+                        const reserveEnd = `${updateDate.value}T${updateEndTime.value}:00`;
+                        const reserveEndDate = new Date(reserveEnd);
+
+                        const dbStart = reserveStartDate.getTimezoneOffset() * 60000; // 밀리초 단위 오프셋 계산
+                        const dbUpdateStart = new Date(reserveStartDate.getTime() - dbStart).toISOString().slice(0, -1) + "Z";
+
+                        const dbEnd = reserveEndDate.getTimezoneOffset() * 60000; // 밀리초 단위 오프셋 계산
+                        const dbUpdateEnd = new Date(reserveEndDate.getTime() - dbEnd).toISOString().slice(0, -1) + "Z";
+
+                        console.log("DB Update StartTime : " + dbUpdateStart);
+                        console.log("DB Update EndTime : " + dbUpdateEnd);
+
+
+                    });
+
+                    // 모달 창에 뜬 X 버튼 눌렀을 때
+                    const spanX = document.querySelector(".spanX");
+
+                    spanX.addEventListener("click", () => {
+
+                        // 색 border remove
+                        const clickColors = document.querySelectorAll(".clickColor");
+                        clickColors.forEach(div => {
+                            div.classList.remove("addBorder");
+                        });
+
+                        document.querySelector("#selectedColor").value = "";
+                        document.querySelector(".selectView").innerHTML = "";
+                        document.querySelector(".selectView").classList.add("reservationHidden");
+                        document.querySelector("#reservationInsertModal").innerHTML = "";
+                        document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
+                    })
+
+                });
+            }
         }
     });
 

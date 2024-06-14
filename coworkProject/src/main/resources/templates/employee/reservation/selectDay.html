@@ -39,6 +39,26 @@
             <span class="spanX">&times;</span>
         </div>
 
+        <!-- 수정시 날짜 선택하는 부분 -->
+        <div class="reservationUpdateDate reservationHidden">
+            <div>
+                <p>예약 날짜 선택</p>
+                <input type="date" class="updateDate">
+            </div>
+    
+            <!-- 수정시 시작 시간 선택하는 부분 -->
+            <div>
+                <p>시작 시간 선택</p>
+                <input type="time" class="updateStartTime">
+            </div>
+    
+            <!-- 수정시 끝나는 시간 선택하는 부분 -->
+            <div>
+                <p>끝나는 시간 선택</p>
+                <input type="time" class="updateEndTime">
+            </div>
+        </div>
+
         <!-- 지정색 선택 부분 -->
         <div class="titleColor">
             <div class="clickColor" style="background-color: #fc8b8b;">
@@ -111,7 +131,6 @@
                 <p>예약일</p>
                 <input readonly class="reservationDay">
                 <i class="fa-regular fa-calendar-days dayUpdate"></i>
-                <input type="date" class="updateTime reservationHidden">
             </div>
     
             <div class="reservationDiv">
