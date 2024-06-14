@@ -20,7 +20,7 @@ public class Mail {
 	private String mailTitle; 
 	private String mailContent; 
 	private String mailWriteDate; 
-	private String mailFlag; 
+	private String mailFlag; // 1 : 기본, 2 : 임시보관함, 3 : 휴지통 
 	private int empCode; 
 	private String readFl; //확인 여부 
 	private int noReadCount; // 안읽은 메일 개수 

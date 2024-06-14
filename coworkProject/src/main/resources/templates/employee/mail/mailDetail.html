@@ -56,14 +56,14 @@
                 </div>
 
                 <!-- 받는사람 -->
-                <div class="ins-css insertForm mailInfo" > <!-- th:each="${mail.recipientList}" -->
+                <div class="ins-css insertForm mailInfo" th:each="${mail.recipientList}"> <!--  -->
                     <div><label>받는 사람</label></div>
                     <div th:text="${mail.recipient}">받는사람</div>
                     <div th:text="${mail.recipientMail}" class="default-label lavenderLabel"></div>
                 </div>
 
                 <!-- 참조 -->
-                <div class="ins-css insertForm mailInfo"> <!-- th:each="${mail.referenceList}" -->
+                <div class="ins-css insertForm mailInfo" th:each="${mail.refererList}"> <!--  -->
                     <div><label>참조</label></div>
                     <div th:text="${mail.referer}"></div>
                     <div class="default-label lavenderLabel" th:text="${mail.refererMail}">메일주소</div>

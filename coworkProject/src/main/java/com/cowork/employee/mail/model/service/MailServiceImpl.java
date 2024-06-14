@@ -1,17 +1,23 @@
 package com.cowork.employee.mail.model.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cowork.common.utility.Utility;
 import com.cowork.common.utility.model.dto.Pagination;
 import com.cowork.employee.mail.model.dto.Mail;
 import com.cowork.employee.mail.model.dto.MailFile;
+import com.cowork.employee.mail.model.dto.Recipient;
 import com.cowork.employee.mail.model.mapper.MailMapper;
 import com.cowork.employee.notice.model.dto.Notice;
 import com.cowork.user.model.dto.Employee2;
@@ -24,6 +30,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Transactional
 public class MailServiceImpl implements MailService {
+	
+	@Value("${mail.file.web-path}")
+	private String webPath;
+	
+	@Value("${mail.file.folder-path}")
+	private String folderPath;
 	
 	private final MailMapper mapper; 
 
@@ -211,6 +223,103 @@ public class MailServiceImpl implements MailService {
 		log.info("empName  못가져왔냐고!! : " + empName);
 		
 		return employeeList;
+	}
+
+	@Override
+	public int sendMail(Mail inputMail, List<MultipartFile> files, String recipient, String referer) throws IllegalStateException, IOException {
+		
+		int result = mapper.sendMail(inputMail);
+		
+		if(result == 0) return 0; 
+		
+		int mailNo = inputMail.getMailNo(); 
+		
+		log.info("mailNo 가져왔나요 : " + mailNo);
+		
+		List<Recipient> recipientList = new ArrayList<>(); 
+		
+		String[] recipientArr = recipient.split(","); 
+		String[] refererArr = referer.split(","); 
+		
+		if (recipient != null && !recipient.isEmpty()) {
+			
+			for (int i=0; i<recipientArr.length; i++ ) {
+				Recipient recipients = Recipient.builder()
+										.empCode(Integer.parseInt(recipientArr[i]))
+										.mailNo(mailNo)
+										.referenceFl("1")
+										.build(); 
+				
+				recipientList.add(recipients); 
+			}
+		}
+  		
+		if (referer != null && !referer.isEmpty()) {
+			
+			for(int i=0; i<refererArr.length; i++) {
+				Recipient referers = Recipient.builder()
+									.empCode(Integer.parseInt(refererArr[i]))
+									.mailNo(mailNo)
+									.referenceFl("2")
+									.build(); 
+				
+				recipientList.add(referers); 
+			}
+		}
+		
+		log.info("받은 사람 : " + recipientList);
+		
+		result = mapper.recipientList(recipientList); 
+		
+		if(result == recipientList.size()) {
+			
+			if(files != null && !files.isEmpty()) {
+				List<MailFile> uploadList = new ArrayList<>(); 
+				
+				for(int i=0; i<files.size(); i++) {
+					
+					MultipartFile mfile = files.get(i);
+					
+					if(!files.get(i).isEmpty()) {
+						
+						
+						String originalName = files.get(i).getOriginalFilename(); 
+						String rename = Utility.fileRename(originalName); 
+						
+						MailFile file = MailFile.builder()
+										.filePath(webPath)
+										.fileOriginName(originalName)
+										.fileRename(rename)
+										.fileOrder(i)
+										.mailNo(mailNo)
+										.uploadFile(files.get(i))
+										.build(); 
+						
+						uploadList.add(file); 
+					}
+				}
+				
+				if(!uploadList.isEmpty()) {
+					
+					result = mapper.mailFileInsert(uploadList); 
+					
+					if( result == uploadList.size() ) {
+						
+						for(MailFile file : uploadList) {
+							file.getUploadFile().transferTo(new File(folderPath + file.getFileRename()));
+						}
+					} else {
+						return mailNo; 
+					}
+				}
+				
+			}
+			
+			return mailNo; 
+		}
+		
+		
+		return 0;
 	}
 
 	

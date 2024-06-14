@@ -54,6 +54,7 @@ label.delBtn {
     margin: 100px 0 -22px 0 !important;
     padding-left: 30px;
     padding-right: 30px;
+    align-items: center;
 }
 
 .mailLabel {
@@ -176,3 +177,23 @@ input.insertMail {
     margin: 0 !important;
 }
 
+#searchForm {
+    height: 35px;
+    align-items: center;
+}
+
+#searchIcon {
+    background-color: transparent;
+    border: none;
+}
+
+.delete-button:hover {
+    cursor: pointer;
+}
+
+.putRecipient, .putReferer{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+
+}

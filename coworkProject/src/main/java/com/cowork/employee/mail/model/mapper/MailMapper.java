@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.cowork.employee.mail.model.dto.Mail;
 import com.cowork.employee.mail.model.dto.MailFile;
+import com.cowork.employee.mail.model.dto.Recipient;
 import com.cowork.user.model.dto.Employee2;
 
 @Mapper
@@ -117,6 +118,24 @@ public interface MailMapper {
 	 * @return
 	 */
 	List<Employee2> employeeListSearch(Map<String, Object> map);
+
+	/** 메일 정보 입력 
+	 * @param inputMail
+	 * @return
+	 */
+	int sendMail(Mail inputMail);
+
+	/** 받는이 / 참조인 insert 
+	 * @param recipientList
+	 * @return
+	 */
+	int recipientList(List<Recipient> recipientList);
+
+	/** 메일 파일 업로드 
+	 * @param uploadList
+	 * @return
+	 */
+	int mailFileInsert(List<MailFile> uploadList);
 
 	
 

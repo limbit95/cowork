@@ -11,103 +11,102 @@
     <link rel="stylesheet" href="/css/employee/mail/mailInsert.css">
 </head>
 <body>
-    <section class="container">
+    <form class="container" id="sendMailForm" enctype="multipart/form-data" action="/mail/mailInsert" method="post">
 
-        <div class="mailTitle">
-            <div class="mailLabel">
-                <label>메일쓰기</label>
-            </div>
-        </div>
 
-        <div class="mailTitle">
-            <div class="checkDiv">
-                <button class="default-btn sapphire-border-btn" id="sendBtn">보내기</button>
-                <label class="delBtn">임시저장</label>
-            </div>
-        </div>
-
-        <div class="board">
-            <div class="table-body2">
-                <!-- 받는사람 -->
-                <div class="ins-css insertForm mailInfo recipientForm">
-                    <div><label>받는사람</label></div>
-                    <div class="">
-                        <input class="default-line inputRecipient" id="recipient" placeholder="받는이">
-                        <input class="inputEmpCode" id="empCode1" hidden>
-                    </div>
+            <div class="mailTitle">
+                <div class="mailLabel">
+                    <label>메일쓰기</label>
                 </div>
-
-                 <!-- emp 검색
-                 <div class="searchTable displayNone searchRec" id="searchRecTable">
-                    <div class="searchTr trRec" th:each="employee : ${employeeList}" th:object="${employee}"
-                        th:onclick="searchtrRecClick([[*{empCode}]], [[*{empName}]])">
-                        <div th:text="*{empCode}" hidden>64</div>
-                        <div th:text="*{empId}" id="empId">sample1</div>
-                        <div th:text="*{teamNm}" id="deptNm">본부팀</div>
-                        <div th:text="${empName}" id="empNm">임성혁</div>
-                        <div th:text="*{positionNm}">대리</div>
-                    </div>
-                </div>  -->
-
-                <!-- 참조 -->
-                <div class="ins-css insertForm mailInfo refererForm">
-                    <div><label>참조</label></div>
-                    <div class="">
-                        <input class="default-line inputReferer" id="referer" placeholder="참조">
-                        <input class="inputEmpCode" id="empCode2" hidden>
-                    </div>
-                </div>
-
-                <!--
-                <div class="searchTable displayNone searchRef" id="searchRefTable">
-                    <div class="searchTr trRef" th:each="employee : ${employeeList}" th:object="${employee}"
-                        th:onclick="searchtrRefClick([[*{empCode}]], [[*{empName}]])">
-                        <div th:text="*{empCode}" hidden>64</div>
-                        <div th:text="*{empId}" id="empId">sample1</div>
-                        <div th:text="*{teamNm}" id="deptNm">본부팀</div>
-                        <div th:text="${empName}" id="empNm">임성혁</div>
-                        <div th:text="*{positionNm}">대리</div>
-                    </div>
-                </div> -->
-
-                <!-- 제목 -->
-                <div class="ins-css insertForm">
-                    <div><label>제목</label></div>
-                    <input class="default-line listBtn">
-                </div>
-
-
-                <!-- 파일 -->
-                <div class="fileUploadForm">
-
-                    <div class="fileType default-btn gray-border-btn">
-                        <span class="">파일첨부</span>
-                        <span class="fileSelect"><input type="file" name="files" id="fileInput" accept="files/board/*" multiple="multiple"/></span>
-                    </div>
-
-                    <div>
-                        <div><button type="button" class="fa-solid fa-chevron-up btnBoarder fileListInfo"></button><label>첨부파일</label><label id="fileCnt">0</label><label>개</label><!--<label class="colorGray">(12.1KB)</label>--></div>
-                        <table class="default-line preview">
-                            <!--<tr>
-                                <td><i class="fa-solid fa-image"></i><label>검색.png</label><label class="colorGray">3.09KB</label></td>
-                                <td><a class="fa-solid fa-xmark"></a></td>
-                            </tr>-->
-                        </table>
-                    </div>
-                    
-                </div>
-    
             </div>
 
-            <div id="smarteditor">
-                <textarea name="insertContentEdit" id="insertContentEdit" 
-                    rows="10" cols="100"> </textarea>
-                <textarea name="insertContent" id="insertContent" rows="10" cols="100" hidden>
-                </textarea>    
+            <div class="mailTitle">
+                <div class="checkDiv">
+                    <button class="default-btn sapphire-border-btn" id="sendBtn" type="button">보내기</button>
+                    <label class="delBtn">임시저장</label>
+                </div>
             </div>
-        </div>
 
-    </section>
+            <div class="board">
+                <div class="table-body2">
+                    <!-- 받는사람 -->
+                    <div class="ins-css insertForm mailInfo recipientForm">
+                        <div><label>받는사람</label></div>
+                        <div class="">
+                            <input class="default-line inputRecipient" id="recipient" placeholder="받는이">
+                            <input class="inputEmpCode" id="empCode1" hidden>
+                        </div>
+                    </div>
+
+                    <!-- emp 검색
+                    <div class="searchTable displayNone searchRec" id="searchRecTable">
+                        <div class="searchTr trRec" th:each="employee : ${employeeList}" th:object="${employee}"
+                            th:onclick="searchtrRecClick([[*{empCode}]], [[*{empName}]])">
+                            <div th:text="*{empCode}" hidden>64</div>
+                            <div th:text="*{empId}" id="empId">sample1</div>
+                            <div th:text="*{teamNm}" id="deptNm">본부팀</div>
+                            <div th:text="${empName}" id="empNm">임성혁</div>
+                            <div th:text="*{positionNm}">대리</div>
+                        </div>
+                    </div>  -->
+
+                    <!-- 참조 -->
+                    <div class="ins-css insertForm mailInfo refererForm">
+                        <div><label>참조</label></div>
+                        <div class="">
+                            <input class="default-line inputReferer" id="referer" placeholder="참조">
+                            <input class="inputEmpCode" id="empCode2" hidden>
+                        </div>
+                    </div>
+
+                    <!--
+                    <div class="searchTable displayNone searchRef" id="searchRefTable">
+                        <div class="searchTr trRef" th:each="employee : ${employeeList}" th:object="${employee}"
+                            th:onclick="searchtrRefClick([[*{empCode}]], [[*{empName}]])">
+                            <div th:text="*{empCode}" hidden>64</div>
+                            <div th:text="*{empId}" id="empId">sample1</div>
+                            <div th:text="*{teamNm}" id="deptNm">본부팀</div>
+                            <div th:text="${empName}" id="empNm">임성혁</div>
+                            <div th:text="*{positionNm}">대리</div>
+                        </div>
+                    </div> -->
+
+                    <!-- 제목 -->
+                    <div class="ins-css insertForm">
+                        <div><label>제목</label></div>
+                        <input class="default-line listBtn" id="mailTitle">
+                    </div>
+
+
+                    <!-- 파일 -->
+                    <div class="fileUploadForm">
+
+                        <div class="fileType default-btn gray-border-btn">
+                            <span class="">파일첨부</span>
+                            <span class="fileSelect"><input type="file" name="files" id="fileInput" accept="files/board/*" multiple="multiple"/></span>
+                        </div>
+
+                        <div>
+                            <div><button type="button" class="fa-solid fa-chevron-up btnBoarder fileListInfo"></button><label>첨부파일</label><label id="fileCnt">0</label><label>개</label><!--<label class="colorGray">(12.1KB)</label>--></div>
+                            <table class="default-line preview">
+                                <!--<tr>
+                                    <td><i class="fa-solid fa-image"></i><label>검색.png</label><label class="colorGray">3.09KB</label></td>
+                                    <td><a class="fa-solid fa-xmark"></a></td>
+                                </tr>-->
+                            </table>
+                        </div>
+                        
+                    </div>
+        
+                </div>
+
+                <div id="smarteditor">
+                    <textarea name="mailContent" id="mailContent" rows="10" cols="100" hidden>
+                    </textarea>    
+                </div>
+            </div>
+
+    </form>
 
     <!-- 스마트 에디터 -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>

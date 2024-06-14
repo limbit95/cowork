@@ -34,15 +34,4 @@ function addEventListeners() {
             menu.classList.remove('show');
         });
     });
-
-    document.getElementById('sendBtn').addEventListener('click', () => {
-        fetch('/mail/mailInsert', {
-            method : 'POST'
-        })
-        .then( resp => resp.text() )
-        .then( result => {
-
-        })
-        .catch(error => console.error('Error : ' , error )); 
-    });
 }
