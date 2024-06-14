@@ -39,6 +39,9 @@
                         <button type="button" id="authBtn">인증</button>
                     </div>
 
+                    <th:block th:if="${empCode}">
+                        <input hidden th:value="${empCode}" name="empCode">
+                    </th:block>
                     <th:block th:if="${session.loginEmp}">
                         <input hidden th:value="${session.loginEmp.empCode}" name="empCode">
                     </th:block>

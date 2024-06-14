@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoWork Sign up Form</title>
+
+    <link rel="stylesheet" href="/css/user/signUp.css">
+
+    <th:block th:replace="~{common/mainCommon}"></th:block>
+</head>
+
+<body>
+    <th:block th:replace="~{common/header}"></th:block>
+
+    <main>
+        <section class="formArea">
+            <span id="signUpLetter">회원 가입</span>
+
+            <form action="/user/signUp" method="post" id="signUpForm">
+
+                <div class="inputInfo">
+                    <div>
+                        <input placeholder="아이디 *" class="inviteId" id="empId" name="empId" autocomplete="off"
+                            maxlength="20">
+                        <input th:value="|@${data.domain}|" class="inviteId domain" id="empId" name="empId" readonly>
+                    </div>
+                    <span id="empIdMessage">영어 대·소문자, 숫자 조합 4~20글자</span>
+                    <div class="emailDiv">
+                        <input placeholder="개인 이메일 *" id="empEmail" name="empEmail" autocomplete="off">
+                    </div>
+                    <span id="emailMessage"></span>
+
+                    <input type="password" placeholder="비밀번호 *" id="empPw" name="empPw">
+                    <input type="password" placeholder="비밀번호 확인 *" id="empPwConfirm">
+                    <span id="pwMessage">영어,숫자,특수문자(!@#$%^&*()) 포함 8~16글자 사이로 입력해주세요. </span>
+
+                    <input placeholder="이름 *" id="empFirstName" name="empFirstName" autocomplete="off">
+                    <input placeholder="성 *" id="empLastName" name="empLastName" autocomplete="off">
+                    <input placeholder="휴대전화 *" id="phone" name="phone" autocomplete="off">
+                    <span id="telMessage">전화번호를 입력해주세요.(- 제외)</span>
+                </div>
+                <div class="inputAddr">
+                    <div id="postcodeArea">
+                        <input placeholder="우편번호" id="postcode" readonly name="empAddress" class="empAddress">
+                        <button id="searchBtn" type="button">찾기</button>
+                    </div>
+                    <input id="address" placeholder="도로명/지번" readonly name="empAddress" class="empAddress">
+                    <input id="detailAddress" placeholder="상세주소" name="empAddress" autocomplete="off" class="empAddress">
+                </div>
+
+                <div class="submitBtnDiv">
+                    <button id="signUpBtn" type="button">가입하기</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script src="/js/user/inviteSignUp.js"></script>
+    <!-- 다음 주소 API -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <th:block th:replace="~{common/footer}"></th:block>
+    <script th:inline="javascript">
+        const comNo = /*[[${data.comNo}]]*/ "회사 식별키";
+        const domain = /*[[${data.domain}]]*/ "회사 domain";
+    </script>
+</body>
+
+</html>

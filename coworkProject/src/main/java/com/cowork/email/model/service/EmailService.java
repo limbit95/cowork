@@ -46,4 +46,11 @@ public interface EmailService {
 	 */
 	int sendEmail(String string, Map<String, Object> map);
 
+	/** 구성원 초대 이메일 발송
+	 * @param emailList
+	 * @param loginEmp
+	 * @return
+	 */
+	String registYourself(String[] emailList, Employee2 loginEmp);
+
 }

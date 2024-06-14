@@ -19,8 +19,8 @@
                 <form action="/user/signUp" method="post" id="signUpForm">
 
                     <div class="inputInfo">
-                        <input placeholder="아이디 *" id="empId" name="empId" autocomplete="off">
-                        <span id="empIdMessage">영어 대·소문자, 숫자 조합 4~12글자</span>
+                        <input placeholder="아이디 *" id="empId" name="empId" autocomplete="off" maxlength="20">
+                        <span id="empIdMessage">영어 대·소문자, 숫자 조합 4~20글자</span>
                         <div class="emailDiv">
                             <input placeholder="개인 이메일 *" id="empEmail" name="empEmail" autocomplete="off">
                             <div id="checkEmailBtnDiv"><button id="checkEmailBtn" type="button">인증</button></div>

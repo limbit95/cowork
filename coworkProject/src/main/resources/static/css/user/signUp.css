@@ -253,3 +253,21 @@ span {
     display: flex;
     align-items: center;
 }
+
+
+
+
+/* 초대된 사람이 가입할 때 페이지의 css */
+.inputInfo .inviteId {
+    width: 220px;
+}
+.inputInfo .domain {
+    width: 220px;
+    height: 12px;
+    border: 1px solid var(--gray-color);
+    border-radius: 5px;
+    outline: none;
+}
+.inputInfo .domain:hover {
+    border: 1px solid var(--gray-color);
+}

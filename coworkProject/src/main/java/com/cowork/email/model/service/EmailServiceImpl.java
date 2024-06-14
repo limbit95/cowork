@@ -189,7 +189,47 @@ public class EmailServiceImpl implements EmailService{
 		return 1;
 	}
 	
-	
+	// 구성원 초대 메일 발송
+	@Override
+	public String registYourself(String[] emailList, Employee2 loginEmp) {
+		String sender = loginEmp.getEmpLastName() + loginEmp.getEmpFirstName();
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("authKey", loginEmp.getInviteAuthKey());
+		data.put("comNo", loginEmp.getComNo());
+		data.put("domain", loginEmp.getDomain());
+		data.put("empCode", loginEmp.getEmpCode());
+		data.put("sender", sender);
+		
+		try {
+			MimeMessage mimeMessgae = mailSender.createMimeMessage(); 
+			
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessgae, true, "UTF-8");
+			
+			helper.setTo(emailList); // 받는 사람 이메일 지정
+			helper.setSubject(sender + "님이 당신을 COWORK에 초대하였습니다."); // 이메일 제목 지정
+			
+			helper.setText( loadHtml2(data, "inviteEmail"), true ); // html 보내기 (변경예정)
+			// HTML 코드 해석 여부 true (innerHTML 해석)
+			
+			helper.addInline("logo", new ClassPathResource("static/images/coworkLogo.png"));
+			// -> 로고 이미지를 메일 내용에 첨부하는데
+			//    사용하고 싶으면 "logo" 라는 id를 작성해라
+			
+			// 메일 보내기
+			mailSender.send(mimeMessgae);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		// 2) 1번 update 실패 시(result = ) insert 시도
+		if(loginEmp.getInviteAuthKey() == null) {
+			return null;
+		}
+		
+		return loginEmp.getInviteAuthKey();
+	}
 	
 	
 	// HTML 파일을 읽어와 String 으로 변환 (thymeleaf 적용)
@@ -202,6 +242,15 @@ public class EmailServiceImpl implements EmailService{
 		
 		// templates/email 폴더에서 htmlName과 같은 
 		// ~.html 파일 내용을 읽어와 String으로 변환
+		return templateEngine.process("email/" + htmlName, context);
+	}
+	
+	// HTML 파일을 읽어와 Map 으로 변환 (thymeleaf 적용)
+	private String loadHtml2(Map<String, Object> data, String htmlName) {
+		Context context = new Context();
+		
+		context.setVariable("data", data);
+		
 		return templateEngine.process("email/" + htmlName, context);
 	}
 
@@ -235,17 +284,3 @@ public class EmailServiceImpl implements EmailService{
 
 }
 
-/*
-	Google SMTP를 이용한 이메일 전송하기
-	
-	- SMTP(Simple Mail Transfer Protocol, 간단한 메일 전송 규약)
-	  -> 이메일 메시지를 보내고 받을 때 사용하는 약속(규약, 방법)
-		
-	- Google SMTP
-	
-	Java Mail Sender -> Google SMTP -> 대상에게 이메일 전송
-	
-	- Java Mail Sender 에 Google SMTP 이용 설정 추가
-	  1) config.properties 내용 추가(계정, 앱비밀번호)
-	  2) EmailConfig.java
-*/

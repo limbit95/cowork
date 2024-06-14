@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.addr.model.service.AdminAddrService;
@@ -58,7 +59,8 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("signUp")
-	public String signUp() {
+	public String signUp(SessionStatus status) {
+		status.setComplete();
 		return "user/signUp"; 
 	}
 	
@@ -87,18 +89,28 @@ public class UserController {
 
 		int result = service.signup(inputEmp, empAddress);
 		
+		int empCode = service.selectEmpCode(inputEmp.getEmpId());
+		
 		String path = null;
 		String message = null;
 		
 		if(result > 0) {
-			message = "가입이 완료되었습니다.";
+			int createInviteAuthkey = service.createInviteAuthkey("cowork@invite.authKey.", empCode);
+			
+			if(createInviteAuthkey == 0) {
+				message = "가입이 완료되었습니다. (초대 링크 인증키 생성 실패)";
+			} else {
+				message = "가입이 완료되었습니다.";
+			}
+			
 			path = "/user/companyInfo";
 		} else {
-			message = "회원 가입 실패..";
+			message = "회원 가입 실패";
 			path = "signup";
 		}
 		
 		ra.addFlashAttribute("message", message);
+		ra.addFlashAttribute("empCode", empCode);
 		
 		return "redirect:" + path;
 	}
@@ -116,7 +128,7 @@ public class UserController {
 	/** 회사 정보 입력 페이지 
 	 * @return
 	 */
-	@GetMapping("companyInfo")
+	@GetMapping("companyInfo") 
 	public String companyInfo() {
 		return "user/companyInfo";
 	}
@@ -271,9 +283,33 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	/** 초대 받은 사람의 회원가입 페이지 이동
+	 * @return
+	 */
+	@PostMapping("inviteSignUpPage")
+	public String inviteSignUpPage(@RequestParam Map<String, Object> data,
+								   Model model) {
+		
+		int checkInviteAuthKey = service.checkInviteAuthKey(data);
+		
+		if(checkInviteAuthKey == 0) {
+			return "common/error/404";
+		}
+		
+		model.addAttribute("data", data);
+		
+		return "user/inviteSignUp";
+	}
 	
-	
-	
+	/** 초대 받은 사람의 회원가입 
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("inviteSignUp")
+	public int inviteSignUp(@RequestBody Map<String, Object> data,
+							   RedirectAttributes ra) {
+		return service.inviteSignUp(data);
+	}
 	
 	
 	
