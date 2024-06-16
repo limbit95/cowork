@@ -59,4 +59,36 @@ public class ReservationServiceImpl implements ReservationService {
 		return mapper.checkMeetingRoom(inputReserveInfo);
 	}
 
+	/** 회의실 예약 삭제
+	 * @return result
+	 */
+	@Override
+	public int reservationDelete(int reservationInfoNo) {
+		return mapper.reservationDelete(reservationInfoNo);
+	}
+
+	/** 회의실 수정
+	 * @return result
+	 */
+	@Override
+	public int reservationUpdate(ReserveInfo updateReserve) {
+		return mapper.reservationUpdate(updateReserve);
+	}
+
+	/** 회의실 한개 선택
+	 *
+	 */
+	@Override
+	public ReserveInfo selectOneReserve(int reserveInfoNo) {
+		return mapper.selectOneReserve(reserveInfoNo);
+	}
+
+	/** 내가 체크한 거 빼고 겹치는 회의실 있는지
+	 *
+	 */
+	@Override
+	public int checkUpdateMeetingRoom(ReserveInfo updateReserve) {
+		return mapper.checkUpdateMeetingRoom(updateReserve);
+	}
+
 }

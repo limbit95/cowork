@@ -54,4 +54,56 @@
 		AND #{reserveInfoStart} &lt; RESERVE_INFO_END
 		AND #{reserveInfoEnd} &gt; RESERVE_INFO_START
 	</select>
+	
+	<!-- 회의실 예약 삭제 -->
+	<delete id="reservationDelete">
+		DELETE FROM RESERVE_INFO WHERE RESERVE_INFO_NO = #{reservationInfoNo}
+	</delete>
+	
+	<!-- 회의실 수정 -->
+	<update id="reservationUpdate">
+		UPDATE RESERVE_INFO
+		SET RESERVE_INFO_TITLE = #{reserveInfoTitle},
+			RESERVE_INFO_COLOR = #{reserveInfoColor},
+			MEETING_ROOM_NO = #{meetingRoomNo},
+			RESERVE_INFO_START = #{reserveInfoStart},
+			RESERVE_INFO_END = #{reserveInfoEnd},
+			TEAM_SHARE = #{teamShare},
+			DEPT_SHARE = #{deptShare},
+			COM_SHARE = #{comShare}
+		WHERE RESERVE_INFO_NO = #{reserveInfoNo}
+	</update>
+	
+	<!-- reserveInfoNo으로 한개 조회 -->
+	<select id="selectOneReserve">
+		SELECT
+			r.RESERVE_INFO_NO, 
+		    r.RESERVE_INFO_TITLE, 
+		    r.RESERVE_INFO_START, 
+		    r.RESERVE_INFO_END, 
+		    r.RESERVE_INFO_COLOR, 
+		    r.EMP_CODE,
+		    r.TEAM_SHARE, 
+		    r.DEPT_SHARE, 
+		    r.COM_SHARE, 
+		    r.MEETING_ROOM_NO, 
+		    r.COM_NO,
+		    m.MEETING_ROOM_NM
+		FROM 
+		    RESERVE_INFO r
+		JOIN 
+		    MEETING_ROOM m ON r.MEETING_ROOM_NO = m.MEETING_ROOM_NO
+		WHERE 
+		    r.RESERVE_INFO_NO = #{reserveInfoNo}
+	</select>
+	
+	<!-- 내가 클릭한 거 제외하고 겹치는 게 있는지 조회 -->
+	<select id="checkUpdateMeetingRoom">
+		SELECT COUNT(*)
+		FROM RESERVE_INFO
+		WHERE MEETING_ROOM_NO = #{meetingRoomNo}
+		AND #{reserveInfoStart} &lt; RESERVE_INFO_END
+		AND #{reserveInfoEnd} &gt; RESERVE_INFO_START
+		AND RESERVE_INFO_NO != #{reserveInfoNo}
+	</select>
 </mapper>
