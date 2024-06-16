@@ -235,34 +235,38 @@ section.container .selectGroup > select {
 }
 .right > .employeeList > :first-child > div {
     display: flex;
-    margin-left: 5px;
 }
 .employeeList > :first-child > :nth-child(1) {  
     justify-content: center;
-    flex-basis: 6%;
+    flex-basis: 5%;
 }
 .employeeList > :first-child > :nth-child(1) > input {
     justify-content: start;
 }
 .employeeList > :first-child > :nth-child(2) {
     justify-content: start;
-    flex-basis: 15%;
+    flex-basis: 20.4%;
+    margin-left: 6px;
 }
 .employeeList > :first-child > :nth-child(3) {
     justify-content: start;
-    flex-basis: 13%;
+    flex-basis: 11%;
+    margin-left: 5px;
 }
 .employeeList > :first-child > :nth-child(4) {
     justify-content: start;
-    flex-basis: 10%;
+    flex-basis: 8.4%;
+    margin-left: 5px;
 }
 .employeeList > :first-child > :nth-child(5) {
     justify-content: start;
-    flex-basis: 30%;
+    flex-basis: 26%;
+    margin-left: 5px;
 }
 .employeeList > :first-child > :nth-child(6) {
     justify-content: start;
-    flex-basis: 20%;
+    flex-basis: 16.7%;
+    margin-left: 5px;
 }
 
 /* 구성원 정보 */
@@ -279,8 +283,7 @@ section.container .selectGroup > select {
 .employeeList > .employee > :nth-child(1) {
     display: flex;
     justify-content: center;
-    flex-basis: 6%;
-    margin-left: 5px;
+    flex-basis: 5%;
 }
 .employeeList > .employee > :nth-child(1) > input {
     justify-content: start;
@@ -299,40 +302,37 @@ section.container .selectGroup > select {
     align-items: center;
     margin-left: 5px;
 }
-.right > .employeeList > .employee > :nth-child(2) > div > span {
-    /* cursor: auto; */
-}
 .employeeList > .employee > :nth-child(2) > :nth-child(1) {
     justify-content: start;
-    flex-basis: 16%;
+    flex-basis: 22%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .employeeList > .employee > :nth-child(2) > :nth-child(2) {
     justify-content: start;
-    flex-basis: 14%;
+    flex-basis: 12%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .employeeList > .employee > :nth-child(2) > :nth-child(3) {
     justify-content: start;
-    flex-basis: 10.7%;
+    flex-basis: 9%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .employeeList > .employee > :nth-child(2) > :nth-child(4) {
     justify-content: start;
-    flex-basis: 32.4%;
+    flex-basis: 27.8%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .employeeList > .employee > :nth-child(2) > :nth-child(5) {
     justify-content: start;
-    flex-basis: 21.5%;
+    flex-basis: 18%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

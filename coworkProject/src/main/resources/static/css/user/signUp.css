@@ -179,8 +179,24 @@ textarea{
     cursor: pointer;
 }
 
+#registrationNumArea {
+    display: flex;
+}
 #authBtn{
-    margin-left: 60px;
+    margin-left: 35px;
+}
+.checkDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    margin-left: 15px;
+}
+.fa-solid.fa-check {
+    display: none;
+    height: 18px;
+    color: green;
+    font-size: 18px;
 }
 
 

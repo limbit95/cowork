@@ -184,12 +184,6 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
-	// 회사별 직급 리스트 조회
-	@Override
-	public List<Map<String, Object>> getpositionList(Employee2 loginEmp) {
-		return mapper.getpositionList(loginEmp);
-	}
-
 	// 회원가입 성공 이후 회원가입한 empCode 조회
 	@Override
 	public int selectEmpCode(String empId) {

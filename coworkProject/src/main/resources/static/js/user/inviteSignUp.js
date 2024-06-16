@@ -467,6 +467,7 @@ signUpBtn.addEventListener("click", e => {
                 return;
             }
             alert("가입이 완료되었습니다. 회원님의 아이디는 " + empId.value + '@' + domain + "입니다.");
+            location.href = 'http://localhost/';
         })
     }
 });

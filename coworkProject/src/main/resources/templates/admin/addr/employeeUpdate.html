@@ -11,77 +11,79 @@
 <body>
 	<div th:replace="~{admin/left/adminLeftSideBar}"></div>
 
-    <form action="/admin/addr/employeeUpdate" method="post">
+    <form id="updateEmployeeForm">
 
         <section class="container">
             <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
     
             <div class="title"><span>주소록 관리</span></div>
             
+            <div class="errorDiv"></div>
+            
             <div class="subBtnList">
-                <button class="default-btn glucose-btn" id="updateEmployee">수정</button>
+                <button class="default-btn glucose-btn" id="updateEmployee" type="button">저장</button>
                 <button class="default-btn glucose-btn" id="cancel" type="button">취소</button>
             </div>
     
             <main>
     
                 <!-- 왼쪽 영역(주소록 그룹) -->
-            <div class="left">
-                
-                <ul>
-                    <li class="company">
-                        
-                        <div class="li-hover">
-                            <i class="fa-solid fa-angle-down"></i>
-                            <div class="comp">
-                                <i class="fa-solid fa-building"></i>
-                                <span th:text="${session.loginEmp.comNm}"></span>
-                            </div>
-                        </div>
-
-                        <ul>    
-
-                            <th:block th:if="${session.comAddrList}">
-
-                                <li class="department" th:each="deptList : ${session.comAddrList}" th:object="${deptList}">
-    
-                                    <div class="li-hover">
-                                        <i class="fa-solid fa-angle-down"></i>
-                                        <div class="dept" th:data-dept-no="*{deptNo}">
-                                            <i class="fa-solid fa-network-wired"></i>
-                                            <span th:text="*{deptNm}"></span>
-                                        </div>
-                                    </div>
-    
-                                    <ul>
-                                        
-                                        <th:block th:if="*{teamList}">
-
-                                            <li class="team" th:each="t : *{teamList}">
-                                                <div class="li-hover"> 
-                                                    <i class="fa-solid fa-angle-down"></i>
-                                                    <div class="tim" th:data-team-no="|*{deptNo}/${t.teamNo}|">
-                                                        <i class="fa-solid fa-people-group"></i>
-                                                        <span th:text="${t.teamNm}"></span>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            
-                                        </th:block>
-    
-                                    </ul>
-    
-                                </li>
-                                
-                            </th:block>
-
-                        </ul>
-
-                    </li>
+                <div class="left">
                     
-                </ul>
+                    <ul>
+                        <li class="company">
+                            
+                            <div class="li-hover">
+                                <i class="fa-solid fa-angle-down"></i>
+                                <div class="comp">
+                                    <i class="fa-solid fa-building"></i>
+                                    <span th:text="${session.loginEmp.comNm}"></span>
+                                </div>
+                            </div>
 
-            </div>
+                            <ul>    
+
+                                <th:block th:if="${session.comAddrList}">
+
+                                    <li class="department" th:each="deptList : ${session.comAddrList}" th:object="${deptList}">
+        
+                                        <div class="li-hover">
+                                            <i class="fa-solid fa-angle-down"></i>
+                                            <div class="dept" th:data-dept-no="*{deptNo}">
+                                                <i class="fa-solid fa-network-wired"></i>
+                                                <span th:text="*{deptNm}"></span>
+                                            </div>
+                                        </div>
+        
+                                        <ul>
+                                            
+                                            <th:block th:if="*{teamList}">
+
+                                                <li class="team" th:each="t : *{teamList}">
+                                                    <div class="li-hover"> 
+                                                        <i class="fa-solid fa-angle-down"></i>
+                                                        <div class="tim" th:data-team-no="|*{deptNo}/${t.teamNo}|">
+                                                            <i class="fa-solid fa-people-group"></i>
+                                                            <span th:text="${t.teamNm}"></span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                
+                                            </th:block>
+        
+                                        </ul>
+        
+                                    </li>
+                                    
+                                </th:block>
+
+                            </ul>
+
+                        </li>
+                        
+                    </ul>
+
+                </div>
     
                 <!-- 오른쪽 영역(구성원 정보 상세 조회 영역) -->
                 <div class="employeeDetail" th:if="${session.empDetail}" th:object="${session.empDetail}">
@@ -96,7 +98,7 @@
                         <div>
                             <span th:text="|*{empLastName}*{empFirstName}|">임성혁</span>
                             <span th:text="|*{teamNm} / *{positionNm}|">운영팀 / 대리</span>
-                            <span th:text="*{empId}">202405240001@company</span>
+                            <span th:text="|*{empId}@*{domain}|"></span>
                         </div>
                     </div>
                     
@@ -105,37 +107,38 @@
                 
                             <div>
                                 <span>ID</span>
-                                <input class="default-line" type="text" spellcheck="false" th:value="*{empId}">
+                                <input class="default-line" type="text" autocomplete="off" spellcheck="false" th:value="*{empId}" name="empId">
                             </div>
+                            <span id="empIdMessage"></span>
                 
                             <div>
                                 <span>성</span>
-                                <input class="default-line" type="text" spellcheck="false" th:value="*{empLastName}">
+                                <input class="default-line" type="text" autocomplete="off" spellcheck="false" th:value="*{empLastName}" maxlength="20" name="empLastName">
                             </div>
                 
                             <div>
                                 <span>이름</span>
-                                <input class="default-line" type="text" spellcheck="false" th:value="*{empFirstName}">
+                                <input class="default-line" type="text" autocomplete="off" spellcheck="false" th:value="*{empFirstName}" maxlength="30" name="empFirstName">
                             </div>
                 
                             <div>
                                 <span>휴대번호</span>
-                                <input class="default-line" type="text" spellcheck="false" th:value="*{phone}">
+                                <input class="default-line" type="text" autocomplete="off" spellcheck="false" th:value="*{phone}" maxlength="11" name="phone">
                             </div>
                 
                             <div>
                                 <span>이메일</span>
-                                <input class="default-line" type="text" spellcheck="false" th:value="*{empEmail}">
+                                <input class="default-line" type="text" autocomplete="off" spellcheck="false" th:value="*{empEmail}" maxlength="100" name="empEmail">
                             </div>
                 
                             <div>
                                 <span>생일</span>
-                                <input class="default-line" type="text" spellcheck="false" th:value="*{empBirth}">
+                                <input class="default-line" type="text" autocomplete="off" spellcheck="false" th:value="*{empBirth}" name="empBirth" maxlength="8">
                             </div>
                 
                             <div>
                                 <span>입사일</span>
-                                <input class="default-line" type="text" spellcheck="false" th:value="*{hireDate}">
+                                <input class="default-line" type="text" autocomplete="off" spellcheck="false" th:value="*{hireDate}" name="hireDate" maxlength="8">
                             </div>
                 
                         </div>
@@ -144,12 +147,12 @@
                             
                             <div>
                                 <span>사번</span>
-                                <input class="default-line" type="text" spellcheck="false" th:value="*{empNo}">
+                                <input class="default-line" type="text" autocomplete="off" spellcheck="false" th:value="*{empNo}" name="empNo" maxlength="50">
                             </div>
                 
                             <div>
                                 <span>부서</span>
-                                <select class="default-line" name="" id="updateDept" th:data-dept-list="${session.comAddrList}">
+                                <select class="default-line" id="updateDept" th:data-dept-list="${session.comAddrList}" name="deptNo">
                                     <th:block th:each="dept : ${session.comAddrList}">
                                         <option th:if="*{deptNm} == ${dept.deptNm}" th:value="${dept.deptNo}">[[*{deptNm}]]</option>
                                     </th:block>
@@ -158,10 +161,10 @@
                                     </th:block>
                                 </select>
                             </div>
-                
+                            
                             <div>
                                 <span>팀</span>
-                                <select class="default-line" name="" id="updateTeam">
+                                <select class="default-line" id="updateTeam" name="teamNo">
                                     <th:block th:each="dept : ${session.comAddrList}" th:if="*{deptNm} == ${dept.deptNm}">
                                         <option th:each="t : ${dept.teamList}" th:if="*{teamNm} == ${t.teamNm}" th:value="${t.teamNo}">[[*{teamNm}]]</option>
                                         <option th:each="t : ${dept.teamList}" th:if="*{teamNm} != ${t.teamNm}" th:value="${t.teamNo}">[[${t.teamNm}]]</option>
@@ -171,8 +174,10 @@
                             
                             <div>
                                 <span>직급</span>
-                                <select class="default-line" name="" id="">
-                                    <option th:value="*{positionNm}">[[*{positionNm}]]</option>
+                                <select class="default-line" id="" name="positionNo">
+                                    <th:block th:each="p : ${session.positionList}">
+                                        <option th:if="*{positionNo} == ${p.positionNo}" th:value="${p.positionNo}">[[${p.positionNm}]]</option>
+                                    </th:block>
                                     <th:block th:each="p : ${session.positionList}">
                                         <option th:value="${p.positionNo}">[[${p.positionNm}]]</option>
                                     </th:block>
@@ -181,17 +186,17 @@
                 
                             <div>
                                 <span>근무처</span>
-                                <input class="default-line" type="text" spellcheck="false" th:value="*{workPlace}">
+                                <input class="default-line" type="text" autocomplete="off" spellcheck="false" th:value="*{workPlace}" name="workPlace" maxlength="150">
                             </div>
                 
                             <div>
                                 <span>계약 형태</span>
-                                <input class="default-line" type="text" spellcheck="false" th:value="*{contractType}">
+                                <input class="default-line" type="text" autocomplete="off" spellcheck="false" th:value="*{contractType}" name="contractType" maxlength="20">
                             </div>
                 
                             <div>
                                 <span>내선 번호</span>
-                                <input class="default-line" type="text" spellcheck="false" th:value="*{empTel}">
+                                <input class="default-line" type="text" autocomplete="off" spellcheck="false" th:value="*{empTel}" name="empTel" maxlength="20">
                             </div>
                 
                         </div>
@@ -205,19 +210,14 @@
             
     </form>
 
-    <!-- 드롭다운 -->
-    <div class="dropdown-menu" id="contextMenu">
-        <div id="addDeptgroup">부서 추가</div>
-        <div id="addTeamgroup">팀 추가</div>
-        <div id="groupNameChange">그룹명 변경</div>
-        <div id="deleteGroup">그룹 삭제</div>
-    </div>
-
     <script src="/js/admin/addr/adminAddr.js"></script>
+    <script src="/js/admin/addr/employeeUpdate.js"></script>
     <script th:inline="javascript">
         const loginEmpCode = /*[[${session.loginEmp.empCode}]]*/ "로그인 사원 식별키";
         const comNo = /*[[${session.loginEmp.comNo}]]*/ "회사 식별키";
-        const teamNm = /*[[${session.empDetail.teamNm}]]*/ "정보 수정 대상 사원의 팀 이름";
+        const domain = /*[[${session.loginEmp.domain}]]*/ "정보 수정 대상 사원의 팀 이름";
+        const ogEmpId = /*[[${session.empDetail.empId}]]*/ "수정 구성원 기존 아이디";
+        const empCode = /*[[${session.empDetail.empCode}]]*/ "수정 구성원 기존 아이디";
     </script> 
 </body>
 </html>

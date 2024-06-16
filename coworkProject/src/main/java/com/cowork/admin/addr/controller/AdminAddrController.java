@@ -33,7 +33,7 @@ import oracle.jdbc.proxy.annotation.Post;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("admin/addr")
-@SessionAttributes({"empDetail", "backPageLocation", "comAddrList"})
+@SessionAttributes({"empDetail", "backPageLocation", "comAddrList", "loginEmp", "positionList"})
 public class AdminAddrController {
 	
 	private final AdminAddrService service;
@@ -51,14 +51,21 @@ public class AdminAddrController {
 	 */
 	@GetMapping("")
 	public String adminAddrMain(HttpServletRequest request, 
-							    Model model) {
+							    Model model,
+							    @RequestParam(value="cp", required=false, defaultValue="1") int cp) {
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
 		List<Department> comAddrList = service.selectComAddrList(loginEmp);
-		
 		model.addAttribute("comAddrList", comAddrList);
+		
+		Map<String, Object> map = service.selectComList(loginEmp, cp);
+		model.addAttribute("pagination", map.get("pagination"));
+		model.addAttribute("comList", map.get("comList"));
+		
+		List<Map<String, Object>> positionList = service.getpositionList(loginEmp);
+		model.addAttribute("positionList", positionList);
 		
 		return "admin/addr/addrBookManager";
 	}
@@ -70,22 +77,22 @@ public class AdminAddrController {
 	 * @param cp
 	 * @return
 	 */
-	@GetMapping("comList")
-	public String comList(HttpServletRequest request, 
-					      Model model, 
-					      @RequestParam(value="cp", required=false, defaultValue="1") int cp
-					      ) {
-		
-		HttpSession session = request.getSession();
-		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
-		
-		Map<String, Object> map = service.selectComList(loginEmp, cp);
-		
-		model.addAttribute("pagination", map.get("pagination"));
-		model.addAttribute("comList", map.get("comList"));
-		
-		return "admin/addr/addrBookManager";
-	}
+//	@GetMapping("comList")
+//	public String comList(HttpServletRequest request, 
+//					      Model model, 
+//					      @RequestParam(value="cp", required=false, defaultValue="1") int cp
+//					      ) {
+//		
+//		HttpSession session = request.getSession();
+//		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+//		
+//		Map<String, Object> map = service.selectComList(loginEmp, cp);
+//		
+//		model.addAttribute("pagination", map.get("pagination"));
+//		model.addAttribute("comList", map.get("comList"));
+//		
+//		return "admin/addr/addrBookManager";
+//	}
 	
 	/** 부서별 사원 리스트 조회
 	 * @param request
@@ -170,7 +177,56 @@ public class AdminAddrController {
 	 * @return
 	 */
 	@GetMapping("employeeDetailPage")
-	public String employeeDetail() {
+	public String employeeDetail(HttpServletRequest request,
+								 Model model) {
+		
+		HttpSession session = request.getSession();
+		Employee2 empDetail = (Employee2)session.getAttribute("empDetail");
+		
+		String phone = empDetail.getPhone();
+		String empTel = empDetail.getEmpTel();
+		String empBirth = empDetail.getEmpBirth();
+		String hireDate = empDetail.getHireDate();
+		
+		if(phone != null) {
+			if(!phone.substring(0, 2).equals("02")) {
+				if(phone.length() == 11) {
+					empDetail.setPhone(phone.substring(0, 3) + "-" + phone.substring(3, 7) + "-" + phone.substring(7, 11));
+				}
+			} else {
+				if(phone.length() == 9) {
+					empDetail.setPhone(phone.substring(0, 2) + "-" + phone.substring(2, 5) + "-" + phone.substring(5, 9));
+				}
+				if(phone.length() == 10) {
+					empDetail.setPhone(phone.substring(0, 2) + "-" + phone.substring(2, 6) + "-" + phone.substring(6, 10));
+				}
+			}
+		}
+		
+		if(empTel != null) {
+			if(!empTel.substring(0, 2).equals("02")) {
+				if(empTel.length() == 11) {
+					empDetail.setEmpTel(empTel.substring(0, 3) + "-" + empTel.substring(3, 7) + "-" + empTel.substring(7, 11));
+				}
+			} else {
+				if(empTel.length() == 9) {
+					empDetail.setEmpTel(empTel.substring(0, 2) + "-" + empTel.substring(2, 5) + "-" + empTel.substring(5, 9));
+				}
+				if(empTel.length() == 10) {
+					empDetail.setEmpTel(empTel.substring(0, 2) + "-" + empTel.substring(2, 6) + "-" + empTel.substring(6, 10));
+				}
+			}
+		}
+		
+		if(empBirth != null && empBirth.length() == 8) {
+			empDetail.setEmpBirth(empBirth.substring(0, 4) + "-" + empBirth.substring(4, 6) + "-" + empBirth.substring(6, 8));
+		}
+		if(hireDate != null && hireDate.length() == 8) {
+			empDetail.setHireDate(hireDate.substring(0, 4) + "-" + hireDate.substring(4, 6) + "-" + hireDate.substring(6, 8));
+		}
+		
+		model.addAttribute("empDetail", empDetail);
+		
 		return "admin/addr/employeeDetail";
 	}
 	
@@ -229,39 +285,156 @@ public class AdminAddrController {
 		return 1;
 	}
 	
-	/** 초대 링크 인증키 업데이트
+	/** 초대 링크 인증키 삭제
 	 * @param request
 	 * @return
 	 */
 	@ResponseBody
-	@PostMapping("updateInviteAuthKey")
+	@GetMapping("updateInviteAuthKey")
 	public int updateInviteAuthKey(HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
-		int result = service.updateInviteAuthKey(loginEmp.getEmpCode());
+		return service.updateInviteAuthKey(loginEmp.getEmpCode());
+	}
+	
+	/** 초대 링크 삭제 버튼을 누르면 TB_AUTH_KEY 테이블에 있는 인증키가 변경되는데
+	 * 변경되기 전의 인증키는 로그인한 회원의 DB의 EMPLOYEE 테이블의 INVITE_AUTH_KEY에 있다
+	 * 둘이 상이한지 확인하고 다르면 초대 링크 생성 버튼을 보여주고, 같으면 이메일 입력창을 보여준다. 
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("checkInviteAuthKey")
+	public int checkInviteAuthKey(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		return service.checkInviteAuthKey(loginEmp);
+	}
+	
+	/** 업데이트 된 초대 링크 인증키를 EMPLOYEE 테이블의 INVITE_AUTHKEY 컬럼에 업데이트 
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("updateEmpInviteAuthKey")
+	public int createInviteAuthKey(HttpServletRequest request,
+								   Model model) {
+		
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		Employee2 updateEmp = service.updateEmpInviteAuthKey(loginEmp);
+		
+		if(updateEmp == null) {
+			return 0;
+		}
+		
+		model.addAttribute("loginEmp", updateEmp);
+		
+		return 1;
+	}
+	
+	/** 사원 찾기 (이름으로)
+	 * @param request
+	 * @param name
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("findEmp")
+	public List<Employee2> findEmp(HttpServletRequest request,
+							 @RequestParam("name") String name) {
+
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		return service.findEmp(name, loginEmp);
+	}
+	
+	/** 사원 조직 이동
+	 * @param data
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("groupChange")
+	public int groupChange(@RequestBody List<Map<String, Object>> data) {
+		return service.groupChange(data);
+	}
+	
+	/** 구성원 정보 수정 페이지 이동
+	 * @return
+	 */
+	@GetMapping("employeeUpdate")
+	public String employeeUpdate(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		Employee2 empDetail = (Employee2)session.getAttribute("empDetail");
+		
+		empDetail.setPhone(empDetail.getPhone().replace("-", ""));
+		
+		if(empDetail.getEmpBirth() != null) {
+			empDetail.setEmpBirth(empDetail.getEmpBirth().replace("-", ""));
+		}
+		if(empDetail.getHireDate() != null) {
+			empDetail.setHireDate(empDetail.getHireDate().replace("-", ""));
+		}
+		if(empDetail.getEmpTel() != null) {
+			empDetail.setEmpTel(empDetail.getEmpTel().replace("-", ""));
+		}
+
+		return "admin/addr/employeeUpdate";
+	}
+	
+	/** 구성원 정보 수정 서비스
+	 * @param data
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("employeeUpdate")
+	public int employeeUpdate(@RequestBody Map<String, Object> data,
+							  Model model) {
+		
+		log.info("data : " + data);
+		
+		String phone = ((String)data.get("phone")).replace("-", "");
+		String empTel = ((String)data.get("empTel")).replace("-", "");
+		
+		data.put("phone", phone);
+		data.put("empTel", empTel);
+		
+		int result = service.employeeUpdate(data);
 		
 		if(result == 0) {
 			return 0;
 		}
 		
-		return 1;
+		Employee2 empDetail = addrService.empDetail(data);
+		model.addAttribute("empDetail", empDetail);
+		
+		return result;
 	}
 	
-	
-	
-
-	
-	
-	@GetMapping("employeeUpdate")
-	public String employeeUpdate() {
-		return "admin/addr/employeeUpdate";
+	/** 부서에 사원이 한 명이라도 존재하는지 확인
+	 * @param data
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("empInDeptIsEmpty")
+	public int deptIsEmpty(@RequestBody Map<String, Object> data) {
+		return service.empInDeptIsEmpty(data);
 	}
 	
-	@PostMapping("employeeUpdate")
-	public String employeeUpdate(RedirectAttributes ra) {
-		return "redirect:/admin/addr/employeeDetailPage";
+	/** 팀에 사원이 한 명이라도 존재하는지 확인
+	 * @param data
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("empInTeamIsEmpty")
+	public int empInTeamIsEmpty(@RequestBody Map<String, Object> data) {
+		return service.empInTeamIsEmpty(data);
 	}
 
 }

@@ -204,9 +204,6 @@ public class UserController {
 		List<Department> comAddrList = adminAddrService.selectComAddrList(loginEmp);
 		model.addAttribute("comAddrList", comAddrList);
 		
-		List<Map<String, Object>> positionList = service.getpositionList(loginEmp);
-		model.addAttribute("positionList", positionList);
-		
 		model.addAttribute("loginEmp", loginEmp);
 		ra.addFlashAttribute("message", loginEmp.getEmpLastName() + loginEmp.getEmpFirstName() + "님 환영합니다.");
 
@@ -311,6 +308,14 @@ public class UserController {
 		return service.inviteSignUp(data);
 	}
 	
+	/** 사업자 등록 번호 인증 팝업창
+	 * @return
+	 */
+	@GetMapping("registrationNumCheck")
+	public String registYourself() {
+		return "user/registrationNumCheck";
+	}
+	
 	
 	
 	
@@ -326,9 +331,6 @@ public class UserController {
 		
 		List<Department> comAddrList = adminAddrService.selectComAddrList(loginEmp);
 		model.addAttribute("comAddrList", comAddrList);
-		
-		List<Map<String, Object>> positionList = service.getpositionList(loginEmp);
-		model.addAttribute("positionList", positionList);
 		
 		model.addAttribute("loginEmp", loginEmp);
 		ra.addFlashAttribute("message", loginEmp.getEmpLastName() + loginEmp.getEmpFirstName() + "님 환영합니다.");

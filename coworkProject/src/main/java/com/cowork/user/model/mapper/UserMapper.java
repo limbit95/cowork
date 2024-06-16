@@ -94,12 +94,6 @@ public interface UserMapper {
 	 */
 	int updateAuthKey(Map<String, Object> map);
 
-	/** 회사별 직급 리스트 조회
-	 * @param loginEmp
-	 * @return
-	 */
-	List<Map<String, Object>> getpositionList(Employee2 loginEmp);
-
 	/** 회원가입 성공 이후 회원가입한 empCode 조회
 	 * @return
 	 */

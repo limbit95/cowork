@@ -54,5 +54,54 @@ public interface AdminAddrService {
 	 * @return
 	 */
 	int updateInviteAuthKey(int empCode);
+ 
+	/** TB_AUTH_KEY의 인증키와 EMPLOYEE의 인증키 비교
+	 * @param loginEmp
+	 * @return
+	 */
+	int checkInviteAuthKey(Employee2 loginEmp);
+
+	/** 업데이트 된 초대 링크 인증키를 EMPLOYEE 테이블의 INVITE_AUTHKEY 컬럼에 업데이트 
+	 * @param loginEmp
+	 * @return
+	 */
+	Employee2 updateEmpInviteAuthKey(Employee2 loginEmp);
+
+	/** 사원 찾기(이름으로)
+	 * @param name
+	 * @param loginEmp
+	 * @return
+	 */
+	List<Employee2> findEmp(String name, Employee2 loginEmp);
+
+	/** 사원 조직 이동
+	 * @param data
+	 * @return
+	 */
+	int groupChange(List<Map<String, Object>> data);
+	
+	/** 회사별 직급 리스트 조회
+	 * @param loginEmp
+	 * @return
+	 */
+	List<Map<String, Object>> getpositionList(Employee2 loginEmp);
+
+	/** 구성원 정보 수정
+	 * @param data
+	 * @return
+	 */
+	int employeeUpdate(Map<String, Object> data);
+
+	/** 부서에 사원이 한 명이라도 존재하는지 확인
+	 * @param data
+	 * @return
+	 */
+	int empInDeptIsEmpty(Map<String, Object> data);
+
+	/** 팀에 사원이 한 명이라도 존재하는지 확인
+	 * @param data
+	 * @return
+	 */
+	int empInTeamIsEmpty(Map<String, Object> data);
 
 }

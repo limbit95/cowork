@@ -171,7 +171,16 @@ public class AddrServiceImpl implements AddrService {
 	// 주소록에 등록된 사원 정보 상세 조회
 	@Override
 	public Employee2 empDetail(Map<String, Object> map) {
-		return mapper.empDetail(map);
+		
+		Employee2 empDetail = mapper.empDetail(map);
+		
+		if(empDetail.getEmpId().contains("@")) {
+			int index = empDetail.getEmpId().indexOf("@");
+			String empId = empDetail.getEmpId().substring(0, index);
+			empDetail.setEmpId(empId);
+		}
+		
+		return empDetail;
 	}
 
 	// 개인 주소록에 등록된 사원 삭제

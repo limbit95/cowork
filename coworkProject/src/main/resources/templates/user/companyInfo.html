@@ -20,10 +20,10 @@
                 <form action="/user/companyInfo" method="post" id="companyInfoForm">
 
                     <div class="inputInfo">
-                        <input placeholder="* 회사명" autocomplete="off" id="comNm" name="comNm" maxlength="40">
-                        <input placeholder="회사 대표 번호" autocomplete="off" id="comTel" name="comTel">
-                        <input placeholder="이메일" autocomplete="off" id="comEmail" name="comEmail">
-                        <input placeholder="* 사용할 도메인" autocomplete="off" id="domain" name="domain">
+                        <input placeholder="* 회사명" autocomplete="off" id="comNm" name="comNm" maxlength="40" spellcheck="false">
+                        <input placeholder="회사 대표 번호" autocomplete="off" id="comTel" name="comTel" spellcheck="false">
+                        <input placeholder="이메일" autocomplete="off" id="comEmail" name="comEmail" spellcheck="false">
+                        <input placeholder="* 사용할 도메인" autocomplete="off" id="domain" name="domain" spellcheck="false">
                         <span id="domainMessage">영어 대·소문자 2~30글자</span>
                     </div>
                     <div class="inputAddr">
@@ -32,13 +32,17 @@
                             <button type="button" id="searchBtn">찾기</button>
                         </div>
                             <input placeholder="도로명/지번" readonly id="address" name="comAddr">
-                            <input placeholder="상세주소" autocomplete="off" id="detailAddress" name="comAddr">
+                            <input placeholder="상세주소" autocomplete="off" id="detailAddress" name="comAddr" spellcheck="false">
                     </div>     
                     <div id="registrationNumArea">
-                        <input placeholder="사업자 등록 번호" id="registrationNum" autocomplete="off" name="licenseNo" maxlength="10"> 
+                        <input placeholder="사업자 등록 번호" id="registrationNum" autocomplete="off" name="licenseNo" maxlength="10" readonly> 
+                        <div class="checkDiv">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
                         <button type="button" id="authBtn">인증</button>
                     </div>
 
+                    <!-- 나중에 보안 관련 해결로 js 인라인 태그 안에 값 넣어서 비동기로 등록 요청 변경할 예정 -->
                     <th:block th:if="${empCode}">
                         <input hidden th:value="${empCode}" name="empCode">
                     </th:block>
