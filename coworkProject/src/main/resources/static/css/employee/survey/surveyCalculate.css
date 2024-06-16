@@ -1,0 +1,121 @@
+#insertSurveyContainer{
+	width: 100vw; 
+	display: flex;
+	flex-direction: column; 
+	align-items: center;
+}
+#surveyWriteText{
+	width: 100%; 
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 25px; 
+	color: #426DA7;
+	font-weight: bold; 
+	padding-top: 15vh;
+	
+}
+#surveyMainTitleDiv{
+	margin-top:5vh; 
+	height: 5vh;
+	border-radius: 5px;
+}
+#surveyMainTitle{
+	font-size: 20px;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	color: #214177;
+	font-weight: bold;
+
+}
+#highlight{
+	width: 0%;
+	height: 10%; 
+	background-color: #FFE0E6;
+    transition: width 2s; /* width 변경 시 2초 동안 애니메이션 */
+    border-radius: 10px;
+}
+#conditionDiv{
+	margin-top: 5vh;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 50%; 	
+}
+.conditionDivInnerDiv{
+	width: 100%; 
+	margin-bottom: 3vh;
+}
+.conditionDivInnerInnerDiv{
+	width: 100%; 
+	border-radius: 5px;
+	border: 1.5px solid #BDD8F1;
+}
+.surveySubTitle{
+	background-color: #BDD8F1;
+	font-size: 15px;
+	padding-top: 2vh;
+	padding-left: 1vw;
+	padding-bottom: 2vh;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+.optionContainer{
+	margin-top: 1.5vh;
+	margin-bottom: 1.5vh;
+}
+
+/* 게이지 바 */
+.gageBarContainer{
+	width: 50%; 
+	background-color: #f7f7f7;
+	height: 1.5vh;
+	margin-left: 2vw;
+	border-radius: 10px;
+}
+.gageBar{
+	width: 0%;
+	height: 100%;
+	background-color: #426DA7;
+    transition: width 2s; /* 2초 동안 애니메이션 효과 */
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+
+}
+
+.optionTitle{
+	font-size: 13px;
+	margin-left: 1vw;
+
+	padding-bottom: 1vh;
+}
+.additionalData{
+	margin-top: 1vh;
+	margin-bottom: 1vh;
+	margin-left: 2vw;
+}
+/* 주관식 */
+.more{
+	padding-left: 1vw;
+	padding-top: 1.5vh;
+	padding-bottom: 1.5vh;
+	display: flex;
+	text-decoration: none;
+	color: #426DA7;
+	transition: background-color 0.3s;
+}
+.more:hover{
+	background-color: #E5F2FE;
+}
+
+
+
+
+
+
+
+

@@ -27,7 +27,7 @@
                 <!-- 객관식인 경우 -->
                 <div th:text="'Q. ' + ${surveySub.surveySubTitle}" class="multipleQuestionTitle"></div>
                 
-                <th:block th:each="option : ${surveySub.options}" class="option" style="background-color: aqua; display: flex;">
+                <div th:each="option : ${surveySub.options}" class="option" >
                         <input 
 							type="radio"
 							th:name="${surveySub.surveySubNo}"
@@ -35,21 +35,21 @@
 							th:id="${option.surveyMultipleNo}"
 						/>
 						<label th:for="${option.surveyMultipleNo}" th:text="${option.multipleQuestion}"></label>
-                </th:block>
+                </div>
                 
             </div>
             <div th:if="${surveySub.questionType == '2'}" class="subjectiveQuestion">
                 <!-- 주관식인 경우 -->
                 <div th:text="'Q. ' + ${surveySub.surveySubTitle}" class="subjectiveQuestionTitle"></div>
-                <textarea th:name="${surveySub.surveySubNo}" 
-				
-				></textarea>
+                <textarea th:name="${surveySub.surveySubNo}" class="subjectiveAnswerTextarea"
+				>
+				</textarea>
                 
             </div>
         </th:block>        
         <!-- 소제목 끝 -->
 		
-		<button type="submit"> 제출 </button>
+		<button type="submit" id="submitBtn"> 제출 </button>
     </form>
 	
 	

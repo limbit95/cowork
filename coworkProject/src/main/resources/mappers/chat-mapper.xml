@@ -23,7 +23,7 @@
 <insert id="addParticipant">
 	INSERT INTO CHAT_PARTICIPANT 
 	VALUES 
-	(SEQ_CHAT_PARTICIPANT.NEXTVAL, SYSDATE, #{roomNo}, #{empCode})
+	(SEQ_CHAT_PARTICIPANT.NEXTVAL, SYSDATE, #{roomNo}, #{empCode}, 'N')
 </insert>
 
 	
@@ -39,6 +39,7 @@
 	LEFT JOIN CHAT_ROOM CR ON (CP.ROOM_NO = CR.ROOM_NO)                            
 	LEFT JOIN SUBSCRIBE_ADDR SA ON (CP.ROOM_NO = SA.ROOM_NO)                
 	WHERE CP.EMP_CODE = #{empCode}
+	AND CP.EXIT_FLAG = 'N'
 </select>
 
 
@@ -97,6 +98,13 @@
 	LEFT JOIN DEPARTMENT D ON (T.DEPT_NO = D.DEPT_NO)  
 	WHERE TEAM_NO = #{teamNo}
 </select>
+
+<update id="exitChatRoom">
+	UPDATE CHAT_PARTICIPANT
+	SET EXIT_FLAG = 'Y'
+	WHERE ROOM_NO = #{currentRoomNo}
+	AND EMP_CODE = #{exitEmpCode}
+</update>
 
 
 

@@ -24,4 +24,6 @@ public interface ChatService {
 
 	Map<String, String> insertFileMessage(ChatMessage chatMessage) throws IllegalStateException, IOException;
 
+	Integer exitChatRoom(String currentRoomNo, Employee2 loginEmp);
+
 }

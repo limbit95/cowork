@@ -45,6 +45,8 @@ public interface ChatMapper {
 
 	Employee2 empDetail(String empCode);
 
+	int exitChatRoom(Map<String, Object> paramMap);
+
 
 
 }

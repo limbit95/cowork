@@ -2,7 +2,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: 10vh;
+	padding-top: 10vh;
 }
 #receiveSurveyTitleDiv{
 	font-size: 25px;
@@ -15,7 +15,7 @@
 	justify-content: center;
 	align-items: center;
 	width: 100vw; 
-	height: 4vh;
+	height: 5vh;
 	margin-top: 10vh;
 
 }
@@ -53,15 +53,56 @@
 }
 #receiveSurveyContainer{
 	width: 100vw;
-	height: 100vh;
-	background-color: yellow;
 	display: flex; 
 	justify-content: center;
+	margin-top: 1vh;
 }
 .oneRowA{
+	width: 50%;
+	height: 5vh;
 	display: flex; 
-	background-color: red;
+	background-color: #E5F2FE;
+	border-radius: 5px; 
+	margin-bottom: 0.5vh;
+	transition: box-shadow 0.3s;
+	text-decoration: none;
+}
+.oneRowA:hover{
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+}
+.oneRowA>div:nth-child(1){
+	flex-basis: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.oneRowA>div:nth-child(2){
+	flex-basis: 25%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.oneRowA>div:nth-child(3){
+	flex-basis: 25%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-
+/* 페이지네이션 */
+#paginationContainer{
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+}
+#pagination{
+	width: 30%;
+	height: 5vh;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+}
+#paginationMiddleContainer{
+	color: white;
+}
 

@@ -136,9 +136,21 @@ searchInput.addEventListener('input', function(){
 				findEmpContent.innerHTML = '';
 					
 				console.log('hey~');
+				
+				// addedEmpContent 특정 높이보다 높아지면 스크롤바 만들기  
+		        var maxmaxHeihgt = 80;
+			    if (addedEmpContent.scrollHeight > maxmaxHeihgt) {
+		            addedEmpContent.style.overflowY = 'scroll'; // 높이가 초과하면 세로 스크롤바 추가
+		            addedEmpContent.style.height = maxmaxHeihgt + 'px'; // 높이를 제한
+		        } else {
+		            addedEmpContent.style.overflowY = 'hidden'; // 높이가 초과하지 않으면 스크롤바 숨기기
+		            addedEmpContent.style.height = 'auto'; // 높이를 자동으로 설정
+		        }
+				
+				
 			});
 			
-        var maxHeight = 440; // 스크롤바가 생기게 할 최대 높이
+        var maxHeight = 300; // 스크롤바가 생기게 할 최대 높이
 
         if (findEmpContent.scrollHeight > maxHeight) {
             findEmpContent.style.overflowY = 'scroll'; // 높이가 초과하면 세로 스크롤바 추가
@@ -147,6 +159,7 @@ searchInput.addEventListener('input', function(){
             findEmpContent.style.overflowY = 'hidden'; // 높이가 초과하지 않으면 스크롤바 숨기기
             findEmpContent.style.height = 'auto'; // 높이를 자동으로 설정
         }
+
         
 			findEmpContent.append(newDiv);		
 		});		
@@ -218,6 +231,7 @@ makeChatButton.addEventListener('click', function(){
 // + 이벤트리스너로 특정 채팅방 클릭시 해당 채팅방에 쓰여진 글들이 보여지도록 해두었음. 
 let chattingRoomsContent = document.querySelector('#chattingRoomsContent'); // 채팅방들이 보여질 div 태그
 let roomNoOriginal;
+let currentRoomNo;
 
 getChattingRooms(empCode);
 
@@ -378,7 +392,7 @@ function getChattingRooms(empCode){
 				// 클릭하면, fetch 로 서버에 roomId 를 넘겨준다. 
 				// 서버에서 해당 roomId 에 해당하는 메세지들을 CHAT_MESSAGE 테이블에서 조회한다. 
 				// 읽은지 여부를 어떻게 조회해야하지? 이를 기록할 테이블 만듦. 
-				
+				document.querySelector('#chattingsContainer').style.display = 'flex';
 				// 채팅창 지워줘야지
 				chattingsArea.innerHTML = '';
 				
@@ -387,6 +401,7 @@ function getChattingRooms(empCode){
 				connect(subscribeAddr);
 				
 				let roomNo2 = String(room.roomNo);
+				currentRoomNo = String(room.roomNo);
 				
 				// 메세지를 보낼때, CHAT_MESSAGE 테이블에 행을 삽입하려면 
 				// ROOM_NO 컬럼이 필요한데, 전역변수로 ROOM_NO 를 둔 다음 
@@ -837,7 +852,6 @@ function connect(subscribeAddr2) {
         console.log('Connected: ' + frame); // 로그를 보면, 잘 연결됬다는 게 콘솔에 찍힘. 별내용 없음.
         stompClient.subscribe('/topic/' + subscribeAddr, function (chatMessage) { // 클라이언트들의 주소. 서버는 이 주소를 가진 클라이언트를 고무호스로 연결하고 있음. 
 			// 현재 chatMessage 는 메세지를 보낼때마다 클 -> 서 -> 클 을 다시 거쳐서 온 거임.  
-			alert('수신함!');
 			showMessage(JSON.parse(chatMessage.body)); // JSON.parse : json문자열을 js 객체로 바꾸어줌  	
         });
     });
@@ -1468,6 +1482,57 @@ translateSettingBtn.addEventListener('click', function(){
 })
 	
 	
+// 채팅방 나가기 
+// currentRoomNo <- 나가려는 채팅방 ROOM_NO 
+let exitBtn = document.querySelector('#exitBtn');
+exitBtn.addEventListener('click', function(){
+	
+	let userMind = confirm('채팅방을 나가시겠습니까?');
+	// 사용자가 취소 -> false 
+	// 확인 -> true
+	if(userMind){
+		// 확인을 눌렀다면~ 
+		
+		
 
+        	
+		
+		
+		// 채팅방 나가기 
+		fetch('/chat/exitChatRoom', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({'currentRoomNo': currentRoomNo})
+		})
+		.then(response => {return response.text();})
+		.then(responseValue => {	
+			alert(responseValue);
+			getChattingRooms(empCode);	
+			document.querySelector('#chattingsContainer').style.display = 'none';
+			
+		})
+		
+				
+		// 나가기전에 채팅방에 ~님이 나가셨습니다. 메세지를 돌려줘야함.  
+        var chatMessage = {
+			'type' : 'CHAT',
+			'senderEmpCode': empCode, 
+			'empNickname': empNickname,                    
+			'content': empNickname + '님이 채팅방을 나가셨습니다.',
+            'messageType': 'CHAT',
+			'subscribeAddr': subscribeAddr,
+			'roomNo': roomNoOriginal,
+			'wantTranslateFlag' : wantTranslateFlag,
+			'targetLanguage' : targetLanguage.value
+        };
+        
+        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+		
+		
+		
+	}
+})
 
 

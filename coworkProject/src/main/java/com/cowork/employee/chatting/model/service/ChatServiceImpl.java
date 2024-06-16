@@ -305,5 +305,36 @@ public static String getTimeAgo(String pastTime) {
         return "방금 전";
     }
 }
+
+@Override
+public Integer exitChatRoom(String currentRoomNo, Employee2 loginEmp) {
+	
+	
+	
+	
+	Integer exitEmpCode = loginEmp.getEmpCode();
+	
+	// 일단, 메세지를 남겨줘야 함. 
+	// ~ 님이 채팅방을 나가셨습니다. 
+	
+	
+	// CHAT_PARTICIPANT 에서만 제거시켜주면 될듯 
+	Map<String, Object> paramMap = new HashMap<>();
+	paramMap.put("currentRoomNo", currentRoomNo);
+	paramMap.put("exitEmpCode", exitEmpCode);
+	
+	int result = chatMapper.exitChatRoom(paramMap);
+	
+	
+	
+	return result;
+	
+}
+
+
+
+
+
+
 	
 }

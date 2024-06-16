@@ -16,8 +16,7 @@
 		<div id="receiveSurveyTitleDiv">받은 설문</div>
 	</div>
 	
-	
-	<div 	id="listContainer">
+	<div id="listContainer">
 		<div id="listContainerInnerDiv">
 			<div id="titleDiv">
 				제목
@@ -34,7 +33,8 @@
 	<div id="receiveSurveyContainer">
 		<!-- 잘 들어갈려나? -->
 		    <th:block th:each="survey : ${newSurveyList}">
-				<a th:href="@{/survey/surveyDetail/{surveyNo}(surveyNo=${survey.surveyNo})}" class="oneRowA">
+				<a th:href="@{/survey/surveyDetail/{surveyNo}(surveyNo=${survey.surveyNo})}" 
+				class="oneRowA">
 					<div th:text="${survey.surveyMainTitle}" 
 					     th:classappend="${survey.answerFl} ? 'title-true' : 'title-false'"></div>
 					<div th:text="${survey.fullName}"
@@ -46,8 +46,8 @@
 		<!-- 잘 들어갈려나? -->
 	</div>
 	
-	
 	<!-- 페이지네이션 조각 시작 -->
+	<div id="paginationContainer">
 	<div id="pagination">
 	    <!-- 처음 -->
 	    <a th:if="${currentGroupFirstPage != 1}" th:href="@{/survey/receiveSurvey}" id="first-page-a">&lt;&lt;</a>
@@ -71,10 +71,9 @@
 	    <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/receiveSurvey(page=${currentGroupLastPage}+1)}" id="next-a">&gt;</a>
 	    <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/receiveSurvey(page=${totalPages})}" id="last-page-a">&gt;&gt;</a>
 	</div>
+	</div>
 	<!-- 페이지네이션 조각 끝 -->
 	
-
-
     <script th:inline="javascript">
         const noAuthority = /*[[${noAuthority}]]*/ "전달 받은 message";
         if (noAuthority != null) alert(noAuthority);        

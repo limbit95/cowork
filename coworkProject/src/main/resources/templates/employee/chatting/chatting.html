@@ -10,7 +10,13 @@
 <body>
     <div th:replace="~{employee/userMain/leftSideBar}"></div>
     
-    <div id="forMariginTop"></div>
+	<div id="forMariginTop">
+			<img src="/images/talking.gif" alt="Background GIF" class="bgVideo">			
+
+	    <div class="content">
+	        <i class="fa-regular fa-comment" style="font-size: 25px;"></i>&nbsp; 메신저 
+	    </div>
+	</div>
     
     <div id="entireContainer">
         <div id="emptySpace"></div>
@@ -54,10 +60,18 @@
         </div>
         
         <div id="chattingsContainer">
+			
             <div id="topAreaInChattingsContainer">
             </div>
+			
 			<div id="translate">
-				<button type="button" id="translateBtn">번역</button>			
+				<button type="button" id="translateBtn">
+					번역
+				</button>			
+				<button type="button" id="exitBtn">
+					<i class="fa-solid fa-door-open"></i>					
+				</button>
+
 			</div>
 			
             <ul id="chattingsArea">
