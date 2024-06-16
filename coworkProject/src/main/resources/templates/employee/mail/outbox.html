@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,7 +39,7 @@
 
             <div class="table-body">
                 <div class="checkDiv">
-                    <input type="checkbox" id="checkAll'">
+                    <input type="checkbox" id="checkAll">
                    <!-- <i class="fa-solid fa-sort-down"></i> -->
                     <label class="delBtn" id="deleteBtn">삭제</label>
                 </div>
@@ -63,11 +63,11 @@
                 <div class="checkDiv">
                     <input type="checkbox" th:attr="data-mail-id=${outMail.mailNo}">
                     <div><span th:text="${outMail.recipientTeamNm}" id="recipientTeamNm">팀이름</span>&nbsp;
-                        <span th:text="${mail.recipient}">이름</span></div>
+                        <span th:text="${outMail.recipient}">이름</span></div>
                 </div>
                 <div th:attr="data-mail-id=${outMail.mailNo}" th:text="${outMail.mailTitle}" 
                      id="mailTitle" class="mailTitle"
-                     th:onclick="|location.href='@{/mail/mailUpdate/{mailNo} (mailNo=*{mailNo})}'|">
+                     th:onclick="|location.href='@{/mail/outMailUpdate/{mailNo} (mailNo=*{mailNo})}'|">
                     메일 제목
                 </div>
                 
@@ -103,5 +103,7 @@
             </div>
         </div>
     </section>
+
+    <script src="/js/employee/mail/outbox.js"></script>
 </body>
 </html>

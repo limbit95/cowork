@@ -28,4 +28,6 @@ public class MailFile {
 	
 	private int mailNo; 
 	private MultipartFile uploadFile; 
+	
+	private String orderUpdate; 
 }

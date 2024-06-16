@@ -124,7 +124,7 @@
 		</select>
 	
 	<!-- 전체메일함 개수 조회 -->
-	<select id="mailCount">
+	<select id="mailCount" resultType="int">
 		 SELECT COUNT(DISTINCT M.MAIL_NO)
 	     FROM MAIL M
 	     LEFT JOIN 
@@ -135,8 +135,8 @@
 	</select>
 	
 	<!--  안 읽은 메일 개수 조회 -->
-	<select id="noReadCount">
-	    SELECT SUM(CASE WHEN M.READ_FL = '1' THEN 1 ELSE 0 END)
+	<select id="noReadCount" resultType="int">
+	    SELECT COALESCE(SUM(CASE WHEN M.READ_FL = '1' THEN 1 ELSE 0 END), 0)
     	FROM (
         SELECT DISTINCT M.MAIL_NO, M.READ_FL
         FROM MAIL M
@@ -156,6 +156,7 @@
 	        M.MAIL_FLAG AS mailFlag,
 	        M.EMP_CODE AS empCode,
 	        M.READ_FL AS readFl,
+	        SENDER.EMP_CODE AS senderEmpCode, 
 	        SENDER.EMP_ID AS senderMail,
 	        SENDER.EMP_LAST_NAME || SENDER.EMP_FIRST_NAME AS sender,
 	        SENDER_TEAM.TEAM_NM AS senderTeamNm,
@@ -260,7 +261,7 @@
 		</select>
 
 	<!-- 보낸 메일함 개수 조회 -->
-	<select id="sentListCount">
+	<select id="sentListCount" resultType="int">
     SELECT COUNT(DISTINCT M.MAIL_NO)
 	    FROM MAIL M
 	    LEFT JOIN 
@@ -301,7 +302,7 @@
 	
 	
 	<!-- 보낸 메일함 개수 조회 -->
-	<select id="sentMailCount">
+	<select id="sentMailCount" resultType="int">
     	SELECT COUNT(DISTINCT M.MAIL_NO)
 	     FROM MAIL M
 	     LEFT JOIN 
@@ -313,7 +314,7 @@
 
 	
 	<!-- 보낸 메일 안 읽은 메일 개수 조회 -->
-	<select id="sentMailNoReadCount">
+	<select id="sentMailNoReadCount" resultType="int">
 	    SELECT SUM(CASE WHEN M.READ_FL = '1' THEN 1 ELSE 0 END)
 	    	FROM (
 	        SELECT DISTINCT M.MAIL_NO, M.READ_FL
@@ -406,7 +407,7 @@
 
 
 	<!-- 받은 메일함 개수 조회 -->
-	<select id="inMailCount">
+	<select id="inMailCount" resultType="int">
 	    SELECT NVL(COUNT(*), 0)
 	    FROM MAIL M
 	    LEFT JOIN RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
@@ -415,7 +416,7 @@
 	</select>
 	
 	<!-- 받은 메일 안 읽은 메일 개수 조회 -->
-	<select id="inMailNoReadCount">
+	<select id="inMailNoReadCount" resultType="int">
 	    SELECT NVL(SUM(CASE WHEN M.READ_FL = '1' THEN 1 ELSE 0 END), 0)
 	    FROM MAIL M
 	    LEFT JOIN RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
@@ -424,7 +425,7 @@
 	</select>
 	
 	<!-- 빋은 메일함 개수 조회 -->
-	<select id="inListCount">
+	<select id="inListCount" resultType="int">
 	    SELECT COUNT(*)
 	    FROM MAIL M
 	    LEFT JOIN RECIPIENT R ON M.MAIL_NO = R.MAIL_NO
@@ -495,26 +496,26 @@
 	
 	<!-- 메일 보내기 -->
 	<insert id="sendMail" useGeneratedKeys="true" parameterType="Mail">
-	<selectKey order="BEFORE" resultType="_int" keyProperty="mailNo">
-		SELECT SEQ_MAIL.NEXTVAL FROM DUAL
-	</selectKey>
-		INSERT INTO MAIL
-		(MAIL_NO, MAIL_TITLE, MAIL_CONTENT, MAIL_WRITE_DATE, MAIL_FLAG, EMP_CODE, READ_FL)
-		VALUES (
-			#{mailNo}, 
-			#{mailTitle}, 
-			#{mailContent}, 
-			DEFAULT, 
-			DEFAULT, 
-			#{empCode}, 
-			DEFAULT
-		)
+		<selectKey order="BEFORE" resultType="_int" keyProperty="mailNo">
+			SELECT SEQ_MAIL.NEXTVAL FROM DUAL
+		</selectKey>
+			INSERT INTO MAIL
+			(MAIL_NO, MAIL_TITLE, MAIL_CONTENT, MAIL_WRITE_DATE, MAIL_FLAG, EMP_CODE, READ_FL)
+			VALUES (
+				#{mailNo}, 
+				#{mailTitle}, 
+				#{mailContent}, 
+				DEFAULT, 
+				DEFAULT, 
+				#{empCode}, 
+				DEFAULT
+			)
 	</insert>
 	
 	<!-- 수신자 리스트 -->
 	<insert id="recipientList" parameterType="list">
 	    INSERT INTO RECIPIENT (RECIPIENT_NO, EMP_CODE, MAIL_NO, REFERENCE_FL)
-	    <foreach collection="list" item="recipient" separator=" UNION ALL ">
+	    <foreach collection="list" item="recipient" separator=" UNION ">
 	        SELECT
 	            NEXT_RECIPIENT_NO(),
 	            #{recipient.empCode},
@@ -677,7 +678,7 @@
 		</select>
 	
 	<!-- 임시보관함 리스트 개수 -->
-	<select id="outListCount">
+	<select id="outListCount" resultType="int">
     	SELECT COUNT(DISTINCT M.MAIL_NO)
 	    FROM MAIL M
 	    LEFT JOIN 
@@ -796,8 +797,8 @@
 	        M.MAIL_WRITE_DATE DESC
 		</select>
 	
-	<!-- 휴지통 리스트 개수 -->
-	<select id="binListCount">
+	<!-- 휴지통 리스트 개수  -->
+	<select id="binListCount" resultType="int">
     	SELECT COUNT(DISTINCT M.MAIL_NO)
 	    FROM MAIL M
 	    LEFT JOIN 
@@ -835,7 +836,153 @@
 	            </choose>
 	        </if>
 		</select>
+		
+		<!-- 휴지통에서 메일 복구 -->
+		<update id="restoreMail">
+			UPDATE MAIL SET
+			MAIL_FLAG = #{mailFlag}
+			WHERE
+			MAIL_NO = #{mailNo}
+		</update>
 
+		<!-- 휴지통에서 메일 영구 삭제 -->
+		<delete id="eliminateMail">
+			DELETE FROM MAIL 
+			WHERE MAIL_NO = #{mailId}
+		</delete>
+		
+		<!-- 휴지통에서 메일파일 영구 삭제 -->
+		  <delete id="eliminateRecipient">
+	        DELETE FROM RECIPIENT 
+	        WHERE MAIL_NO = #{mailId}
+	      </delete>
+	      
+		<!-- 휴지통에서 메일 받은 사람 영구 삭제 -->
+		<delete id="eliminateFile">
+			DELETE FROM MAIL_FILE
+			WHERE MAIL_NO = #{mailId}
+		</delete>
+		
+		<!-- 답장하기 -->
+		<insert id="replyMail" useGeneratedKeys="true" parameterType="Mail">
+			<selectKey order="BEFORE" resultType="_int" keyProperty="mailNo">
+				SELECT SEQ_MAIL.NEXTVAL FROM DUAL
+			</selectKey>
+			INSERT INTO MAIL
+			(MAIL_NO, MAIL_TITLE, MAIL_CONTENT, MAIL_WRITE_DATE, MAIL_FLAG, EMP_CODE, READ_FL)
+			VALUES (
+				#{mailNo}, 
+				#{mailTitle}, 
+				#{mailContent}, 
+				DEFAULT, 
+				DEFAULT, 
+				#{empCode}, 
+				DEFAULT
+			)
+		</insert>
+		
+		<!-- 파일 순서 수정 -->
+		<update id="mailFileUpdate">
+			UPDATE MAIL_FILE SET
+			FILE_ORDER = #{fileOrder}
+			WHERE FILE_ORDER = #{orderUpdate}
+			AND MAIL_NO = #{mailNo}
+		</update>
+		
+		<!-- 파일 삭제 -->
+		<delete id="deleteFile">
+			DELETE FROM MAIL_FILE
+			WHERE FILE_ORDER IN(${deleteOrder})
+			AND MAIL_NO = #{mailNo}
+		</delete>
+		
+		<select id="getMatchFiles">
+			SELECT FROM MAIL_FILE
+			WHERE FILE_ORDER_IN (${deleteOrder})
+			AND MAIL_NO = #{mailNo}	
+		</select>
+		
+		 <!-- 기존 파일 조회 -->
+	    <select id="getMailFilesByMailNo" resultType="MailFile">
+	        SELECT 
+	            FILE_NO,
+	            MAIL_NO,
+	            FILE_PATH,
+	            FILE_ORIGIN_NAME,
+	            FILE_RENAME,
+	            FILE_UPLOAD_DATE,
+	            FILE_ORDER
+	        FROM MAIL_FILE
+	        WHERE MAIL_NO = #{mailNo}
+	    </select>
+	    
+	    <!-- 임시 저장하기 -->
+		<insert id="saveMail" useGeneratedKeys="true" parameterType="Mail">
+			<selectKey order="BEFORE" resultType="_int" keyProperty="mailNo">
+				SELECT SEQ_MAIL.NEXTVAL FROM DUAL
+			</selectKey>
+				INSERT INTO MAIL
+				(MAIL_NO, MAIL_TITLE, MAIL_CONTENT, MAIL_WRITE_DATE, MAIL_FLAG, EMP_CODE, READ_FL)
+				VALUES (
+					#{mailNo}, 
+					#{mailTitle}, 
+					#{mailContent}, 
+					DEFAULT, 
+					'2', 
+					#{empCode}, 
+					DEFAULT
+				)
+		</insert>
+		
+		<!-- 임시저장 수정하기 -->
+		<update id="updateSave">
+			UPDATE MAIL SET 
+			MAIL_TITLE = #{mailTitle},
+			MAIL_CONTENT = #{mailContent}
+			WHERE MAIL_NO = #{mailNo}	
+		</update>
+		
+		<!-- 수신자 업데이트 -->
+		<insert id="updateRecipient" parameterType="list">
+		    INSERT INTO RECIPIENT (RECIPIENT_NO, EMP_CODE, MAIL_NO, REFERENCE_FL)
+	    <foreach collection="list" item="recipient" separator=" UNION ALL ">
+	        SELECT
+	            NEXT_RECIPIENT_NO(),
+	            #{recipient.empCode},
+	            #{recipient.mailNo},
+	            #{recipient.recipientNo}
+	        FROM DUAL
+	    </foreach>
+		</insert>
+		
+		<!-- 수신인 지우기 -->
+		<delete id="deleteRecipient" parameterType="map">
+			    DELETE FROM RECIPIENT
+			    WHERE MAIL_NO = #{mailNo}
+			    AND RECIPIENT_NO = #{recipientNo}
+		</delete>
+		
+		<!-- 수신인 업데이트 insert -->
+		<insert id="insertRecipient">
+	        INSERT INTO RECIPIENT 
+		     VALUES (
+		            NEXT_RECIPIENT_NO(),
+		            #{empCode},
+		            #{mailNo},
+		            #{referenceFl}
+		        )
+		</insert>
+		
+		<!-- 임시보관에서의 전송 -->
+		<update id="outSend">
+			UPDATE MAIL SET 
+			MAIL_TITLE = #{mailTitle},
+			MAIL_CONTENT = #{mailContent},
+			MAIL_FLAG = '1'
+			WHERE MAIL_NO = #{mailNo}	
+		</update>
+		
+	
 
 </mapper>
 

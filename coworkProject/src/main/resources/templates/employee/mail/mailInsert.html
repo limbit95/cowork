@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +25,7 @@
             <div class="mailHeader">
                 <div class="checkDiv">
                     <button class="default-btn sapphire-border-btn" id="sendBtn" type="button">보내기</button>
-                    <label class="delBtn">임시저장</label>
+                    <label class="delBtn" id="saveBtn">임시저장</label>
                 </div>
             </div>
 
@@ -34,9 +34,11 @@
                     <!-- 받는사람 -->
                     <div class="ins-css insertForm mailInfo recipientForm">
                         <div><label>받는사람</label></div>
-                        <div class="">
-                            <input class="default-line inputRecipient" id="recipient" placeholder="받는 사람">
-                            <input class="inputEmpCode" id="empCode1" hidden>
+                        <div class="inputContainer">
+                            <div id="recipientListContainer" class="recipientListContainer">
+                                <input type="text" id="recipientInput" class="inputRecipient" placeholder="받는 사람">
+                                <input class="inputEmpCode" id="empCode1" hidden>
+                            </div>
                         </div>
                     </div>
 
@@ -55,9 +57,11 @@
                     <!-- 참조 -->
                     <div class="ins-css insertForm mailInfo refererForm">
                         <div><label>참조</label></div>
-                        <div class="">
-                            <input class="default-line inputReferer" id="referer" placeholder="참조">
-                            <input class="inputEmpCode" id="empCode2" hidden>
+                        <div class="inputContainer">
+                            <div id="refererListContainer" class="refererListContainer">
+                                <input type="text" id="refererInput" class="inputReferer" placeholder="참조">
+                                <input class="inputEmpCode" id="empCode2" hidden>
+                            </div>
                         </div>
                     </div>
 

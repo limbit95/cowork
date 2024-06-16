@@ -7,7 +7,6 @@
 
     <th:block th:replace="~{common/common}"></th:block>
     <link rel="stylesheet" href="/css/employee/mail/mail.css">
-
 </head>
 <body>
     <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
@@ -18,8 +17,7 @@
             <div class="mailLabel">
                 <label>휴지통</label>
                 <div>
-                    <button class="default-btn glucose-btn" 
-                            >복구하기</button>
+                    <button class="default-btn glucose-btn" id="restoreBtn">복구하기</button>
                             <!--th:onclick="location.href='/mail/mailInsert'"-->
                 </div>
             </div>
@@ -43,7 +41,7 @@
             <div class="table-body">
                 <div class="checkDiv">
                     <input type="checkbox" id="checkAll">
-                    <label class="delBtn" id="deleteBtn">영구 삭제</label>
+                    <label class="delBtn" id="eliminateBtn">영구 삭제</label>
                 </div>
                 <div></div>
                 <div></div>
@@ -56,13 +54,13 @@
 
             <div class="table-body row" th:each="bin : ${bin}" th:object="${bin}">
                 <div class="checkDiv">
-                    <input type="checkbox" th:attr="data-mail-id=${bin.mailNo}" >
-                    <div><span th:text="${bin.recipientTeamNm}" id="recipientTeamNm">받는 사람 팀이름</span>&nbsp;
-                        <span th:text="${bin.recipient}">이름</span></div>
+                    <input type="checkbox" th:attr="data-mail-id=${bin.mailNo}" class="mailCheckbox">
+                    <div><span th:text="${bin.senderTeamNm}" id="senderTeamNm">받는 사람 팀이름</span>&nbsp;
+                        <span th:text="${bin.sender}">이름</span></div>
                 </div>
                 <div th:attr="data-mail-id=${bin.mailNo}" 
                      th:text="${bin.mailTitle}" id="mailTitle" class="mailTitle"
-                     > <!-- th:onclick="|location.href='@{/mail/mailDetail/{mailNo} (mailNo=*{mailNo})}'|" -->
+                     th:onclick="|location.href='@{/mail/mailDetail/{mailNo} (mailNo=*{mailNo})}'|"> <!--  -->
                     메일 제목
                 </div>
                 
@@ -99,5 +97,7 @@
             </div>
         </div>
     </section>
+
+    <script src="/js/employee/mail/bin.js"></script>
 </body>
 </html>

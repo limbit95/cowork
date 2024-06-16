@@ -1,5 +1,9 @@
 package com.cowork.common.utility;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 
 public class Utility {
@@ -22,5 +26,19 @@ public class Utility {
 		
 		return date + "_" + number + ext;
 	}
+
+	public static void copyFile(File sourceFile, File destFile) throws IOException {
+        
+        if (!sourceFile.exists()) {
+            throw new IOException("Source file does not exist: " + sourceFile.getAbsolutePath());
+        }
+
+       
+        if (!destFile.getParentFile().exists() && !destFile.getParentFile().mkdirs()) {
+            throw new IOException("Failed to create destination directory: " + destFile.getParentFile().getAbsolutePath());
+        }
+
+        Files.copy(sourceFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    }
 
 }

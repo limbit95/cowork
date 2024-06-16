@@ -56,10 +56,7 @@ function addEventListeners() {
                           if (result.success) {
                               alert("삭제 완료했습니다."); 
                               checkboxes.forEach(checkbox => {
-                                  const row = checkbox.closest('.table-body.row');
-                                  if (row) {
-                                      row.remove();
-                                  }
+                                 location.reload(); 
                               });
                           } else {
                               alert('메일을 삭제하는데 실패했습니다.');

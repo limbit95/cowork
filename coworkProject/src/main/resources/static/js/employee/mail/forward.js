@@ -1,3 +1,4 @@
+
 // 에디터 
 var oEditors = [];
 
@@ -20,21 +21,21 @@ smartEditor = function() {
     });
 }
 
-
-
-const recipientEmpCodeInput = document.getElementById('recipientEmpCode');
-const recipientEmpNameInput = document.getElementById('recipientEmpName');
-const recipientInput = document.getElementById('recipientInput');
-const recipientListContainer = document.getElementById('recipientListContainer');
-const refererInput = document.getElementById('refererInput');
-const refererListContainer = document.getElementById('refererListContainer');
-
-
-
-    // 스마트 에디터 
-    smartEditor(); 
-
+    const recipientInput = document.getElementById('recipientInput');
+    const recipientListContainer = document.getElementById('recipientListContainer');
+    const recipientEmpCodeInput = document.getElementById('recipientEmpCode');
+    const recipientEmpNameInput = document.getElementById('recipientEmpName');
+    const refererInput = document.getElementById('refererInput');
+    const refererListContainer = document.getElementById('refererListContainer');
+    const refererEmpCodeInput = document.getElementById('refererEmpCode');
+    const refererEmpNameInput = document.getElementById('refererEmpName');
     
+
+    // 디버깅: 초기화 후 요소 확인
+    console.log(mailNo); 
+    console.log(existingFiles); 
+    console.log("Initial recipient list:", Array.from(document.querySelectorAll('.putRecipient')).map(el => el.dataset.empCode));
+    console.log("Initial referer list:", Array.from(document.querySelectorAll('.putReferer')).map(el => el.dataset.empCode));    
 
     // 받는 사람 입력에 스페이스나 엔터를 눌렀을 때
     recipientInput.addEventListener('keydown', (event) => {
@@ -59,9 +60,6 @@ const refererListContainer = document.getElementById('refererListContainer');
             }
         }
     });
-
-
-
 
 // 사원 검색 영역 생성 
 function createSearchTable(tableId, inputElement) {
@@ -104,7 +102,6 @@ function searchEmp(empName, trId, tableId) {
     .catch(error => console.error('Error:', error));
 }
 
-
 // 입력했을 때 
 recipientInput.addEventListener('input', () => {
     const empName = recipientInput.value;
@@ -113,6 +110,7 @@ recipientInput.addEventListener('input', () => {
     }
     searchEmp(empName, 'trRec', '#searchRecTable');
 });
+
 refererInput.addEventListener('input', () => {
     const empName = refererInput.value;
     if (!document.getElementById('searchRefTable')) {
@@ -141,7 +139,7 @@ function searchtrRecClick(empCode, empName) {
     document.querySelector('.recipientForm').appendChild(recipientDiv);
 }
 
-// 이메일 받는 사람 추가 함수
+// 받는 사람 추가 함수
 function addRecipientEmail(empName) {
     const recipientDiv = document.createElement('div');
     recipientDiv.className = 'default-label lavenderLabel putRecipient';
@@ -149,6 +147,7 @@ function addRecipientEmail(empName) {
     recipientDiv.appendChild(createDeleteButton(recipientDiv));
     recipientListContainer.appendChild(recipientDiv);
 }
+
 // 참조인 클릭시 
 function searchtrRefClick(empCode, empName) {
     const refererDiv = document.createElement('div');
@@ -172,7 +171,7 @@ function searchtrRefClick(empCode, empName) {
     }
 });
 
-// 이메일 참조인 추가 함수
+// 참조인 추가 함수
 function addRefererEmail(empName) {
     const refererDiv = document.createElement('div');
     refererDiv.className = 'default-label lavenderLabel putReferer';
@@ -195,31 +194,24 @@ function createDeleteButton(parentDiv) {
     return deleteButton;
 }
 
-
 // 파일 
-const fileListBtn = document.querySelector('.fileListInfo'); 
-const preview = document.querySelector('.preview'); 
-const formData = new FormData(); 
+const fileListBtn = document.querySelector('.fileListInfo'); /* 파일 목록 보기 버튼 */
+const preview = document.querySelector('.preview'); /* 파일 목록 보기 */
+const formData = new FormData(); // 초기에 빈 FormData 객체를 생성합니다.
 
-fileListBtn.addEventListener('click', () => {
-    if(fileListBtn.classList.contains('fa-chevron-up')) {
-        fileListBtn.classList.remove('fa-chevron-up');
-        fileListBtn.classList.add('fa-chevron-down');
-        preview.style.display = 'none';
-    } else {
-        fileListBtn.classList.remove('fa-chevron-down');
-        fileListBtn.classList.add('fa-chevron-up');
-        preview.style.display = 'block';
-    }
-});
+const deleteOrder = new Set(); // 삭제 파일 순서 번호
+const updateOrder = new Set(); // 기존 파일 
 
-const fileHandler = {
+
+const handler = {
     init() {
         const fileInput = document.querySelector('#fileInput');
 
         fileInput.addEventListener('change', () => {  
+            //console.dir(fileInput)                  
             const files = Array.from(fileInput.files)
             files.forEach(file => {
+                //formData.append('files', file); 
                 formData.append(file.name, file); // 파일을 추가할 때마다 FormData에 파일을 추가합니다.
 
                 const fileTr = document.createElement('tr');
@@ -246,12 +238,19 @@ const fileHandler = {
                 fileXIcon.dataset.index = `${file.lastModified}`;
                 fileXIcon.type = 'button';
 
+                const orderLabel = document.createElement('label');
+                orderLabel.hidden = true;
+
                 fileTd2.appendChild(fileXIcon);
+                fileTd2.appendChild(orderLabel);
+
 
                 fileTr.appendChild(fileTd);
                 fileTr.appendChild(fileTd2);
 
                 preview.appendChild(fileTr);
+
+                
             });
 
             // 파일 개수
@@ -262,10 +261,18 @@ const fileHandler = {
 
     removeFile: () => {
         document.addEventListener('click', (e) => {
+            console.log(e.target.className);
             if(e.target.className !== 'fa-solid fa-xmark fileRemove btnBoarder') return;
             const removeTargetId = e.target.dataset.index;
             const removeTarget = document.getElementById(removeTargetId);
             const removeTargetName = e.target.dataset.name;
+
+            const fileOrder = e.target.nextSibling;  // 기존 파일 삭제 순서
+
+            //console.log(fileOrder.innerText);
+            //console.log(removeTarget);    
+
+            if(fileOrder.innerText != "") deleteOrder.add(fileOrder.innerText); // 기존파일 순서 저장
             
             // FormData 객체에서 해당 파일을 삭제합니다.
             formData.delete(removeTargetName);
@@ -279,10 +286,14 @@ const fileHandler = {
     }
 }
 
-fileHandler.init();
-fileHandler.removeFile();
+smartEditor(); //스마트에디터 적용
 
-document.querySelector('#sendBtn').addEventListener('click', () => {
+// 첨부파일 업로드
+handler.init();
+handler.removeFile();
+
+
+document.querySelector('#fwBtn').addEventListener('click', () => {
 
     console.log('Send button clicked'); // 버튼 클릭 로그
     // 에디터 내용을 업데이트
@@ -290,10 +301,28 @@ document.querySelector('#sendBtn').addEventListener('click', () => {
 
     // 폼 데이터 수집
     const clone = new FormData();
-
-    const files = document.querySelector('#fileInput').files;
     const mailTitle = document.getElementById('mailTitle').value;
     const mailContent = document.getElementById('mailContent').value;
+
+    // 기존파일 순서
+    for (let file of existingFiles) {
+        let isToDelete = false;
+    
+        if (deleteOrder.size > 0) {
+            for (const order of deleteOrder) {
+
+                if (order == file.fileOrder) {
+                    isToDelete = true;
+                    break; // 해당 파일이 deleteOrder 배열에 포함되면 삭제 대상임을 표시하고 루프 종료
+                }
+            }
+        }
+    
+        if (!isToDelete) {
+            updateOrder.add(file.fileOrder); // deleteOrder 배열에 포함되지 않은 경우에만 updateOrder에 추가
+        }
+    }
+
 
     // 검증 로직 추가
     const recipient = Array.from(document.querySelectorAll('.putRecipient')).map(el => el.dataset.empCode);
@@ -317,18 +346,30 @@ document.querySelector('#sendBtn').addEventListener('click', () => {
         return;
     }
 
-    for(const pair of formData.entries()) {
-        clone.append('files', pair[1]); 
-    }
+    // 기존파일 순서와 삭제파일 순서 FormData에 추가
+    clone.append('updateOrder', Array.from( updateOrder ));
+    clone.append('deleteOrder', Array.from( deleteOrder ));
 
-    // FormData에 추가
+    // 제목과 내용을 FormData에 추가
     clone.append('mailTitle', mailTitle);
     clone.append('mailContent', mailContent);
     clone.append('recipient', recipient.join(','));
     clone.append('referer', referer.join(','));
 
+
+    // 새로운 파일 추가
+    for (const pair of formData.entries()) {
+        console.log('Appending new file:', pair[1]);
+        clone.append('files', pair[1]);
+    }
+
+     // 파일이 없을 경우 빈 배열로 추가
+     if (formData.entries().next().done) {
+        clone.append('files', new Blob([]), '');
+    }
+  
     // Fetch API를 사용하여 서버로 전송
-    fetch("/mail/mailInsert", {
+    fetch("/mail/forward/" + mailNo, {
         method: "POST",
         body: clone
     })
@@ -382,6 +423,7 @@ document.querySelector('#saveBtn').addEventListener('click', () => {
     for(const pair of formData.entries()) {
         clone.append('files', pair[1]); 
     }
+
 
     // FormData에 추가
     clone.append('mailTitle', mailTitle);

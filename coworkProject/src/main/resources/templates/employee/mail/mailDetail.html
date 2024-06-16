@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,15 +28,22 @@
         <div class="board">
 
             <div class="table-body">
-                <div class="checkDiv">
-                    <label class="delBtn">답장</label>
-                    <label class="delBtn">전달</label>
-                    <label class="delBtn">삭제</label>
+                <div class="checkDiv" th:if="${mail.mailFlag == '1'}">
+                    <label class="delBtn" id="reBtn" th:attr="data-mail-id=${mail.mailNo}" 
+                            th:onclick="|location.href='/mail/reply/' + ${mail.mailNo}|">답장</label>
+                    <label class="delBtn" id="fwBtn" th:attr="data-mail-id=${mail.mailNo}" 
+                            th:onclick="|location.href='/mail/forward/' + ${mail.mailNo}|">전달</label>
+                    <label class="delBtn" id="deleteBtn">삭제</label>
+                </div>
+                <div class="checkDiv" th:unless="${mail.mailFlag == '1'}">
+                    <label class="delBtn" id="restoreBtn">복구</label>
+                    <label class="delBtn" id="eliminateBtn">영구삭제</label>
                 </div>
                 <div></div>
                 <div></div>
                 <div class="menuDiv checkDiv">
-                    <div><label class="delBtn" onclick="location.href='/mail/mailList'">목록</label></div>
+                    <div th:if="${mail.mailFlag == '1'}"><label class="delBtn" onclick="location.href='/mail/mailList'">목록</label></div>
+                    <div th:unless="${mail.mailFlag == '1'}"><label class="delBtn" onclick="location.href='/mail/bin'">목록</label></div>
                     <i class="fa-solid fa-angle-up"></i>
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
@@ -46,6 +53,7 @@
                 <!-- 제목 -->
                 <div class="ins-css insertForm">
                     <div><label>제목</label></div>
+                    <input type="hidden" th:attr="data-mail-id=${mail.mailNo}" id="mailNo">
                     <span th:text="${mail.mailTitle}" class="mailTitle" id="mailTitle"></span>
                 </div>
 
@@ -123,20 +131,7 @@
         </div>
     </section>
 
-    <script>
-        const fileListBtn = document.querySelector('.fileListInfo'); 
-        const preview = document.querySelector('.preview'); 
-        fileListBtn.addEventListener('click', () => {
-            if(fileListBtn.classList.contains('fa-chevron-up')) {
-                fileListBtn.classList.remove('fa-chevron-up');
-                fileListBtn.classList.add('fa-chevron-down');
-                preview.style.display = 'none';
-            } else {
-                fileListBtn.classList.remove('fa-chevron-down');
-                fileListBtn.classList.add('fa-chevron-up');
-                preview.style.display = 'block';
-            }
-        });
-    </script>
+    <script src="/js/employee/mail/detail.js"></script>
+    <script src="/js/employee/mail/binDetail.js"></script>
 </body>
 </html>

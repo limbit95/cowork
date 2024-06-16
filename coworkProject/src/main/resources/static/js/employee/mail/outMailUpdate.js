@@ -1,59 +1,111 @@
-/* 스마트에디터 */
+
+// 에디터 
 var oEditors = [];
 
-const fileListBtn = document.querySelector('.fileListInfo'); /* 파일 목록 보기 버튼 */
-const preview = document.querySelector('.preview'); /* 파일 목록 보기 */
-const formData = new FormData();
-
-const deleteOrder = new Set(); // 삭제 파일 순서 번호
-const updateOrder = new Set(); // 삭제이외에 기존 파일 순서 번호 (순서 업데이트 위해)
-
+// 에디터 
 smartEditor = function() {
     nhn.husky.EZCreator.createInIFrame({
         oAppRef: oEditors,
-        elPlaceHolder: "outMailContent", 
-        sSkinURI: "/lib/smarteditor2/se/SmartEditor2Skin.html", 
+        elPlaceHolder: "mailContent", // textarea에 부여한 아이디와 동일해야합니다.
+        sSkinURI: "/lib/smarteditor2/se/SmartEditor2Skin.html", // 자신의 프로젝트에 맞게 경로 수정
         fCreator: "createSEditor2",
-        fOnAppLoad : function(){
+        fOnAppLoad: function() {
             // 에디터에 내용 넣기
-            oEditors.getById["outMailContent"].exec("PASTE_HTML", [outMailContent]);
+            if (typeof mailContent !== 'string' || mailContent.trim() === '') {
+                mailContent = ''; // 초기화
+            } else {
+                mailContent = String(mailContent); // insertContent를 문자열로 변환
+            }
+            oEditors.getById["mailContent"].exec("PASTE_HTML", [mailContent]);
         }
-    })
+    });
 }
+smartEditor(); //스마트에디터 적용
 
-let recipientInput = document.getElementById('recipient');
-let refererInput = document.getElementById('referer');
+    const recipientInput = document.getElementById('recipientInput');
+    const recipientListContainer = document.getElementById('recipientListContainer');
+    const recipientEmpCodeInput = document.getElementById('recipientEmpCode');
+    const recipientEmpNameInput = document.getElementById('recipientEmpName');
+    const refererInput = document.getElementById('refererInput');
+    const refererListContainer = document.getElementById('refererListContainer');
+    const refererEmpCodeInput = document.getElementById('refererEmpCode');
+    const refererEmpNameInput = document.getElementById('refererEmpName');
+    
 
-// 받는 사람 입력시 
-recipientInput.addEventListener('input', () => {
-    const empName = recipientInput.value;
-    if (!document.getElementById('searchRecTable')) {
-        createSearchTable('searchRecTable', recipientInput);
+    // 디버깅: 초기화 후 요소 확인
+    console.log(mailNo); 
+    console.log(existingFiles); 
+    console.log("Initial recipient list:", Array.from(document.querySelectorAll('.putRecipient')).map(el => el.dataset.empCode));
+    console.log("Initial referer list:", Array.from(document.querySelectorAll('.putReferer')).map(el => el.dataset.empCode));    
+
+
+    // 받는 사람 입력에 스페이스나 엔터를 눌렀을 때
+    recipientInput.addEventListener('keydown', (event) => {
+        if (event.key === ' ' || event.key === 'Enter') {
+            event.preventDefault();
+            const empName = recipientInput.value.trim();
+            if (empName) {
+                addRecipientEmail(empName);
+                recipientInput.value = '';
+            }
+        }
+    });
+
+    // 참조 입력에 스페이스나 엔터를 눌렀을 때
+    refererInput.addEventListener('keydown', (event) => {
+        if (event.key === ' ' || event.key === 'Enter') {
+            event.preventDefault();
+            const empName = refererInput.value.trim();
+            if (empName) {
+                addRefererEmail(empName);
+                refererInput.value = '';
+            }
+        }
+    });
+
+    
+     // 받는 사람에 정보 입력 
+    if (recipientList.length > 0) {
+        recipientList.forEach(recipient => {
+            const recipientDiv = document.createElement('div');
+            recipientDiv.className = 'default-label lavenderLabel putRecipient';
+            recipientDiv.dataset.empCode = recipient.empCode;
+            recipientDiv.dataset.empName = recipient.recipient;
+            recipientDiv.textContent = recipient.recipient;
+            recipientDiv.appendChild(createDeleteButton(recipientDiv));
+            recipientListContainer.appendChild(recipientDiv);
+
+            recipientEmpCodeInput.value = recipient.empCode;
+            recipientEmpNameInput.value = recipient.recipient;
+        });
     }
-    searchEmp(empName, 'trRec', '#searchRecTable');
-});
 
-// 참조 입력시 
-refererInput.addEventListener('input', () => {
-    const empName = refererInput.value;
-    if (!document.getElementById('searchRefTable')) {
-        createSearchTable('searchRefTable', refererInput);
+    // 참조란에 참조자들 리스트 입력 
+    if (refererList.length > 0) {
+        refererList.forEach(referer => {
+            const refererDiv = document.createElement('div');
+            refererDiv.className = 'default-label lavenderLabel putReferer';
+            refererDiv.dataset.empCode = referer.empCode;
+            refererDiv.dataset.empName = referer.referer;
+            refererDiv.textContent = referer.referer;
+            refererDiv.appendChild(createDeleteButton(refererDiv));
+            refererListContainer.appendChild(refererDiv);
+
+            refererEmpCodeInput.value = referer.empCode;
+            refererEmpNameInput.value = referer.referer;
+        });
     }
-    searchEmp(empName, 'trRef', '#searchRefTable');
-});
 
-// 사원 검색 영역 
+
+// 사원 검색 영역 생성 
 function createSearchTable(tableId, inputElement) {
     const searchTable = document.createElement('div');
     searchTable.className = 'searchTable';
     searchTable.id = tableId;
-    searchTable.id = tableId;
-    searchTable.style.width = '300px';
-    inputElement.insertAdjacentElement('afterend', searchTable);
-    inputElement.insertAdjacentElement('afterend', searchTable);
+    inputElement.parentElement.appendChild(searchTable); // 인풋 창 바로 아래에 검색 영역 추가
 }
 
-// 사원 검색 
+// 사원 검색 함수
 function searchEmp(empName, trId, tableId) {
     fetch("/mail/mailInsert/empSearch?empName=" + empName, {
         method: "GET",
@@ -63,10 +115,11 @@ function searchEmp(empName, trId, tableId) {
     .then(employeeList => {
         const searchTable = document.querySelector(tableId);
         searchTable.innerHTML = '';
+        searchTable.style.display = 'block'; // 검색 결과가 있으면 검색창 표시
 
         employeeList.forEach(employee => {
             const div = document.createElement('div');
-            div.classList.add('searchTr', trId);
+            div.classList.add('searchRow', trId); // 검색 결과 행 생성
             div.setAttribute('onclick', `search${trId}Click(${employee.empCode}, '${employee.empName}')`);
 
             div.innerHTML = `
@@ -85,6 +138,32 @@ function searchEmp(empName, trId, tableId) {
     .catch(error => console.error('Error:', error));
 }
 
+// 입력했을 때 
+recipientInput.addEventListener('input', () => {
+    const empName = recipientInput.value;
+    if (!document.getElementById('searchRecTable')) {
+        createSearchTable('searchRecTable', recipientInput);
+    }
+    searchEmp(empName, 'trRec', '#searchRecTable');
+});
+
+refererInput.addEventListener('input', () => {
+    const empName = refererInput.value;
+    if (!document.getElementById('searchRefTable')) {
+        createSearchTable('searchRefTable', refererInput);
+    }
+    searchEmp(empName, 'trRef', '#searchRefTable');
+});
+
+ // 검색창 외부 클릭 시 검색창 숨기기
+ document.addEventListener('click', (event) => {
+    if (!event.target.closest('.searchTable') && !event.target.closest('.inputRecipient') && !event.target.closest('.inputReferer')) {
+        document.querySelectorAll('.searchTable').forEach(table => {
+            table.style.display = 'none';
+        });
+    }
+});
+
 // 받는사람 클릭시  
 function searchtrRecClick(empCode, empName) {
     const recipientDiv = document.createElement('div');
@@ -96,25 +175,13 @@ function searchtrRecClick(empCode, empName) {
     document.querySelector('.recipientForm').appendChild(recipientDiv);
 }
 
-// 받는 사람 입력에 스페이스나 엔터를 눌렀을 때
-recipientInput.addEventListener('keydown', (event) => {
-    if (event.key === ' ' || event.key === 'Enter') {
-        event.preventDefault();
-        const empName = recipientInput.value.trim();
-        if (empName) {
-            addRecipientEmail(empName);
-            recipientInput.value = '';
-        }
-    }
-});
-
-// 이메일 받는 사람 추가 함수
+// 받는 사람 추가 함수
 function addRecipientEmail(empName) {
     const recipientDiv = document.createElement('div');
     recipientDiv.className = 'default-label lavenderLabel putRecipient';
     recipientDiv.textContent = empName;
     recipientDiv.appendChild(createDeleteButton(recipientDiv));
-    document.querySelector('.recipientForm').appendChild(recipientDiv);
+    recipientListContainer.appendChild(recipientDiv);
 }
 
 // 참조인 클릭시 
@@ -128,8 +195,8 @@ function searchtrRefClick(empCode, empName) {
     document.querySelector('.refererForm').appendChild(refererDiv);
 }
 
-// 참조 입력에 스페이스나 엔터를 눌렀을 때
-refererInput.addEventListener('keydown', (event) => {
+ // 참조 입력에 스페이스나 엔터를 눌렀을 때
+ refererInput.addEventListener('keydown', (event) => {
     if (event.key === ' ' || event.key === 'Enter') {
         event.preventDefault();
         const empName = refererInput.value.trim();
@@ -140,14 +207,13 @@ refererInput.addEventListener('keydown', (event) => {
     }
 });
 
-// 이메일 참조인 추가 함수
+// 참조인 추가 함수
 function addRefererEmail(empName) {
     const refererDiv = document.createElement('div');
     refererDiv.className = 'default-label lavenderLabel putReferer';
     refererDiv.textContent = empName;
-    refererDiv.dataset.empCode = empCode; 
     refererDiv.appendChild(createDeleteButton(refererDiv));
-    document.querySelector('.refererForm').appendChild(refererDiv);
+    refererListContainer.appendChild(refererDiv);
 }
 
 // 삭제 버튼 생성 함수
@@ -157,40 +223,52 @@ function createDeleteButton(parentDiv) {
     deleteButton.textContent = 'X';
     deleteButton.onclick = () => {
         parentDiv.remove();
+        // Hidden input 필드 값도 지우기
+        document.getElementById('recipientEmpCode').value = '';
+        document.getElementById('recipientEmpName').value = '';
     };
     return deleteButton;
 }
+// 파일 
+const fileListBtn = document.querySelector('.fileListInfo'); /* 파일 목록 보기 버튼 */
+const preview = document.querySelector('.preview'); /* 파일 목록 보기 */
+const formData = new FormData(); // 초기에 빈 FormData 객체를 생성합니다.
 
-function setEqualRowWidth() {
-    let idMaxWidth = 0;
-    let deptMaxWidth = 0;
-    let empMaxWidth = 0;
+const deleteOrder = new Set(); // 삭제 파일 순서 번호
+const updateOrder = new Set(); // 기존 파일 
 
-    // 각 행에서 최대 너비를 찾음
-    document.querySelectorAll('.searchTr').forEach(row => {
-        const empIdWidth = row.querySelector('#empId').offsetWidth;
-        idMaxWidth = Math.max(idMaxWidth, empIdWidth);
+if (existingFiles && existingFiles.length > 0) {
+    existingFiles.forEach(file => {
+        const fileTr = document.createElement('tr');
+        fileTr.id = `${file.fileOrder}`;
 
-        const deptNmWidth = row.querySelector('#deptNm').offsetWidth;
-        deptMaxWidth = Math.max(deptMaxWidth, deptNmWidth);
+        const fileTd = document.createElement('td');
+        const fileIcon = document.createElement('a');
+        fileIcon.classList.add('fa-solid', 'fa-paperclip');
+        const fileLabel = document.createElement('label');
+        fileLabel.innerText = `${file.fileOriginName}`;
+        fileTd.appendChild(fileIcon);
+        fileTd.appendChild(fileLabel);
 
-        const empNmWidth = row.querySelector('#empNm').offsetWidth;
-        empMaxWidth = Math.max(empMaxWidth, empNmWidth);
-    });
+        const fileTd2 = document.createElement('td');
+        const fileXIcon = document.createElement('button');
+        fileXIcon.classList.add('fa-solid', 'fa-xmark', 'fileRemove', 'btnBoarder');
+        fileXIcon.dataset.name = `${file.fileOriginName}`;
+        fileXIcon.dataset.index = `${file.fileOrder}`;
+        fileXIcon.type = 'button';
+        fileXIcon.addEventListener('click', () => {
+            deleteOrder.add(file.fileOrder); // 삭제 파일 순서 추가
+            updateOrder.delete(file.fileOrder); // 기존 파일 순서에서 제거
+        });
+        fileTd2.appendChild(fileXIcon);
 
-    // 각 행에 최대 너비를 설정
-    document.querySelectorAll('.searchTr').forEach(row => {
-        row.querySelector('#empId').style.width = idMaxWidth + 'px';
-        row.querySelector('#deptNm').style.width = deptMaxWidth + 'px';
-        row.querySelector('#empNm').style.width = empMaxWidth + 'px';
-    });
+        fileTr.appendChild(fileTd);
+        fileTr.appendChild(fileTd2);
 
-    // 검색 테이블의 총 너비를 설정
-    document.querySelectorAll('.searchTable').forEach(table => {
-        table.style.width = (idMaxWidth + deptMaxWidth + empMaxWidth + 90) + 'px';
+        preview.appendChild(fileTr);
+        updateOrder.add(file.fileOrder); // 기존 파일 순서 추가
     });
 }
-
 
 /* 파일목록 보기 */
 fileListBtn.addEventListener('click', () => {
@@ -207,6 +285,7 @@ fileListBtn.addEventListener('click', () => {
         preview.style.display = 'block';
     }
 });
+
 
 /* 파일업로드 */
 const handler = {
@@ -275,10 +354,13 @@ const handler = {
 
             const fileOrder = e.target.nextSibling;  // 기존 파일 삭제 순서
 
-            //console.log(fileOrder.innerText);
+           // console.log(fileOrder.innerText);
             //console.log(removeTarget);    
+            deleteOrder.add(removeTargetId); // 삭제 파일 순서 추가
+            updateOrder.delete(removeTargetId); // 기존 파일 순서에서 제거
+    
 
-            if(fileOrder.innerText != "") deleteOrder.add(fileOrder.innerText); // 기존파일 순서 저장
+            //if(fileOrder.innerText != "") deleteOrder.add(fileOrder.innerText); // 기존파일 순서 저장
             
             // FormData 객체에서 해당 파일을 삭제합니다.
             formData.delete(removeTargetName);
@@ -292,55 +374,25 @@ const handler = {
     }
 }
 
-smartEditor(); //스마트에디터 적용
+
 
 // 첨부파일 업로드
 handler.init();
 handler.removeFile();
 
-// 임시 보관 메일 수정
-document.querySelector("#toOutbox").addEventListener("click", () => {
 
-    const files = document.querySelector('#fileInput').files;
+document.querySelector('#saveBtn').addEventListener('click', () => {
+
+    console.log('Send button clicked'); // 버튼 클릭 로그
+    // 에디터 내용을 업데이트
+    oEditors.getById["mailContent"].exec("UPDATE_CONTENTS_FIELD", []);
+
+    // 폼 데이터 수집
     const clone = new FormData();
-
-    // 에디터의 내용을 textarea에 적용
-    oEditors.getById["outMailContent"].exec("UPDATE_CONTENTS_FIELD", []);
-
     const mailTitle = document.getElementById('mailTitle').value;
-    const mailContent = document.getElementById('outMailContent').value;
+    const mailContent = document.getElementById('mailContent').value;
 
-    // 기존파일 순서
-    for (let file of noticeFileList) {
-        let isToDelete = false;
-    
-        if (deleteOrder.size > 0) {
-            for (const order of deleteOrder) {
-
-                if (order == file.fileOrder) {
-                    isToDelete = true;
-                    break; // 해당 파일이 deleteOrder 배열에 포함되면 삭제 대상임을 표시하고 루프 종료
-                }
-            }
-        }
-    
-        if (!isToDelete) {
-            updateOrder.add(file.fileOrder); // deleteOrder 배열에 포함되지 않은 경우에만 updateOrder에 추가
-        }
-    }
-
-    // 기존파일 순서와 삭제파일 순서 FormData에 추가
-    clone.append('updateOrder', Array.from( updateOrder ));
-    clone.append('deleteOrder', Array.from( deleteOrder ));
-
-    // 제목과 내용을 FormData에 추가
-    clone.append('mailTitle', mailTitle);
-    clone.append('mailContent', mailContent);
-
-    for (const pair of formData.entries()) {
-        clone.append('files', pair[1]);
-    }
-
+    // 검증 로직 추가
     const recipient = Array.from(document.querySelectorAll('.putRecipient')).map(el => el.dataset.empCode);
     if(recipient.length == 0) {
         alert("받는 사람 정보를 다시 작성해주세요.");
@@ -350,83 +402,75 @@ document.querySelector("#toOutbox").addEventListener("click", () => {
 
     const referer = Array.from(document.querySelectorAll('.putReferer')).map(el => el.dataset.empCode);
   
-
-    if(mailTitle.trim().length == 0){
-        alert("제목을 작성해주세요.");
-        noticeTitle.focus();
+    if(mailTitle.trim().length == 0) {
+        alert("제목을 작성해주세요");
+        document.getElementById('mailTitle').focus();
         return;
     }
 
-    if(mailContent == '<p><br></p>' || noticeContent == '<br>') {
-        alert("내용을 작성해주세요.");
-        noticeContent.focus();
+    if(mailContent.trim().length == 0 || mailContent == '<p><br></p>' || mailContent == '<br>') {
+        alert("내용을 작성해주세요");
+        document.getElementById('mailContent').focus();
         return;
     }
 
+     // 기존 파일의 정보를 clone FormData에 추가
+     existingFiles.forEach(file => {
+        clone.append('existingFiles', JSON.stringify({
+            fileOriginName: file.fileOriginName,
+            fileOrder: file.fileOrder,
+            fileRename: file.fileRename,
+            filePath: file.filePath
+        }));
+    });
 
-    fetch("/mail/mailUpdate/" + mailNo , {
-        method : "POST",
-        body : clone
+    // 새로운 파일 추가
+    for (const pair of formData.entries()) {
+        clone.append('files', pair[1]);
+    }
+
+     // 파일이 없을 경우 빈 배열로 추가
+     if (formData.entries().next().done) {
+        clone.append('files', new Blob([]), '');
+    }
+ 
+    // FormData에 추가
+    clone.append('mailTitle', mailTitle);
+    clone.append('mailContent', mailContent);
+    clone.append('recipient', recipient.join(','));
+    clone.append('referer', referer.join(','));
+    clone.append('deleteOrder', Array.from(deleteOrder).join(',')); // 삭제 파일 순서 추가
+    clone.append('updateOrder', Array.from(updateOrder).join(',')); // 기존 파일 순서 추가
+
+    // Fetch API를 사용하여 서버로 전송
+    fetch("/mail/outMailUpdate/" + mailNo, {
+        method: "POST",
+        body: clone
     })
     .then(resp => resp.text())
     .then(result => {
-
         if(result > 0) {
-            alert("임시 저장되었습니다.");
-            // 임시저장함 
-            location.href = '/mail/outbox';
-
+            alert("저장되었습니다.");
+            location.href = "/mail/outbox";
         } else {
-            alert("임시 저장 실패");
+            alert("저장 실패하였습니다.");
         }
-    });
-
+    })
+    .catch(error => console.error('Error : ', error));
 });
 
+document.querySelector('#sendBtn').addEventListener('click', () => {
 
-// 메일 보내기 
-document.querySelector("#sendBtn").addEventListener("click", () => {
+    console.log('Send button clicked'); // 버튼 클릭 로그
+    // 에디터 내용을 업데이트
+    oEditors.getById["mailContent"].exec("UPDATE_CONTENTS_FIELD", []);
 
-    const files = document.querySelector('#fileInput').files;
+    // 폼 데이터 수집
     const clone = new FormData();
-
-    // 에디터의 내용을 textarea에 적용
-    oEditors.getById["outMailContent"].exec("UPDATE_CONTENTS_FIELD", []);
-
     const mailTitle = document.getElementById('mailTitle').value;
-    const mailContent = document.getElementById('outMailContent').value;
+    const mailContent = document.getElementById('mailContent').value;
 
-    // 기존파일 순서
-    for (let file of noticeFileList) {
-        let isToDelete = false;
-    
-        if (deleteOrder.size > 0) {
-            for (const order of deleteOrder) {
-
-                if (order == file.fileOrder) {
-                    isToDelete = true;
-                    break; // 해당 파일이 deleteOrder 배열에 포함되면 삭제 대상임을 표시하고 루프 종료
-                }
-            }
-        }
-    
-        if (!isToDelete) {
-            updateOrder.add(file.fileOrder); // deleteOrder 배열에 포함되지 않은 경우에만 updateOrder에 추가
-        }
-    }
-
-    // 기존파일 순서와 삭제파일 순서 FormData에 추가
-    clone.append('updateOrder', Array.from( updateOrder ));
-    clone.append('deleteOrder', Array.from( deleteOrder ));
-
-    // 제목과 내용을 FormData에 추가
-    clone.append('mailTitle', mailTitle);
-    clone.append('mailContent', mailContent);
-
-    for (const pair of formData.entries()) {
-        clone.append('files', pair[1]);
-    }
-
+    // 검증 로직 추가
     const recipient = Array.from(document.querySelectorAll('.putRecipient')).map(el => el.dataset.empCode);
     if(recipient.length == 0) {
         alert("받는 사람 정보를 다시 작성해주세요.");
@@ -436,35 +480,59 @@ document.querySelector("#sendBtn").addEventListener("click", () => {
 
     const referer = Array.from(document.querySelectorAll('.putReferer')).map(el => el.dataset.empCode);
   
-
-    if(mailTitle.trim().length == 0){
-        alert("제목을 작성해주세요.");
-        noticeTitle.focus();
+    if(mailTitle.trim().length == 0) {
+        alert("제목을 작성해주세요");
+        document.getElementById('mailTitle').focus();
         return;
     }
 
-    if(mailContent == '<p><br></p>' || noticeContent == '<br>') {
-        alert("내용을 작성해주세요.");
-        noticeContent.focus();
+    if(mailContent.trim().length == 0 || mailContent == '<p><br></p>' || mailContent == '<br>') {
+        alert("내용을 작성해주세요");
+        document.getElementById('mailContent').focus();
         return;
     }
 
+     // 기존 파일의 정보를 clone FormData에 추가
+     existingFiles.forEach(file => {
+        clone.append('existingFiles', JSON.stringify({
+            fileOriginName: file.fileOriginName,
+            fileOrder: file.fileOrder,
+            fileRename: file.fileRename,
+            filePath: file.filePath
+        }));
+    });
 
-    fetch("/mail/mailInsert/" + mailNo , {
-        method : "POST",
-        body : clone
+    // 새로운 파일 추가
+    for (const pair of formData.entries()) {
+        clone.append('files', pair[1]);
+    }
+
+     // 파일이 없을 경우 빈 배열로 추가
+     if (formData.entries().next().done) {
+        clone.append('files', new Blob([]), '');
+    }
+ 
+    // FormData에 추가
+    clone.append('mailTitle', mailTitle);
+    clone.append('mailContent', mailContent);
+    clone.append('recipient', recipient.join(','));
+    clone.append('referer', referer.join(','));
+    clone.append('deleteOrder', Array.from(deleteOrder).join(',')); // 삭제 파일 순서 추가
+    clone.append('updateOrder', Array.from(updateOrder).join(',')); // 기존 파일 순서 추가
+
+    // Fetch API를 사용하여 서버로 전송
+    fetch("/mail/outSend/" + mailNo, {
+        method: "POST",
+        body: clone
     })
     .then(resp => resp.text())
     .then(result => {
-
         if(result > 0) {
-            alert("임시 저장되었습니다.");
-            // 임시저장함 
-            location.href = '/mail/mailList';
-
+            alert("메일이 전송되었습니다.");
+            location.href = "/mail/mailList";
         } else {
-            alert("메일 전송 실패");
+            alert("메일 전송 실패하였습니다.");
         }
-    });
-
+    })
+    .catch(error => console.error('Error : ', error));
 });

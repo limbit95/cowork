@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,8 +18,8 @@
             <div class="mailLabel">
                 <label>받은메일함</label>
                 <div class="cntLabel">
-                    <a th:text="${inMailNoReadCount}">0</a> 
-                    / <span th:text="${inMailCount}">전체 메일 개수</span>
+                    <a th:text="${inMailNoReadCount != null ? inMailNoReadCount : 0}">0</a> 
+                    / <span th:text="${inMailCount != null ? inMailCount : 0}">전체 메일 개수</span>
                 </div>
                 <div><button class="default-btn glucose-btn"
                     th:onclick="location.href='/mail/mailInsert'">메일쓰기</button></div>
