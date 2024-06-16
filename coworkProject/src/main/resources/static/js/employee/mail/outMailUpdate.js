@@ -20,7 +20,6 @@ smartEditor = function() {
         }
     });
 }
-smartEditor(); //스마트에디터 적용
 
     const recipientInput = document.getElementById('recipientInput');
     const recipientListContainer = document.getElementById('recipientListContainer');
@@ -229,6 +228,8 @@ function createDeleteButton(parentDiv) {
     };
     return deleteButton;
 }
+
+
 // 파일 
 const fileListBtn = document.querySelector('.fileListInfo'); /* 파일 목록 보기 버튼 */
 const preview = document.querySelector('.preview'); /* 파일 목록 보기 */
@@ -237,38 +238,6 @@ const formData = new FormData(); // 초기에 빈 FormData 객체를 생성합�
 const deleteOrder = new Set(); // 삭제 파일 순서 번호
 const updateOrder = new Set(); // 기존 파일 
 
-if (existingFiles && existingFiles.length > 0) {
-    existingFiles.forEach(file => {
-        const fileTr = document.createElement('tr');
-        fileTr.id = `${file.fileOrder}`;
-
-        const fileTd = document.createElement('td');
-        const fileIcon = document.createElement('a');
-        fileIcon.classList.add('fa-solid', 'fa-paperclip');
-        const fileLabel = document.createElement('label');
-        fileLabel.innerText = `${file.fileOriginName}`;
-        fileTd.appendChild(fileIcon);
-        fileTd.appendChild(fileLabel);
-
-        const fileTd2 = document.createElement('td');
-        const fileXIcon = document.createElement('button');
-        fileXIcon.classList.add('fa-solid', 'fa-xmark', 'fileRemove', 'btnBoarder');
-        fileXIcon.dataset.name = `${file.fileOriginName}`;
-        fileXIcon.dataset.index = `${file.fileOrder}`;
-        fileXIcon.type = 'button';
-        fileXIcon.addEventListener('click', () => {
-            deleteOrder.add(file.fileOrder); // 삭제 파일 순서 추가
-            updateOrder.delete(file.fileOrder); // 기존 파일 순서에서 제거
-        });
-        fileTd2.appendChild(fileXIcon);
-
-        fileTr.appendChild(fileTd);
-        fileTr.appendChild(fileTd2);
-
-        preview.appendChild(fileTr);
-        updateOrder.add(file.fileOrder); // 기존 파일 순서 추가
-    });
-}
 
 /* 파일목록 보기 */
 fileListBtn.addEventListener('click', () => {
@@ -328,11 +297,8 @@ const handler = {
 
                 fileTd2.appendChild(fileXIcon);
                 fileTd2.appendChild(orderLabel);
-
-
                 fileTr.appendChild(fileTd);
                 fileTr.appendChild(fileTd2);
-
                 preview.appendChild(fileTr);
 
                 
@@ -355,12 +321,8 @@ const handler = {
             const fileOrder = e.target.nextSibling;  // 기존 파일 삭제 순서
 
            // console.log(fileOrder.innerText);
-            //console.log(removeTarget);    
-            deleteOrder.add(removeTargetId); // 삭제 파일 순서 추가
-            updateOrder.delete(removeTargetId); // 기존 파일 순서에서 제거
-    
-
-            //if(fileOrder.innerText != "") deleteOrder.add(fileOrder.innerText); // 기존파일 순서 저장
+            //console.log(removeTarget);  
+            if(fileOrder.innerText != "") deleteOrder.add(fileOrder.innerText); // 기존파일 순서 저장
             
             // FormData 객체에서 해당 파일을 삭제합니다.
             formData.delete(removeTargetName);
@@ -374,7 +336,7 @@ const handler = {
     }
 }
 
-
+smartEditor(); //스마트에디터 적용
 
 // 첨부파일 업로드
 handler.init();
@@ -391,6 +353,25 @@ document.querySelector('#saveBtn').addEventListener('click', () => {
     const clone = new FormData();
     const mailTitle = document.getElementById('mailTitle').value;
     const mailContent = document.getElementById('mailContent').value;
+
+    // 기존파일 순서
+    for (let file of existingFiles) {
+        let isToDelete = false;
+    
+        if (deleteOrder.size > 0) {
+            for (const order of deleteOrder) {
+
+                if (order == file.fileOrder) {
+                    isToDelete = true;
+                    break; // 해당 파일이 deleteOrder 배열에 포함되면 삭제 대상임을 표시하고 루프 종료
+                }
+            }
+        }
+    
+        if (!isToDelete) {
+            updateOrder.add(file.fileOrder); // deleteOrder 배열에 포함되지 않은 경우에만 updateOrder에 추가
+        }
+    }
 
     // 검증 로직 추가
     const recipient = Array.from(document.querySelectorAll('.putRecipient')).map(el => el.dataset.empCode);
@@ -414,18 +395,18 @@ document.querySelector('#saveBtn').addEventListener('click', () => {
         return;
     }
 
-     // 기존 파일의 정보를 clone FormData에 추가
-     existingFiles.forEach(file => {
-        clone.append('existingFiles', JSON.stringify({
-            fileOriginName: file.fileOriginName,
-            fileOrder: file.fileOrder,
-            fileRename: file.fileRename,
-            filePath: file.filePath
-        }));
-    });
+    // 기존파일 순서와 삭제파일 순서 FormData에 추가
+    clone.append('updateOrder', Array.from( updateOrder ));
+    clone.append('deleteOrder', Array.from( deleteOrder ));
 
-    // 새로운 파일 추가
-    for (const pair of formData.entries()) {
+    // FormData에 추가
+    clone.append('mailTitle', mailTitle);
+    clone.append('mailContent', mailContent);
+    clone.append('recipient', recipient.join(','));
+    clone.append('referer', referer.join(','));
+
+      // 새로운 파일 추가
+      for (const pair of formData.entries()) {
         clone.append('files', pair[1]);
     }
 
@@ -433,15 +414,7 @@ document.querySelector('#saveBtn').addEventListener('click', () => {
      if (formData.entries().next().done) {
         clone.append('files', new Blob([]), '');
     }
- 
-    // FormData에 추가
-    clone.append('mailTitle', mailTitle);
-    clone.append('mailContent', mailContent);
-    clone.append('recipient', recipient.join(','));
-    clone.append('referer', referer.join(','));
-    clone.append('deleteOrder', Array.from(deleteOrder).join(',')); // 삭제 파일 순서 추가
-    clone.append('updateOrder', Array.from(updateOrder).join(',')); // 기존 파일 순서 추가
-
+   
     // Fetch API를 사용하여 서버로 전송
     fetch("/mail/outMailUpdate/" + mailNo, {
         method: "POST",
@@ -470,6 +443,25 @@ document.querySelector('#sendBtn').addEventListener('click', () => {
     const mailTitle = document.getElementById('mailTitle').value;
     const mailContent = document.getElementById('mailContent').value;
 
+    // 기존파일 순서
+    for (let file of existingFiles) {
+        let isToDelete = false;
+    
+        if (deleteOrder.size > 0) {
+            for (const order of deleteOrder) {
+
+                if (order == file.fileOrder) {
+                    isToDelete = true;
+                    break; // 해당 파일이 deleteOrder 배열에 포함되면 삭제 대상임을 표시하고 루프 종료
+                }
+            }
+        }
+    
+        if (!isToDelete) {
+            updateOrder.add(file.fileOrder); // deleteOrder 배열에 포함되지 않은 경우에만 updateOrder에 추가
+        }
+    }
+
     // 검증 로직 추가
     const recipient = Array.from(document.querySelectorAll('.putRecipient')).map(el => el.dataset.empCode);
     if(recipient.length == 0) {
@@ -492,18 +484,18 @@ document.querySelector('#sendBtn').addEventListener('click', () => {
         return;
     }
 
-     // 기존 파일의 정보를 clone FormData에 추가
-     existingFiles.forEach(file => {
-        clone.append('existingFiles', JSON.stringify({
-            fileOriginName: file.fileOriginName,
-            fileOrder: file.fileOrder,
-            fileRename: file.fileRename,
-            filePath: file.filePath
-        }));
-    });
+    // 기존파일 순서와 삭제파일 순서 FormData에 추가
+    clone.append('updateOrder', Array.from( updateOrder ));
+    clone.append('deleteOrder', Array.from( deleteOrder ));
 
-    // 새로운 파일 추가
-    for (const pair of formData.entries()) {
+    // FormData에 추가
+    clone.append('mailTitle', mailTitle);
+    clone.append('mailContent', mailContent);
+    clone.append('recipient', recipient.join(','));
+    clone.append('referer', referer.join(','));
+
+      // 새로운 파일 추가
+      for (const pair of formData.entries()) {
         clone.append('files', pair[1]);
     }
 
@@ -511,14 +503,6 @@ document.querySelector('#sendBtn').addEventListener('click', () => {
      if (formData.entries().next().done) {
         clone.append('files', new Blob([]), '');
     }
- 
-    // FormData에 추가
-    clone.append('mailTitle', mailTitle);
-    clone.append('mailContent', mailContent);
-    clone.append('recipient', recipient.join(','));
-    clone.append('referer', referer.join(','));
-    clone.append('deleteOrder', Array.from(deleteOrder).join(',')); // 삭제 파일 순서 추가
-    clone.append('updateOrder', Array.from(updateOrder).join(',')); // 기존 파일 순서 추가
 
     // Fetch API를 사용하여 서버로 전송
     fetch("/mail/outSend/" + mailNo, {

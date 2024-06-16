@@ -323,7 +323,6 @@ document.querySelector('#fwBtn').addEventListener('click', () => {
         }
     }
 
-
     // 검증 로직 추가
     const recipient = Array.from(document.querySelectorAll('.putRecipient')).map(el => el.dataset.empCode);
     if(recipient.length == 0) {
@@ -393,10 +392,29 @@ document.querySelector('#saveBtn').addEventListener('click', () => {
 
     // 폼 데이터 수집
     const clone = new FormData();
-
-    const files = document.querySelector('#fileInput').files;
     const mailTitle = document.getElementById('mailTitle').value;
     const mailContent = document.getElementById('mailContent').value;
+
+    console.log("기존 파일 : ", existingFiles);
+
+    // 기존파일 순서
+    for (let file of existingFiles) {
+        let isToDelete = false;
+    
+        if (deleteOrder.size > 0) {
+            for (const order of deleteOrder) {
+
+                if (order == file.fileOrder) {
+                    isToDelete = true;
+                    break; // 해당 파일이 deleteOrder 배열에 포함되면 삭제 대상임을 표시하고 루프 종료
+                }
+            }
+        }
+    
+        if (!isToDelete) {
+            updateOrder.add(file.fileOrder); // deleteOrder 배열에 포함되지 않은 경우에만 updateOrder에 추가
+        }
+    }
 
     // 검증 로직 추가
     const recipient = Array.from(document.querySelectorAll('.putRecipient')).map(el => el.dataset.empCode);
@@ -420,16 +438,30 @@ document.querySelector('#saveBtn').addEventListener('click', () => {
         return;
     }
 
-    for(const pair of formData.entries()) {
-        clone.append('files', pair[1]); 
-    }
+    // 기존파일 순서와 삭제파일 순서 FormData에 추가
+    clone.append('updateOrder', Array.from( updateOrder ));
+    clone.append('deleteOrder', Array.from( deleteOrder ));
 
-
-    // FormData에 추가
+    // 제목과 내용을 FormData에 추가
     clone.append('mailTitle', mailTitle);
     clone.append('mailContent', mailContent);
     clone.append('recipient', recipient.join(','));
     clone.append('referer', referer.join(','));
+
+    // 기존 파일 정보를 JSON 문자열로 변환하여 FormData에 추가
+    const existingFilesJson = JSON.stringify(existingFiles);
+    clone.append('existingFiles', existingFilesJson);
+
+    // 새로운 파일 추가
+    for (const pair of formData.entries()) {
+        console.log('Appending new file:', pair[1]);
+        clone.append('files', pair[1]);
+    }
+
+     // 파일이 없을 경우 빈 배열로 추가
+     if (formData.entries().next().done) {
+        clone.append('files', new Blob([]), '');
+    }
 
     // Fetch API를 사용하여 서버로 전송
     fetch("/mail/toOutbox", {

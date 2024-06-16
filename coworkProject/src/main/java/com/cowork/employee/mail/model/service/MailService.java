@@ -146,9 +146,10 @@ public interface MailService {
 	 * @param files
 	 * @param recipient
 	 * @param referer
+	 * @param existingFiles 
 	 * @return
 	 */
-	int saveMail(Mail inputMail, List<MultipartFile> files, String recipient, String referer) throws IllegalStateException, IOException;
+	int saveMail(Mail inputMail, List<MultipartFile> files, String recipient, String referer, List<MailFile> existingFiles) throws IllegalStateException, IOException;
 
 
 	/** 임시저장 메일 수정 다시 임시보관 

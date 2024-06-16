@@ -674,7 +674,8 @@ public class MailServiceImpl implements MailService {
 
 	// 임시저장하기 
 	@Override
-	public int saveMail(Mail inputMail, List<MultipartFile> files, String recipient, String referer) throws IllegalStateException, IOException {
+	public int saveMail(Mail inputMail, List<MultipartFile> files, String recipient, String referer, List<MailFile> existingFiles) 
+																				throws IllegalStateException, IOException {
 		
 		int result = mapper.saveMail(inputMail);
 		
@@ -719,55 +720,65 @@ public class MailServiceImpl implements MailService {
 		
 		result = mapper.recipientList(recipientList); 
 		
-		if(result == recipientList.size()) {
-			
-			if(files != null && !files.isEmpty()) {
-				List<MailFile> uploadList = new ArrayList<>(); 
-				
-				for(int i=0; i<files.size(); i++) {
-					
-					MultipartFile mfile = files.get(i);
-					
-					if(!files.get(i).isEmpty()) {
-						
-						
-						String originalName = files.get(i).getOriginalFilename(); 
-						String rename = Utility.fileRename(originalName); 
-						
-						MailFile file = MailFile.builder()
-										.filePath(webPath)
-										.fileOriginName(originalName)
-										.fileRename(rename)
-										.fileOrder(i)
-										.mailNo(mailNo)
-										.uploadFile(files.get(i))
-										.build(); 
-						
-						uploadList.add(file); 
-					}
-				}
-				
-				if(!uploadList.isEmpty()) {
-					
-					result = mapper.mailFileInsert(uploadList); 
-					
-					if( result == uploadList.size() ) {
-						
-						for(MailFile file : uploadList) {
-							file.getUploadFile().transferTo(new File(folderPath + file.getFileRename()));
-						}
-					} else {
-						return mailNo; 
-					}
-				}
-				
-			}
-			
-			return mailNo; 
-		}
-		
-		
-		return 0;
+		 // 기존 파일 정보 처리
+        List<MailFile> filesToKeep = new ArrayList<>();
+        if (existingFiles != null && !existingFiles.isEmpty()) {
+            for (MailFile file : existingFiles) {
+                filesToKeep.add(file);
+            }
+        }
+
+        // 유지할 기존 파일을 새로운 메일로 복사
+        List<MailFile> uploadList = new ArrayList<>(filesToKeep);
+
+        // 새로운 파일 업로드 처리
+        if (files != null && !files.isEmpty()) {
+            int fileOrder = filesToKeep.size();
+            for (int i = 0; i < files.size(); i++) {
+                MultipartFile multipartFile = files.get(i);
+                if (!multipartFile.isEmpty()) {
+                    String originalName = multipartFile.getOriginalFilename();
+                    String rename = Utility.fileRename(originalName);
+                    MailFile file = MailFile.builder()
+                            .filePath(webPath)
+                            .fileOriginName(originalName)
+                            .fileRename(rename)
+                            .fileOrder(fileOrder++)
+                            .mailNo(mailNo)
+                            .uploadFile(multipartFile)
+                            .build();
+                    uploadList.add(file);
+                }
+            }
+
+            if (!uploadList.isEmpty()) {
+                result = mapper.mailFileInsert(uploadList);
+                if (result == uploadList.size()) {
+                    for (MailFile file : uploadList) {
+                        if (file.getUploadFile() != null) {
+                            // 새로운 파일을 서버에 저장
+                            File destFile = new File(folderPath + file.getFileRename());
+                            log.info("Saving new file: " + destFile.getAbsolutePath());
+                            file.getUploadFile().transferTo(destFile);
+                        } else {
+                            // 기존 파일을 서버에 복사
+                            File sourceFile = new File(mailFileResourceLocation + file.getFileRename());
+                            File destFile = new File(folderPath + file.getFileRename());
+                            log.info("Copying existing file from " + sourceFile.getAbsolutePath() + " to " + destFile.getAbsolutePath());
+                            if (sourceFile.exists()) {
+                                Utility.copyFile(sourceFile, destFile);
+                            } else {
+                                log.error("Source file does not exist: " + sourceFile.getAbsolutePath());
+                            }
+                        }
+                    }
+                } else {
+                    throw new BoardInsertException("파일이 정상 삽입되지 않음");
+                }
+            }
+        }
+
+        return result;
 	}
 
 

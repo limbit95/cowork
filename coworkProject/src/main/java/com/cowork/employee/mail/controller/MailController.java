@@ -476,9 +476,24 @@ public class MailController {
 		
 	}
 	
+	 /** 전달하기 
+	 * @param loginEmp
+	 * @param mailNo
+	 * @param recipient
+	 * @param referer
+	 * @param mailTitle
+	 * @param mailContent
+	 * @param deleteOrder
+	 * @param updateOrder
+	 * @param files
+	 * @param ra
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
 	 @ResponseBody
 	 @PostMapping("forward/{mailNo}")
-	 public int reply( @SessionAttribute("loginEmp") Employee2 loginEmp, 
+	 public int forward ( @SessionAttribute("loginEmp") Employee2 loginEmp, 
 			 				@PathVariable("mailNo") int mailNo,
 							@RequestParam("recipient") String recipient, 
 							@RequestParam("referer") String referer, 
@@ -529,13 +544,22 @@ public class MailController {
 	 */
 	@ResponseBody
 	@PostMapping("toOutbox")
-	public int forward(	@SessionAttribute("loginEmp") Employee2 loginEmp, 
+	public int forward(		@SessionAttribute("loginEmp") Employee2 loginEmp, 
 							@RequestParam("recipient") String recipient, 
 							@RequestParam("referer") String referer, 
 							@RequestParam("mailTitle") String mailTitle, 
 							@RequestParam("mailContent") String mailContent, 
+							@RequestParam(value="deleteOrder", required = false) String deleteOrder, /* 삭제 */
+					        @RequestParam(value="updateOrder", required=false) String updateOrder, /* 기존 */
 							@RequestParam(value="files", required=false) List<MultipartFile> files,
+							@RequestParam(value = "existingFiles", required = false) String existingFilesJson,
 							RedirectAttributes ra) throws IllegalStateException, IOException {
+		
+		 List<MailFile> existingFiles = new ArrayList<>();
+	        if (existingFilesJson != null && !existingFilesJson.isEmpty()) {
+	            ObjectMapper objectMapper = new ObjectMapper();
+	            existingFiles = objectMapper.readValue(existingFilesJson, new TypeReference<List<MailFile>>() {});
+	        }
 				
 		mailContent = mailContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
 		
@@ -548,7 +572,7 @@ public class MailController {
 				.empCode(loginEmp.getEmpCode())
 				.build(); 
 		
-		int result = service.saveMail(inputMail, files, recipient, referer);
+		int result = service.saveMail(inputMail, files, recipient, referer, existingFiles);
 		
 		return result; 
 		
