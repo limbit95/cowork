@@ -36,7 +36,7 @@
 			SEQ_CALENDAR.NEXTVAL, #{calendarTitle},
 			#{calendarContent}, #{calendarColor},
 			#{empCode}, #{calendarStart}, #{calendarEnd},
-			#{calendarShare}, #{comNo}
+			#{comNo}, #{comShare}, #{deptShare}, #{teamShare}
 		)
 	</insert>
 	
@@ -51,15 +51,15 @@
 		       TO_DATE(C.CALENDAR_END, 'YYYY-MM-DD') AS CALENDAR_END
 		FROM CALENDAR C
 		JOIN (
-		    SELECT T.TEAM_NM, D.DEPT_NM, E.COM_NO
+		    SELECT T.TEAM_NO, D.DEPT_NO, E.COM_NO
 		    FROM EMPLOYEE E
 		    JOIN TEAM T ON E.TEAM_NO = T.TEAM_NO
 		    JOIN DEPARTMENT D ON T.DEPT_NO = D.DEPT_NO
 		    WHERE E.EMP_CODE = #{empCode}
 		) E_TD 
-		ON (C.CALENDAR_SHARE LIKE '%' || E_TD.TEAM_NM || '%'
-		    OR C.CALENDAR_SHARE LIKE '%' || E_TD.DEPT_NM || '%'
-		    OR (C.COM_NO = E_TD.COM_NO AND C.CALENDAR_SHARE LIKE '%회사 전체%'))
+		ON (C.TEAM_SHARE LIKE '%' || E_TD.TEAM_NO || '%'
+		    OR C.DEPT_SHARE LIKE '%' || E_TD.DEPT_NO || '%'
+		    OR (C.COM_NO = E_TD.COM_NO AND C.COM_SHARE = #{comNo}))
 		WHERE C.COM_NO = #{comNo}
 	</select>
 	

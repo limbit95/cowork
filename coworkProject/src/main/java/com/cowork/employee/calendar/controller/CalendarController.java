@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.companyInfo.model.dto.Department;
@@ -30,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("calendar")
 @Slf4j
 @RequiredArgsConstructor
+@SessionAttributes("calendarList")
 public class CalendarController {
 
 	private final CalendarService service;
@@ -68,16 +70,41 @@ public class CalendarController {
 	@ResponseBody
 	@PostMapping("calendarInsert")
 	public int calendarInsert(@RequestBody Calendar inputCalendar,
-			@SessionAttribute("loginEmp") Employee2 loginEmp
+			@SessionAttribute("loginEmp") Employee2 loginEmp,
+			@SessionAttribute("calendarList") List<Calendar> calendarList,
+			Model model
 			) {
 		
-		inputCalendar.setEmpCode(loginEmp.getEmpCode());
+		if(inputCalendar.getComShareList() != loginEmp.getComNo()) {
+			inputCalendar.setComShare("0");
+		} else {
+			int temp = inputCalendar.getComShareList();
+			String comShare = String.valueOf(temp);
+			inputCalendar.setComShare(comShare);
+		}
 		
-	    List<String> shareList = inputCalendar.getShareList();
-	    String calendarShare = String.join("^^^", shareList);
-	    inputCalendar.setCalendarShare(calendarShare);
+		if(inputCalendar.getDeptShareList() == null || inputCalendar.getDeptShareList().isEmpty()) {
+			inputCalendar.setDeptShare(null);
+		} else {
+			String deptShare = String.join("^^^", inputCalendar.getDeptShareList());
+			inputCalendar.setDeptShare(deptShare);
+		}
+		
+		if(inputCalendar.getTeamShareList() == null || inputCalendar.getTeamShareList().isEmpty()) {
+			inputCalendar.setTeamShare(null);
+		} else {
+			String teamShare = String.join("^^^", inputCalendar.getTeamShareList());
+			inputCalendar.setTeamShare(teamShare);
+		}
+		
+		int result = service.calendarInsert(inputCalendar);
 
-		return service.calendarInsert(inputCalendar);
+		if(result > 0) {
+			calendarList.add(inputCalendar);
+			return result;
+		} else {
+			return result;
+		}
 	}
 	
 	/** 내가 작성한 일정 보기

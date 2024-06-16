@@ -54,8 +54,6 @@ public class ReservationController {
 		
 		int size = reserveInfoList.size();
 		
-		log.info("List size == {}", size);
-		
 		List<ReserveInfo> shareList = new ArrayList<>(size);
 				
 		for(int i = 0 ; i < reserveInfoList.size() ; i ++) {
