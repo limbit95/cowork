@@ -28,8 +28,8 @@
 
             <!-- 버튼 -->
             <div class="defaultBtn approveBtn" > 
-                <th:block th:if="${edsm.approverCode eq session.loginEmp.empCode}">
-                    <button class="default-btn glucose-btn">반려</button>
+                <th:block th:if="${edsm.approverCode eq session.loginEmp.empCode and edsm.edsmFlag != '1' and edsm.edsmFlag != '2'}">
+                    <button class="default-btn glucose-btn" id="rejectedBtn">반려</button>
                     <button class="default-btn sapphire-btn margin10">결재</button>
                 </th:block>
                 <th:block th:if="${edsm.empCode eq session.loginEmp.empCode and edsm.edsmFlag == '4'}">
@@ -40,7 +40,11 @@
             <!-- 결재자 -->
             <div class="approveDiv">
                 <th:block th:each="approver : ${approverList}" th:object="${approver}">
-                    <div class="approveDiv default-line" th:if="*{approverFlag eq '1'}">
+                    <div class="approveDiv" th:classappend="*{progressFlag eq '1' ? 'proceeding':'default-line'}"
+                        th:if="*{approverFlag eq '1'}">
+                        <th:block th:if="*{progressFlag eq '1'}">
+                            <label class="default-label gade-label">진행중</label>
+                        </th:block>
                         <label th:text="*{approverName}">송지윤</label>
                         <label th:text="*{positionNm}">대리</label>
                     </div>    
@@ -93,6 +97,18 @@
                 
             </div>
 
+        </div>
+
+        <!-- 반려 팝업창 -->
+        <div class="default-line rejected disNone">
+            <div class="popTitle">
+                <div><span class="">반려사유</span></div>
+                <div class="times">&times;</div>
+            </div>
+            <textarea name="rejected" id="rejected"></textarea>
+            <div class="defaultBtn insBtn">
+                <button type="button" class="default-btn glucose-btn" id="rejectedYn">반려</button>
+            </div>
         </div>
 
     </section>

@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.edsm.model.dto.Draft;
 import com.cowork.admin.edsm.model.service.AdminEdsmService;
+import com.cowork.employee.edsm.model.dto.Approver;
 import com.cowork.employee.edsm.model.dto.DraftKeep;
 import com.cowork.employee.edsm.model.dto.Edsm;
 import com.cowork.employee.edsm.model.service.EdsmService;
@@ -227,7 +228,7 @@ public class EdsmController {
 				RedirectAttributes ra
 			) {
 		
-		Map<String, Object> map = service.edsmDetail(edsmNo, approverCode);
+		Map<String, Object> map = service.edsmDetail(edsmNo, approverCode, loginEmp.getEmpCode());
 		
 		String path = null;
 		
@@ -276,4 +277,25 @@ public class EdsmController {
 		return path;
 	}
 	
+	/** 전자결재 반려
+	 * @param edsmNo
+	 * @param loginEmp
+	 * @param ra
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("edsmRejected")
+	public int edsmRejected(
+				@RequestBody Approver inputApprover,
+				@SessionAttribute("loginEmp") Employee2 loginEmp
+			) {
+		
+		log.info("ddd");
+		
+		inputApprover.setEmpCode(loginEmp.getEmpCode());
+		
+		int result = service.edsmRejected(inputApprover);
+		
+		return result;
+	}
 }

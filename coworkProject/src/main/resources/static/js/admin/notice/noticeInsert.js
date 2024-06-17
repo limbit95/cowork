@@ -160,4 +160,3 @@ document.querySelector("#noticeInsert").addEventListener("click", () => {
 
 
 });
-

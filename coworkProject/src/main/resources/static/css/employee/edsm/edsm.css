@@ -72,6 +72,11 @@
     justify-content: space-around;
 }
 
+.draftList2 .default-line:hover {
+    background-color: #eef5fc;
+    cursor: pointer;
+}
+
 /* 기안서 이미지 */
 .draftDiv {
     display: flex;

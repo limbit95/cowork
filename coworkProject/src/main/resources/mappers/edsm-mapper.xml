@@ -305,6 +305,7 @@
 			,PROGRESS_FLAG
 			,APPROVE_FLAG
 			,EDSM_NO
+			,ROW_NUMBER() OVER (PARTITION BY EDSM_NO ORDER BY APPROVER_NO) AS ROW_NUM
 		FROM APPROVER A
 		JOIN EMPLOYEE E ON A.EMP_CODE  = E.EMP_CODE
 		<!-- JOIN COMPANY C ON E.COM_NO = C.COM_NO  -->
@@ -356,6 +357,31 @@
 		UPDATE EDSM SET
 			EDSM_DEL_FL = 'Y'
 		WHERE EDSM_NO = #{edsmNo}
+	</update>
+	
+	<!-- 결재자 진행중 수정 -->
+	<update id="approverUpdate">
+		UPDATE APPROVER SET
+			PROGRESS_FLAG = '1'
+		WHERE EDSM_NO = #{edsmNo}
+		AND EMP_CODE = #{empCode}
+	</update>
+	
+	<!-- 전자결재 구분키 변경 -->
+	<update id="edsmFlagUpdate">
+		UPDATE EDSM SET
+			EDSM_FLAG = #{edsmFlag}
+		WHERE EDSM_NO = #{edsmNo}
+	</update>
+	
+	<!-- 전자결재 반려 -->
+	<update id="edsmRejected">
+		UPDATE APPROVER SET
+			 PROGRESS_FLAG = '2'
+			,APPROVE_FLAG = '2'
+			,REJECTED = #{rejected}
+		WHERE EDSM_NO = #{edsmNo}
+		AND EMP_CODE = #{empCode}
 	</update>
 
 </mapper>

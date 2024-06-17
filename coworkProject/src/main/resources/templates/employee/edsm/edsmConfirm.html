@@ -35,7 +35,7 @@
         <!-- th:onClick="|location.href='@{edsmDetail/{edsmNo} (edsmNo=*{edsmNo}, approverCode=*{approverCode})}'|" -->
         <div class="draftList2">
             <div class="default-line" th:each="edsm : ${edsmList}" th:object="${edsm}"
-                th:onClick="|location.href='@{edsmDetail/{edsmNo} (edsmNo=*{edsmNo}, hrefName=edsmHistory, approverCode=*{approverCode})}'|">
+                th:onClick="|location.href='@{edsmDetail/{edsmNo} (edsmNo=*{edsmNo}, hrefName=edsmConfirm, approverCode=*{approverCode})}'|">
                 <div class="draftDiv">
                     <div class="draftImg "
                         th:classappend="*{draftFlag eq '2' ? 'fa-solid fa-file-circle-plus' 

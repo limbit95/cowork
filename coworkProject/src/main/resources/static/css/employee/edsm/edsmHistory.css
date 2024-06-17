@@ -2,9 +2,3 @@
     border-bottom: 3px solid var(--main5-color);
     color: var(--gray-color);
 }
-
-/* 목록 클릭 */
-.draftList2 .default-line:hover {
-    background-color: #eef5fc;
-    cursor: pointer;
-}
