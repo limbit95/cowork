@@ -242,6 +242,7 @@ public class EdsmController {
 			
 			model.addAttribute("referrerList", map.get("referrerList"));
 			model.addAttribute("approverList", map.get("approverList"));
+			model.addAttribute("rejectedContent", map.get("rejectedContent")); 
 			model.addAttribute("edsm", map.get("edsm"));
 			model.addAttribute("fileList", map.get("fileList"));
 			model.addAttribute("hrefName", hrefName);
@@ -253,28 +254,13 @@ public class EdsmController {
 	/** 전자결재 회수
 	 * @return
 	 */
+	@ResponseBody
 	@GetMapping("edsmDelete")
-	public String edsmDelete(
-				@RequestParam("edsmNo") int edsmNo,
-				RedirectAttributes ra
+	public int edsmDelete(
+				@RequestParam("edsmNo") int edsmNo
 			) {
 		
-		int result = service.edsmDelete(edsmNo);
-		
-		String path = null;
-		String message = null;
-		
-		if(result > 0) {
-			path = "redirect:edsmHistory";
-			message = "결재가 회수되었습니다.";
-		} else {
-			path = "redirect:edsmDetail" + edsmNo;
-			message = "결재 회수 실패";
-		}
-		
-		ra.addFlashAttribute("message", message);
-		
-		return path;
+		return service.edsmDelete(edsmNo);
 	}
 	
 	/** 전자결재 반려
@@ -290,12 +276,27 @@ public class EdsmController {
 				@SessionAttribute("loginEmp") Employee2 loginEmp
 			) {
 		
-		log.info("ddd");
-		
 		inputApprover.setEmpCode(loginEmp.getEmpCode());
+		inputApprover.setApproveFlag("2");
 		
-		int result = service.edsmRejected(inputApprover);
+		return service.edsmRejected(inputApprover);
+	}
+	
+	/** 전자결재 승인
+	 * @param edsmNo
+	 * @param approverYn
+	 * @param loginEmp
+	 * @param ra
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("edsmApprove")
+	public int edsmApprove(
+				@RequestParam("edsmNo") int edsmNo,
+				@RequestParam("approverYn") String approverYn,
+				@SessionAttribute("loginEmp") Employee2 loginEmp
+			) {
 		
-		return result;
+		return service.edsmApprove(edsmNo, approverYn, loginEmp.getEmpCode());
 	}
 }

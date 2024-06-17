@@ -1,8 +1,10 @@
 const fileListBtn = document.querySelector('.fileListInfo'); /* 파일 목록 보기 버튼 */
 const preview = document.querySelector('.preview'); /* 파일 목록 보기 */
 const esmDelete =  document.getElementById("edsmDelete"); // 회수
-const rejectedBtn = document.querySelector('#rejectedBtn')
+const rejectedBtn = document.querySelector('#rejectedBtn');
 const rejectedPop = document.querySelector('.rejected'); // 반려팝업창
+const rejectedContent = document.querySelector('#rejectedContent'); // 반려사유 버튼
+const rejected = document.querySelector('#rejected'); // 반려사유
 
 if(fileCnt > 0) {
     preview.style.display = 'block';
@@ -41,7 +43,26 @@ if(esmDelete) {
             return;
         }
 
-        location.href = "../edsmDelete?edsmNo=" + edsmNo;
+        fetch("/employee/edsm/edsmDelete?edsmNo=" + edsmNo, {
+            method : "GET",
+            headers : {"Content-Type" : "application/json"}
+        })
+        .then(resp => resp.text())
+        .then(result => {
+
+            if(result > 0) {
+                alert("결재가 회수되었습니다.");
+    
+                location.href = "../edsmHistory";
+    
+            } else {
+                alert("결재 회수 실패!");
+
+                location.reload(true);
+            }
+        })
+
+        
     });
 }
 
@@ -53,17 +74,8 @@ if(rejectedBtn) {
         rejectedPop.classList.add('disBlock');
     });
 
-    document.querySelector('.times').addEventListener('click', ()=>{
-    
-        rejectedPop.classList.remove('disBlock');
-        rejectedPop.classList.add('disNone');
-
-    });
-
     /* 전자결재 반려 */
     document.querySelector('#rejectedYn').addEventListener('click', () => {
-
-        const rejected = document.querySelector('#rejected');
 
         if(rejected.value.trim().length == 0) {
             alert("반려사유를 작성해주세요");
@@ -74,6 +86,7 @@ if(rejectedBtn) {
             alert("반려가 취소되었습니다.");
             rejectedPop.classList.remove('disBlock');
             rejectedPop.classList.add('disNone');
+            rejected.value = '';
            // e.preventDefault();
             return;
         } 
@@ -103,3 +116,79 @@ if(rejectedBtn) {
 
     });
 }
+
+if(rejectedContent) {
+
+    rejectedContent.addEventListener('click', ()=>{
+    
+        rejectedPop.classList.remove('disNone');
+        rejectedPop.classList.add('disBlock');
+        rejected.readOnly = true;
+        rejected.style.cursor = 'default';
+        document.querySelector('#rejectedYn').hidden = true;
+        document.querySelector('.rejected').style.height = "205px";
+        
+    });
+
+}
+
+document.querySelector('.times').addEventListener('click', ()=>{
+    
+    rejectedPop.classList.remove('disBlock');
+    rejectedPop.classList.add('disNone');
+
+});
+
+/* 결재 승인 */
+document.querySelector('#approveBtn').addEventListener('click', () => {
+
+    if( !confirm("결재를 승인하시겠습니까?") ) {
+        alert("승인이 취소되었습니다.");
+        return;
+    }
+
+    let approverYn = 'N2';
+    let approverCode = 0;
+    const approveDivCnt = document.querySelector('.approveDivCnt').childElementCount;
+    for(let approver of approverList) {
+
+        if(approverYn != 'N2') {
+            console.log("approverCode : "+ approver.empCode);
+            approverCode = approver.empCode;
+            break;
+        }
+
+        if(loginNo == approver.empCode) {
+
+            if(approveDivCnt == approver.rowNum) {
+                approverYn = 'Y'; // 결재자수와 현재 결재자 Num와 같을 때
+
+            } else if(approver.rowNum == "1")  {
+                approverYn = 'N1'; // 결재자가 1일 때
+
+            } 
+            
+        }
+    }   
+
+    fetch("/employee/edsm/edsmApprove?edsmNo=" + edsmNo + "&approverYn=" + approverYn, {
+        method : "GET",
+        headers : {"Content-Type" : "application/json"}
+    })
+    .then(resp => resp.text())
+    .then(result => {
+
+        if(result > 0) {
+            alert("결재가 승인되었습니다.");
+
+            location.href = location.href.replace(loginNo, approverCode);
+
+        } else {
+            alert("결재 승인 실패!");
+
+            location.reload(true);
+        }
+    });
+
+    
+});

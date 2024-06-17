@@ -140,7 +140,9 @@ table.default-line td:nth-child(1) {
 .default-line.smarteditorDetail {
     min-height: 500px;
     padding: 15px;
+    overflow: auto;
     height: auto;
+    overflow-y: hidden;
 }
 
 /* 상세 */

@@ -76,4 +76,12 @@ public interface EdsmService {
 	 */
 	int edsmRejected(Approver inputApprover);
 
+	/** 전자결재 승인
+	 * @param edsmNo
+	 * @param approverYn
+	 * @param empCode
+	 * @return
+	 */
+	int edsmApprove(int edsmNo, String approverYn, int empCode);
+
 }
