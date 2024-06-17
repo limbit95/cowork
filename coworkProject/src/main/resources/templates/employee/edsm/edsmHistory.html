@@ -71,7 +71,7 @@
 
         <!-----------------------------------------------   기안 목록  ------------------------------------------------------------------>
         <!-- th:onClick="|location.href='@{edsmDetail/{edsmNo} (edsmNo=*{edsmNo}, approverCode=*{approverCode})}'|" -->
-        <div class="draftList2">
+        <div class="draftList2 draftListHover">
             <div class="default-line" th:each="edsm : ${edsmList}" th:object="${edsm}"
                 th:onClick="|location.href='@{edsmDetail/{edsmNo} (edsmNo=*{edsmNo}, hrefName=edsmHistory, approverCode=*{approverCode})}'|">
                 <div class="draftDiv">

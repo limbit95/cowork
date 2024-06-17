@@ -126,4 +126,10 @@ public interface EdsmMapper {
 	 */
 	int edsmRejectedUpdate(int edsmNo);
 
+	/** 반려 사유 조회
+	 * @param edsmNo
+	 * @return
+	 */
+	String rejectedList(int edsmNo);
+
 }

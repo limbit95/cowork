@@ -30,15 +30,18 @@
             <div class="defaultBtn approveBtn" > 
                 <th:block th:if="${edsm.approverCode eq session.loginEmp.empCode and edsm.edsmFlag != '1' and edsm.edsmFlag != '2'}">
                     <button class="default-btn glucose-btn" id="rejectedBtn">반려</button>
-                    <button class="default-btn sapphire-btn margin10">결재</button>
+                    <button class="default-btn sapphire-btn margin10" id="approveBtn">결재</button>
                 </th:block>
                 <th:block th:if="${edsm.empCode eq session.loginEmp.empCode and edsm.edsmFlag == '4'}">
                     <button class="default-btn sapphire-btn margin10" id="edsmDelete">회수</button>
                 </th:block>
+                <th:block th:if="${edsm.edsmFlag == '2'}">
+                    <button class="default-btn sapphire-btn margin10" id="rejectedContent">반려 사유</button>
+                </th:block>
             </div>
 
             <!-- 결재자 -->
-            <div class="approveDiv">
+            <div class="approveDiv approveDivCnt">
                 <th:block th:each="approver : ${approverList}" th:object="${approver}">
                     <div class="approveDiv" th:classappend="*{progressFlag eq '1' ? 'proceeding':'default-line'}"
                         th:if="*{approverFlag eq '1'}">
@@ -105,7 +108,7 @@
                 <div><span class="">반려사유</span></div>
                 <div class="times">&times;</div>
             </div>
-            <textarea name="rejected" id="rejected"></textarea>
+            <textarea name="rejected" id="rejected" th:text="${rejectedContent}"></textarea>
             <div class="defaultBtn insBtn">
                 <button type="button" class="default-btn glucose-btn" id="rejectedYn">반려</button>
             </div>
@@ -116,6 +119,8 @@
     <script th:inline="javascript">
         const edsmNo = /*[[${edsm.edsmNo}]]*/"전자결재번호";
         const fileCnt = /*[[${edsm.edsmNo}]]*/"파일개수";
+        const loginNo = /*[[${session.loginEmp.empCode}]]*/ "로그인아이디";
+        const approverList = /*[[${approverList}]]*/ [];
     </script>
 
     <!-- 스마트 에디터 -->

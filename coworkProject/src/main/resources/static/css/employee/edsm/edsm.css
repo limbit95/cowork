@@ -72,7 +72,7 @@
     justify-content: space-around;
 }
 
-.draftList2 .default-line:hover {
+.draftListHover .default-line:hover {
     background-color: #eef5fc;
     cursor: pointer;
 }

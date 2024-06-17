@@ -241,42 +241,47 @@ public class EdsmServiceImpl implements EdsmService{
 		
 		// 현재 결재자 코드와 로그인 코드가 같다면 진행중으로 update
 		if(approverCode == empCode) {
-			Map<String, Object> mapAppr = new HashMap<>();
 			
-			mapAppr.put("edsmNo", edsmNo);
-			mapAppr.put("empCode", empCode);
-			
-			int result = mapper.approverUpdate(mapAppr);
-			
-			if(result > 0) {
+			for(Approver approver : approverList) {
 				
-				// 현재 결재자가 첫번째 순서일 때
-				for(Approver approver : approverList) {
+				Map<String, Object> mapAppr = new HashMap<>();
+				
+				mapAppr.put("edsmNo", edsmNo);
+				mapAppr.put("empCode", empCode);
+				
+				if(approverCode == approver.getEmpCode() && approver.getProgressFlag() == null ) {
+				
+					int result = mapper.approverUpdate(mapAppr);
 					
-					if(approverCode == approver.getEmpCode() && approver.getRowNum() == 1) {
+					if(result > 0) {
 						
-						mapAppr.put("edsmFlag", "5");
+						// 현재 결재자가 첫번째 순서일 때
+						if(approver.getRowNum() == 1) {
+							
+							mapAppr.put("edsmFlag", "5");
+							
+							mapper.edsmFlagUpdate(mapAppr);
+						}
 						
-						mapper.edsmFlagUpdate(map);
+						approverList = mapper.approverList(edsmNo); // 결재자 다시 조회
 						
 						break;
 					}
-					
-				}
 				
-				approverList = mapper.approverList(edsmNo); // 결재자 다시 조회
+				}
 			}
-			
-			
 		}
 		
+		
 		Approver referrerList = mapper.referrerList(edsmNo); // 참조자
+		String rejectedContent = mapper.rejectedList(edsmNo); // 반려사유
 		Edsm edsm = mapper.edsmDetail(edsmNo); // 전자결재 상세
 		List<EdsmFile> fileList = mapper.edsmFileList(edsmNo);
 		
 		edsm.setApproverCode(approverCode); // 현재 결재자 확인
 		
 		map.put("referrerList", referrerList);
+		map.put("rejectedContent", rejectedContent);
 		map.put("approverList", approverList);
 		map.put("edsm", edsm);
 		map.put("fileList", fileList);
@@ -306,6 +311,35 @@ public class EdsmServiceImpl implements EdsmService{
 		map.put("edsmFlag", "2");
 		
 		// 전자결재 반려
+		result = mapper.edsmFlagUpdate(map);
+		
+		return result;
+	}
+
+	// 전자결재 승인
+	@Override
+	public int edsmApprove(int edsmNo, String approverYn, int empCode) {
+		
+		/* 결재자 승인 */
+		Approver approver = Approver.builder()
+				.approveFlag("1")
+				.edsmNo(edsmNo)
+				.empCode(empCode)
+				.build();
+		
+		int result = mapper.edsmRejected(approver);
+		
+		if(result == 0) return 0;
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		// 최종결재자
+		if(approverYn.equals("Y")) map.put("edsmFlag", "1");
+		else if(approverYn.equals("N1")) map.put("edsmFlag", "6");
+		else map.put("edsmFlag", "7");
+		
+		map.put("edsmNo", edsmNo);
+		
 		result = mapper.edsmFlagUpdate(map);
 		
 		return result;

@@ -163,7 +163,7 @@
 			,Z.EMP_CODE
 			,EDSM_FLAG
 			,DRAFT_NO
-			,(SELECT COUNT(*) FROM EDSM_FILE WHERE EDSM_NO = #{edsmNo}) AS FILE_CNT
+			,(SELECT COUNT(*) FROM EDSM_FILE WHERE EDSM_NO = Z.EDSM_NO) AS FILE_CNT
 		FROM (
 			SELECT 
 				 E.EDSM_NO
@@ -324,6 +324,7 @@
 		AND APPROVER_FLAG = 2
 	</select>
 	
+	<!-- 전자결재 상세 -->
 	<select id="edsmDetail">
 		SELECT 
 			 EDSM_NO
@@ -339,6 +340,7 @@
 		WHERE EDSM_NO = #{edsmNo}
 	</select>
 	
+	<!-- 전자결재 파일 목록 -->
 	<select id="edsmFileList">
 		SELECT 
 			 FILE_NO
@@ -374,14 +376,24 @@
 		WHERE EDSM_NO = #{edsmNo}
 	</update>
 	
-	<!-- 전자결재 반려 -->
+	<!-- 전자결재 반려 / 승인 -->
 	<update id="edsmRejected">
 		UPDATE APPROVER SET
 			 PROGRESS_FLAG = '2'
-			,APPROVE_FLAG = '2'
-			,REJECTED = #{rejected}
+			,APPROVE_FLAG = #{approveFlag}
+			<if test="rejected != 'null'">
+				,REJECTED = #{rejected}
+			</if>
 		WHERE EDSM_NO = #{edsmNo}
 		AND EMP_CODE = #{empCode}
 	</update>
+	
+	<!-- 반려사유 조회 -->
+	<select id="rejectedList">
+		SELECT REJECTED
+		FROM APPROVER 
+		WHERE EDSM_NO = #{edsmNo}
+		AND REJECTED IS NOT NULL
+	</select>
 
 </mapper>
