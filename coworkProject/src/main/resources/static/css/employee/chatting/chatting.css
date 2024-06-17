@@ -31,7 +31,7 @@ body {
 }
 
 .content {
-    z-index: 1; /* 콘텐츠를 비디오 위로 올리기 */
+    z-index: 0; /* 콘텐츠를 비디오 위로 올리기 */
     position: relative;
     font-size: 25px;
     color: #214177; /* 필요에 따라 텍스트 색상 변경 */
@@ -112,23 +112,23 @@ body {
 #selectModalContainer{
 	width: 100vw;
 	height: 100vh;
-
 	position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 	background-color: rgba(0, 0, 0, 0.5); /* 검은색 배경에 50% 불투명도 적용 */
 	display: none;
+	z-index: 100;
 }
 #selectModalInner{
 	width: 40vw;
-	height: 70vh;
+	height: 80vh;
 	background-color: white;
 	position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    	border-radius: 10px;
+	border-radius: 10px;
 
 }
 #modalCancelDiv{
@@ -232,12 +232,19 @@ body {
 	justify-content: center;
 	align-items: center;
 	margin-top: 3vh;
+	flex-direction: column;	
+	
+}
+#beRenderedArea{
+	width: 50%; 
+	height: 200px;
 }
 
 
-#selectedEmps{
-		border-top: 1px solid lightgray;
 
+#selectedEmps{
+		height: 80px;
+		margin-top: 5vh;
 }
 
 
@@ -282,7 +289,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	height: 350px;
+	height: 50px;
 }
 .findEmpContentInner{
     width: 95%; 
@@ -421,11 +428,14 @@ body {
 /*====================  찾은 멤버들 컨테이너 끝 ======================*/
 
 /*====================  새로운 채팅창 만들기 컨테이너 시작 ======================*/
+
 #makeChatButtonDiv{
-	display: flex; 
+	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-top: 5vh;
 }
+
 #makeChatButton{
 	margin-top: 2vh;
 	width:10%; 
@@ -435,14 +445,12 @@ body {
 	background-color: #E5F2FE;
 	transition: background-color 0.3s;
 	font-size: 20px;
-	display: none;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
 }
-
 #makeChatButton:hover{
-
 	background-color: #BDD8F1;
-
-
 }
 
 

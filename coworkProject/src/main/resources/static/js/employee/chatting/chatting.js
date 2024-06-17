@@ -45,13 +45,14 @@ selectedEmps.style.alignItems = 'center';
 selectedEmps.style.paddingTop = '3vh';
 
 organizationSelect.addEventListener('click', function(){
-makeChatButton.style.display = 'block';
 	
-deptTeamContainer.innerHTML = '';
-deptTeamContainer.style.display='block';
+	makeChatButton.style.display = 'block';
 	
-	organizationSelectContainer.style.display = 'flex';
-	nameSelectContainer.style.display = 'none';
+	deptTeamContainer.innerHTML = '';
+	deptTeamContainer.style.display='block';
+	
+    organizationSelectContainer.style.display = 'flex';
+    nameSelectContainer.style.display = 'none';
 	
 	
 	// 현재 로그인한 사원이 속한 회사의 부서와 팀을 모두 조회한다. 
@@ -134,6 +135,8 @@ deptTeamContainer.style.display='block';
 					then(empList => {
 						//---------------------------------------------------------------------------
 						console.log(empList);
+						
+
 				
 						// 기존에 조회된 사원들을 없앰
 						const empListBeRendered= document.querySelector('#empListBeRendered');
@@ -178,7 +181,7 @@ deptTeamContainer.style.display='block';
 				                if(lastNameColors[emp.empLastName]){
 							        newImgDiv.style.backgroundColor = lastNameColors[emp.empLastName];
 								} else{
-									newImgDiv.style.backgroundColor = 'yellow';
+									newImgDiv.style.backgroundColor = '#fff0fa';
 								}
 				
 								newDiv.appendChild(newImgDiv);
@@ -206,8 +209,16 @@ deptTeamContainer.style.display='block';
 							// 바로 위에서 보여진 newDiv 태그를 클릭할 시, 해당 이름이 추가되어야 함 
 							newDiv.addEventListener('click', function(){
 							
+
+							
 								// 일단, 그 놈의 이름과 member테이블 memberNo 컬럼값을 가져오기 
 								let empCode2 = this.children[0].value; // 1(memberNo)
+								
+								// 만약, empCodeList 에 해당 사원의 empCode 가 존재한다면 아래 과정을 생략한다. 
+								if(empCodeList.includes(empCode2)){
+									alert('이미 선택된 사원입니다.');
+									return; 
+								}
 								
 								
 								let divTag = document.createElement('div');
@@ -261,21 +272,15 @@ deptTeamContainer.style.display='block';
 						            selectedEmps.style.overflowY = 'hidden'; // 높이가 초과하지 않으면 스크롤바 숨기기
 						            selectedEmps.style.height = 'auto'; // 높이를 자동으로 설정
 						        }
-						        
-						        
-						        
+
 								empListBeRendered.innerHTML = '';
 																empListBeRendered.innerHTML = '';
 
-								
-								
-								
-								
 							});
 							//dkkkkkkkkkkkkkkkkkkkkkkkkkkkkk 여기예여~~~~~~~~~~~~~~~~~~
 
 			
-					        var maxHeight = 440; // 스크롤바가 생기게 할 최대 높이
+					        var maxHeight = 300; // 스크롤바가 생기게 할 최대 높이
 					
 					        if (empListBeRendered.scrollHeight > maxHeight) {
 					            empListBeRendered.style.overflowY = 'scroll'; // 높이가 초과하면 세로 스크롤바 추가
@@ -284,27 +289,18 @@ deptTeamContainer.style.display='block';
 					            empListBeRendered.style.overflowY = 'hidden'; // 높이가 초과하지 않으면 스크롤바 숨기기
 					            empListBeRendered.style.height = 'auto'; // 높이를 자동으로 설정
 					        }
-					
-					        
+
 								empListBeRendered.append(newDiv);		
 							});		
-						
-						
-						
-						//----------------------------------------------------------------------------
-						
-						
-						
+
+						//---------------------------------------------------------------------------
 					});
 				})
-				
-				
 			}
 			
 			deptTeamContainer.appendChild(newDiv);
 	        
-	        
-	        var maxHeightheight = 440; // 스크롤바가 생기게 할 최대 높이
+	        var maxHeightheight = 300; // 스크롤바가 생기게 할 최대 높이
 	
 	        if (deptTeamContainer.scrollHeight > maxHeightheight) {
 	            deptTeamContainer.style.overflowY = 'scroll'; // 높이가 초과하면 세로 스크롤바 추가
@@ -313,43 +309,29 @@ deptTeamContainer.style.display='block';
 	            deptTeamContainer.style.overflowY = 'hidden'; // 높이가 초과하지 않으면 스크롤바 숨기기
 	            deptTeamContainer.style.height = 'auto'; // 높이를 자동으로 설정
 	        }
-			
-			
-			
 		})
         document.createElement('div');
-        
-        
-
     })
-	
-	
-})
-nameSelect.addEventListener('click', function(){
-	makeChatButton.style.display = 'block';
-
-	organizationSelectContainer.style.display = 'none';
-	nameSelectContainer.style.display = 'flex';
 })
 
+nameSelect.addEventListener('click', function() {
+    makeChatButton.style.display = 'block';
+    organizationSelectContainer.style.display = 'none';
+    nameSelectContainer.style.display = 'flex';
+});
 
-
+let beRenderedArea = document.querySelector('#beRenderedArea');
 
 // 새로운 사원 추가 로직 끝 
-
-
-
-
 searchInput.addEventListener('input', function(){
 	let inputData = searchInput.value.trim(); 
 	
     console.log(inputData === '');
 	
 	if(inputData == ''){
-		findEmpContent.innerHTML = '';
+		beRenderedArea.innerHTML = '';
 		return;
 	}
-	
 	
 	fetch('/chat/empList',{
 		method:"POST",
@@ -361,9 +343,10 @@ searchInput.addEventListener('input', function(){
 	)
 	.then(empList => {
 	    console.log(empList);
+	    
 		// 기존에 조회된 사원들을 없앰 
-		findEmpContent.innerHTML = '';
-			
+		beRenderedArea.innerHTML = '';
+		
 		empList.forEach(emp => {
 			// 새로운 div 생성 => 찾아온 한명의 멤버를 담을 컨테이너  
 			const newDiv = document.createElement('div'); 
@@ -401,9 +384,11 @@ searchInput.addEventListener('input', function(){
                 };
                 
                 if(lastNameColors[emp.empLastName]){
+				
 			        newImgDiv.style.backgroundColor = lastNameColors[emp.empLastName];
+				
 				} else{
-					newImgDiv.style.backgroundColor = 'yellow';
+					newImgDiv.style.backgroundColor = '#fff0fa';
 				}
 				
 				newDiv.appendChild(newImgDiv);
@@ -464,9 +449,9 @@ searchInput.addEventListener('input', function(){
 				divTag.classList.add('addedEmpContentInner');
 							
 				// html 에 보이게 함 			
-				addedEmpContent.appendChild(divTag);
-				
+				selectedEmps.appendChild(divTag);
 				console.log('aaa');
+				
 				// 배열에 값(memberNo) 추가 
 				if(!empCodeList.includes(empCode2)){
 					empCodeList.push(empCode2);							
@@ -474,36 +459,34 @@ searchInput.addEventListener('input', function(){
 				}
 				console.log(empCodeList);
 				
-				// 조회된 놈들 다 지워줘야지 
-				findEmpContent.innerHTML = '';
-					
-				console.log('hey~');
+				// 조회된 놈들 다 지워줘야지 ???
+				beRenderedArea.innerHTML = '';
 				
 				// addedEmpContent 특정 높이보다 높아지면 스크롤바 만들기  
 		        var maxmaxHeihgt = 80;
-			    if (addedEmpContent.scrollHeight > maxmaxHeihgt) {
-		            addedEmpContent.style.overflowY = 'scroll'; // 높이가 초과하면 세로 스크롤바 추가
-		            addedEmpContent.style.height = maxmaxHeihgt + 'px'; // 높이를 제한
+			    if (selectedEmps.scrollHeight > maxmaxHeihgt) {
+		            selectedEmps.style.overflowY = 'scroll'; // 높이가 초과하면 세로 스크롤바 추가
+		            selectedEmps.style.height = maxmaxHeihgt + 'px'; // 높이를 제한
 		        } else {
-		            addedEmpContent.style.overflowY = 'hidden'; // 높이가 초과하지 않으면 스크롤바 숨기기
-		            addedEmpContent.style.height = 'auto'; // 높이를 자동으로 설정
+		            selectedEmps.style.overflowY = 'hidden'; // 높이가 초과하지 않으면 스크롤바 숨기기
+		            selectedEmps.style.height = 'auto'; // 높이를 자동으로 설정
 		        }
 				
 				
 			});
 			
-        var maxHeight = 300; // 스크롤바가 생기게 할 최대 높이
+        var maxHeight = 200; // 스크롤바가 생기게 할 최대 높이
 
-        if (findEmpContent.scrollHeight > maxHeight) {
-            findEmpContent.style.overflowY = 'scroll'; // 높이가 초과하면 세로 스크롤바 추가
-            findEmpContent.style.height = maxHeight + 'px'; // 높이를 제한
+        if (beRenderedArea.scrollHeight > maxHeight) {
+            beRenderedArea.style.overflowY = 'scroll'; // 높이가 초과하면 세로 스크롤바 추가
+            beRenderedArea.style.height = maxHeight + 'px'; // 높이를 제한
         } else {
-            findEmpContent.style.overflowY = 'hidden'; // 높이가 초과하지 않으면 스크롤바 숨기기
-            findEmpContent.style.height = 'auto'; // 높이를 자동으로 설정
+            beRenderedArea.style.overflowY = 'hidden'; // 높이가 초과하지 않으면 스크롤바 숨기기
+            beRenderedArea.style.height = 'auto'; // 높이를 자동으로 설정
         }
 
         
-			findEmpContent.append(newDiv);		
+			beRenderedArea.append(newDiv);		
 		});		
 
 	})
@@ -642,7 +625,7 @@ function getChattingRooms(empCode){
                if(lastNameColors[room.empLastName]){
 			      makerProfileDiv.style.backgroundColor = lastNameColors[room.empLastName];
 			   } else{
-				  makerProfileDiv.style.backgroundColor = 'yellow';
+				  makerProfileDiv.style.backgroundColor = '#fff0fa';
 			   }
 			   
 			   makerProfileDiv.appendChild(empLastNameNode);
@@ -690,7 +673,12 @@ function getChattingRooms(empCode){
 				</div> */
 			let content = room.content;
 			if(content != null){
+				if (content.includes("^^^")) {
+    					content = content.replace(/(\^\^\^)/g, ''); // '^^^'를 빈 문자열로 대체
+				}
 				let contentNode = document.createTextNode(content);
+				
+				
 				let contentNodeDiv = document.createElement('div');
 				contentNodeDiv.appendChild(contentNode);
 				rightAreaDiv.appendChild(contentNodeDiv);
@@ -889,7 +877,7 @@ function getChattingRooms(empCode){
 									if(lastNameColors[message.empLastName]){
 										profileDiv.style.backgroundColor = lastNameColors[message.empLastName];										
 									} else{
-										profileDiv.style.backgroundColor = 'yellow';
+										profileDiv.style.backgroundColor = '#fff0fa';
 									}
 									
 									profileDiv.style.borderRadius = '50%';
@@ -1053,7 +1041,7 @@ function getChattingRooms(empCode){
 										
 									} else{
 										
-										profileDiv.style.backgroundColor = 'yellow';
+										profileDiv.style.backgroundColor = '#fff0fa';
 										
 									}
 									
@@ -1122,12 +1110,16 @@ function getChattingRooms(empCode){
 								
 						}
 					
+					
+					
+
 				// 자동으로 스크롤바 되게 하기 
-				if (chattingsArea.scrollHeight > 635) {
+				if (chattingsArea.scrollHeight > 400) {
 				    chattingsArea.style.overflowY = 'scroll'; // 높이가 초과하면 세로 스크롤바 추가
-				    chattingsArea.style.height = 635 + 'px'; // 높이를 제한
+				    chattingsArea.style.height = 400 + 'px'; // 높이를 제한
 				} else {
 					chattingsArea.style.overflowY = 'hidden'; // 높이가 초과하지 않으면 스크롤바 숨기기
+		            empListBeRendered.style.height = 'auto'; // 높이를 자동으로 설정
 				}
 				
 	            chattingsArea.scrollTop = chattingsArea.scrollHeight;
@@ -1261,7 +1253,7 @@ function connect2(empNo) {
 
 // 메세지 보내기
 function sendMessage() {	
-	
+
 	// 채팅입력 input 태그의 내용 
     var messageContent = document.getElementById('message').value.trim();
 	
@@ -1339,7 +1331,6 @@ function showMessage(message) {
 	 */
 	
 	
-    let chattingsArea = document.getElementById('chattingsArea'); // ul 태그임 
     let messageElement = document.createElement('li'); // li 태그 생성
     //messageElement.classList.add('chat-message'); //css 붙여주고 
 
@@ -1448,7 +1439,7 @@ function showMessage(message) {
 			if(lastNameColors[message.empLastName]){
 				profileDiv.style.backgroundColor = lastNameColors[message.empLastName];				
 			} else{
-				profileDiv.style.backgroundColor = 'yellow';
+				profileDiv.style.backgroundColor = '#fff0fa';
 			}
 			profileDiv.style.display = 'flex';
 			profileDiv.style.justifyContent = 'center';
@@ -1619,7 +1610,7 @@ function showMessage(message) {
 				if(lastNameColors[message.empLastName]){
 					profileDiv.style.backgroundColor = lastNameColors[message.empLastName];				
 				} else{
-					profileDiv.style.backgroundColor = 'yellow';
+					profileDiv.style.backgroundColor = '#fff0fa';
 				}
 				profileDiv.style.display = 'flex';
 				profileDiv.style.justifyContent = 'center';

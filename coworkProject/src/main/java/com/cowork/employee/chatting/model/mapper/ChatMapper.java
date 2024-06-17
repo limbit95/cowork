@@ -50,7 +50,7 @@ public interface ChatMapper {
 
 	List<Department> getDeptAndTeam(Integer comNo);
 
-	List<Employee2> getTeamEmps(String teamNo);
+	List<Employee2> getTeamEmps(Map<String, Object> paramMap);
 
 
 

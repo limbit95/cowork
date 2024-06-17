@@ -29,8 +29,8 @@ public interface ChatService {
 
 	List<Department> getDeptAndTeam(Employee2 loginEmp);
 
-	List<Employee2> getTeamEmps(String teamNo);
+	List<Employee2> getTeamEmps(String teamNo, Employee2 loginEmp );
 
 	List<Employee2> getEmpList(List<Integer> empCodeList);
-
+	
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.admin.companyInfo.model.dto.Department;
@@ -85,6 +86,8 @@ public class ChattingController {
     @PostMapping("/chat/makeChat")
     @ResponseBody
     public String makeChat(@RequestBody MakeChat makeChat, Model model) {
+    	
+    	
     	
     	List<String> empCodeList = makeChat.getEmpCodeList(); // 채팅방 구성원 
     	String empCode = makeChat.getMakeEmpCode(); // 채팅방 만드는 놈
@@ -254,8 +257,10 @@ public class ChattingController {
     }
     @GetMapping("/chat/getTeamEmps")
     @ResponseBody
-    public List<Employee2> getTeamEmps (@RequestParam("teamNo") String teamNo) {
-    	List<Employee2> empList = chatService.getTeamEmps(teamNo);
+    public List<Employee2> getTeamEmps (@RequestParam("teamNo") String teamNo, 
+    			@SessionAttribute("loginEmp") Employee2 loginEmp
+    		) {
+    	List<Employee2> empList = chatService.getTeamEmps(teamNo, loginEmp);
     	
     	
     	return empList;

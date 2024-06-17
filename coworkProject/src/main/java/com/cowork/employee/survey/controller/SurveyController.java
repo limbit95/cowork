@@ -58,7 +58,7 @@ public class SurveyController {
 //		
 //		session.setAttribute("loginEmp", emp2);
 		
-		Employee2 emp = new Employee2();
+		Employee2 emp = new Employee2();                                                                                                                                                                                                                                       
 		emp.setEmpCode(55);
 		emp.setEmpId("limbit5");
 		emp.setEmpFirstName("임");
@@ -66,6 +66,7 @@ public class SurveyController {
 		emp.setComNo(10);		
 		HttpSession session = request.getSession();
 		session.setAttribute("loginEmp", emp);
+		
 		return "임성혁으로 로그인됨";
 	}
 	
