@@ -332,7 +332,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 const existingValues = Array.from(selectView.querySelectorAll('p')).map(p => p.textContent);
-                console.log("모든 p 태그 글자 값" + existingValues);
+
                 // 이값을 content에 넣어줘야함
 
                 const obj = {
@@ -367,6 +367,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     if(result > 0) {
 
+                        info.start = "";
+                        info.end = "";
+
                         document.querySelector("#updateTitle").value = "";
                         document.querySelector("#selectedColor").value = "";
                         document.querySelector(".selectView").innerHTML = "";
@@ -395,9 +398,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         selectDept.value = selectDeptDefalut;
                         selectTeam.value = selectTeamDefalut;
 
+                        calendar.render();
+
                         alert("일정이 추가되었습니다.");
 
                     } else {
+
+                        info.start = "";
+                        info.end = "";
 
                         document.querySelector("#updateTitle").value = "";
                         document.querySelector("#selectedColor").value = "";
