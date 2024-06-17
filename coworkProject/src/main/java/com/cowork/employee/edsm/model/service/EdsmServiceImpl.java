@@ -345,4 +345,11 @@ public class EdsmServiceImpl implements EdsmService{
 		return result;
 	}
 
+	// 전자결재 완료
+	@Override
+	public List<Edsm> edsmApproved(int empCode) {
+		// TODO Auto-generated method stub
+		return mapper.edsmApproved(empCode);
+	}
+
 }
