@@ -133,6 +133,7 @@
 <select id="getTeamEmps">
 	SELECT * FROM EMPLOYEE 
 	WHERE TEAM_NO = #{teamNo}
+	AND EMP_CODE != #{loginEmpCode}
 </select>
 
 	

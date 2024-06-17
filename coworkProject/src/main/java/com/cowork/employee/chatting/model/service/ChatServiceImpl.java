@@ -343,9 +343,15 @@ public List<Department> getDeptAndTeam(Employee2 loginEmp) {
 }
 
 @Override
-public List<Employee2> getTeamEmps(String teamNo) {
+public List<Employee2> getTeamEmps(String teamNo, Employee2 loginEmp) {
 	
-	List<Employee2> empList = chatMapper.getTeamEmps(teamNo);
+	Integer loginEmpCode = loginEmp.getEmpCode();	
+	
+	Map<String, Object> paramMap = new HashMap<>();
+	paramMap.put("loginEmpCode", loginEmpCode);
+	paramMap.put("teamNo", teamNo);
+	
+	List<Employee2> empList = chatMapper.getTeamEmps(paramMap);
 	
 	for(Employee2 emp : empList) {
 		if(emp.getTeamNo() != null) {
