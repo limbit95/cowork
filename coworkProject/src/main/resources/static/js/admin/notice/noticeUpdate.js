@@ -159,14 +159,7 @@ document.querySelector("#noticeUpdate").addEventListener("click", () => {
         }
     }
 
-    // 기존파일 순서와 삭제파일 순서 FormData에 추가
-    clone.append('updateOrder', Array.from( updateOrder ));
-    clone.append('deleteOrder', Array.from( deleteOrder ));
-
-    // 제목과 내용을 FormData에 추가
-    clone.append('noticeTitle', noticeTitle);
-    clone.append('noticeContent', noticeContent);
-
+    
     for (const pair of formData.entries()) {
         clone.append('files', pair[1]);
     }

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>전체메일</title>
+    <title>Detail</title>
 
     <th:block th:replace="~{common/common}"></th:block>
     <link rel="stylesheet" href="/css/employee/board/board.css">
@@ -28,15 +28,22 @@
         <div class="board">
 
             <div class="table-body">
-                <div class="checkDiv">
-                    <label class="delBtn">답장</label>
-                    <label class="delBtn">전달</label>
-                    <label class="delBtn">삭제</label>
+                <div class="checkDiv" th:if="${mail.mailFlag == '1'}">
+                    <label class="delBtn" id="reBtn" th:attr="data-mail-id=${mail.mailNo}" 
+                            th:onclick="|location.href='/mail/reply/' + ${mail.mailNo}|">답장</label>
+                    <label class="delBtn" id="fwBtn" th:attr="data-mail-id=${mail.mailNo}" 
+                            th:onclick="|location.href='/mail/forward/' + ${mail.mailNo}|">전달</label>
+                    <label class="delBtn" id="deleteBtn">삭제</label>
+                </div>
+                <div class="checkDiv" th:unless="${mail.mailFlag == '1'}">
+                    <label class="delBtn" id="restoreBtn">복구</label>
+                    <label class="delBtn" id="eliminateBtn">영구삭제</label>
                 </div>
                 <div></div>
                 <div></div>
                 <div class="menuDiv checkDiv">
-                    <div><label class="delBtn">목록</label></div>
+                    <div th:if="${mail.mailFlag == '1'}"><label class="delBtn" onclick="location.href='/mail/mailList'">목록</label></div>
+                    <div th:unless="${mail.mailFlag == '1'}"><label class="delBtn" onclick="location.href='/mail/bin'">목록</label></div>
                     <i class="fa-solid fa-angle-up"></i>
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
@@ -46,6 +53,7 @@
                 <!-- 제목 -->
                 <div class="ins-css insertForm">
                     <div><label>제목</label></div>
+                    <input type="hidden" th:attr="data-mail-id=${mail.mailNo}" id="mailNo">
                     <span th:text="${mail.mailTitle}" class="mailTitle" id="mailTitle"></span>
                 </div>
 
@@ -57,7 +65,7 @@
                 </div>
 
                 <!-- 받는사람 -->
-                <div class="ins-css insertForm mailInfo"> <!--  th:each="${mail.recipientList}" -->
+                <div class="ins-css insertForm mailInfo">
                     <div><label>받는 사람</label></div>
                     <div th:each="recipient : ${recipientList}">
                         <div th:text="${recipient.recipient}">받는사람</div>
@@ -66,7 +74,7 @@
                 </div>
 
                 <!-- 참조 -->
-                <div class="ins-css insertForm mailInfo"> <!-- th:each="${mail.refererList}" -->
+                <div class="ins-css insertForm mailInfo"> 
                     <div><label>참조</label></div>
                         <div th:each="referer : ${refererList}">
                         <div th:text="${referer.referer}"></div>
@@ -82,10 +90,9 @@
 
                 <!-- 파일 -->
                 <div class="ins-css">
-
+                    <div><label>첨부파일</label></div>
                     <div class="">
                         <button type="button" class="fa-solid fa-chevron-up btnBoarder fileListInfo"></button>
-                       <!-- <label th:text="|첨부파일 *{fileCnt}개|">첨부파일</label><label class="colorGray">(12.1KB)</label>-->
                     </div>
                     <table class="default-line preview">
                         <tr th:each="file : ${fileList}" th:object="${file}">
@@ -98,9 +105,9 @@
                 </div>
             </div>
 
-            <div class="default-line smarteditorDetail"></div>
+            <div class="default-line smarteditorDetail" th:utext="${mail.mailContent}"></div>
 
-            <div class="table-body row">
+  <!--         <div class="table-body row">
                 <div class="checkDiv">
                     <i class="fa-solid fa-caret-up"></i>
                     <div>개발팀</div>
@@ -119,9 +126,12 @@
                 <div></div>
                 <div>2024-05-22 12:20</div>
             </div>
-
+--> 
 
         </div>
     </section>
+
+    <script src="/js/employee/mail/detail.js"></script>
+    <script src="/js/employee/mail/binDetail.js"></script>
 </body>
 </html>

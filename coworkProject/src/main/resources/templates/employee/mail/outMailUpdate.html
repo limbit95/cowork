@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Detail</title>
+
+    <th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/employee/board/board.css">
+    <link rel="stylesheet" href="/css/employee/mail/mail.css">
+    <link rel="stylesheet" href="/css/employee/mail/mailInsert.css">
+
+</head>
+<body>
+    <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
+
+    <form class="container" id="outMailUpdateForm" enctype="multipart/form-data" action="/mail/outMailUpdate" method="post">
+
+        <div class="mailTitle">
+
+            <div class="mailLabel">
+                <label>임시보관</label>
+            </div>
+            <div></div>
+        </div>
+
+        <div class="mailHeader">
+            <div class="checkDiv">
+                <button class="default-btn sapphire-border-btn" id="sendBtn" type="button">보내기</button>
+                <label class="delBtn" id="saveBtn">임시저장</label>
+            </div>
+        </div>
+
+        <div class="board">
+            <div class="table-body2">
+                <!-- 받는사람 -->
+                <div class="ins-css insertForm mailInfo recipientForm">
+                    <div><label>받는사람</label></div>
+                    <div class="inputContainer">
+                        <div id="recipientListContainer" class="recipientListContainer">
+                            <input type="text" id="recipientInput" class="inputRecipient" placeholder="받는 사람">
+                            <input class="inputEmpCode" id="empCode1" hidden>
+                        </div>
+                        <input type="hidden" id="recipientEmpCode" name="recipientEmpCode">
+                        <input type="hidden" id="recipientEmpName" name="recipientEmpName">
+                    </div>
+                </div>
+
+                <!-- 참조 -->
+                <div class="ins-css insertForm mailInfo refererForm">
+                    <div><label>참조</label></div>
+                    <div class="inputContainer">
+                        <div id="refererListContainer" class="refererListContainer">
+                            <input type="text" id="refererInput" class="inputReferer" placeholder="참조">
+                            <input class="inputEmpCode" id="empCode2" hidden>
+                        </div>
+                        <input type="hidden" id="refererEmpCode" name="refererEmpcode">
+                        <input type="hidden" id="refererEmpName" name="refererEmpName">
+                    </div>
+                </div>
+
+                <!-- 제목 -->
+                <div class="ins-css insertForm">
+                    <div><label>제목</label></div>
+                    <input class="default-line listBtn" id="mailTitle" th:value="${mail.mailTitle}">
+                </div>
+
+                <!-- 파일 -->
+                <div class="fileUploadForm">
+
+                    <div class="fileType default-btn gray-border-btn">
+                        <span class="">파일첨부</span>
+                        <span class="fileSelect"><input type="file" name="files" id="fileInput" accept="files/board/*" multiple="multiple"/></span>
+                    </div>
+                    <div>
+                        <div>
+                            <button type="button" class="fa-solid fa-chevron-up btnBoarder fileListInfo"></button>
+                            <label>첨부파일</label>
+                            <label id="fileCnt">0</label><label>개</label>
+                        </div>
+                        <table class="default-line preview">
+                            <tr th:each="file : ${fileList}" th:object="${file}" th:id="|fileOrder*{fileOrder}|">
+                                <td><i class="fa-solid fa-paperclip"></i><label th:text="*{fileOriginName}">검색.png</label></td>
+                                <td><button type="button" class="fa-solid fa-xmark fileRemove btnBoarder" th:name="*{fileRename}" th:data-index="|fileOrder*{fileOrder}|"></button><label th:text="*{fileOrder}" hidden></label></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="smarteditor">
+                <textarea name="mailContent" id="mailContent" rows="10" cols="100" hidden>
+                    <span th:utext="${mail.mailContent}"></span>
+                </textarea>    
+            </div>
+        </div>
+
+    </form>
+
+<script th:inline="javascript">
+    const mailNo = /*[[${mail.mailNo}]]*/"메일 식별 번호";
+    const existingFiles = /*[[${fileList}]]*/[]; 
+    const recipientList = /*[[${recipientList}]]*/ [];
+    const refererList = /*[[${refererList}]]*/ [];       
+</script>
+
+<!-- 스마트 에디터 -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/lib/smarteditor2/se/js/service/HuskyEZCreator.js" data-cfasync="false"></script>
+
+<script src="/js/employee/mail/outMailUpdate.js"></script>
+</body>
+</html>

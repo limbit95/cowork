@@ -1,3 +1,4 @@
+
 // 에디터 
 var oEditors = [];
 
@@ -20,21 +21,25 @@ smartEditor = function() {
     });
 }
 
-
-
-const recipientEmpCodeInput = document.getElementById('recipientEmpCode');
-const recipientEmpNameInput = document.getElementById('recipientEmpName');
-const recipientInput = document.getElementById('recipientInput');
-const recipientListContainer = document.getElementById('recipientListContainer');
-const refererInput = document.getElementById('refererInput');
-const refererListContainer = document.getElementById('refererListContainer');
-
-
-
     // 스마트 에디터 
     smartEditor(); 
 
-    
+    const recipientInput = document.getElementById('recipientInput');
+    const recipientListContainer = document.getElementById('recipientListContainer');
+    const recipientEmpCodeInput = document.getElementById('recipientEmpCode');
+    const recipientEmpNameInput = document.getElementById('recipientEmpName');
+    const refererInput = document.getElementById('refererInput');
+    const refererListContainer = document.getElementById('refererListContainer');
+    const refererEmpCodeInput = document.getElementById('refererEmpCode');
+    const refererEmpNameInput = document.getElementById('refererEmpName');
+
+    // 디버깅: 초기화 후 요소 확인
+    console.log("Recipient List Container:", recipientListContainer);
+    console.log("Recipient Emp Code Input:", recipientEmpCodeInput);
+    console.log("Recipient Emp Name Input:", recipientEmpNameInput);
+    console.log("Referer List Container:", refererListContainer);
+    console.log("Referer Emp Code Input:", refererEmpCodeInput);
+    console.log("Referer Emp Name Input:", refererEmpNameInput);
 
     // 받는 사람 입력에 스페이스나 엔터를 눌렀을 때
     recipientInput.addEventListener('keydown', (event) => {
@@ -60,8 +65,25 @@ const refererListContainer = document.getElementById('refererListContainer');
         }
     });
 
+    if (sender) {
+        const recipientDiv = document.createElement('div');
+        recipientDiv.className = 'default-label lavenderLabel putRecipient';
+        recipientDiv.dataset.empCode = senderEmpCode;
+        recipientDiv.dataset.empName = sender;
+        recipientDiv.textContent = sender;
+        recipientDiv.appendChild(createDeleteButton(recipientDiv));
+        recipientListContainer.appendChild(recipientDiv);
 
+        recipientEmpCodeInput.value = senderEmpCode;
+        recipientEmpNameInput.value = sender;
+    }
 
+console.log("Initial recipient list:", Array.from(document.querySelectorAll('.putRecipient')).map(el => el.dataset.empCode));
+console.log("Initial referer list:", Array.from(document.querySelectorAll('.putReferer')).map(el => el.dataset.empCode));    
+console.log(sender); 
+console.log(senderEmpCode);
+console.log(senderMail);
+console.log(refererList); 
 
 // 사원 검색 영역 생성 
 function createSearchTable(tableId, inputElement) {
@@ -103,7 +125,6 @@ function searchEmp(empName, trId, tableId) {
     })
     .catch(error => console.error('Error:', error));
 }
-
 
 // 입력했을 때 
 recipientInput.addEventListener('input', () => {
@@ -282,7 +303,8 @@ const fileHandler = {
 fileHandler.init();
 fileHandler.removeFile();
 
-document.querySelector('#sendBtn').addEventListener('click', () => {
+
+document.querySelector('#reBtn').addEventListener('click', () => {
 
     console.log('Send button clicked'); // 버튼 클릭 로그
     // 에디터 내용을 업데이트
@@ -328,7 +350,7 @@ document.querySelector('#sendBtn').addEventListener('click', () => {
     clone.append('referer', referer.join(','));
 
     // Fetch API를 사용하여 서버로 전송
-    fetch("/mail/mailInsert", {
+    fetch("/mail/reply", {
         method: "POST",
         body: clone
     })

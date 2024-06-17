@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cowork.employee.mail.model.dto.Mail;
 import com.cowork.employee.mail.model.dto.MailFile;
 import com.cowork.user.model.dto.Employee2;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 /**
  * 
@@ -99,6 +101,95 @@ public interface MailService {
 	 * @return
 	 */
 	int sendMail(Mail inputMail, List<MultipartFile> files, String recipient, String referer) throws IllegalStateException, IOException;
+
+	/** 휴지통으로 옮기기 
+	 * @param mailIds
+	 * @return
+	 */
+	boolean toBin(List<Integer> mailIds);
+
+	/** 임시 보관함 
+	 * @param paramMap
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> outMailList(Map<String, Object> paramMap, int cp);
+
+	/** 휴지통 
+	 * @param paramMap
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> binList(Map<String, Object> paramMap, int cp);
+
+	/** 휴지통 메일 복구하기 
+	 * @param mailIds
+	 */
+	void restoreMails(List<Integer> mailIds);
+
+	/** 메일 영구 삭제하기 
+	 * @param mailIds
+	 */
+	void eliminateMails(List<Integer> mailIds);
+
+	/** 답장하기 
+	 * @param inputMail
+	 * @param files
+	 * @param recipient
+	 * @param referer
+	 * @return
+	 */
+	int reply(Mail inputMail, List<MultipartFile> files, String recipient, String referer) throws IllegalStateException, IOException;
+
+	/** 임시저장하기 
+	 * @param inputMail
+	 * @param files
+	 * @param recipient
+	 * @param referer
+	 * @param existingFiles 
+	 * @return
+	 */
+	int saveMail(Mail inputMail, List<MultipartFile> files, String recipient, String referer, List<MailFile> existingFiles) throws IllegalStateException, IOException;
+
+
+	/** 임시저장 메일 수정 다시 임시보관 
+	 * @param inputMail
+	 * @param files
+	 * @param recipient
+	 * @param referer
+	 * @param deleteOrder
+	 * @param updateOrder
+	 * @param existingFiles
+	 * @return
+	 */
+	int outUpdate(Mail inputMail, List<MultipartFile> files, String recipient, String referer, String deleteOrder,
+			String updateOrder) throws IllegalStateException, IOException;
+
+	/** 임시보관함에서 전송하기 (수정 후 전송 가능) 
+	 * @param inputMail
+	 * @param files
+	 * @param recipient
+	 * @param referer
+	 * @param deleteOrder
+	 * @param updateOrder
+	 * @return
+	 */
+	int outSend(Mail inputMail, List<MultipartFile> files, String recipient, String referer, String deleteOrder,
+			String updateOrder) throws IllegalStateException, IOException;
+
+	/**
+	 * @param inputMail
+	 * @param files
+	 * @param recipient
+	 * @param referer
+	 * @param updateOrder
+	 * @param deleteOrder
+	 * @param mailNo 
+	 * @return
+	 */
+	int forward(Mail inputMail, List<MultipartFile> files, String recipient, String referer, String updateOrder,
+			String deleteOrder, int mailNo) throws IllegalStateException, IOException;
+
 
 
 
