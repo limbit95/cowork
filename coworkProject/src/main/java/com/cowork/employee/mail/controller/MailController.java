@@ -502,7 +502,15 @@ public class MailController {
 							@RequestParam(value="deleteOrder", required = false) String deleteOrder, /* 삭제 */
 					        @RequestParam(value="updateOrder", required=false) String updateOrder, /* 기존 */
 							@RequestParam(value="files", required=false) List<MultipartFile> files,
+							@RequestParam(value = "existingFiles", required = false) String existingFilesJson,
 							RedirectAttributes ra) throws IllegalStateException, IOException {
+		 
+		 List<MailFile> existingFiles = new ArrayList<>();
+	        if (existingFilesJson != null && !existingFilesJson.isEmpty()) {
+	            ObjectMapper objectMapper = new ObjectMapper();
+	            existingFiles = objectMapper.readValue(existingFilesJson, new TypeReference<List<MailFile>>() {});
+	        }
+				
 	
 	mailContent = mailContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
 	
@@ -521,7 +529,7 @@ public class MailController {
 				.empCode(loginEmp.getEmpCode())
 				.build(); 
 	
-	int result = service.forward(inputMail, files, recipient, referer, updateOrder, deleteOrder, mailNo);
+	int result = service.forward(inputMail, files, recipient, referer, updateOrder, deleteOrder, mailNo, existingFiles);
 	
 	return result; 
 	
@@ -572,7 +580,7 @@ public class MailController {
 				.empCode(loginEmp.getEmpCode())
 				.build(); 
 		
-		int result = service.saveMail(inputMail, files, recipient, referer, existingFiles);
+		int result = service.saveMail(inputMail, files, recipient, referer, existingFiles, deleteOrder, updateOrder);
 		
 		return result; 
 		

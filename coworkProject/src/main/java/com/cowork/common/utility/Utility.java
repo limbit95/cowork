@@ -29,16 +29,17 @@ public class Utility {
 
 	public static void copyFile(File sourceFile, File destFile) throws IOException {
         
-        if (!sourceFile.exists()) {
-            throw new IOException("Source file does not exist: " + sourceFile.getAbsolutePath());
-        }
+		 if (!sourceFile.exists()) {
+	            throw new IOException("Source file does not exist: " + sourceFile.getAbsolutePath());
+	        }
 
-       
-        if (!destFile.getParentFile().exists() && !destFile.getParentFile().mkdirs()) {
-            throw new IOException("Failed to create destination directory: " + destFile.getParentFile().getAbsolutePath());
-        }
+	        if (destFile.getParentFile() != null && !destFile.getParentFile().exists()) {
+	            if (!destFile.getParentFile().mkdirs()) {
+	                throw new IOException("Failed to create destination directory: " + destFile.getParentFile().getAbsolutePath());
+	            }
+	        }
 
-        Files.copy(sourceFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-    }
+	        Files.copy(sourceFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+	    }
 
 }

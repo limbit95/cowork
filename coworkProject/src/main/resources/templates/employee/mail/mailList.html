@@ -74,12 +74,11 @@
                     <input type="checkbox" th:attr="data-mail-id=${mail.mailNo}">
                     <div><span th:text="${mail.senderTeamNm}" id="senderTeamNm">팀이름</span>&nbsp;<span th:text="${mail.sender}">이름</span></div>
                 </div>
-                <div th:attr="data-mail-id=${mail.mailNo}"  th:text="|${session.loginEmp.empCode == mail.empCode ? '[보낸 메일함]' : '[받은 메일함]'} 
+                <div th:attr="data-mail-id=${mail.mailNo}"  th:text="|${session.loginEmp.empCode == mail.senderEmpCode ? '[보낸 메일함]' : '[받은 메일함]'} 
                             &nbsp; ${mail.mailTitle}|" id="mailTitle" class="mailTitle"
                             th:onclick="|location.href='@{/mail/mailDetail/{mailNo} (mailNo=*{mailNo})}'|">
                     메일 제목
                 </div>
-                
                 <div th:text="${mail.mailWriteDate}" id="mailWriteDate">메일 보낸 시각</div>
             </div>
 

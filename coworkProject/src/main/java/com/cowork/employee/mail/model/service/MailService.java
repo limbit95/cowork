@@ -147,9 +147,12 @@ public interface MailService {
 	 * @param recipient
 	 * @param referer
 	 * @param existingFiles 
+	 * @param updateOrder 
+	 * @param deleteOrder 
 	 * @return
 	 */
-	int saveMail(Mail inputMail, List<MultipartFile> files, String recipient, String referer, List<MailFile> existingFiles) throws IllegalStateException, IOException;
+	int saveMail(Mail inputMail, List<MultipartFile> files, String recipient, String referer, 
+			List<MailFile> existingFiles, String deleteOrder, String updateOrder) throws IllegalStateException, IOException;
 
 
 	/** 임시저장 메일 수정 다시 임시보관 
@@ -185,10 +188,11 @@ public interface MailService {
 	 * @param updateOrder
 	 * @param deleteOrder
 	 * @param mailNo 
+	 * @param existingFiles 
 	 * @return
 	 */
 	int forward(Mail inputMail, List<MultipartFile> files, String recipient, String referer, String updateOrder,
-			String deleteOrder, int mailNo) throws IllegalStateException, IOException;
+			String deleteOrder, int mailNo, List<MailFile> existingFiles) throws IllegalStateException, IOException;
 
 
 

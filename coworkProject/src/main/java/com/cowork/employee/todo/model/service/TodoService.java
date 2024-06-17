@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.employee.todo.model.dto.Todo;
 import com.cowork.employee.todo.model.dto.TodoFile;
+import com.cowork.user.model.dto.Employee2;
 
 public interface TodoService {
 
@@ -86,6 +87,13 @@ public interface TodoService {
 
 	int todoUpdate(Todo inputTodo, List<MultipartFile> files, String deleteOrder,
 			String updateOrder, List<String> inChargeEmpList) throws FileNotFoundException, IOException;
+
+	/** 사원 검색 
+	 * @param empName
+	 * @param comNo
+	 * @return
+	 */
+	List<Employee2> todoEmpSearch(String empName, int comNo);
 
 	
 		

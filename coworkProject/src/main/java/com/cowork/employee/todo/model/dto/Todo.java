@@ -26,6 +26,7 @@ public class Todo {
 	private String todoEndDate; 
 	private String todoComplete; 
 	private int empCode;
+	private String empName; 
 	
 	private int todoMgrNo; 
 	
