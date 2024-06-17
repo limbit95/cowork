@@ -68,6 +68,12 @@ public class FileConfig implements WebMvcConfigurer {
 	    @Value("${mail.file.resource-location}")
 	    private String mailFileResourceLocation;
 	    
+		// 엑셀 파일
+		@Value("${excel.resource-handler}")
+		private String excelResourceHandler;
+		@Value("${excel.resource-location}")
+		private String excelResourceLocation;
+	    
 	    
 	    @Override
 	    public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -99,6 +105,10 @@ public class FileConfig implements WebMvcConfigurer {
 	        registry
 	        .addResourceHandler(mailFileResourceHandler)
 	        .addResourceLocations(mailFileResourceLocation);
+	        
+			// 엑셀
+			registry.addResourceHandler(excelResourceHandler)
+			.addResourceLocations(excelResourceLocation);
 	        
 	    }
 		

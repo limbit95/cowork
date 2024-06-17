@@ -19,11 +19,11 @@
 
         <!-- 추후 http -> https 변경해야 할수도? -->
         <form action="http://localhost/user/inviteSignUpPage" method="post">
-            <input hidden th:value="${data.authKey}" name="authKey">
-            <input hidden th:value="${data.comNo}" name="comNo">
-            <input hidden th:value="${data.domain}" name="domain">
-            <input hidden th:value="${data.empCode}" name="empCode">
-            <input hidden th:value="${data.sender}" name="sender">
+            <input hidden th:value="${data.authKey}" name="authKey" style="display: none;">
+            <input hidden th:value="${data.comNo}" name="comNo" style="display: none;">
+            <input hidden th:value="${data.domain}" name="domain" style="display: none;">
+            <input hidden th:value="${data.empCode}" name="empCode" style="display: none;">
+            <input hidden th:value="${data.sender}" name="sender" style="display: none;">
             <button style="
             border-radius: 5px; padding: 5px 20px;
             background-color: #426DA7; border: 2px solid #426DA7; width: 180px; height: 50px; font-size: 16px; color: white;

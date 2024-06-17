@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cowork.employee.addr.model.mapper.AddrMapper">
 	
-	<!-- 개인 주소록 그룹만 조회 -->
+		<!-- 개인 주소록 그룹만 조회 -->
 	<select id="selectGroupList" resultType="MyAddr">
 		SELECT ADDR_BOOK_NO, ADDR_NAME, EMP_CODE
 		FROM PERSONAL_ADDR_BOOK

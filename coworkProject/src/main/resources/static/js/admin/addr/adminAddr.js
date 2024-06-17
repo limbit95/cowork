@@ -1,3 +1,6 @@
+document.querySelector('#fncMenu').classList.add('active');
+document.querySelector('#addrSub').style.fontWeight = 'bold';
+
 // 사원 찾기
 const findEmp = document.querySelector("#findEmp");
 
@@ -304,20 +307,20 @@ document.querySelectorAll('.li-hover').forEach(item => {
                 newLi.classList.add("department");
                 newLi.innerHTML = `
                     <div class="li-hover">
-                        <i class="fa-solid fa-angle-down" style="color: white;"></i>
+                        <i class="fa-solid fa-angle-down" style="color: #00000069;"></i>
                         <div>
-                            <i class="fa-solid fa-network-wired" style="color: white;"></i>
-                            <span style="color: white;" id="deptNo">New Department${sequence}</span>
+                            <i class="fa-solid fa-network-wired" style="color: #00000069;"></i>
+                            <span style="color: #00000069;" id="deptNo">New Department${sequence}</span>
                         </div>
                     </div>
                     
                     <ul>
                         <li class="team">
                             <div class="li-hover">
-                                <i class="fa-solid fa-angle-down" style="color: white;"></i>
+                                <i class="fa-solid fa-angle-down" style="color: #00000069;"></i>
                                 <div>
-                                    <i class="fa-solid fa-people-group" style="color: white;"></i>
-                                    <span style="color: white;" id="teamNo">New Team</span>
+                                    <i class="fa-solid fa-people-group" style="color: #00000069;"></i>
+                                    <span style="color: #00000069;" id="teamNo">New Team</span>
                                 </div>
                             </div>
                         </li>
@@ -377,10 +380,10 @@ document.querySelectorAll('.li-hover').forEach(item => {
                 newLi.classList.add("team");
                 newLi.innerHTML = `
                     <div class="li-hover">
-                        <i class="fa-solid fa-angle-down" style="color: white;"></i>
+                        <i class="fa-solid fa-angle-down" style="color: #00000069;"></i>
                         <div>
-                            <i class="fa-solid fa-people-group" style="color: white;"></i>
-                            <span style="color: white;" id="teamNo">New Team${sequence2}</span>
+                            <i class="fa-solid fa-people-group" style="color: #00000069;"></i>
+                            <span style="color: #00000069;" id="teamNo" data-dept-no="${targetLi.children[0].children[1].dataset.deptNo}">New Team${sequence2}</span>
                         </div>
                     </div>
                 `;
@@ -429,7 +432,6 @@ document.querySelectorAll('.li-hover').forEach(item => {
                 input.setAttribute("spellcheck", "false");
                 input.style.fontFamily = 'NanumBarunGothic';
                 input.style.fontSize = '13px';
-                // input.style.width = "inherit";
                 input.style.height = "10px";
                 input.style.overflow = 'hidden';
                 input.type = 'text';
@@ -452,14 +454,12 @@ document.querySelectorAll('.li-hover').forEach(item => {
                         })
                         document.querySelectorAll("#teamNo").forEach((x) => {
                             const deptNo = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].children[1].dataset.deptNo;
-                            console.log(deptNo);
                             if(deptNo == x.dataset.deptNo) {
                                 if(x.innerText === e.target.value){
                                     flag = 2;
                                     return;
                                 }
-                            }
-                            
+                            } 
                         })
                         if(flag == 1){
                             alert("중복된 부서명이 있습니다.");
@@ -471,8 +471,8 @@ document.querySelectorAll('.li-hover').forEach(item => {
                             const newGroupName = input.value;
                             input.parentNode.replaceChild(span, input);
                             if(span.innerText != newGroupName) {
-                                targetLi.children[0].children[1].children[0].style.color = 'white';
-                                targetLi.children[0].children[1].children[1].style.color = 'white';
+                                targetLi.children[0].children[1].children[0].style.color = '#00000069';
+                                targetLi.children[0].children[1].children[1].style.color = '#00000069';
                             }
                             span.textContent = newGroupName;
                         }
@@ -998,5 +998,17 @@ if(addEmployeeconfirm != null) {
             const popup = window.open("http://localhost/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
             hide2();
         }
+    });
+};
+
+// ---------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------
+// 구성원 일괄 추가
+const addEmployeeInBulk = document.querySelector("#addEmployeeInBulk"); 
+
+if(addEmployeeInBulk != null) {
+    addEmployeeInBulk.addEventListener("click", e => {
+        location.href= '/admin/addInBulk';
     });
 };
