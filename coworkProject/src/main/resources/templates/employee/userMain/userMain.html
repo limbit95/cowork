@@ -67,7 +67,8 @@
 			const showMain = companyAllCalendarList.map(event => ({
 				title : event.calendarTitle,
 				start : event.calendarStart,
-				end : event.calendarEnd
+				end : event.calendarEnd,
+				color : event.calendarColor
 			}));
 
 			var calendarEl = document.getElementById('calendar');
@@ -76,6 +77,9 @@
 				selectable: true,
 				events: showMain,
 				select: function(info) {
+					location.href = "/calendar/calendar";
+				},
+				eventClick: function(info) {
 					location.href = "/calendar/calendar";
 				}
 			});

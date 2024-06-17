@@ -97,7 +97,7 @@
 	
 	<!-- 회사 전체만 포함된 일정 조회 -->
 	<select id="companyAllCalendarList">
-		SELECT CALENDAR_TITLE, CALENDAR_START, CALENDAR_END
+		SELECT CALENDAR_TITLE, CALENDAR_START, CALENDAR_END, CALENDAR_COLOR
 		FROM CALENDAR
 		WHERE COM_SHARE = #{comNo}
 		AND COM_NO = #{comNo}
