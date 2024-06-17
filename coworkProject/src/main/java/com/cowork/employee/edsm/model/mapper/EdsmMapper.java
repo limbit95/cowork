@@ -104,4 +104,26 @@ public interface EdsmMapper {
 	 */
 	int edsmDelete(int edsmNo);
 
+	/** 결재자 진행중 수정
+	 * @param empCode
+	 */
+	int approverUpdate(Map<String, Object> empCode);
+
+	/** 전자결재 구분키 변경
+	 * @param edsmNo
+	 */
+	int edsmFlagUpdate(Map<String, Object> map);
+
+	/** 결재자 반려
+	 * @param map
+	 * @return
+	 */
+	int edsmRejected(Approver inputApprover);
+
+	/** 전자결재 반려
+	 * @param edsmNo
+	 * @return
+	 */
+	int edsmRejectedUpdate(int edsmNo);
+
 }

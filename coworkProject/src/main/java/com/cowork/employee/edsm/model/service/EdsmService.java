@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cowork.employee.edsm.model.dto.Approver;
 import com.cowork.employee.edsm.model.dto.DraftKeep;
 import com.cowork.employee.edsm.model.dto.Edsm;
 import com.cowork.user.model.dto.Employee2;
@@ -61,12 +62,18 @@ public interface EdsmService {
 	 * @param edsmNo
 	 * @return
 	 */
-	Map<String, Object> edsmDetail(int edsmNo, int approverCode);
+	Map<String, Object> edsmDetail(int edsmNo, int approverCode, int empCode);
 
 	/** 전자결재 회수
 	 * @param edsmNo
 	 * @return
 	 */
 	int edsmDelete(int edsmNo);
+
+	/** 전자결재 반려
+	 * @param map
+	 * @return
+	 */
+	int edsmRejected(Approver inputApprover);
 
 }

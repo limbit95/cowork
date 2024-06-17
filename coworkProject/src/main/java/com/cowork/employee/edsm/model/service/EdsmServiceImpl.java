@@ -233,11 +233,43 @@ public class EdsmServiceImpl implements EdsmService{
 
 	// 전자결재 상세
 	@Override
-	public Map<String, Object> edsmDetail(int edsmNo, int approverCode) {
+	public Map<String, Object> edsmDetail(int edsmNo, int approverCode, int empCode) {
 		
 		Map<String, Object> map = new HashMap<>();
 		
 		List<Approver> approverList = mapper.approverList(edsmNo); // 결재자
+		
+		// 현재 결재자 코드와 로그인 코드가 같다면 진행중으로 update
+		if(approverCode == empCode) {
+			Map<String, Object> mapAppr = new HashMap<>();
+			
+			mapAppr.put("edsmNo", edsmNo);
+			mapAppr.put("empCode", empCode);
+			
+			int result = mapper.approverUpdate(mapAppr);
+			
+			if(result > 0) {
+				
+				// 현재 결재자가 첫번째 순서일 때
+				for(Approver approver : approverList) {
+					
+					if(approverCode == approver.getEmpCode() && approver.getRowNum() == 1) {
+						
+						mapAppr.put("edsmFlag", "5");
+						
+						mapper.edsmFlagUpdate(map);
+						
+						break;
+					}
+					
+				}
+				
+				approverList = mapper.approverList(edsmNo); // 결재자 다시 조회
+			}
+			
+			
+		}
+		
 		Approver referrerList = mapper.referrerList(edsmNo); // 참조자
 		Edsm edsm = mapper.edsmDetail(edsmNo); // 전자결재 상세
 		List<EdsmFile> fileList = mapper.edsmFileList(edsmNo);
@@ -257,6 +289,26 @@ public class EdsmServiceImpl implements EdsmService{
 	public int edsmDelete(int edsmNo) {
 		// TODO Auto-generated method stub
 		return mapper.edsmDelete(edsmNo);
+	}
+
+	// 전자결재 반려
+	@Override
+	public int edsmRejected(Approver inputApprover) {
+		
+		// 결재자 반려
+		int result = mapper.edsmRejected(inputApprover);
+		
+		if(result == 0) return 0;
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("edsmNo", inputApprover.getEdsmNo());
+		map.put("edsmFlag", "2");
+		
+		// 전자결재 반려
+		result = mapper.edsmFlagUpdate(map);
+		
+		return result;
 	}
 
 }

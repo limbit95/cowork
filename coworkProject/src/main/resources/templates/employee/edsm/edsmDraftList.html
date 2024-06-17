@@ -73,7 +73,8 @@
 
         <!-----------------------------------------------   기안 목록  ------------------------------------------------------------------>
         <div class="draftList2">
-            <div class="default-line" th:each="draft : ${draftList}" th:object="${draft}">
+            <div class="default-line" th:each="draft : ${draftList}" th:object="${draft}"
+                th:onclick="|location.href='@{edsmRequest/{draftNo} (draftNo=*{draftNo})}'|">
                 <div class="keep">
                     <i th:if="*{draftFlag == '7'}"  class="fa-solid fa-star"
                         th:classappend="*{keepYn eq 'N' ? 'noStar':'yesStar'}"
@@ -94,7 +95,7 @@
                     <label th:text="*{draftTitle}">무슨 기안을 올릴까요 업무 기안서무슨 기안을 올릴까요</label>
                 </div>
                 <div class="draftBtn">
-                    <label th:onclick="|location.href='@{edsmRequest/{draftNo} (draftNo=*{draftNo})}'|">선택</label>
+                    <label>선택</label>
                 </div>
             </div>
 

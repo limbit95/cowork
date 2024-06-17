@@ -9,8 +9,8 @@
 }
 
 .approveDiv div {
-    width: 150px;
-    height: 70px;
+    width: 125px;
+    height: 60px;
     margin-right: 20px !important;
     display: flex;
     flex-direction: column;
@@ -30,4 +30,58 @@
 .proceeding .gade-label {
     position: absolute;
     margin-bottom: 70px;
+}
+
+/* 반려사유 */
+.rejected {
+    position: fixed;
+    width: 500px;
+    height: 245px;
+    margin: 0 !important;
+    padding: 10px !important;
+    background: white;
+    box-shadow: 2px 2px 2px 2px var(--gray-color);
+    top: 37%;
+}
+
+.rejected .popTitle {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.popTitle span {
+    color: var(--main-color);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.times {
+    margin-top: 10px !important;
+    font-size: 19px;
+    text-align: right;
+    width: 15px;
+    cursor: pointer;
+}
+
+.rejected textarea {
+    resize: none;
+    border-color: var(--gray-color);
+    width: 490px;
+    height: 110px;
+    outline: none;
+}
+
+.rejected .insBtn {
+    display: flex;
+    justify-content: flex-end;
+    width: 99%;
+}
+
+.disNone {
+    display: none;
+}
+
+.disBlock {
+    display: block;
 }
