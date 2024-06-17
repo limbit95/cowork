@@ -1,0 +1,4 @@
+.kategorie div:nth-child(3) {
+    border-bottom: 3px solid var(--main5-color);
+    color: var(--gray-color);
+}

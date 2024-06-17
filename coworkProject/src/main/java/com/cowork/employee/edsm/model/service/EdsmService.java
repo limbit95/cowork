@@ -84,4 +84,10 @@ public interface EdsmService {
 	 */
 	int edsmApprove(int edsmNo, String approverYn, int empCode);
 
+	/** 전자결재 완료 조회
+	 * @param empCode
+	 * @return
+	 */
+	List<Edsm> edsmApproved(int empCode);
+
 }

@@ -132,4 +132,10 @@ public interface EdsmMapper {
 	 */
 	String rejectedList(int edsmNo);
 
+	/** 전자결재 완료
+	 * @param empCode
+	 * @return
+	 */
+	List<Edsm> edsmApproved(int empCode);
+
 }

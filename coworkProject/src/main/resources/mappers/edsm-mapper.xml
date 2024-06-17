@@ -395,5 +395,22 @@
 		WHERE EDSM_NO = #{edsmNo}
 		AND REJECTED IS NOT NULL
 	</select>
+	
+	<!-- 전자결재 완료 -->
+	<select id="edsmApproved">
+		SELECT 
+			 EDSM_NO
+			,DECODE(D.DRAFT_FLAG, '2', '협조문', '3', '품의서', '4', '지출결의서', '5', '경조사 신청서', '6', '회의록', '기안서') AS DRAFT_NM
+			,EDSM_TITLE
+			,EDSM_WRITE_DATE
+			,EDSM_DEL_FL
+			,EMP_CODE
+			,EDSM_FLAG
+			,E.DRAFT_NO
+		FROM EDSM E
+		JOIN DRAFT D ON E.DRAFT_NO = D.DRAFT_NO
+		WHERE EDSM_FLAG = 1
+		AND EMP_CODE = #{empCode}
+	</select>
 
 </mapper>

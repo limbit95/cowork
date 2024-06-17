@@ -8,7 +8,7 @@
     <th:block th:replace="~{common/common}"></th:block>
     <link rel="stylesheet" href="/css/employee/edsm/edsm.css">
     <link rel="stylesheet" href="/css/employee/edsm/edsmList.css">
-    <link rel="stylesheet" href="/css/employee/edsm/edsmConfirm.css">
+    <link rel="stylesheet" href="/css/employee/edsm/edsmApproved.css">
 </head>
 <body>
 
@@ -17,15 +17,15 @@
     <section class="container">
 
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
-        <div class="title"><span class="">결재수신</span></div>
+        <div class="title"><span class="">결재완료</span></div>
 
         <div class="menuW">
             <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
             <div class="kategorie">
                 <div onclick="location.href='edsmDraftList'">결재문서</div>
                 <div onclick="location.href='edsmHistory'">결재내역</div>
-                <div onclick="location.href='edsmApproved'">결재완료</div>
-                <div>결재수신</div>
+                <div>결재완료</div>
+                <div onclick="location.href='edsmConfirm'">결재수신</div>
             </div>
 
             <!-----------------------------------------------   기안서 선택  ------------------------------------------------------------------>
@@ -35,7 +35,7 @@
         <!-- th:onClick="|location.href='@{edsmDetail/{edsmNo} (edsmNo=*{edsmNo}, approverCode=*{approverCode})}'|" -->
         <div class="draftList2 draftListHover">
             <div class="default-line" th:each="edsm : ${edsmList}" th:object="${edsm}"
-                th:onClick="|location.href='@{edsmDetail/{edsmNo} (edsmNo=*{edsmNo}, hrefName=edsmConfirm, approverCode=*{approverCode})}'|">
+                th:onClick="|location.href='@{edsmDetail/{edsmNo} (edsmNo=*{edsmNo}, hrefName=edsmApproved, approverCode=0)}'|">
                 <div class="draftDiv">
                     <div class="draftImg "
                         th:classappend="*{draftFlag eq '2' ? 'fa-solid fa-file-circle-plus' 
@@ -51,20 +51,11 @@
                     <label th:text="*{edsmTitle}">무슨 기안을 올릴까요 업무 기안서</label>
                 </div>
                 <div class="draftLabel3">
-                    <label th:text="|*{empName} *{positionNm}|">영업팀 송윤지</label>
+                    <label></label>
                 </div>
                 <div class="draftDetail">
-                    <i class="detailInfo"
-                        th:classappend="${edsm.approverFlag eq '2' ? 'fa-solid fa-user-plus number'
-                            : edsm.edsmFlag eq '1' ? 'fa-regular fa-circle-check check'
-                            : edsm.edsmFlag eq '2' ? 'fa-solid fa-circle-chevron-left right' 
-                            : edsm.approverCode ne session.loginEmp.empCode ? 'fa-solid fa-user-check number' 
-                            : 'fa-regular fa-eye eye' }"></i>
-                    <label th:text="${edsm.approverFlag eq '2' ? '참조' 
-                            : edsm.edsmFlag eq '1' ? '승인'
-                            : edsm.edsmFlag eq '2' ? '반려'
-                            : edsm.approverCode ne session.loginEmp.empCode ? edsm.approverName 
-                            : '결재' }">확인</label>
+                    <i class="fa-regular fa-circle-check detailInfo check"></i>
+                    <label>완료</label>
                 </div>
             </div>
 

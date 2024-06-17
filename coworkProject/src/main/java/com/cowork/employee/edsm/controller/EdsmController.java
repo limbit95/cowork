@@ -299,4 +299,22 @@ public class EdsmController {
 		
 		return service.edsmApprove(edsmNo, approverYn, loginEmp.getEmpCode());
 	}
+	
+	/** 결재 완료 화면
+	 * @param loginEmp
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("edsmApproved")
+	public String edsmApproved(
+				@SessionAttribute("loginEmp") Employee2 loginEmp,
+				Model model
+			) {
+		
+		List<Edsm> edsmList = service.edsmApproved(loginEmp.getEmpCode());
+		
+		model.addAttribute("edsmList", edsmList);
+		
+		return "employee/edsm/edsmApproved"; 
+	}
 }
