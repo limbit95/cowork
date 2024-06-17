@@ -16,18 +16,21 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Calendar {
-
 	private int calendarNo;
 	private String calendarTitle;
 	private String calendarContent;
-	private String calendarStart;
-	private String calendarEnd;
 	private String calendarColor;
 	private int empCode;
-	private List<String> shareList;
+	private String calendarStart;
+	private String calendarEnd;
 	private int comNo;
+	private List<String> teamShareList;
+	private List<String> deptShareList;
+	private int comShareList;
+	
+	private String comShare;
+	private String deptShare;
+	private String teamShare;
 	
 	private String calendarShare;
-	private String deptNm;
-	private String teamNm;
 }

@@ -9,12 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.admin.companyInfo.model.dto.Team;
@@ -51,8 +53,6 @@ public class ReservationController {
 		List<ReserveInfo> reserveInfoList = service.selectReserveInfoList(loginEmp.getComNo());
 		
 		int size = reserveInfoList.size();
-		
-		log.info("List size == {}", size);
 		
 		List<ReserveInfo> shareList = new ArrayList<>(size);
 				
@@ -138,7 +138,7 @@ public class ReservationController {
 			@SessionAttribute("reserveInfoList") List<ReserveInfo> reserveInfoList,
 			Model model) {
 		
-		// 회의실 예약 시간 겹치는지 확인
+		// 회의실 예약 시간 겹치는지 확인 내가 방금 클릭한 거 빼고
 		int count = service.checkMeetingRoom(inputReserveInfo);
 		
 		// count 1 이상이면 겹치는 게 있는 거
@@ -198,6 +198,121 @@ public class ReservationController {
 			reserveInfoList.add(inputReserveInfo);
 			
 			return service.reservationInsert(inputReserveInfo);
+		}
+		
+		// count 1보다 클 때 겹치는 게 있을 때
+		return -1;
+		
+	}
+	
+	/** 예약 삭제
+	 * @param reservationInfoNo
+	 * @param ra
+	 * @return result
+	 */
+	@GetMapping("reservationDelete")
+	public String reservationDelete(@RequestParam("reservationInfoNo") int reservationInfoNo,
+			RedirectAttributes ra,
+			@SessionAttribute("reserveInfoList") List<ReserveInfo> reserveInfoList) {
+		
+		int result = service.reservationDelete(reservationInfoNo);
+		
+		String message = "";
+		
+		if(result > 0) {
+			
+			for(int i = 0 ; i < reserveInfoList.size() ; i ++) {
+				if(reserveInfoList.get(i).getReserveInfoNo() == reservationInfoNo) {
+					reserveInfoList.remove(i);
+				}
+			}
+			
+			message = "예약 삭제 성공";
+			
+		} else {
+			message = "예약 삭제 실패";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:selectDay";
+	}
+	
+	@ResponseBody
+	@PutMapping("reservationUpdate")
+	public int resevationUpdate(@RequestBody ReserveInfo updateReserve,
+			@SessionAttribute("loginEmp") Employee2 loginEmp,
+			@SessionAttribute("reserveInfoList") List<ReserveInfo> reserveInfoList,
+			Model model) {
+		
+		// 회의실 예약 시간 겹치는지 확인
+		int count = service.checkUpdateMeetingRoom(updateReserve);
+		
+		// count 1 이상이면 겹치는 게 있는 거
+		if(count < 1) {
+			
+			updateReserve.setEmpCode(loginEmp.getEmpCode());
+			updateReserve.setComNo(loginEmp.getComNo());
+			
+			// 회사 공유가 null 일 경우
+			if(updateReserve.getComReserve() != loginEmp.getComNo()) {
+				updateReserve.setComReserve(0);
+				updateReserve.setComShare(null);
+			} else {
+				updateReserve.setComShare("회사 전체");
+			}
+			
+			// 부서 공유가 null 일 경우
+			if(updateReserve.getDeptReserve().isEmpty() || updateReserve.getDeptReserve() == null) {
+				updateReserve.setDeptReserve(null);
+				updateReserve.setDeptShare(null);
+			} else {
+				List<String> deptReserve = updateReserve.getDeptReserve();
+				
+				List<String> newDeptReserve = new ArrayList<>();
+				String deptShare = "";
+				
+				for(int i = 0 ; i < deptReserve.size() ; i++) {
+					// deptNo 조회해온 거 이름으로 바꿔서 저장
+					String deptNm = service.selectDeptNm(deptReserve.get(i));
+					newDeptReserve.add(deptNm);
+				}
+				
+				deptShare = String.join("^^^", newDeptReserve);
+				updateReserve.setDeptShare(deptShare);
+			}
+			
+			// 팀 공유가 null 일 경우
+			if(updateReserve.getTeamReserve().isEmpty() || updateReserve.getTeamReserve() == null) {
+				updateReserve.setTeamReserve(null);
+				updateReserve.setTeamShare(null);
+			} else {
+				List<String> teamReserve = updateReserve.getTeamReserve();
+				
+				List<String> newTeamReserve = new ArrayList<>();
+				String teamShare = "";
+				
+				for(int i = 0 ; i < teamReserve.size() ; i ++) {
+					// teamNo로 조회해온 teamNm
+					String teamNm = service.selectTeamNm(teamReserve.get(i));
+					newTeamReserve.add(teamNm);
+				}
+				
+				teamShare = String.join("^^^", newTeamReserve);
+				updateReserve.setTeamShare(teamShare);
+			}
+			
+			for(int i = 0 ; i < reserveInfoList.size() ; i ++) {
+				if(reserveInfoList.get(i).getReserveInfoNo() == updateReserve.getReserveInfoNo()) {
+					ReserveInfo updateReserveInfo = service.selectOneReserve(updateReserve.getReserveInfoNo());
+					
+					reserveInfoList.remove(i);
+					
+					reserveInfoList.add(updateReserveInfo);
+				}
+			}
+			
+			return service.reservationUpdate(updateReserve);
 		}
 		
 		// count 1보다 클 때 겹치는 게 있을 때

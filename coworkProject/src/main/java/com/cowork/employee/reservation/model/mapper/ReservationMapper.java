@@ -39,4 +39,28 @@ public interface ReservationMapper {
 	 */
 	int checkMeetingRoom(ReserveInfo inputReserveInfo);
 
+	/** 회의실 예약 삭제
+	 * @param reservationInfoNo
+	 * @return
+	 */
+	int reservationDelete(int reservationInfoNo);
+
+	/** 회의실 수정
+	 * @param updateReserve
+	 * @return result
+	 */
+	int reservationUpdate(ReserveInfo updateReserve);
+
+	/** 한개 선택
+	 * @param reserveInfoNo
+	 * @return
+	 */
+	ReserveInfo selectOneReserve(int reserveInfoNo);
+
+	/** 겹치는 회의실 조회 내가 클릭한 거 제외
+	 * @param updateReserve
+	 * @return count
+	 */
+	int checkUpdateMeetingRoom(ReserveInfo updateReserve);
+
 }

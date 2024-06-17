@@ -568,11 +568,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.querySelector("#reservationUpdateModal").classList.add("reservationHidden");
             });
 
-            document.querySelector(".dayUpdate").addEventListener("click", () => {
-                document.querySelector(".updateTime").classList.remove("reservationHidden");
+            // 삭제 버튼 눌렀을 때
+            const modalDeleteBtn = document.querySelector(".modalDeleteBtn");
+            modalDeleteBtn.addEventListener("click", () => {
+                let reservationInfoNo = info.event.extendedProps.reserveInfoNo;
+                location.href = "/reservation/reservationDelete?reservationInfoNo=" + reservationInfoNo;
             })
-
-
 
             // 수정 버튼이 있다면 수정하는 모달 보여주기
             const modalUpdateBtn = document.querySelector(".modalUpdateBtn");
@@ -585,6 +586,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.querySelector("#reservationInsertModal").classList.remove("reservationHidden");
 
                     document.querySelector(".reservationUpdateDate").classList.remove("reservationHidden");
+
+                    // insert 등록 버튼 숨겨주고 updateInsert 수정 등록 버튼 보여주기
+                    document.querySelector(".modalInsertBtn").classList.add("reservationHidden");
+                    document.querySelector(".modalUpdateInsertBtn").classList.remove("reservationHidden");
 
                     const updateDate = document.querySelector(".updateDate");
                     const updateStartTime = document.querySelector(".updateStartTime");
@@ -603,30 +608,61 @@ document.addEventListener('DOMContentLoaded', function() {
                             updateDate.value = todayDate;
                         }
                     });
-
-                    const startTime = updateStartTime.value;
-                    const endTime = updateEndTime.value;
             
-                    updateEndTime.addEventListener("change", () => {
-                        if(startTime && endTime && endTime < startTime) {
+                    updateEndTime.addEventListener("change", e => {
+                        const startTime = updateStartTime.value;
+                        
+                        if(e.target.value < startTime) {
                             alert("끝나는 시간은 시작 시간보다 늦어야 합니다.");
                             updateEndTime.value = startTime;
                         }
                     })
 
-                    updateStartTime.addEventListener("change", () => {
-                        if(startTime && endTime && startTime > endTime) {
-                            alert("시작 시간이 끝나는 시간보다 빨라야 합니다.");
-                            updateStartTime.value = endTime;
+                    updateStartTime.addEventListener("change", e => {
+
+                        // 지나간 시간을 start 시간으로 선택 못하게 막기
+                        const selectedTime = updateStartTime.value;
+
+                        const now = new Date();
+                        const currentHour = now.getHours().toString().padStart(2, '0');
+                        const currentMinute = now.getMinutes().toString().padStart(2, '0');
+                        const currentTime = `${currentHour}:${currentMinute}`;
+
+                        const today = new Date();
+                        const year = today.getFullYear();
+                        const month = String(today.getMonth() + 1).padStart(2, '0');
+                        const day = String(today.getDate()).padStart(2, '0');
+                        const todayDate = `${year}-${month}-${day}`;
+                        const updateDate = document.querySelector(".updateDate");
+
+                        if(updateDate.value == todayDate) {
+                            if (selectedTime < currentTime) {
+                                alert('지난 시간은 선택할 수 없습니다.');
+                                updateStartTime.value = currentTime;
+                            }
+                        }
+
+                        const endTime = updateEndTime.value;
+                        if(endTime != "") {
+                            if(e.target.value > endTime) {
+                                alert("시작 시간이 끝나는 시간보다 빨라야 합니다.");
+                                updateStartTime.value = endTime;
+                            }
                         }
                     })
 
                     // 수정 등록 버튼 눌렀을 때
-                    const modalInsertBtn = document.querySelector(".modalInsertBtn");
-                    modalInsertBtn.addEventListener("click", () => {
+                    const modalUpdateInsertBtn = document.querySelector(".modalUpdateInsertBtn");
+                    modalUpdateInsertBtn.addEventListener("click", () => {
+
                         const updateDate = document.querySelector(".updateDate");
                         const updateStartTime = document.querySelector(".updateStartTime");
                         const updateEndTime = document.querySelector(".updateEndTime");
+
+                        if(updateDate.value == "" || updateStartTime.value == "" || updateEndTime.value == "") {
+                            alert("수정할 날짜, 시간을 모두 선택해주세요");
+                            return;
+                        }
 
                         const reserveStart = `${updateDate.value}T${updateStartTime.value}:00`;
                         const reserveStartDate = new Date(reserveStart);
@@ -640,10 +676,80 @@ document.addEventListener('DOMContentLoaded', function() {
                         const dbEnd = reserveEndDate.getTimezoneOffset() * 60000; // 밀리초 단위 오프셋 계산
                         const dbUpdateEnd = new Date(reserveEndDate.getTime() - dbEnd).toISOString().slice(0, -1) + "Z";
 
+                        console.log("제목에 넣어야돼"+updateEndTime.value);
+
                         console.log("DB Update StartTime : " + dbUpdateStart);
                         console.log("DB Update EndTime : " + dbUpdateEnd);
 
+                        // 색, 부서, 회의실 No, 회의실 Nm
+                        const selectedColor = document.querySelector("#selectedColor");
+                        if(selectedColor.value == "") {
+                            alert("색을 선택해주세요");
+                            return;
+                        }
 
+                        const selectView = document.querySelector(".selectView");
+                        if(selectView.innerHTML == "") {
+                            alert("부서를 선택해주세요");
+                            return;
+                        }
+
+                        const meetingRoomSelectView = document.querySelector(".meetingRoomSelectView");
+                        if(meetingRoomSelectView.innerHTML == "") {
+                            alert("예약할 회의실을 선택해주세요");
+                            return;
+                        }
+
+                        const titleStartTime = updateStartTime.value;
+                        let [shours, sminutes] = titleStartTime.split(':');
+    
+                        // 변환된 시간 문자열 생성
+                        let formattedTitleStart = `${shours}시 ${sminutes}분`;
+
+                        const titleEndTime = updateEndTime.value;
+                        let [ehours, eminutes] = titleEndTime.split(':');
+                        let formattedTitleEnd = `${ehours}시 ${eminutes}분`;
+                        
+                        const selectedDeptList = Array.from(document.querySelectorAll('input[name="selectedDeptNo"]')).map(input => input.value);
+                        const selectedTeamList = Array.from(document.querySelectorAll('input[name="selectedTeamNo"]')).map(input => input.value);
+                        const selectedMeetingRoomNo = document.querySelector('input[name="selectedMeetingRoomNo"]').value;
+                        const selectedMeetingRoomNM = document.querySelector('p[name="selectedMeetingRoomNm"]').innerText;
+                        
+                        const selectedCompany = document.querySelector('input[name="selectedComNo"]');
+                        let selectedCompanyValue = '0'; // 기본값을 '0'으로 설정
+        
+                        if (selectedCompany && selectedCompany.value) {
+                            selectedCompanyValue = selectedCompany.value;
+                        }
+
+                        const updateObj = {
+                            "reserveInfoTitle" : `${formattedTitleStart}부터 ${formattedTitleEnd}까지 ${selectedMeetingRoomNM} 예약됨`,
+                            "reserveInfoStart" : dbUpdateStart,
+                            "reserveInfoEnd" : dbUpdateEnd,
+                            "reserveInfoColor" : selectedColor.value,
+                            "teamReserve" : selectedTeamList,
+                            "deptReserve" : selectedDeptList,
+                            "comReserve" : selectedCompanyValue,
+                            "meetingRoomNo" : selectedMeetingRoomNo,
+                            "reserveInfoNo" : info.event.extendedProps.reserveInfoNo
+                        }
+
+                        fetch("/reservation/reservationUpdate", {
+                            method : "PUT",
+                            headers : {"Content-Type" : "application/json"},
+                            body : JSON.stringify(updateObj)
+                        })
+                        .then(resp => resp.text())
+                        .then(result => {
+                            if(result > 0) {
+                                alert("수정 성공");
+                                location.href = "/reservation/selectMonth";
+                            } else if(result == -1) {
+                                alert("이미 예약된 회의실입니다.");
+                            } else {
+                                alert("수정 실패");
+                            }
+                        })
                     });
 
                     // 모달 창에 뜬 X 버튼 눌렀을 때

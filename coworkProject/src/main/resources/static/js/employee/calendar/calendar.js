@@ -58,7 +58,6 @@ if(calendarModal != null) {
             
             // p 요소 생성 및 텍스트 설정
             const p = document.createElement('p');
-            p.setAttribute('name', 'share');
             p.textContent = text;
             
             // span 요소 생성 및 텍스트 설정
@@ -66,13 +65,19 @@ if(calendarModal != null) {
             span.classList.add('selectCancel');
             span.textContent = '×';
             
-            // 내부 div 요소에 p와 span 요소 추가
+            // input 태그 hidden으로 회사 숨겨주기
+            const input = document.createElement('input');
+            input.type = 'hidden'; // 숨김 필드로 설정
+            input.name = 'selectedComNo'; // input 요소의 name 설정
+            input.value = comNo;
 
+            // 내부 div 요소에 p와 span 요소 추가
             innerDiv.appendChild(p);
             innerDiv.appendChild(span);
             
             // selectedDiv 요소에 내부 div 요소 추가
             selectedDiv.appendChild(innerDiv);
+            selectedDiv.appendChild(input);
             
             // selectView 요소에 selectedDiv 요소 추가
             selectView.appendChild(selectedDiv);
@@ -90,6 +95,8 @@ if(calendarModal != null) {
 
                 let text = e.target.options[e.target.selectedIndex].text;
 
+                const selectedDeptNo = e.target.value;
+
                 const existingValues = Array.from(selectView.querySelectorAll('p')).map(p => p.textContent);
 
                 if (existingValues.includes(text)) {
@@ -106,7 +113,6 @@ if(calendarModal != null) {
                 
                 // p 요소 생성 및 텍스트 설정
                 const p = document.createElement('p');
-                p.setAttribute('name', 'share');
                 p.textContent = text;
                 
                 // span 요소 생성 및 텍스트 설정
@@ -114,12 +120,18 @@ if(calendarModal != null) {
                 span.classList.add('selectCancel');
                 span.textContent = '×';
 
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'selectedDeptNo';
+                input.value = selectedDeptNo;
+
                 // 내부 div 요소에 p와 span 요소 추가
                 innerDiv.appendChild(p);
                 innerDiv.appendChild(span);
                 
                 // selectedDiv 요소에 내부 div 요소 추가
                 selectedDiv.appendChild(innerDiv);
+                selectedDiv.appendChild(input);
                 
                 // selectView 요소에 selectedDiv 요소 추가
                 selectView.appendChild(selectedDiv);
@@ -139,6 +151,10 @@ if(calendarModal != null) {
 
                 let text = e.target.options[e.target.selectedIndex].text;
 
+                const selectedTeamNo = e.target.value;
+
+                console.log("확인확인" + selectedTeamNo);
+
                 const existingValues = Array.from(selectView.querySelectorAll('p')).map(p => p.textContent);
 
                 if (existingValues.includes(text)) {
@@ -155,7 +171,6 @@ if(calendarModal != null) {
                 
                 // p 요소 생성 및 텍스트 설정
                 const p = document.createElement('p');
-                p.setAttribute('name', 'share');
                 p.textContent = text;
                 
                 // span 요소 생성 및 텍스트 설정
@@ -163,12 +178,18 @@ if(calendarModal != null) {
                 span.classList.add('selectCancel');
                 span.textContent = '×';
 
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'selectedTeamNo';
+                input.value = selectedTeamNo;
+
                 // 내부 div 요소에 p와 span 요소 추가
                 innerDiv.appendChild(p);
                 innerDiv.appendChild(span);
 
                 // selectedDiv 요소에 내부 div 요소 추가
                 selectedDiv.appendChild(innerDiv);
+                selectedDiv.appendChild(input);
                 
                 // selectView 요소에 selectedDiv 요소 추가
                 selectView.appendChild(selectedDiv);
@@ -292,19 +313,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const updateContent = document.querySelector("#updateContent").value;
 
-                const shareList = Array.from(document.querySelectorAll('p[name="share"]')).map(p => p.innerText);
-
                 if(updateTitle.trim().length == 0) {
                     alert("제목은 필수 작성입니다.");
                     e.preventDefault();
                     return;
                 }
 
+                const selectedDeptList = Array.from(document.querySelectorAll('input[name="selectedDeptNo"]')).map(input => input.value);
+                const selectedTeamList = Array.from(document.querySelectorAll('input[name="selectedTeamNo"]')).map(input => input.value);
+                const selectedCompany = document.querySelector('input[name="selectedComNo"]');
+                let selectedCompanyValue = '0'; // 기본값을 '0'으로 설정
+
+                if (selectedCompany && selectedCompany.value) {
+                    selectedCompanyValue = selectedCompany.value;
+                }
+
                 const obj = {
                     "calendarTitle" : updateTitle,
                     "calendarContent" : updateContent,
                     "calendarColor" : selectedColor.value,
-                    "shareList" : shareList,
+                    "teamShareList" : selectedTeamList,
+                    "deptshareList" : selectedDeptList,
+                    "comShareList" : selectedCompanyValue,
                     "empCode" : empCode,
                     "calendarStart" : info.startStr,
                     "calendarEnd" : info.endStr,
