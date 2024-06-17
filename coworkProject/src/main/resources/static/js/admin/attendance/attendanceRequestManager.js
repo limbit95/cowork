@@ -1,3 +1,6 @@
+document.querySelector('#requestManagerSub').style.fontWeight = 'bold';
+document.querySelector('#attendanceMenu .dropbtn').classList.add('active');
+
 const requestList = document.querySelector(".requestList");
 const approvalList = document.querySelector(".approvalList");
 const rejectList = document.querySelector(".rejectList");

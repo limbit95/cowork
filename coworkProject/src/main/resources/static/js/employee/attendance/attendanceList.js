@@ -1,3 +1,6 @@
+document.querySelector('#attendanceLink').style.backgroundColor = '#426DA7';
+document.querySelector('#attendanceLink').style.color = 'white';
+
 // 근태관리 페이지에서의 승인요청 버튼
 const ApprovalBtn = document.getElementById("ApprovalBtn");
 

@@ -47,9 +47,6 @@ dependencies {
     
     // AOP
     implementation 'org.springframework.boot:spring-boot-starter-aop'
-    
-     // 엑셀
-	implementation 'org.apache.poi:poi-ooxml:5.2.3'
 
 }
 

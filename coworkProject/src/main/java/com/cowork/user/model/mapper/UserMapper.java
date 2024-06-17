@@ -123,6 +123,10 @@ public interface UserMapper {
 	 */
 	int inviteSignUp(Map<String, Object> data);
 
+	/** 전자결재 양식 등록
+	 * @param map 
+	 * @return
+	 */
+	int registDraft(Map<String, Object> map);
 
-	
 }

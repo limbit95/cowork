@@ -215,4 +215,17 @@
 		)
 	</insert>
 	
+	<!-- 전자 결재 양식 등록 -->
+	<insert id="registDraft">
+		INSERT INTO DRAFT
+		SELECT  
+		   NEXT_DRAFT()
+		   ,DRAFT_TITLE 
+		   ,DRAFT_CONTENT
+		   ,#{comNo}
+		   ,DRAFT_FLAG 
+		FROM DRAFT
+		WHERE COM_NO IS NULL
+	</insert>
+	
 </mapper>

@@ -1,3 +1,6 @@
+document.querySelector('#addrLink').style.backgroundColor = '#426DA7';
+document.querySelector('#addrLink').style.color = 'white';
+
 const findEmp = document.querySelector("#findEmp");
 
 if(findEmp != null) {

@@ -147,7 +147,19 @@ public class UserServiceImpl implements UserService {
 		map.put("comNo", comNo);
 		map.put("empCode", empCode);
 		
-		return mapper.registAdminCompany(map);
+		result = mapper.registAdminCompany(map);
+		
+		if(result == 0) {
+			return 0;
+		}
+		
+		result = mapper.registDraft(map);
+		
+		if(result == 0) {
+			return -1;
+		}
+		
+		return result;
 	}
 
 	// 비밀번호 재설정 시 갱신된 인증번호와 대조
