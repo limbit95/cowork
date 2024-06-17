@@ -48,7 +48,11 @@
 		       C.CALENDAR_COLOR, 
 		       C.EMP_CODE,
 		       TO_DATE(C.CALENDAR_START, 'YYYY-MM-DD') AS CALENDAR_START,
-		       TO_DATE(C.CALENDAR_END, 'YYYY-MM-DD') AS CALENDAR_END
+		       TO_DATE(C.CALENDAR_END, 'YYYY-MM-DD') AS CALENDAR_END,
+		       C.COM_SHARE,
+		       C.DEPT_SHARE,
+		       C.TEAM_SHARE,
+		       C.COM_NO
 		FROM CALENDAR C
 		JOIN (
 		    SELECT T.TEAM_NO, D.DEPT_NO, E.COM_NO
@@ -90,4 +94,12 @@
 			CALENDAR_SHARE = #{calendarShare}
 		WHERE CALENDAR_NO = #{calendarNo}
 	</update>
+	
+	<!-- 회사 전체만 포함된 일정 조회 -->
+	<select id="companyAllCalendarList">
+		SELECT CALENDAR_TITLE, CALENDAR_START, CALENDAR_END
+		FROM CALENDAR
+		WHERE COM_SHARE = #{comNo}
+		AND COM_NO = #{comNo}
+	</select>
 </mapper>

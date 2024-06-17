@@ -44,4 +44,10 @@ public interface CalendarService {
 	 */
 	int calendarUpdate(Calendar updateCalendar);
 
+	/** 로그인한 회원의 회사 전체 List
+	 * @param comNo
+	 * @return companyAllCalendarList
+	 */
+	List<Calendar> companyAllCalendarList(int comNo);
+
 }

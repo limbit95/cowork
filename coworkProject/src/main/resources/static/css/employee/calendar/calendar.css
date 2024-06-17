@@ -81,7 +81,7 @@
     font-weight: bold;
 }
 
-.modalTitle{
+.modalTitle, .selectTeam {
     margin-top: 15px;
 	/* 위치의 상대적 기준점 */
 	position : relative;
@@ -91,13 +91,13 @@
     align-items: center;
 }
 
-.modalTitle > p {
+.modalTitle > p, .selectTeam > p {
     margin: 0;
     width: 15%;
     text-align: center;
 }
 
-#updateTitle, #modalUpdateTitle {
+#updateTitle, #modalUpdateTitle, #modalUpdateShare {
     width: 75%;
     border-radius: 5px;
     border: 1px solid var(--main6-color);

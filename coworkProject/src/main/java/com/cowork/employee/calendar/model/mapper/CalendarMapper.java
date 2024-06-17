@@ -65,5 +65,11 @@ public interface CalendarMapper {
 	 */
 	int calendarUpdate(Calendar updateCalendar);
 
+	/** 회사 전체 포함된 캘린더 조회
+	 * @param comNo
+	 * @return companyAllCalendarList
+	 */
+	List<Calendar> companyAllCalendarList(int comNo);
+
 
 }
