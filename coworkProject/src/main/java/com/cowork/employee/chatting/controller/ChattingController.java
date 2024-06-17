@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.employee.chatting.model.dto.ChatMessage;
 import com.cowork.employee.chatting.model.dto.ChatMessage.MessageType;
 import com.cowork.employee.chatting.model.dto.ChatMessageMe;
@@ -242,7 +243,36 @@ public class ChattingController {
     }
     
     
+    @GetMapping("/chat/getDeptAndTeam")
+    @ResponseBody
+    public List<Department> getDeptAndTeam(@SessionAttribute("loginEmp") Employee2 loginEmp) {
+    	
+    	List<Department> deptTeamList = chatService.getDeptAndTeam(loginEmp);
+    	log.debug("deptTeamList=={}", deptTeamList);   	
+    	return deptTeamList;
+    	
+    }
+    @GetMapping("/chat/getTeamEmps")
+    @ResponseBody
+    public List<Employee2> getTeamEmps (@RequestParam("teamNo") String teamNo) {
+    	List<Employee2> empList = chatService.getTeamEmps(teamNo);
+    	
+    	
+    	return empList;
+    }
     
+    @PostMapping("/survey/getEmpList")
+    @ResponseBody
+    public List<Employee2> getEmpList (@RequestBody Map<String, List<Integer>> request){
+    	
+    	List<Integer> empCodeList = request.get("tempEmpCodeList");
+    	    	
+    	List<Employee2> empList = chatService.getEmpList(empCodeList);
+    	
+    	
+    	
+    	return empList;
+    }
     
 	
 }

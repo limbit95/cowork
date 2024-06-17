@@ -49,11 +49,13 @@ body {
 #makeChatContainer{
 	display: flex; 
 	flex-direction: column; 
-	flex-basis: 17%;
+	justify-content: center;
+	align-items: center;
+	flex-basis: 10%;
 }
 #searchDiv{
 	display: flex; 
-	width: 100%;
+	width: 50%;
 	height: 5vh;
 	display: flex; 
 	justify-content: center;
@@ -68,7 +70,9 @@ body {
 	border: none;
 	border-radius: 5px;
 	border-radius: 30px;
-
+	justify-content: center;
+	align-items: center;
+	background-color: red;
 
 }
 #searchInput{
@@ -87,6 +91,155 @@ body {
 	color: white;
 	opacity: 0.6;
 }
+
+/* 구성원 추가 버튼 */
+#addEmpBtn{
+	width: 200px; 
+	height: 200px; 
+	border-radius: 50%;
+	background-color: #E5F2FE;
+	border: none;
+	color: #214177;
+	font-size: 25px;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	transition: background-color 0.3s;
+}
+#addEmpBtn:hover{
+	background-color: #BDD8F1;
+}
+#selectModalContainer{
+	width: 100vw;
+	height: 100vh;
+
+	position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+	background-color: rgba(0, 0, 0, 0.5); /* 검은색 배경에 50% 불투명도 적용 */
+	display: none;
+}
+#selectModalInner{
+	width: 40vw;
+	height: 70vh;
+	background-color: white;
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    	border-radius: 10px;
+
+}
+#modalCancelDiv{
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #214177;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px; 
+	padding: 5px;
+}
+#modalCancel2{
+	background-color: transparent;
+	border: none; 
+	color: white;
+	transition: color 0.3s;
+}
+#modalCancel:hover{
+	color: #FFE0E6;
+}
+#selectOptionContainer{
+	width: 100%; 
+	height: 10%; 
+	display: flex; 
+	justify-content: space-evenly;
+}
+#organizationSelect{
+	flex-basis: 50%;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	font-size: 16px;
+	border-right: 2px solid #214177;
+	cursor: pointer;
+	transition: background-color 0.3s; 
+	border-bottom: 1px solid lightgray;
+	
+}
+#organizationSelect:hover{
+	background-color: #BDD8F1;
+}
+#nameSelect{
+	
+	flex-basis: 50%;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	font-size: 16px;
+	cursor: pointer;
+	transition: background-color 0.3s; 
+		border-bottom: 1px solid lightgray;
+
+
+}
+#nameSelect:hover{
+	background-color: #BDD8F1;
+}
+/*------------- 조직도 조회 --------------*/
+
+#organizationSelectContainer{
+	display: none; 
+	
+}
+#deptTeamContainer{
+	flex-basis: 51%;
+	
+}
+#empListBeRendered{
+	flex-basis: 51%;
+	background-color: white;
+
+}
+.dept{
+	width: 100%;
+	background-color: white;
+	display: flex;
+	flex-direction: column; 
+}
+.deptNm{
+	width: 100%;
+	padding-left: 0.3vw;
+	height: 3vh;
+	font-size: 20px;
+	font-weight: bold; 
+	display: flex;
+	align-items: center;
+}
+.teamDiv{
+	transition: color 0.3s; 
+	cursor: pointer;
+
+}
+.teamDiv:hover{
+	color: #B8E2AA;
+	
+}
+
+/*------------- 이름 조회 -------------*/
+#nameSelectContainer{
+	display: none;
+	justify-content: center;
+	align-items: center;
+	margin-top: 3vh;
+}
+
+
+#selectedEmps{
+		border-top: 1px solid lightgray;
+
+}
+
 
 /*====================  찾은 멤버들 컨테이너 시작 ======================*/
 #findEmpAndAddedEmpContainer{
@@ -129,7 +282,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	
+	height: 350px;
 }
 .findEmpContentInner{
     width: 95%; 
@@ -268,25 +421,28 @@ body {
 /*====================  찾은 멤버들 컨테이너 끝 ======================*/
 
 /*====================  새로운 채팅창 만들기 컨테이너 시작 ======================*/
+#makeChatButtonDiv{
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+}
 #makeChatButton{
 	margin-top: 2vh;
-	width:100%; 
+	width:10%; 
 	height: 5vh;
 	border-radius: 10px;
-}
-#makeChatButton > button{
-	width: 100%;
-	height: 100%;
 	border: none;
 	background-color: #E5F2FE;
-	border-radius: 10px;
-	color: #214177;
-	transition: color 0.3s, background-color 0.3s;
-
+	transition: background-color 0.3s;
+	font-size: 20px;
+	display: none;
 }
-#makeChatButton > button:hover{
-	background-color: #214177;
-	color: #E5F2FE;
+
+#makeChatButton:hover{
+
+	background-color: #BDD8F1;
+
+
 }
 
 

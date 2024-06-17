@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.common.utility.Utility;
 import com.cowork.employee.chatting.model.dto.ChatMessage;
 import com.cowork.employee.chatting.model.dto.ChatMessageMe;
@@ -314,9 +316,6 @@ public Integer exitChatRoom(String currentRoomNo, Employee2 loginEmp) {
 	
 	Integer exitEmpCode = loginEmp.getEmpCode();
 	
-	// 일단, 메세지를 남겨줘야 함. 
-	// ~ 님이 채팅방을 나가셨습니다. 
-	
 	
 	// CHAT_PARTICIPANT 에서만 제거시켜주면 될듯 
 	Map<String, Object> paramMap = new HashMap<>();
@@ -325,10 +324,57 @@ public Integer exitChatRoom(String currentRoomNo, Employee2 loginEmp) {
 	
 	int result = chatMapper.exitChatRoom(paramMap);
 	
+	// 만약 그 채팅방에 현재 아무도 없다면, CHAT_ROOM 테이블에서도, CHAT_MESSAGE 테이블에서도 모두 데이터 삭제해줘야함. 
+	// SUBSCRIBEADDR 테이블에서도. 
 	
 	
 	return result;
 	
+}
+
+@Override
+public List<Department> getDeptAndTeam(Employee2 loginEmp) {
+	
+	Integer comNo = loginEmp.getComNo(); // 회사 테이블 기본키 얻어옴. 
+	List<Department> deptAndTeam = chatMapper.getDeptAndTeam(comNo);
+	return deptAndTeam;
+	
+	
+}
+
+@Override
+public List<Employee2> getTeamEmps(String teamNo) {
+	
+	List<Employee2> empList = chatMapper.getTeamEmps(teamNo);
+	
+	for(Employee2 emp : empList) {
+		if(emp.getTeamNo() != null) {
+			Employee findEmpDeptTeam = chatMapper.DeptNameTeamNameDetail(emp.getTeamNo());
+			emp.setTeamNm(findEmpDeptTeam.getTeamNm());
+			emp.setDeptNm(findEmpDeptTeam.getDeptNm());				
+		}
+	}
+	return empList;
+}
+
+@Override
+public List<Employee2> getEmpList(List<Integer> empCodeList) {
+
+	List<Employee2> empList = new ArrayList<>();
+	for(Integer empCode : empCodeList) {
+		Employee2 findEmp = chatMapper.empDetail(String.valueOf(empCode));
+		empList.add(findEmp);
+	}
+	
+	for(Employee2 emp : empList) {
+		if(emp.getTeamNo() != null) {
+			Employee findEmpDeptTeam = chatMapper.DeptNameTeamNameDetail(emp.getTeamNo());
+			emp.setTeamNm(findEmpDeptTeam.getTeamNm());
+			emp.setDeptNm(findEmpDeptTeam.getDeptNm());				
+		}
+	}
+	
+	return empList;
 }
 
 

@@ -106,7 +106,34 @@
 	AND EMP_CODE = #{exitEmpCode}
 </update>
 
+<!-- 부서, 팀 가져오기 -->
+<resultMap type="Department" id="department_rm">
+	<id property="deptNo" column="DEPT_NO" />
+	<collection 
+		property="teamList"
+		select="selectTeamList"
+		column="DEPT_NO"
+		javaType="java.util.ArrayList"
+		ofType="Team"
+	/>
+</resultMap>
 
+<select id="getDeptAndTeam" resultMap="department_rm">
+	SELECT *
+	FROM DEPARTMENT 
+	WHERE COM_NO = #{comNo}	
+</select>
+
+<select id="selectTeamList" resultType="Team">
+	SELECT * FROM "TEAM"
+	WHERE DEPT_NO = #{deptNo}
+</select>
+<!-- 부서, 팀 가져오기 -->
+
+<select id="getTeamEmps">
+	SELECT * FROM EMPLOYEE 
+	WHERE TEAM_NO = #{teamNo}
+</select>
 
 	
 	

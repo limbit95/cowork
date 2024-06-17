@@ -3,12 +3,354 @@
 let searchInput = document.querySelector('#searchInput'); // 조회하는 input 태그 
 let findEmpContent = document.querySelector('#findEmpContent');
 let empCodeList = new Array(); // 추가된 member들의 Member테이블 memberNo 값들이 저장될 배열 
+
+
 let addedEmpContent = document.querySelector('#addedEmpContent'); // 채팅방들이 보여질 영역 
+
+// 새로운 사원 추가 로직 시작 
+let addEmpBtn = document.querySelector('#addEmpBtn');
+let selectModalContainer = document.querySelector('#selectModalContainer');
+addEmpBtn.addEventListener('click', function(){
+	selectModalContainer.style.display = 'block';
+});
+
+let modalCancelBtn2 = document.querySelector('#modalCancel2');
+
+let organizationSelect = document.querySelector('#organizationSelect');
+let organizationSelectContainer = document.querySelector('#organizationSelectContainer');
+
+let nameSelect = document.querySelector('#nameSelect');
+let nameSelectContainer = document.querySelector('#nameSelectContainer');
+let deptTeamContainer = document.querySelector('#deptTeamContainer');
+
+let selectedEmps = document.querySelector('#selectedEmps');
+
+// 채팅창 만들기 버튼 
+let makeChatButton = document.querySelector('#makeChatButton'); 
+
+modalCancelBtn2.addEventListener('click', function(){
+	selectModalContainer.style.display = 'none';
+	makeChatButton.style.display = 'none';
+	empListBeRendered.innerHTML = '';
+	deptTeamContainer.style.display = 'none';
+	selectedEmps.innerHTML = '';
+	empCodeList = [];
+});
+
+
+selectedEmps.style.display= 'flex';
+selectedEmps.style.flexWrap = 'wrap';
+selectedEmps.style.justifyContent = 'center';
+selectedEmps.style.alignItems = 'center';
+selectedEmps.style.paddingTop = '3vh';
+
+organizationSelect.addEventListener('click', function(){
+makeChatButton.style.display = 'block';
+	
+deptTeamContainer.innerHTML = '';
+deptTeamContainer.style.display='block';
+	
+	organizationSelectContainer.style.display = 'flex';
+	nameSelectContainer.style.display = 'none';
+	
+	
+	// 현재 로그인한 사원이 속한 회사의 부서와 팀을 모두 조회한다. 
+	fetch('/chat/getDeptAndTeam')
+    .then(response => response.json())  
+    .then(deptTeamList => {
+        console.log(deptTeamList);
+        deptTeamList.forEach(deptTeam => {
+			let newDiv = document.createElement('div');		
+			newDiv.classList.add('dept');
+			
+			let newIconAndDeptNm = document.createElement('div');
+			newIconAndDeptNm.style.display = 'flex';
+			newIconAndDeptNm.style.alignItems = 'center';
+			newIconAndDeptNm.style.marginLeft = '1vw';
+			
+			let newIcon = document.createElement('i');
+			newIcon.classList.add('fa-regular', 'fa-building');
+			newIconAndDeptNm.appendChild(newIcon);
+			newIcon.style.fontSize = '20px';
+						
+			let deptNmNode = document.createTextNode(deptTeam.deptNm);
+			let deptNmDiv = document.createElement('div');
+			deptNmDiv.appendChild(deptNmNode);
+			deptNmDiv.classList.add('deptNm');
+			newIconAndDeptNm.appendChild(deptNmDiv);
+			
+			newDiv.appendChild(newIconAndDeptNm);
+						
+			for(let i=0; i<deptTeam.teamList.length; i++){
+				
+				let teamDiv = document.createElement('div');
+				
+				let teamNo = deptTeam.teamList[i].teamNo;
+				let teamNm = deptTeam.teamList[i].teamNm;
+				
+				// teamNo(팀넘버)
+				let teamNoDiv = document.createElement('input');
+				teamNoDiv.type = 'hidden';
+				let teamNoNode = document.createTextNode(teamNo);
+				teamNoDiv.appendChild(teamNoNode);
+				
+				let iconAndTeamNmDiv = document.createElement('div');
+				iconAndTeamNmDiv.style.display = 'flex';
+				iconAndTeamNmDiv.style.alignItems = 'center';
+				iconAndTeamNmDiv.style.marginLeft = '3vw';
+				
+				
+				// 아이콘 
+				let newIcon = document.createElement('i');
+				newIcon.classList.add('fa-solid', 'fa-people-group');
+				iconAndTeamNmDiv.appendChild(newIcon);
+				newIcon.style.marginRight = '0.3vw';
+				newIcon.style.fontSize = '18px';
+
+				
+				// teamNm(팀이름)
+				let teamNmDiv = document.createElement('div');
+				let teamNmNode = document.createTextNode(teamNm);
+				iconAndTeamNmDiv.appendChild(teamNmNode);
+				
+				
+				teamDiv.appendChild(teamNoDiv);
+				teamDiv.appendChild(iconAndTeamNmDiv);
+				teamDiv.style.marginTop = '0.5vh';
+				teamDiv.style.marginBottom = '0.5vh';
+				
+				teamDiv.classList.add('teamDiv');
+				
+				
+				newDiv.appendChild(teamDiv);
+				
+
+	
+				
+				
+				teamDiv.addEventListener('click', function(){
+					fetch('/chat/getTeamEmps?teamNo=' + teamNo)
+					.then(response => response.json()).
+					then(empList => {
+						//---------------------------------------------------------------------------
+						console.log(empList);
+				
+						// 기존에 조회된 사원들을 없앰
+						const empListBeRendered= document.querySelector('#empListBeRendered');
+						 
+						empListBeRendered.innerHTML = '';
+			
+						empList.forEach(emp => {
+							// 새로운 div 생성 => 찾아온 한명의 멤버를 담을 컨테이너  
+							let newDiv = document.createElement('div'); 
+							
+							// memberNo 값 hidden 타입 input 태그에 숨겨놓기 
+							let empCode = emp.empCode;
+							const hiddenEmpCode = document.createElement('input');
+							hiddenEmpCode.type = 'hidden';
+							hiddenEmpCode.value = empCode;
+							newDiv.appendChild(hiddenEmpCode);
+							
+							// 새로운 이미지 태그 생성해서 위에 만든 새로운 div 에 추가 
+							const newImg = document.createElement('img');
+							newImg.src = emp.profileImg;
+							//newImg.classList.add('newImg');
+							
+							if(emp.profileImg != null){ // 프로필 사진이 있는 경우에만 
+								newDiv.appendChild(newImg);
+							} else{
+								// 프로필 사진이 없는 경우에는 
+								let newImgDiv= document.createElement('div');
+								newImgDiv.innerText = emp.empLastName;
+								newImgDiv.classList.add('newImgDiv');
+				
+						        const lastNameColors = {
+				           	   	 '김': '#FFCDD2',
+				                 '이': '#C8E6C9',
+				                 '박': '#BBDEFB',
+				                 '최': '#D1C4E9',
+				                 '정': '#FFECB3',
+				                 '송': '#BBDEFB',
+				                 '임': '#D1C4E9'
+				                 // 필요에 따라 더 추가할 수 있음
+				                };
+                
+				                if(lastNameColors[emp.empLastName]){
+							        newImgDiv.style.backgroundColor = lastNameColors[emp.empLastName];
+								} else{
+									newImgDiv.style.backgroundColor = 'yellow';
+								}
+				
+								newDiv.appendChild(newImgDiv);
+							}
+			
+							// textnode(html 안에 있는 순수한 텍스트) 로 찾아온 member 의 이름을 선택해서 newDiv에 추가 
+							let empNickname =document.createTextNode(emp.empLastName + emp.empFirstName);
+							newDiv.appendChild(empNickname);
+							newDiv.classList.add('findEmpContentInner');
+			
+							// 부서이름과 팀이름을 보여줘야 함. 
+							let deptNmDiv = document.createElement('div');
+							let deptNmNode = document.createTextNode(emp.deptNm);
+							deptNmDiv.appendChild(deptNmNode);
+							newDiv.appendChild(deptNmDiv);
+							deptNmDiv.classList.add('deptNmDiv');
+							
+							let teamNmDiv = document.createElement('div');
+							let teamNmNode = document.createTextNode(emp.teamNm);
+							teamNmDiv.appendChild(teamNmNode);
+							newDiv.appendChild(teamNmDiv);
+							teamNmDiv.classList.add('teamNmDiv');			
+			
+							//dkkkkkkkkkkkkkkkkkkkkkkkkkkkkk 여기예여~~~~~~~~~~~~~~~~~~
+							// 바로 위에서 보여진 newDiv 태그를 클릭할 시, 해당 이름이 추가되어야 함 
+							newDiv.addEventListener('click', function(){
+							
+								// 일단, 그 놈의 이름과 member테이블 memberNo 컬럼값을 가져오기 
+								let empCode2 = this.children[0].value; // 1(memberNo)
+								
+								
+								let divTag = document.createElement('div');
+								// 이름 추가 
+								divTag.appendChild(empNickname);				
+								// hidden 타입 input 태그에 value 로 empNo 추가 
+								let inputTag = document.createElement('input');
+								inputTag.type = 'hidden';
+								inputTag.value = empCode2;
+								divTag.append(inputTag);
+				
+								// x버튼 추가 
+								let newX = document.createElement('i');
+								newX.classList.add('fa-solid', 'fa-xmark', 'addedEmpContentXBtn');
+								newX.style.marginLeft = '3px';
+								newX.style.cursor = 'pointer';
+								newX.style.color = '#F1B8B8';
+								divTag.appendChild(newX);
+								// x버튼 클릭시 
+								newX.addEventListener('click', function(){
+									// divTag 를 지워버림 == 선택해서 추가된 거 지워버림 
+									this.parentElement.parentNode.removeChild(this.parentElement);
+									// memberNoList(채팅방 만들기 버튼 누를 때 전달할 파라미터임) 에서 지워버림 
+									let index =  empCodeList.indexOf(empCode2);
+									if(index != -1){
+										empCodeList.splice(index, 1);
+									}
+									
+								})
+								divTag.classList.add('addedEmpContentInner');
+											
+								// html 에 보이게 함 			
+								selectedEmps.appendChild(divTag);
+								
+								console.log('aaa');
+								// 배열에 값(memberNo) 추가 
+								if(!empCodeList.includes(empCode2)){
+									empCodeList.push(empCode2);							
+								}
+								console.log(empCodeList);
+								
+									
+								console.log('hey~');
+								
+								// addedEmpContent 특정 높이보다 높아지면 스크롤바 만들기  
+						        var maxmaxHeihgt = 130;
+							    if (selectedEmps.scrollHeight > maxmaxHeihgt) {
+						            selectedEmps.style.overflowY = 'scroll'; // 높이가 초과하면 세로 스크롤바 추가
+						            selectedEmps.style.height = maxmaxHeihgt + 'px'; // 높이를 제한
+						        } else {
+						            selectedEmps.style.overflowY = 'hidden'; // 높이가 초과하지 않으면 스크롤바 숨기기
+						            selectedEmps.style.height = 'auto'; // 높이를 자동으로 설정
+						        }
+						        
+						        
+						        
+								empListBeRendered.innerHTML = '';
+																empListBeRendered.innerHTML = '';
+
+								
+								
+								
+								
+							});
+							//dkkkkkkkkkkkkkkkkkkkkkkkkkkkkk 여기예여~~~~~~~~~~~~~~~~~~
+
+			
+					        var maxHeight = 440; // 스크롤바가 생기게 할 최대 높이
+					
+					        if (empListBeRendered.scrollHeight > maxHeight) {
+					            empListBeRendered.style.overflowY = 'scroll'; // 높이가 초과하면 세로 스크롤바 추가
+					            empListBeRendered.style.height = maxHeight + 'px'; // 높이를 제한
+					        } else {
+					            empListBeRendered.style.overflowY = 'hidden'; // 높이가 초과하지 않으면 스크롤바 숨기기
+					            empListBeRendered.style.height = 'auto'; // 높이를 자동으로 설정
+					        }
+					
+					        
+								empListBeRendered.append(newDiv);		
+							});		
+						
+						
+						
+						//----------------------------------------------------------------------------
+						
+						
+						
+					});
+				})
+				
+				
+			}
+			
+			deptTeamContainer.appendChild(newDiv);
+	        
+	        
+	        var maxHeightheight = 440; // 스크롤바가 생기게 할 최대 높이
+	
+	        if (deptTeamContainer.scrollHeight > maxHeightheight) {
+	            deptTeamContainer.style.overflowY = 'scroll'; // 높이가 초과하면 세로 스크롤바 추가
+	            deptTeamContainer.style.height = maxHeightheight + 'px'; // 높이를 제한
+	        } else {
+	            deptTeamContainer.style.overflowY = 'hidden'; // 높이가 초과하지 않으면 스크롤바 숨기기
+	            deptTeamContainer.style.height = 'auto'; // 높이를 자동으로 설정
+	        }
+			
+			
+			
+		})
+        document.createElement('div');
+        
+        
+
+    })
+	
+	
+})
+nameSelect.addEventListener('click', function(){
+	makeChatButton.style.display = 'block';
+
+	organizationSelectContainer.style.display = 'none';
+	nameSelectContainer.style.display = 'flex';
+})
+
+
+
+
+// 새로운 사원 추가 로직 끝 
+
 
 
 
 searchInput.addEventListener('input', function(){
-	let inputData = this.value; 
+	let inputData = searchInput.value.trim(); 
+	
+    console.log(inputData === '');
+	
+	if(inputData == ''){
+		findEmpContent.innerHTML = '';
+		return;
+	}
+	
+	
 	fetch('/chat/empList',{
 		method:"POST",
 		headers: {"Content-Type" : "application/json"},
@@ -166,6 +508,7 @@ searchInput.addEventListener('input', function(){
 
 	})
 })
+
 /*----------------- input 태그에 이름, 부서, 팀 을 입력하면, 관련된 사원들을 조회해서 보여주는 로직 끝 ---------------- */
 
 
@@ -175,8 +518,7 @@ searchInput.addEventListener('input', function(){
 let chattingsArea = document.querySelector('#chattingsArea');
 // 구독주소
 let subscribeAddr; // 구독주소. 전역으로 해서 동적으로 바뀌게 할거야. 
-// 채팅창 만들기 버튼 
-let makeChatButton = document.querySelector('#makeChatButton'); 
+
 // 채팅방들이 보여질 영역 : addedEmpContent 라는 변수에 있음. 
 
 
@@ -220,8 +562,11 @@ makeChatButton.addEventListener('click', function(){
 		
 		alert('asdfasdf');
 	})
+	
+	selectModalContainer.style.display = 'none';
+	
 	// 사람들 이름이 띄워져 있던 div 태그인 id="addedEmpContent" 를 비워주도록 한다.
-	addedEmpContent.innerHTML = '';
+/*	addedEmpContent.innerHTML = '';*/
 })
 
 /*====================================!!getChattingRooms!!======================================== */
@@ -792,7 +1137,15 @@ function getChattingRooms(empCode){
 						
 
 					})
-						/* 지웠던 곳 끝  */
+			/* 지웠던 곳 끝  */
+			
+			
+			
+	        
+
+						
+						
+						
 					
 				})
 				
@@ -807,7 +1160,16 @@ function getChattingRooms(empCode){
 			chattingRoomsContent.appendChild(chattingRoomDivContainer);
 			
 			
+	
+	        var maxHeightheight11 = 800; // 스크롤바가 생기게 할 최대 높이
 
+	        if (chattingRoomsContent.scrollHeight > maxHeightheight11) {
+	            chattingRoomsContent.style.overflowY = 'scroll'; // 높이가 초과하면 세로 스크롤바 추가
+	            chattingRoomsContent.style.height = maxHeightheight11 + 'px'; // 높이를 제한
+	        } else {
+	            chattingRoomsContent.style.overflowY = 'hidden'; // 높이가 초과하지 않으면 스크롤바 숨기기
+	            chattingRoomsContent.style.height = 'auto'; // 높이를 자동으로 설정
+	        }
 
 			
 		})
@@ -1432,6 +1794,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 취소 버튼을 눌렀을 때 
     document.querySelector('#modalCancelBtn').addEventListener('click', function() {
+		
+		
         document.querySelector('#file').value = '';
         let backgroundGray = document.querySelector('#backgroundGray');
         backgroundGray.style.display = 'none';
