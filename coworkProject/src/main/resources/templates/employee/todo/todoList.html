@@ -82,20 +82,21 @@
                                 <div>
                                     <div class="detailTitle">기한</div>
                                     <div class="detailContent">
-                                        <input type="date" name="todoEndDate">
+                                        <input type="date" name="todoEndDate" id="todoEndDate">
                                     </div>
                                 </div>
                                 <div>
                                     <div class="detailTitle">요청자</div>
                                     <div class="detailContent">
-                                        <input name="requestEmp">
+                                        <input name="requestEmp" readonly>
                                     </div>
                                 </div>
                                 <div class="inCharge">
                                     <div class="detailTitle">담당자</div>
-                                    <div class="detailContent">
-                                        <input name="inChargeEmp" placeholder=",로 구분해서 작성해주세요">
+                                    <div class="detailContent" id="inchargeEmp">
+                                        <input name="inChargeEmp" id="inChargeInput1" placeholder=",로 구분해서 작성해주세요">
                                     </div>
+
                                 </div>
                                 <div>
                                     <div class="detailTitle">요청 제목</div>
@@ -131,19 +132,19 @@
                             <div>
                                 <div class="detailTitle">기한</div>
                                 <div class="detailContent">
-                                    <input type="date" name="todoEndDate">
+                                    <input type="date" name="todoEndDate" id="todoEndDate2">
                                 </div>
                             </div>
                             <div>
                                 <div class="detailTitle">요청자</div>
                                 <div class="detailContent">
-                                    <input name="requestEmp">
+                                    <div th:text="|${session.loginEmp.empLastName}${session.loginEmp.empFirstName}|"></div>
                                 </div>
                             </div>
                             <div class="inCharge">
                                 <div class="detailTitle">담당자</div>
                                 <div class="detailContent">
-                                    <input name="inChargeEmp" placeholder=",로 구분해서 작성해주세요">
+                                    <input name="inChargeEmp" id="inChargeInput2" placeholder=",로 구분해서 작성해주세요">
                                 </div>
                             </div>
                             <div>
@@ -176,7 +177,9 @@
             var loginEmp= /*[[${session.loginEmp.empCode}]]*/ "loginEmp";
         </script>
 
-        <script src="/js/employee/todo/todo.js"></script>
+      <!--  <script src="/js/employee/todo/todo.js"></script> -->
+
+      <script src="/js/employee/todo/todoU.js"></script>
 
         
     

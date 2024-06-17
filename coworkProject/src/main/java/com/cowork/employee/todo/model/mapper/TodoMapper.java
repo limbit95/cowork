@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.employee.todo.model.dto.Todo;
 import com.cowork.employee.todo.model.dto.TodoFile;
+import com.cowork.user.model.dto.Employee2;
 
 @Mapper
 public interface TodoMapper {
@@ -156,6 +157,18 @@ public interface TodoMapper {
 	int fileOrderUpdate(TodoFile updateFile);
 
 	int deleteFiles(Map<String, Object> map);
+
+	/** 사원 검색 
+	 * @param comNo
+	 * @return
+	 */
+	List<Employee2> employeeSearch(int comNo);
+
+	/** 사원 검색 
+	 * @param map
+	 * @return
+	 */
+	List<Employee2> employeeListSearch(Map<String, Object> map);
 	
 	
 
