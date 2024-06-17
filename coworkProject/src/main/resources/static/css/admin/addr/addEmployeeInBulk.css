@@ -62,13 +62,44 @@ section.container .type1 > :nth-child(2) {
 }
 
 * {
-    border: 1px solid green;
+    /* border: 1px solid green; */
 }
 
 
 /* 아코디언 내용 */
 section.container .type2 {
+    padding: 40px;
+}
+section.container .type2 > :nth-child(1) {
+    padding: 0 0 10px 0;
+    font-weight: bold;
+    font-size: 15px;
 }
 /* 아코디언 내용 */
 section.container .type3 {
+}
+
+#sample {
+    display: flex;
+    align-items: center;
+    width: 95px;
+    height: 12px;
+    padding: 10px;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+}
+#sample:visited {
+    color: none;
+}
+.fa-solid.fa-file-excel {
+    margin-right: 7px;
+    font-size: 18px;
+    color: green;
+}
+#sampleText {
+    
 }
