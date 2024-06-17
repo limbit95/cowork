@@ -363,6 +363,46 @@
 		AND TODO_NO = #{todoNo}
 	</delete>
     
+    <!-- 사원 검색 -->
+	<select id="employeeSearch">
+		SELECT 
+			 E.EMP_CODE,
+			 E.EMP_ID,
+			 T.TEAM_NM,
+			 E.EMP_LAST_NAME || E.EMP_FIRST_NAME AS EMP_NAME,
+			 P."POSITION_NM"
+		FROM EMPLOYEE E
+		LEFT JOIN TEAM T ON E.TEAM_NO = T.TEAM_NO 
+		LEFT JOIN "POSITION" P ON E.POSITION_NO  = P."POSITION_NO"
+		WHERE E.COM_NO = #{comNo}
+		ORDER BY T.TEAM_NO, P."LEVEL"
+	</select>
+	
+	<!-- 사원 검색 찾기 -->
+	<select id="employeeListSearch">
+		SELECT * 
+		FROM (
+			SELECT 
+				 E.EMP_CODE,
+				 E.EMP_ID,
+				 T.TEAM_NM,
+				 E.EMP_LAST_NAME || E.EMP_FIRST_NAME AS EMP_NAME,
+				 P."POSITION_NM"
+			FROM EMPLOYEE E
+			LEFT JOIN TEAM T ON E.TEAM_NO = T.TEAM_NO 
+			LEFT JOIN "POSITION" P ON E.POSITION_NO  = P."POSITION_NO"
+			WHERE E.COM_NO = #{comNo}
+			ORDER BY T.TEAM_NO, P."LEVEL"
+		)
+		WHERE 1=1
+		AND (EMP_ID LIKE '%' || #{empName} || '%'
+		OR TEAM_NM LIKE '%' || #{empName} || '%'
+		OR EMP_NAME LIKE '%' || #{empName} || '%'
+		OR POSITION_NM LIKE '%' || #{empName} || '%')
+	</select>
+    
+    
+    
     
 </mapper>
 

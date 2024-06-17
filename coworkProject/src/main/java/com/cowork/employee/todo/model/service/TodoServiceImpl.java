@@ -29,6 +29,7 @@ import com.cowork.employee.todo.model.dto.TodoFile;
 import com.cowork.employee.todo.model.exception.TodoDeleteException;
 import com.cowork.employee.todo.model.exception.TodoInsertException;
 import com.cowork.employee.todo.model.mapper.TodoMapper;
+import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +56,6 @@ public class TodoServiceImpl implements TodoService{
 	public List<Todo> selectTodoList(int empCode) {
 		
 		return mapper.selectTodoList(empCode); 
-		
 		
 	}
 
@@ -393,6 +393,30 @@ public class TodoServiceImpl implements TodoService{
         
         return result;
         
+	}
+
+
+	// 사원 검색 
+	@Override
+	public List<Employee2> todoEmpSearch(String empName, int comNo) {
+		
+		List<Employee2> employeeList = new ArrayList<>(); 
+		
+		if(empName.equals("")) {
+			employeeList = mapper.employeeSearch(comNo); 
+		} else {
+			Map<String, Object> map = new HashMap<>(); 
+			
+			map.put("empName", empName); 
+			map.put("comNo", comNo); 
+			
+			employeeList = mapper.employeeListSearch(map); 
+		}
+		
+		log.info("empName : " + empName);
+		
+		return employeeList;
+		
 	}	
 	
 

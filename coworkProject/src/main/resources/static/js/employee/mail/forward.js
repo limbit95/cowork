@@ -355,6 +355,10 @@ document.querySelector('#fwBtn').addEventListener('click', () => {
     clone.append('recipient', recipient.join(','));
     clone.append('referer', referer.join(','));
 
+     // 기존 파일 정보를 JSON 문자열로 변환하여 FormData에 추가
+     const existingFilesJson = JSON.stringify(existingFiles);
+     clone.append('existingFiles', existingFilesJson);
+
 
     // 새로운 파일 추가
     for (const pair of formData.entries()) {

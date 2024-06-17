@@ -296,6 +296,22 @@ public class TodoController {
 	         }
 	     }
 	    
+	 	
+	 	/** 사원 검색 - 받는이, 참조 
+		 * @param empName
+		 * @param loginEmp
+		 * @param model
+		 * @return
+		 */
+		@ResponseBody
+		@GetMapping("empSearch")
+		public List<Employee2> empSearch( @RequestParam("empName") String empName,
+										   @SessionAttribute("loginEmp") Employee2 loginEmp,
+										   Model model ) {
+			
+			return service.todoEmpSearch(empName, loginEmp.getComNo()); 
+			
+		}
 	
 
 }
