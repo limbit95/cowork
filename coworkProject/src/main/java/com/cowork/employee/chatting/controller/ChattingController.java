@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.employee.chatting.model.dto.ChatMessage;
 import com.cowork.employee.chatting.model.dto.ChatMessage.MessageType;
 import com.cowork.employee.chatting.model.dto.ChatMessageMe;
@@ -210,8 +211,68 @@ public class ChattingController {
 
     }
     
+    @PostMapping("/chat/exitChatRoom")
+    @ResponseBody
+    public String exitChatRoom(@RequestBody Map<String,Object> map,
+    			@SessionAttribute("loginEmp") Employee2 loginEmp
+    		) {
+    	String currentRoomNo = (String) map.get("currentRoomNo");
+    	log.debug("currentRoomNo==={}", currentRoomNo);
+    	Integer result = chatService.exitChatRoom(currentRoomNo, loginEmp);
+    	if(result > 0) {
+    		return "채팅방에서 나가셨습니다.";
+    	} else {
+    		return "채팅방 나가기 실행 중 오류 발생";
+    	}
+
+    }
+    
+    @GetMapping("/chat/loginBy58")
+    @ResponseBody
+    public String loginBy58(HttpServletRequest request) {
+		Employee2 emp = new Employee2();
+		emp.setEmpCode(58);
+		emp.setEmpId("admin2");
+		emp.setEmpFirstName("정");
+		emp.setEmpLastName("윤희");
+		emp.setComNo(10);		
+		HttpSession session = request.getSession();
+		session.setAttribute("loginEmp", emp);
+    	
+    	return "loginedBy58";
+    }
     
     
+    @GetMapping("/chat/getDeptAndTeam")
+    @ResponseBody
+    public List<Department> getDeptAndTeam(@SessionAttribute("loginEmp") Employee2 loginEmp) {
+    	
+    	List<Department> deptTeamList = chatService.getDeptAndTeam(loginEmp);
+    	log.debug("deptTeamList=={}", deptTeamList);   	
+    	return deptTeamList;
+    	
+    }
+    @GetMapping("/chat/getTeamEmps")
+    @ResponseBody
+    public List<Employee2> getTeamEmps (@RequestParam("teamNo") String teamNo) {
+    	List<Employee2> empList = chatService.getTeamEmps(teamNo);
+    	
+    	
+    	return empList;
+    }
+    
+    @PostMapping("/survey/getEmpList")
+    @ResponseBody
+    public List<Employee2> getEmpList (@RequestBody Map<String, List<Integer>> request){
+    	
+    	List<Integer> empCodeList = request.get("tempEmpCodeList");
+    	    	
+    	List<Employee2> empList = chatService.getEmpList(empCodeList);
+    	
+    	
+    	
+    	return empList;
+    }
     
 	
 }

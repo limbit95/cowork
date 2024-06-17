@@ -6,47 +6,99 @@
     <title>SurveyList</title>
 
     <link rel="icon" href="/images/favicon.png">
-    <link rel="stylesheet" href="/css/employee/survey/mySurvey.css">
+	<link rel="stylesheet" href="/css/employee/survey/mySurvey.css">
     
 </head>
 <body>
-    <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
-    
-    <section class="container" id="surveyContainer">
-        <!-- 설문조사 목록 제목 -->
-        <div class="title"><span>내가 쓴 설문</span></div>
+	<th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
 
-        <!-- 설문 추가 버튼 -->
-        <div id="surveyBtnTop">
-            <a href="surveyInsert" class="default-btn sapphire-border-btn">설문 추가</a>
-        </div>
-    </section>
-
-
-    <!-- 설문 목록 보여질 곳 -->
-    <section class="container">
-
-        <div class="boardDiv">
-
-            <div class="table-head">
-                <div>제목</div>
-                <div>작성자</div>
-                <div>작성일</div>
-				<th:block th:each="survey : ${surveyList}">
-				    <a th:href="@{/survey/calculate/{surveyNo}(surveyNo=${survey.surveyNo})}">Calculate</a>
-				    <div th:text="${survey.surveyMainTitle}"></div> <!-- survey.someField 를 원하는 필드로 교체 -->
-				</th:block>
-            </div>
-
-			
-
-
-            
-        </div>
-        
-    </section>
+	<div id="receiveSurveyTitle">
+		<div id="receiveSurveyTitleDiv">내가 작성한 설문</div>
+	</div>
 	
-   <!-- <script src="/js/employee/survey/surveyList.js"></script>-->
+	<div id="listContainer">
+		<div id="listContainerInnerDiv">
+			<div id="titleDiv">
+				제목
+			</div>
+			<div id="writerDiv">
+				작성자
+			</div>
+			<div id="endDateDiv">
+				기한 
+			</div>
+		</div>
+	</div>
+	
+	<div id="receiveSurveyContainer">
+		<!-- 잘 들어갈려나? -->
+		<th:block th:each="survey : ${surveyList}">
+			<a th:href="@{/survey/calculate/{surveyNo}(surveyNo=${survey.surveyNo})}"
+			class="oneRowA"
+			>
+			<div th:text="${survey.surveyMainTitle}"></div>
+			<div th:text="${survey.fullName}">asdfadf</div>
+			<div th:text="${survey.restDays} +  ' 일' "></div>
+<!--			<div th:text="${survey.surveyMainTitle}" 
+			     th:classappend="${survey.answerFl} ? 'title-true' : 'title-false'"></div>
+	-->			
+			
+			
+			</a>	
+		
+<!--		    <a th:href="@{/survey/calculate/{surveyNo}(surveyNo=${survey.surveyNo})}">Calculate</a>
+		    <div th:text="${survey.surveyMainTitle}"></div> <!-- survey.someField 를 원하는 필드로 교체 -->
+		
+		</th:block>
+		<!-- 잘 들어갈려나? -->
+	</div>
+	
+	<!-- 페이지네이션 조각 시작 -->
+	<div id="paginationContainer">
+	<div id="pagination">
+	    <!-- 처음 -->
+	    <a th:if="${currentGroupFirstPage != 1}" th:href="@{/survey/receiveSurvey}" id="first-page-a">&lt;&lt;</a>
+	    <a th:if="${currentGroupFirstPage != 1}" th:href="@{/survey/receiveSurvey(currentPage=${currentGroupFirstPage}-1)}" id="previous-a">&lt;</a>
+	    
+	    <!-- 중간 -->
+	    <div th:if="${currentGroupLastPage != 0}" id="paginationMiddleContainer">
+	        <div th:each="i : ${#numbers.sequence(currentGroupFirstPage, currentGroupLastPage)}" class="pagination-element">
+	            <span th:if="${i == currentPage}" th:text="${i}" class="current-page-span">Current Page</span>
+	            <a th:if="${i != currentPage}" th:href="@{/survey/receiveSurvey(currentPage=${i})}" class="pagination-a"
+	                th:text="${i}">Page Link</a>
+	            &nbsp;&nbsp;
+	        </div>
+	    </div>
+	    
+	    <div th:if="${currentGroupLastPage == 0}">
+	        <span style="color:#e06500;" class="current-page-span">1</span>
+	    </div>
+	
+	    <!-- 끝 -->
+	    <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/receiveSurvey(page=${currentGroupLastPage}+1)}" id="next-a">&gt;</a>
+	    <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/receiveSurvey(page=${totalPages})}" id="last-page-a">&gt;&gt;</a>
+	</div>
+	</div>
+	<!-- 페이지네이션 조각 끝 -->
+	
+    <script th:inline="javascript">
+        const noAuthority = /*[[${noAuthority}]]*/ "전달 받은 message";
+        if (noAuthority != null) alert(noAuthority);        
+    </script>
+
+    <script src="/js/employee/survey/surveyList.js"></script>
     <script src="https://kit.fontawesome.com/247c6d7026.js" crossorigin="anonymous"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+

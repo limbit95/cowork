@@ -23,7 +23,7 @@
 <insert id="addParticipant">
 	INSERT INTO CHAT_PARTICIPANT 
 	VALUES 
-	(SEQ_CHAT_PARTICIPANT.NEXTVAL, SYSDATE, #{roomNo}, #{empCode})
+	(SEQ_CHAT_PARTICIPANT.NEXTVAL, SYSDATE, #{roomNo}, #{empCode}, 'N')
 </insert>
 
 	
@@ -39,6 +39,7 @@
 	LEFT JOIN CHAT_ROOM CR ON (CP.ROOM_NO = CR.ROOM_NO)                            
 	LEFT JOIN SUBSCRIBE_ADDR SA ON (CP.ROOM_NO = SA.ROOM_NO)                
 	WHERE CP.EMP_CODE = #{empCode}
+	AND CP.EXIT_FLAG = 'N'
 </select>
 
 
@@ -98,7 +99,41 @@
 	WHERE TEAM_NO = #{teamNo}
 </select>
 
+<update id="exitChatRoom">
+	UPDATE CHAT_PARTICIPANT
+	SET EXIT_FLAG = 'Y'
+	WHERE ROOM_NO = #{currentRoomNo}
+	AND EMP_CODE = #{exitEmpCode}
+</update>
 
+<!-- 부서, 팀 가져오기 -->
+<resultMap type="Department" id="department_rm">
+	<id property="deptNo" column="DEPT_NO" />
+	<collection 
+		property="teamList"
+		select="selectTeamList"
+		column="DEPT_NO"
+		javaType="java.util.ArrayList"
+		ofType="Team"
+	/>
+</resultMap>
+
+<select id="getDeptAndTeam" resultMap="department_rm">
+	SELECT *
+	FROM DEPARTMENT 
+	WHERE COM_NO = #{comNo}	
+</select>
+
+<select id="selectTeamList" resultType="Team">
+	SELECT * FROM "TEAM"
+	WHERE DEPT_NO = #{deptNo}
+</select>
+<!-- 부서, 팀 가져오기 -->
+
+<select id="getTeamEmps">
+	SELECT * FROM EMPLOYEE 
+	WHERE TEAM_NO = #{teamNo}
+</select>
 
 	
 	

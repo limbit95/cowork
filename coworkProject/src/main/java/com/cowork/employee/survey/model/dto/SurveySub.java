@@ -26,5 +26,8 @@ public class SurveySub {
 	
 	private List<SurveyMultiple> options;
 	
-	private List<Integer> ratioList = new ArrayList<>();
+	private List<Integer> ratioList = new ArrayList<>(); // (선택된 개수 / 전체 응답개수) * 100 
+	
+	private List<Integer> optionCount = new ArrayList<>(); // 해당 선택지가 선택된 개수 
+	
 }

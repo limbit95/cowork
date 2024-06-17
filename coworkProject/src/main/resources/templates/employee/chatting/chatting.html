@@ -3,50 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/employee/chatting/chatting.css">
     <title>leftSideBar</title>
 </head>
 <body>
     <div th:replace="~{employee/userMain/leftSideBar}"></div>
     
-    <div id="forMariginTop"></div>
+	<div id="forMariginTop">
+			<img src="/images/talking.gif" alt="Background GIF" class="bgVideo">			
+
+	    <div class="content">
+	        <i class="fa-regular fa-comment" style="font-size: 25px;"></i>&nbsp; 메신저 
+	    </div>
+	</div>
     
     <div id="entireContainer">
         <div id="emptySpace"></div>
         <!-- 왼쪽 첫번째 큰 컨테이너 시작  -->
         <div id="makeChatContainer">
             <!-- 맨 위 -->
+			<!-- 
             <div id="searchDiv">
                 <div id="searchDivChild">
                     <input type="text" placeholder="부서, 팀, 이름 을 입력해주세요" id="searchInput">
                 </div>
             </div>
+			-->
+			
+			
+
             
-            <div id="findEmpAndAddedEmpContainer">
-                <div id="findEmpContainer">
-                    <div id="findEmpTitle">
-                        <i class="fa-solid fa-magnifying-glass" style="color:#214177;"></i>
-                    </div>
-                    <div id="findEmpContent"></div> <!-- 여기 -->
-                </div>
-                <div id="addedEmpContainer">
-                    <div id="addedEmpTitle">
-                        <i class="fa-solid fa-plus"></i>
-                    </div>
-                    <div id="addedEmpContent"></div>
-                </div>
-            </div>
-            <div id="makeChatButton">
-                <button>
-                    <i class="fa-regular fa-comment"></i> &nbsp;
-                    새로운 채팅방 만들기
-                </button>
-            </div>
+			<!-- 조회하는 모달창 -->
+			<div id="selectModalContainer">
+				<div id="selectModalInner">
+					<div id="modalCancelDiv">
+						<button type="button" id="modalCancel2">
+							<i class="fa-regular fa-circle-xmark" style="font-size: 25px;"></i>
+						</button>											
+					</div>
+					<div id="selectOptionContainer">
+						<div id="organizationSelect">조직도 조회</div>
+						<div id="nameSelect">이름 조회</div>
+					</div>
+					
+					<!-- 조직도 -->
+					<div id="organizationSelectContainer">
+						<div id="deptTeamContainer"></div>
+						<div id="empListBeRendered"></div>
+					</div>
+					
+					<!-- 이름 -->
+					<div id="nameSelectContainer">
+						<div id="searchDiv">
+						    <div id="searchDivChild">
+						        <input type="text" placeholder="부서, 팀, 이름 을 입력해주세요" id="searchInput">
+						    </div>
+						</div>
+
+					</div>
+					<div id="findEmpContent"></div>	
+
+					
+					<!-- 선택된 사원들이 보일 자리  -->
+					<div id="selectedEmps"></div>
+					
+					<div id="makeChatButtonDiv">
+						<button type="button" id="makeChatButton">					
+							선택 
+						</button>					
+					</div>
+
+					
+					
+				</div>
+			</div>
+			<!-- 조회하는 모달창 -->
+			
+			<button id="addEmpBtn" type="button">
+				<i class="fa-solid fa-plus" style="font-size: 20px; margin-bottom:3px;"></i>
+				&nbsp; 			
+				새로 만들기
+			</button>
+			
+			
+   
         </div>
         <!-- 왼쪽 첫번째 큰 컨테이너 끝 -->
         
         <div id="chattingRoomsContainer">
+
             <div id="chattingRoomsTitle">
                 <i class="fa-regular fa-comment"></i> &nbsp; 채팅방
             </div>
@@ -54,10 +99,18 @@
         </div>
         
         <div id="chattingsContainer">
+			
             <div id="topAreaInChattingsContainer">
             </div>
+			
 			<div id="translate">
-				<button type="button" id="translateBtn">번역</button>			
+				<button type="button" id="translateBtn">
+					번역
+				</button>			
+				<button type="button" id="exitBtn">
+					<i class="fa-solid fa-door-open"></i>					
+				</button>
+
 			</div>
 			
             <ul id="chattingsArea">

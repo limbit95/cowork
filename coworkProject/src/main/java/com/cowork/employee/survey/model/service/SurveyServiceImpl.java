@@ -10,12 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import com.cowork.common.utility.model.dto.Pagination;
 import com.cowork.employee.chatting.model.dto.Employee;
 import com.cowork.employee.survey.model.dto.Question;
+import com.cowork.employee.survey.model.dto.SubjectiveAnswer;
 import com.cowork.employee.survey.model.dto.Survey;
 import com.cowork.employee.survey.model.dto.SurveyData;
 import com.cowork.employee.survey.model.dto.SurveyMultiple;
@@ -255,7 +258,7 @@ public class SurveyServiceImpl implements SurveyService{
 			LocalDate currentDate = LocalDate.now(); // 현재 시각 
             long daysBetween = ChronoUnit.DAYS.between(currentDate, endDate);
             
-            survey.setRestDays(Integer.parseInt(currentPage));
+            survey.setRestDays((int)daysBetween);
 		}
 		
 		surveyList.sort(Comparator.comparingInt(Survey::getRestDays)); // 기한이 짧은거 순으로 정렬  
@@ -459,16 +462,70 @@ public class SurveyServiceImpl implements SurveyService{
 			surveyMapper.submitAnswer(paramMap);
 		}
 		
+		
+		
 	}
 
 	@Override
-	public List<Survey> mySurvey(Integer empCode) {
-		List<Survey> surveyList = surveyMapper.mySurvey(empCode);
-		return surveyList;
-	}
+	public void mySurvey(Integer empCode, String cp, Model model) {
+		
+		// 2. 현재 페이지 
+		int currentPage = Integer.parseInt(cp);
+		model.addAttribute("currentPage", currentPage);
+		
+		// 3. 총 페이지 수 
+		// 1) 몇 개의 게시글이 있는지를 알아야 함 
+		int totalPosts = surveyMapper.getListCount(empCode); 
+		// 2) 한 페이지당 보여질 설문의 수 
+		int pageSize = 10; 
+		// 3) 총 페이지 수 
+		int totalPages = (int) Math.ceil((double) totalPosts/pageSize);
+		
+		// 6. 그룹당 페이지 개수 
+		int pageGroupSize = 5; 
+		
+		// 4. 현재 페이지가 속한 그룹의 첫번째 페이지 
+		// 1) 현재 그룹을 구해야함. 
+		int currentGroup = (int)Math.ceil((double)currentPage/pageGroupSize);
+		// 2) 현재 페이지가 속한 그룹의 첫번째 페이지 
+		int currentGroupFirstPage = (currentGroup - 1) * pageGroupSize + 1;
+		
+		// 5. 현재 페이지 그룹의 마지막 페이지 
+		int currentGroupLastPage = Math.min(currentGroupFirstPage + pageGroupSize -1, totalPages);
+		
+		// 1. 현재 페이지에 보여질 게시글(PostsDTO) 을 담은 List 자료구조
+		int startRow = (currentPage - 1) * pageSize; 
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("empCode", empCode);
+		paramMap.put("startRow", startRow);
+		paramMap.put("pageSize", pageSize);
+		
+		List<Survey> surveyList = surveyMapper.mySurvey(paramMap);
+		
+		// surveyList 에 들어있는 각 survey 라는 객체의 restDays(기한) 필드를 채워줄거임. 
+		for(Survey survey : surveyList) {			
+			
+			Date surveyEndDateDate = survey.getSurveyEndDateDate(); // 마지막 날 
+            LocalDate endDate = surveyEndDateDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // LocalDate 타입으로 바꿈 
+
+			LocalDate currentDate = LocalDate.now(); // 현재 시각 
+            long daysBetween = ChronoUnit.DAYS.between(currentDate, endDate);
+            
+            survey.setRestDays((int)daysBetween);
+		}
+		 
+		
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("pageGroupSize", pageGroupSize);
+		model.addAttribute("currentGroupFirstPage", currentGroupFirstPage);
+		model.addAttribute("currentGroupLastPage", currentGroupLastPage);
+		model.addAttribute("surveyList", surveyList);
+		}
 
 	@Override
-	public List<SurveySub> calculate(String surveyNo) {
+	public Map<String, Object> calculate(String surveyNo) {
 		
 		// 해당 설문 일단 그냥 가져와봤음.
 		Survey survey = surveyMapper.getSurvey(surveyNo);
@@ -511,6 +568,8 @@ public class SurveyServiceImpl implements SurveyService{
 				for(SurveyMultiple surveyMultiple : surveyMultipleList) {
 					Integer surveyMultipleNo = surveyMultiple.getSurveyMultipleNo();
 					Integer countMultipleOption= surveyMapper.countMultipleOption(String.valueOf(surveyMultipleNo));
+					surveySub.getOptionCount().add(countMultipleOption);
+					
 					Integer ratio = (countMultipleOption / totalResponseCount) * 100;
 					surveySub.getRatioList().add(ratio);
 				}
@@ -523,8 +582,37 @@ public class SurveyServiceImpl implements SurveyService{
 			}
 			
 		}
-		return surveySubListReturn;
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		returnMap.put("surveySubListReturn", surveySubListReturn);
+		returnMap.put("survey", survey);
+		
+		return returnMap;
+	}
+
+	@Override
+	public List<SubjectiveAnswer> showSubjectiveAnswer(String surveySubNo) {		
+		log.debug("surveySubNo===={}", surveySubNo);
+		
+		List<SubjectiveAnswer> subjectiveAnswerList = surveyMapper.showSubjectiveAnswer(surveySubNo);
+		return subjectiveAnswerList;
 	}
 	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

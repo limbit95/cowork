@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Insert</title>
+   <link rel="stylesheet" href="/css/employee/survey/subjectiveAnswer.css">
+   
+   <!-- pdf 파일 라이브러리 -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+</head>
+<body>
+   <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
+
+   	<div id="insertSurveyContainer">
+		
+		<div id="surveyWriteText" th:text="${surveyMainTitle} + ' - ' + ${surveySubTitle}">
+		</div>		
+		<div id="btnContainer">
+			<button onclick="generatePDF()" id="pdfBtn">
+				<i class="fa-regular fa-file-pdf"></i>
+			</button>
+			<button onclick="printSection()" id="printBtn">
+				<i class="fa-solid fa-print"></i>
+			</button>
+		</div>
+		
+		<div id="subjectiveAnswerContainer">
+			<div th:each="subjectiveAnswer : ${subjectiveAnswerList}" class="per">
+				
+				<div class="subjectiveAnswerContainerInnerTop">
+					<img th:if="${subjectiveAnswer.profileImg != null}" th:src="${subjectiveAnswer.profileImg}" class="profileImgTag">
+					<img th:if="${subjectiveAnswer.profileImg == null}" src="/images/bannerImg.jpg" class="profileImgTag">
+					<div th:text="${subjectiveAnswer.fullName}"></div>
+				</div>
+				
+				<div class="subjectiveAnswerContainerInnerBottom">
+					<textarea th:text="${subjectiveAnswer.answer}" readonly></textarea>					
+
+				</div>
+				
+				<div class="forBottomBorderDiv">
+					<div					class="forBottomBorder"></div>
+				</div>
+				
+			</div>			
+		</div>
+		
+		
+		
+   </div>
+   
+   <script    th:inline="javascript">
+	let pdfFileName = /*[[${surveyMainTitle} + ' - ' + ${surveySubTitle}]]*/ "pdf파일이미지";
+		
+	function generatePDF(){
+		let source = document.querySelector('#subjectiveAnswerContainer');
+		const opt = {
+		    margin:       1,
+		    filename:     pdfFileName, // pdf 파일 이름을 설문 대제목 - 설문 소제목 으로 바꿈 
+		    image:        { type: 'jpeg', quality: 0.98 },
+		    html2canvas:  { scale: 2 },
+		    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+		};
+		
+		html2pdf().from(source).set(opt).save();
+	}
+	
+	function printSection() {
+	    window.print();
+	}
+   </script>
+   
+
+   
+   
+   <!— 바닥에 딱 붙는게 싫어서 추가한 빈 공간  —>
+   <div id="embrace">
+
+  </div>
+   
+      <script src="/js/employee/survey/subjectiveAnswer.js"></script>
+
+    
+</body>
+</html>

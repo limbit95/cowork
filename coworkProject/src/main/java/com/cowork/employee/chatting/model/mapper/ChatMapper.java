@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.employee.chatting.model.dto.ChatMessage;
 import com.cowork.employee.chatting.model.dto.ChatMessageMe;
 import com.cowork.employee.chatting.model.dto.ChatParticipant;
@@ -44,6 +45,12 @@ public interface ChatMapper {
 	List<String> chatRoomEmpCodeList(Integer roomNo);
 
 	Employee2 empDetail(String empCode);
+
+	int exitChatRoom(Map<String, Object> paramMap);
+
+	List<Department> getDeptAndTeam(Integer comNo);
+
+	List<Employee2> getTeamEmps(String teamNo);
 
 
 

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.ui.Model;
 
 import com.cowork.employee.chatting.model.dto.Employee;
+import com.cowork.employee.survey.model.dto.SubjectiveAnswer;
 import com.cowork.employee.survey.model.dto.Survey;
 import com.cowork.employee.survey.model.dto.SurveyData;
 import com.cowork.employee.survey.model.dto.SurveySub;
@@ -29,8 +30,10 @@ public interface SurveyService {
 
 	void submitAnswer(Map<String, String> answerMap, Employee2 loginEmp);
 
-	List<Survey> mySurvey(Integer empCode);
+	void mySurvey(Integer empCode, String cp, Model model);
 
-	List<SurveySub> calculate(String surveyNo);
+	Map<String, Object> calculate(String surveyNo);
+
+	List<SubjectiveAnswer> showSubjectiveAnswer(String surveySubNo);
 
 }

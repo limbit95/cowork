@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import com.cowork.employee.chatting.model.dto.Employee;
+import com.cowork.employee.survey.model.dto.SubjectiveAnswer;
 import com.cowork.employee.survey.model.dto.Survey;
 import com.cowork.employee.survey.model.dto.SurveySub;
 import com.cowork.user.model.dto.Employee2;
@@ -57,11 +59,17 @@ public interface SurveyMapper {
 
 	void submitAnswer(Map<String, Object> paramMap);
 
-	List<Survey> mySurvey(Integer empCode);
+	List<Survey> mySurvey(Map<String, Object> paramMap);
 
 	Integer countResponse(Integer surveySubNo);
 
 	Integer countMultipleOption(String surveyMultipleNo);
+
+	int getListCount(Integer empCode);
+
+	List<Survey> selectSurveyList(int cp, RowBounds rowBounds);
+
+	List<SubjectiveAnswer> showSubjectiveAnswer(String surveySubNo);
 
 	
 
