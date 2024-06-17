@@ -249,7 +249,10 @@ document.addEventListener('DOMContentLoaded', function() {
         start: event.calendarStart,
         end: event.calendarEnd,
         color: event.calendarColor,
-        description : event.calendarContent
+        extendedProps : {
+            description : event.calendarContent,
+            calendarShare : event.calendarShare
+        }
     }));
 
     var calendarEl = document.getElementById('calendar');
@@ -328,12 +331,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     selectedCompanyValue = selectedCompany.value;
                 }
 
+                const existingValues = Array.from(selectView.querySelectorAll('p')).map(p => p.textContent);
+                console.log("모든 p 태그 글자 값" + existingValues);
+                // 이값을 content에 넣어줘야함
+
                 const obj = {
                     "calendarTitle" : updateTitle,
                     "calendarContent" : updateContent,
                     "calendarColor" : selectedColor.value,
                     "teamShareList" : selectedTeamList,
-                    "deptshareList" : selectedDeptList,
+                    "deptShareList" : selectedDeptList,
                     "comShareList" : selectedCompanyValue,
                     "empCode" : empCode,
                     "calendarStart" : info.startStr,
@@ -435,10 +442,11 @@ document.addEventListener('DOMContentLoaded', function() {
         eventClick: function(info) {
             var eventTitle = info.event.title;
             var eventContent = info.event.extendedProps.description;
+            var eventShare = info.event.extendedProps.calendarShare;
 
             document.getElementById('modalUpdateTitle').value = eventTitle;
             document.getElementById('modalUpdateContent').value = eventContent;
-            
+            document.getElementById('modalUpdateShare').value = eventShare;
             document.getElementById('calendarModalUpdate').classList.remove('calendarHidden');
 
             var popovers = document.querySelectorAll('.fc-popover');

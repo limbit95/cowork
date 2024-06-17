@@ -521,6 +521,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // 기존 내용 보여주기
             // 시간 포맷
             const date = new Date(info.event.start);
+
+            console.log("date 출력 " + date);
+
             const endDate = new Date(info.event.end);
 
             const startHours = date.getUTCHours();
@@ -537,19 +540,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const formattedStartTime = `${formattedStartHours}시 ${formattedStartMinutes}분`;
             const formattedEndTime = `${formattedEndHours}시 ${formattedEndMinutes}분`;
 
-            // 포맷팅 옵션 설정
-            const options = {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                weekday: 'long'
-            };
-            
-            // 로케일 설정 (한국어)
-            const locale = 'ko-KR';
-            
-            // 날짜 포맷팅
-            const formattedDate = new Intl.DateTimeFormat(locale, options).format(date);
+            const year = date.getUTCFullYear();
+            const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1 필요
+            const day = date.getUTCDate().toString().padStart(2, '0');
+            const formattedDate = `${year}년 ${month}월 ${day}일`;
+
+            console.log("제목 눌렀을 때 예약일이 이상하잖아" + formattedDate);
 
             document.querySelector(".reservationDay").value = formattedDate;
             document.querySelector(".reservationStart").value = formattedStartTime;
@@ -565,7 +561,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 모달 수정 삭제 팝업 떴을 때 x 버튼 누른 경우
             updateX.addEventListener("click", () => {
-                document.querySelector("#reservationUpdateModal").classList.add("reservationHidden");
+                var now = new Date();
+                now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); // Adjust for timezone offset
+
+                const eventDate = new Date(info.event.start);
+
+                const year = eventDate.getFullYear();
+                const month = (eventDate.getMonth() + 1).toString().padStart(2, '0');
+                const day = eventDate.getDate().toString().padStart(2, '0');
+
+                const formattedDate = `${year}-${month}-${day}`;
+
+                window.location.href = '/reservation/selectDay?date=' + formattedDate;
+                // // 색 border remove
+                // const clickColors = document.querySelectorAll(".clickColor");
+                // clickColors.forEach(div => {
+                //     div.classList.remove("addBorder");
+                // });
+
+                // document.querySelector("#selectedColor").value = "";
+                // document.querySelector(".selectView").innerHTML = "";
+                // document.querySelector(".selectView").classList.add("reservationHidden");
+                // document.querySelector("#reservationInsertModal").innerHTML = "";
+                // document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
+                // document.querySelector("#reservationUpdateModal").classList.add("reservationHidden");
             });
 
             // 삭제 버튼 눌렀을 때
@@ -580,6 +599,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if(modalUpdateBtn != null) {
                 modalUpdateBtn.addEventListener("click", () => {
+
+                    // 지금 이 시간 이전에 시작하는 거면 수정 버튼 안 눌리게 막아야함
+                    var now = new Date();
+                    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+
+                    const eventDate = new Date(info.event.start);
+
+                    if (eventDate < now) {
+                        alert('지난 시간 예약은 수정할 수 없습니다.');
+                        const year = eventDate.getFullYear();
+                        const month = (eventDate.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 +1 필요
+                        const day = eventDate.getDate().toString().padStart(2, '0');
+                        
+                        // 원하는 형식으로 변환
+                        const formattedDate = `${year}-${month}-${day}`;
+                        
+                        console.log(formattedDate); // "2024-06-17"
+                        window.location.href = '/reservation/selectDay?date=' + formattedDate;
+                    }
+
                     // 수정 삭제 있는 거 없어지고 insert하는 모달창 띄워주기
                     document.querySelector("#reservationUpdateModal").classList.add("reservationHidden");
 
