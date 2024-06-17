@@ -1,11 +1,202 @@
+const findEmp = document.querySelector("#findEmp");
+
+if(findEmp != null) {
+    document.querySelector("#findEmp").focus();
+    findEmp.addEventListener("input", e => {
+        const inputName = e.target.value;
+
+        if(location.pathname == '/employee/addr/comList' || location.pathname == '/employee/addr/deptList' || location.pathname == '/employee/addr/teamList') {
+            if(inputName.trim().length == 0) {
+                location.reload();
+                 return;
+            }
+    
+            fetch("/admin/addr/findEmp?name=" + inputName)
+            .then(resp => resp.json())
+            .then(employeeList => {
+                const employeeListDiv = document.querySelector(".employeeList");
+                employeeListDiv.nextElementSibling.innerHTML = '';
+                if(employeeList.length > 10) {
+                    employeeListDiv.style.height = '100%';
+                } else {
+                    employeeListDiv.style.height = '545px';
+                }
+                employeeListDiv.innerHTML = 
+                `
+                    <div>
+                        <div><input id="wholeCheck" type="checkbox" class="mine"></div>
+                        <div>부서 / 팀</div>
+                        <div>이름</div>
+                        <div>직급</div>
+                        <div>이메일</div>
+                        <div>전화번호</div>
+                    </div>
+                `;
+    
+                employeeList.forEach((i) => {
+                    const div = document.createElement('div');
+                    div.classList.add("employee");
+                    div.innerHTML = 
+                    `
+                        <div><input id="check" type="checkbox" class="mine"></div>
+                        <div class="info">
+                            <div><span>${i.deptNm} / ${i.teamNm}</span></div>
+                            <div><span>${i.empLastName}${i.empFirstName}</span></div>
+                            <div><span>${i.positionNm}</span></div>
+                            <div><span>${i.empEmail}</span></div>
+                            <div><span>${i.phone}</span></div>
+                            <input hidden value="${i.empCode}" id="empCode">
+                        </div>
+                    `;
+                    employeeListDiv.append(div);
+                })
+
+                document.querySelectorAll(".info").forEach((i) => {
+                    i.addEventListener("click", e => {
+                        const obj = {
+                            "empCode" : i.children[5].value,
+                            "backPageLocation" : location.pathname + location.search
+                        }
+                
+                        fetch("/employee/addr/employeeDetail", {
+                            method : "post",
+                            headers : {"Content-Type" : "application/json"},
+                            body : JSON.stringify(obj)
+                        })
+                        .then(resp => resp.text())
+                        .then(result => {
+                            if(result == "") {
+                                alert("사원 정보가 존재하지 않습니다.");
+                                return;
+                            }
+                            location.href = '/employee/addr/employeeDetailPage';
+                        });
+                    })
+                });
+                
+                if(document.querySelector("#backPage") != null) {
+                    document.querySelector("#backPage").addEventListener("click", function () {
+                        location.href = backPageLocation;
+                    });
+                };
+    
+                function anyCheckboxChecked() {
+                    for (let i = 0; i < document.querySelectorAll("#check").length; i++) {
+                        if (document.querySelectorAll("#check")[i].checked == true) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+    
+                if(document.querySelector("#wholeCheck") != null) {
+                    document.querySelector("#wholeCheck").addEventListener("change", e => {
+                        if(document.querySelectorAll("#check")[0] != null){
+                            if(document.querySelectorAll("#check")[0].getAttribute("class") == "mine") {
+                                if(document.querySelectorAll("#check").length == 0){
+                                    return;
+                                }
+                                if(document.querySelector("#wholeCheck").checked == true){
+                                    document.querySelectorAll("#check").forEach((i) => {
+                                        i.checked = true;
+                                    })
+                                    subBtnDiv.children[0].style.display = "block"
+                                    return;
+                                }
+                                if(document.querySelector("#wholeCheck").checked == false){
+                                    document.querySelectorAll("#check").forEach((i) => {
+                                        i.checked = false;
+                                    })
+                                    subBtnDiv.children[0].style.display = "none"
+                                    return;
+                                }
+                            }
+                    
+                            if(document.querySelectorAll("#check")[0].getAttribute("class") == "notMine") {
+                                if(document.querySelectorAll("#check").length == 0){
+                                    return;
+                                }
+                                if(document.querySelector("#wholeCheck").checked == true){
+                                    document.querySelectorAll("#check").forEach((i) => {
+                                        i.checked = true;
+                                    })
+                                    if(selectGroup.style.display == 'block') {
+                                        return;
+                                    }
+                                    subBtnDiv.children[1].style.display = "block"
+                                    return;
+                                }
+                                if(document.querySelector("#wholeCheck").checked == false){
+                                    document.querySelectorAll("#check").forEach((i) => {
+                                        i.checked = false;
+                                    })
+                                    subBtnDiv.children[1].style.display = "none"
+                                    selectGroup.style.display = 'none';
+                                    return;
+                                }
+                            }
+                        }
+                    });
+                }
+                
+                if(document.querySelectorAll("#check") != null) {
+                    document.querySelectorAll("#check").forEach((i) => {
+                        i.addEventListener("change", e => {
+                            if(i.getAttribute("class") == "mine") {
+                                if(anyCheckboxChecked()){
+                                    subBtnDiv.children[0].style.display = "none"
+                                    document.querySelector("#wholeCheck").checked = false;
+                                    return;
+                                }
+                                if(document.querySelector("#wholeCheck").checked == true){return;}
+                                if(i.checked == true){
+                                    subBtnDiv.children[0].style.display = "block"
+                                    return;
+                                }
+                                if(anyCheckboxChecked()){
+                                    subBtnDiv.children[0].style.display = "none"
+                                }
+                            }
+                
+                            if(i.getAttribute("class") == "notMine") {
+                                if(anyCheckboxChecked()){
+                                    subBtnDiv.children[1].style.display = "none"
+                                    selectGroup.style.display = 'none';
+                                    document.querySelector("#wholeCheck").checked = false;
+                                    return;
+                                }
+                                if(document.querySelector("#wholeCheck").checked == true){return;}
+                                if(i.checked == true){
+                                    if(selectGroup.style.display == 'block') {
+                                        return;
+                                    }
+                                    subBtnDiv.children[1].style.display = "block"
+                                    return;
+                                }
+                                if(anyCheckboxChecked()){
+                                    subBtnDiv.children[1].style.display = "none"
+                                }
+                            }
+                        })
+                    })
+                }
+            })
+        }
+
+    })
+}
+
+
+
+
 // 전체 체크박스
 const wholeCheck = document.querySelector("#wholeCheck");
 // 개별 체크박스
 const check = document.querySelectorAll("#check");
 // 개인 주소록 그룹 리스트 선택할 수 있는 select 태그 노출
-const selectGroup = document.querySelector(".selectGroup")
-const saveMyAddr = document.querySelector("#saveMyAddr")
-const cancelMyAddr = document.querySelector("#cancelMyAddr")
+const selectGroup = document.querySelector(".selectGroup");
+const saveMyAddr = document.querySelector("#saveMyAddr");
+const cancelMyAddr = document.querySelector("#cancelMyAddr");
 
 function anyCheckboxChecked() {
     for (let i = 0; i < check.length; i++) {
@@ -120,6 +311,9 @@ const addToMyAddr = document.querySelector("#addToMyAddr");
 // 추가 버튼 클릭시 어느 주소록 그룹에 추가할지 선택할 수 있는 select 태그 노출
 if(addToMyAddr != null) {
     addToMyAddr.addEventListener("click", e => {
+        if(location.pathname == '/employee/addr/employeeDetailPage') {
+            document.querySelector("#backPage").style.display = 'none';
+        }
         selectGroup.style.display = 'block';
         addToMyAddr.style.display = 'none';
     });
@@ -132,12 +326,16 @@ if(saveMyAddr != null) {
 
         const obj = [];
 
-        check.forEach((i) => {
-            if(i.checked == true) {
-                obj.push({ "empCode" : i.parentElement.nextElementSibling.children[5].value, "loginEmpCode" : loginEmpCode, "selectValue" : selectValue.value })
-            }
-        });
-
+        if(location.pathname == '/employee/addr/comList' || location.pathname == '/employee/addr/deptList' || location.pathname == '/employee/addr/teamList') {
+            check.forEach((i) => {
+                if(i.checked == true) {
+                    obj.push({ "empCode" : i.parentElement.nextElementSibling.children[5].value, "loginEmpCode" : loginEmpCode, "selectValue" : selectValue.value })
+                }
+            });
+        } else {
+            obj.push({ "empCode" : empDeatilCode, "loginEmpCode" : loginEmpCode, "selectValue" : selectValue.value })
+        }
+        
         console.log(obj);
 
         fetch("/employee/addr/addAddr", {
@@ -151,8 +349,14 @@ if(saveMyAddr != null) {
                 alert("추가 실패");
                 return;
             }
-            alert("추가되었습니다.");
-            location.href = '/employee/addr';
+            alert("[" + selectValue.innerText + "] 에 추가되었습니다.");
+            if(location.pathname != '/employee/addr/employeeDetailPage') {
+                location.href = '/employee/addr';
+            } else {
+                selectGroup.style.display = 'none';
+                document.querySelector("#backPage").style.display = 'block';
+                addToMyAddr.style.display = 'block';
+            }
         });
     });
 };
@@ -160,6 +364,12 @@ if(saveMyAddr != null) {
 // 취소
 if(cancelMyAddr != null) {
     cancelMyAddr.addEventListener("click", e => {
+        if(location.pathname == '/employee/addr/employeeDetailPage') {
+            document.querySelector("#backPage").style.display = 'block';
+            addToMyAddr.style.display = 'block';
+            selectGroup.style.display = 'none';
+            return;
+        }
         selectGroup.style.display = 'none';
         wholeCheck.checked = false;
         check.forEach((i) => {

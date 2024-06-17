@@ -201,7 +201,7 @@ public class AdminAddrServiceImpl implements AdminAddrService {
 		return 1;
 	}
 
-	// 초대 링크 인증키 업데이트
+	// 초대 링크 인증키 삭제
 	@Override
 	public int updateInviteAuthKey(int empCode) {
 		String authKey = createAuthKey();
@@ -210,15 +210,127 @@ public class AdminAddrServiceImpl implements AdminAddrService {
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("authKey", authKey);
 		data.put("email", email);
-		data.put("empCode", empCode);
 		
-		int result = mapper.updateInviteAuthKey(data);
+		return mapper.updateInviteAuthKey(data);
+	}
+	
+	// TB_AUTH_KEY의 인증키와 EMPLOYEE의 인증키 비교
+	@Override
+	public int checkInviteAuthKey(Employee2 loginEmp) {
+		String email = "cowork@invite.authKey." + loginEmp.getEmpCode();
 		
-		if(result == 0) {
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("email", email);
+		data.put("comNo", loginEmp.getComNo());
+		data.put("empCode", loginEmp.getEmpCode());
+		
+		String tbAuthKey = mapper.getTbAuthKey(data);
+		String empAuthKey = mapper.getEmpAuthKey(data);
+		
+		if(!tbAuthKey.equals(empAuthKey)) {
 			return 0;
 		}
 		
-		return mapper.updateEmployeeInviteAuthKey(data);
+		return 1;
+	}
+
+	// 업데이트 된 초대 링크 인증키를 EMPLOYEE 테이블의 INVITE_AUTHKEY 컬럼에 업데이트 
+	@Override
+	public Employee2 updateEmpInviteAuthKey(Employee2 loginEmp) {
+		String email = "cowork@invite.authKey." + loginEmp.getEmpCode();
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("email", email);
+		data.put("comNo", loginEmp.getComNo());
+		data.put("empCode", loginEmp.getEmpCode());
+		
+		String tbAuthKey = mapper.getTbAuthKey(data);
+		data.put("authKey", tbAuthKey);
+		
+		int result = mapper.updateEmpInviteAuthKey(data);
+		
+		if(result == 0) {
+			return null;
+		}
+		
+		return mapper.getUpdateEmp(data);
+	}
+	
+	// 사원 찾기(이름으로)
+	@Override
+	public List<Employee2> findEmp(String name, Employee2 loginEmp) {
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("name", name);
+		data.put("comNo", loginEmp.getComNo());
+		
+		return mapper.findEmp(data);
+	}
+	
+	// 사원 조직 이동
+	@Override
+	public int groupChange(List<Map<String, Object>> data) {
+		
+		for(int i = 0; i < data.size(); i++) {
+			int result = mapper.groupChange(data.get(i));
+			
+			if(result == 0) {
+				return 0;
+			}
+		}
+		
+		return 1;
+	}
+
+	// 회사별 직급 리스트 조회
+	@Override
+	public List<Map<String, Object>> getpositionList(Employee2 loginEmp) {
+		return mapper.getpositionList(loginEmp);
+	}
+
+	// 구성원 정보 수정
+	@Override
+	public int employeeUpdate(Map<String, Object> data) {
+		return mapper.employeeUpdate(data);
+	}
+
+	// 부서에 사원이 한 명이라도 존재하는지 확인
+	@Override
+	public int empInDeptIsEmpty(Map<String, Object> data) {
+		
+		// 사용자가 페이지 소스에서 임의로 부서 식별키를 변경해 그룹 삭제를 시도할 때
+		// 먼저 바뀐 부서 식별키 값이 해당 회사에 있는지 없는지 먼저 확인
+		// 없으면 잘못된 요청이라고 alert()
+		// 있으면 이제 그 부서에 구성원이 있는지 없는지 검사
+		int result = mapper.deptIsEmpty(data);
+		
+		if(result == 0) {
+			return -1;
+		}
+		
+		return mapper.empInDeptIsEmpty(data);
+	}
+
+	// 팀에 사원이 한 명이라도 존재하는지 확인
+	@Override
+	public int empInTeamIsEmpty(Map<String, Object> data) {
+		
+		int result = mapper.deptIsEmpty(data);
+		
+		if(result == 0) {
+			return -1;
+		}
+		
+		// 사용자가 페이지 소스에서 임의로 팀 식별키를 변경해 그룹 삭제를 시도할 때
+		// 먼저 바뀐 팀 식별키 값이 해당 회사에 있는지 없는지 먼저 확인
+		// 없으면 잘못된 요청이라고 alert()
+		// 있으면 이제 그 팀에 구성원이 있는지 없는지 검사
+		result = mapper.teamIsEmpty(data);
+		
+		if(result == 0) {
+			return -1;
+		}
+		
+		return mapper.empInTeamIsEmpty(data);
 	}
 	
 	

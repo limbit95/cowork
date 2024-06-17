@@ -106,19 +106,83 @@ public interface AdminAddrMapper {
 	 */
 	int deleteTeamGroup(Map<String, Object> map);
 
-	/** 초대 링크 인증키 업데이트
+	/** 초대 링크 인증키 삭제
 	 * @param data
 	 * @return
 	 */
 	int updateInviteAuthKey(Map<String, Object> data);
 
+	/** TB_AUTH_KEY의 인증키 가져오기
+	 * @param data
+	 * @return
+	 */
+	String getTbAuthKey(Map<String, Object> data);
+
+	/** EMPLOYEE의 인증키 가져오기
+	 * @param data
+	 * @return
+	 */
+	String getEmpAuthKey(Map<String, Object> data);
+
 	/** 업데이트 된 초대 링크 인증키를 EMPLOYEE 테이블의 INVITE_AUTHKEY 컬럼에 업데이트 
 	 * @param data
 	 * @return
 	 */
-	int updateEmployeeInviteAuthKey(Map<String, Object> data);
+	int updateEmpInviteAuthKey(Map<String, Object> data);
 
+	/** 인증키 업데이트 된 EMPLOYEE 정보 가져오기
+	 * @param data
+	 * @return
+	 */
+	Employee2 getUpdateEmp(Map<String, Object> data);
 
+	/** 사원 찾기(이름으로)
+	 * @param data
+	 * @return
+	 */
+	List<Employee2> findEmp(Map<String, Object> data);
+
+	/** 사원 조직 이동
+	 * @param map
+	 * @return
+	 */
+	int groupChange(Map<String, Object> map);
+	
+	/** 회사별 직급 리스트 조회
+	 * @param loginEmp
+	 * @return
+	 */
+	List<Map<String, Object>> getpositionList(Employee2 loginEmp);
+
+	/** 구성원 정보 수정
+	 * @param data
+	 * @return
+	 */
+	int employeeUpdate(Map<String, Object> data);
+
+	/** 회사에 해당 부서가 있는지 확인
+	 * @param data
+	 * @return
+	 */
+	int deptIsEmpty(Map<String, Object> data);
+
+	/** 해당 부서에 구성원이 있는지 확인
+	 * @param data
+	 * @return
+	 */
+	int empInDeptIsEmpty(Map<String, Object> data);
+
+	/** 부서에 해당 팀이 있는지 확인
+	 * @param data
+	 * @return
+	 */
+	int teamIsEmpty(Map<String, Object> data);
+
+	/** 해당 팀에 구성원이 있는지 확인
+	 * @param data
+	 * @return
+	 */
+	int empInTeamIsEmpty(Map<String, Object> data);
 
 
 }

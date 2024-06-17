@@ -18,8 +18,17 @@
         
         <div class="subBtnList">
             <button class="default-btn glucose-btn" id="backPage">이전으로 돌아가기</button>
-            <button class="default-btn glucose-btn" id="addMyAddr">주소록 추가</button>
-            <!-- <button class="default-btn glucose-btn" id="updateEmployeePage">수정</button> -->
+            <button class="default-btn glucose-btn" id="addToMyAddr">주소록 추가</button>
+
+            <div th:if="${groupList}" class="selectGroup">
+                <select name="" id="selectValue" class="default-line">
+                    <th:block th:each="group : ${groupList}">
+                        <option th:value="${group.addrBookNo}">[[${group.addrName}]]</option>
+                    </th:block>
+                </select>
+                <button class="default-btn glucose-btn" id="saveMyAddr">저장</button>
+                <button class="default-btn glucose-btn" id="cancelMyAddr">취소</button>
+            </div>
         </div>
 
         <main>
@@ -224,7 +233,9 @@
 
     <script src="/js/employee/addr/userAddr.js"></script>
     <script th:inline="javascript">
+        const loginEmpCode = /*[[${session.loginEmp.empCode}]]*/ "로그인 사원";
         const backPageLocation = /*[[${session.backPageLocation}]]*/ "뒤로 돌아갈 주소";
+        const empDeatilCode = /*[[${session.empDetail.empCode}]]*/ "상세 조회 사원 식별키";
     </script>
 </body>
 </html>

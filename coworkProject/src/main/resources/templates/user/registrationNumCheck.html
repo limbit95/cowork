@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사업자 등록 번호 인증</title>
+
+    <th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/user/registrationNumCheck.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id="registrationNumArea">
+        <input class="default-line" placeholder="사업자 등록 번호" id="registrationNum2" autocomplete="off" name="licenseNo" maxlength="10" spellcheck="false"> 
+        <button class="default-btn sapphire-btn" type="button" id="checkBtn">확인</button>
+    </div>
+    <table id="table">
+        <tr>
+            <th>사업자 등록 번호</th>
+            <td id="bNo"></td>
+        </tr>
+        <tr>
+            <th>사업자 상태</th>
+            <td id="bStt"></td>
+        </tr>
+        <tr>
+            <th>세금 유형</th>
+            <td id="taxType"></td>
+        </tr>
+    </table>
+
+    <div class="btnDiv">
+        <div>
+            <button class="default-btn sapphire-btn" type="button" id="regist" onclick="sendMessageToParent()">등록</button>
+            <button class="default-btn sapphire-btn" type="button" id="cancel">취소</button>
+        </div>
+    </div>
+
+    <script src="/js/user/companyInfo.js"></script>
+    <script>
+        // 부모 창으로 메시지를 보내는 함수입니다.
+        function sendMessageToParent() {
+            // 팝업 창에서 입력한 값을 가져옵니다.
+            var inputValue = document.getElementById('bNo').innerText;
+            
+            // window.opener를 사용하여 부모 창에 메시지를 전송합니다.
+            // 여기서 '*': 모든 출처에서 허용이므로, 보안을 위해 목표 허용 출처를 지정하는 것이 좋습니다.
+            window.opener.postMessage(inputValue, window.location.origin);
+            
+            // 팝업 창을 닫습니다.
+            window.close();
+        }
+    </script>
+</body>
+</html>

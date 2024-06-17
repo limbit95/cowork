@@ -1,0 +1,52 @@
+* {
+    border: 1px solid green;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    width: 255px;
+    height: 200px;
+    justify-content: start;
+    padding: 10px 10px 0px 10px;
+    margin: 0;
+}
+
+#registrationNumArea {
+    display: flex;
+    height: 30px;
+    justify-content: space-between;
+    width: 255px;
+}
+#registrationNumArea > input {
+    width: 160px;
+}
+table {
+    display: none;
+    margin-top: 10px;
+    border: 1px solid var(--main5-color);
+}
+table th {
+    text-align: left;
+    width: 100px;
+    height: 20px;
+    padding-left: 5px;
+    border: 1px solid var(--main5-color);
+}
+table td {
+    width: 128px;
+    padding: 5px;
+    line-height: 18px;
+    border: 1px solid var(--main5-color);
+}
+
+.btnDiv {
+    display: none;
+    justify-content: center;
+    margin-top: 10px;
+}
+.btnDiv > :nth-child(1) {
+    display: flex;
+    width: 150px;
+    justify-content: space-between;
+}

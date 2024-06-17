@@ -1,3 +1,19 @@
+window.addEventListener("load", e => {
+    fetch("/admin/addr/checkInviteAuthKey")
+    .then(resp => resp.text())
+    .then(result => {
+        if(result == 0) {
+            console.log("초대 링크 인증키 불일치");
+            document.querySelector(".modal-content2").style.display = 'flex';
+            document.querySelector(".inviteDiv").style.display = 'none';
+            return;
+        }
+        console.log("초대 링크 인증키 일치");
+        document.querySelector(".modal-content2").style.display = 'none';
+        document.querySelector(".inviteDiv").style.display = 'block';
+    })
+});
+
 const add = document.querySelector(".add");
 
 let flag5 = true;
@@ -192,6 +208,16 @@ const makeItAuthKey = document.querySelector("#makeItAuthKey");
 
 if(makeItAuthKey != null) {
     makeItAuthKey.addEventListener("click", e => {
-        location.reload()
+        fetch("/admin/addr/updateEmpInviteAuthKey")
+        .then(resp => resp.text())
+        .then(result => {
+            if(result == 0) {
+                alert("초대 링크 인증키 생성 실패");
+                return;
+            }
+            console.log("초대 링크 인증키 생성 성공");
+            location.reload();
+        })
     });
 };
+

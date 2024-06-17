@@ -16,10 +16,11 @@
 
         <div class="title"><span>주소록 관리</span></div>
 
+        <div class="errorDiv"></div>
+
         <div class="subBtnList">
             <button class="default-btn glucose-btn" id="backPage">이전으로 돌아가기</button>
-            <button class="default-btn glucose-btn" id="updateEmployeePage">수정</button>
-            <button class="default-btn glucose-btn" id="deleteEmployee">삭제</button>
+            <button class="default-btn glucose-btn" id="updateEmployeePage">구성원 수정</button>
         </div>
 
         <main>
@@ -98,7 +99,7 @@
                     <div>
                         <span th:text="|*{empLastName}*{empFirstName}|">임성혁</span>
                         <span th:text="|*{teamNm} / *{positionNm}|">운영팀 / 대리</span>
-                        <span th:text="*{empId}">202405240001@company</span>
+                        <span th:text="|*{empId}@*{domain}|"></span>
                     </div>
                 </div>
                 
@@ -109,6 +110,7 @@
                             <span>ID</span>
                             <span th:text="*{empId}">202405240001</span>
                         </div>
+                        <span id="empIdMessage"></span>
             
                         <div>
                             <span>성</span>
@@ -187,14 +189,6 @@
         </main>
 
     </section>
-
-    <!-- 드롭다운 -->
-    <div class="dropdown-menu" id="contextMenu">
-        <div id="addDeptgroup">부서 추가</div>
-        <div id="addTeamgroup">팀 추가</div>
-        <div id="groupNameChange">그룹명 변경</div>
-        <div id="deleteGroup">그룹 삭제</div>
-    </div>
 
     <script src="/js/admin/addr/adminAddr.js"></script>
     <script th:inline="javascript">

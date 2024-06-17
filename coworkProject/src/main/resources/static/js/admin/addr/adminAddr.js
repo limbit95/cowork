@@ -1,6 +1,147 @@
-document.querySelector('#fncMenu').classList.add('active');
-document.querySelector('#addrSub').style.fontWeight = 'bold'; // 주소록
+// 사원 찾기
+const findEmp = document.querySelector("#findEmp");
 
+if(findEmp != null) {
+    document.querySelector("#findEmp").focus();
+    findEmp.addEventListener("input", e => {
+        const inputName = e.target.value;
+
+        if(inputName.trim().length == 0) {
+            location.reload();
+            return;
+        }
+
+        fetch("/admin/addr/findEmp?name=" + inputName)
+        .then(resp => resp.json())
+        .then(employeeList => {
+            const employeeListDiv = document.querySelector(".employeeList");
+            employeeListDiv.nextElementSibling.innerHTML = '';
+            if(employeeList.length > 10) {
+                employeeListDiv.style.height = '100%';
+            } else {
+                employeeListDiv.style.height = '545px';
+            }
+            employeeListDiv.innerHTML = 
+            `
+                <div>
+                    <div><input id="wholeCheck" type="checkbox" class="mine"></div>
+                    <div>부서 / 팀</div>
+                    <div>이름</div>
+                    <div>직급</div>
+                    <div>이메일</div>
+                    <div>전화번호</div>
+                </div>
+            `;
+
+            employeeList.forEach((i) => {
+                const div = document.createElement('div');
+                div.classList.add("employee");
+                div.innerHTML = 
+                `
+                    <div><input id="check" type="checkbox" class="mine"></div>
+                    <div class="info">
+                        <div><span>${i.deptNm} / ${i.teamNm}</span></div>
+                        <div><span>${i.empLastName}${i.empFirstName}</span></div>
+                        <div><span>${i.positionNm = "null" ? "" : i.positionNm}</span></div>
+                        <div><span>${i.empEmail}</span></div>
+                        <div><span>${i.phone}</span></div>
+                        <input hidden value="${i.empCode}" id="empCode">
+                    </div>
+                `;
+                employeeListDiv.append(div);
+            })
+
+            document.querySelectorAll(".info").forEach((i) => {
+                i.addEventListener("click", e => {
+                    const obj = {
+                        "empCode" : i.children[5].value,
+                        "backPageLocation" : location.pathname + location.search
+                    }
+            
+                    fetch("/admin/addr/employeeDetail", {
+                        method : "post",
+                        headers : {"Content-Type" : "application/json"},
+                        body : JSON.stringify(obj)
+                    })
+                    .then(resp => resp.text())
+                    .then(result => {
+                        if(result == "") {
+                            alert("사원 정보가 존재하지 않습니다.");
+                            return;
+                        }
+                        location.href = '/admin/addr/employeeDetailPage';
+                    });
+                })
+            });
+            
+            if(document.querySelector("#backPage") != null) {
+                document.querySelector("#backPage").addEventListener("click", function () {
+                    location.href = backPageLocation;
+                });
+            }; 
+
+            function anyCheckboxChecked() {
+                for (let i = 0; i < document.querySelectorAll("#check").length; i++) {
+                    if (document.querySelectorAll("#check")[i].checked == true) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            if(document.querySelector("#wholeCheck") != null) {
+                document.querySelector("#wholeCheck").addEventListener("change", e => {
+                    if(document.querySelectorAll("#check")[0] != null){
+                        if(document.querySelector("#wholeCheck").checked == true){
+                            document.querySelectorAll("#check").forEach((i) => {
+                                i.checked = true;
+                            })
+                            document.querySelector(".subBtnDiv").children[0].style.display = "block"
+                            document.querySelector(".subBtnDiv").children[1].style.display = "block"
+                            return;
+                        }
+                        if(document.querySelector("#wholeCheck").checked == false){
+                            document.querySelectorAll("#check").forEach((i) => {
+                                i.checked = false;
+                            })
+                            document.querySelector(".subBtnDiv").children[0].style.display = "none"
+                            document.querySelector(".subBtnDiv").children[1].style.display = "none"
+                            return;
+                        }
+                    }
+                });
+            }
+
+            if(document.querySelectorAll("#check") != null) {
+                document.querySelectorAll("#check").forEach((i) => {
+                    i.addEventListener("change", e => {
+                        if(anyCheckboxChecked()){
+                            document.querySelector(".subBtnDiv").children[0].style.display = "none"
+                            document.querySelector(".subBtnDiv").children[1].style.display = "none"
+                            document.querySelector("#wholeCheck").checked = false;
+                            return;
+                        }
+                        if(document.querySelector("#wholeCheck").checked == true){return;}
+                        if(i.checked == true){
+                            document.querySelector(".subBtnDiv").children[0].style.display = "block"
+                            document.querySelector(".subBtnDiv").children[1].style.display = "block"
+                            return;
+                        }
+                        if(anyCheckboxChecked()){
+                            document.querySelector(".subBtnDiv").children[0].style.display = "none"
+                            document.querySelector(".subBtnDiv").children[1].style.display = "none"
+                        }
+                    })
+                })
+            }
+
+        })
+    })
+}
+
+// ---------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------
 // 전체 체크박스
 const wholeCheck = document.querySelector("#wholeCheck");
 // 개별 체크박스
@@ -18,6 +159,7 @@ function anyCheckboxChecked() {
 // 체크박스 클릭 시 나타나는 버튼들
 const subBtnDiv = document.querySelector(".subBtnDiv");
 
+// 전체 체크박스 체크 시
 if(wholeCheck != null) {
     wholeCheck.addEventListener("change", e => {
         if(check[0] != null){
@@ -25,8 +167,10 @@ if(wholeCheck != null) {
                 check.forEach((i) => {
                     i.checked = true;
                 })
-                subBtnDiv.children[0].style.display = "block"
-                subBtnDiv.children[1].style.display = "block"
+                if(groupChangeDiv.style.display != "block") {
+                    subBtnDiv.children[0].style.display = "block"
+                    subBtnDiv.children[1].style.display = "block"
+                }
                 return;
             }
             if(wholeCheck.checked == false){
@@ -35,35 +179,45 @@ if(wholeCheck != null) {
                 })
                 subBtnDiv.children[0].style.display = "none"
                 subBtnDiv.children[1].style.display = "none"
+                groupChangeDiv.style.display = "none"
                 return;
             }
         }
     });
 }
 
+// 개별 체크박스 체크 시
 if(check != null) {
     check.forEach((i) => {
         i.addEventListener("change", e => {
             if(anyCheckboxChecked()){
                 subBtnDiv.children[0].style.display = "none"
                 subBtnDiv.children[1].style.display = "none"
+                groupChangeDiv.style.display = "none"
                 wholeCheck.checked = false;
                 return;
             }
             if(wholeCheck.checked == true){return;}
             if(i.checked == true){
-                subBtnDiv.children[0].style.display = "block"
-                subBtnDiv.children[1].style.display = "block"
+                if(groupChangeDiv.style.display != "block") {
+                    subBtnDiv.children[0].style.display = "block"
+                    subBtnDiv.children[1].style.display = "block"
+                }
                 return;
             }
             if(anyCheckboxChecked()){
                 subBtnDiv.children[0].style.display = "none"
                 subBtnDiv.children[1].style.display = "none"
+                groupChangeDiv.style.display = "none"
             }
         })
     })
 }
 
+
+// ---------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------
 // 주소록 그룹 아코디언 및 마우스 오른쪽 클릭 시 드롭다운 형성
 const downArrow = document.querySelector(".fa-angle-down");
 let sequence = 1;
@@ -85,7 +239,7 @@ document.querySelectorAll('.li-hover').forEach(item => {
             location.href = '/admin/addr/deptList?deptNo=' + item.children[1].dataset.deptNo;
         }
         if(className.includes('comp')){
-            location.href = '/admin/addr/comList';
+            location.href = '/admin/addr';
         }
 
     });
@@ -343,15 +497,62 @@ document.querySelectorAll('.li-hover').forEach(item => {
             contextMenu.style.display = 'none'; // Hide the context menu
         };
 
-
         deleteGroup.onclick = () => {
             if(targetLi.getAttribute("class") == 'team' && targetLi.parentElement.childElementCount == 1){
                 alert("최소 한 개의 팀은 유지되어야 합니다.");
                 contextMenu.style.display = 'none';
                 return;
             }
+
+            const obj = { "comNo" : comNo }
+
             if (targetLi) {
-                targetLi.remove();
+                if(targetLi.getAttribute("class") == 'department' && targetLi.children[0].children[1].dataset.deptNo != undefined) {
+                    obj['deptNo'] = targetLi.children[0].children[1].dataset.deptNo;
+                    fetch("/admin/addr/empInDeptIsEmpty", {
+                        method : 'post',
+                        headers : {"Content-Type" : "application/json"},
+                        body : JSON.stringify(obj)
+                    })
+                    .then(resp => resp.text())
+                    .then(result => {
+                        if(result > 0) {
+                            alert('부서 내 구성원이 존재하면 그룹을 삭제할 수 없습니다. 조직 이동을 통해 구성원이 모두 옮긴 후 그룹 삭제를 진행해주세요.');
+                            return;
+                        }
+                        if(result == -1) {
+                            alert('잘못된 접근입니다.');
+                            return;
+                        }
+                        targetLi.remove();
+                        return;
+                    })
+                } else if(targetLi.getAttribute("class") == 'team' && targetLi.children[0].children[1].dataset.teamNo != undefined) {
+                    const arr = targetLi.children[0].children[1].dataset.teamNo.split("/");
+                    obj['deptNo'] = arr[0];
+                    obj['teamNo'] = arr[1];
+
+                    fetch("/admin/addr/empInTeamIsEmpty", {
+                        method : 'post',
+                        headers : {"Content-Type" : "application/json"},
+                        body : JSON.stringify(obj)
+                    })
+                    .then(resp => resp.text())
+                    .then(result => {
+                        if(result > 0) {
+                            alert('팀 내 구성원이 존재하면 그룹을 삭제할 수 없습니다. 조직 이동을 통해 구성원이 모두 옮긴 후 그룹 삭제를 진행해주세요.');
+                            return;
+                        }
+                        if(result == -1) {
+                            alert('잘못된 접근입니다.');
+                            return;
+                        }
+                        targetLi.remove();
+                        return;
+                    })
+                } else {
+                    targetLi.remove();
+                }
             }
             contextMenu.style.display = 'none';
         };
@@ -364,21 +565,16 @@ document.querySelectorAll('.li-hover').forEach(item => {
         });
     });
 });
-window.addEventListener("click", function hideContextMenu(event) {
-    if (!contextMenu.contains(event.target)) {
-        contextMenu.style.display = 'none';
-        document.removeEventListener('click', hideContextMenu);
-    }
-});
 
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
-// 구성원 row 클릭 시
+// 구성원 행
 const info = document.querySelectorAll(".info");
 // 이전으로 돌아가기 버튼
 const backPage = document.querySelector("#backPage");
 
+// 구성원 행 클릭 시
 info.forEach((i) => {
     i.addEventListener("click", e => {
         const obj = {
@@ -408,27 +604,20 @@ if(backPage != null) {
     });
 };
 
+
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
 // 구성원 수정 페이지 이동 버튼
 const updateEmployeePage = document.querySelector("#updateEmployeePage");
-// 구성원 수정 페이지에서 취소 버튼
-const cancel = document.querySelector("#cancel");
-// 구성원 삭제 버튼
+// 체크박스 체크 시에만 보이는 삭제 버튼
 const deleteEmployee = document.querySelector("#deleteEmployee");
 
 if(updateEmployeePage != null) {
     updateEmployeePage.addEventListener("click", function () {
         location.href = "/admin/addr/employeeUpdate";
     });
-}
-
-if(cancel != null) {
-    cancel.addEventListener("click", function () {
-        location.href = "/admin/addr/employeeDetailPage";
-    });
-}
+};
 
 if(deleteEmployee != null) {
     deleteEmployee.addEventListener("click", function () {
@@ -436,8 +625,86 @@ if(deleteEmployee != null) {
             return;
         }
     });
-}
+};
 
+// ---------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------
+// 체크박스 체크 시에만 보이는 조직 이동 버튼
+const groupChangeBtn = document.querySelector("#groupChangeBtn");
+const groupChangeDiv = document.querySelector("#groupChangeDiv");
+
+if(groupChangeBtn != null) {
+    groupChangeBtn.addEventListener("click", e => {
+        groupChangeBtn.style.display = 'none';
+        deleteEmployee.style.display = 'none';
+        groupChangeDiv.style.display = 'block';
+    });
+};
+
+// 조직 이동 취소 버튼 클릭 시
+const movecancel = document.querySelector("#movecancel");
+
+if(movecancel != null) {
+    movecancel.addEventListener("click", e => {
+        check.forEach((i) => {
+           i.checked = false; 
+        });
+        wholeCheck.checked = false;
+        groupChangeDiv.style.display = 'none';
+    });
+};
+
+// 조직 이동 버튼 클릭 시 보이는 이동 버튼으로
+// 부서와 팀을 지정한 뒤 이동 버튼 누르면 체크 박스 선택된 구성원 해당 그 부서의 팀으로 이동한다
+const moveEmployee = document.querySelector("#moveEmployee");
+
+if(moveEmployee != null) {
+    moveEmployee.addEventListener("click", e => {
+        if(document.querySelector("#updateDept").value.length == 0) {
+            alert("부서를 선택해주세요.");
+            return;
+        }
+        if(document.querySelector("#updateTeam").value.length == 0) {
+            alert("팀을 선택해주세요.");
+            return;
+        }
+
+        if(confirm("조직 이동 하시겠습니까?")) {
+            const obj = [];
+
+            check.forEach((i) => {
+                if(i.checked == true) {
+                    obj.push(
+                        { 
+                            "empCode" : i.parentElement.nextElementSibling.children[5].value, 
+                            "comNo"  : comNo,
+                            "deptNo" : document.querySelector("#updateDept").value,
+                            "teamNo" : document.querySelector("#updateTeam").value
+                        }
+                    );
+                }
+            })
+    
+            console.log(obj);
+            
+            fetch("/admin/addr/groupChange", {
+                method : "post",
+                headers : {"Content-Type" : "application/json"},
+                body : JSON.stringify(obj)
+            })
+            .then(resp => resp.text())
+            .then(result => {
+                if(result = 0) {
+                    alert("조직 이동 실패");
+                    return;
+                }
+                alert("조직 이동 되었습니다.");
+                location.reload();
+            })
+        }
+    });
+};
 
 // ---------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
@@ -511,7 +778,7 @@ if(saveGroup != null) {
         obj[0].forEach((i, index) => {
             obj[0].forEach((x, index) => {
                 if(i.deptNo != x.deptNo) {
-                    if(i.deptNm.includes(x.deptNm)) {
+                    if(i.deptNm == x.deptNm) {
                         flag3 = false;
                         return;
                     }
@@ -569,10 +836,16 @@ if(saveGroup != null) {
 // ---------------------------------------------------------------------------------------------------------------
 // 사원 상세 조회 페이지에서 정보 수정
 
+// 부서 select 태그
 const updateDept = document.querySelector("#updateDept");
+// 팀 select 태그
+const updateTeam = document.querySelector("#updateTeam");
 
 if(updateDept != null) {
     updateDept.addEventListener("click", e => {
+        if(e.target.value.length == 0) {
+            return;
+        }
         const obj = {
             "deptNo" : updateDept.value,
             "comNo" : comNo
@@ -590,8 +863,10 @@ if(updateDept != null) {
                 return;
             }
 
-            const updateTeam = document.querySelector("#updateTeam");
-            updateTeam.innerHTML = '';
+            updateTeam.innerHTML = 
+            `
+                <option value="">팀 선택</option>
+            `;
             teamList.forEach((i) => {
                 if(updateTeam.value == i.teamNm) {
                     return;

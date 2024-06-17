@@ -554,7 +554,7 @@ phone.addEventListener("input", e => {
     }
 
     // 2) 입력값 정규식 검사
-    const regExp = /^01[0-9]{1}[0-9]{3,4}[0-9]{4}$/;
+    const regExp = /^01[0-9]{1}[0-9]{4}[0-9]{4}$/;
 
     // 2-1) 유효하지 않을 경우
     if(!regExp.test(inputTel)){
@@ -608,6 +608,7 @@ signUpForm.addEventListener("submit", e => {
             
             return;
         }
+        
     };
     
 });

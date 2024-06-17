@@ -8,13 +8,14 @@ section.container {
 section.container div {
     margin: 0;
 }
-section.container > :nth-child(2) {
+section.container > :nth-child(3) {
     width: 1000px;
     display: flex;
     justify-content: end;
     margin-bottom: 10px;
+    margin-top: 10px;
 }
-section.container > :nth-child(2) > button {
+section.container > :nth-child(3) > button {
     margin-left: 10px;
 }
 
@@ -186,7 +187,7 @@ main {
     height: 30px;
     margin-bottom: 15px;
 }
-.right > :nth-child(2) button {
+.right > :nth-child(2) > button {
     display: none;
 }
 .right > :nth-child(2) > :nth-child(1) {
@@ -215,34 +216,38 @@ main {
 }
 .right > .employeeList > :first-child > div {
     display: flex;
-    margin-left: 5px;
 }
-.employeeList > :first-child > :nth-child(1) {  
+section.container .employeeList > :first-child > :nth-child(1) {  
     justify-content: center;
-    flex-basis: 6%;
+    flex-basis: 5%;
 }
 .employeeList > :first-child > :nth-child(1) > input {
     justify-content: start;
 }
 .employeeList > :first-child > :nth-child(2) {
     justify-content: start;
-    flex-basis: 15%;
+    flex-basis: 18.7%;
+    margin-left: 6px;
 }
 .employeeList > :first-child > :nth-child(3) {
     justify-content: start;
-    flex-basis: 13%;
+    flex-basis: 10.2%;
+    margin-left: 10px;
 }
 .employeeList > :first-child > :nth-child(4) {
     justify-content: start;
-    flex-basis: 10%;
+    flex-basis: 7%;
+    margin-left: 10px;
 }
 .employeeList > :first-child > :nth-child(5) {
     justify-content: start;
-    flex-basis: 30%;
+    flex-basis: 23%;
+    margin-left: 10px;
 }
 .employeeList > :first-child > :nth-child(6) {
     justify-content: start;
-    flex-basis: 20%;
+    flex-basis: 15%;
+    margin-left: 10px;
 }
 
 /* 구성원 정보 */
@@ -259,8 +264,7 @@ main {
 .employeeList > .employee > :nth-child(1) {
     display: flex;
     justify-content: center;
-    flex-basis: 6%;
-    margin-left: 5px;
+    flex-basis: 5.1%;
 }
 .employeeList > .employee > :nth-child(1) > input {
     justify-content: start;
@@ -277,42 +281,43 @@ main {
 .right > .employeeList > .employee > :nth-child(2) > div {
     display: block;
     align-items: center;
-    margin-left: 5px;
+    margin-left: 10px;
 }
 .right > .employeeList > .employee > :nth-child(2) > div > span {
     /* cursor: auto; */
 }
-.employeeList > .employee > :nth-child(2) > :nth-child(1) {
+section.container .employeeList > .employee > :nth-child(2) > :nth-child(1) {
     justify-content: start;
-    flex-basis: 16%;
+    flex-basis: 20%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-left: 5px;
 }
 .employeeList > .employee > :nth-child(2) > :nth-child(2) {
     justify-content: start;
-    flex-basis: 14%;
+    flex-basis: 11%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .employeeList > .employee > :nth-child(2) > :nth-child(3) {
     justify-content: start;
-    flex-basis: 10.7%;
+    flex-basis: 7.6%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .employeeList > .employee > :nth-child(2) > :nth-child(4) {
     justify-content: start;
-    flex-basis: 32.4%;
+    flex-basis: 24.5%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .employeeList > .employee > :nth-child(2) > :nth-child(5) {
     justify-content: start;
-    flex-basis: 21.5%;
+    flex-basis: 16%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -322,6 +327,10 @@ main {
 .right > :nth-child(4) > ul {
     margin-top: 20px;
     margin-bottom: 10px;
+}
+
+* {
+    /* border: 1px solid green; */
 }
 
 
@@ -386,6 +395,7 @@ section.container .detailBody {
 }
 .detailBody span {
     font-size: 14px;
+    margin-left: 9px;
 }
 .detailBody > :nth-child(1) {
     flex-basis: 50%;
@@ -397,11 +407,27 @@ section.container .detailBody {
     display: flex;
     align-items: center;
     height: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 28.7px;
+}
+.detailBody > div > div input {
+    width: 175px;
 }
 .detailBody > div > div > :nth-child(1) {
     flex-basis: 30%;
     font-weight: bold;
+}
+
+.detailBody > :nth-child(1) > :nth-child(1) {
+    margin-bottom: 6.2px;
+}
+.detailBody > :nth-child(1) > :nth-child(3) {
+    margin-top: 7.5px;
+}
+#empIdMessage {
+    height: 100%;
+    margin-left: 106px;
+    margin-bottom: 10px;
+    font-size: 11px;
 }
 
 * {
@@ -419,7 +445,7 @@ section.container .detailBody {
 section.container .detailBody select {
     padding: 4px;
     font-size: 14px;
-    width: 173px;
+    width: 193px;
     height: 33px;
 }
 section.container .detailBody option {
@@ -428,6 +454,12 @@ section.container .detailBody option {
 }
 
 
+.confirm {
+    color: green;
+}
+.error {
+    color: red;
+}
 
 
 
@@ -436,9 +468,7 @@ section.container .detailBody option {
 
 
 
-
-
-
+/* 구성원 추가 버튼 클릭 시 모달창 (관리자가 등록, 구성원이 등록 선택 옵션) */
 .modal {
     display: none;
     position: absolute;
@@ -455,11 +485,6 @@ section.container .detailBody option {
     width: 100%;
     height: 100%;
     padding: 10px;
-}
-.modal-content > :nth-child(1) > i {
-    color: var(--main5-color);
-    font-size: 10px;
-    margin-right: 5px;
 }
 .modal-content > :nth-child(2) {
     margin-top: 10px;
@@ -504,4 +529,74 @@ section.container .addEmployeeBtnDiv {
 }
 #addEmployeecancel {
     margin-left: 5px;
+}
+
+
+
+
+#groupChangeDiv {
+    display: none;
+}
+
+
+
+
+
+#error-message {
+    width: 250px;
+    height: 45px;
+    border: 1px solid var(--main5-color);
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px;
+    padding: 0 10px 0 15px;
+    position: fixed;
+    top: 20px; 
+    right: 20px;
+    background-color: var(--main4-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+}
+#error-message > :nth-child(1) {
+    font-size: 14px;
+}
+.fade-out {
+    animation: fadeout 3s;
+    -moz-animation: fadeout 3s; /* Firefox */
+    -webkit-animation: fadeout 3s; /* Safari and Chrome */
+    -o-animation: fadeout 3s; /* Opera */
+    animation-fill-mode: forwards;
+}
+@keyframes fadeout {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+@-moz-keyframes fadeout { /* Firefox */
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+@-webkit-keyframes fadeout { /* Safari and Chrome */
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+@-o-keyframes fadeout { /* Opera */
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }

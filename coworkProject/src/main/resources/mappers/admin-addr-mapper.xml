@@ -57,7 +57,7 @@
 		LEFT JOIN POSITION USING(POSITION_NO)
 		WHERE E.EMP_DEL_FL = 'N'
 		AND E.COM_NO =  #{comNo}
-		ORDER BY "LEVEL", D.DEPT_NO ASC
+		ORDER BY "LEVEL", D.DEPT_NO, TEAM_NO ASC
 	</select>
 	
 	<!-- 회사별 사원 수 조회 -->
@@ -86,13 +86,13 @@
 		COM_NM, DEPT_NM, TEAM_NM, POSITION_NM, "LEVEL"
 		FROM EMPLOYEE E
 		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
-		JOIN TEAM T USING(TEAM_NO)
-		JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
-		JOIN POSITION USING(POSITION_NO)
+		LEFT JOIN TEAM T USING(TEAM_NO)
+		LEFT JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		LEFT JOIN POSITION USING(POSITION_NO)
 		WHERE E.EMP_DEL_FL = 'N'
 		AND E.COM_NO =  #{comNo}
 		AND D.DEPT_NO = #{deptNo}
-		ORDER BY "LEVEL", TEAM_NO ASC
+		ORDER BY "LEVEL", TEAM_NO, EMP_CODE ASC
 	</select>
 	
 	<!-- 팀별 사원 수 조회 -->
@@ -111,12 +111,12 @@
 		DEPT_NM, TEAM_NM, POSITION_NM, "LEVEL"
 		FROM TEAM T
 		JOIN EMPLOYEE E ON(E.TEAM_NO = T.TEAM_NO)
-		JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
-		JOIN POSITION USING(POSITION_NO)
+		LEFT JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		LEFT JOIN POSITION USING(POSITION_NO)
 		WHERE T.TEAM_NO = #{teamNo}
 		AND D.DEPT_NO = #{deptNo}
 		AND E.COM_NO = #{comNo}
-		ORDER BY "LEVEL" ASC
+		ORDER BY "LEVEL", EMP_CODE ASC
 	</select>
 	
 	<!-- 선택한 부서의 하위 팀 리스트만 조회 -->
@@ -190,18 +190,138 @@
 		AND TEAM_NO NOT IN(${groupIdx}) 
 	</delete>
 	
-	<!-- 초대 링크 인증키 업데이트 -->
+	<!-- 초대 링크 인증키 삭제 -->
 	<update id="updateInviteAuthKey">
 		UPDATE TB_AUTH_KEY SET 
 		AUTH_KEY = #{authKey}
 		WHERE EMAIL = #{email}
 	</update>
 	
+	<!-- TB_AUTH_KEY의 인증키 가져오기 -->
+	<select id="getTbAuthKey">
+		SELECT AUTH_KEY
+		FROM TB_AUTH_KEY
+		WHERE EMAIL = #{email}
+	</select>
+	
+	<!-- EMPLOYEE의 인증키 가져오기 -->
+	<select id="getEmpAuthKey">
+		SELECT INVITE_AUTH_KEY
+		FROM EMPLOYEE
+		WHERE COM_NO = #{comNo}
+		AND EMP_CODE = #{empCode}
+	</select>
+		
 	<!-- 업데이트 된 초대 링크 인증키를 EMPLOYEE 테이블의 INVITE_AUTHKEY 컬럼에 업데이트  -->
-	<update id="updateEmployeeInviteAuthKey">
+	<update id="updateEmpInviteAuthKey">
 		UPDATE EMPLOYEE SET
-		INVITE_AUTHKEY = #{authKey}
+		INVITE_AUTH_KEY = #{authKey}
 		WHERE EMP_CODE = #{empCode}
 	</update>
+	
+	<!-- 인증키 업데이트 된 EMPLOYEE 정보 가져오기 -->
+	<select id="getUpdateEmp">
+		SELECT EMP_CODE, EMP_NO, EMP_ID, EMP_PW, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_ADDRESS, 
+		TO_CHAR(EMP_BIRTH, 'YYYY-MM-DD') EMP_BIRTH, TO_CHAR(HIRE_DATE, 'YYYY-MM-DD') HIRE_DATEE, 
+		CONTRACT_TYPE, EMP_TEL, WORK_PLACE, EMP_EMAIL, PROFILE_IMG, GENERAL_MANAGER, INVITE_AUTH_KEY, 
+		C.COM_NO, C.COM_NM, C.COM_LOGO, C.DOMAIN, DEPT_NM, TEAM_NM, POSITION_NM
+		FROM EMPLOYEE E
+		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
+		LEFT JOIN TEAM T ON(T.TEAM_NO = E.TEAM_NO)
+		LEFT JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		LEFT JOIN POSITION USING(POSITION_NO)
+		WHERE EMP_DEL_FL = 'N'
+		AND EMP_CODE = #{empCode}
+	</select>
+	
+	<!-- 사원 찾기(이름으로) -->
+	<select id="findEmp">
+		SELECT EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_EMAIL, 
+		COM_NM, DEPT_NM, TEAM_NM, POSITION_NM, "LEVEL"
+		FROM EMPLOYEE E
+		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
+		LEFT JOIN TEAM T USING(TEAM_NO)
+		LEFT JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		LEFT JOIN POSITION USING(POSITION_NO)
+		WHERE E.EMP_DEL_FL = 'N'
+		AND E.COM_NO =  #{comNo}
+		AND E.EMP_LAST_NAME || E.EMP_FIRST_NAME LIKE '%${name}%'
+		ORDER BY "LEVEL", D.DEPT_NO, TEAM_NO ASC
+	</select>
+	
+	<!-- 사원 조직 이동 -->
+	<update id="groupChange">
+		UPDATE EMPLOYEE SET
+		TEAM_NO = #{teamNo}
+		WHERE EMP_CODE = #{empCode}
+		AND COM_NO = #{comNo}
+	</update>
+	
+	<!-- 회사별 직급 리스트 조회 -->
+	<select id="getpositionList">
+		SELECT POSITION_NO "positionNo", POSITION_NM "positionNm", "LEVEL" "level", COM_NO "comNo"
+		FROM "POSITION"
+		WHERE COM_NO = #{comNo}
+		ORDER BY "LEVEL"
+	</select>
+	
+	<!-- 구성원 정보 수정 -->
+	<update id="employeeUpdate">
+		UPDATE EMPLOYEE SET
+		EMP_ID = #{empId},
+		EMP_LAST_NAME = #{empLastName},
+		EMP_FIRST_NAME = #{empFirstName},
+		PHONE = #{phone}, 
+		EMP_EMAIL = #{empEmail}, 
+		EMP_BIRTH = #{empBirth}, 
+		HIRE_DATE = #{hireDate},
+		EMP_NO = #{empNo},
+		TEAM_NO = #{teamNo},
+		POSITION_NO = #{positionNo},
+		WORK_PLACE = #{workPlace},
+		CONTRACT_TYPE = #{contractType},
+		EMP_TEL = #{empTel}
+		WHERE EMP_CODE = #{empCode}
+		AND COM_NO = #{comNo}
+	</update>
+
+	<!-- 회사에 부서가 있는지 확인 -->
+	<select id="deptIsEmpty">
+		SELECT COUNT(*)
+		FROM DEPARTMENT
+		WHERE COM_NO = #{comNo}
+		AND DEPT_NO = #{deptNo}
+	</select>
+	
+	<!-- 해당 부서에 구성원이 있는지 확인 -->
+	<select id="empInDeptIsEmpty">
+		SELECT COUNT(*) 
+		FROM EMPLOYEE E
+		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
+		JOIN TEAM T USING(TEAM_NO)
+		JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		WHERE E.EMP_DEL_FL = 'N'
+		AND E.COM_NO = #{comNo}
+		AND D.DEPT_NO = #{deptNo}
+	</select>
+		
+	<!-- 부서에 팀이 있는지 확인 -->
+	<select id="teamIsEmpty">
+		SELECT COUNT(*)
+		FROM TEAM
+		WHERE DEPT_NO = #{deptNo}
+		AND TEAM_NO = #{teamNo}
+	</select>
+	
+	<!-- 해당 팀에 구성원이 있는지 확인 -->
+	<select id="empInTeamIsEmpty">
+		SELECT COUNT(*)
+		FROM TEAM T
+		JOIN EMPLOYEE E ON(E.TEAM_NO = T.TEAM_NO)
+		LEFT JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		WHERE T.TEAM_NO = #{teamNo}
+		AND D.DEPT_NO = #{deptNo}
+		AND E.COM_NO = #{comNo}
+	</select>
 		
 </mapper>
