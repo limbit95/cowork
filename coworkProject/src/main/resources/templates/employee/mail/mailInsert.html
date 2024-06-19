@@ -14,19 +14,16 @@
 
     <form class="container" id="sendMailForm" enctype="multipart/form-data" action="/mail/mailInsert" method="post">
 
-            <div class="mailTitle">
+            <div class="mailHeader">
                 <div class="mailLabel">
                     <label>메일쓰기</label>
                 </div>
-            </div>
-
-            <div class="mailHeader">
                 <div class="checkDiv">
                     <button class="default-btn sapphire-border-btn" id="sendBtn" type="button">보내기</button>
                     <label class="delBtn" id="saveBtn">임시저장</label>
                 </div>
-            </div>
-
+    
+             </div>
             <div class="board">
                 <div class="table-body2">
                     <!-- 받는사람 -->
@@ -76,9 +73,9 @@
                     </div> -->
 
                     <!-- 제목 -->
-                    <div class="ins-css insertForm">
+                    <div class="ins-css insertForm" id="mailTitleArea">
                         <div><label>제목</label></div>
-                        <input class="default-line listBtn" id="mailTitle">
+                        <input class="default-line listBtn" id="mailTitle" placeholder="제목">
                     </div>
 
 
