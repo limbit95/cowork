@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cowork.admin.companyInfo.model.dto.Company;
@@ -213,7 +214,8 @@ public class UserServiceImpl implements UserService {
 		data.put("inviterEmail", inviterEmail);
 		data.put("empCode", empCode);
 		
-		int createInviteAuthKey = mapper.createInviteAuthkey(data);
+		int createInviteAuthKey = storeAuthKey(data);
+//		int createInviteAuthKey = mapper.createInviteAuthkey(data);
 		
 		if(createInviteAuthKey == 0) {
 			return 0;
@@ -228,6 +230,20 @@ public class UserServiceImpl implements UserService {
 		
 		return 1;
 	}
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public int storeAuthKey(Map<String, Object> data) {
+		
+		int createInviteAuthKey = mapper.createInviteAuthkey(data);
+		
+		if(createInviteAuthKey == 0) {
+			return 0;
+		}
+		
+		return 1;
+	}
+	
+	
 
 	// 초대 받은 링크의 인증번호가 유효한지 확인
 	@Override
@@ -246,7 +262,6 @@ public class UserServiceImpl implements UserService {
 		
 		return mapper.inviteSignUp(data);
 	}
-	
 	
 	
 	

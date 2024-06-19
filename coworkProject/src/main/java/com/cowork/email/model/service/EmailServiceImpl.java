@@ -90,22 +90,47 @@ public class EmailServiceImpl implements EmailService{
 		map.put("authKey", authKey);
 		map.put("email", email);
 		
+		
+		
 		// 트랜잭션을 분리하여 데이터베이스 작업 수행
 		boolean isStored = storeAuthKey(map);
 		return isStored ? authKey : null; // 오류없이 완료되면 authKey 반환
+		
+		
+//		int result = storeAuthKey(map);
+//		
+//		if(result == 0) {
+//			result = mapper.insertAuthKey(map);
+//		}
+//		
+//		if(result == 0) {
+//			return null;
+//		}
+//		
+//		return authKey; // 오류없이 완료되면 authKey 반환
 	}
-	
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public boolean storeAuthKey(Map<String, String> map) {
-		// 1) 해당 이메일이 DB에 존재하는 경우 수정(update)
-		int result = mapper.updateAuthKey(map);
-		// 2) 업데이트 실패 시 삽입 시도
-		if(result == 0) {
-		result = mapper.insertAuthKey(map);
-		}
-		return result > 0;
+	// 1) 해당 이메일이 DB에 존재하는 경우 수정(update)
+	int result = mapper.updateAuthKey(map);
+	// 2) 업데이트 실패 시 삽입 시도
+	if(result == 0) {
+	result = mapper.insertAuthKey(map);
 	}
+	return result > 0;
+	}
+	
+//	@Transactional(propagation = Propagation.REQUIRES_NEW)
+//	public int storeAuthKey(Map<String, String> map) {
+//		// 1) 해당 이메일이 DB에 존재하는 경우 수정(update)
+//		int result = mapper.updateAuthKey(map);
+//		// 2) 업데이트 실패 시 삽입 시도
+//		if(result == 0) {
+//			return 0;
+//		}
+//		return 1;
+//	}
 	
 	
 	// 아이디 찾기 서비스
@@ -138,45 +163,40 @@ public class EmailServiceImpl implements EmailService{
 	}
 	
 	// 비밀번호 재설정 이메일 보내기
-	@Override
-	@Transactional
-	public int sendEmail(String htmlName, Map<String, Object> map) {
-		String authKey = createAuthKey();
-		String empInfo = (String)map.get("empId") + "," + (String)map.get("empEmail")  + "," + authKey;
-		
-		try {
-			// 메일 제목
-			String subject = null;
-			
-			switch(htmlName) {
-				case "findPwByEmail" : 
-					subject = "[CoWork] 비밀번호 재설정 인증 메일입니다."; break;
-			}
-			
-			MimeMessage mimeMessgae = mailSender.createMimeMessage(); 
-			
-			MimeMessageHelper helper = new MimeMessageHelper(mimeMessgae, true, "UTF-8");
-			
-			helper.setTo((String)map.get("empEmail"));
-			helper.setSubject(subject);
-			
-			helper.setText( loadHtml(empInfo, htmlName), true );
-			helper.addInline("logo", new ClassPathResource("static/images/coworkLogo.png"));
-			
-			mailSender.send(mimeMessgae);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
-		
-		Map<String, String> map2 = new HashMap<String, String>();
-		map2.put("authKey", authKey);
-		map2.put("email", (String)map.get("empEmail"));
-		
-		// 트랜잭션을 분리하여 데이터베이스 작업 수행
-		boolean isStored = storeAuthKey2(map2);
-		return isStored ? 1 : 0; // 오류없이 완료되면 authKey 반환
-		
+//	@Override
+//	public int sendEmail(String htmlName, Map<String, Object> map) {
+//		String authKey = createAuthKey();
+//		String empInfo = (String)map.get("empId") + "," + (String)map.get("empEmail")  + "," + authKey;
+//		
+//		try {
+//			// 메일 제목
+//			String subject = null;
+//			
+//			switch(htmlName) {
+//				case "findPwByEmail" : 
+//					subject = "[CoWork] 비밀번호 재설정 인증 메일입니다."; break;
+//			}
+//			
+//			MimeMessage mimeMessgae = mailSender.createMimeMessage(); 
+//			
+//			MimeMessageHelper helper = new MimeMessageHelper(mimeMessgae, true, "UTF-8");
+//			
+//			helper.setTo((String)map.get("empEmail"));
+//			helper.setSubject(subject);
+//			
+//			helper.setText( loadHtml(empInfo, htmlName), true );
+//			helper.addInline("logo", new ClassPathResource("static/images/coworkLogo.png"));
+//			
+//			mailSender.send(mimeMessgae);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return 0;
+//		}
+//		
+//		Map<String, String> map2 = new HashMap<String, String>();
+//		map2.put("authKey", authKey);
+//		map2.put("email", (String)map.get("empEmail"));
+//		
 //		int result = mapper.updateAuthKey(map2);
 //		
 //		if(result == 0) {
@@ -191,26 +211,26 @@ public class EmailServiceImpl implements EmailService{
 //		}
 //		
 //		return 1;
-	}
+//	}
 	
 	
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	public boolean storeAuthKey2(Map<String, String> map2) {
-		int result = mapper.updateAuthKey(map2);
-		
-		if(result == 0) {
-			if(map2.get("authKey") == null || map2.get("email") == null) {
-				return false;
-			}
-			result = mapper.insertAuthKey(map2);
-		}
-		
-		if(result == 0) {
-			return false;
-		}
-		
-		return true;
-	}
+//	@Transactional(propagation = Propagation.REQUIRES_NEW)
+//	public boolean storeAuthKey2(Map<String, String> map2) {
+//		int result = mapper.updateAuthKey(map2);
+//		
+//		if(result == 0) {
+//			if(map2.get("authKey") == null || map2.get("email") == null) {
+//				return false;
+//			}
+//			result = mapper.insertAuthKey(map2);
+//		}
+//		
+//		if(result == 0) {
+//			return false;
+//		}
+//		
+//		return true;
+//	}
 	
 	
 	

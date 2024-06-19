@@ -44,7 +44,7 @@ public interface EmailService {
 	 * @param map
 	 * @return
 	 */
-	int sendEmail(String string, Map<String, Object> map);
+//	int sendEmail(String string, Map<String, Object> map);
 
 	/** 구성원 초대 이메일 발송
 	 * @param emailList
