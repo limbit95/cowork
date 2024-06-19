@@ -37,9 +37,6 @@ public class ReadExcel {
 			Workbook workbook = WorkbookFactory.create(file);
 			Sheet sheet = workbook.getSheetAt(0);
 			
-			System.out.println("행 개수 : " + sheet.getPhysicalNumberOfRows());
-			System.out.println("해당 셀 개수 : " + sheet.getRow(1).getPhysicalNumberOfCells());
-			System.out.println("해당 셀 개수 : " + sheet.getRow(6).getPhysicalNumberOfCells());
 			
 			int flag = 0;
 			
