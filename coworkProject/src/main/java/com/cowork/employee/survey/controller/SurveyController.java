@@ -44,20 +44,6 @@ public class SurveyController {
 	@GetMapping("loginBy61")
 	@ResponseBody
 	public String loginBy61(HttpServletRequest request) {
-//		HttpSession session = request.getSession();
-//		
-//		Employee2 emp2 = new Employee2();
-//		emp2.setEmpCode(61);
-//		emp2.setEmpId("emp2");
-//		emp2.setEmpLastName("임");
-//		emp2.setEmpFirstName("성혁");
-//		emp2.setPhone("01012341234");
-//		emp2.setEmpEmail("limbit@naver.com");
-//		emp2.setComNo(10);
-//		emp2.setTeamNo(10);
-//		
-//		session.setAttribute("loginEmp", emp2);
-		
 		Employee2 emp = new Employee2();                                                                                                                                                                                                                                       
 		emp.setEmpCode(55);
 		emp.setEmpId("limbit5");
@@ -66,7 +52,6 @@ public class SurveyController {
 		emp.setComNo(10);		
 		HttpSession session = request.getSession();
 		session.setAttribute("loginEmp", emp);
-		
 		return "임성혁으로 로그인됨";
 	}
 	
@@ -92,14 +77,9 @@ public class SurveyController {
 //		session.setAttribute("loginEmp", emp2);
 		/* 지울 부분 */
 		
-
-		
-
-
-		
-		log.debug("asdlkajsdlkasjdasd=={}", loginEmp.getEmpCode());
-		
 		surveyService.receiveSurvey(loginEmp, currentPage, model);
+		
+		
 		return "/employee/survey/surveyList";
 	}
 	
@@ -143,16 +123,16 @@ public class SurveyController {
 	@PostMapping("submitAnswer")
 	@ResponseBody
 	public String submitAnswer(@RequestParam Map<String, String> answerMap, Model model, @SessionAttribute("loginEmp") Employee2 loginEmp) {
-		
+		log.debug("answerMap ==={}", answerMap);
 		surveyService.submitAnswer(answerMap, loginEmp);
 		return "redirect:/survey/receiveSurvey";
+		
 	}
 	
 	
 	@GetMapping("mySurvey")
 	public String mySurvey(@SessionAttribute("loginEmp") Employee2 loginEmp,@RequestParam(value="currentPage", defaultValue="1") String currentPage ,Model model) {
-		Integer empCode = loginEmp.getEmpCode();
-		surveyService.mySurvey(empCode, currentPage, model);		
+		surveyService.mySurvey(loginEmp, currentPage, model);		
 		return "/employee/survey/mySurvey";
 	
 	}
@@ -212,11 +192,10 @@ public class SurveyController {
    @ResponseBody
    public List<String> positionList(@SessionAttribute("loginEmp") Employee2 emp){
 	   
-	   log.debug("emp!!!!!!=={}", emp);
+
 	   
 	   List<String> positionList = surveyService.positionList(emp);
 	   
-	   log.debug("positionList ======{}", positionList);
 	   
 	   return positionList;
    }
@@ -236,12 +215,18 @@ public class SurveyController {
    
    
    @GetMapping("/calculate/{surveyNo}")
-   public String calculate (@PathVariable("surveyNo") String surveyNo, Model model) {
+   public String calculate (@PathVariable("surveyNo") String surveyNo, Model model,
+		   	@SessionAttribute("loginEmp") Employee2 loginEmp
+		   ) {
 	   
 	   // 해당 설문에 대한 통계를 가져와야 함. 
-	   Map<String, Object> returnMap = surveyService.calculate(surveyNo);
-	   List<Survey> surveySubList = (List<Survey>) returnMap.get("surveySubListReturn");
+	   Map<String, Object> returnMap = surveyService.calculate(surveyNo, loginEmp);
+	   List<SurveySub> surveySubList = (List<SurveySub>) returnMap.get("surveySubListReturn");
 	   Survey survey = (Survey)returnMap.get("survey");
+	   
+	   for(SurveySub survey2 : surveySubList) {
+		   log.debug("survey ====={}", survey2);
+	   }
 	   
 	   model.addAttribute("surveySubList", surveySubList);
 	   model.addAttribute("survey", survey);
@@ -254,8 +239,8 @@ public class SurveyController {
 		   	@RequestParam("surveyMainTitle") String surveyMainTitle,
 		   	Model model) {
 	   
-	   
 	   List<SubjectiveAnswer> subjectiveAnswerList = surveyService.showSubjectiveAnswer(surveySubNo);
+
 	   model.addAttribute("subjectiveAnswerList", subjectiveAnswerList);
 	   model.addAttribute("surveySubTitle", surveySubTitle);
 	   model.addAttribute("surveyMainTitle", surveyMainTitle);

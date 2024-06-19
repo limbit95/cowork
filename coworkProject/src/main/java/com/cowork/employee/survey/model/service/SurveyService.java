@@ -30,9 +30,9 @@ public interface SurveyService {
 
 	void submitAnswer(Map<String, String> answerMap, Employee2 loginEmp);
 
-	void mySurvey(Integer empCode, String cp, Model model);
+	void mySurvey(Employee2 loginEmp, String cp, Model model);
 
-	Map<String, Object> calculate(String surveyNo);
+	Map<String, Object> calculate(String surveyNo, Employee2 loginEmp );
 
 	List<SubjectiveAnswer> showSubjectiveAnswer(String surveySubNo);
 

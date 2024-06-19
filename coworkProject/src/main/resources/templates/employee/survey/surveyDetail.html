@@ -19,7 +19,7 @@
 
     <!-- 객관식 선택할 경우 -->
     <form class="submitForm" action="/survey/submitAnswer" method="post">
-        
+		
         <!-- 소제목 시작 -->
         <th:block th:each="surveySub : ${surveySubList}" class="questionArea">
             <div th:if="${surveySub.questionType == '1'}" class="multipleQuestion">
@@ -36,15 +36,12 @@
 						/>
 						<label th:for="${option.surveyMultipleNo}" th:text="${option.multipleQuestion}"></label>
                 </div>
-                
             </div>
+			
             <div th:if="${surveySub.questionType == '2'}" class="subjectiveQuestion">
                 <!-- 주관식인 경우 -->
                 <div th:text="'Q. ' + ${surveySub.surveySubTitle}" class="subjectiveQuestionTitle"></div>
-                <textarea th:name="${surveySub.surveySubNo}" class="subjectiveAnswerTextarea"
-				>
-				</textarea>
-                
+                <textarea th:name="${surveySub.surveySubNo}" class="subjectiveAnswerTextarea"></textarea>
             </div>
         </th:block>        
         <!-- 소제목 끝 -->

@@ -11,6 +11,17 @@
 </head>
 <body>
     <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
+	
+	<div id="surveyMenuBar">
+		<a href="/survey/receiveSurvey" type="button" id="receiveSurveyBtn">
+				받은 설문 			
+		</a>
+		<a href="/survey/mySurvey" type="button" id="mySurveyBtn">
+				내가 쓴 설문			
+		</a>
+	</div>
+	
+
 
 	<div id="receiveSurveyTitle">
 		<div id="receiveSurveyTitleDiv">받은 설문</div>
@@ -45,6 +56,7 @@
 		    </th:block>
 		<!-- 잘 들어갈려나? -->
 	</div>
+	
 	
 	<!-- 페이지네이션 조각 시작 -->
 	<div id="paginationContainer">

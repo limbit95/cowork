@@ -34,7 +34,7 @@ public class Survey {
 	private Boolean answerFl;
 	
 	
-
+	
 	
 	
 	//SURVEY_MULTIPLE 테이블 
@@ -46,4 +46,12 @@ public class Survey {
 	
 	
 
+	private Integer surveyTargetTotalCount; // 설문 전체 대상자 수 
+	private Integer totalResponseCount;  // 응답한 사람 수 
+	
+	private Double responseRatio; // 응답비율
+	
+	
+	
+	
 }

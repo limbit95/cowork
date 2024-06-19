@@ -71,8 +71,18 @@ public interface SurveyMapper {
 
 	List<SubjectiveAnswer> showSubjectiveAnswer(String surveySubNo);
 
+	Integer surveyTargetTotalCount(Integer surveyNo);
+
+	SurveySub findSurveySubRow(String hintSurveySubNo);
+
+	void increaseTotalResponseCount(Integer surveyNo);
+
+	Integer totalEmpCount(Integer comNo);
+
+	Integer totalResponseCount(Integer surveyNo);
+
+
+
 	
-
-
 
 }

@@ -29,4 +29,7 @@ public class SubjectiveAnswer {
 	private String fullName;
 	private String profileImg;
 	
+	
+	
+	
 }

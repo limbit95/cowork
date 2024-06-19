@@ -21,12 +21,13 @@ public class SurveySub {
 
 	// SURVEY_SUB 테이블
 	private Integer surveySubNo;
+	private Integer surveyNo;
 	private String surveySubTitle; // 소제목 
 	private String questionType; // 소제목이 객관식인지 주관식인지 
 	
 	private List<SurveyMultiple> options;
 	
-	private List<Integer> ratioList = new ArrayList<>(); // (선택된 개수 / 전체 응답개수) * 100 
+	private List<Double> ratioList = new ArrayList<>(); // (선택된 개수 / 전체 응답개수) * 100 
 	
 	private List<Integer> optionCount = new ArrayList<>(); // 해당 선택지가 선택된 개수 
 	
