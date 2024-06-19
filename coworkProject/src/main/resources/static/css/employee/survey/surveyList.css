@@ -56,6 +56,8 @@
 	display: flex; 
 	justify-content: center;
 	margin-top: 1vh;
+	flex-direction: column;
+	align-items: center;
 }
 .oneRowA{
 	width: 50%;
@@ -103,6 +105,64 @@
 	align-items: center;
 }
 #paginationMiddleContainer{
-	color: white;
+	color: black;
+}
+.current-page-span{
+	font-weight: bold; 
 }
 
+/* survey 메뉴 바 */
+#surveyMenuBar{
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	padding-top: 15vh; 
+}
+#receiveSurveyBtn{
+	width: 24vw;
+	margin-right: 1vw; 
+	height: 6vh; 
+	background-color: white;
+	border: none;
+	border-radius: 5px;
+	font-size: 16px;
+	background-color: #FFE0E6;
+	color: #214177;
+	transition: background-color 0.3s;
+	font-weight: bold;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	text-decoration: none;
+	color: #214177;
+}
+#receiveSurveyBtn:hover{
+	background-color: #F1B8B8;
+}
+#mySurveyBtn{
+	width: 24vw; 
+	margin-left: 1vw; 
+	height: 6vh; 
+	background-color: white;
+	border: none;
+	border-radius: 5px;
+	font-size: 16px;
+	color: #214177;
+	background-color: #E5F2FE;
+	font-weight: bold;
+	transition: background-color 0.3s;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	text-decoration: none;
+}
+#mySurveyBtn:hover{
+	background-color: #F1B8B8;
+}
+
+#first-page-a{
+	width: 20px; 
+}

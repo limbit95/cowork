@@ -35,7 +35,7 @@
 
 <insert id="insertSurveyTarget">
 	INSERT INTO SURVEY_TARGET
-	VALUES (SEQ_SURVEY_TARGET.NEXTVAL,  #{Empcode2}, #{surveyNo})
+	VALUES (SEQ_SURVEY_TARGET.NEXTVAL,  #{empCode3}, #{surveyNo})
 </insert>
 
 <select id="findNextSequenceVal">
@@ -79,6 +79,7 @@ AND S.SURVEY_END_DATE + 1 >= SYSDATE
 	FROM SURVEY_TARGET ST
 	LEFT JOIN SURVEY S ON (ST.SURVEY_NO = S.SURVEY_NO)
 	WHERE ST.EMP_CODE = #{empCode}
+	AND S.SURVEY_END_DATE + 1 >= SYSDATE	
 </select>
 
 <select id="findEmpFullName">
@@ -122,9 +123,19 @@ AND S.SURVEY_END_DATE + 1 >= SYSDATE
 </select>
 
 <select id="getSurvey">
-	SELECT * FROM SURVEY 
+	SELECT 
+    SURVEY_NO, 
+    EMP_CODE, 
+    SURVEY_MAIN_TITLE,
+    SURVEY_ENTIRE_TARGET_FL,
+    TO_CHAR(SURVEY_START_DATE, 'YYYY"년" MM"월" DD"일"') AS SURVEY_START_DATE,
+    TO_CHAR(SURVEY_END_DATE, 'YYYY"년" MM"월" DD"일"') AS SURVEY_END_DATE,
+    TOTAL_RESPONSE_COUNT
+	FROM SURVEY 
 	WHERE SURVEY_NO = #{surveyNo}
 </select>
+
+
 
 <select id="surveySubList" resultMap="survey_rm">
 	SELECT * FROM SURVEY_SUB 
@@ -168,6 +179,7 @@ AND S.SURVEY_END_DATE + 1 >= SYSDATE
 	FROM SURVEY S
 	LEFT JOIN EMPLOYEE E ON E.EMP_CODE = S.EMP_CODE
 	WHERE S.EMP_CODE = #{empCode}
+	AND S.SURVEY_END_DATE + 1 >= SYSDATE
 	ORDER BY S.SURVEY_NO DESC
     OFFSET #{startRow} ROWS
     FETCH NEXT #{pageSize} ROWS ONLY	
@@ -202,6 +214,32 @@ AND S.SURVEY_END_DATE + 1 >= SYSDATE
 </select>
 
 
+
+<select id="surveyTargetTotalCount">
+	SELECT COUNT(*) FROM 
+	SURVEY_TARGET
+	WHERE SURVEY_NO = #{surveyNo}	
+</select>
+
+<select id="findSurveySubRow">
+	SELECT * FROM SURVEY_SUB 
+	WHERE SURVEY_SUB_NO = #{hintSurveySubNo}
+</select>
+
+<update id="increaseTotalResponseCount">
+	UPDATE SURVEY SET TOTAL_RESPONSE_COUNT = TOTAL_RESPONSE_COUNT + 1 
+	WHERE SURVEY_NO = #{surveyNo}
+</update>
+
+<select id="totalEmpCount"> 
+	SELECT COUNT(*) FROM EMPLOYEE 
+	WHERE COM_NO = #{comNo} 
+</select>
+
+<select id="totalResponseCount"> 
+	SELECT TOTAL_RESPONSE_COUNT FROM SURVEY 
+	WHERE SURVEY_NO = #{surveyNo}
+</select>
 	
 </mapper>
 

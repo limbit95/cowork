@@ -11,6 +11,16 @@
 </head>
 <body>
 	<th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
+	
+	<div id="surveyMenuBar">
+		<a href="/survey/receiveSurvey" type="button" id="receiveSurveyBtn">
+				받은 설문 			
+		</a>
+		<a href="/survey/mySurvey" type="button" id="mySurveyBtn">
+				내가 쓴 설문			
+		</a>
+	</div>
+	
 
 	<div id="receiveSurveyTitle">
 		<div id="receiveSurveyTitleDiv">내가 작성한 설문</div>
@@ -27,6 +37,9 @@
 			<div id="endDateDiv">
 				기한 
 			</div>
+			<div id="totalResponseCountDiv">
+				설문 응답자 수 	
+			</div>
 		</div>
 	</div>
 	
@@ -36,16 +49,15 @@
 			<a th:href="@{/survey/calculate/{surveyNo}(surveyNo=${survey.surveyNo})}"
 			class="oneRowA"
 			>
-			<div th:text="${survey.surveyMainTitle}"></div>
-			<div th:text="${survey.fullName}">asdfadf</div>
-			<div th:text="${survey.restDays} +  ' 일' "></div>
+			<div th:text="${survey.surveyMainTitle}" class="innerContent"></div>
+			<div th:text="${survey.fullName}" class="innerContent" >asdfadf</div>
+			<div th:text="${survey.restDays} +  ' 일' " 	class="innerContent"></div>
+
 <!--			<div th:text="${survey.surveyMainTitle}" 
 			     th:classappend="${survey.answerFl} ? 'title-true' : 'title-false'"></div>
 	-->			
 			
-			
 			</a>	
-		
 <!--		    <a th:href="@{/survey/calculate/{surveyNo}(surveyNo=${survey.surveyNo})}">Calculate</a>
 		    <div th:text="${survey.surveyMainTitle}"></div> <!-- survey.someField 를 원하는 필드로 교체 -->
 		
@@ -56,6 +68,7 @@
 	<!-- 페이지네이션 조각 시작 -->
 	<div id="paginationContainer">
 	<div id="pagination">
+		
 	    <!-- 처음 -->
 	    <a th:if="${currentGroupFirstPage != 1}" th:href="@{/survey/receiveSurvey}" id="first-page-a">&lt;&lt;</a>
 	    <a th:if="${currentGroupFirstPage != 1}" th:href="@{/survey/receiveSurvey(currentPage=${currentGroupFirstPage}-1)}" id="previous-a">&lt;</a>
@@ -79,6 +92,7 @@
 	    <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/receiveSurvey(page=${totalPages})}" id="last-page-a">&gt;&gt;</a>
 	</div>
 	</div>
+	
 	<!-- 페이지네이션 조각 끝 -->
 	
     <script th:inline="javascript">

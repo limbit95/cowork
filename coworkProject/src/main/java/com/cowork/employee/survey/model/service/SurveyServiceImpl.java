@@ -85,7 +85,9 @@ public class SurveyServiceImpl implements SurveyService{
 		// 다음으로는 SURVEY_TARGET 테이블에 행을 삽입할 거임. 
 		// 전체대상인 경우에는 설문(SURVEY) 테이블 에 컬럼값으로 확인할 수 있으니 패스 
 		// 직급별로 넣었다거나, 특정인들만 대상으로 한 경우 SURVEY_TARGET 테이블에 행을 넣을거임 
-		if (surveyData.getPosition() != null) {
+
+		
+			if (surveyData.getPosition() != null) {
 			String position = surveyData.getPosition(); // 직급을 얻었다. 
 			// 회사 기본키를 얻어온다. 
 			Integer comNo = emp.getComNo();
@@ -260,14 +262,12 @@ public class SurveyServiceImpl implements SurveyService{
             
             survey.setRestDays((int)daysBetween);
 		}
-		
+
 		surveyList.sort(Comparator.comparingInt(Survey::getRestDays)); // 기한이 짧은거 순으로 정렬  
-		
 		
 		// 담아줘야 할 것들 6가지  
 		// 2. 현재 페이지가 몇 페이지인가?  
 		// currentPage
-
 		// 3. 총 페이지 수 = 총 게시글 수 / 페이지당 보여질 게시글 수 
 		Integer totalPosts = surveyList.size();
 		Integer pageSize = 10; // 페이지당 보여질 게시글의 수 
@@ -309,8 +309,6 @@ public class SurveyServiceImpl implements SurveyService{
 			} else {
 				survey.setAnswerFl(true);
 			}
-
-			
 		}
 				
 		model.addAttribute("currentPage", Integer.valueOf(currentPage));
@@ -319,17 +317,7 @@ public class SurveyServiceImpl implements SurveyService{
 		model.addAttribute("currentGroupFirstPage", currentGroupFirstPage);
 		model.addAttribute("currentGroupLastPage", currentGroupLastPage);
 		model.addAttribute("newSurveyList", newSurveyList);
-		
-		log.debug("currentPage=={}", currentPage);
-		log.debug("totalPages=={}", totalPages);
-		log.debug("pageGroupSize=={}", pageGroupSize);
-		log.debug("currentGroupFirstPage=={}", currentGroupFirstPage);
-		log.debug("currentGroupLastPage=={}", currentGroupLastPage);
-		log.debug("newSurveyList=={}", newSurveyList);
-		
-		log.debug("newSurveyList======{}", newSurveyList);
-		
-		
+
 	}
 
 	@Override
@@ -444,11 +432,31 @@ public class SurveyServiceImpl implements SurveyService{
 	@Override
 	public void submitAnswer(Map<String, String> answerMap, Employee2 loginEmp) {
 		
+		// SURVEY 테이블에 TOTAL_RESPONSE_COUNT 라는 컬럼을 넣고
+		// 이 순간마다 +1 씩 해주자. 
+		
+		
+		
+		//surveyMapper.increaseTotalResponseCount();
+		
+		
+		
 		// key 만 분리
 		List<String> keysList = new ArrayList<>();
 		for(String key : answerMap.keySet()) {
 			keysList.add(key);
 		}
+		
+		// 여기서 key : surveySubNo 이거든 소제목 기본키임. 
+		// 이걸로 surveyNo 를 찾아와야함. 
+		String hintSurveySubNo  = keysList.get(0);
+		
+		SurveySub surveySub = surveyMapper.findSurveySubRow(hintSurveySubNo);
+		Integer surveyNo = surveySub.getSurveyNo();
+		
+		surveyMapper.increaseTotalResponseCount(surveyNo);
+		
+		
 		
 		// SURVEY_ANSWER 테이블에 행을 삽입해야함. 
 		// EMP_CODE 
@@ -467,8 +475,10 @@ public class SurveyServiceImpl implements SurveyService{
 	}
 
 	@Override
-	public void mySurvey(Integer empCode, String cp, Model model) {
+	public void mySurvey(Employee2 loginEmp, String cp, Model model) {
 		
+		Integer comNo = loginEmp.getComNo();		
+		Integer empCode = loginEmp.getEmpCode();
 		// 2. 현재 페이지 
 		int currentPage = Integer.parseInt(cp);
 		model.addAttribute("currentPage", currentPage);
@@ -513,6 +523,29 @@ public class SurveyServiceImpl implements SurveyService{
             long daysBetween = ChronoUnit.DAYS.between(currentDate, endDate);
             
             survey.setRestDays((int)daysBetween);
+            
+            Integer surveyNo = survey.getSurveyNo();
+            
+            
+            // 해당 설문의 전체 대상자 수
+            Integer surveyTargetTotalCount;
+            
+            // 1) 전체 대상 설문인 경우 
+            if(survey.getSurveyEntireTargetFl().equals("Y") ) {
+            	// 해당 회사의 전체 사원의 수를 구한다. 
+            	surveyTargetTotalCount = surveyMapper.totalEmpCount(comNo);
+            } else {
+                surveyTargetTotalCount = surveyMapper.surveyTargetTotalCount(surveyNo);
+            }
+            
+            survey.setSurveyTargetTotalCount(surveyTargetTotalCount);
+            
+            // 설문의 응답자 수 
+            Integer totalResponseCount = surveyMapper.totalResponseCount(surveyNo);
+            survey.setTotalResponseCount(totalResponseCount);
+            
+            log.debug("asdfasdfasdf=={}",survey);
+
 		}
 		 
 		
@@ -522,10 +555,13 @@ public class SurveyServiceImpl implements SurveyService{
 		model.addAttribute("currentGroupFirstPage", currentGroupFirstPage);
 		model.addAttribute("currentGroupLastPage", currentGroupLastPage);
 		model.addAttribute("surveyList", surveyList);
+
 		}
 
 	@Override
-	public Map<String, Object> calculate(String surveyNo) {
+	public Map<String, Object> calculate(String surveyNo, Employee2 loginEmp) {
+		
+		Integer comNo = loginEmp.getComNo();
 		
 		// 해당 설문 일단 그냥 가져와봤음.
 		Survey survey = surveyMapper.getSurvey(surveyNo);
@@ -555,7 +591,7 @@ public class SurveyServiceImpl implements SurveyService{
 			if(surveySub.getQuestionType().equals("1")) {
 				// 객관식인 경우 
 				// 각 항목의 비율을 구해야해.
-				
+				 
 				// 일단 해당 소제목의 응답개수를 구해야해.
 				Integer surveySubNo = surveySub.getSurveySubNo();
 				Integer totalResponseCount = surveyMapper.countResponse(surveySubNo); // 전체 응답 개수 
@@ -566,11 +602,17 @@ public class SurveyServiceImpl implements SurveyService{
 				
 				
 				for(SurveyMultiple surveyMultiple : surveyMultipleList) {
-					Integer surveyMultipleNo = surveyMultiple.getSurveyMultipleNo();
-					Integer countMultipleOption= surveyMapper.countMultipleOption(String.valueOf(surveyMultipleNo));
-					surveySub.getOptionCount().add(countMultipleOption);
 					
-					Integer ratio = (countMultipleOption / totalResponseCount) * 100;
+					
+					Integer surveyMultipleNo = surveyMultiple.getSurveyMultipleNo();
+
+					
+					Integer countMultipleOption= surveyMapper.countMultipleOption(String.valueOf(surveyMultipleNo));
+
+					surveySub.getOptionCount().add(countMultipleOption);
+
+					Double ratio = ((double)countMultipleOption / totalResponseCount) * 100; // 1/2 * 100 = 50
+
 					surveySub.getRatioList().add(ratio);
 				}
 				
@@ -583,6 +625,33 @@ public class SurveyServiceImpl implements SurveyService{
 			
 		}
 		
+		
+		// 설문의 일시 : 2024-06-19 일부터 시작되어 2024-06-20에 종료되는 설문입니다. 
+		// 응답자수 구해오기 : 전체 설문대상자 121명 중 21명이 설문에 참여하였습니다. 
+		log.debug("surveyEndDate=={}",  survey.getSurveyEndDate());
+		log.debug("surveyStartDate=={}",  survey.getSurveyStartDate());
+		
+        // 해당 설문의 전체 대상자 수
+        Integer surveyTargetTotalCount;
+        
+        // 1) 전체 대상 설문인 경우 
+        if(survey.getSurveyEntireTargetFl().equals("Y") ) {
+        	// 해당 회사의 전체 사원의 수를 구한다. 
+        	surveyTargetTotalCount = surveyMapper.totalEmpCount(comNo);
+        } else {
+            surveyTargetTotalCount = surveyMapper.surveyTargetTotalCount(Integer.parseInt(surveyNo));
+        }
+        
+        survey.setSurveyTargetTotalCount(surveyTargetTotalCount);
+        
+        // 설문의 응답자 수 
+        Integer totalResponseCount = surveyMapper.totalResponseCount(Integer.parseInt(surveyNo));
+        survey.setTotalResponseCount(totalResponseCount);
+        
+        
+        Double responseRatio = ((double)totalResponseCount/surveyTargetTotalCount) * 100;
+        survey.setResponseRatio(responseRatio);
+        
 		Map<String, Object> returnMap = new HashMap<>();
 		returnMap.put("surveySubListReturn", surveySubListReturn);
 		returnMap.put("survey", survey);
@@ -592,7 +661,6 @@ public class SurveyServiceImpl implements SurveyService{
 
 	@Override
 	public List<SubjectiveAnswer> showSubjectiveAnswer(String surveySubNo) {		
-		log.debug("surveySubNo===={}", surveySubNo);
 		
 		List<SubjectiveAnswer> subjectiveAnswerList = surveyMapper.showSubjectiveAnswer(surveySubNo);
 		return subjectiveAnswerList;
