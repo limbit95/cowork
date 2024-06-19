@@ -9,6 +9,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -37,6 +38,7 @@ public class EmailServiceImpl implements EmailService{
 
 	// 이메일 보내기
 	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public String sendEmail(String htmlName, String email) {
 		// 6자리 난수(인증 코드) 생성
 		String authKey = createAuthKey();
@@ -140,6 +142,7 @@ public class EmailServiceImpl implements EmailService{
 	
 	// 비밀번호 재설정 이메일 보내기
 	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public int sendEmail(String htmlName, Map<String, Object> map) {
 		String authKey = createAuthKey();
 		String empInfo = (String)map.get("empId") + "," + (String)map.get("empEmail")  + "," + authKey;
