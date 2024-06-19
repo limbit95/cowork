@@ -159,7 +159,10 @@ document.querySelector("#noticeUpdate").addEventListener("click", () => {
         }
     }
 
-    
+    // 제목과 내용을 FormData에 추가
+    clone.append('noticeTitle', noticeTitle);
+    clone.append('noticeContent', noticeContent);
+
     for (const pair of formData.entries()) {
         clone.append('files', pair[1]);
     }

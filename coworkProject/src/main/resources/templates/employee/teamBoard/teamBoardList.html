@@ -9,27 +9,30 @@
     <link rel="stylesheet" href="/css/employee/board/board.css">
 </head>
 <body>
+
+    <div th:replace="~{employee/userMain/leftSideBar}"></div>
     
     <section class="container">
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
 
-        <div class="title"><span class="">경영 1팀 게시판</span></div>
+        <div class="title"><span th:text="|${session.loginEmp.teamNm} 게시판|">경영 1팀 게시판</span></div>
 
         <!-----------------------------------------------   검색창  ------------------------------------------------------------------>
-        <div class="search">
-            <select class="default-line">
-                <option>제목</option>
-                <option>내용</option>
-                <option>작성자</option>
+        <form class="search" th:action="@{teamBoardList}" method="get" id="teamBoardSerach">
+
+            <select class="default-line" name="key" id="searchKey">
+                <option value="1">제목</option>
+                <option value="2">내용</option>
+                <option value="3">작성자</option>
             </select>
 
             <div class="default-line">
-                <input >
+                <input name="query" id="searchQuery" placeholder="검색어를 입력해주세요">
 
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <button class="fa-solid fa-magnifying-glass"></button>
             </div>
             
-        </div>
+        </form>
 
         
 
@@ -37,15 +40,16 @@
 
         <div class="board">
 
-            <div class="defaultBtn listBtn">
+            <form class="defaultBtn listBtn" th:action="@{teamBoardInsert}" method="get">
                 <button class="default-btn glucose-btn">등록</button>
-            </div>
+            </form>
 
             <div class="table-head">
                 <div>
-                    <select class="default-line">
-                        <option>공지</option>
-                        <option>전달사항</option>
+                    <select class="default-line" name="combo" id="searchCombo">
+                        <option value="0">전체</option>
+                        <option value="1">공지사항</option>
+                        <option value="2">전달사항</option>
                     </select>
                 </div>
                 <div>제목</div>
@@ -53,127 +57,75 @@
                 <div>작성일</div>
             </div>
 
-            <div class="table-body">
-                <div>공지</div>
-                <div>안녕하세요 공지사항입니다</div>
-                <div>정희윤</div>
-                <div>2024-05-22</div>
+            <div class="noticeZero" th:if="${#lists.isEmpty(teamBoardList)}">
+                <div>게시글이 존재하지 않습니다.</div>
             </div>
 
-            <div class="table-body">
-                <div>공지</div>
-                <div>안녕하세요 공지사항입니다</div>
-                <div>정희윤</div>
-                <div>2024-05-22</div>
-            </div>
+            <th:block th:unless="${#lists.isEmpty(teamBoardList)}">
 
-            <div class="table-body">
-                <div>공지</div>
-                <div>안녕하세요 공지사항입니다</div>
-                <div>정희윤</div>
-                <div>2024-05-22</div>
-            </div>
+                <div class="table-body" th:each="teamBoard : ${teamBoardList}" th:object="${teamBoard}"
+                     th:onclick="|location.href='@{/teamBoard/teamBoardDetail/{teamBoardNo} (teamBoardNo=*{teamBoardNo}, cp=${pagination.currentPage}, key=${param.key}, query=${param.query}, combo=${param.combo})}'|">
+                    <div th:text="*{teamType}">공지</div>
+                    <div th:text="*{teamBoardTitle}">안녕하세요 공지사항입니다</div>
+                    <div th:text="*{empName}">정희윤</div>
+                    <div th:text="*{teamBoardWriteDate}">2024-05-22</div>
+                </div>
 
-            <div class="table-body">
-                <div>공지</div>
-                <div>안녕하세요 공지사항입니다</div>
-                <div>정희윤</div>
-                <div>2024-05-22</div>
-            </div>
+            </th:block>
 
-            <div class="table-body">
+            <!--<div class="table-body">
                 <div>공지</div>
                 <div>안녕하세요 공지사항입니다</div>
                 <div>정희윤</div>
                 <div>2024-05-22</div>
-            </div>
-
-            <div class="table-body">
-                <div>공지</div>
-                <div>안녕하세요 공지사항입니다</div>
-                <div>정희윤</div>
-                <div>2024-05-22</div>
-            </div>
-
-            <div class="table-body">
-                <div>공지</div>
-                <div>안녕하세요 공지사항입니다</div>
-                <div>정희윤</div>
-                <div>2024-05-22</div>
-            </div>
-
-            <div class="table-body">
-                <div>공지</div>
-                <div>안녕하세요 공지사항입니다</div>
-                <div>정희윤</div>
-                <div>2024-05-22</div>
-            </div>
-
-            <div class="table-body">
-                <div>공지</div>
-                <div>안녕하세요 공지사항입니다</div>
-                <div>정희윤</div>
-                <div>2024-05-22</div>
-            </div>
-
-            <div class="table-body">
-                <div>공지</div>
-                <div>안녕하세요 공지사항입니다</div>
-                <div>정희윤</div>
-                <div>2024-05-22</div>
-            </div>
-
-            <div class="table-body">
-                <div>공지</div>
-                <div>안녕하세요 공지사항입니다</div>
-                <div>정희윤</div>
-                <div>2024-05-22</div>
-            </div>
-            
-            <div class="table-body">
-                <div>공지</div>
-                <div>안녕하세요 공지사항입니다</div>
-                <div>정희윤</div>
-                <div>2024-05-22</div>
-            </div>
+            </div>-->
 
             <!-----------------------------------------------   페이지  ------------------------------------------------------------------>
 
-            <div class="pagination-area">
+            <div class="pagination-area" th:unless="${#lists.isEmpty(teamBoardList)}">
         
-                <ul class="pagination">
+                <!-- 검색 X -->
+                <ul class="pagination" th:object="${pagination}">
 
                     <!-- 첫 페이지로 이동 -->
-                    <li><a>&lt;&lt;</a></li>
+                    <li><a th:href="@{/teamBoard/teamBoardList(cp=1, key=${param.key}, query=${param.query}, combo=${param.combo})}">&lt;&lt;</a></li>
 
                     <!-- 이전 목록 마지막 번호로 이동 -->
-                    <li><a>&lt;</a></li>
+                    <li><a th:href="@{/teamBoard/teamBoardList(cp=*{prevPage}, key=${param.key}, query=${param.query}, combo=${param.combo})}">&lt;</a></li>
 
                     <!-- 특정 페이지로 이동 -->
-                    <th:block>
+                    <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
                         
                     <!-- 현재 보고있는 페이지 -->
-                        <li>
-                            <a class="current" >1</a>
+                        <li th:if="${i} == *{currentPage}">
+                            <a class="current" th:text="${i}">1</a>
                         </li>
                         
                         <!-- 보고있지 않은 페이지 -->
-                        <li>
-                            <a>2</a>
+                        <li th:unless="${i} == *{currentPage}">
+                            <a th:text="${i}"
+                                th:href="@{/teamBoard/teamBoardList(cp=${i}, key=${param.key}, query=${param.query}, combo=${param.combo})}"
+                            >2</a>
                         </li>
 
                     </th:block>
 
                     <!-- 다음 목록 시작 번호로 이동 -->
-                    <li><a>&gt;</a></li>
+                    <li><a th:href="@{/teamBoard/teamBoardList(cp=*{nextPage}, key=${param.key}, query=${param.query}, combo=${param.combo})}">&gt;</a></li>
 
                     <!-- 끝 페이지로 이동 -->
-                    <li><a>&gt;&gt;</a></li>
+                    <li><a th:href="@{/teamBoard/teamBoardList(cp=*{maxPage}, key=${param.key}, query=${param.query}, combo=${param.combo})}">&gt;&gt;</a></li>
                 </ul>
+                
             </div>
         </div>
     </section>
 
-    <script src="https://kit.fontawesome.com/247c6d7026.js" crossorigin="anonymous"></script>
+    <script th:inline="javascript">
+        const cp = /*[[${pagination.currentPage}]]*/ "현재페이지";
+    </script>
+
+    <script src="/js/employee/teamboard/teamboard.js"></script> <!-- Left 메뉴 클릭 -->
+    <script src="/js/employee/teamboard/teamboardList.js"></script>
 </body>
 </html>
