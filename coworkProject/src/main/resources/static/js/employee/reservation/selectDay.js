@@ -496,13 +496,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
 
+                        info.start = "";
+                        info.end = "";
+
                         calendar.render();
                     } else if (result == -1){
                         alert("이미 예약이 존재하는 회의실입니다.");
                         document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
+                        
+                        info.start = "";
+                        info.end = "";
+                        
                         newEvent.remove();
                     } else {
                         alert("회의실 예약 실패");
+
+                        info.start = "";
+                        info.end = "";
+
                         document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
                         newEvent.remove();
                     }

@@ -164,8 +164,42 @@ public class CalendarController {
 	
 	@ResponseBody
 	@PutMapping("calendarUpdate")
-	public int calendarUpdate(@RequestBody Calendar updateCalendar) {
-		return service.calendarUpdate(updateCalendar);
+	public int calendarUpdate(@RequestBody Calendar updateCalendar,
+			@SessionAttribute("loginEmp") Employee2 loginEmp,
+			@SessionAttribute("calendarList") List<Calendar> calendarList,
+			Model model) {
+		
+		
+		if(updateCalendar.getComShareList() != loginEmp.getComNo()) {
+			updateCalendar.setComShare("0");
+		} else {
+			int temp = updateCalendar.getComShareList();
+			String comShare = String.valueOf(temp);
+			updateCalendar.setComShare(comShare);
+		}
+		
+		if(updateCalendar.getDeptShareList() == null || updateCalendar.getDeptShareList().isEmpty()) {
+			updateCalendar.setDeptShare(null);
+		} else {
+			String deptShare = String.join("^^^", updateCalendar.getDeptShareList());
+			updateCalendar.setDeptShare(deptShare);
+		}
+		
+		if(updateCalendar.getTeamShareList() == null || updateCalendar.getTeamShareList().isEmpty()) {
+			updateCalendar.setTeamShare(null);
+		} else {
+			String teamShare = String.join("^^^", updateCalendar.getTeamShareList());
+			updateCalendar.setTeamShare(teamShare);
+		}
+		
+		int result = service.calendarUpdate(updateCalendar);
+
+		if(result > 0) {
+			calendarList.add(updateCalendar);
+			return result;
+		} else {
+			return result;
+		}
 	}
 	
 }
