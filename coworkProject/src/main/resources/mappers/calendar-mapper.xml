@@ -91,7 +91,9 @@
 		SET CALENDAR_TITLE = #{calendarTitle},
 			CALENDAR_CONTENT = #{calendarContent},
 			CALENDAR_COLOR = #{calendarColor},
-			CALENDAR_SHARE = #{calendarShare}
+			COM_SHARE = #{comShare},
+			DEPT_SHARE = #{deptShare},
+			TEAM_SHARE = #{teamShare}
 		WHERE CALENDAR_NO = #{calendarNo}
 	</update>
 	

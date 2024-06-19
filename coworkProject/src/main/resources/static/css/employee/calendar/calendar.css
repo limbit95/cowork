@@ -81,7 +81,7 @@
     font-weight: bold;
 }
 
-.modalTitle, .selectTeam {
+.modalTitle, .selectCompany, .selectDept, .selectTeam {
     margin-top: 15px;
 	/* 위치의 상대적 기준점 */
 	position : relative;
