@@ -8,7 +8,7 @@ if(findEmp != null) {
     findEmp.addEventListener("input", e => {
         const inputName = e.target.value;
 
-        if(location.pathname == '/employee/addr/comList' || location.pathname == '/employee/addr/deptList' || location.pathname == '/employee/addr/teamList') {
+        if(location.pathname == '/employee/addr/comList' || location.pathname == '/employee/addr/deptList' || location.pathname == '/employee/addr/teamList' || location.pathname == '/employee/addr') {
             if(inputName.trim().length == 0) {
                 location.reload();
                  return;
@@ -352,7 +352,11 @@ if(saveMyAddr != null) {
                 alert("추가 실패");
                 return;
             }
-            alert("[" + selectValue.innerText + "] 에 추가되었습니다.");
+            document.querySelectorAll("#selectOption").forEach((i) => {
+                if(selectValue.value == i.value) {
+                    alert("[" + i.innerText + "] 에 추가되었습니다.");
+                }
+            })
             if(location.pathname != '/employee/addr/employeeDetailPage') {
                 location.href = '/employee/addr';
             } else {
@@ -517,10 +521,10 @@ document.querySelectorAll('.li-hover').forEach(item => {
                 newLi.classList.add("favorite");
                 newLi.innerHTML = `
                     <div class="li-hover">
-                        <i class="fa-solid fa-angle-down" style="color: white;"></i>
+                        <i class="fa-solid fa-angle-down"  style="color: #00000069;"></i>
                         <div>
-                            <i class="fa-solid fa-star" style="color: white;"></i>
-                            <span id="addrName" style="color: white;">새로운 주소록${sequence}</span>
+                            <i class="fa-solid fa-star" style="color: #00000069;"></i>
+                            <span id="addrName" style="color: #00000069;">새로운 주소록${sequence}</span>
                         </div>
                     </div>
                 `;
@@ -635,8 +639,8 @@ document.querySelectorAll('.li-hover').forEach(item => {
                             const newGroupName = input.value;
                             input.parentNode.replaceChild(span, input);
                             if(span.innerText != newGroupName) {
-                                targetLi.children[0].children[1].children[0].style.color = 'white';
-                                targetLi.children[0].children[1].children[1].style.color = 'white';
+                                targetLi.children[0].children[1].children[0].style.color = '#00000069';
+                                targetLi.children[0].children[1].children[1].style.color = '#00000069';
                             }
                             span.textContent = newGroupName;
                         }

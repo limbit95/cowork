@@ -2,6 +2,36 @@ section.container .accordion {
     margin: 50px;
     overflow: hidden;
 }
+.title {
+    display: flex;
+    align-items: center;
+}
+.title > :nth-child(2) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 50px;
+    width: 17px;
+    height: 18px;
+    color: rgb(204, 204, 204);
+    cursor: pointer;
+    font-size: 10px;
+}
+section.container .title > :nth-child(3) {
+    color: rgb(204, 204, 204);
+    margin-left: 5px;
+    font-weight: 100;
+    font-size: 22px;
+}
+#backPage {
+    color: #767676;
+    font-size: 12px;
+    margin-left: 5px;
+    font-weight: 100;
+    cursor: pointer;
+}
 
 /* 아코디언 전체 영역 */
 section.container .accordion {
@@ -38,7 +68,7 @@ section.container .accordion-content {
     align-items: center;
     padding: 20px;
     background-color: #f7f7f7;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #e9e9e9;
     margin: 0;
 }
 
@@ -46,7 +76,11 @@ section.container .accordion-content {
 
 /* 비밀번호 생성 방식 */
 section.container .type1 {
+    display: flex;
     padding: 40px;
+}
+section.container .type1 label {
+    cursor: pointer;
 }
 /* 라디오 담는 div */
 section.container .type1 > :nth-child(1) {
@@ -58,16 +92,44 @@ section.container .type1 > :nth-child(2) {
     display: flex;
     justify-content: space-between;
     margin: 0;
-    width: 380px;
+    width: 360px;
+}
+section.container .type1 > :nth-child(2) > div {
+    display: flex;
+    align-items: center;
+}
+section.container .type1 > :nth-child(2) > div input {
+    margin-right: 5px;
+    cursor: pointer;
 }
 
-* {
-    /* border: 1px solid green; */
+/* 라디오 속성 */
+/* [type="radio"] {
+    vertical-align: middle;
+    appearance: none;
+    border-radius: 50%;
+    border: 1px solid #d9d9d9;
+    width: 13px;
+    height: 13px;
 }
+[type="radio"]:checked {
+    border: 0.5em solid var(--main-color);
+}
+[type="radio"]:focus-visible {
+    outline: max(2px, 0.1em) dotted var(--main6-color);
+    outline-offset: max(2px, 0.1em);
+  }
+[type="radio"]:hover {
+    border: 2px solid var(--main6-color);
+    cursor: pointer;
+} */
 
-
-/* 아코디언 내용 */
+/* 파일 등록 */
+.accordion > :nth-child(2) > :nth-child(1) {
+    color: rgba(0, 0, 0, 0.479);
+}
 section.container .type2 {
+    display: none;
     padding: 40px;
 }
 section.container .type2 > :nth-child(1) {
@@ -75,31 +137,521 @@ section.container .type2 > :nth-child(1) {
     font-weight: bold;
     font-size: 15px;
 }
-/* 아코디언 내용 */
-section.container .type3 {
-}
-
 #sample {
     display: flex;
     align-items: center;
-    width: 95px;
+    width: 100px;
     height: 12px;
     padding: 10px;
-    border: 1px solid #d9d9d9;
+    border: 1px solid #acabab;
     border-radius: 5px;
     background-color: rgb(255, 255, 255);
     cursor: pointer;
     color: black;
     text-decoration: none;
+    margin-top: 10px;
 }
 #sample:visited {
     color: none;
 }
 .fa-solid.fa-file-excel {
-    margin-right: 7px;
-    font-size: 18px;
+    margin-right: 10px;
+    font-size: 16px;
     color: green;
 }
-#sampleText {
+#fileUpload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+section.container #uploadBtn {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    border: 1px solid #acabab;
+    border-radius: 5px;
+    width: 50px;
+    height: 14px;
+    padding: 8px;
+    background-color: #fff;
+    text-align: center;
+    font-size: 12px;
+    margin-top: 15px;
+}
+section.container #uploadBtn:hover {
+    background-color: #e0e0e0;
+}
+section.container #fileUpload > input::content {
+    color: white;
+}
+#dragAndDrop { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 950px;
+    height: 150px;
+    background-color: #fff;
+    border: 1px solid #e5e5e6;
+}
+#fileInput {
+    display: none;
+}
+.fa-sharp.fa-regular.fa-square-plus {
+    color: #767676;
+    font-size: 16px;
+}
+#fileName {
+    margin-top: 10px;
+}
+.sapphire-btn2:hover {
+    background: white;
+    color: var(--main-color);
+    border: 2px solid var(--main-color);
+}
+
+
+
+/*구성원 일괄 추가 */
+.accordion > :nth-child(3) > :nth-child(1) {
+    color: rgba(0, 0, 0, 0.479);
+}
+section.container .type3 {
+    display: none;
+}
+#addInBulk {
+    width: 80px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.employeeList {
+    display: flex;
+    flex-direction: column;
+    width: 900px;
+    border-top: 1px solid #ddd;
+    overflow: scroll;
+    overflow-y: hidden;
+    padding-bottom: 30px;
+    background-color: white;
+}
+
+/* 구성원 리스트 헤드 */
+section.container .head {
+    display: flex;
+    margin: 0;
+    width: 2050px;
+    height: 40px;
+    border-bottom: 1px solid #ddd;
+    background-color: #f3efef;
+}
+/* 헤드 바로 하위 div 공통 속성 */
+section.container .head > div {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 0 0 0 20px;
+    font-weight: bold;
+}   
+/* 체크박스 */
+.head > :nth-child(1) {
     
+}
+/* 성 */
+.head > :nth-child(2) {
+    width: 100px;
+    color: #118dff;
+}
+/* 이름 */
+.head > :nth-child(3) {
+    width: 100px;
+    color: #118dff;
+}
+/* ID */
+.head > :nth-child(4) {
+    width: 100px;
+    color: #118dff;
+}
+/* 비밀번호 */
+.head > :nth-child(5) {
+    width: 100px;
+    color: #118dff;
+}
+/* 휴대폰 번호 */
+.head > :nth-child(6) {
+    width: 120px;
+    color: #118dff;
+}
+/* 개인 이메일 */
+.head > :nth-child(7) {
+    width: 150px;
+    color: #118dff;
+}
+/* 생일 */
+.head > :nth-child(8) {
+    width: 100px;
+}
+/* 부서 */
+.head > :nth-child(9) {
+    width: 120px;
+}
+/* 팀 */
+.head > :nth-child(10) {
+    width: 120px;
+}
+/* 직급 */
+.head > :nth-child(11) {
+    width: 100px;
+}
+/* 계약 형태 */
+.head > :nth-child(12) {
+    width: 100px;
+}
+/* 근무처 */
+.head > :nth-child(13) {
+    width: 150px;
+}
+/* 내선 번호 */
+.head > :nth-child(14) {
+    width: 120px;
+}
+/* 입사일 */
+.head > :nth-child(15) {
+    width: 100px;
+}
+/* 사번 */
+.head > :nth-child(16) {
+    width: 100px;
+}
+
+
+/* 구성원 */
+section.container .employee {
+    display: flex;
+    margin: 0;
+    width: 2050px;
+    height: 60px;
+    background-color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+section.container .employee > div {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 0 0 0 20px;
+    font-size: 14px;
+    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+section.container .employee > div span {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/* 체크박스 */
+.employee > :nth-child(1) {
+    
+}
+/* 성 */
+.employee > :nth-child(2) {
+    width: 100px;
+}
+/* 이름 */
+.employee > :nth-child(3) {
+    width: 100px;
+}
+/* ID */
+.employee > :nth-child(4) {
+    width: 100px;
+}
+/* 비밀번호 */
+.employee > :nth-child(5) {
+    width: 100px;
+}
+/* 휴대폰 번호 */
+.employee > :nth-child(6) {
+    width: 120px;
+}
+/* 개인 이메일 */
+.employee > :nth-child(7) {
+    width: 150px;
+}
+/* 생일 */
+.employee > :nth-child(8) {
+    width: 100px;
+}
+/* 부서 */
+.employee > :nth-child(9) {
+    width: 120px;
+}
+/* 팀 */
+.employee > :nth-child(10) {
+    width: 120px;
+}
+/* 직급 */
+.employee > :nth-child(11) {
+    width: 100px;
+}
+/* 계약 형태 */
+.employee > :nth-child(12) {
+    width: 100px;
+}
+/* 근무처 */
+.employee > :nth-child(13) {
+    width: 150px;
+}
+/* 내선 번호 */
+.employee > :nth-child(14) {
+    width: 120px;
+}
+/* 입사일 */
+.employee > :nth-child(15) {
+    width: 100px;
+}
+/* 사번 */
+.employee > :nth-child(16) {
+    width: 100px;
+}
+
+
+
+* {
+    /* border: 1px solid green; */
+}
+
+
+
+/* 모달창1 */
+.modal {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    width: 320px;
+    height: 100px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+.modal-content p {
+    margin: 0 0 20px;
+    font-size: 17px;
+    text-align: start;
+    line-height: 25px;
+    font-weight: bold;
+}
+#btnDiv {
+    display: flex;
+    justify-content: end;
+}
+#confirmBtn:hover {
+    background: var(--main-color);
+    color: white;
+    border: 2px solid var(--main-color);
+}
+
+/* 모달창2 */
+.modal2 {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-content2 {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    width: 320px;
+    height: 100px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+.modal-content2 > :nth-child(1) {
+    margin: 0 0 5px;
+    font-size: 17px;
+    text-align: start;
+    line-height: 25px;
+    font-weight: bold;
+}
+.modal-content2 > :nth-child(2) {
+    margin: 0 0 15px;
+    font-size: 13px;
+    text-align: start;
+    line-height: 25px;
+}
+#btnDiv2 {
+    display: flex;
+    justify-content: end;
+}
+#confirmBtn2:hover {
+    background: var(--main-color);
+    color: white;
+    border: 2px solid var(--main-color);
+}
+.sapphire-btn2 {
+    background: var(--main-color);
+    color: white;
+    border: 2px solid var(--main-color);
+}
+.blur {
+    background: #426ea747;
+    border: 2px solid #426ea700;
+    color: white;
+}
+
+/* 모달창3 */
+.modal3 {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-content3 {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    width: 320px;
+    height: 100px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+.modal-content3 > :nth-child(1) {
+    margin: 0 0 5px;
+    font-size: 17px;
+    text-align: start;
+    line-height: 25px;
+    font-weight: bold;
+}
+.modal-content3 > :nth-child(2) {
+    margin: 0 0 15px;
+    font-size: 13px;
+    text-align: start;
+    line-height: 25px;
+}
+#btnDiv3 {
+    display: flex;
+    justify-content: end;
+}
+#confirmBtn3:hover {
+    background: var(--main-color);
+    color: white;
+    border: 2px solid var(--main-color);
+}
+#cancelBtn3:hover {
+
+}
+#cancelBtn3 {
+    background: white;
+    color: black;
+    margin-left: 10px;
+}
+#cancelBtn3:hover {
+    background: var(--main-color);
+    color: white;
+    border: 2px solid var(--main-color);
+}
+
+/* 모달창4 */
+.modal4 {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-content4 {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    width: 320px;
+    height: 100px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+.modal-content4 > :nth-child(1) {
+    margin: 0 0 5px;
+    font-size: 17px;
+    text-align: start;
+    line-height: 25px;
+    font-weight: bold;
+}
+.modal-content4 > :nth-child(2) {
+    margin: 0 0 15px;
+    font-size: 13px;
+    text-align: start;
+    line-height: 25px;
+}
+#btnDiv4 {
+    display: flex;
+    justify-content: end;
+}
+#confirmBtn4:hover {
+    background: var(--main-color);
+    color: white;
+    border: 2px solid var(--main-color);
+    cursor: pointer;
+}
+#cancelBtn4:hover {
+
+}
+#cancelBtn4 {
+    background: white;
+    color: black;
+    margin-left: 10px;
+}
+#cancelBtn4:hover {
+    background: var(--main-color);
+    color: white;
+    border: 2px solid var(--main-color);
 }

@@ -14,7 +14,7 @@ public interface AddInBulkService {
 	 * @param excel
 	 * @return
 	 */
-	List<Map<String, String>> readExcel(MultipartFile excel) throws Exception ;
+	List<Map<String, Object>> readExcel(MultipartFile excel) throws Exception ;
 
 	/** 사원 계정 정보 조회
 	 * @return

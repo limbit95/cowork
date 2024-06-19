@@ -227,6 +227,9 @@ public class AdminAddrServiceImpl implements AdminAddrService {
 		String tbAuthKey = mapper.getTbAuthKey(data);
 		String empAuthKey = mapper.getEmpAuthKey(data);
 		
+		log.info(tbAuthKey);
+		log.info(empAuthKey);
+		
 		if(!tbAuthKey.equals(empAuthKey)) {
 			return 0;
 		}
