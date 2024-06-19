@@ -30,7 +30,8 @@
 		LEFT JOIN 
 		    (SELECT 
 		        tm.TODO_NO,
-		        LISTAGG(manager_emp.EMP_LAST_NAME || manager_emp.EMP_FIRST_NAME, ', ') WITHIN GROUP (ORDER BY manager_emp.EMP_LAST_NAME, manager_emp.EMP_FIRST_NAME) AS inChargeEmp
+		        LISTAGG(manager_emp.EMP_LAST_NAME || manager_emp.EMP_FIRST_NAME, ', ') 
+		        WITHIN GROUP (ORDER BY manager_emp.EMP_LAST_NAME, manager_emp.EMP_FIRST_NAME) AS inChargeEmp
 		     FROM 
 		        TODO_MANAGER tm
 		     JOIN 
@@ -175,12 +176,14 @@
 	        INSERT INTO "TODO_MANAGER" 
 	        SELECT 
 	            NEXT_TODO_MGR_NO(), 
-	            emp.EMP_CODE, 
+	            inChargeEmp.EMP_CODE, 
 	            #{todoNo}
 	        FROM 
-	            Employee emp
+	            EMPLOYEE loginEmp
+	       	JOIN EMPLOYEE inChargeEmp ON (loginEmp.EMP_CODE = inChargeEmp.EMP_CODE)
 	        WHERE 
-	            CONCAT(emp.EMP_LAST_NAME, emp.EMP_FIRST_NAME) = #{inChargeEmp}
+	            CONCAT(emp.inChargeEmp_LAST_NAME, inChargeEmp.EMP_FIRST_NAME) = #{inChargeEmp}
+	            AND loginEmp.COM_NO = inChargeEmp.COM_NO
 	</insert>
 	
 	<!-- 담당자 여러명 등록 -->
@@ -188,12 +191,14 @@
 		INSERT INTO "TODO_MANAGER" 
 	        SELECT 
 	            NEXT_TODO_MGR_NO(), 
-	            emp.EMP_CODE, 
+	            inCharge.EMP_CODE, 
 	            #{todoNo}
 	        FROM 
-	            Employee emp
+	            EMPLOYEE loginEmp
+	       	JOIN EMPLOYEE inChargeEmp ON (loginEmp.EMP_CODE = inchargeEmp.EMP_CODE)
 	        WHERE 
-	            CONCAT(emp.EMP_LAST_NAME, emp.EMP_FIRST_NAME) = #{inChargeEmp}
+	            CONCAT(inChargeEmp.EMP_LAST_NAME, inChargeEmp.EMP_FIRST_NAME) = #{inChargeEmp}
+	            AND loginEmp.COM_NO = inChargeEmp.COM_NO
 	</insert>
 	
 	<!-- 담당자 여러명 조회 -->
@@ -207,7 +212,7 @@
 	    WHERE 
 	        tm.TODO_NO = #{todoNo}
 	</select>
-
+ 
 	
 	<!-- 할 일 상세 -->
 	<select id="todoDetail">

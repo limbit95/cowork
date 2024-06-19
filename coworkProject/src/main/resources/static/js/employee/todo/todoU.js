@@ -15,7 +15,7 @@ function initializeEventListeners() {
     }
 
     // 파일 업로드 관련 
-    const uploadFileLabel = document.querySelector('#uploadFile + .uploadFileLabel');
+    const uploadFileLabel = document.querySelector('#uploadFile');
     if (uploadFileLabel) {
         uploadFileLabel.addEventListener('click', () => document.getElementById('uploadFile').click());
     }
@@ -25,7 +25,7 @@ function initializeEventListeners() {
         uploadFile.addEventListener('change', handleFileUpload);
     }
 
-    const detailUploadFileLabel = document.querySelector('#detailUploadFile + .uploadFileLabel');
+    const detailUploadFileLabel = document.querySelector('#detailUploadFile');
     if (detailUploadFileLabel) {
         detailUploadFileLabel.addEventListener('click', () => document.getElementById('detailUploadFile').click());
     }
@@ -291,7 +291,7 @@ function toggleInsertForm(e) {
 
     if (todoInsertArea.style.display === 'none' || todoInsertArea.style.display === '') {
         todoInsertArea.style.display = 'block';
-        setTimeout(() => todoInsertArea.classList.add('show'), 10);
+        setTimeout(() => todoInsertArea.classList.add('show'), 100);
         todoDetailArea.style.display = 'none';
         todoDetailArea.classList.remove('show');
         applyTodoStyles('reduced');
@@ -376,14 +376,14 @@ function applyTodoStyles(size) {
     todos.forEach(todo => {
 
         if (size === 'reduced') {
-            todo.style.width = '680px';
+            todo.style.width = '550px';
             todo.querySelectorAll('div:nth-of-type(1)').forEach(element => {
                 element.style.marginLeft = '20px';
                 element.style.width = '20px';
             });
             todo.querySelectorAll('div:nth-of-type(2)').forEach(element => {
                 element.style.marginLeft = '10px';
-                element.style.width = '80%';
+                element.style.width = '75%';
             });
 
         } else {
@@ -503,40 +503,48 @@ function showTodoDetail(todo) {
 }
 
 function updateTodo() {
-    const formData = new FormData(document.getElementById('todoUpdateForm'));
 
-    // 기존 파일 목록을 FormData에 추가
-    uploadedFiles.forEach(file => {
-        if (file.filePath) {
-            formData.append('existingFiles', JSON.stringify(file));
+    const clone = new FormData(document.getElementById('todoUpdateForm'));
+   
+    for (let file of todoFileList) {
+        if (!deleteOrder.has(file.fileOrder)) {
+            updateOrder.add(file.fileOrder);
         }
-    });
+    }
 
-    // 새 파일 목록을 FormData에 추가
-    newFiles.forEach(file => {
-        formData.append('newFiles', file);
-    });
+    clone.append('updateOrder', Array.from(updateOrder).join(','));
+    clone.append('deleteOrder', Array.from(deleteOrder).join(','));
 
-    // 삭제된 파일 목록을 FormData에 추가
-    deletedFiles.forEach(file => {
-        formData.append('deletedFiles', JSON.stringify(file));
-    });
+    for (const pair of formData.entries()) {
+        clone.append(pair[0], pair[1]);
+    }
 
-    fetch('/todo/update', {
+    console.log("Submitting form with data:");
+    for (const pair of clone.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+    }
+
+    fetch('/todo/update/' + clone.get('todoNo'), {
         method: 'POST',
-        body: formData
+        body: clone
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('업데이트 성공');
+    .then(resp => {
+        console.log("Server response status:", resp.status);
+        return resp.text();
+    })
+    .then(result => {
+        console.log("폼 데이타 : ");
+        console.log("updateOrder: ", Array.from(updateOrder).join(','));
+        console.log("deleteOrder: ", Array.from(deleteOrder).join(','));
+        if (result > 0) {
+            alert('할 일 수정되었습니다');
             location.reload();
         } else {
-            alert('업데이트 실패');
+            alert('할 일 수정 실패');
         }
     })
     .catch(error => {
-        console.error('Error:', error);
+        console.error('Error during form submission:', error);
     });
 }
 
@@ -713,7 +721,8 @@ function invalidateInsertForm(e) {
 function createSearchTable(inputElement) {
     const searchTable = document.createElement('div');
     searchTable.className = 'searchTable';
-    inputElement.parentElement.appendChild(searchTable); // 인풋 창 바로 아래에 검색 영역 추가
+    const tagsWrapper = document.getElementById('tagsWrapper'); 
+    tagsWrapper.parentElement.appendChild(searchTable); // 인풋 창 바로 아래에 검색 영역 추가
     return searchTable;
 }
 
@@ -761,6 +770,73 @@ document.addEventListener('click', (event) => {
 
 // 담당자 클릭 시
 function searchtrInChargeClick(empCode, empName) {
+    const inputElement = document.querySelector('#inChargeInput2');
+    const tagsWrapper = document.querySelector('#tagsWrapper');
+
+    // 태그 생성
+    const tag = document.createElement('span');
+    tag.className = 'tag';
+    tag.dataset.empCode = empCode;
+    tag.textContent = empName + ' ';
+
+    // 태그에 삭제 기능 추가
+    const deleteButton = document.createElement('span');
+    deleteButton.className = 'delete-button';
+    deleteButton.textContent = 'x';
+    deleteButton.onclick = () => {
+        tag.remove();
+        updateInputValue();
+    };
+    tag.appendChild(deleteButton);
+
+    // 태그 추가 (인풋 창 앞에)
+    tagsWrapper.insertBefore(tag, inputElement);
+
+    // 인풋 창 초기화
+    inputElement.value = '';
+    inputElement.focus();
+    updateInputValue();
+}
+
+// 검색 초기화 함수
+function initializeSearchFeature(inputId) {
+    console.log(`Initializing search feature for input: ${inputId}`); // 디버그 로그 추가
+    const inputElement = document.getElementById(inputId);
+    let searchTable;
+    inputElement.addEventListener('input', () => {
+        console.log(`Input event triggered for: ${inputId}`); // 디버그 로그 추가
+        const empName = inputElement.value.split(',').pop().trim(); // 콤마로 구분된 마지막 이름으로 검색
+        if (!searchTable) {
+            searchTable = createSearchTable(inputElement);
+        }
+        if (empName) {
+            searchEmp(empName, 'trInCharge', searchTable);
+        } else {
+            searchTable.innerHTML = '';
+            searchTable.style.display = 'none';
+        }
+    });
+}
+
+// 인풋 값 업데이트 함수
+function updateInputValue() {
+    const inputElement = document.querySelector('#inChargeInput2');
+    const tagsWrapper = document.querySelector('#tagsWrapper');
+    const tags = tagsWrapper.querySelectorAll('.tag');
+    const empCodes = [];
+    tags.forEach(tag => {
+        empCodes.push(tag.dataset.empCode);
+    });
+    document.querySelector('#empCode').value = empCodes.join(',');
+}
+
+
+
+
+/*
+
+// 담당자 클릭 시
+function searchtrInChargeClick(empCode, empName) {
     const inChargeContainer = document.querySelector('#inchargeEmp');
     const inChargeDiv = document.createElement('div');
     inChargeDiv.className = 'default-label lavenderLabel putRecipient';
@@ -771,6 +847,22 @@ function searchtrInChargeClick(empCode, empName) {
     inChargeContainer.appendChild(inChargeDiv);
 }
 
+
+// 담당자 클릭 시
+function searchtrInChargeClick(empCode, empName) {
+    inputElement = document.querySelector('#inChargeInput2');
+    const currentValue = inputElement.value; 
+
+    if(currentValue) {
+        inputElement.value = currentValue + ',' + empName; 
+    } else {
+        alert(empName);
+        inputElement.value = empName; 
+    }
+    inputElement.dataset.empCode = empCode;
+    inputElement.dataset.empName = empName;
+    //inputElement.textContent = empName; 
+}
 
 // 삭제 버튼 생성 함수
 function createDeleteButton(parentDiv) {
@@ -795,7 +887,25 @@ function initializeSearchFeature(inputId) {
         if (!searchTable) {
             searchTable = createSearchTable(inputElement);
         }
-        searchEmp(empName, 'trInCharge', searchTable);
+        if(empName) {
+            searchEmp(empName, 'trInCharge', searchTable);
+        } else {
+            searchTable.innerHTML = ''; 
+            searchTable.style.display = 'none';
+        }
     });
 }
 
+
+
+
+// 인풋창 옆에 삭제 버튼 추가
+    let deleteButton = inputElement.nextSibling;
+    if (!deleteButton || !deleteButton.classList.contains('delete-button')) {
+        deleteButton = createDeleteButton(inputElement);
+        inputElement.parentElement.appendChild(deleteButton);
+    }
+
+
+
+*/

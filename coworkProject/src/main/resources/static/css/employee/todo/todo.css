@@ -194,10 +194,11 @@ ul{
 } */
 
 
+
 /* ---------------- 할 일 등록 ---------------- */
 .todoDetailArea, .todoInsertArea {
     border: 1px solid #d9d9d9;
-    width: 270px;
+    width: 400px;
     height: 690px;
     margin: 15px 0 15px 20px !important;
     display: flex;
@@ -221,18 +222,25 @@ ul{
 }
 
 /* 할 일 상세 내부 input창 */
-.todoArea input {
+#todoTitle {
     margin: 10px 0;
     border: 0px;
     border-bottom: 1px solid var(--gray-color);
     padding-bottom: 10px;
+    width: 230px;
 }
 
-.todoArea input:hover {
+#todoTitle:hover {
     border-bottom: 1px solid #214177;
 }
 
-/* 요청 내용 박스 부분 */
+/* 담당자 */
+#tagsWrapper {
+    width: 230px;
+}
+
+
+/* 요청 내용 박스 부분 
 #requestContent {
     border: 1px solid #d9d9d9;
     padding: 10px;
@@ -245,37 +253,15 @@ ul{
 #requestContent:focus {
     outline: none;
 }
+*/
 
-.todoDetailArea div:nth-of-type(7), .todoInsertArea div:nth-of-type(7) {
-    height: 170px;
-}
-
-/* 요청 내용, 첨부 파일  + 박스 */
-.todoDetailArea div:nth-of-type(6), 
-.todoDetailArea div:nth-of-type(7), 
-.todoDetailArea div:nth-of-type(9),
-.todoInsertArea div:nth-of-type(6), 
-.todoInsertArea div:nth-of-type(7) 
-.todoInsertArea div:nth-of-type(9) {
-    margin-left: 20px !important;
-    align-items: center;
-    margin-bottom: 0 !important;
-}
-
-.todoDetailArea div:nth-of-type(9), .todoInsertArea div:nth-of-type(9) {
-   display: inline-block;
-}
-
-.todoDetailArea div div:nth-of-type(1), .todoInsertArea div div:nth-of-type(1) {
-    width: 80px;
-    margin-right: 15px;
-}
 
 /* 목록 내부 제목 부분 */
 .detailTitle {
     font-weight: bold;
     font-size: 14px;
     color: #214177;
+    width: 80px;
 }
 
 /* 목록 내부 내용 부분 */
@@ -290,9 +276,8 @@ ul{
 /* 기한 input */
 input[type="date"] {
     border: none;
-    padding: 10px;
+    padding-left: 5px;
 }
-
 
 /* 기한 부분 */
 input[type="date"]:hover {
@@ -398,7 +383,7 @@ input[type="date"]:hover {
 }
 
 #insertBtn2 {
-    margin-left: 210px;
+    margin-left: 340px;
     border: none;
     background-color: transparent;
     color: #214177;
@@ -493,6 +478,7 @@ input[type="date"]:hover {
     padding: 9px;
     overflow: scroll;
     overflow-x: hidden; 
+    z-index: 1000;
 }
 
 #recipient:focus + .searchTable,
