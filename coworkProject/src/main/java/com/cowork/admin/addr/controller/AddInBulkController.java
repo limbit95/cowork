@@ -31,44 +31,27 @@ public class AddInBulkController {
 	
 	private final AddInBulkService service;
 	
+	/** 구성원 일괄 추가 페이지 이동
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("")
 	public String userList(Model model) {
-		
-//		List<Employee2> employeeList = service.selectEmployeeList();
-//		
-//		if(employeeList.isEmpty()) {
-//			model.addAttribute("employeeList", employeeList);
-//		}
-//		
-//		model.addAttribute("employeeList", employeeList);
-		
 		return "admin/addr/addEmployeeInBulk";
 	}
-
-	@GetMapping("excel")
-	public String excel() {
-		
-		return "excel/test";
-	}
 	
-	@PostMapping("excel/upload")
-	public String excel(@RequestParam("excel") MultipartFile excel,
-						Model model,
-						RedirectAttributes ra) throws Exception {
+	@ResponseBody
+	@PostMapping("excelUpload")
+	public List<Map<String, Object>> excel(@RequestParam("excel") MultipartFile excel) throws Exception {
+		
+		log.info("excel : " + excel);
 
 		// 엑셀 파일의 사원 정보를 읽어 리스트 자료 구조에 담는 코드
-		List<Map<String, String>> excelList = service.readExcel(excel);
+		List<Map<String, Object>> excelList = service.readExcel(excel);
 		
-		String message = null;
+		log.info("excelList : " + excelList);
 		
-		if(excelList.isEmpty()) {
-			message = "업로드 실패";
-		}
-		
-		ra.addFlashAttribute("excelList", excelList);
-		ra.addFlashAttribute("message", message);
-		
-		return "redirect:/user/excel";
+		return excelList;
 	}
 	
 	@ResponseBody

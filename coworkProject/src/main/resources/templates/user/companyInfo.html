@@ -20,10 +20,11 @@
                 <form action="/user/companyInfo" method="post" id="companyInfoForm">
 
                     <div class="inputInfo">
-                        <input placeholder="* 회사명" autocomplete="off" id="comNm" name="comNm" maxlength="40" spellcheck="false">
-                        <input placeholder="회사 대표 번호" autocomplete="off" id="comTel" name="comTel" spellcheck="false">
-                        <input placeholder="이메일" autocomplete="off" id="comEmail" name="comEmail" spellcheck="false">
-                        <input placeholder="* 사용할 도메인" autocomplete="off" id="domain" name="domain" spellcheck="false">
+                        <input placeholder="* 회사명" autocomplete="off" id="comNm" name="comNm" spellcheck="false" maxlength="50">
+                        <input placeholder="대표자명" autocomplete="off" id="ceoNm" name="ceoNm" spellcheck="false" maxlength="15">
+                        <input placeholder="회사 대표 번호" autocomplete="off" id="comTel" name="comTel" spellcheck="false" maxlength="20">
+                        <input placeholder="이메일" autocomplete="off" id="comEmail" name="comEmail" spellcheck="false" maxlength="100">
+                        <input placeholder="* 사용할 도메인" autocomplete="off" id="domain" name="domain" spellcheck="false" maxlength="50">
                         <span id="domainMessage">영어 대·소문자 2~30글자</span>
                     </div>
                     <div class="inputAddr">
@@ -32,7 +33,7 @@
                             <button type="button" id="searchBtn">찾기</button>
                         </div>
                             <input placeholder="도로명/지번" readonly id="address" name="comAddr">
-                            <input placeholder="상세주소" autocomplete="off" id="detailAddress" name="comAddr" spellcheck="false">
+                            <input placeholder="상세주소" autocomplete="off" id="detailAddress" name="comAddr" spellcheck="false" maxlength="50">
                     </div>     
                     <div id="registrationNumArea">
                         <input placeholder="* 사업자 등록 번호" id="registrationNum" autocomplete="off" name="licenseNo" maxlength="10" readonly> 

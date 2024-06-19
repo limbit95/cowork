@@ -13,64 +13,82 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 public class ReadExcel {
 
-	public static List<Map<String, String>> readExcel(String fileRename, String folderPath) {
+	public static List<Map<String, Object>> readExcel(String fileRename, String folderPath) {
 		
-		List<Map<String, String>> employeeList = new ArrayList<Map<String, String>>();
-		List<String> column = new ArrayList<String>();
+		List<Map<String, Object>> employeeList = new ArrayList<Map<String, Object>>();
+		List<String> draft = new ArrayList<String>();
+		draft.add("성");
+		draft.add("이름");
+		draft.add("ID");
+		draft.add("전화번호");
+		draft.add("이메일");
+		draft.add("생일");
+		draft.add("부서");
+		draft.add("팀");
+		draft.add("직급");
+		draft.add("계약형태");
+		draft.add("근무처");
+		draft.add("내선번호");
+		draft.add("입사일");
+		draft.add("사번");
 		
 		try {
 			FileInputStream file = new FileInputStream(folderPath + fileRename); 
 			Workbook workbook = WorkbookFactory.create(file);
 			Sheet sheet = workbook.getSheetAt(0);
 			
-			for(int x = 0; x <= sheet.getLastRowNum(); x++) {
-				Map<String, String> employee = new HashMap<String, String>();
-				employee.put("empName", null);
-				employee.put("empId", null);
-				employee.put("empEmail", null);
-				employee.put("empNickname", null);
-				employee.put("empTel", null);
-				employee.put("empBirth", null);
-				employee.put("empNo", null);
-				
-				// 행 값 지웠는데 있는 걸로 인식할 때 첫 번째 셀 값이 null이면 해당 로우 건너뛰기
-				if(String.valueOf(sheet.getRow(x).getCell(0)).equals("null")) {
-					continue;
+			System.out.println("행 개수 : " + sheet.getPhysicalNumberOfRows());
+			System.out.println("해당 셀 개수 : " + sheet.getRow(1).getPhysicalNumberOfCells());
+			System.out.println("해당 셀 개수 : " + sheet.getRow(6).getPhysicalNumberOfCells());
+			
+			int flag = 0;
+			
+			for(int x = 0; x < sheet.getPhysicalNumberOfRows(); x++) {
+				if(flag == 1) {
+					Map<String, Object> flagMap = new HashMap<String, Object>();
+					flagMap.put("error1", "등록하려는 파일이 유효하지 않습니다.");
+					employeeList.add(flagMap);
+					return employeeList; 
 				}
 				
-				for(int i = 0; i < sheet.getRow(x).getLastCellNum(); i++) {
-					// 해당 셀의 분류 값을 자동으로 인식해서 넣게끔하려 했지만 일일이 지정해서 넣는게 더 관리하기 편해서 65번~71번줄 처럼 대체 변경함
+				Map<String, Object> employee = new HashMap<String, Object>();
+				employee.put("성", null);
+				employee.put("이름", null);
+				employee.put("ID", null);
+				employee.put("전화번호", null);
+				employee.put("이메일", null);
+				employee.put("생일", null);
+				employee.put("부서", null);
+				employee.put("팀", null);
+				employee.put("직급", null);
+				employee.put("계약형태", null);
+				employee.put("근무처", null);
+				employee.put("내선번호", null);
+				employee.put("입사일", null);
+				employee.put("사번", null);
+				
+				for(int i = 0; i < draft.size(); i++) {
+					String column = String.valueOf(sheet.getRow(x).getCell(i));
 					if(x == 0) {
-						column.add(String.valueOf(sheet.getRow(x).getCell(i)));
+						if(!draft.get(i).equals(column)) {
+							flag = 1;
+							break;
+						}
 					}
-					
 					if(x > 0) {
-						// String 형 19950516 -> 1995-05-16으로 변환하는 코드인데 19950516도 DB TO_DATE 변환으로 삽입 가능해서 주석처리함
-//						if(i == 5 && sheet.getRow(x).getCell(i) != null) {
-//							String date = String.valueOf(sheet.getRow(x).getCell(i));
-//							String year = date.substring(0, 4);
-//							String month = date.substring(4, 6);
-//							String day = date.substring(6, 8);
-//							date = year + "-" + month + "-" + day;
-//							employee.put(column.get(i), date);
-//						}
-//						System.out.println(String.valueOf(sheet.getRow(x).getCell(i)));
-						employee.put(column.get(i), String.valueOf(sheet.getRow(x).getCell(i)));
+						employee.put(draft.get(i), column);
 					}
 				}
 				
 				if(x > 0) {
 					employeeList.add(employee);
 				}
-				System.out.println();
 			}
 			file.close();
 			
 		} catch(IOException e) {
 			e.printStackTrace();
 		} 
-		
-//		System.out.println(employeeList);
 		
 		return employeeList;
 	}

@@ -7,18 +7,24 @@
 
     <th:block th:replace="~{common/common}"></th:block>
     <link rel="stylesheet" href="/css/admin/addr/addEmployeeInBulk.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
 	<div th:replace="~{admin/left/adminLeftSideBar}"></div>
 
     <section class="container">
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
-
-        <div class="title"><span>구성원 일괄 추가</span></div>
+        
+        <div class="title">
+            <span>구성원 일괄 추가</span>
+            <i class="fa-solid fa-question"></i>
+            <span>│</span>
+            <span id="backPage">이전으로 돌아가기</span>
+        </div>
 
         <div class="accordion">
             <div class="accordion-item">
-                <button class="accordion-header">1. 비밀번호 생성 방식</button>
+                <button class="accordion-header" type="button">1. 비밀번호 생성 방식</button>
                 <div class="accordion-content type1">
                     <p>비밀번호 생성 방식을 선택해주세요.</p>
                     <div>
@@ -35,34 +41,121 @@
                             <label for="self">구성원이 직접 등록</label>
                         </div>
                     </div>
-                    <button class="default-btn sapphire-btn">다음</button>
+                    <button class="default-btn sapphire-btn" id="next1" type="button">다음</button>
                 </div>
             </div>
+
             <div class="accordion-item">
-                <button class="accordion-header">2. 파일 등록</button>
+                <button class="accordion-header" type="button">2. 파일 등록</button>
                 <div class="accordion-content type2">
                     <p>엑셀 파일을 통해 구성원 일괄 추가를 해보세요</p>
-                    <a href="/excel/sample/CoWork_sample.csv" download id="sample">
+                    <a href="/excel/sample/CoWork_sample.xlsx" download id="sample">
                         <i class="fa-solid fa-file-excel"></i>
                         <span id="sampleText">양식 다운로드</span>
                     </a>
-                    <div>
-                        <button class="default-btn sapphire-btn">다음</button>
-                    </div>
+                    <form id="fileUpload">
+                        <input type="file" id="fileInput" name="excel" accept=".xls, .XLSX"> <!-- 추후 디벨롭 사항으로 .csv 파일도 다루기 -->
+                        <div id="dragAndDrop">
+                            <i class="fa-sharp fa-regular fa-square-plus"></i>
+                            <span id="fileName">마우스로 파일을 끌어오거나 직접 선택해 주세요.</span>
+                            <label for="fileInput" id="uploadBtn">파일 선택</label>
+                        </div>
+                        <button class="default-btn blur" id="next2" type="button">다음</button>
+                    </form>
                 </div>
             </div>
+
             <div class="accordion-item">
-                <button class="accordion-header">3. 구성원 일괄 추가</button>
+                <button class="accordion-header" type="button">3. 구성원 일괄 추가</button>
                 <div class="accordion-content type3">
-                    
-                    <div>
-                        <button class="default-btn sapphire-btn">일괄 추가</button>
+                    <div class="employeeList">
+                        <!-- <div class="head">
+                            <div><input type="checkbox"></div>
+                            <div>성</div>
+                            <div>이름</div>
+                            <div>ID</div>
+                            <div>비밀번호</div>
+                            <div>휴대폰 번호</div>
+                            <div>개인 이메일</div>
+                            <div>생일</div>
+                            <div>부서</div>
+                            <div>팀</div>
+                            <div>직급</div>
+                            <div>계약 형태</div>
+                            <div>근무처</div>
+                            <div>내선 번호</div>
+                            <div>입사일</div>
+                            <div>사번</div>
+                        </div>
+                        <div class="employee">
+                            <div><input type="checkbox"></div>
+                            <div>임</div>
+                            <div>성혁</div>
+                            <div>limbit</div>
+                            <div></div>
+                            <div>휴대폰 번호</div>
+                            <div>개인 이메일</div>
+                            <div>생일</div>
+                            <div>부서</div>
+                            <div>팀</div>
+                            <div>직급</div>
+                            <div>계약 형태</div>
+                            <div>근무처</div>
+                            <div>내선 번호</div>
+                            <div>입사일</div>
+                            <div>사번</div>
+                        </div> -->
+                    </div>
+                    <div> <!-- class blur 나중에 조건 충족했을 시 sapphire-btn 로 변경 -->
+                        <button class="default-btn blur" id="addInBulk" type="button">일괄 추가</button>
                     </div>
                 </div>
             </div>
+
         </div>
 
     </section>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <p>이전 단계를 모두 완료한 뒤 다음 단계를 진행해 주세요.</p>
+            <div id="btnDiv">
+                <button class="default-btn sapphire-btn" id="confirmBtn" type="button">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal2" class="modal2">
+        <div class="modal-content2">
+            <p>파일 형식이 적합하지 않습니다.</p>
+            <p>XLS(XLSX) 파일로 등록해 주세요.</p>
+            <div id="btnDiv2">
+                <button class="default-btn sapphire-btn" id="confirmBtn2" type="button">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal3" class="modal3">
+        <div class="modal-content3">
+            <p>비밀번호 생성 방식을 변경하시겠습니까?</p>
+            <p>모든 과정이 초기화 되어 파일을 다시 등록해야 합니다.</p>
+            <div id="btnDiv3">
+                <button class="default-btn sapphire-btn" id="confirmBtn3" type="button">확인</button>
+                <button class="default-btn sapphire-btn" id="cancelBtn3" type="button">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal4" class="modal4">
+        <div class="modal-content4">
+            <p>파일을 교체하시겠습니까?</p>
+            <p>편집중인 내용이 삭제되고 새 파일로 교체됩니다.</p>
+            <div id="btnDiv4">
+                <label for="fileInput" class="default-btn sapphire-btn"  id="confirmBtn4" type="button">확인</label>
+                <button class="default-btn sapphire-btn" id="cancelBtn4" type="button">취소</button>
+            </div>
+        </div>
+    </div>
     
     <script src="/js/admin/addr/addEmployeeInBulk.js"></script>
 </body>

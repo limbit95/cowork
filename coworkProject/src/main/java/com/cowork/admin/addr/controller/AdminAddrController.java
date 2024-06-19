@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.cowork.admin.addr.model.service.AdminAddrService;
 import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.admin.companyInfo.model.dto.Team;
+import com.cowork.common.utility.NumberRename;
 import com.cowork.email.model.service.EmailService;
 import com.cowork.employee.addr.model.dto.MyAddr;
 import com.cowork.employee.addr.model.service.AddrService;
@@ -55,6 +56,7 @@ public class AdminAddrController {
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		model.addAttribute("loginEmp", loginEmp);
 		
 		List<Department> comAddrList = service.selectComAddrList(loginEmp);
 		model.addAttribute("comAddrList", comAddrList);
@@ -182,47 +184,14 @@ public class AdminAddrController {
 		HttpSession session = request.getSession();
 		Employee2 empDetail = (Employee2)session.getAttribute("empDetail");
 		
-		String phone = empDetail.getPhone();
-		String empTel = empDetail.getEmpTel();
-		String empBirth = empDetail.getEmpBirth();
-		String hireDate = empDetail.getHireDate();
-		
-		if(phone != null) {
-			if(!phone.substring(0, 2).equals("02")) {
-				if(phone.length() == 11) {
-					empDetail.setPhone(phone.substring(0, 3) + "-" + phone.substring(3, 7) + "-" + phone.substring(7, 11));
-				}
-			} else {
-				if(phone.length() == 9) {
-					empDetail.setPhone(phone.substring(0, 2) + "-" + phone.substring(2, 5) + "-" + phone.substring(5, 9));
-				}
-				if(phone.length() == 10) {
-					empDetail.setPhone(phone.substring(0, 2) + "-" + phone.substring(2, 6) + "-" + phone.substring(6, 10));
-				}
-			}
-		}
-		
-		if(empTel != null) {
-			if(!empTel.substring(0, 2).equals("02")) {
-				if(empTel.length() == 11) {
-					empDetail.setEmpTel(empTel.substring(0, 3) + "-" + empTel.substring(3, 7) + "-" + empTel.substring(7, 11));
-				}
-			} else {
-				if(empTel.length() == 9) {
-					empDetail.setEmpTel(empTel.substring(0, 2) + "-" + empTel.substring(2, 5) + "-" + empTel.substring(5, 9));
-				}
-				if(empTel.length() == 10) {
-					empDetail.setEmpTel(empTel.substring(0, 2) + "-" + empTel.substring(2, 6) + "-" + empTel.substring(6, 10));
-				}
-			}
-		}
-		
-		if(empBirth != null && empBirth.length() == 8) {
-			empDetail.setEmpBirth(empBirth.substring(0, 4) + "-" + empBirth.substring(4, 6) + "-" + empBirth.substring(6, 8));
-		}
-		if(hireDate != null && hireDate.length() == 8) {
-			empDetail.setHireDate(hireDate.substring(0, 4) + "-" + hireDate.substring(4, 6) + "-" + hireDate.substring(6, 8));
-		}
+		String phone = NumberRename.Phonerename(empDetail.getPhone());
+		empDetail.setPhone(phone);
+		String empTel = NumberRename.empTelRaname(empDetail.getEmpTel());
+		empDetail.setEmpTel(empTel);
+		String empBirth = NumberRename.empTelRaname(empDetail.getEmpBirth());
+		empDetail.setEmpBirth(empBirth);
+		String hireDate = NumberRename.empTelRaname(empDetail.getHireDate());
+		empDetail.setHireDate(hireDate);
 		
 		model.addAttribute("empDetail", empDetail);
 		
@@ -398,11 +367,14 @@ public class AdminAddrController {
 		
 		log.info("data : " + data);
 		
-		String phone = ((String)data.get("phone")).replace("-", "");
-		String empTel = ((String)data.get("empTel")).replace("-", "");
-		
-		data.put("phone", phone);
-		data.put("empTel", empTel);
+		if(data.get("phone") != null) {
+			String phone = ((String)data.get("phone")).replace("-", "");
+			data.put("phone", phone);
+		}
+		if(data.get("empTel") != null) {
+			String empTel = ((String)data.get("empTel")).replace("-", "");
+			data.put("empTel", empTel);
+		}
 		
 		int result = service.employeeUpdate(data);
 		

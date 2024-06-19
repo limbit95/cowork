@@ -34,13 +34,13 @@ public class AddInBulkServiceImpl implements AddInBulkService{
 
 	// employee 테이블에 사원 정보 저장
 	@Override
-	public List<Map<String, String>> readExcel(MultipartFile excel) throws Exception {
+	public List<Map<String, Object>> readExcel(MultipartFile excel) throws Exception {
 		
 		String fileRename = Utility.fileRename(excel.getOriginalFilename());
 		
 		excel.transferTo(new File(excelFolderPath + fileRename));
 		
-		List<Map<String, String>> excelList =  ReadExcel.readExcel(fileRename, excelFolderPath);
+		List<Map<String, Object>> excelList =  ReadExcel.readExcel(fileRename, excelFolderPath);
 
 		if(excelList.isEmpty()) {
 			return null;

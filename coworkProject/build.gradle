@@ -50,7 +50,11 @@ dependencies {
     
     // 엑셀
 	implementation 'org.apache.poi:poi-ooxml:5.2.3'
-
+	
+	// 서버 배포에 필요한 것
+	implementation 'com.oracle.database.security:osdt_cert:21.3.0.0'
+	implementation 'com.oracle.database.security:oraclepki:21.3.0.0'
+	implementation 'com.oracle.database.security:osdt_core:21.3.0.0'
 }
 
 tasks.named('test') {

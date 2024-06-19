@@ -12,7 +12,8 @@ const checkObj = {
     "empId"             : true,
     "empFirstName"      : true,
     "empLastName"       : true,
-    "phone"             : true
+    "phone"             : true,
+    "teamNo"            : true
 };
 
 // ---------------------------------------------------------------------------------------------------------------------------
@@ -30,7 +31,7 @@ empId.addEventListener("input", e => {
         empIdMessage.classList.add("error");
         empIdMessage.classList.remove("confirm");
         empId.value = "";
-        empId.style.borderColor = 'var(--gray-color)';
+        empId.style.borderColor = 'red';
         checkObj.empId = false;
         return;
     }
@@ -122,29 +123,29 @@ const phone = document.querySelector("[name='phone']");
 
 phone.addEventListener("input", e => {
     const inputTel = e.target.value;
-    phone.style.borderColor = 'var(--gray-color)';
+    // phone.style.borderColor = 'var(--gray-color)';
 
-    const regExp2 = /^[0-9]+$/;
+    // const regExp2 = /^[0-9]+$/;
     
-    if(!regExp2.test(e.target.value)) {
-        document.querySelector(".errorDiv").innerHTML = '';
-        document.querySelector(".errorDiv").innerHTML = 
-        `
-            <div id="error-message">
-                <span>숫자만 입력해주세요!</span>
-                <span id="close-button" style="font-size: 20px; cursor: pointer;">&times;</span>
-            </div>
-        `;
-        e.target.value = '';
-        document.getElementById('error-message').style.display = 'flex';
-        showError();
-        if(document.getElementById('close-button') != null) {
-            document.getElementById('close-button').addEventListener('click', e => {
-                document.querySelector(".errorDiv").innerHTML = '';
-            })
-        }
-        return;
-    }
+    // if(!regExp2.test(e.target.value)) {
+    //     document.querySelector(".errorDiv").innerHTML = '';
+    //     document.querySelector(".errorDiv").innerHTML = 
+    //     `
+    //         <div id="error-message">
+    //             <span>숫자만 입력해주세요!</span>
+    //             <span id="close-button" style="font-size: 20px; cursor: pointer;">&times;</span>
+    //         </div>
+    //     `;
+    //     e.target.value = '';
+    //     document.getElementById('error-message').style.display = 'flex';
+    //     showError();
+    //     if(document.getElementById('close-button') != null) {
+    //         document.getElementById('close-button').addEventListener('click', e => {
+    //             document.querySelector(".errorDiv").innerHTML = '';
+    //         })
+    //     }
+    //     return;
+    // }
 
     // 1) 아무것도 입력하지 않았을 경우
     if(inputTel.trim().length === 0){
@@ -249,6 +250,28 @@ empTel.addEventListener("input", e => {
     }
 });
 
+const empNo = document.querySelector("[name='empNo']")
+const empEmail = document.querySelector("[name='empEmail']")
+const deptNo = document.querySelector("[name='deptNo']")
+const teamNo = document.querySelector("[name='teamNo']")
+const positionNo = document.querySelector("[name='positionNo']")
+const workPlace = document.querySelector("[name='workPlace']")
+const contractType = document.querySelector("[name='contractType']")
+
+deptNo.addEventListener("click", e => {
+    console.log(teamNo.value)
+    if(teamNo.value.length == 0) {
+        checkObj.teamNo = false;
+        return;
+    }
+})
+teamNo.addEventListener("change", e => {
+    if(teamNo.value.length > 0) {
+        checkObj.teamNo = true;
+        return;
+    }
+})
+
 // ---------------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------------
 // 구성원 정보 수정 폼 태그 요소
@@ -266,6 +289,7 @@ if(updateEmployee != null) {
                     case "empFirstName"   : str = "이름을 입력해주세요.";   break;
                     case "empLastName"   : str = "성을 입력해주세요.";   break;
                     case "phone"        : str = "전화번호가 유효하지 않습니다"; break;
+                    case "teamNo"        : str = "팀을 선택해주세요."; break;
                 };
     
                 alert(str);
@@ -276,12 +300,6 @@ if(updateEmployee != null) {
             }
         };
 
-        const empNo = document.querySelector("[name='empNo']")
-        const empEmail = document.querySelector("[name='empEmail']")
-        const teamNo = document.querySelector("[name='teamNo']")
-        const positionNo = document.querySelector("[name='positionNo']")
-        const workPlace = document.querySelector("[name='workPlace']")
-        const contractType = document.querySelector("[name='contractType']")
 
         const obj = {
             "empCode" : empCode,

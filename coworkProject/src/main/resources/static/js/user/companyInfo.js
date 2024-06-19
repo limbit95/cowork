@@ -45,6 +45,14 @@ const domainMessage = document.querySelector("#domainMessage");
 if(domain != null) {
     domain.addEventListener("input", e => {
         const inputDomain = e.target;
+
+        if(e.target.value.toLowerCase().includes('cowork')) {
+            domainMessage.innerText = "사용할 수 없는 도메인입니다.";
+            domainMessage.classList.add("error");
+            domainMessage.classList.remove("confirm");
+            checkObj.domain = false;
+            return;
+        }
     
         const englishOnly = /^[A-Za-z]*$/;
         const regExp = /^[A-Za-z]{2,30}$/;
@@ -197,12 +205,23 @@ if(checkBtn != null) {
         const regist = document.querySelector("#regist");
         const cancel = document.querySelector("#cancel");
 
+        const registrationNum2 = document.querySelector("#registrationNum2");
+        registrationNum2.style.borderColor = 'var(--gray-color)';
+        registrationNum2.setAttribute("placeholder", "사업자 등록 번호")
+
+        if(registrationNum2.value == 0) {
+            registrationNum2.style.borderColor = 'red';
+            registrationNum2.setAttribute("placeholder", "번호를 입력해주세요.")
+            return;
+        }
+
         fetchData().then(() => {
             console.log(b_no);
             console.log(b_stt);
             console.log(b_stt_cd);
             console.log(tax_type);
 
+            bNo.innerText = b_no;
             bStt.innerText = b_stt;
             taxType.innerText = tax_type;
             
@@ -272,6 +291,7 @@ window.addEventListener('message', receiveMessage);
 if(companyInfoForm != null) {
     companyInfoForm.addEventListener("submit", e => {
         const subInfo = {
+            "ceoNm" : document.querySelector("#ceoNm").value,
             "comTel" : document.querySelector("#comTel").value,
             "comEmail" : document.querySelector("#comEmail").value,
             "postcode" : document.querySelector("#postcode").value,
