@@ -97,6 +97,7 @@ public class TodoServiceImpl implements TodoService{
 	                Map<String, Object> map = new HashMap<>(); 
 	                map.put("todoNo", todoNo); 
 	                map.put("inChargeEmp", inChargeEmp); 
+	                map.put("loginEmp", empCode);
 	                log.info("담당자 등록: " + map);
 
 	                result = mapper.insertTodoManagerList(map); 

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>전체메일</title>
 
-    <th:block th:replace="~{common/common}"></th:block>
+  <!-- <th:block th:replace="~{common/common}"></th:block> -->
     <link rel="stylesheet" href="/css/employee/mail/mail.css">
 
 </head>
@@ -25,7 +25,7 @@
                     <button class="default-btn glucose-btn" id="sendBtn" th:onclick="location.href='/mail/mailInsert'">메일쓰기</button>
                 </div>
             </div>
-            <form th:action="@{mailList}" method="get" class="search" id="searchForm">
+            <div th:action="@{mailList}" method="get" class="search" id="searchForm">
 
                 <select class="default-line" name="key" id="searchKey">
                     <option value="1">제목</option>
@@ -36,32 +36,27 @@
                     <input type="text" name="mailQuery" id="SearchQuery" placeholder="검색">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
-            </form>
-                
-            
+            </div>
         </div>
 
         <!-- 테이블 -->
 
         <div class="board">
-            <div class="table-body">
+            <div class="boardHead">
                 <div class="checkDiv">
                     <input type="checkbox" id="checkAll">
                     <label class="delBtn" id="deleteBtn" >삭제</label>
                 </div>
                 <div></div>
-                <div></div>
                 <div class="menuDiv">
-                    <div class="sortByDate">
                         <i class="fa-solid fa-clock"></i>
-                        <i class="fa-solid fa-sort-down dropdown-toggle"></i>
+                       <!-- <i class="fa-solid fa-sort-down dropdown-toggle"></i>
                         <div class="dropdown-menu">
-                            <!-- 드롭다운 메뉴 항목들 -->
+                             드롭다운 메뉴 항목들
                             <a href="#">Option 1</a>
                             <a href="#">Option 2</a>
                             <a href="#">Option 3</a>
-                        </div>
-                    </div>
+                        </div>-->
                <!--   <div class="sortBy">
                         <i class="fa-solid fa-bars"></i>
                         <i class="fa-solid fa-sort-down"></i>

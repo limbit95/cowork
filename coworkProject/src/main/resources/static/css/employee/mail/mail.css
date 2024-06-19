@@ -1,33 +1,4 @@
-/* 체크박스 */
-.checkDiv {
-    display: flex;
-    align-content: center;
-    align-items: center;
-    /*width: 315px !important;*/
-}
-
-.checkDiv input {
-    margin-right: 10px;
-}
-
-/* 삭제버튼 */
-label.delBtn {
-    margin-left: 15px;
-    color: var(--gray-color);
-}
-.checkDiv label.delBtn:hover {
-    color: black;
-}
-
-.menuDiv {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.menuDiv div {
-    width: 27%;
-    margin: 0 !important;
-}
+/*********************** 메일 헤더 부분 ***********************/
 
 .table-body.row {
     display: flex;
@@ -38,6 +9,20 @@ label.delBtn {
 .table-body.row:hover {
     font-weight: bold;
     cursor: pointer;
+}
+
+.table-body div:nth-child(2) {
+    width: 80% !important;
+}
+
+/* 보내기버튼 */
+.mailHeader.mailTitleBtn {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.mailHeader.mailTitleBtn div {
+    margin-right: 20px;
 }
 
 /* 타이틀 */
@@ -60,7 +45,7 @@ label.delBtn {
 .mailLabel {
     display: flex;
     align-items: center;
-    margin: 0 !important;
+    margin: 0 0 20px 0 !important;
 }
 
 .mailLabel label {
@@ -71,65 +56,41 @@ label.delBtn {
     margin-left: 20px !important;
 }
 
-/* 부서팀 */
-.checkDiv div {
-    margin: 0px !important;
-    margin-left: 20px !important;
-}
+/**************** 리스트 헤더 부분 *****************/
 
-/* 보내기버튼 */
-.mailHeader.mailTitleBtn {
+
+/* 체크박스 */
+.checkDiv {
+    margin-left: 30px !important;
     display: flex;
-    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+    /*width: 315px !important;*/
 }
 
-.mailHeader.mailTitleBtn div {
-    margin-right: 20px;
+.checkDiv input {
+    margin-right: 10px;
 }
 
-/*  상세 */
-/*.ins-css.updateForm {
-    display: flex;
-    width: 100%;
-    margin-left: 30px;
+.boardHead div:nth-child(2) {
+    width: 81%;
 }
 
-.updateForm .glucose-btn {
-    margin-left: 10px;
+/* 시계 아이콘 (메일 보낸 시각) */
+
+
+/* 삭제버튼 */
+label.delBtn {
+    margin-left: 15px;
+    color: var(--gray-color);
 }
-
-
-.ins-css.updateForm div:nth-child(1) {
-    width: 100px;
-    margin: 10px 0 !important;
+.checkDiv label.delBtn:hover {
+    color: black;
 }
-
-.updateForm .insert100 {
-    width: 80%;
-}
-
-.updateForm .insertBtn {
-    width: 74%;
-}*/
 
 input.insertMail {
     border: 0;
     border-bottom: 1px solid var(--gray-color);
-}
-
-/*  받는사람 */
-.table-body2 {
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid var(--gray-color);
-}
-
-.table-body2 .ins-css {
-    margin-left: 30px !important;
-}
-
-.table-body2 .ins-css.insertForm {
-    margin: 10px;
 }
 
 .lavenderLabel {
@@ -138,15 +99,34 @@ input.insertMail {
     border-bottom: 1px solid var(--gray-color);
 }
 
+/********************** 리스트 부분 *********************/
 
+
+/* 부서팀 */
+.checkDiv div {
+    margin: 0px !important;
+    margin-left: 20px !important;
+}
 
 /* 메일제목 */
-.table-body2 label.mailTitile {
+.table-body2 label.mailTitle {
     font-size: x-large;
     font-weight: bold;
     border: none;
 }
 
+.board {
+    min-width: 1000px;
+}
+
+.boardHead {
+  display: flex;
+}
+
+
+
+
+/****************************** 상세 페이지 ***************************/
 /* 사원 검색 */
 .searchTable {
     display: none;
@@ -201,6 +181,24 @@ input.insertMail {
 
 }
 
+
+/*  받는사람 */
+.table-body2 {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--gray-color);
+}
+
+.table-body2 .ins-css {
+    margin-left: 30px !important;
+}
+
+.table-body2 .ins-css.insertForm {
+    margin: 10px;
+}
+
+
+
 /* 파일 영역 */
 .preview {
     max-height: 300px; /* 최대 높이 설정 */
@@ -216,7 +214,7 @@ input.insertMail {
 }
 
 
-/* 드롭다운 메뉴 */
+/* 드롭다운 메뉴 
 .dropdown-menu {
     display: none;
     position: absolute;
@@ -239,4 +237,6 @@ input.insertMail {
 
 .dropdown-menu.show {
     display: block;
-}
+} */
+
+
