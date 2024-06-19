@@ -91,25 +91,23 @@ public class EmailServiceImpl implements EmailService{
 		map.put("authKey", authKey);
 		map.put("email", email);
 		
-		// 1) 해당 이메일이 DB에 존재하는 경우가 있을 수 있기 때문에
-		//    수정(update)을 먼저 진행
-		//    -> 1 반환 == 업데이트 성공 == 이미 존재해서 새로 발급받은 인증번호로 변경했다는 사실
-		//    -> 0 반환 == 업데이트 실패 == DB에 해당 이메일 존재 X => insert 시도
-		int result = mapper.updateAuthKey(map);
-		
-		// 2) 1번 update 실패 시(result = ) insert 시도
-		if(result == 0) {
-			result = mapper.insertAuthKey(map);
-		}
-		
-		// 수정, 삽입 후에도 result 가 0 == 실패
-		if(result == 0) {
-			return null;
-		}
-		
-		// 성공
-		return authKey; // 오류없이 완료되면 authKey 반환
+		// 트랜잭션을 분리하여 데이터베이스 작업 수행
+		boolean isStored = storeAuthKey(map);
+		return isStored ? authKey : null; // 오류없이 완료되면 authKey 반환
 	}
+	
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public boolean storeAuthKey(Map<String, String> map) {
+		// 1) 해당 이메일이 DB에 존재하는 경우 수정(update)
+		int result = mapper.updateAuthKey(map);
+		// 2) 업데이트 실패 시 삽입 시도
+		if(result == 0) {
+		result = mapper.insertAuthKey(map);
+		}
+		return result > 0;
+	}
+	
 	
 	// 아이디 찾기 서비스
 	@Override
@@ -176,21 +174,46 @@ public class EmailServiceImpl implements EmailService{
 		map2.put("authKey", authKey);
 		map2.put("email", (String)map.get("empEmail"));
 		
+		// 트랜잭션을 분리하여 데이터베이스 작업 수행
+		boolean isStored = storeAuthKey2(map2);
+		return isStored ? 1 : 0; // 오류없이 완료되면 authKey 반환
+		
+//		int result = mapper.updateAuthKey(map2);
+//		
+//		if(result == 0) {
+//			if(map2.get("authKey") == null || map2.get("email") == null) {
+//				return -1;
+//			}
+//			result = mapper.insertAuthKey(map2);
+//		}
+//		
+//		if(result == 0) {
+//			return -1;
+//		}
+//		
+//		return 1;
+	}
+	
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public boolean storeAuthKey2(Map<String, String> map2) {
 		int result = mapper.updateAuthKey(map2);
 		
 		if(result == 0) {
 			if(map2.get("authKey") == null || map2.get("email") == null) {
-				return -1;
+				return false;
 			}
 			result = mapper.insertAuthKey(map2);
 		}
 		
 		if(result == 0) {
-			return -1;
+			return false;
 		}
 		
-		return 1;
+		return true;
 	}
+	
+	
 	
 	// 구성원 초대 메일 발송
 	@Override
@@ -233,6 +256,8 @@ public class EmailServiceImpl implements EmailService{
 		
 		return loginEmp.getInviteAuthKey();
 	}
+	
+	
 	
 	
 	// HTML 파일을 읽어와 String 으로 변환 (thymeleaf 적용)
