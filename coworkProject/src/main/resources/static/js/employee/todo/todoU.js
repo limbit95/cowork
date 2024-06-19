@@ -718,17 +718,24 @@ function invalidateInsertForm(e) {
 }
 
 // 사원 검색 영역 생성
-function createSearchTable(inputElement) {
+function createSearchTable() {
     const searchTable = document.createElement('div');
-    searchTable.className = 'searchTable';
-    const tagsWrapper = document.getElementById('tagsWrapper'); 
-    tagsWrapper.parentElement.appendChild(searchTable); // 인풋 창 바로 아래에 검색 영역 추가
+    const inCharge = document.getElementById('inCharge');
+    // 검색 테이블 스타일 설정
+    searchTable.style.position = 'absolute';
+    searchTable.style.top = 'calc(100% + 5px)'; // inCharge div 바로 아래에 위치
+   // searchTable.style.left = '0';
+    searchTable.style.width = '100%';
+    searchTable.style.backgroundColor = 'white';
+    searchTable.style.border = '1px solid #d9d9d9';
+    searchTable.style.zIndex = '1000';
+    searchTable.style.display = 'block'; // 검색 결과 창 표시
+    inCharge.appendChild(searchTable); // inCharge div 내부에 추가
     return searchTable;
 }
 
 // 사원 검색 함수
 function searchEmp(empName, trId, searchTable) {
-
     console.log(`Searching for employee: ${empName}`); // 디버그 로그 추가
 
     fetch("/todo/empSearch?empName=" + empName, {
@@ -746,10 +753,10 @@ function searchEmp(empName, trId, searchTable) {
             div.setAttribute('onclick', `search${trId}Click(${employee.empCode}, '${employee.empName}')`);
 
             div.innerHTML = `
-                <div hidden>${employee.empCode}</div>
-                <div id="empId">${employee.empId}</div>
-                <div id="deptNm">${employee.deptNm}</div>
-                <div id="empNm">${employee.empName}</div>
+                <div style="display: none;">${employee.empCode}</div>
+                <div id="empId">${employee.empId}</div> &nbsp &nbsp
+                <div id="deptNm">${employee.deptNm}</div> &nbsp &nbsp 
+                <div id="empNm">${employee.empName}</div> &nbsp &nbsp
                 <div id="positionNm">${employee.positionNm}</div>
             `;
 
@@ -777,19 +784,19 @@ function searchtrInChargeClick(empCode, empName) {
     const tag = document.createElement('span');
     tag.className = 'tag';
     tag.dataset.empCode = empCode;
-    tag.textContent = empName + ' ';
+    tag.textContent = empName;
 
     // 태그에 삭제 기능 추가
     const deleteButton = document.createElement('span');
     deleteButton.className = 'delete-button';
-    deleteButton.textContent = 'x';
+    deleteButton.textContent = ' x';
     deleteButton.onclick = () => {
         tag.remove();
         updateInputValue();
     };
     tag.appendChild(deleteButton);
 
-    // 태그 추가 (인풋 창 앞에)
+    // 태그 추가 (인풋 창 안에)
     tagsWrapper.insertBefore(tag, inputElement);
 
     // 인풋 창 초기화
@@ -807,7 +814,7 @@ function initializeSearchFeature(inputId) {
         console.log(`Input event triggered for: ${inputId}`); // 디버그 로그 추가
         const empName = inputElement.value.split(',').pop().trim(); // 콤마로 구분된 마지막 이름으로 검색
         if (!searchTable) {
-            searchTable = createSearchTable(inputElement);
+            searchTable = createSearchTable();
         }
         if (empName) {
             searchEmp(empName, 'trInCharge', searchTable);
@@ -820,7 +827,6 @@ function initializeSearchFeature(inputId) {
 
 // 인풋 값 업데이트 함수
 function updateInputValue() {
-    const inputElement = document.querySelector('#inChargeInput2');
     const tagsWrapper = document.querySelector('#tagsWrapper');
     const tags = tagsWrapper.querySelectorAll('.tag');
     const empCodes = [];
@@ -829,6 +835,8 @@ function updateInputValue() {
     });
     document.querySelector('#empCode').value = empCodes.join(',');
 }
+
+
 
 
 
