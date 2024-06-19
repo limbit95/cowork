@@ -90,54 +90,44 @@ public class EmailServiceImpl implements EmailService{
 		map.put("authKey", authKey);
 		map.put("email", email);
 		
-		// 1) 해당 이메일이 DB에 존재하는 경우 수정(update)
-		int result = mapper.updateAuthKey(map);
-		
-		boolean isStored = false;
-		
-		if(result == 0) {
-			// 트랜잭션을 분리하여 데이터베이스 작업 수행
-			isStored = storeAuthKey(map);
-		}
-		
+		// 트랜잭션을 분리하여 데이터베이스 작업 수행
+		boolean isStored = storeAuthKey(map);
 		return isStored ? authKey : null; // 오류없이 완료되면 authKey 반환
 	}
 	
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public boolean storeAuthKey(Map<String, String> map) {
-
+		// 1) 해당 이메일이 DB에 존재하는 경우 수정(update)
+		int result = mapper.updateAuthKey(map);
 		// 2) 업데이트 실패 시 삽입 시도
-		int result = mapper.insertAuthKey(map);
-		
+		if(result == 0) {
+		result = mapper.insertAuthKey(map);
+		}
 		return result > 0;
 	}
 	
 	
 	// 아이디 찾기 서비스
 	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public int findId(Map<String, Object> map) {
 		return mapper.findId(map);
 	}
 
     // 이메일, 인증번호 확인
 	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public int checkAuthKey(Map<String, Object> map) {
 		return mapper.checkAuthKey(map);
 	}
 
     // 해당 이메일로 가입된 모든 아이디 조회
 	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public List<Employee2> selectId(Map<String, Object> map) {
 		return mapper.selectId(map);
 	}
 	
 	// 비밀번호 찾기(이메일)
 	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public int findPwByEmail(Map<String, Object> map) {
 		int result = mapper.findPwByEmail(map);
 		if(result == 0) {
@@ -149,6 +139,7 @@ public class EmailServiceImpl implements EmailService{
 	
 	// 비밀번호 재설정 이메일 보내기
 	@Override
+	@Transactional
 	public int sendEmail(String htmlName, Map<String, Object> map) {
 		String authKey = createAuthKey();
 		String empInfo = (String)map.get("empId") + "," + (String)map.get("empEmail")  + "," + authKey;
@@ -225,7 +216,6 @@ public class EmailServiceImpl implements EmailService{
 	
 	// 구성원 초대 메일 발송
 	@Override
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public String registYourself(String[] emailList, Employee2 loginEmp) {
 		String sender = loginEmp.getEmpLastName() + loginEmp.getEmpFirstName();
 		
