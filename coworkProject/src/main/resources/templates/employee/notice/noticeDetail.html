@@ -18,7 +18,9 @@
 
         <!-- 버튼 -->
         <div class="defaultBtn insBtn">
-            <form action="../noticeList"><button class="default-btn glucose-btn">목록</button></form>
+            <button class="default-btn glucose-btn"
+                th:onclick="|location.href='@{/employee/notice/noticeList (cp=${param.cp}, key=${param.key}, query=${param.query})}'|">
+            목록</button>
         </div>
         
         <div class="default-line default-padding" th:object="${notice}">

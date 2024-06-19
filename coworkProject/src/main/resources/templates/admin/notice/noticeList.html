@@ -57,7 +57,7 @@
             <th:block th:unless="${#lists.isEmpty(noticeList)}">
 
                 <div class="table-body" th:each="notice : ${noticeList}" th:object="${notice}"
-                     th:onclick="|location.href='@{/admin/notice/noticeDetail/{noticeNo} (noticeNo=*{noticeNo}, cp=${pagination.currentPage})}'|">
+                     th:onclick="|location.href='@{/admin/notice/noticeDetail/{noticeNo} (noticeNo=*{noticeNo}, cp=${pagination.currentPage}, key=${param.key}, query=${param.query})}'|">
                     <div></div>
                     <div th:text="*{noticeTitle}">안녕하세요 공지사항입니다</div>
                     <div th:text="*{empName}">정희윤</div>
@@ -116,5 +116,6 @@
     </section>
 
     <script src="/js/admin/notice/notice.js"></script> <!-- Left 메뉴 클릭 -->
+    <script src="/js/admin/notice/noticeList.js"></script>
 </body>
 </html>

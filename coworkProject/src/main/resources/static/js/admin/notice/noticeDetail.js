@@ -1,6 +1,9 @@
 const fileListBtn = document.querySelector('.fileListInfo'); /* 파일 목록 보기 버튼 */
 const preview = document.querySelector('.preview'); /* 파일 목록 보기 */
 
+const noticeDelete = document.getElementById("noticeDelete");
+const noticeUpdate = document.getElementById("noticeUpdate");
+
 if(fileCnt > 0) {
     preview.style.display = 'block';
     preview.style.height = 'auto';
@@ -29,19 +32,21 @@ fileListBtn.addEventListener('click', () => {
 });
 
 /* 공지사항 삭제 */
-document.getElementById("noticeDelete").addEventListener("click", () => {
+if(noticeDelete) {
+    noticeDelete.addEventListener("click", () => {
 
-    if( !confirm("삭제하시겠습니까?") ) {
-        alert("삭제가 취소되었습니다.");
-        return;
-    }
+        if( !confirm("삭제하시겠습니까?") ) {
+            alert("삭제가 취소되었습니다.");
+            return;
+        }
 
-    location.href = "../noticeDelete?noticeNo=" + noticeNo;
-});
+        location.href = "../noticeDelete?noticeNo=" + noticeNo;
+    });
 
-/* 공지사항 수정 */
-document.getElementById("noticeUpdate").addEventListener("click", () => {
+    /* 공지사항 수정 */
+    noticeUpdate.addEventListener("click", () => {
 
-    location.href = location.pathname.replace('noticeDetail', 'noticeUpdate') + location.search;
-});
+        location.href = location.pathname.replace('noticeDetail', 'noticeUpdate') + location.search;
+    });
 
+}

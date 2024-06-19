@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.employee.teamBoard.model.mapper.TeamBoardMapper">
+
+	<!-- 팀게시판 게시글 수 조회 -->
+	<select id="getTeamBoardListCount">
+		SELECT 
+			 COUNT(*)
+		FROM TEAM_BOARD B
+		JOIN EMPLOYEE E ON B.EMP_CODE  = E.EMP_CODE
+		JOIN "POSITION" P ON E.POSITION_NO = P.POSITION_NO
+		WHERE B.TEAM_BOARD_DEL_FL = 'N'
+		AND E.COM_NO = #{comNo}
+		AND B.TEAM_NO = #{teamNo}
+		<if test='query != null'>
+			<choose>
+				<when test='key == "1"'> <!-- 제목 -->
+					AND TEAM_BOARD_TITLE LIKE '%' || #{query} || '%'
+				</when>
+				<when test='key == "2"'> <!-- 내용 -->
+					AND TEAM_BOARD_CONTENT LIKE '%' || #{query} || '%'
+				</when>
+				<otherwise> <!-- 작성자 -->
+					AND E.EMP_LAST_NAME || E.EMP_FIRST_NAME || ' ' || P.POSITION_NM LIKE '%' || #{query} || '%'
+				</otherwise>
+			</choose>
+		</if>
+		<choose>
+			<when test='combo == "1"'> <!-- 공지사항 -->
+				AND TEAM_FLAG = 'N'
+			</when>
+			<when test='combo == "2"'> <!-- 전달사항 -->
+				AND TEAM_FLAG = 'D'
+			</when>
+		</choose>
+		ORDER BY TEAM_BOARD_NO DESC
+	</select>
+	
+	<!-- 팀게시판 조회 -->
+	<select id="teamBoardList">
+		SELECT 
+			 B.TEAM_BOARD_NO
+			,CASE 
+				WHEN B.TEAM_FLAG = 'N' THEN '공지사항' 
+				ELSE '전달사항' 
+				END TEAM_TYPE
+			,B.TEAM_BOARD_TITLE
+			,E.EMP_LAST_NAME || E.EMP_FIRST_NAME || ' ' || P.POSITION_NM  AS EMP_NAME
+			,<![CDATA[
+				CASE 
+					WHEN SYSDATE - B.TEAM_BOARD_WRITE_DATE < 1 / 24 / 60
+					THEN FLOOR((SYSDATE - B.TEAM_BOARD_WRITE_DATE) * 24 * 60 * 60) || '초 전'
+					WHEN SYSDATE - B.TEAM_BOARD_WRITE_DATE < 1 / 24
+					THEN FLOOR((SYSDATE - B.TEAM_BOARD_WRITE_DATE) * 24 * 60) || '분 전'
+					WHEN SYSDATE - B.TEAM_BOARD_WRITE_DATE < 1
+					THEN FLOOR((SYSDATE - B.TEAM_BOARD_WRITE_DATE) * 24) || '시간 전'
+					ELSE TO_CHAR(B.TEAM_BOARD_WRITE_DATE, 'YYYY-MM-DD')
+				 END TEAM_BOARD_WRITE_DATE
+			  ]]>
+			,B.TEAM_BOARD_CONTENT
+			,B.TEAM_BOARD_WRITE_DATE
+			,B.TEAM_BOARD_UPDATE_DATE
+			,B.TEAM_BOARD_DEL_FL
+			,B.EMP_CODE
+			,B.TEAM_NO
+			,B.TEAM_FLAG
+		FROM TEAM_BOARD B
+		JOIN EMPLOYEE E ON B.EMP_CODE  = E.EMP_CODE
+		JOIN "POSITION" P ON E.POSITION_NO = P.POSITION_NO
+		WHERE B.TEAM_BOARD_DEL_FL = 'N'
+		AND E.COM_NO = #{comNo}
+		AND B.TEAM_NO = #{teamNo}
+		<if test='query != null'>
+			<choose>
+				<when test='key == "1"'> <!-- 제목 -->
+					AND TEAM_BOARD_TITLE LIKE '%' || #{query} || '%'
+				</when>
+				<when test='key == "2"'> <!-- 내용 -->
+					AND TEAM_BOARD_CONTENT LIKE '%' || #{query} || '%'
+				</when>
+				<otherwise> <!-- 작성자 -->
+					AND E.EMP_LAST_NAME || E.EMP_FIRST_NAME || ' ' || P.POSITION_NM LIKE '%' || #{query} || '%'
+				</otherwise>
+			</choose>
+		</if>
+		<choose>
+			<when test='combo == "1"'> <!-- 공지사항 -->
+				AND TEAM_FLAG = 'N'
+			</when>
+			<when test='combo == "2"'> <!-- 전달사항 -->
+				AND TEAM_FLAG = 'D'
+			</when>
+		</choose>
+		ORDER BY TEAM_BOARD_NO DESC
+	</select>
+	
+	<select id="teamBoardDetail">
+		SELECT 
+			 TEAM_BOARD_NO
+			,TEAM_BOARD_TITLE
+			,EMP_LAST_NAME || EMP_FIRST_NAME || ' ' || POSITION_NM AS EMP_NAME
+			,TEAM_BOARD_CONTENT
+			,TEAM_BOARD_WRITE_DATE
+			,TEAM_BOARD_UPDATE_DATE
+			,TEAM_BOARD_DEL_FL
+			,EMP_CODE
+			,B.TEAM_NO
+			,TEAM_FLAG
+			,(SELECT COUNT(*) FROM BOARD_FILE WHERE BOARD_NM = 'TEAM' AND BOARD_NO = #{teamBoardNo}) AS FILE_CNT
+		FROM TEAM_BOARD B
+		JOIN EMPLOYEE USING(EMP_CODE)
+		JOIN "POSITION" USING(POSITION_NO)
+		WHERE TEAM_BOARD_NO = #{teamBoardNo}
+		AND TEAM_BOARD_DEL_FL = 'N'
+	</select>
+
+	<!-- 팀게시판 등록 -->
+	<insert id="teamBoardInsert" useGeneratedKeys="true" parameterType="TeamBoard">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="teamBoardNo">
+			SELECT SEQ_TEAM_BOARD.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO TEAM_BOARD VALUES(
+			 #{teamBoardNo}
+			,#{teamBoardTitle}
+			,#{teamBoardContent}
+			,DEFAULT
+			,NULL
+			,DEFAULT
+			,#{empCode}
+			,#{teamNo}
+			,#{teamFlag}
+		)
+	</insert>
+
+</mapper>
