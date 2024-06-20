@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
+import com.cowork.employee.teamBoard.model.dto.Comment;
 import com.cowork.employee.teamBoard.model.dto.TeamBoard;
 
 @Mapper
@@ -47,5 +48,25 @@ public interface TeamBoardMapper {
 	 * @return
 	 */
 	int teamBoardDelete(int teamBoardNo);
+	
+	/*******************/
+
+	/** 댓글 목록 조회
+	 * @param teamBoardNo
+	 * @return
+	 */
+	List<Comment> commentList(int teamBoardNo);
+	
+	/** 댓글/답글 등록
+	 * @param comment
+	 * @return
+	 */
+	int commentInsert(Comment comment);
+
+	/** 댓글/답글 수정
+	 * @param comment
+	 * @return
+	 */
+	int commentUpdate(Comment comment);
 
 }

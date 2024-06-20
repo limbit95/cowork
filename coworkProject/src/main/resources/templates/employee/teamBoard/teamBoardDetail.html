@@ -77,7 +77,7 @@
                 </div>
 
                 <div class="commentStart">
-                    <div class="commentGroup">
+                    <!--<div class="commentGroup">
                         <div class="profile"></div>
                         <div class="speechBubble">
                             <div>출처를 남기고 기술면접 관련 자료 블로그에 참고해도될까요??출처를 남기고 기술면접 관련 자료 블로그에 참고해도될까요??출처를 남기고 기술면접 관련 자료 블로그에 참고해도될까요??출처를 남기고 기술면접 관련 자료 블로그에 참고해도될까요??</div>
@@ -133,7 +133,7 @@
                             </div>
                         </div>
                         <div class="profile"></div>
-                    </div>
+                    </div>-->
 
                     <!-- 답글에 답글 -->
                     <!--<div class="commentGroup2 commentComment">
@@ -153,9 +153,10 @@
                     </div>-->
                 </div>
 
+                <!-- 댓글입력 -->
                 <div class="commentGroup3">
-                    <textarea class="commentText"></textarea>
-                    <button class="default-btn sapphire-btn">등록</button>
+                    <textarea class="commentText" id="commentInsContent"></textarea>
+                    <button class="default-btn sapphire-btn" id="commentInsBtn">등록</button>
                 </div>
                 
             </div>
@@ -174,6 +175,7 @@
     <script th:inline="javascript">
         const teamBoardNo = /*[[${teamBoard.teamBoardNo}]]*/ "공지사항 번호";
         const fileCnt = /*[[${teamBoard.fileCnt}]]*/"파일개수";
+        const loginEmpCode = /*[[${session.loginEmp.empCode}]]*/"로그인사원키";
     </script>
 
     <script src="/js/employee/teamboard/teamboard.js"></script> <!-- Left 메뉴 클릭 -->

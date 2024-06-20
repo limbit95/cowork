@@ -21,6 +21,7 @@ import com.cowork.common.utility.Utility;
 import com.cowork.common.utility.model.dto.Pagination;
 import com.cowork.employee.notice.model.dto.BoardFile;
 import com.cowork.employee.notice.model.dto.Notice;
+import com.cowork.employee.teamBoard.model.dto.Comment;
 import com.cowork.employee.teamBoard.model.dto.TeamBoard;
 import com.cowork.employee.teamBoard.model.mapper.TeamBoardMapper;
 
@@ -251,6 +252,29 @@ public class TeamBoardServiceImpl implements TeamBoardService {
 	public int teamBoardDelete(int teamBoardNo) {
 		// TODO Auto-generated method stub
 		return mapper.teamBoardDelete(teamBoardNo);
+	}
+	
+	/*******************/
+	
+	// 댓글 목록 조회
+	@Override
+	public List<Comment> commentList(int teamBoardNo) {
+		// TODO Auto-generated method stub
+		return mapper.commentList(teamBoardNo);
+	}
+
+	// 댓글/답글 등록
+	@Override
+	public int commentInsert(Comment comment) {
+		// TODO Auto-generated method stub
+		return mapper.commentInsert(comment);
+	}
+
+	// 댓글/답글 수정
+	@Override
+	public int commentUpdate(Comment comment) {
+		// TODO Auto-generated method stub
+		return mapper.commentUpdate(comment);
 	}
 	
 }
