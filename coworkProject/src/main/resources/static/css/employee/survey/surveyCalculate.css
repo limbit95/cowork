@@ -16,7 +16,7 @@
 	
 }
 #surveyMainTitleDiv{
-	margin-top:50px; 
+	margin-top:20px; 
 	height: 5vh;
 	border-radius: 5px;
 }
@@ -37,6 +37,8 @@
     border-radius: 10px;
 }
 #conditionDiv{
+	padding-top: 20px;
+	border-top: 1px solid #214177;
 	margin-top: 5vh;
 	display: flex;
 	align-items: center;

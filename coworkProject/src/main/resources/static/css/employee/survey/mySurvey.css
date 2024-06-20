@@ -16,7 +16,7 @@
 	align-items: center;
 	width: 100vw; 
 	height: 5vh;
-	margin-top: 80px;
+	margin-top: 20px;
 
 }
 #listContainerInnerDiv{
@@ -186,11 +186,39 @@
 
 }
 .innerContent{
-	font-size: 14px;
 	font-weight: bold;
 }
 .totalResponseCount{
-	font-size: 14px;
+
 	font-weight: bold;
 }
 
+#surveyInsertDivContainer{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#surveyInsertDiv{
+	width: 50vw;
+	display: flex;
+	justify-content: flex-end;
+	margin-right: 5vw;
+	}
+#surveyInsertA{
+	margin-top: 50px;
+	width: 3.5vw;
+	height: 3.5vh;
+	border: 1.5px solid #214177;
+	text-decoration: none;
+	color: #214177;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 5px;
+	transition: background-color 0.3s;
+}
+#surveyInsertA:hover{
+	color: white;
+	background-color: #214177;
+}
+	

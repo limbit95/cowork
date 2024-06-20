@@ -129,12 +129,8 @@ makeMultipleQuestion.addEventListener('click', function(){
 	                
 	           </div>
             `;
+                        
             questionArea.appendChild(questionDiv);
-            
-
-            
-            
-
             
             
 })
@@ -152,9 +148,7 @@ makeSubjectiveQuestion.addEventListener('click', function(){
             if(questionArea && questionArea.lastElementChild && questionArea.lastElementChild != ''){
 				
 				console.dir("asjdhfjasdhfajsdgf"+questionArea.lastElementChild);
-				
-				alert('마지막 요소 존재함');
-				
+								
 				let questionType = questionArea.lastElementChild.children[0].children[0].innerText;
 				
 				console.log(questionType.trim());
@@ -167,7 +161,6 @@ makeSubjectiveQuestion.addEventListener('click', function(){
 					// 그리고, 항목이 존재한다면 그 항목을 가져온다. 는 코드를 작성해주면 됨. 
 					
 					// 제목 가져오기 
-					alert("객관식 입니다");	
 					let title  = questionArea.lastElementChild.children[0].children[1].children[1].value;
 					console.log("title!!!!!!=" +title);
 					
@@ -198,7 +191,6 @@ makeSubjectiveQuestion.addEventListener('click', function(){
 					
 				}else if(questionType.trim() == 'subjective'){
 					// 주관식이라면 어떻게 해야할까? 
-					alert('주관식입니다!');
 					let subjectiveQuestionTitle = questionArea.lastElementChild.children[0].children[1].children[1].value;
 
 
@@ -213,6 +205,7 @@ makeSubjectiveQuestion.addEventListener('click', function(){
 				
 
 			}
+			
 		   /* 
 		   새로운 시도 끝 
 		    */
@@ -235,7 +228,6 @@ makeSubjectiveQuestion.addEventListener('click', function(){
 	           </div>
             `;
             
-            alert('asdkjfhaksjdfhaldjkfh');
             questionArea.appendChild(questionDiv);
 })
 
@@ -261,7 +253,6 @@ function addOption(button){
 	newDiv.style.alignItems = 'center';
 	newDiv.style.backgroundColor = '#E5F2FE';
 	newDiv.style.paddingBottom = '5px';
-	let multipleOrderNode = document.createTextNode("*");
 	let newIcon = document.createElement('i');
 	newIcon.classList.add('fa-solid', 'fa-angle-right');
 
@@ -276,6 +267,8 @@ function addOption(button){
 	newDiv.appendChild(multipleQuestionInput);
 	multipleQuestionInput.style.width = '80%';
 	multipleQuestionInput.style.height = '4vh';
+    multipleQuestionInput.classList.add('forSelectInput'); // 특별한건 없고, 그냥 클래스 부여하고 이 클래스로 이 input 태그들을 모두 집으려고 부여한 클래스 
+    
 
 	
     let optionArea = button.parentElement.nextElementSibling;
@@ -297,12 +290,8 @@ function removeQuestion(iTag){
 		
 	// questions 에서 방금 삭제된 질문을 지워줘야해. 
 	let beDeletedTitle = iTag.previousElementSibling;
-	console.log('sssssss');
-	console.log(beDeletedTitle.value);
-	console.log('sssssss');
 
 	questions = questions.filter(question => question.title !== beDeletedTitle.value);
-	
 	
 };
 
@@ -377,7 +366,7 @@ document.querySelector('#findEmp').addEventListener('click', function(){
 	document.querySelector('#position').style.border = '1.5px solid #BDD8F1';
 	document.querySelector('#findEmp').style.border = '1.5px solid #426DA7';
 	document.querySelector('#entire').style.border = '1.5px solid #BDD8F1';
-	})
+})
 
 
 
@@ -432,26 +421,57 @@ findEmpInput.addEventListener('input', function(){
 				empDiv.style.width = '100%';
 				empDiv.style.height = '5vh';
 				empDiv.style.borderBottom = '0.1px solid #426DA7';
+				empDiv.style.cursor = 'pointer';
+				empDiv.classList.add('hoverBackgroundColor');
 				
-				empListDiv.appendChild(empDiv);
+				empListDiv.appendChild(empDiv);				
 				
 				empDiv.addEventListener('click', function(){
 						empListDiv.innerHTML = '';
-					
+						
 						empCodeList.push(emp.empCode);
 						
-						console.log(empList);
-						
 						let empNicknameDiv = this.children[1];
-					    empNicknameDiv.style.border = '1px solid #3667A6';
+						console.log(empNicknameDiv);
+					    empNicknameDiv.style.border = '1.5px solid #3667A6';
 					    empNicknameDiv.style.display = 'inline';
-					    empNicknameDiv.style.padding = '5px';
+					    empNicknameDiv.style.padding = '10px';
 					    empNicknameDiv.style.borderRadius = '5px';
 						
 						let selectedEmpList = document.querySelector('#selectedEmpList');
+						
 						selectedEmpList.appendChild(empNicknameDiv);
 						empNicknameDiv.style.margin = '0px';
 						empNicknameDiv.style.marginRight = '10px';
+						
+						let deleteThisEmpCode = document.createElement('div');
+						let xNode = document.createTextNode('X');
+						deleteThisEmpCode.appendChild(xNode);
+						deleteThisEmpCode.style.marginLeft = '0.5vw';
+					    empNicknameDiv.style.marginTop = '0.5vh';
+						deleteThisEmpCode.style.fontSize = '12px';
+						
+						empNicknameDiv.appendChild(deleteThisEmpCode);
+						selectedEmpList.style.display = 'flex';
+						selectedEmpList.style.alignItem = 'center';
+						empNicknameDiv.style.display = 'flex';
+						deleteThisEmpCode.style.cursor = 'pointer';
+						
+						deleteThisEmpCode.addEventListener('click', function(){
+							
+							let index =  empCodeList.indexOf(emp.empCode);
+							if(index != -1){
+								empCodeList.splice(index, 1);
+							}
+							
+							this.parentElement.remove();
+														
+						})
+						
+						
+						
+						
+						empNicknameDiv.appendChild(deleteThisEmpCode);
 						
 					
 						
@@ -538,9 +558,34 @@ forBottomEmptySpace.addEventListener('click', function(){
 		return; 
 	}
 	
+	let flag1 = true;
+
+	document.querySelectorAll('.questionText').forEach(questionInput => {
+		if(questionInput.value == ''){
+			flag1 = false;
+		}
+		
+	})	
+	if(flag1 == false){
+		alert('질문은 공백일 수 없습니다.');
+		return; 
+	}
+	
+	let flag2 = true;
+	document.querySelectorAll('.forSelectInput').forEach(forSelectInput => {
+		if(forSelectInput.value == ''){
+			flag2 = false; 
+		}
+	})
+	
+	if(flag2 == false){
+		alert('항목은 공백일 수 없습니다.');
+		return;
+	}
+	
 	
 	if(questionArea.children[0] == null){
-		alert('질문이 하나도 없는데요?');
+		alert('추가된 질문이 존재하지 않습니다. 질문을 추가해주세요.');
 		return;
 	}else{
 
@@ -678,8 +723,6 @@ forBottomEmptySpace.addEventListener('click', function(){
     .then(data => {
         location.href = '/survey/mySurvey';
         
-        
-
     })    
     .catch(error => console.error('Error:', error));
     
@@ -693,12 +736,10 @@ forBottomEmptySpace.addEventListener('click', function(){
 let surveyTitle = document.querySelector('#surveyTitle');
 surveyTitle.addEventListener('click', function(){
 	surveyTitle.style.borderBottom = '1px solid #426DA7';
-	
-})
+});
 surveyTitle.addEventListener('blur', function(){
 	surveyTitle.style.borderBottom = '1px solid lightgray';
-	
-})
+});
 
 setMinDate();
 /* date타입 input 태그가 오늘 이전 날짜는 선택하지 못하도록 함. */
