@@ -1,12 +1,47 @@
-/*검색*/
-.ins-css.insertForm div {
-    width: 400px !important;
+.mailHeader {
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--gray-color);
+    margin: 100px 0 -22px 0 !important;
+    padding: 0 20px 0 10px;
+    align-items: center !important;
 }
+
+.mailLabel label {
+    font-size: 20px;
+}
+
+.mailLabel div {
+    margin-left: 20px !important;
+}
+
+.board {
+    min-width: 1000px;
+}
+
+.boardHead {
+  display: flex;
+}
+
+/*  받는사람 */
+.table-body2 {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--gray-color);
+    margin: 10px;
+}
+
+
+/*검색*/
+.ins-css.insertForm {
+    display: flex;
+}
+
 
 .fileUploadForm div {
     margin: 15px 0 !important;
 }
-
 
 .inputContainer {
     position: relative;
@@ -34,8 +69,8 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    padding: 5px;
-    width: 100%; /* 가로 길이 넓게 설정 */
+    padding: 5px 5px 5px 10px;
+    width: 98%; /* 가로 길이 넓게 설정 */
     border-bottom: 1px solid #ccc;
 }
 
@@ -52,7 +87,7 @@
     position: absolute;
     top: 100%; /* 인풋 창 바로 아래에 위치하게 설정 */
     left: 0;
-    width: 100%; /* 가로 길이를 넓게 설정 */
+   /* width: 100%;  가로 길이를 넓게 설정 */
     background: white;
     border: 1px solid #ccc;
     max-height: 200px;
@@ -86,8 +121,138 @@
 
 
 
+/* 체크박스 */
+.checkDiv {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    width: 150px;
+}
 
 
+/* 등록 라벨 */
+.ins-css.insertForm div {
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+    width: 100px;
+}
 
 
+/* 첨부파일 버튼 */
+.fileType {
+    position: relative;
+    width: 48px;
+}
 
+span.fileSelect {
+    position: absolute;
+    top: -4px;
+    left: 0;
+    width: 89px;
+    overflow: hidden;
+}
+
+span.fileSelect input {
+    width: 89px;
+    opacity: 0;
+}
+
+/* 업로드파일 리스트 기본 높이 */
+table.preview {
+    height: 50px;
+}
+
+/* 첨부파일 버튼 */
+.btnBoarder {
+    background: transparent;
+    border: none;
+}
+
+/* 첨부파일 */
+.fileUploadForm {
+    margin-top: 50px !important;
+}
+
+.fa-solid, .fas::before {
+    margin-right: 10px !important;
+}
+
+.colorGray {
+    color: #bbb;
+    margin-left: 10px;
+}
+
+table.default-line {
+    width: 100%;
+}
+
+table.default-line td {
+    padding: 10px;
+}
+
+table.default-line td:nth-child(1) {
+    width: 95%;
+}
+
+.insertCombo {
+    display: flex;
+}
+
+/* 파일 영역 */
+.preview {
+    max-height: 300px; /* 최대 높이 설정 */
+    min-height: 120px;
+    overflow-y: auto; /* 세로 스크롤바 표시 */
+    border: 1px solid #ccc; /* 경계선 */
+    padding: 10px; /* 패딩 */
+    box-sizing: border-box; /* 박스 모델 설정 */
+}
+
+/* 에디터 */
+.default-line.smarteditorDetail {
+    min-height: 500px;
+    padding: 15px;
+    overflow: auto;
+    height: auto;
+    overflow-y: hidden;
+}
+
+/* 상세 */
+.ins-css.detailForm {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.ins-css.detailForm div {
+    margin: 0 20px 0 15px;
+}
+
+/* 다운로드버튼 */
+.fileUploadForm a {
+    color: black;
+}
+
+/* 등록버튼 */
+.defaultBtn {
+    display: flex;
+    justify-content: flex-end;
+    width: 80%;
+}
+
+
+#mailTitleArea {
+    padding: 5px 5px 5px 10px;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+#mailTitle {
+    border: none;
+    width: 85%;
+}
+
+#saveBtn:hover {
+    font-weight: bold;
+}
