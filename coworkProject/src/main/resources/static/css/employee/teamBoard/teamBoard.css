@@ -123,6 +123,15 @@ label.commentIns {
     height: 25px !important;
 }
 
+.commentBtn div {
+    display: flex;
+    align-items: center;
+}
+
+.commentLabel {
+    margin-left: 30px !important;
+}
+
 /* 수정버튼 */
 label.updBtn {
     margin: 10px !important;
@@ -157,5 +166,20 @@ label.updBtn {
 }
 
 .disNone {
-    display: none;
+    display: none !important;
 }
+
+/* 답글 */
+.commentComment {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.commentComment .speechBubble div {
+    margin: 0px !important;
+}
+
+.commentComment .commentLabel label {
+    margin-right: 10px;
+}
+

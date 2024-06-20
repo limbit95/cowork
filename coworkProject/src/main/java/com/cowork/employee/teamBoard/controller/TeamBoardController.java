@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.notice.model.service.AdminNoticeService;
+import com.cowork.employee.teamBoard.model.dto.Comment;
 import com.cowork.employee.teamBoard.model.dto.TeamBoard;
 import com.cowork.employee.teamBoard.model.service.TeamBoardService;
 import com.cowork.user.model.dto.Employee2;
@@ -198,6 +201,43 @@ public class TeamBoardController {
 	
 	/*******************/
 	
-	//public int insert(@RequestBody )
+	/** 댓글 목록 조회
+	 * @param teamBoardNo
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("comment")
+	public List<Comment> commentList(
+				@RequestParam("teamBoardNo") int teamBoardNo
+			) {
+		return service.commentList(teamBoardNo);
+	}
+	
+	/** 댓글/답글 등록
+	 * @param comment
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("comment")
+	public int commentInsert(
+				@RequestBody Comment comment,
+				@SessionAttribute("loginEmp") Employee2 loginEmp
+			) {
+		
+		comment.setEmpCode(loginEmp.getEmpCode());
+		
+		return service.commentInsert(comment);
+	}
+	
+	/** 댓글/답글 수정
+	 * @param comment
+	 * @return
+	 */
+	@ResponseBody
+	@PutMapping("comment")
+	public int commentUpdate(@RequestBody Comment comment) {
+		
+		return service.commentUpdate(comment);
+	}
 
 }

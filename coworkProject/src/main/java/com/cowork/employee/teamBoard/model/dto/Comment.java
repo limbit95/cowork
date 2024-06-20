@@ -21,4 +21,9 @@ public class Comment {
 	private String commentDelFl;
 	private int parentCommentNo;
 	private int teamBoardNo;
+	private int empCode;
+	
+	private String empName; // 사원명
+	private String profileImg; // 프로필 이미지
+	private String empNameTo; // 댓글 답변 To 사원명
 }
