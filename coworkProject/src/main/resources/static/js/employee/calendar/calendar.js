@@ -224,23 +224,7 @@ if(selectView != null) {
     })
 }
 
-// 취소 버튼 클릭 시 모든 값들을 비워주고 모달창 없애기
-const modalCancelBtn = document.querySelector(".modalCancelBtn");
 
-if(modalCancelBtn != null) {
-    modalCancelBtn.addEventListener("click", () => {
-        document.querySelector("#updateTitle").value = "";
-        document.querySelector("#selectedColor").value = "";
-        const clickColors = document.querySelectorAll(".clickColor");
-        clickColors.forEach(div => {
-            div.classList.remove("addBorder");
-        });
-        document.querySelector(".selectView").innerHTML = "";
-        document.querySelector(".selectView").classList.add("calendarHidden");
-        document.querySelector("#updateContent").innerText = "";
-        calendarModal.classList.add("calendarHidden");
-    })
-}
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -299,10 +283,32 @@ document.addEventListener('DOMContentLoaded', function() {
             // 캘린더 선택 시 모달창 띄워주기
             calendarModal.classList.remove("calendarHidden");
 
+            // 취소 버튼 클릭 시 모든 값들을 비워주고 모달창 없애기
+            const modalCancelBtn = document.querySelector(".modalCancelBtn");
+
+            if(modalCancelBtn != null) {
+                modalCancelBtn.addEventListener("click", () => {
+                    document.querySelector("#updateTitle").value = "";
+                    document.querySelector("#selectedColor").value = "";
+                    const clickColors = document.querySelectorAll(".clickColor");
+                    clickColors.forEach(div => {
+                        div.classList.remove("addBorder");
+                    });
+                    document.querySelector(".selectView").innerHTML = "";
+                    document.querySelector(".selectView").classList.add("calendarHidden");
+                    document.querySelector("#updateContent").innerText = "";
+                    
+                    info.startStr = "";
+                    info.endStr = "";
+
+                    calendarModal.classList.add("calendarHidden");
+                })
+            }
+
             // 등록 버튼을 눌렀을 때
             const modalUpdateBtn = document.querySelector(".modalUpdateBtn");
             modalUpdateBtn.addEventListener("click", e => {
-
+                
                 const updateTitle = document.querySelector("#updateTitle").value;
 
                 const selectedColor = document.querySelector("#selectedColor");
@@ -354,7 +360,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     start: info.startStr,
                     end: info.endStr,
                     backgroundColor: selectedColor.value,
-                    description : updateContent
+                    extendedProps : {
+                        description : updateContent,
+                        calendarShare : existingValues
+                    }
                 });
 
                 fetch("/calendar/calendarInsert", {
@@ -367,8 +376,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     if(result > 0) {
 
-                        info.start = "";
-                        info.end = "";
+                        info.startStr = "";
+                        info.endStr = "";
 
                         document.querySelector("#updateTitle").value = "";
                         document.querySelector("#selectedColor").value = "";
@@ -404,8 +413,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     } else {
 
-                        info.start = "";
-                        info.end = "";
+                        info.startStr = "";
+                        info.endStr = "";
 
                         document.querySelector("#updateTitle").value = "";
                         document.querySelector("#selectedColor").value = "";
@@ -434,8 +443,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         selectDept.value = selectDeptDefalut;
                         selectTeam.value = selectTeamDefalut;
-
-                        newEvent.remove();
 
                         alert("일정 추가 실패");
                     }

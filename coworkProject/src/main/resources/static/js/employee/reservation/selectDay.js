@@ -264,27 +264,7 @@ if(reservationInsertModal != null) {
 
 }
 
-// 부서, 팀 선택한 쪽에서 x 버튼 클릭시
-const selectView = document.querySelector(".selectView");
 
-if(selectView != null) {
-    selectView.addEventListener('click', function(event) {
-        if(event.target.classList.contains('selectCancel')) {
-            const selectedDiv = event.target.closest('.selectedDiv');
-            if(selectedDiv) {
-                selectedDiv.remove();
-            }
-        }
-
-        if(selectView.innerText == "") {
-            selectView.classList.add("reservationHidden");
-            const selectDept = document.querySelector(".selectDept");
-            const selectTeam = document.querySelector(".selectTeam");
-            selectDept.classList.remove("reservationHidden");
-            selectTeam.classList.remove("reservationHidden");
-        }
-    })
-}
 
 // 회의실 선택한 쪽에서 x 버튼 클릭시
 const meetingRoomSelectView = document.querySelector(".meetingRoomSelectView");
@@ -301,22 +281,6 @@ if(meetingRoomSelectView != null) {
         if(meetingRoomSelectView.innerText == "") {
             meetingRoomSelectView.classList.add("reservationHidden");
         }
-    })
-}
-
-// 취소 버튼 클릭 시 모든 값들을 비워주고 모달창 없애기
-const modalCancelBtn = document.querySelector(".modalCancelBtn");
-
-if(modalCancelBtn != null) {
-    modalCancelBtn.addEventListener("click", () => {
-        document.querySelector("#selectedColor").value = "";
-        document.querySelector(".selectView").innerHTML = "";
-        document.querySelector(".selectView").classList.add("reservationHidden");
-        const clickColors = document.querySelectorAll(".clickColor");
-        clickColors.forEach(div => {
-            div.classList.remove("addBorder");
-        });
-        reservationInsertModal.classList.add("reservationHidden");
     })
 }
 
@@ -352,6 +316,51 @@ document.addEventListener('DOMContentLoaded', function() {
         events: showDayReserve,
         select: function(info) {
 
+            // 부서, 팀 선택한 쪽에서 x 버튼 클릭시
+            const selectView = document.querySelector(".selectView");
+
+            if(selectView != null) {
+                selectView.addEventListener('click', function(event) {
+
+                    if(event.target.classList.contains('selectCancel')) {
+                        const selectedDiv = event.target.closest('.selectedDiv');
+                        if(selectedDiv) {
+                            selectedDiv.remove();
+                        }
+                    }
+
+                    if(selectView.innerText == "") {
+                        selectView.classList.add("reservationHidden");
+                        const selectDept = document.querySelector(".selectDept");
+                        const selectTeam = document.querySelector(".selectTeam");
+                        selectDept.classList.remove("reservationHidden");
+                        selectTeam.classList.remove("reservationHidden");
+                    }
+                })
+            }
+
+            // 취소 버튼 클릭 시 모든 값들을 비워주고 모달창 없애기
+            const modalCancelBtn = document.querySelector(".modalCancelBtn");
+
+            if(modalCancelBtn != null) {
+                modalCancelBtn.addEventListener("click", () => {
+
+                    info.start = "";
+                    info.end = "";
+
+                    document.querySelector("#selectedColor").value = "";
+                    document.querySelector(".selectView").innerHTML = "";
+                    document.querySelector(".selectView").classList.add("reservationHidden");
+                    const clickColors = document.querySelectorAll(".clickColor");
+                    clickColors.forEach(div => {
+                        div.classList.remove("addBorder");
+                    });
+                    reservationInsertModal.classList.add("reservationHidden");
+
+                    calendar.unselect();
+                })
+            }
+
             // 지나간 시간은 예약 못함
             var now = new Date();
             now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); // Adjust for timezone offset
@@ -362,21 +371,35 @@ document.addEventListener('DOMContentLoaded', function() {
               return;
             }
 
-            document.querySelector("#selectedColor").value = "";
-            document.querySelector(".selectView").innerHTML = "";
-            document.querySelector(".selectView").classList.add("reservationHidden");
+            if(document.querySelector("#selectedColor") != null) {
+                document.querySelector("#selectedColor").value = "";
+            }
 
-            document.querySelector(".meetingRoomSelectView").innerHTML = "";
-            document.querySelector(".meetingRoomSelectView").classList.add("reservationHidden");
+            if(document.querySelector(".selectView") != null) {
+                document.querySelector(".selectView").innerHTML = "";
+                document.querySelector(".selectView").classList.add("reservationHidden");
+            }
+
+            if(document.querySelector(".meetingRoomSelectView") != null) {
+                document.querySelector(".meetingRoomSelectView").innerHTML = "";
+                document.querySelector(".meetingRoomSelectView").classList.add("reservationHidden");
+            }
 
             // selectDept와 selectTeam에서 reservationHidden 클래스 제거
-            document.querySelector(".selectDept").classList.remove("reservationHidden");
-            document.querySelector(".selectTeam").classList.remove("reservationHidden");
-            
+            if(document.querySelector(".selectDept") != null) {
+                document.querySelector(".selectDept").classList.remove("reservationHidden");
+                document.querySelector(".selectDept").value = document.querySelector(".selectDeptDefalut").value;
+            }
+
+            if(document.querySelector(".selectTeam") != null) {
+                document.querySelector(".selectTeam").classList.remove("reservationHidden");
+                document.querySelector(".selectTeam").value = document.querySelector(".selectTeamDefalut").value;
+            }
+
             // select 태그 기본값 설정
-            document.querySelector(".selectDept").value = document.querySelector(".selectDeptDefalut").value;
-            document.querySelector(".selectTeam").value = document.querySelector(".selectTeamDefalut").value;
-            document.querySelector(".selectMeetingRoom").value = document.querySelector(".selectMeetingRoomDefault").value;
+            if(document.querySelector(".selectMeetingRoom") != null) {
+                document.querySelector(".selectMeetingRoom").value = document.querySelector(".selectMeetingRoomDefault").value;
+            }
 
             // 색 border remove
             const clickColors = document.querySelectorAll(".clickColor");
@@ -391,10 +414,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const spanX = document.querySelector(".spanX");
 
             spanX.addEventListener("click", () => {
-                document.querySelector("#selectedColor").value = "";
-                document.querySelector(".selectView").innerHTML = "";
-                document.querySelector(".selectView").classList.add("reservationHidden");
-                document.querySelector("#reservationInsertModal").innerHTML = "";
+
+                info.start = "";
+                info.end = "";
+
+                calendar.unselect();
+
+                // document.querySelector("#selectedColor").value = "";
+                // document.querySelector(".selectView").innerHTML = "";
+                // document.querySelector(".selectView").classList.add("reservationHidden");
+                // document.querySelector("#reservationInsertModal").innerHTML = "";
                 document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
             })
 
@@ -484,40 +513,48 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
 
-                fetch("/reservation/reservationInsert", {
-                    method : "POST",
-                    headers : {"Content-Type" : "application/json"},
-                    body : JSON.stringify(obj)
-                })
-                .then(resp => resp.text())
-                .then(result => {
-                    if(result > 0) {
-                        alert("회의실 예약 성공");
+                if(info.start != "") {
 
-                        document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
+                    fetch("/reservation/reservationInsert", {
+                        method : "POST",
+                        headers : {"Content-Type" : "application/json"},
+                        body : JSON.stringify(obj)
+                    })
+                    .then(resp => resp.text())
+                    .then(result => {
+                        if(result > 0) {
+                            alert("회의실 예약 성공");
+    
+                            document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
+    
+                            info.start = "";
+                            info.end = "";
+    
+                            calendar.render();
+                        } else if (result == -1){
+                            alert("이미 예약이 존재하는 회의실입니다.");
+                            document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
+                            
+                            info.start = "";
+                            info.end = "";
+    
+                            calendar.unselect();
+                            
+                            newEvent.remove();
+                        } else {
+                            alert("회의실 예약 실패");
+    
+                            info.start = "";
+                            info.end = "";
+    
+                            calendar.unselect();
+    
+                            document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
+                            newEvent.remove();
+                        }
+                    })
 
-                        info.start = "";
-                        info.end = "";
-
-                        calendar.render();
-                    } else if (result == -1){
-                        alert("이미 예약이 존재하는 회의실입니다.");
-                        document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
-                        
-                        info.start = "";
-                        info.end = "";
-                        
-                        newEvent.remove();
-                    } else {
-                        alert("회의실 예약 실패");
-
-                        info.start = "";
-                        info.end = "";
-
-                        document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
-                        newEvent.remove();
-                    }
-                })
+                }
 
             })
 
@@ -584,18 +621,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const formattedDate = `${year}-${month}-${day}`;
 
                 window.location.href = '/reservation/selectDay?date=' + formattedDate;
-                // // 색 border remove
-                // const clickColors = document.querySelectorAll(".clickColor");
-                // clickColors.forEach(div => {
-                //     div.classList.remove("addBorder");
-                // });
 
-                // document.querySelector("#selectedColor").value = "";
-                // document.querySelector(".selectView").innerHTML = "";
-                // document.querySelector(".selectView").classList.add("reservationHidden");
-                // document.querySelector("#reservationInsertModal").innerHTML = "";
-                // document.querySelector("#reservationInsertModal").classList.add("reservationHidden");
-                // document.querySelector("#reservationUpdateModal").classList.add("reservationHidden");
             });
 
             // 삭제 버튼 눌렀을 때
