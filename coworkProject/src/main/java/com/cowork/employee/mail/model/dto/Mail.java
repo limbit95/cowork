@@ -21,6 +21,7 @@ public class Mail {
 	private String mailContent; 
 	private String mailWriteDate; 
 	private String mailFlag; // 1 : 기본, 2 : 임시보관함, 3 : 휴지통 
+	private String originMailFlag; // 메일 임시보관함에서 삭제시 임시보관함 저장용 
 	private int empCode; 
 	private String readFl; //확인 여부 1: 안 읽음, 2: 읽음 
 	private int noReadCount; // 안 읽은 메일 개수 

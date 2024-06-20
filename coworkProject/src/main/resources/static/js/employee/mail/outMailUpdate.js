@@ -233,23 +233,22 @@ function createDeleteButton(parentDiv) {
 // 파일 
 const fileListBtn = document.querySelector('.fileListInfo'); /* 파일 목록 보기 버튼 */
 const preview = document.querySelector('.preview'); /* 파일 목록 보기 */
-const formData = new FormData(); // 초기에 빈 FormData 객체를 생성합니다.
+const fileCntLabel = document.querySelector('#fileCnt');
+const originFilePreview = document.querySelector('.preview tbody');
 
 const deleteOrder = new Set(); // 삭제 파일 순서 번호
 const updateOrder = new Set(); // 기존 파일 
+const formData = new FormData(); // 초기에 빈 FormData 객체를 생성합니다.
 
-// 기존 파일이 있을 경우
-const preview2 = document.querySelector('.preview tbody');
 
-// 파일 개수 업데이트 함수
-function updateFileCount() {
-    const fileCount = preview.querySelectorAll('tr').length + preview2.querySelectorAll('tr').length;
-    document.querySelector('#fileCnt').innerText = fileCount;
+// 초기 파일 개수 설정
+let initialFileCount = 0;
+if (originFilePreview) {
+    initialFileCount = originFilePreview.childElementCount;
 }
+fileCntLabel.innerText = initialFileCount;
 
-updateFileCount();
-
-/* 파일목록 보기 */
+// 파일 목록 보기 
 fileListBtn.addEventListener('click', () => {
 
     if(fileListBtn.classList.contains('fa-chevron-up')) {
@@ -265,83 +264,86 @@ fileListBtn.addEventListener('click', () => {
     }
 });
 
-
-
-
-
-/* 파일업로드 */
+// 첨부 / 제거 
 const handler = {
     init() {
         const fileInput = document.querySelector('#fileInput');
 
         fileInput.addEventListener('change', () => {  
             //console.dir(fileInput)                  
-            const files = Array.from(fileInput.files);
+            const files = Array.from(fileInput.files)
             files.forEach(file => {
-                formData.append(file.name, file); // 파일을 추가할 때마다 FormData에 파일을 추가합니다.
-            
+                formData.append(file.name, file); 
+
                 const fileTr = document.createElement('tr');
                 fileTr.id = `${file.lastModified}`;
-            
-                // 파일명 행
+
+                /* 1번째 row : 파일명 */
                 const fileTd = document.createElement('td');
+
                 const fileIcon = document.createElement('a');
                 fileIcon.classList.add('fa-solid', 'fa-paperclip');
+
                 const fileLabel = document.createElement('label');
                 fileLabel.innerText = `${file.name}`;
+
                 fileTd.appendChild(fileIcon);
                 fileTd.appendChild(fileLabel);
-            
-                // 파일 삭제 버튼 행
+
+                /* 2번째 row : 파일삭제버튼 */
                 const fileTd2 = document.createElement('td');
+
                 const fileXIcon = document.createElement('button');
                 fileXIcon.classList.add('fa-solid', 'fa-xmark', 'fileRemove', 'btnBoarder');
                 fileXIcon.dataset.name = `${file.name}`; // 파일 이름을 dataset에 저장
                 fileXIcon.dataset.index = `${file.lastModified}`;
                 fileXIcon.type = 'button';
+
                 const orderLabel = document.createElement('label');
                 orderLabel.hidden = true;
-            
+
                 fileTd2.appendChild(fileXIcon);
                 fileTd2.appendChild(orderLabel);
                 fileTr.appendChild(fileTd);
                 fileTr.appendChild(fileTd2);
                 preview.appendChild(fileTr);
 
-                if (fileOrderCnt == 1) preview2.appendChild(fileTr);
-                else preview.appendChild(fileTr);
-                
-            });
+                // 파일 개수 업데이트
+                fileCntLabel.innerText = preview.querySelectorAll('tr').length;
 
-            // 파일 개수 업데이트
-            updateFileCount();
+            });
 
         });
     },
 
     removeFile: () => {
         document.addEventListener('click', (e) => {
-            document.addEventListener('click', (e) => {
-                if (e.target.className !== 'fa-solid fa-xmark fileRemove btnBoarder') return;
-                const removeTargetId = e.target.dataset.index;
-                const removeTarget = document.getElementById(removeTargetId);
-                const removeTargetName = e.target.dataset.name;
-                const fileOrder = e.target.nextSibling; // 기존 파일 삭제 순서
-    
-                if (fileOrder.innerText != "") deleteOrder.add(fileOrder.innerText); // 기존파일 순서 저장
-                
-                // FormData 객체에서 해당 파일을 삭제합니다.
-                formData.delete(removeTargetName);
-    
-                // DOM에서 파일을 제거합니다.
-                removeTarget.remove();
-    
-                // 파일 개수 업데이트
-                updateFileCount();
-            });
+            console.log(e.target.className);
+            if(e.target.className !== 'fa-solid fa-xmark fileRemove btnBoarder') return;
+            const removeTargetId = e.target.dataset.index;
+            const removeTarget = document.getElementById(removeTargetId);
+            const removeTargetName = e.target.dataset.name;
+
+            const fileOrder = e.target.nextSibling;  // 기존 파일 삭제 순서
+
+            //console.log(fileOrder.innerText);
+            //console.log(removeTarget);    
+
+            if(fileOrder.innerText != "") deleteOrder.add(fileOrder.innerText); // 기존파일 순서 저장
+            
+            // FormData 객체에서 해당 파일을 삭제합니다.
+            formData.delete(removeTargetName);
+
+            // DOM에서 파일을 제거합니다.
+            removeTarget.remove();
+
+            // 파일 개수 업데이트
+            const fileCount = preview.querySelectorAll('tr').length;
+            fileCntLabel.innerText = fileCount;
         })
     }
 }
+
 
 smartEditor(); //스마트에디터 적용
 

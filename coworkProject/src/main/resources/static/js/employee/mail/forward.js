@@ -197,10 +197,19 @@ function createDeleteButton(parentDiv) {
 // 파일 
 const fileListBtn = document.querySelector('.fileListInfo'); /* 파일 목록 보기 버튼 */
 const preview = document.querySelector('.preview'); /* 파일 목록 보기 */
-const formData = new FormData(); // 초기에 빈 FormData 객체를 생성합니다.
+const fileCntLabel = document.querySelector('#fileCnt');
+const originFilePreview = document.querySelector('.preview tbody');
 
 const deleteOrder = new Set(); // 삭제 파일 순서 번호
 const updateOrder = new Set(); // 기존 파일 
+const formData = new FormData(); // 초기에 빈 FormData 객체를 생성합니다.
+
+// 초기 파일 개수 설정
+let initialFileCount = 0;
+if (originFilePreview) {
+    initialFileCount = originFilePreview.childElementCount;
+}
+fileCntLabel.innerText = initialFileCount;
 
 
 const handler = {
@@ -243,18 +252,13 @@ const handler = {
 
                 fileTd2.appendChild(fileXIcon);
                 fileTd2.appendChild(orderLabel);
-
-
                 fileTr.appendChild(fileTd);
                 fileTr.appendChild(fileTd2);
-
                 preview.appendChild(fileTr);
 
-                
+                 // 파일 개수 업데이트
+                 fileCntLabel.innerText = preview.querySelectorAll('tr').length; 
             });
-
-            // 파일 개수
-            document.querySelector('#fileCnt').innerText = preview.childElementCount;
 
         });
     },
@@ -280,8 +284,9 @@ const handler = {
             // DOM에서 파일을 제거합니다.
             removeTarget.remove();
 
-            // 파일을 제거한 후에 FormData 객체의 파일 개수를 업데이트합니다.
-            document.querySelector('#fileCnt').innerText = preview.childElementCount;
+            // 파일 개수 업데이트
+            const fileCount = preview.querySelectorAll('tr').length;
+            fileCntLabel.innerText = fileCount;
         })
     }
 }

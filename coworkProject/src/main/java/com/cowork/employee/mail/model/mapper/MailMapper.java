@@ -154,7 +154,7 @@ public interface MailMapper {
 	/** 휴지통으로 보내기!
 	 * @param mailIds
 	 */
-	void updateMailFlag(@Param("list") List<Integer> mailIds);
+	//void updateMailFlag(@Param("list") List<Integer> mailIds);
 
 	/** 조회 여부 업데이트 
 	 * @param mailNo
@@ -273,6 +273,25 @@ public interface MailMapper {
 	 * @return
 	 */
 	List<MailFile> getMatchFiles(Map<String, Object> map);
+
+	/** 어느 메일함인지 가져오기 
+	 * @param mailId
+	 * @return
+	 */
+	char getMailFlag(@Param("mailId") Integer mailId);
+
+	/** mailFlag 업데이트 
+	 * @param mailId
+	 * @param c
+	 * @param originalMailFlag
+	 */
+	void updateMailFlag(@Param("mailId") Integer mailId, @Param("mailFlag") char mailFlag, @Param("originMailFlag") char originMailFlag);
+
+	/** 원래 mailFlag 가져오기 
+	 * @param mailId
+	 * @return
+	 */
+	char getOriginalMailFlag(Integer mailId);
 
 	
 

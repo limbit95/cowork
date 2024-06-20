@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.admin.notice.model.exception.BoardInsertException;
 import com.cowork.common.utility.Utility;
+import com.cowork.common.utility.model.dto.MailPagination;
 import com.cowork.common.utility.model.dto.Pagination;
 import com.cowork.employee.mail.model.dto.Mail;
 import com.cowork.employee.mail.model.dto.MailFile;
@@ -63,7 +64,7 @@ public class MailServiceImpl implements MailService {
 	    mailCount = mailCount != null ? mailCount : 0;
 	    noReadCount = noReadCount != null ? noReadCount : 0;
 		
-		Pagination pagination = new Pagination(cp, listCount); 
+		MailPagination pagination = new MailPagination(cp, listCount); 
 		
 		int limit = pagination.getLimit();
 		int offset = (cp - 1) * limit;
@@ -139,7 +140,7 @@ public class MailServiceImpl implements MailService {
 		sentMailCount = sentMailCount!= null ? sentMailCount : 0;
 		sentMailNoReadCount = sentMailNoReadCount != null ? sentMailNoReadCount : 0;
 		
-		Pagination pagination = new Pagination(cp, sentListCount); 
+		MailPagination pagination = new MailPagination(cp, sentListCount); 
 		
 		int limit = pagination.getLimit();
 		int offset = (cp - 1) * limit;
@@ -187,7 +188,7 @@ public class MailServiceImpl implements MailService {
 		inMailCount = inMailCount!= null ? inMailCount : 0;
 		inMailNoReadCount = inMailNoReadCount != null ? inMailNoReadCount : 0;
 		
-		Pagination pagination = new Pagination(cp, inListCount); 
+		MailPagination pagination = new MailPagination(cp, inListCount);  
 		
 		int limit = pagination.getLimit();
 		int offset = (cp - 1) * limit;
@@ -351,7 +352,10 @@ public class MailServiceImpl implements MailService {
 	@Override
 	public boolean toBin(List<Integer> mailIds) {
 
-            mapper.updateMailFlag(mailIds); 
+		 for (Integer mailId : mailIds) {
+		        char currentFlag = mapper.getMailFlag(mailId);
+		        mapper.updateMailFlag(mailId, '3', currentFlag);
+		    } 
             
             return true;
 
@@ -367,7 +371,7 @@ public class MailServiceImpl implements MailService {
 		Integer outListCount = mapper.outListCount(paramMap);		
 		outListCount = outListCount  != null ? outListCount  : 0; 
 		
-		Pagination pagination = new Pagination(cp, outListCount); 
+		MailPagination pagination = new MailPagination(cp, outListCount);  
 		
 		int limit = pagination.getLimit();
 		int offset = (cp - 1) * limit;
@@ -395,7 +399,7 @@ public class MailServiceImpl implements MailService {
 		binListCount = binListCount  != null ? binListCount  : 0; 
 		
 		
-		Pagination pagination = new Pagination(cp, binListCount); 
+		MailPagination pagination = new MailPagination(cp, binListCount); 
 		
 		int limit = pagination.getLimit();
 		int offset = (cp - 1) * limit;
@@ -417,7 +421,10 @@ public class MailServiceImpl implements MailService {
 	public void restoreMails(List<Integer> mailIds) {
 		
 		for (Integer mailId : mailIds) {
-            mapper.restoreMail(mailId, '1'); 
+			
+			char originalFlag = mapper.getOriginalMailFlag(mailId); 
+			
+			 mapper.restoreMail(mailId, originalFlag); 
         }
 	}
 
@@ -721,78 +728,78 @@ public class MailServiceImpl implements MailService {
 		
 		result = mapper.recipientList(recipientList); 
 		
-		  // 기존 파일 정보를 가져오기
-	    List<MailFile> filesToKeep = new ArrayList<>();
+		 // 기존 파일 정보를 가져오기
+        List<MailFile> filesToKeep = new ArrayList<>();
 
-	    // deleteOrder 처리
-	    List<Integer> deleteOrders = new ArrayList<>();
-	    if (deleteOrder != null && !deleteOrder.isEmpty()) {
-	        String[] deleteArr = deleteOrder.split(",");
-	        for (String order : deleteArr) {
-	            deleteOrders.add(Integer.parseInt(order.trim()));
-	        }
-	    }
+        // deleteOrder 처리
+        List<Integer> deleteOrders = new ArrayList<>();
+        if (deleteOrder != null && !deleteOrder.isEmpty()) {
+            String[] deleteArr = deleteOrder.split(",");
+            for (String order : deleteArr) {
+                deleteOrders.add(Integer.parseInt(order.trim()));
+                
+            }
+        }
 
-	 // 유지할 파일 필터링 및 순서 재정렬
-	    int fileOrderCounter = 0;
-	    for (MailFile existingFile : existingFiles) {
-	        if (!deleteOrders.contains(existingFile.getFileOrder())) {
-	            existingFile.setFileOrder(fileOrderCounter++);
-	            filesToKeep.add(existingFile);
-	        }
-	    }
+        // 유지할 파일 필터링
+        for (MailFile existingFile : existingFiles) {
+            if (!deleteOrders.contains(existingFile.getFileOrder())) {
+                filesToKeep.add(existingFile);
+            }
+        }
 
+        // 유지할 기존 파일을 새로운 메일로 참조
+        List<MailFile> uploadList = new ArrayList<>();
+        int fileOrderCounter = 0;
+        for (MailFile fileToKeep : filesToKeep) {
+            MailFile file = MailFile.builder()
+                    .filePath(fileToKeep.getFilePath())
+                    .fileOriginName(fileToKeep.getFileOriginName())
+                    .fileRename(fileToKeep.getFileRename())
+                    .fileOrder(fileOrderCounter++)
+                    .mailNo(mailNo)  // 새로운 메일 번호로 참조
+                    .build();
+            uploadList.add(file);
+        }
 
-	 // 유지할 기존 파일을 새로운 메일로 참조
-	    List<MailFile> uploadList = new ArrayList<>();
+        // 새로운 파일 업로드 처리
+        if (files != null && !files.isEmpty()) {
+            int fileOrder = filesToKeep.size();
+            for (MultipartFile multipartFile : files) {
+                if (!multipartFile.isEmpty()) {
+                    String originalName = multipartFile.getOriginalFilename();
+                    String rename = Utility.fileRename(originalName);
 
-	    for (MailFile fileToKeep : filesToKeep) {
-	        MailFile file = MailFile.builder()
-	                .filePath(fileToKeep.getFilePath())
-	                .fileOriginName(fileToKeep.getFileOriginName())
-	                .fileRename(fileToKeep.getFileRename())
-	                .fileOrder(fileToKeep.getFileOrder())
-	                .mailNo(mailNo)  // 새로운 메일 번호로 참조
-	                .build();
-	        uploadList.add(file);
-	    }
+                    MailFile file = MailFile.builder()
+                            .filePath(webPath)
+                            .fileOriginName(originalName)
+                            .fileRename(rename)
+                            .fileOrder(fileOrder++)
+                            .mailNo(mailNo)
+                            .uploadFile(multipartFile)
+                            .build();
 
-	 // 새로운 파일 업로드 처리
-	    if (files != null && !files.isEmpty()) {
-	        for (MultipartFile multipartFile : files) {
-	            if (!multipartFile.isEmpty()) {
-	                String originalName = multipartFile.getOriginalFilename();
-	                String rename = Utility.fileRename(originalName);
+                    uploadList.add(file);
+                }
+            }
+        }
 
-	                MailFile file = MailFile.builder()
-	                        .filePath(webPath)
-	                        .fileOriginName(originalName)
-	                        .fileRename(rename)
-	                        .fileOrder(fileOrderCounter++)  // 파일 순서를 설정
-	                        .mailNo(mailNo)
-	                        .uploadFile(multipartFile)
-	                        .build();
+        if (uploadList.isEmpty()) return mailNo;
 
-	                uploadList.add(file);
-	            }
-	        }
-	    }
+        result = mapper.mailFileInsert(uploadList);
+        if (result != uploadList.size()) {
+            throw new BoardInsertException("파일이 정상 삽입되지 않음");
+        }
 
-	    if (uploadList.isEmpty()) return mailNo;
-
-	    result = mapper.mailFileInsert(uploadList);
-	    if (result != uploadList.size()) {
-	        throw new BoardInsertException("파일이 정상 삽입되지 않음");
-	    }
-
-	    // 새로운 파일만 서버에 저장
-	    for (MailFile file : uploadList) {
-	        if (file.getUploadFile() != null) {
-	            file.getUploadFile().transferTo(new File(folderPath + file.getFileRename()));
-	        }
-	    }
+        // 새로운 파일만 서버에 저장
+        for (MailFile file : uploadList) {
+            if (file.getUploadFile() != null) {
+                file.getUploadFile().transferTo(new File(folderPath + file.getFileRename()));
+            }
+        }
 
         return result;
+		
     }
 	
 
@@ -880,89 +887,78 @@ public class MailServiceImpl implements MailService {
 		}
 
 		
-		 if(deleteOrder != null && !deleteOrder.equals("") ) {
-			 
-			 Map<String, Object> map = new HashMap<>();
-				
-				map.put("deleteOrder", deleteOrder);
-				map.put("mailNo", mailNo);
-				
-				result = mapper.deleteFile(map); 
-				
-				if(result == 0) throw new MailFileDeleteException(); 
-				
-				if(updateOrder != null && !updateOrder.equals("")) {
-					
+		if (deleteOrder != null && !deleteOrder.equals("")) {
+		    Map<String, Object> map = new HashMap<>();
+		    map.put("deleteOrder", deleteOrder);
+		    map.put("mailNo", mailNo);
 
-					String[] updateArr = updateOrder.split(",");
-					
-					for(int i=0; i<updateArr.length; i++) {
-						
-						log.info("i : " + i);
-						log.info("updateArr[i] : " + updateArr[i]);
-						log.info("mailNo : " + mailNo);
-						MailFile upFile = MailFile.builder()
-								.fileOrder(i)
-								.mailNo(mailNo)
-								.uploadFile(files.get(i))
-								.orderUpdate(updateArr[i])
-								.build(); 
-						
-						result = mapper.mailFileUpdate(upFile); 
-				}
-			}
-		 }
-		 
-		 if(files != null && !files.isEmpty()) {
-			 
-			 List<MailFile> uploadList = new ArrayList<>(); 
-			 
-			 int fileOrder = 0; 
-			 String[] updateArr = null; 
+		    result = mapper.deleteFile(map);
 
-			if(updateOrder != null && updateOrder.equals("")) {
-				
-				updateArr = updateOrder.split(",");
-				fileOrder = updateArr.length;
-			}
-			
-			for(int i=0; i<files.size(); i++) {
-				
-				if(updateOrder != null ) fileOrder += 1;
-				else fileOrder = i;
-				
-				if(!files.get(i).isEmpty()) {
-					String originalName = files.get(i).getOriginalFilename(); // 원본명
-					String rename = Utility.fileRename(originalName);
-					
-					MailFile file = MailFile.builder()
-							.filePath(webPath)
-							.fileOriginName(originalName)
-							.fileRename(rename)
-							.fileOrder(i)
-							.mailNo(mailNo)
-							.uploadFile(files.get(i))
-							.build(); 
-			
-					uploadList.add(file); 
-					
-				}	
-		 }
-			
-			if(uploadList.isEmpty()) return mailNo; 
-			
-			result = mapper.mailFileInsert(uploadList); 
-			
-			if(result == uploadList.size()) {
-				for(MailFile file : uploadList) {
-					file.getUploadFile().transferTo(new File(folderPath + file.getFileRename()));
-				}
-			} else {
-				throw new BoardInsertException("파일이 정상 삽입되지 않음"); 
-			}
-			
-		 }			 
-		    return result;
+		    if (result == 0) throw new MailFileDeleteException();
+		    
+	}
+
+		    if (updateOrder != null && !updateOrder.equals("")) {
+		        String[] updateArr = updateOrder.split(",");
+
+		        for (int i = 0; i < updateArr.length; i++) {
+		            log.info("i : " + i);
+		            log.info("updateArr[i] : " + updateArr[i]);
+		            log.info("mailNo : " + mailNo);
+
+		            MailFile upFile = MailFile.builder()
+		                .fileOrder(i)  // 새로운 파일 순서
+		                .mailNo(mailNo)
+		                .orderUpdate(updateArr[i])  // 기존 파일 순서
+		                .build();
+
+		            result = mapper.mailFileUpdate(upFile);
+		        }
+		    }
+		
+
+		if (files != null && !files.isEmpty()) {
+		    List<MailFile> uploadList = new ArrayList<>();
+		    int fileOrder = 0;
+
+		    if (updateOrder != null && !updateOrder.equals("")) {
+		    	String[] updateArr = updateOrder.split(",");
+		        fileOrder = updateArr.length;
+		    }
+
+		    for (int i = 0; i < files.size(); i++) {
+		        if (!files.get(i).isEmpty()) {
+		            String originalName = files.get(i).getOriginalFilename(); // 원본명
+		            String rename = Utility.fileRename(originalName);
+
+		            MailFile file = MailFile.builder()
+		                .filePath(webPath)
+		                .fileOriginName(originalName)
+		                .fileRename(rename)
+		                .fileOrder(fileOrder++)  // 새로운 파일 순서
+		                .mailNo(mailNo)
+		                .uploadFile(files.get(i))
+		                .build();
+
+		            uploadList.add(file);
+		        }
+		    }
+
+		    if (!uploadList.isEmpty()) {
+		        result = mapper.mailFileInsert(uploadList);
+
+		        if (result == uploadList.size()) {
+		            for (MailFile file : uploadList) {
+		                file.getUploadFile().transferTo(new File(folderPath + file.getFileRename()));
+		            }
+		        } else {
+		            throw new BoardInsertException("파일이 정상 삽입되지 않음");
+		        }
+		    }
+		}
+
+		return result;
+
 	
 	}
 

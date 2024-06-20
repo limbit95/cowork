@@ -104,3 +104,7 @@ table.default-line td:nth-child(1) {
     flex-direction: column;
     justify-content: center;
 }
+
+#mailListBtn:hover {
+    cursor: pointer;
+} 
