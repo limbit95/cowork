@@ -1,6 +1,42 @@
 document.querySelector('#fncMenu').classList.add('active');
 document.querySelector('#addrSub').style.fontWeight = 'bold';
 
+
+const deptList = [];
+const teamList = [];
+    
+window.addEventListener("load", e => {
+    for(let i = 0; i < comAddrList.length; i++) {
+        const deptNm = comAddrList[i].deptNm;
+        const deptNo = comAddrList[i].deptNo;
+        deptList.push({ deptNo : deptNm });
+    }
+
+    for(let i = 0; i < comAddrList.length; i++) {
+        teamList.push([]);
+    }
+
+    for(let i = 0; i < comAddrList.length; i++) {
+        for(let x = 0; x < comAddrList[i].teamList.length; x++) {
+            teamList[i].push(comAddrList[i].teamList[x].teamNm);
+        }
+    }
+});
+
+window.addEventListener("click", e => {
+    // for(let i = 0; i < comAddrList.length; i++) {
+    //     comAddrList[i];
+    // }
+    // comAddrList.forEach((i) => {
+    //     console.log(i)
+    // })
+    // console.log(positionList);
+
+    console.log(comAddrList[0].deptNo)
+    console.log(deptList)
+    console.log(teamList)
+});
+
 // 이미 등록된 파일 복사할 변수
 let temp1;
 let diffSize = false;
@@ -196,8 +232,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div><input type="checkbox"></div>
                             <div>성</div>
                             <div>이름</div>
-                            <div>ID</div>
-                            <div>비밀번호</div>
+                            <div>ID
+                                <i class="fa-solid fa-question" id="idPattern"></i>
+                                <div id="idPatternInfo"><span id="closeBtn">&times;</span>영어 대·소문자, 숫자를 조합하여 4~20글자 이내 작성해주세요. (특수문자 사용 불가)</div>
+                            </div>
+                            ${admin.checked == true ? `<div>비밀번호<i class="fa-regular fa-eye-slash" id="showPw"></i></div>` : ``}
                             <div>휴대폰 번호</div>
                             <div>개인 이메일</div>
                             <div>생일</div>
@@ -213,6 +252,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
                     document.querySelector("[name='createType']");
                     if(check4) {
+                        // 비밀번호 생성 방식 : 관리자가 등록
+                        const admin = document.querySelector("#admin");
         
                         result.forEach((i) => {
                             const employee = document.createElement("div");
@@ -220,13 +261,31 @@ document.addEventListener('DOMContentLoaded', function() {
                             employee.innerHTML = 
                             `
                                 <div><input type="checkbox"></div>
-                                <div><span>${i.성 != "null" ? i.성 : ""}</span></div>
-                                <div><span>${i.이름 != "null" ? i.이름 : ""}</span></div>
-                                <div><span>${i.ID != "null" ? i.ID : ""}</span></div>
-                                <div></div>
+                                ${i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input id="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false"></div>`}
+                                ${i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input id="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false"></div>`}
+                                ${i.ID != "null" ? `<div><span>${i.ID}</span></div>` : `<div><input id="empId" type="text" placeholder="미입력" maxlength="100" spellcheck="false"></div>`}
+                                ${admin.checked == true ? `<div><input id="empPw" type="password" placeholder="미입력" maxlength="20"></div>` : ``}
                                 <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
                                 <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
                                 <div><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
+                                ${i.부서 != "null" ? 
+                                    `
+                                    <div>
+                                        <select class="default-line" id="deptList">
+                                            <option></option>
+                                            ${deptList.map(item => `<option>${item}</option>`).join('')}
+                                        </select>
+                                    </div>
+                                    `
+                                 : 
+                                    `
+                                    <div>
+                                        <select class="default-line" id="deptList">
+                                            ${deptList.map(item => `<option>${item}</option>`).join('')}
+                                        </select>
+                                    </div>
+                                    `
+                                }
                                 <div><span>${i.부서 != "null" ? i.부서 : ""}</span></div>
                                 <div><span>${i.팀 != "null" ? i.팀 : ""}</span></div>
                                 <div><span>${i.직급 != "null" ? i.직급 : ""}</span></div>
@@ -244,6 +303,210 @@ document.addEventListener('DOMContentLoaded', function() {
                             accordions[2].nextElementSibling.style.display = 'flex';
                             accordions[2].style.color = 'black';
                         })
+                        // 성 인풋창 포커스 시
+                        document.querySelectorAll("#empLastName").forEach((i) => {
+                            i.addEventListener("focus", e => {
+                                e.target.style.borderColor = 'black';
+                                e.target.style.border = '2px solid black';
+                            });
+                        })
+                        // 성 인풋창 포커스 아웃 시
+                        document.querySelectorAll("#empLastName").forEach((i) => {
+                            i.addEventListener("blur", e => {
+                                if(e.target.value.trim().length == 0) {
+                                    e.target.style.borderColor = 'red';
+                                    e.target.style.border = '1px solid red';
+                                } else {
+                                    e.target.style.borderColor = '#ddd';
+                                    e.target.style.border = '1px solid #ddd';
+                                }
+                            });
+                        })
+                        // 성 인풋창 입력 시
+                        document.querySelectorAll("#empLastName").forEach((i) => {
+                            i.addEventListener("input", e => {
+                                if(e.target.value.trim().length == 0) {
+                                    e.target.style.borderColor = 'red';
+                                    e.target.style.border = '1px solid red';
+                                    return;
+                                }
+                                e.target.style.borderColor = '#ddd';
+                                e.target.style.color = 'black';
+                                e.target.style.border = '1px solid black';
+                            });
+                        })
+
+
+                        // 이름 인풋창 포커스 시
+                        document.querySelectorAll("#empFirstName").forEach((i) => {
+                            i.addEventListener("focus", e => {
+                                e.target.style.borderColor = 'black';
+                                e.target.style.border = '2px solid black';
+                            });
+                        })
+                        // 이름 인풋창 포커스 아웃 시
+                        document.querySelectorAll("#empFirstName").forEach((i) => {
+                            i.addEventListener("blur", e => {
+                                if(e.target.value.trim().length == 0) {
+                                    e.target.style.borderColor = 'red';
+                                    e.target.style.border = '1px solid red';
+                                } else {
+                                    e.target.style.borderColor = '#ddd';
+                                    e.target.style.border = '1px solid #ddd';
+                                }
+                            });
+                        })
+                        // 이름 인풋창 입력 시
+                        document.querySelectorAll("#empFirstName").forEach((i) => {
+                            i.addEventListener("input", e => {
+                                if(e.target.value.trim().length == 0) {
+                                    e.target.style.borderColor = 'red';
+                                    e.target.style.border = '1px solid red';
+                                    return;
+                                }
+                                e.target.style.borderColor = '#ddd';
+                                e.target.style.color = 'black';
+                                e.target.style.border = '1px solid black';
+                            });
+                        })
+
+
+                        // ID 인풋창 포커스 시
+                        document.querySelectorAll("#empId").forEach((i) => {
+                            i.addEventListener("focus", e => {
+                                e.target.style.borderColor = 'black';
+                                e.target.style.border = '2px solid black';
+                            });
+                        })
+                        // ID 인풋창 포커스 아웃 시
+                        document.querySelectorAll("#empId").forEach((i) => {
+                            i.addEventListener("blur", e => {
+                                
+                                const regExp = /^[A-Za-z0-9]{4,20}$/;
+    
+                                if(!regExp.test(e.target.value)){
+                                    e.target.style.borderColor = 'red';
+                                    e.target.style.border = '1px solid red';
+                                    return;
+                                }
+                                
+                                fetch("/user/checkId?empId=" + e.target.value)
+                                .then(resp => resp.text())
+                                .then(result => {
+                                    if(result == 1){
+                                        e.target.style.borderColor = 'red';
+                                        e.target.style.border = '1px solid red';
+                                        return;
+                                    }
+                                });
+                                if(e.target.value.trim().length == 0) {
+                                    e.target.style.borderColor = 'red';
+                                    e.target.style.border = '1px solid red';
+                                } else {
+                                    e.target.style.borderColor = '#ddd';
+                                    e.target.style.border = '1px solid #ddd';
+                                }
+                            });
+                        })
+                        // ID 인풋창 입력 시
+                        document.querySelectorAll("#empId").forEach((i) => {
+                            i.addEventListener("input", e => {
+                                if(e.target.value.trim().length == 0) {
+                                    e.target.style.borderColor = 'red';
+                                    e.target.style.border = '1px solid red';
+                                    return;
+                                }
+
+                                e.target.style.borderColor = '#ddd';
+                                e.target.style.color = 'black';
+                                e.target.style.border = '1px solid black';
+                            });
+                        })
+
+                        // ID 작성 양식 창 토글
+                        document.querySelector("#idPattern").addEventListener("click", e => {
+                            document.querySelector("#idPatternInfo").style.display = 'flex';
+                        });
+                        document.querySelector("#closeBtn").addEventListener("click", e => {
+                            document.querySelector("#idPatternInfo").style.display = 'none';
+                        });
+
+                        const showPw = document.querySelector("#showPw");
+
+                        // 비밀번호 암호화 활성화 비활성화 토글
+                        if(showPw != null) {
+                            showPw.addEventListener("click", e => {
+                                if(showPw.getAttribute("class") == 'fa-regular fa-eye-slash') {
+                                    console.log("1")
+                                    showPw.classList.remove("fa-eye-slash");
+                                    showPw.classList.add("fa-eye");
+                                    showPw.style.color = 'black';
+                                    document.querySelectorAll("#empPw").forEach((i) => {
+                                        i.removeAttribute("type");
+                                        i.setAttribute("type", "text");
+                                    })
+                                    return;
+                                }
+                                if(showPw.getAttribute("class") == 'fa-regular fa-eye') {
+                                    console.log("2")
+                                    showPw.classList.add("fa-eye-slash");
+                                    showPw.classList.remove("fa-eye");
+                                    showPw.style.color = 'rgb(172, 172, 172)';
+                                    document.querySelectorAll("#empPw").forEach((i) => {
+                                        i.removeAttribute("type");
+                                        i.setAttribute("type", "password");
+                                    })
+                                    return;
+                                }
+                            });
+                        }
+
+                        // 비밀번호 인풋창 포커스 시
+                        if(document.querySelectorAll("#empPw") != null) {
+                            document.querySelectorAll("#empPw").forEach((i) => {
+                                i.addEventListener("focus", e => {
+                                    e.target.style.borderColor = 'black';
+                                    e.target.style.border = '2px solid black';
+                                });
+                            })
+                            // 비밀번호 인풋창 포커스 아웃 시
+                            document.querySelectorAll("#empPw").forEach((i) => {
+                                i.addEventListener("blur", e => {
+                                    const regExp = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,20}$/;
+        
+                                    if(!regExp.test(e.target)){
+                                        e.target.style.borderColor = 'red';
+                                        e.target.style.border = '1px solid red';
+                                        return;
+                                    }
+                                    
+                                    if(e.target.value.trim().length == 0) {
+                                        e.target.style.borderColor = 'red';
+                                        e.target.style.border = '1px solid red';
+                                    } else {
+                                        e.target.style.borderColor = '#ddd';
+                                        e.target.style.border = '1px solid #ddd';
+                                    }
+                                });
+                            })
+                            // 비밀번호 인풋창 입력 시
+                            document.querySelectorAll("#empPw").forEach((i) => {
+                                i.addEventListener("input", e => {
+                                    if(e.target.value.trim().length == 0) {
+                                        e.target.style.borderColor = 'red';
+                                        e.target.style.border = '1px solid red';
+                                        return;
+                                    }
+    
+                                    e.target.style.borderColor = '#ddd';
+                                    e.target.style.color = 'black';
+                                    e.target.style.border = '1px solid black';
+                                });
+                            })
+                        }
+
+
+
                     }
 
                 }
@@ -274,7 +537,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } 
     });
 });
-
 
 const modal2 = document.getElementById("myModal2");
 const btn2 = document.getElementById("confirmBtn2");
