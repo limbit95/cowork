@@ -279,12 +279,10 @@ section.container .head > div {
 /* 휴대폰 번호 */
 .head > :nth-child(6) {
     width: 120px;
-    color: #118dff;
 }
 /* 개인 이메일 */
 .head > :nth-child(7) {
     width: 150px;
-    color: #118dff;
 }
 /* 생일 */
 .head > :nth-child(8) {
@@ -329,7 +327,7 @@ section.container .employee {
     display: flex;
     margin: 0;
     width: 2050px;
-    height: 60px;
+    height: 55px;
     background-color: white;
     white-space: nowrap;
     overflow: hidden;
@@ -341,6 +339,7 @@ section.container .employee > div {
     justify-content: start;
     padding: 0 0 0 20px;
     font-size: 14px;
+    margin: 10px 0 10px 0;
     
     white-space: nowrap;
     overflow: hidden;
@@ -417,6 +416,75 @@ section.container .employee > div span {
     width: 100px;
 }
 
+/* 인풋창 */
+.employee input[type='text'],
+.employee input[type='password'] {
+    width: 70px;
+    height: 28px;
+    border-radius: 5px;
+    border: 1px solid red;
+    text-align: start;
+    padding-left: 10px;
+}
+.employee input[type='text']::placeholder,
+.employee input[type='password']::placeholder {
+    color: red;
+}
+#idPattern {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5px;
+    border: 1px solid rgb(172, 172, 172);
+    border-radius: 50px;
+    width: 14px;
+    height: 14px;
+    color: rgb(172, 172, 172);
+    cursor: pointer;
+    font-size: 8px;
+}
+#idPatternInfo {
+    display: none;
+    width: 150px;
+    height: 52px;
+    padding: 13px 15px 13px 15px;
+    text-align: start;
+    line-height: 18px;
+    z-index: 2;
+    border: 1px solid #a4a4a4;
+    background-color: white;
+    position: absolute;
+    color: rgb(42, 42, 42);
+    font-size: 11px;
+    margin-top: 103px;
+    margin-left: 18px;
+}
+#closeBtn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 15px;
+    color: #a4a4a4;
+    cursor: pointer;
+    margin-top: 3px;
+    margin-right: 3px;
+}
+
+#showPw {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5px;
+    border-radius: 50px;
+    color: rgb(172, 172, 172);
+    cursor: pointer;
+    font-size: 15px;
+}
+
+#deptList {
+    height: 30px;
+    width: 80px;
+}
 
 
 * {
