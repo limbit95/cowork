@@ -32,9 +32,23 @@
 	<!-- 레벨 업데이트 -->
 	<update id="positionMiddleUpdate">
 		UPDATE "POSITION" SET
-		"LEVEL" = #{levelUp}
+		"LEVEL" = #{levelTemp}
 		WHERE COM_NO = #{comNo}
 		AND POSITION_NO = #{positionNo}
+	</update>
+	
+	<!-- positionNo로 level 얻어오기 -->
+	<select id="selectLevel">
+		SELECT "LEVEL"
+		FROM "POSITION"
+		WHERE POSITION_NO = #{positionNo}
+	</select>
+
+	<!-- 직책 이름 수정 -->
+	<update id="positionUpdate">
+		UPDATE "POSITION" SET
+		POSITION_NM = #{positionNm}
+		WHERE POSITION_NO = #{positionNo}
 	</update>
 
 </mapper>

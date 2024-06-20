@@ -196,8 +196,6 @@ th {
 
 .deleteBtn, .cancelBtn {
     background: white;
-    /* color: #f48585;
-    border: 2px solid #f48585; */
     color: var(--sub4-color);
     border: 2px solid var(--sub4-color);
 }
@@ -236,4 +234,8 @@ th {
     font-size: 15px;
     font-weight: bold;
     color: coral;
+}
+
+.updateBtn {
+    margin-right: 10px;
 }

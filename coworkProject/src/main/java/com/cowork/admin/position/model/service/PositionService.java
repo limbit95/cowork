@@ -16,7 +16,7 @@ public interface PositionService {
 	 * @param positionNo
 	 * @return result
 	 */
-	int positionDelete(int positionNo);
+	int positionDelete(int positionNo, int comNo);
 
 	/** 직책 추가
 	 * @param positionNm
@@ -29,5 +29,11 @@ public interface PositionService {
 	 * @return result
 	 */
 	int positionMiddleInsert(Position position);
+
+	/** 직책 이름 수정
+	 * @param position
+	 * @return result
+	 */
+	int positionUpdate(Position position);
 
 }

@@ -41,20 +41,26 @@ public class PositionManageController {
 	
 	@GetMapping("positionDelete")
 	public String positionDelete(@RequestParam("positionNo") int positionNo,
+			@SessionAttribute("loginEmp") Employee2 loginEmp,
 			RedirectAttributes ra) {
 		
+		int comNo = loginEmp.getComNo();
+		
 		// positionNo 보내서 지워주기
-		int result = service.positionDelete(positionNo);
+		int result = service.positionDelete(positionNo, comNo);
 		
 		String message = "";
 		
-		if(result > 0) {
+		if(result == -5) {
+			message = "기존 직책 업데이트 실패";
+		} else if(result > 0) {
 			message = "직책 삭제 성공";
-			ra.addFlashAttribute("message", message);
+			
 		} else {
 			message = "직책 삭제 실패";
-			ra.addFlashAttribute("message", message);
 		}
+		
+		ra.addFlashAttribute("message", message);
 		
 		return "redirect:positionMain";
 	}
@@ -64,9 +70,6 @@ public class PositionManageController {
 			@RequestParam("level") int level,
 			@SessionAttribute("loginEmp") Employee2 loginEmp,
 			RedirectAttributes ra) {
-		
-		log.info(positionNm);
-		log.info("레벨={}", level);
 		
 		int comNo = loginEmp.getComNo();
 		
@@ -113,6 +116,30 @@ public class PositionManageController {
 			message = "직책 추가 성공";
 		} else {
 			message = "직책 추가 실패";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:positionMain";
+	}
+	
+	@GetMapping("positionUpdate")
+	public String positionUpdate(@RequestParam("positionNo") int positionNo,
+			@RequestParam("positionNm") String positionNm,
+			RedirectAttributes ra) {
+		
+		Position position = Position.builder()
+				.positionNo(positionNo)
+				.positionNm(positionNm)
+				.build();
+		
+		int result = service.positionUpdate(position);
+		String message = "";
+		
+		if(result > 0) {
+			message = "직책 수정 성공";
+		} else {
+			message = "직책 수정 실패";
 		}
 		
 		ra.addFlashAttribute("message", message);
