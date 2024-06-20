@@ -81,8 +81,6 @@ section.container button {
     padding: 0;
 }
 
-
-
 /* 이름, 성, 아이디 영역 */
 .nameDiv {
     width: 78%;
@@ -93,48 +91,6 @@ section.container button {
 .birthAndPhone > div {
     display: flex;
 }
-
-/* 프로필 사진 div */
-.profileImgDiv {
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    width: 22%; 
-}
-.profileImgDiv > label {
-    font-size: 100%;
-    position: relative;
-    right: 35%;
-    bottom: 7%;
-}
-/* 프로필 사진 */
-.profileImg {
-    width: 85%;
-    height: 85%;
-    border: 1px solid #d9d9d9;
-    border-radius: 100%;
-}
-/* 프로필 사진 변경 버튼    (카메라 아이콘) div */
-.profileImgBtnDiv {
-    position: relative;
-    left: 1%;
-    bottom: 9.5%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 38px;
-    /* border: 1px solid #d9d9d9;    */
-    border-radius: 100%;
-    background-color: rgba(255, 255, 255, 0);
-}
-/* 프로필 사진 변경 버튼(카메라 아이콘) */
-.profileImgBtn {
-    font-size: 160%;
-    color: #6D6D6D;
-    cursor: pointer;
-    background-color: white;
-}
-
 
 /* 아이디 중복 확인 메시지 */
 .nameDiv > :nth-child(4) {
@@ -269,3 +225,53 @@ section.container .download > a:visited{
 [type="radio"]:hover + span {
     cursor: pointer;
 }
+
+/* 프로필 사진 */
+
+
+#profileImgContainer{
+	width: 100vw;
+	height: 30vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#profileImgDiv{
+	width: 30%; 
+	height: 100%; 
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.fa-camera-retro{
+	font-size: 20px; 
+	margin-top: 20px;
+	cursor: pointer;
+	color: #3667A6;
+}
+#profileImgTag{
+	width: 200px; 
+	height: 200px; 
+	border-radius: 50%;
+
+}
+#changeProfileImgBtnDiv{
+	margin-top: 20px;
+}
+#changeProfileImgBtn{
+	width: 80px; 
+	height: 40px; 
+	border: none;
+	background-color: #BDD8F1;
+	border-radius: 5px;
+	color: white;
+	transition: background-color 0.3s, color 0.3s; 
+	cursor: pointer;
+
+}
+#changeProfileImgBtn:hover{
+	background-color: #82A6CB ;
+	
+}
+

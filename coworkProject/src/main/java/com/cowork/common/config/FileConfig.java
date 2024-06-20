@@ -73,6 +73,12 @@ public class FileConfig implements WebMvcConfigurer {
 		private String excelResourceHandler;
 		@Value("${excel.resource-location}")
 		private String excelResourceLocation;
+		
+		// 프로필 
+		@Value("${profile.file.resource-handler}")
+		private String profileResourceHandler;
+		@Value("${profile.file.resource-location}")
+		private String profileResourceLocation;
 	    
 	    
 	    @Override
@@ -109,6 +115,10 @@ public class FileConfig implements WebMvcConfigurer {
 			// 엑셀
 			registry.addResourceHandler(excelResourceHandler)
 			.addResourceLocations(excelResourceLocation);
+			
+			// 프로필 
+			registry.addResourceHandler(profileResourceHandler)
+			.addResourceLocations(profileResourceLocation);
 	        
 	    }
 		

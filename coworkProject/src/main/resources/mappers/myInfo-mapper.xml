@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.employee.myInfo.model.mapper.MyInfoMapper">
+	
+	<select id="validateDuplicateEmpId">
+		SELECT COUNT(*) FROM EMPLOYEE
+		WHERE EMP_ID = #{empId} 
+	</select>
+	
+	<update id="updateProfileImg">
+		UPDATE  EMPLOYEE
+		SET PROFILE_IMG = #{updatePath}
+		WHERE EMP_CODE = #{empCode}
+	</update>
+	
+
+	
+</mapper>
