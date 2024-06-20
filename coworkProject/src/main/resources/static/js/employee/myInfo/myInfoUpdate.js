@@ -32,3 +32,101 @@ if(document.querySelector("#searchAddress") != null){
 };
 
 
+// ---------------------------------------------------------------------------------------------------------------------
+
+let idCheckMessage = document.querySelector('#idCheckMessage');
+
+// 아이디에 입력할 때마다, 중복 검사하는 fetch 요청을 보내는 코드 
+document.querySelector('#sleepyIdInput').addEventListener('input', function(){
+	
+	let empId = document.querySelector('#sleepyIdInput').value;
+		
+		fetch("/myInfo/validateDuplicateEmpId", {
+			method : "POST",
+			headers : {"Content-Type" : "application/json"},
+			body : JSON.stringify({'empId' : empId})	// 단순 문자열 형태의 하나의 데이터만 보내는 경우.
+		})
+		.then(resp => resp.text())
+		.then(result => {
+			if(result > 0){
+				// 중복되는 아이디가 있을 경우 
+				idCheckMessage.innerText = '중복되는 아이디가 존재합니다.';
+				idCheckMessage.style.color = '#F1B8B8';
+			} else{
+				// 중복되는 아이디가 없을 경우 
+				idCheckMessage.innerText = '유효한 아이디 입니다.';
+				idCheckMessage.style.color = '#B8E2AA';
+
+			}
+		})
+		
+})
+
+
+
+
+// JavaScript 코드
+document.getElementById('profileInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('profileImgTag');
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        preview.src = e.target.result;
+        preview.style.display = 'block'; // 이미지가 선택되면 img 태그를 표시
+    }
+    
+    
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+});
+
+document.querySelector('#changeProfileImgBtn').addEventListener('click', function(){
+	
+	let profileInput = document.querySelector('#profileInput');
+	let file = profileInput.files[0];
+	
+	if(!file){
+		alert('선택된 파일이 없습니다.');
+		return;
+	}
+	
+	let formData = new FormData();
+	formData.append('file', file);
+	
+    fetch('/myInfo/updateProfileImg', {  // 서버의 업로드 URL로 변경
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.text())
+    .then(data => {
+		if(data == '1'){
+			// 프로필 업데이트 됬다. 
+			alert('프로필사진이 성공적으로 변경되었습니다.');
+		} else{
+			alert('프로필사진 변경에 실패하였습니다.');
+		}
+
+    })
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

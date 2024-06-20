@@ -316,13 +316,6 @@ public class UserController {
 		return "user/registrationNumCheck";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 	@GetMapping("quick")
 	public String quickLogin(@RequestParam("empId") String empId,
 							 RedirectAttributes ra,

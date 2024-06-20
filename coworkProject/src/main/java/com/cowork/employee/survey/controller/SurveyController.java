@@ -49,7 +49,22 @@ public class SurveyController {
 		emp.setEmpId("limbit5");
 		emp.setEmpFirstName("임");
 		emp.setEmpLastName("성혁");
+		emp.setEmpBirth("2024-06-20");
+		emp.setPhone("01011112222");
+		emp.setEmpAddress("03347^^^서울시 은평구 신사동^^^어쩌구저쩌구");		
 		emp.setComNo(10);		
+		emp.setEmpNo("EMP_NO_002");
+		emp.setDeptNm("개발팀");
+		emp.setPositionNm("positionNm");
+		emp.setWorkPlace("workPlace");
+		emp.setContractType("contractType");
+		emp.setEmpEmail("empEmail");
+		emp.setHireDate("hireDate");		
+	;
+		
+		
+		
+		
 		HttpSession session = request.getSession();
 		session.setAttribute("loginEmp", emp);
 		return "임성혁으로 로그인됨";
