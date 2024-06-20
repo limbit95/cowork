@@ -33,11 +33,11 @@
 }
 
 
-/*검색*/
+/* 보드에서 감싸는 첫번째 div */
 .ins-css.insertForm {
     display: flex;
+    margin: 10px;
 }
-
 
 .fileUploadForm div {
     margin: 15px 0 !important;
@@ -48,46 +48,41 @@
     width: 100%;
 }
 
+/* 받는 사람 / 참조 관련 */
+
 .inputRecipient, .inputReferer {
-    flex: 1;
     padding: 5px;
     margin-right: 5px;
     border: none;
     outline: none;
+    width: 80px;
 }
 
 .recipientListContainer, .refererListContainer {
     position: relative;
     display: flex !important;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center !important;
     padding: 5px;
+    width: 1000px !important;
 }
 
 .recipientForm, .refererForm {
     position: relative;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; 
     align-items: center;
     padding: 5px 5px 5px 10px;
     width: 98%; /* 가로 길이 넓게 설정 */
     border-bottom: 1px solid #ccc;
 }
 
-.default-label {
-    margin: 2px;
-    padding: 5px;
-    background-color: lavender;
-    border-radius: 3px;
-    display: flex;
-    align-items: center;
-}
-
+/* ************** 사원 검색 관련 **************** */
 .searchTable {
     position: absolute;
     top: 100%; /* 인풋 창 바로 아래에 위치하게 설정 */
     left: 0;
-   /* width: 100%;  가로 길이를 넓게 설정 */
+    width: 900px !important;
     background: white;
     border: 1px solid #ccc;
     max-height: 200px;
@@ -106,11 +101,14 @@
 }
 
 .searchTable .searchRow {
-    display: flex; /* 각 사원 정보가 가로로 정렬되도록 설정 */
+    display: flex !important;
     padding: 5px;
     cursor: pointer;
     font-size: 8px;
+    width: 100% !important;
+    justify-content: space-around;
 }
+
 .searchTable .searchRow div {
     margin-right: 10px;
 }
@@ -118,7 +116,6 @@
 .searchTable .searchRow div[hidden] {
     display: none; /* empCode 숨김 처리 */
 }
-
 
 
 /* 체크박스 */
@@ -133,12 +130,12 @@
 
 /* 등록 라벨 */
 .ins-css.insertForm div {
-    margin: 0 !important;
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
     display: flex;
     align-items: center;
     width: 100px;
 }
-
 
 /* 첨부파일 버튼 */
 .fileType {
@@ -242,7 +239,7 @@ table.default-line td:nth-child(1) {
     width: 80%;
 }
 
-
+/* 메일 제목 영역 */
 #mailTitleArea {
     padding: 5px 5px 5px 10px;
     border-bottom: 1px solid #d9d9d9;
@@ -253,6 +250,33 @@ table.default-line td:nth-child(1) {
     width: 85%;
 }
 
+/* 사원 이름 생성 */
+
+.nameLabel {
+    margin: 5px !important;
+    padding: 5px !important;
+    background-color: lavender;
+    border-radius: 10px !important;
+    display: inline-flex;
+    align-items: center;
+    min-width: 55px !important;
+    max-width: fit-content !important;
+    flex-grow: 1;
+    white-space: nowrap;
+    justify-content: space-around;
+}
+
+.putRecipient {
+    width: 85px;
+}
+
+/* 사원 이름 생성 라벨 호버시 */
+.delete-button:hover {
+    cursor: pointer;
+}
+
+/* 임시저장 버튼 */
 #saveBtn:hover {
     font-weight: bold;
+    cursor: pointer;
 }

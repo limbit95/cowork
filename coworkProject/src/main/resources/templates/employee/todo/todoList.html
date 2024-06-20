@@ -88,18 +88,28 @@
                                 <div class="list">
                                     <div class="detailTitle">요청자</div>
                                     <div class="detailContent">
-                                        <input name="requestEmp" style="border: none;" readonly>
+                                        <input name="requestEmp" id="requestName" style="border: none;" readonly>
                                     </div>
                                 </div>
                                 <div class="inChargeDetail">
                                     <div class="detailTitle">담당자</div>
-                                    <div id="tagsWrapper">
+                                    <div class="detailContent">
+                                        <input name="inChargeEmpInput" id="inChargeEmpInput" placeholder="이름 입력">
+                                    </div>
+                                    <div id="tagsWrapperEdit" class="detailContent">
+                                        <input name="inChargeEmp" id="inChargeInput1" readonly>
+                                    </div>
+                                </div>
+                              <!-- <div class="inChargeDetail">
+                                    <div class="detailTitle">담당자</div>
+                                    <div id="tagsWrapperEdit">
                                         <div class="detailContent" id="inchargeEmp">
                                             <input name="inChargeEmp" id="inChargeInput1">
                                         </div>
+                                    </div> 
                                     </div>
+                                    -->
 
-                                </div>
                                 <div class="todotitleArea">
                                     <div class="detailTitle">요청 제목</div>
                                     <div class="detailContent">
@@ -145,15 +155,27 @@
                                     <div th:text="|${session.loginEmp.empLastName}${session.loginEmp.empFirstName}|"></div>
                                 </div>
                             </div>
-                            <div class="inCharge" id="inCharge">
+
+                            <div class="inChargeDetail">
+                                <div class="detailTitle">담당자</div>
+                                <div class="inchargeinput">
+                                    <div class="detailContent">
+                                        <input name="inChargeEmpInput" id="inChargeEmpInput" placeholder="이름 입력">
+                                    </div>
+                                    <div id="tagsWrapperEdit" class="detailContent">
+                                        <input name="inChargeEmp" id="inChargeInput2">
+                                    </div>
+                                </div>
+                            </div>
+                        <!--    <div class="inCharge" id="inCharge">
                                 <div class="detailTitle">담당자</div>
                                 <div class="detailContent" id="inChargeEmp2">
-                                    <div id="tagsWrapper">
+                                    <div id="tagsWrapperRegister">
                                         <input name="inChargeEmp" id="inChargeInput2">
                                         <input id="empCode" hidden />
                                     </div>  
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="todotitleArea">
                                 <div class="detailTitle">요청 제목</div>
                                 <div class="detailContent">

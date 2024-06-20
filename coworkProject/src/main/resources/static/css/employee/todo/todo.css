@@ -198,7 +198,7 @@ ul{
 /* ---------------- 할 일 등록 ---------------- */
 .todoDetailArea, .todoInsertArea {
     border: 1px solid #d9d9d9;
-    width: 400px;
+    width: 340px;
     height: 733px;
     margin: 15px 0 15px 20px !important;
     display: flex;
@@ -222,7 +222,7 @@ ul{
 
 .todoDetailArea div:first-child, 
 .todoInsertArea div:first-child  {
-    margin-left: 15px !important;
+    margin-left: 30px !important;
 }
 
 /* 기한 / 요청자 부분 높이 */
@@ -244,7 +244,7 @@ ul{
     border: 0px;
     border-bottom: 1px solid var(--gray-color);
     padding: 10px;
-    width: 220px;
+    width: 210px;
 }
 
 #todoTitle:hover {
@@ -257,8 +257,9 @@ ul{
     padding: 10px;
     resize: none;
     height: 180px !important;
-    width: 280px;
+    width: 220px;
     overflow-y: auto;
+    margin-left: 32px;
 }
 
 #requestContent:focus {
@@ -289,7 +290,7 @@ ul{
 /* 기한 input */
 input[type="date"] {
     border: none;
-    padding-left: 13px;
+    padding-left: 28px;
 }
 
 /* 기한 부분 */
@@ -300,6 +301,10 @@ input[type="date"]:hover {
 
 .request {
     height: 25px;
+}
+
+#requestName {
+    margin-left: 10px;
 }
 
 
@@ -329,13 +334,13 @@ input[type="date"]:hover {
 /* 파일 리스트 보여주는 영역 */
 .fileList, .detailFileList {
     list-style-type: none;
-    width: 300px;
+    width: 244px;
     min-height: 120px !important;
-    border: 1px solid #ccc;
-    overflow-y: auto; /* 스크롤바 추가 */
+    border: 1px solid #d9d9d9;
+    overflow-y: auto;
     padding: 10px;
-    box-sizing: border-box; /* 패딩과 테두리를 포함하여 크기 계산 */
-    margin-left: 50px !important;
+    box-sizing: border-box;
+    margin-left: 95px !important;
 }
 
 .fileList ul, .detailFileList ul {
@@ -394,7 +399,7 @@ input[type="date"]:hover {
 }
 
 #insertBtn2 {
-    margin-left: 340px;
+    margin-left: 310px;
     border: none;
     background-color: transparent;
     color: #214177;
@@ -483,32 +488,85 @@ input[type="date"]:hover {
 
 /* 담당자 */
 
-#tagsWrapper {
-
+#tagsWrapperRegister {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     padding: 5px;
     white-space: nowrap; 
     border-bottom: 1px solid #d9d9d9 ;
-    width: 230px;
+    width: 220px;
     overflow-x: auto;
     max-height: 30px;
+    margin: 0 0 0 13px !important;
+}
+
+#tagsWrapperEdit {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 5px;
+    white-space: nowrap; 
+    border-bottom: 1px solid #d9d9d9 ;
+    width: 220px;
+    max-height: 30px;
+    margin: 0 0 0 13px !important;
+}
+
+#tagsWrapperEdit:hover, #tagsWrapperRegister:hover {
+    border-bottom: 1px solid #214177;
+}
+
+.inchargeinput {
+    display: flex;
+    flex-direction: column;
 }
 
 #inCharge, #inChargeDetail {
     position: relative;
 }
 
+.inChargeDetail, .detailContent {
+    display: flex;
+    align-items: center;
+}
+
+.inChargeDetail .detailContent {
+    flex-grow: 1;
+}
+
+.inChargeDetail input {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.inChargeDetail .tag {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 5px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.inChargeDetail .delete-button {
+    margin-left: 5px;
+    cursor: pointer;
+    color: red;
+}
+
 .searchTable {
     position: absolute;
-    transform: translateX(-50%);
+    top: calc(60% + 5px); /* tagsWrapper div 바로 아래에 위치 */
+    width: 300px;
     background-color: white;
     border: 1px solid var(--gray-color);
     z-index: 1000;
-    display: none; /* Default to hidden */
-    overflow: scroll;
-    overflow-x: hidden; 
+    display: none;  /* 초기에는 숨김 */
+    max-height: 200px; /* 필요 시 추가 */
+    overflow-y: auto; /* 세로 스크롤 추가 */
 }
 
 .searchRow {
@@ -519,18 +577,22 @@ input[type="date"]:hover {
     height: 15px !important;
 }
 
-
-#inChargeInput1 ,#inChargeInput2 {
+#inChargeInput2, #inChargeInput1 {
     border: none;
     outline: none;
     flex-shrink: 0;
     min-width: 100px;
     white-space: nowrap; 
-
 }
 
 .tag {
+    display: inline-block;
     margin-right: 5px;
+}
+
+.delete-button {
+    margin-left: 5px;
+    cursor: pointer;
 }
 
 #recipient:focus + .searchTable,

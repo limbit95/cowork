@@ -172,18 +172,16 @@
 
 				
 	<!-- 담당자 등록 -->
-	<insert id="insertTodoManager" parameterType="Todo">
+	<insert id="insertTodoManager">
 	        INSERT INTO "TODO_MANAGER" 
 	        SELECT 
 	            NEXT_TODO_MGR_NO(), 
-	            inChargeEmp.EMP_CODE, 
+	            emp.EMP_CODE, 
 	            #{todoNo}
 	        FROM 
-	            EMPLOYEE loginEmp
-	       	JOIN EMPLOYEE inChargeEmp ON (loginEmp.EMP_CODE = inChargeEmp.EMP_CODE)
+	            EMPLOYEE emp
 	        WHERE 
-	            CONCAT(emp.inChargeEmp_LAST_NAME, inChargeEmp.EMP_FIRST_NAME) = #{inChargeEmp}
-	            AND loginEmp.COM_NO = inChargeEmp.COM_NO
+	             CONCAT(emp.EMP_LAST_NAME, emp.EMP_FIRST_NAME) = #{inChargeEmp}    
 	</insert>
 	
 	<!-- 담당자 여러명 등록 -->
@@ -191,14 +189,12 @@
 		INSERT INTO "TODO_MANAGER" 
 	        SELECT 
 	            NEXT_TODO_MGR_NO(), 
-	            inCharge.EMP_CODE, 
+	            emp.EMP_CODE, 
 	            #{todoNo}
 	        FROM 
-	            EMPLOYEE loginEmp
-	       	JOIN EMPLOYEE inChargeEmp ON (loginEmp.EMP_CODE = inchargeEmp.EMP_CODE)
+	            EMPLOYEE emp
 	        WHERE 
-	            CONCAT(inChargeEmp.EMP_LAST_NAME, inChargeEmp.EMP_FIRST_NAME) = #{inChargeEmp}
-	            AND loginEmp.COM_NO = inChargeEmp.COM_NO
+	            CONCAT(emp.EMP_LAST_NAME, emp.EMP_FIRST_NAME) = #{inChargeEmp}
 	</insert>
 	
 	<!-- 담당자 여러명 조회 -->
