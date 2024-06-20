@@ -57,7 +57,7 @@ body {
 }
 #closeLeftSideBar{
 	margin-top: 10px;
-	margin-bottom: 50px;
+	margin-bottom: 20px;
 	cursor: pointer;
 	width: 100%;
 	display: flex;
