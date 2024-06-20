@@ -104,8 +104,8 @@ function initializeEventListeners() {
         todoInsertForm.addEventListener('submit', invalidateInsertForm);
     }
 
-    initializeSearchFeature('inChargeInput1'); // 첫 번째 input 요소에 대한 초기화
-    initializeSearchFeature('inChargeInput2'); // 두 번째 input 요소에 대한 초기화
+    initializeSearchFeature('inChargeInput1', 'tagsWrapperEdit'); // 첫 번째 input 요소에 대한 초기화
+    initializeSearchFeature('inChargeInput2', 'tagsWrapperRegister'); // 두 번째 input 요소에 대한 초기화
 }
 
 function setMinDate() {
@@ -376,14 +376,14 @@ function applyTodoStyles(size) {
     todos.forEach(todo => {
 
         if (size === 'reduced') {
-            todo.style.width = '550px';
+            todo.style.width = '620px';
             todo.querySelectorAll('div:nth-of-type(1)').forEach(element => {
                 element.style.marginLeft = '20px';
                 element.style.width = '20px';
             });
             todo.querySelectorAll('div:nth-of-type(2)').forEach(element => {
                 element.style.marginLeft = '10px';
-                element.style.width = '75%';
+                element.style.width = '77%';
             });
 
         } else {
@@ -493,6 +493,8 @@ function showTodoDetail(todo) {
         var loginEmp = document.getElementById('loginEmp').value;
         console.log(todoEmpCode);
         console.log(loginEmp);
+
+        setReadOnlyFields(loginEmp, todoEmpCode);
 
         if (loginEmp === todoEmpCode) {
             updateBtn.style.display = 'block';
@@ -717,28 +719,24 @@ function invalidateInsertForm(e) {
     }
 }
 
-// 사원 검색 영역 생성
-function createSearchTable() {
+
+
+function createSearchTable(inputElement) {
     const searchTable = document.createElement('div');
-    const inCharge = document.getElementById('inCharge');
-    // 검색 테이블 스타일 설정
-    searchTable.style.position = 'absolute';
-    searchTable.style.top = 'calc(100% + 5px)'; // inCharge div 바로 아래에 위치
-   // searchTable.style.left = '0';
-    searchTable.style.width = '100%';
-    searchTable.style.backgroundColor = 'white';
-    searchTable.style.border = '1px solid #d9d9d9';
-    searchTable.style.zIndex = '1000';
-    searchTable.style.display = 'block'; // 검색 결과 창 표시
-    inCharge.appendChild(searchTable); // inCharge div 내부에 추가
+    searchTable.className = 'searchTable';
+    const parentElement = inputElement.parentElement;
+
+    if (parentElement) {
+        parentElement.appendChild(searchTable);
+        console.log('searchTable이 추가되었습니다.');
+    } else {
+        console.error('inputElement의 부모 요소가 존재하지 않습니다.');
+    }
     return searchTable;
 }
 
-// 사원 검색 함수
 function searchEmp(empName, trId, searchTable) {
-    console.log(`Searching for employee: ${empName}`); // 디버그 로그 추가
-
-    fetch("/todo/empSearch?empName=" + empName, {
+    fetch(`/mail/mailInsert/empSearch?empName=${empName}`, {
         method: "GET",
         headers: {"Content-Type": "application/json"}
     })
@@ -750,13 +748,13 @@ function searchEmp(empName, trId, searchTable) {
         employeeList.forEach(employee => {
             const div = document.createElement('div');
             div.classList.add('searchRow', trId); // 검색 결과 행 생성
-            div.setAttribute('onclick', `search${trId}Click(${employee.empCode}, '${employee.empName}')`);
+            div.setAttribute('onclick', `searchtrInChargeClick(${employee.empCode}, '${employee.empName}', '${searchTable.id}', '${searchTable.previousElementSibling.querySelector('input').id}')`);
 
             div.innerHTML = `
-                <div style="display: none;">${employee.empCode}</div>
-                <div id="empId">${employee.empId}</div> &nbsp &nbsp
-                <div id="deptNm">${employee.deptNm}</div> &nbsp &nbsp 
-                <div id="empNm">${employee.empName}</div> &nbsp &nbsp
+                <div hidden>${employee.empCode}</div>
+                <div id="empId">${employee.empId}</div>
+                <div id="deptNm">${employee.deptNm}</div>
+                <div id="empNm">${employee.empName}</div>
                 <div id="positionNm">${employee.positionNm}</div>
             `;
 
@@ -766,47 +764,46 @@ function searchEmp(empName, trId, searchTable) {
     .catch(error => console.error('Error:', error));
 }
 
-// 검색창 외부 클릭 시 검색창 숨기기
-document.addEventListener('click', (event) => {
-    if (!event.target.closest('.searchTable') && !event.target.closest('.detailContent')) {
-        document.querySelectorAll('.searchTable').forEach(table => {
-            table.style.display = 'none';
-        });
-    }
-});
-
 // 담당자 클릭 시
-function searchtrInChargeClick(empCode, empName) {
-    const inputElement = document.querySelector('#inChargeInput2');
-    const tagsWrapper = document.querySelector('#tagsWrapper');
+function searchtrInChargeClick(empCode, empName, tableId, inputId) {
+    console.log(`searchtrInChargeClick 호출됨 - empCode: ${empCode}, empName: ${empName}, tableId: ${tableId}, inputId: ${inputId}`);
+    const inputElement = document.getElementById('inChargeInput2'); // 태그 생성용 input
+    const tagsWrapper = document.getElementById('tagsWrapperEdit');
+    console.log('inputElement:', inputElement);
+    console.log('tagsWrapper:', tagsWrapper);
+
+    if (!tagsWrapper || !inputElement) {
+        console.error('inputElement 또는 tagsWrapper가 존재하지 않습니다.');
+        return;
+    }
 
     // 태그 생성
     const tag = document.createElement('span');
     tag.className = 'tag';
     tag.dataset.empCode = empCode;
-    tag.textContent = empName;
+    tag.textContent = empName + ' ';
 
     // 태그에 삭제 기능 추가
     const deleteButton = document.createElement('span');
     deleteButton.className = 'delete-button';
-    deleteButton.textContent = ' x';
+    deleteButton.textContent = 'x';
     deleteButton.onclick = () => {
         tag.remove();
-        updateInputValue();
+        updateInputValue(tagsWrapper.id);
     };
     tag.appendChild(deleteButton);
 
-    // 태그 추가 (인풋 창 안에)
+    // 태그 추가 (인풋 창 앞에)
     tagsWrapper.insertBefore(tag, inputElement);
 
     // 인풋 창 초기화
     inputElement.value = '';
     inputElement.focus();
-    updateInputValue();
+    updateInputValue(tagsWrapper.id);
 }
 
 // 검색 초기화 함수
-function initializeSearchFeature(inputId) {
+function initializeSearchFeature(inputId, tagsWrapperId) {
     console.log(`Initializing search feature for input: ${inputId}`); // 디버그 로그 추가
     const inputElement = document.getElementById(inputId);
     let searchTable;
@@ -814,7 +811,8 @@ function initializeSearchFeature(inputId) {
         console.log(`Input event triggered for: ${inputId}`); // 디버그 로그 추가
         const empName = inputElement.value.split(',').pop().trim(); // 콤마로 구분된 마지막 이름으로 검색
         if (!searchTable) {
-            searchTable = createSearchTable();
+            searchTable = createSearchTable(inputElement);
+            searchTable.id = `${tagsWrapperId}Table`;
         }
         if (empName) {
             searchEmp(empName, 'trInCharge', searchTable);
@@ -826,8 +824,147 @@ function initializeSearchFeature(inputId) {
 }
 
 // 인풋 값 업데이트 함수
-function updateInputValue() {
-    const tagsWrapper = document.querySelector('#tagsWrapper');
+function updateInputValue(tagsWrapperId) {
+    const tagsWrapper = document.querySelector(`#${tagsWrapperId}`);
+    const tags = tagsWrapper.querySelectorAll('.tag');
+    const empCodes = [];
+    tags.forEach(tag => {
+        empCodes.push(tag.dataset.empCode);
+    });
+    document.querySelector('#empCode').value = empCodes.join(',');
+}
+
+// 검색창 외부 클릭 시 검색창 숨기기
+document.addEventListener('click', (event) => {
+    if (!event.target.closest('.searchTable') && !event.target.closest('.inputRecipient') && !event.target.closest('.inputReferer')) {
+        document.querySelectorAll('.searchTable').forEach(table => {
+            table.style.display = 'none';
+        });
+    }
+});
+
+// 삭제 버튼 생성 함수
+function createDeleteButton(parentDiv) {
+    const deleteButton = document.createElement('span');
+    deleteButton.className = 'delete-button';
+    deleteButton.textContent = 'X';
+    deleteButton.onclick = () => {
+        parentDiv.remove();
+        updateInputValue(parentDiv.parentElement.id);
+    };
+    return deleteButton;
+}
+
+
+
+
+
+
+/*
+function createSearchTable(inputElement) {
+    const searchTable = document.createElement('div');
+    searchTable.className = 'searchTable';
+    const parentElement = inputElement.parentElement;
+
+    if (parentElement) {
+        parentElement.appendChild(searchTable);
+        console.log('searchTable이 추가되었습니다.');
+    } else {
+        console.error('inputElement의 부모 요소가 존재하지 않습니다.');
+    }
+    return searchTable;
+}
+
+// 사원 검색 함수
+function searchEmp(empName, trId, searchTable) {
+    fetch(`/mail/mailInsert/empSearch?empName=${empName}`, {
+        method: "GET",
+        headers: {"Content-Type": "application/json"}
+    })
+    .then(resp => resp.json())
+    .then(employeeList => {
+        searchTable.innerHTML = '';
+        searchTable.style.display = 'block'; // 검색 결과가 있으면 검색창 표시
+
+        employeeList.forEach(employee => {
+            const div = document.createElement('div');
+            div.classList.add('searchRow', trId); // 검색 결과 행 생성
+            div.setAttribute('onclick', `searchtrInChargeClick(${employee.empCode}, '${employee.empName}', '${searchTable.id}')`);
+
+            div.innerHTML = `
+                <div hidden>${employee.empCode}</div>
+                <div id="empId">${employee.empId}</div>
+                <div id="deptNm">${employee.deptNm}</div>
+                <div id="empNm">${employee.empName}</div>
+                <div id="positionNm">${employee.positionNm}</div>
+            `;
+
+            searchTable.appendChild(div);
+        });
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+
+// 담당자 클릭 시
+function searchtrInChargeClick(empCode, empName, tableId, inputId) {
+    const inputElement = document.getElementById(inputId);
+    const tagsWrapper = inputElement ? inputElement.parentElement : null;
+
+    if (!tagsWrapper || !inputElement) {
+        console.error('inputElement 또는 tagsWrapper가 존재하지 않습니다.');
+        return;
+    }
+
+    // 태그 생성
+    const tag = document.createElement('span');
+    tag.className = 'tag';
+    tag.dataset.empCode = empCode;
+    tag.textContent = empName + ' ';
+
+    // 태그에 삭제 기능 추가
+    const deleteButton = document.createElement('span');
+    deleteButton.className = 'delete-button';
+    deleteButton.textContent = 'x';
+    deleteButton.onclick = () => {
+        tag.remove();
+        updateInputValue(tagsWrapper.id);
+    };
+    tag.appendChild(deleteButton);
+
+    // 태그 추가 (인풋 창 앞에)
+    tagsWrapper.insertBefore(tag, inputElement);
+
+    // 인풋 창 초기화
+    inputElement.value = '';
+    inputElement.focus();
+    updateInputValue(tagsWrapper.id);
+}
+
+// 검색 초기화 함수
+function initializeSearchFeature(inputId, tagsWrapperId) {
+    console.log(`Initializing search feature for input: ${inputId}`); // 디버그 로그 추가
+    const inputElement = document.getElementById(inputId);
+    let searchTable;
+    inputElement.addEventListener('input', () => {
+        console.log(`Input event triggered for: ${inputId}`); // 디버그 로그 추가
+        const empName = inputElement.value.split(',').pop().trim(); // 콤마로 구분된 마지막 이름으로 검색
+        if (!searchTable) {
+            searchTable = createSearchTable(inputElement);
+            searchTable.id = `${tagsWrapperId}Table`;
+        }
+        if (empName) {
+            searchEmp(empName, 'trInCharge', searchTable);
+        } else {
+            searchTable.innerHTML = '';
+            searchTable.style.display = 'none';
+        }
+    });
+}
+
+// 인풋 값 업데이트 함수
+function updateInputValue(tagsWrapperId) {
+    const tagsWrapper = document.querySelector(`#${tagsWrapperId}`);
     const tags = tagsWrapper.querySelectorAll('.tag');
     const empCodes = [];
     tags.forEach(tag => {
@@ -838,8 +975,61 @@ function updateInputValue() {
 
 
 
+// 검색창 외부 클릭 시 검색창 숨기기
+document.addEventListener('click', (event) => {
+    if (!event.target.closest('.searchTable') && !event.target.closest('detailContent')) {
+        document.querySelectorAll('.searchTable').forEach(table => {
+            table.style.display = 'none';
+        });
+    }
+});
 
+// 삭제 버튼 생성 함수
+function createDeleteButton(parentDiv) {
+    const deleteButton = document.createElement('span');
+    deleteButton.className = 'delete-button';
+    deleteButton.textContent = 'X';
+    deleteButton.onclick = () => {
+        parentDiv.remove();
+        updateInputValue(parentDiv.parentElement.id);
+    };
+    return deleteButton;
+} */
 
+/* 내 글이 아닌경우 readOnly  */
+function setReadOnlyFields(loginEmp, todoEmpCode) {
+
+    if (loginEmp !== todoEmpCode) {
+        const fields = [
+            'todoEndDate',
+            'inChargeInput1',
+            'todoTitle',
+            'requestContent',
+            'detailUploadFile',
+            'inChargeEmpInput'
+        ];
+
+        fields.forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.readOnly = true;
+                field.disabled = true;  // 파일 업로드 필드를 비활성화합니다.
+            }
+        });
+
+        // 수정 버튼 숨기기
+        const updateBtn = document.getElementById('updateBtn');
+        if (updateBtn) {
+            updateBtn.style.display = 'none';
+        }
+
+        // 파일 업로드 라벨 숨기기
+        const uploadFileLabel = document.querySelector('.uploadFileLabel');
+        if (uploadFileLabel) {
+            uploadFileLabel.style.display = 'none';
+        }
+    }
+}
 
 /*
 

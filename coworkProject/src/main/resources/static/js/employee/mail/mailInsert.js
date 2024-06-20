@@ -133,7 +133,7 @@ refererInput.addEventListener('input', () => {
 // 받는사람 클릭시  
 function searchtrRecClick(empCode, empName) {
     const recipientDiv = document.createElement('div');
-    recipientDiv.className = 'default-label lavenderLabel putRecipient';
+    recipientDiv.className = 'nameLabel putRecipient';
     recipientDiv.dataset.empCode = empCode;
     recipientDiv.dataset.empName = empName;
     recipientDiv.textContent = empName;
@@ -144,7 +144,7 @@ function searchtrRecClick(empCode, empName) {
 // 이메일 받는 사람 추가 함수
 function addRecipientEmail(empName) {
     const recipientDiv = document.createElement('div');
-    recipientDiv.className = 'default-label lavenderLabel putRecipient';
+    recipientDiv.className = 'nameLabel putRecipient';
     recipientDiv.textContent = empName;
     recipientDiv.appendChild(createDeleteButton(recipientDiv));
     recipientListContainer.appendChild(recipientDiv);
@@ -152,7 +152,7 @@ function addRecipientEmail(empName) {
 // 참조인 클릭시 
 function searchtrRefClick(empCode, empName) {
     const refererDiv = document.createElement('div');
-    refererDiv.className = 'default-label lavenderLabel putReferer';
+    refererDiv.className = 'nameLabel putReferer';
     refererDiv.dataset.empCode = empCode;
     refererDiv.dataset.empName = empName;
     refererDiv.textContent = empName;
@@ -175,7 +175,7 @@ function searchtrRefClick(empCode, empName) {
 // 이메일 참조인 추가 함수
 function addRefererEmail(empName) {
     const refererDiv = document.createElement('div');
-    refererDiv.className = 'default-label lavenderLabel putReferer';
+    refererDiv.className = 'nameLabel putReferer';
     refererDiv.textContent = empName;
     refererDiv.appendChild(createDeleteButton(refererDiv));
     refererListContainer.appendChild(refererDiv);
@@ -185,7 +185,7 @@ function addRefererEmail(empName) {
 function createDeleteButton(parentDiv) {
     const deleteButton = document.createElement('span');
     deleteButton.className = 'delete-button';
-    deleteButton.textContent = 'X';
+    deleteButton.textContent = 'x';
     deleteButton.onclick = () => {
         parentDiv.remove();
         // Hidden input 필드 값도 지우기

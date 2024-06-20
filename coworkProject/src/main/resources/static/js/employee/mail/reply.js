@@ -67,7 +67,7 @@ smartEditor = function() {
 
     if (sender) {
         const recipientDiv = document.createElement('div');
-        recipientDiv.className = 'default-label lavenderLabel putRecipient';
+        recipientDiv.className = 'nameLabel putRecipient';
         recipientDiv.dataset.empCode = senderEmpCode;
         recipientDiv.dataset.empName = sender;
         recipientDiv.textContent = sender;
@@ -154,18 +154,31 @@ refererInput.addEventListener('input', () => {
 // 받는사람 클릭시  
 function searchtrRecClick(empCode, empName) {
     const recipientDiv = document.createElement('div');
-    recipientDiv.className = 'default-label lavenderLabel putRecipient';
+    recipientDiv.className = 'nameLabel putRecipient';
     recipientDiv.dataset.empCode = empCode;
     recipientDiv.dataset.empName = empName;
     recipientDiv.textContent = empName;
     recipientDiv.appendChild(createDeleteButton(recipientDiv));
-    document.querySelector('.recipientForm').appendChild(recipientDiv);
+
+    const recipientForm = document.querySelector('.recipientForm');
+    const existingLabels = recipientForm.querySelectorAll('.nameLabel');
+
+    if (existingLabels.length > 0) {
+        // 기존 default-label 요소 뒤에 새 요소를 추가
+        const lastLabel = existingLabels[existingLabels.length - 1];
+        lastLabel.insertAdjacentElement('afterend', recipientDiv);
+    } else {
+        // default-label 요소가 없는 경우 맨 처음에 추가
+        recipientForm.appendChild(recipientDiv);
+    }
+
+    //document.querySelector('.recipientForm').appendChild(recipientDiv);
 }
 
 // 이메일 받는 사람 추가 함수
 function addRecipientEmail(empName) {
     const recipientDiv = document.createElement('div');
-    recipientDiv.className = 'default-label lavenderLabel putRecipient';
+    recipientDiv.className = 'nameLabel putRecipient';
     recipientDiv.textContent = empName;
     recipientDiv.appendChild(createDeleteButton(recipientDiv));
     recipientListContainer.appendChild(recipientDiv);
@@ -173,7 +186,7 @@ function addRecipientEmail(empName) {
 // 참조인 클릭시 
 function searchtrRefClick(empCode, empName) {
     const refererDiv = document.createElement('div');
-    refererDiv.className = 'default-label lavenderLabel putReferer';
+    refererDiv.className = 'nameLabel putReferer';
     refererDiv.dataset.empCode = empCode;
     refererDiv.dataset.empName = empName;
     refererDiv.textContent = empName;
@@ -196,7 +209,7 @@ function searchtrRefClick(empCode, empName) {
 // 이메일 참조인 추가 함수
 function addRefererEmail(empName) {
     const refererDiv = document.createElement('div');
-    refererDiv.className = 'default-label lavenderLabel putReferer';
+    refererDiv.className = 'nameLabel putReferer';
     refererDiv.textContent = empName;
     refererDiv.appendChild(createDeleteButton(refererDiv));
     refererListContainer.appendChild(refererDiv);
@@ -206,7 +219,7 @@ function addRefererEmail(empName) {
 function createDeleteButton(parentDiv) {
     const deleteButton = document.createElement('span');
     deleteButton.className = 'delete-button';
-    deleteButton.textContent = 'X';
+    deleteButton.textContent = 'x';
     deleteButton.onclick = () => {
         parentDiv.remove();
         // Hidden input 필드 값도 지우기

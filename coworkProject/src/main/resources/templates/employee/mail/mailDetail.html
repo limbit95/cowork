@@ -6,8 +6,8 @@
     <title>Detail</title>
 
     <th:block th:replace="~{common/common}"></th:block>
-    <link rel="stylesheet" href="/css/employee/board/board.css">
     <link rel="stylesheet" href="/css/employee/mail/mail.css">
+    <link rel="stylesheet" href="/css/employee/mail/mailDetail.css">
 
 </head>
 <body>
@@ -51,40 +51,42 @@
 
             <div class="table-body2">
                 <!-- 제목 -->
-                <div class="ins-css insertForm">
+                <div class="ins-css insertForm" id="detailTitle">
                     <div><label>제목</label></div>
                     <input type="hidden" th:attr="data-mail-id=${mail.mailNo}" id="mailNo">
                     <span th:text="${mail.mailTitle}" class="mailTitle" id="mailTitle"></span>
                 </div>
 
                 <!-- 보낸사람 -->
-                <div class="ins-css insertForm mailInfo">
+                <div class="ins-css insertForm mailInfo" id="senderArea">
                     <div><label>보낸 사람</label></div>
-                    <div th:text="${mail.sender}"></div>
-                    <div th:text="${mail.senderMail}" class="default-label lavenderLabel"></div>
+                    <div th:text="${mail.sender}" id="senderName"></div>
+                    <div th:text="${mail.senderMail}" class="default-label lavenderLabel" id="senderMail"></div>
                 </div>
 
                 <!-- 받는사람 -->
-                <div class="ins-css insertForm mailInfo">
-                    <div><label>받는 사람</label></div>
-                    <div th:each="recipient : ${recipientList}">
-                        <div th:text="${recipient.recipient}">받는사람</div>
-                        <div th:text="${recipient.recipientMail}" class="default-label lavenderLabel"></div>
+                <div class="ins-css insertForm mailInfo" id="recipientArea">
+                    <div style="width: 80px;"><label>받는 사람</label></div>
+                    <div th:each="recipient : ${recipientList}" id="recipientList">
+                        <div th:text="${recipient.recipient}" id="recipientName">받는사람</div>
+                        <div th:text="${recipient.recipientMail}" class="default-label lavenderLabel" id="recipientMail"></div>
                     </div>
                 </div>
 
                 <!-- 참조 -->
-                <div class="ins-css insertForm mailInfo"> 
-                    <div><label>참조</label></div>
-                        <div th:each="referer : ${refererList}">
-                        <div th:text="${referer.referer}"></div>
-                        <div class="default-label lavenderLabel" th:text="${referer.refererMail}">메일주소</div>
+                <div class="ins-css insertForm mailInfo" id="refererArea"> 
+                    <div style="width: 80px;">
+                        <label>참조</label> 
+                    </div>
+                    <div th:each="referer : ${refererList}" id="refererList">
+                        <div th:text="${referer.referer}" id="refererName"></div>
+                        <div class="default-label lavenderLabel" th:text="${referer.refererMail}" id="refererMail">메일주소</div>
                     </div>
                 </div>
 
                 <!-- 날짜 -->
-                <div class="ins-css insertForm mailInfo">
-                    <div><label>보낸 시각</label></div>
+                <div class="ins-css insertForm mailInfo" id="mailWriteDateArea">
+                    <div style="width: 80px;"><label>보낸 시각</label></div>
                     <div th:text="${mail.mailWriteDate}" class="delBtn">2024년 05월 23일 16시 49분</div>
                 </div>
 
@@ -107,26 +109,26 @@
 
             <div class="default-line smarteditorDetail" th:utext="${mail.mailContent}"></div>
 
-  <!--         <div class="table-body row">
-                <div class="checkDiv">
-                    <i class="fa-solid fa-caret-up"></i>
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
+                        <!--         <div class="table-body row">
+                                        <div class="checkDiv">
+                                            <i class="fa-solid fa-caret-up"></i>
+                                            <div>개발팀</div>
+                                        </div>
+                                        <div>[받은 메일함] 중간 만족도 조사</div>
+                                        <div></div>
+                                        <div>2024-05-22 12:20</div>
+                                    </div>
 
-            <div class="table-body row">
-                <div class="checkDiv">
-                    <i class="fa-solid fa-caret-down"></i>
-                    <div>개발팀</div>
-                </div>
-                <div>[받은 메일함] 중간 만족도 조사</div>
-                <div></div>
-                <div>2024-05-22 12:20</div>
-            </div>
---> 
+                                    <div class="table-body row">
+                                        <div class="checkDiv">
+                                            <i class="fa-solid fa-caret-down"></i>
+                                            <div>개발팀</div>
+                                        </div>
+                                        <div>[받은 메일함] 중간 만족도 조사</div>
+                                        <div></div>
+                                        <div>2024-05-22 12:20</div>
+                                    </div>
+                        --> 
 
         </div>
     </section>

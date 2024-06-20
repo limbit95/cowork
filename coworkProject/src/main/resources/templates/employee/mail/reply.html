@@ -6,8 +6,6 @@
     <title>답장</title>
 
     <th:block th:replace="~{common/common}"></th:block>
-    <link rel="stylesheet" href="/css/employee/board/board.css"> 
-    <link rel="stylesheet" href="/css/employee/mail/mail.css">
     <link rel="stylesheet" href="/css/employee/mail/mailInsert.css">
 </head>
 <body>
@@ -16,13 +14,10 @@
 
     <form class="container" id="sendMailForm" enctype="multipart/form-data" action="/mail/reply" method="post">
 
-            <div class="mailTitle">
+            <div class="mailHeader">
                 <div class="mailLabel">
                     <label>답장하기</label>
                 </div>
-            </div>
-
-            <div class="mailHeader">
                 <div class="checkDiv">
                     <button class="default-btn sapphire-border-btn" id="reBtn" type="button">보내기</button>
                     <label class="delBtn" id="saveBtn">임시저장</label>
@@ -59,7 +54,7 @@
                     </div>
 
                     <!-- 제목 -->
-                    <div class="ins-css insertForm">
+                    <div class="ins-css insertForm" id="mailTitleArea">
                         <div><label>제목</label></div>
                         <input class="default-line listBtn" id="mailTitle" th:value="${mail.mailTitle}">
                     </div>
