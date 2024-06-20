@@ -1,0 +1,161 @@
+/* 구분 */
+[type="radio"] {
+    appearance: none;
+    border: max(1px, 0.1em) solid var(--gray-color);
+    border-radius: 50%;
+    width: 1.25em;
+    height: 1.25em;
+    transition: border 0.5s ease-in-out;
+}
+
+[type="radio"]:checked {
+    border: 0.4em solid var(--main-color);
+}
+
+.radioFlag div {
+    width: 87px !important;
+}
+
+label.radioLabel {
+    margin-right: 33px !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/********* 댓글 ***********/
+
+/* 제목 */
+.commentNum {
+    color: var(--main6-color);
+    font-weight: bold;
+}
+
+.commentTitle label {
+    font-size: 17px;
+}
+
+.commentTitle {
+    display: flex;
+    margin-top: 40px !important;
+    border-bottom: 2px solid var(--gray-color);
+    justify-content: space-between;
+}
+
+/* 말풍선 */
+.speechBubble {
+    position: relative;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+    max-width: 645px;
+    padding: 10px;
+}
+
+.commentGroup .speechBubble {
+    background-color: #f2f2f2;
+}
+
+.commentGroup .speechBubble::after {
+    content: "";
+    border-top: 16px solid #f2f2f2;
+    border-left: 25px solid transparent;
+    border-right: 0px solid transparent;
+    border-bottom: 0px solid transparent;
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: -18px;
+}
+
+.commentGroup2 .speechBubble {
+    background-color: aliceblue;
+    margin-right: 25px;
+}
+
+.commentGroup2 .speechBubble::before {
+    content: "";
+    border-top: 16px solid aliceblue;
+    border-left: 0px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 0px solid transparent;
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 340px;
+}
+
+
+.commentGroup, .commentGroup3 {
+    display: flex;
+}
+
+.commentGroup2 {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.profile {
+    width: 60px;
+    height: 60px;
+    background: aliceblue;
+    border-radius: 50%;
+    margin-right: 30px !important;
+}
+
+/* 댓글  */
+.commentEmp {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--main6-color);
+}
+
+label.commentIns {
+    margin-right: 10px !important;
+    font-weight: bold;
+    color: #787070;
+}
+
+.commentBtn {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0px !important;
+    height: 25px !important;
+}
+
+/* 수정버튼 */
+label.updBtn {
+    margin: 10px !important;
+}
+
+.commentLabel label {
+    cursor: pointer;
+}
+
+.commentLabel label:hover {
+    color: var(--gray-color);
+    text-decoration : underline;
+}
+
+.commentGroup3 textarea {
+    width: 663px;
+    height: 80px;
+}
+
+.commentText {
+    resize: none;
+    border: 1px solid var(--gray-color);
+    outline: none;
+    border-radius: 5px;
+    margin-right: 10px !important;
+    padding: 5px;
+}
+
+.speechBubble .commentText {
+    width: 500px;
+    height: 80px;
+}
+
+.disNone {
+    display: none;
+}

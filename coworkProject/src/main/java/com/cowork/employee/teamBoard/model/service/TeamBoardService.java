@@ -30,4 +30,19 @@ public interface TeamBoardService {
 	 */
 	int teamBoardInsert(TeamBoard inputTeamBoard, List<MultipartFile> files) throws IllegalStateException, IOException;
 
+	/** 팀게시판 수정
+	 * @param inputTeamBoard
+	 * @param files
+	 * @param deleteOrder
+	 * @param updateOrder
+	 * @return
+	 */
+	int teamBoardUpdate(TeamBoard inputTeamBoard, List<MultipartFile> files, String deleteOrder, String updateOrder) throws IllegalStateException, IOException;
+
+	/** 팀게시판 삭제
+	 * @param teamBoardNo
+	 * @return
+	 */
+	int teamBoardDelete(int teamBoardNo);
+
 }

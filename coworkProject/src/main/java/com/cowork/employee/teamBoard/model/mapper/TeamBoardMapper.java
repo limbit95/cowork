@@ -36,4 +36,16 @@ public interface TeamBoardMapper {
 	 */
 	int teamBoardInsert(TeamBoard inputTeamBoard);
 
+	/** 팀게시판 수정
+	 * @param inputTeamBoard
+	 * @return
+	 */
+	int teamBoardUpdate(TeamBoard inputTeamBoard);
+
+	/** 팀게시판 삭제
+	 * @param teamBoardNo
+	 * @return
+	 */
+	int teamBoardDelete(int teamBoardNo);
+
 }

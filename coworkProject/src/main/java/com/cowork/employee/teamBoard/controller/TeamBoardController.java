@@ -122,13 +122,82 @@ public class TeamBoardController {
 		return service.teamBoardInsert(inputTeamBoard, files);
 	}
 	
-	/** 팀 게시판 수정
+	/** 팀 게시판 수정 화면
 	 * @return
 	 */
-	@GetMapping("teamBoardUpdate")
-	public String teamBoardUpdate() {
+	@GetMapping("teamBoardUpdate/{teamBoardNo:[0-9]+}")
+	public String teamBoardUpdate(
+				@PathVariable("teamBoardNo") int teamBoardNo,
+				Model model
+			) {
+		
+		Map<String, Object> map = service.teamBoardDetail(teamBoardNo);
+		
+		model.addAttribute("teamBoard", map.get("teamBoard"));
+		model.addAttribute("fileList", map.get("fileList"));
 		
 		return "employee/teamBoard/teamBoardUpdate";
 	}
+	
+	/** 팀 게시판 수정
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("teamBoardUpdate/{teamBoardNo:[0-9]+}")
+	public int teamBoardUpdate(
+			@PathVariable("teamBoardNo") int teamBoardNo,
+			@RequestParam("teamBoardTitle") String teamBoardTitle,
+			@RequestParam("teamFlag") String teamFlag,
+            @RequestParam("teamBoardContent") String teamBoardContent,
+            @SessionAttribute("loginEmp") Employee2 loginEmp, 
+            @RequestParam(value="files", required=false) List<MultipartFile> files,
+            @RequestParam(value="deleteOrder", required = false) String deleteOrder, /* 삭제 */
+            @RequestParam(value="updateOrder", required=false) String updateOrder, /* 기존 */
+            @RequestParam(value="queryString", required = false, defaultValue="") String querystring
+			) throws IllegalStateException, IOException {
+		
+		teamBoardContent = teamBoardContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
+		
+		TeamBoard inputTeamBoard = TeamBoard.builder()
+				.teamBoardNo(teamBoardNo)
+				.teamBoardTitle(teamBoardTitle)
+				.teamBoardContent(teamBoardContent)
+				.teamFlag(teamFlag)
+				.build();
+		
+		return service.teamBoardUpdate(inputTeamBoard, files, deleteOrder, updateOrder);
+	}
+	
+	/** 팀게시판 삭제
+	 * @return
+	 */
+	@GetMapping("teamBoardDelete")
+	public String teamBoardDelete(
+				@RequestParam("teamBoardNo") int teamBoardNo,
+				RedirectAttributes ra
+			) {
+		
+		int result = service.teamBoardDelete(teamBoardNo);
+		
+		String path = null;
+		String message = null;
+		
+		if(result > 0) {
+			path = "redirect:teamBoardList";
+			message = "게시글이 삭제되었습니다.";
+		} else {
+			path = "redirect:teamBoardDetail/" + teamBoardNo;
+			message = "게시글 삭제 실패";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return path;
+		
+	}
+	
+	/*******************/
+	
+	//public int insert(@RequestBody )
 
 }

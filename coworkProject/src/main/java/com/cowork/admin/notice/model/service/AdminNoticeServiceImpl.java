@@ -180,9 +180,9 @@ public class AdminNoticeServiceImpl implements AdminNoticeService {
 				
 				for(int i=0; i<updateArr.length; i++) {
 					
-					log.info("i : " + i);
+					/*log.info("i : " + i);
 					log.info("updateArr[i] : " + updateArr[i]);
-					log.info("noticeNo : " + noticeNo);
+					log.info("noticeNo : " + noticeNo);*/
 					
 					BoardFile updFile = BoardFile.builder()
 							.fileOrder(i)

@@ -132,5 +132,22 @@
 			,#{teamFlag}
 		)
 	</insert>
+	
+	<!-- 팀게시판 수정 -->
+	<update id="teamBoardUpdate">
+		UPDATE TEAM_BOARD SET
+			 TEAM_BOARD_TITLE = #{teamBoardTitle}
+			,TEAM_BOARD_CONTENT = #{teamBoardContent}
+			,TEAM_BOARD_UPDATE_DATE = SYSDATE
+			,TEAM_FLAG = #{teamFlag}
+		WHERE TEAM_BOARD_NO = #{teamBoardNo}
+	</update>
+	
+	<!-- 팀게시판 삭제 -->
+	<update id="teamBoardDelete">
+		UPDATE TEAM_BOARD SET
+			TEAM_BOARD_DEL_FL = 'Y'
+		WHERE TEAM_BOARD_NO = #{teamBoardNo}
+	</update>
 
 </mapper>

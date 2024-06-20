@@ -127,8 +127,8 @@ public class AdminNoticeController {
 	 */
 	@GetMapping("noticeDelete")
 	public String noticeDelete(
-			@RequestParam("noticeNo") int noticeNo,
-			RedirectAttributes ra
+				@RequestParam("noticeNo") int noticeNo,
+				RedirectAttributes ra
 			) {
 		
 		int result = service.noticeDelete(noticeNo);
@@ -140,7 +140,7 @@ public class AdminNoticeController {
 			path = "redirect:noticeList";
 			message = "게시글이 삭제되었습니다.";
 		} else {
-			path = "redirect:noticeDetail" + noticeNo;
+			path = "redirect:noticeDetail/" + noticeNo;
 			message = "게시글 삭제 실패";
 		}
 		
@@ -191,8 +191,8 @@ public class AdminNoticeController {
 		Notice inputNotice = new Notice();
 		
 		noticeContent = noticeContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
-		log.info(deleteOrder);
-		log.info(updateOrder);
+		/*log.info(deleteOrder);
+		log.info(updateOrder);*/
 		inputNotice.setNoticeNo(noticeNo);
 		inputNotice.setNoticeTitle(noticeTitle);
 		inputNotice.setNoticeContent(noticeContent);
