@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.admin.position.model.mapper.PositionMapper">
+
+	<!-- 회사 모든 직책 조회 -->
+	<select id="positionSelectAll">
+		SELECT ROW_NUMBER() OVER (ORDER BY "LEVEL") AS INDEX_NO, POSITION_NO, POSITION_NM
+		FROM "POSITION"
+		WHERE COM_NO = #{comNo}
+		ORDER BY "LEVEL"
+	</select>
+
+	<!-- 직책 삭제하기 -->
+	<delete id="positionDelete">
+		DELETE FROM "POSITION" WHERE POSITION_NO = #{positionNo}
+	</delete>
+	
+	<!-- 직책 추가하기 -->
+	<insert id="positionInsert">
+		INSERT INTO "POSITION" VALUES(SEQ_POSITION.NEXTVAL, #{positionNm}, #{level}, #{comNo})
+	</insert>
+
+	<!-- 하위 레벨 리스트 조회하기 -->
+	<select id="selectLowLevelList">
+		SELECT POSITION_NO, POSITION_NM, "LEVEL", COM_NO
+		FROM "POSITION"
+		WHERE COM_NO = #{comNo}
+		AND "LEVEL" &gt;= #{level}
+		ORDER BY "LEVEL"
+	</select>
+	
+	<!-- 레벨 업데이트 -->
+	<update id="positionMiddleUpdate">
+		UPDATE "POSITION" SET
+		"LEVEL" = #{levelUp}
+		WHERE COM_NO = #{comNo}
+		AND POSITION_NO = #{positionNo}
+	</update>
+
+</mapper>
