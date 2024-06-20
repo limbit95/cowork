@@ -7,6 +7,7 @@
 
     <th:block th:replace="~{common/common}"></th:block>
     <link rel="stylesheet" href="/css/employee/board/board.css">
+    <link rel="stylesheet" href="/css/employee/teamBoard/teamBoard.css">
 </head>
 <body>
     <div th:replace="~{employee/userMain/leftSideBar}"></div>
@@ -62,18 +63,120 @@
                 
             </div>
 
+            <div class="commentForm">
+                
+                <div class="commentTitle">
+                    <div>
+                        <label class="fa-solid fa-comment-dots"></label>
+                        <label class="commentNum">0 </label>
+                        <label>Commant</label>
+                    </div>
+                    <div class="commentLabel">
+                        <label class="fa-solid fa-chevron-up commentListInfo"></label>
+                    </div>
+                </div>
+
+                <div class="commentStart">
+                    <div class="commentGroup">
+                        <div class="profile"></div>
+                        <div class="speechBubble">
+                            <div>출처를 남기고 기술면접 관련 자료 블로그에 참고해도될까요??출처를 남기고 기술면접 관련 자료 블로그에 참고해도될까요??출처를 남기고 기술면접 관련 자료 블로그에 참고해도될까요??출처를 남기고 기술면접 관련 자료 블로그에 참고해도될까요??</div>
+                            <div class="commentBtn">
+                                <div>
+                                    <label class="commentIns">송윤지 대리</label>
+                                    <label>2024-01-01</label>
+                                </div>
+                                <div class="commentLabel">
+                                    <label>답글</label>
+                                    <label class="updBtn">수정</label>
+                                    <label>삭제</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="commentGroup2">
+                        <div class="speechBubble">
+                            <div class="commentEmp">송윤지 대리</div>
+                            <div>출처를 남기고 기술면접 관련 자료 블로그에 참고해도될까요??</div>
+                            <div class="commentBtn">
+                                <div>
+                                    <label class="commentIns">정희윤 대리</label>
+                                    <label>2024-01-01</label>
+                                </div>
+                                <div class="commentLabel">
+                                    <label>답글</label>
+                                    <label class="updBtn">수정</label>
+                                    <label>삭제</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile"></div>
+                    </div>
+
+                    <div class="commentGroup2 commentCmt">
+                        <div class="speechBubble">
+                            <div class="commentEmp">송윤지 대리</div>
+                            <div>
+                                <div id="commentDiv0">출처를 남기고 기술면접 관련 자료 블로그에 참고해도될까요??</div>
+                                <textarea class="commentText disNone" id="commentText0">출처를 남기고 기술면접 관련 자료 블로그에 참고해도될까요??</textarea>
+                            </div>
+                            <div class="commentBtn">
+                                <div>
+                                    <label class="commentIns">정희윤 대리</label>
+                                    <label>2024-01-01</label>
+                                </div>
+                                <div class="commentLabel">
+                                    <label id="commentIns0">답글</label>
+                                    <label class="updBtn" id="commentUpd0">수정</label>
+                                    <label>삭제</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile"></div>
+                    </div>
+
+                    <!-- 답글에 답글 -->
+                    <!--<div class="commentGroup2 commentComment">
+                        <div class="speechBubble">
+                            <div>
+                                <textarea class="commentText">출처를 남기고 기술면접 관련 자료 블로그에 참고해도될까요??</textarea>
+                            </div>
+                            <div class="commentBtn">
+                                <div>
+                                </div>
+                                <div class="commentLabel">
+                                    <label id="commentIns0">등록</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile"></div>
+                    </div>-->
+                </div>
+
+                <div class="commentGroup3">
+                    <textarea class="commentText"></textarea>
+                    <button class="default-btn sapphire-btn">등록</button>
+                </div>
+                
+            </div>
+
         </div>
 
         <!-- 버튼 -->
-        <div class="defaultBtn insBtn">
-            <button class="default-btn glucose-btn">수정</button>
-            <button class="default-btn glucose-btn margin10">삭제</button>
+        <div class="defaultBtn insBtn" th:if="${teamBoard.empCode == session.loginEmp?.empCode}">
+            <button class="default-btn glucose-btn"
+                th:onclick="|location.href='@{/teamBoard/teamBoardUpdate/{teamBoardNo} (teamBoardNo=${teamBoard.teamBoardNo}, cp=${param.cp}, key=${param.key}, query=${param.query}, combo=${param.combo})}'|">수정</button>
+            <button class="default-btn glucose-btn margin10" id="teamBoardDelete">삭제</button>
         </div>
-
-        
 
     </section>
 
+    <script th:inline="javascript">
+        const teamBoardNo = /*[[${teamBoard.teamBoardNo}]]*/ "공지사항 번호";
+        const fileCnt = /*[[${teamBoard.fileCnt}]]*/"파일개수";
+    </script>
+
     <script src="/js/employee/teamboard/teamboard.js"></script> <!-- Left 메뉴 클릭 -->
+    <script src="/js/employee/teamboard/teamboardDetail.js"></script>
 </body>
 </html>

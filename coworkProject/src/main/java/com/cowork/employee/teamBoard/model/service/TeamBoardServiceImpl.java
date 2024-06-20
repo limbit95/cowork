@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cowork.admin.notice.model.exception.BoardFileDeleteException;
 import com.cowork.admin.notice.model.exception.BoardInsertException;
 import com.cowork.admin.notice.model.mapper.AdminNoticeMapper;
 import com.cowork.common.utility.Utility;
@@ -139,6 +140,117 @@ public class TeamBoardServiceImpl implements TeamBoardService {
 		}
 		
 		return teamBoardNo;
+	}
+
+	// 팀게시판 수정
+	@Override
+	public int teamBoardUpdate(TeamBoard inputTeamBoard, List<MultipartFile> files, String deleteOrder,
+			String updateOrder) throws IllegalStateException, IOException {
+		
+		// 팀게시판 수정;
+		int result = mapper.teamBoardUpdate(inputTeamBoard);
+		
+		int teamBoardNo = inputTeamBoard.getTeamBoardNo();
+		
+		log.info(deleteOrder);
+		
+		// 삭제된 파일이 있는 경우
+		if(deleteOrder != null && !deleteOrder.equals("")) {
+			
+			Map<String, Object> map = new HashMap<>();
+			
+			map.put("deleteOrder", deleteOrder);
+			map.put("noticeNo", teamBoardNo);
+			map.put("boardNm", "TEAM");
+			
+			result = mapper2.boardFileDelete(map);
+			
+			if(result == 0) throw new BoardFileDeleteException();
+			
+			// 기존 파일이 있는 경우
+			if(updateOrder != null && !updateOrder.equals("")) {
+				
+				String[] updateArr = updateOrder.split(",");
+				
+				for(int i=0; i<updateArr.length; i++) {
+					
+					BoardFile updFile = BoardFile.builder()
+							.fileOrder(i)
+							.boardNo(teamBoardNo)
+							.boardNm("TEAM")
+							.fileOrderUpd(updateArr[i])
+							.build();
+					
+					result = mapper2.BoardFileUpdate(updFile);
+				}
+				
+			}
+			
+		}
+		
+		// 파일 업로드
+		if(files != null) {
+			List<BoardFile> uploadList = new ArrayList<>();
+			
+			// 기존 파일이 있는 경우
+			int fileOrder = 0;
+			
+			String[] updateArr = null;
+			
+			if(updateOrder != null && updateOrder.equals("")) {
+				
+				updateArr = updateOrder.split(",");
+				fileOrder = updateArr.length;
+			}
+			
+			for(int i=0; i<files.size(); i++) {
+				
+				if(updateOrder != null ) fileOrder += 1;
+				else fileOrder = i;
+				
+				if(!files.get(i).isEmpty()) {
+					String originalName = files.get(i).getOriginalFilename(); // 원본명
+					String rename = Utility.fileRename(originalName);
+					
+					BoardFile file = BoardFile.builder()
+								.filePath(webPath)
+								.fileOriginName(originalName)
+								.fileRename(rename)
+								.fileOrder(fileOrder)
+								.boardNo(teamBoardNo)
+								.boardNm("TEAM")
+								.uploadFile(files.get(i))
+								.build();
+					
+					uploadList.add(file);
+				}
+			}
+			
+			if(uploadList.isEmpty()) return teamBoardNo;
+			
+			result = mapper2.boardFileInsert(uploadList);
+			
+			// 다중 파일 성공확인
+			if(result == uploadList.size()) {
+				
+				// 서버에 파일 저장
+				for(BoardFile file : uploadList) {
+					file.getUploadFile().transferTo(new File(folderPath + file.getFileRename()));
+				}
+			} else {
+				throw new BoardInsertException("이미지가 정상 삽입되지 않음");
+			}
+		
+		}
+		
+		return result;
+	}
+
+	// 팀게시판 삭제
+	@Override
+	public int teamBoardDelete(int teamBoardNo) {
+		// TODO Auto-generated method stub
+		return mapper.teamBoardDelete(teamBoardNo);
 	}
 	
 }

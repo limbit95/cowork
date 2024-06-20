@@ -8,6 +8,10 @@ const formData = new FormData(); // 초기에 빈 FormData 객체를 생성합�
 const deleteOrder = new Set(); // 삭제 파일 순서 번호
 const updateOrder = new Set(); // 삭제이외에 기존 파일 순서 번호 (순서 업데이트 위해)
 
+/* 기존에 파일이 있을 경우 */
+const fileOrderCnt = preview.childElementCount;
+const preview2 = document.querySelector('.preview tbody');
+
 smartEditor = function() {
     nhn.husky.EZCreator.createInIFrame({
         oAppRef: oEditors,
@@ -83,13 +87,18 @@ const handler = {
                 fileTr.appendChild(fileTd);
                 fileTr.appendChild(fileTd2);
 
-                preview.appendChild(fileTr);
+                if(fileOrderCnt == 1) preview2.appendChild(fileTr);
+                else preview.appendChild(fileTr);
 
                 
             });
 
             // 파일 개수
-            document.querySelector('#fileCnt').innerText = preview.childElementCount;
+            let fileListCnt = 0;
+            if(fileOrderCnt == 1)  fileListCnt = preview2.childElementCount;
+            else fileListCnt = preview.childElementCount;
+                
+            document.querySelector('#fileCnt').innerText = fileListCnt;
 
         });
     },
@@ -116,7 +125,11 @@ const handler = {
             removeTarget.remove();
 
             // 파일을 제거한 후에 FormData 객체의 파일 개수를 업데이트합니다.
-            document.querySelector('#fileCnt').innerText = preview.childElementCount;
+            let fileListCnt = 0;
+            if(fileOrderCnt == 1)  fileListCnt = preview2.childElementCount;
+            else fileListCnt = preview.childElementCount;
+                
+            document.querySelector('#fileCnt').innerText = fileListCnt;
         })
     }
 }
@@ -162,6 +175,8 @@ document.querySelector("#noticeUpdate").addEventListener("click", () => {
     // 제목과 내용을 FormData에 추가
     clone.append('noticeTitle', noticeTitle);
     clone.append('noticeContent', noticeContent);
+    clone.append('updateOrder', Array.from( updateOrder ));
+    clone.append('deleteOrder', Array.from( deleteOrder ));
 
     for (const pair of formData.entries()) {
         clone.append('files', pair[1]);
