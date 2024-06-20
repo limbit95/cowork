@@ -23,7 +23,13 @@
 	
 
 	<div id="receiveSurveyTitle">
-		<div id="receiveSurveyTitleDiv">내가 작성한 설문</div>
+		<div id="receiveSurveyTitleDiv">내가 쓴 설문</div>
+	</div>
+	
+	<div id="surveyInsertDivContainer">
+		<div id="surveyInsertDiv">
+			<a href="/survey/surveyInsert" id="surveyInsertA" >설문 쓰기</a>			
+		</div>
 	</div>
 	
 	<div id="listContainer">
@@ -67,6 +73,7 @@
 	
 	<!-- 페이지네이션 조각 시작 -->
 	<div id="paginationContainer">
+		
 	<div id="pagination">
 		
 	    <!-- 처음 -->
@@ -91,6 +98,7 @@
 	    <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/receiveSurvey(page=${currentGroupLastPage}+1)}" id="next-a">&gt;</a>
 	    <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/receiveSurvey(page=${totalPages})}" id="last-page-a">&gt;&gt;</a>
 	</div>
+	
 	</div>
 	
 	<!-- 페이지네이션 조각 끝 -->

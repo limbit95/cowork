@@ -208,6 +208,7 @@
 }
 #selectedEmpList{
 	margin-top: 50px;
+	flex-wrap: wrap;
 }
 
 
@@ -281,6 +282,7 @@
 	padding-top: 3vh;
 	border: 3px solid #E5F2FE;
 	margin-bottom: 3vh;
+
 }
 .questionTitleDivContainer{
 	width: 40vw;
@@ -369,6 +371,15 @@
 
 
 
+.hoverBackgroundColor{
 
+	transition: background-color 0.3s;
+	padding-left: 10px;
+	display: flex; 
+	align-items: center;
+}
+.hoverBackgroundColor:hover{
+	background-color: #BDD8F1;	
+}
 
 

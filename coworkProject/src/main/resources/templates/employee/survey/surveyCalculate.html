@@ -4,174 +4,186 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Survey Insert</title>
-   <link rel="stylesheet" href="/css/employee/survey/surveyCalculate.css">
+    <link rel="stylesheet" href="/css/employee/survey/surveyCalculate.css">
    
-   <!-- 백분율 동그라미 -->
-   <style>
-       .circle-container {
-           display: flex;
-           justify-content: center;
-           align-items: center;
-           height: 30vh;
-       }
-
-   </style>
-	<!-- 백분율 동그라미 -->
-
-   
+    <!-- 백분율 동그라미 -->
+    <style>
+        .circle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 25vh;
+        }
+    </style>
+    <!-- 백분율 동그라미 -->
 </head>
 <body>
-   <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
-   
-   
-   
-   <div id="surveyMenuBar">
-   	<a href="/survey/receiveSurvey" type="button" id="receiveSurveyBtn">
-   			받은 설문 			
-   	</a>
-   	<a href="/survey/mySurvey" type="button" id="mySurveyBtn">
-   			내가 쓴 설문			
-   	</a>
-   </div>
+    <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
+    
+    <div id="surveyMenuBar">
+        <a href="/survey/receiveSurvey" type="button" id="receiveSurveyBtn">
+            받은 설문            
+        </a>
+        <a href="/survey/mySurvey" type="button" id="mySurveyBtn">
+            내가 쓴 설문            
+        </a>
+    </div>
 
-   	<div id="insertSurveyContainer">
-		<div id="surveyWriteText">
-		 설문 결과 
-		</div>		
-		<div id="surveyMainTitleDiv">
-			<div th:text="'제목 : ' + ${survey.surveyMainTitle}" id="surveyMainTitle"></div>
-			<div id="highlight"></div>
-		</div>
-		<div>
-		<span style="font-weight:bold;"> 설문 일시 : &nbsp;</span>
-		<span th:text="${survey.surveyStartDate}"	style="color: #F1B8B8; font-weight: bold;"></span> 
-		<span 	style="font-weight: bold;">일 부터 시작하여</span> 
-		<span th:text="${survey.surveyEndDate}" style="color: #F1B8B8; font-weight: bold;"></span>
-		<span style="font-weight: bold;">에 종료되는 설문입니다. </span>
-		</div>
-		
-		
-		<div>
-			<span style="font-weight: bold;">전체 설문 대상자</span> 
-			<span th:text="${survey.surveyTargetTotalCount}" style="text-decoration: underline;			font-weight: bold;"></span> 명 중
-			<span th:text="${survey.totalResponseCount}" style="font-weight: bold;"></span> 
-			<span style="font-weight:bold;">명이 설문에 참여하였습니다.</span> 			
-		</div>
-		
-		<!-- 백분율 동그라미  -->
-			<div class="circle-container">
-		        <canvas id="percentageCircle" width="200" height="200"></canvas>
-		    </div>		
-		<!-- 백분율 동그라미 -->
-		
-		
+    <div id="insertSurveyContainer">
+        <div id="surveyWriteText">
+            설문 결과 
+        </div>        
+        <div id="surveyMainTitleDiv">
+            <div th:text="'제목 : ' + ${survey.surveyMainTitle}" id="surveyMainTitle"></div>
+            <div id="highlight"></div>
+        </div>
+        <div style="display:flex; justify-content: flex-start; width:50vw; margin-left: 20vw; margin-top: 20px; ">
+            <div>
+                <span style="font-weight:bold; padding: 10px; border-radius: 5px; border: 1.5px solid black;"> 설문 일시 </span>
+                &nbsp; &nbsp;
+                <span th:text="${survey.surveyStartDate}" style="color: #ff9e9e; font-weight: bold;"></span> 
+                <span style="font-weight: bold;">일 부터 시작하여</span> 
+                <span th:text="${survey.surveyEndDate}" style="color: #ff9e9e; font-weight: bold;"></span>
+                <span style="font-weight: bold;">에 종료되는 설문입니다. </span>
+            </div>            
+        </div>
+        <div style="margin-top: 20px; display: flex; justify-content: flex-start; width:50vw; margin-left: 20vw;">
+            <span style="font-weight: bold; padding: 10px; border-radius: 5px; border: 1.5px solid black;">응답 현황  </span>        
+            &nbsp; &nbsp; &nbsp;
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <span style="font-weight: bold;">전체 설문 대상자</span> 
+                <span th:text="${survey.surveyTargetTotalCount}" style="font-weight: bold; color: #ff9e9e;"></span> 
+                <span style="font-weight: bold;">명 중</span>
+                <span th:text="${survey.totalResponseCount}" style="font-weight: bold; color: #ff9e9e;"></span> 
+                <span style="font-weight:bold;">명이 설문에 참여하였습니다.</span>     
+            </div>
+        </div>    
+        
+        <!-- 백분율 동그라미  -->
+        <div class="circle-container">
+            <canvas id="percentageCircle" width="200" height="200"></canvas>
+        </div>        
+        <!-- 백분율 동그라미 -->
 
-		
-		<div id="conditionDiv">
-			<div th:each="surveySub : ${surveySubList}" class="conditionDivInnerDiv">
-				<div class="conditionDivInnerInnerDiv">
-					<div th:text="'Q.  ' +${surveySub.surveySubTitle}" class="surveySubTitle"></div>
-		
-					<!-- 객관식인 경우 -->
-					<div th:if="${surveySub.questionType} == '1'" 					class="optionContainer">
-						<!-- 선택지 수만큼 반복 -->
-						<div  th:each="i : ${#numbers.sequence(0, surveySub.options.size() - 1)}"> 
-						      <!--선택지-->
-							  <div th:text="'- ' + ${surveySub.options[i].multipleQuestion}" class="optionTitle"></div>
-						      <!-- 몇퍼센트인지 -->
-							  <div class="gageBarContainer">
-								<div th:data-ratio="${surveySub.ratioList[i]}" 
-								class="gageBar"
-								></div>
-							  </div>
-							  <div class="additionalData">
-							  	<span th:text="${surveySub.ratioList[i]} + '%'" style="color: coral;"></span>
-								,&nbsp; <i class="fa-regular fa-user"></i>
-							  	<span th:text="': ' + ${surveySub.optionCount[i] + '명이 선택하였습니다'}"></span>
-							  </div>
-						</div>
-					</div>
-					
-					<!-- 주관식인 경우 -->
-					<div th:if="${surveySub.questionType} == '2'">
-						<a th:href="@{/survey/showSubjectiveAnswer(surveySubNo=${surveySub.surveySubNo},surveySubTitle=${surveySub.surveySubTitle},surveyMainTitle=${survey.surveyMainTitle})}" class="more"> 자세히 보기 &nbsp;</a>
-							<i class="fa-solid fa-plus"></i> 
-						</a>
-					</div>
-				
-				</div>
-			</div >		
-		</div>
-		
+        <div id="conditionDiv">
+            <div th:each="surveySub : ${surveySubList}" class="conditionDivInnerDiv">
+                <div class="conditionDivInnerInnerDiv">
+                    <div th:text="'Q.  ' +${surveySub.surveySubTitle}" class="surveySubTitle"></div>
 
-		
+                    <!-- 객관식인 경우 -->
+                    <div th:if="${surveySub.questionType} == '1'" class="optionContainer">
+                        <!-- 선택지 수만큼 반복 -->
+                        <div th:each="i : ${#numbers.sequence(0, surveySub.options.size() - 1)}"> 
+                            <!--선택지-->
+                            <div th:text="'- ' + ${surveySub.options[i].multipleQuestion}" class="optionTitle"></div>
+                            <!-- 몇퍼센트인지 -->
+                            <div class="gageBarContainer">
+                                <div th:data-ratio="${surveySub.ratioList[i]}" class="gageBar"></div>
+                            </div>
+                            <div class="additionalData">
+                                <span th:text="${surveySub.ratioList[i]} + '%'" style="color: coral;"></span>
+                                ,&nbsp; <i class="fa-regular fa-user"></i>
+                                <span th:text="': ' + ${surveySub.optionCount[i] + '명이 선택하였습니다'}"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 주관식인 경우 -->
+                    <div th:if="${surveySub.questionType} == '2'">
+                        <a th:href="@{/survey/showSubjectiveAnswer(surveySubNo=${surveySub.surveySubNo},surveySubTitle=${surveySub.surveySubTitle},surveyMainTitle=${survey.surveyMainTitle})}" class="more"> 자세히 보기 &nbsp;
+                        <i class="fa-solid fa-plus"></i> 
+                        </a>
+                    </div>
+                </div>
+            </div>        
+        </div>
+        
+        <div th:if="${surveySubList.size == 0}" style="font-size: 25px; color: gray;">
+            설문에 응답한 사원이 존재하지 않습니다. 
+        </div>
 
+        <!-- 바닥에 딱 붙는게 싫어서 추가한 빈 공간  -->
+        <div id="embrace">
 
-   </div>
+        </div>
+    </div>
    
+    <script src="/js/employee/survey/surveyCalculate.js"></script>
 
-   
-   
-   <!— 바닥에 딱 붙는게 싫어서 추가한 빈 공간  —>
-   <div id="embrace">
-       <div id="forBottomEmptySpace">
-			 완료
-	  </div>
-  </div>
-   
-      <script src="/js/employee/survey/surveyCalculate.js"></script>
+    <!-- 동그라미 백분율을 위한 js 코드 시작 -->
+    <script th:inline="javascript">
+        let responseRatio = /*[[${survey.responseRatio}]]*/ 75; // 실제 데이터로 대체
+    </script>
+    <script>
+        function drawPercentageCircle(canvasId, percentage) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext("2d");
 
-	  
-	  <!-- 동그라미 백분율을 위한 js 코드 시작 -->
-	  <script th:inline="javascript">
-		let responseRatio = /*[[${survey.responseRatio}]]*/ "responseRatio";
-	  </script>
-     <script>
-         function drawPercentageCircle(canvasId, percentage) {
-             const canvas = document.getElementById(canvasId); // 캔버스 태그임 
-             const ctx = canvas.getContext("2d");
-  
-             // Circle parameters
-             const centerX = canvas.width / 2;
-             const centerY = canvas.height / 2;
-             const radius = 90;
-  
-             // Background circle
-             ctx.beginPath();
-             ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-             ctx.fillStyle = '#e6e6e6'; // Light grey background
-             ctx.fill();
-             ctx.closePath();
-  
-             // Percentage arc
-             const startAngle = -0.5 * Math.PI; // Start at the top
-             const endAngle = (percentage / 100) * 2 * Math.PI + startAngle;
-  
-             ctx.beginPath();
-             ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-             ctx.lineTo(centerX, centerY);
-             ctx.fillStyle = '#F1B8B8'; // Green fill color
-             ctx.fill();
-             ctx.closePath();
-  
-             // Inner circle to create a ring effect
-             ctx.beginPath();
-             ctx.arc(centerX, centerY, radius - 10, 0, 2 * Math.PI);
-             ctx.fillStyle = '#fff'; // White inner circle
-             ctx.fill();
-             ctx.closePath();
-  
-             // Percentage text
-             ctx.font = "20px Arial";
-             ctx.fillStyle = "black";
-             ctx.textAlign = "center";
-             ctx.textBaseline = "middle";
-             ctx.fillText(percentage + "%", centerX, centerY);
-         }
-  
-         drawPercentageCircle("percentageCircle", responseRatio); // Example: 75%
-     </script>
- <!-- 동그라미 백분율을 위한 js 코드 끝 -->
- 
+            // Circle parameters
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 90;
+
+            // Background circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.fillStyle = '#e6e6e6'; // Light grey background
+            ctx.fill();
+            ctx.closePath();
+
+            // Inner circle to create a ring effect
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius - 10, 0, 2 * Math.PI);
+            ctx.fillStyle = '#fff'; // White inner circle
+            ctx.fill();
+            ctx.closePath();
+
+            // Animate percentage arc
+            let currentPercentage = 0;
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Redraw background circle
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+                ctx.fillStyle = '#e6e6e6'; // Light grey background
+                ctx.fill();
+                ctx.closePath();
+                
+                // Redraw inner circle
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius - 10, 0, 2 * Math.PI);
+                ctx.fillStyle = 'white'; // White inner circle
+                ctx.fill();
+                ctx.closePath();
+
+                // Draw percentage arc
+                const endAngle = (currentPercentage / 100) * 2 * Math.PI - 0.5 * Math.PI;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, -0.5 * Math.PI, endAngle);
+                ctx.lineTo(centerX, centerY);
+                ctx.fillStyle = '#F1B8B8'; // Green fill color
+                ctx.fill();
+                ctx.closePath();
+
+                // Draw percentage text
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "black";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(currentPercentage + "%", centerX, centerY);
+
+                if (currentPercentage < percentage) {
+                    currentPercentage++;
+                    requestAnimationFrame(animate);
+                }
+            }
+
+            animate();
+        }
+
+        drawPercentageCircle("percentageCircle", responseRatio); // 실제 데이터로 대체
+    </script>
+    <!-- 동그라미 백분율을 위한 js 코드 끝 -->
 </body>
 </html>

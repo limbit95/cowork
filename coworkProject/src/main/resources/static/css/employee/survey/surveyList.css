@@ -68,6 +68,8 @@
 	margin-bottom: 0.5vh;
 	transition: box-shadow 0.3s;
 	text-decoration: none;
+	color: #214177;
+	font-weight: bold;
 }
 .oneRowA:hover{
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
@@ -96,6 +98,7 @@
 	width: 100vw;
 	display: flex;
 	justify-content: center;
+	margin-top: 50px;
 }
 #pagination{
 	width: 30%;
