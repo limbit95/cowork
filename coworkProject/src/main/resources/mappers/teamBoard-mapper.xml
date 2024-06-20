@@ -206,7 +206,7 @@
 	<update id="commentUpdate">
 		UPDATE "COMMENT" SET
 			COMMENT_CONTENT = #{commentContent}
-		WHERE C.COMMENT_NO = #{commentNo}
+		WHERE COMMENT_NO = #{commentNo}
 	</update>
 
 </mapper>
