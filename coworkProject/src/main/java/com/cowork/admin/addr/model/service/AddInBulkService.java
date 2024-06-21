@@ -21,10 +21,4 @@ public interface AddInBulkService {
 	 */
 	List<Employee2> selectEmployeeList();
 
-	/** 읽어온 엑셀 파일의 사원 정보 DB에 저장(계정 등록)
-	 * @param employeeList
-	 * @return
-	 */
-	int registEmployee(List<Employee2> inputEmployeeList);
-	
 }

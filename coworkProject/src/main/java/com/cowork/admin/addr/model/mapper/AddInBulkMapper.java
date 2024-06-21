@@ -20,10 +20,5 @@ public interface AddInBulkMapper {
 	 */
 	List<Employee2> selectEmployeeList();
 
-	/** 읽어온 엑셀 파일의 사원 정보 DB에 저장(계정 등록)
-	 * @param employeeList
-	 * @return
-	 */
-	int registEmployee(Employee2 employee);
 
 }

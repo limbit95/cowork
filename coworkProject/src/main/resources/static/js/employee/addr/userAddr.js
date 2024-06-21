@@ -361,12 +361,12 @@ if(saveMyAddr != null) {
                 }
             })
             if(location.pathname != '/employee/addr/employeeDetailPage') {
-                location.href = '/employee/addr/mygroup?groupName=' + saveLocation;
+                location.href = '/employee/addr/myGroup?groupName=' + saveLocation;
             } else {
                 selectGroup.style.display = 'none';
                 document.querySelector("#backPage").style.display = 'block';
                 addToMyAddr.style.display = 'block';
-                location.href = '/employee/addr/mygroup?groupName=' + saveLocation;
+                location.href = '/employee/addr/myGroup?groupName=' + saveLocation;
             }
         });
     });
