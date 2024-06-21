@@ -22,7 +22,33 @@ public class IpInfoServiceImpl implements IpInfoService {
 	 */
 	@Override
 	public List<IpInfo> selectAllIpInfoList(int comNo) {
-		return mapper.selectAllIpInfoList(comNo);
+		
+		// 가져온 정보 중에서 deptNm 이랑 teamNm 합쳐줘야함, 성이랑 이름 합쳐줘야함
+		List<IpInfo> selectAllIpInfoList = mapper.selectAllIpInfoList(comNo);
+		
+		if(selectAllIpInfoList != null) {
+
+			for(int i = 0 ; i < selectAllIpInfoList.size() ; i ++) {
+				
+				IpInfo addIpInfo = new IpInfo();
+				
+				// 이름 합쳐주기
+				String fullName = "";
+				
+				// 성
+				fullName = selectAllIpInfoList.get(i).getEmpLastName();
+				
+				// 이름
+				fullName += selectAllIpInfoList.get(i).getEmpFirstName();
+
+				addIpInfo.setFullName(fullName);
+				
+				// deptNm, teamNm 처리
+				
+			}
+		}
+		
+		return selectAllIpInfoList;
 	}
 	
 }
