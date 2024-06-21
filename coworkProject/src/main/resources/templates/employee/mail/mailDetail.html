@@ -42,8 +42,8 @@
                 <div></div>
                 <div></div>
                 <div class="menuDiv checkDiv">
-                    <div th:if="${mail.mailFlag == '1'}"><label class="delBtn" onclick="location.href='/mail/mailList'">목록</label></div>
-                    <div th:unless="${mail.mailFlag == '1'}"><label class="delBtn" onclick="location.href='/mail/bin'">목록</label></div>
+                    <div th:if="${mail.mailFlag == '1'}"><label class="delBtn" id="mailListBtn">목록</label></div>
+                    <div th:unless="${mail.mailFlag == '1'}"><label class="delBtn" id="mailListBtn">목록</label></div>
                     <i class="fa-solid fa-angle-up"></i>
                     <i class="fa-solid fa-angle-down"></i>
                 </div>
@@ -132,6 +132,10 @@
 
         </div>
     </section>
+
+    <script th:inline="javascript">
+        const mailbox = /*[[${mailbox}]]*/ 'default';
+    </script>
 
     <script src="/js/employee/mail/detail.js"></script>
     <script src="/js/employee/mail/binDetail.js"></script>

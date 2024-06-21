@@ -581,15 +581,15 @@
 	        R.MAIL_NO = #{mailNo} AND R.REFERENCE_FL = '2'
 	</select>
 
-	<!-- mailFlag 3(휴지통)으로 바꾸기 -->
+	<!-- mailFlag 3(휴지통)으로 바꾸기 
 	<update id="updateMailFlag">
         UPDATE mail
-	    SET mail_flag = '3'
+	    SET mail_flag = #{mailFlag}, origin_mail_flag = #{originMailFlag}
 	    WHERE mail_no IN
 	    <foreach item="mailId" collection="list" open="(" separator="," close=")">
 	        #{mailId}
 	    </foreach>
-    </update>
+    </update>-->
     
     <!-- 조회 여부 업데이트 -->
 	<update id="updateReadFl">
@@ -837,6 +837,13 @@
 	        </if>
 		</select>
 		
+		<!-- 휴지통으로 보내기 -->
+		<update id="updateMailFlag">
+		    UPDATE mail
+		    SET mail_flag = #{mailFlag}, origin_mail_flag = #{originMailFlag}
+		    WHERE mail_no = #{mailId}
+		</update>
+		
 		<!-- 휴지통에서 메일 복구 -->
 		<update id="restoreMail">
 			UPDATE MAIL SET
@@ -982,6 +989,20 @@
 			WHERE MAIL_NO = #{mailNo}	
 		</update>
 		
+		<!-- mailFlag 가져오기 -->
+		<select id="getMailFlag" resultType="char">
+		    SELECT MAIL_FLAG
+		    FROM MAIL
+		    WHERE MAIL_NO = #{mailId}
+		</select>
+	
+		<!-- 원래 mailFlag 가져오기 -->
+		<select id="getOriginalMailFlag" resultType="char">
+		    SELECT origin_mail_flag
+		    FROM mail
+		    WHERE mail_no = #{mailId}
+		</select>
+	
 	
 
 </mapper>

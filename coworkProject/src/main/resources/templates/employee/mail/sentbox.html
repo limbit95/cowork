@@ -68,7 +68,7 @@
                 </div>
                 <div th:attr="data-mail-id=${sentMail.mailNo}" 
                      th:text="${sentMail.mailTitle}" id="mailTitle" class="mailTitle"
-                     th:onclick="|location.href='@{/mail/mailDetail/{mailNo} (mailNo=*{mailNo})}'|">
+                     th:onclick="|location.href='/mail/mailDetail/' + ${sentMail.mailNo} + '?mailbox=sentbox'|">
                     메일 제목
                 </div>
                 

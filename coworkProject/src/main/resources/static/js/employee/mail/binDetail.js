@@ -6,6 +6,14 @@ const mailId = document.getElementById('mailNo').getAttribute('data-mail-id');
 console.log('mailId == > ' , mailId); 
 
 restoreBtn.addEventListener('click', function() {
+    sendRequest('/mail/restore', [mailId], mailbox);
+});
+
+eliminateBtn.addEventListener('click', function() {
+    sendRequest('/mail/eliminate', [mailId], mailbox);
+});
+
+restoreBtn.addEventListener('click', function() {
     sendRequest('/mail/restore', [mailId]);
 });
 
@@ -19,13 +27,13 @@ function sendRequest(url, mailIds) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify( { mailIds: mailIds } ) 
+        body: JSON.stringify({ mailIds: mailIds })
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
             alert('요청이 성공적으로 처리되었습니다.');
-            location.href='/mail/bin';  
+            location.href = '/mail/bin';  
         } else {
             alert('요청 처리 중 오류가 발생했습니다.');
         }
@@ -35,3 +43,7 @@ function sendRequest(url, mailIds) {
         alert('요청 처리 중 오류가 발생했습니다.');
     });
 }
+
+document.getElementById('mailListBtn').onclick = function() {
+    location.href = '/mail/' + mailbox;
+};

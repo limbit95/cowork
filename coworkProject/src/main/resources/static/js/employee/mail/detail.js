@@ -39,3 +39,11 @@ deleteButton.addEventListener('click', function() {
     }
 
 }); 
+
+
+const previousMailNo = /*[[${previousMailNo}]]*/ '이전메일';
+const nextMailNo = /*[[${nextMailNo}]]*/ '다음메일';
+
+document.getElementById('mailListBtn').onclick = function() {
+    location.href = '/mail/' + mailbox;
+};

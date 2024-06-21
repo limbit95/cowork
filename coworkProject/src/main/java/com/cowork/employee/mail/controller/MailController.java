@@ -257,8 +257,9 @@ public class MailController {
 	/** 메일상세
 	 * @return
 	 */
-	@GetMapping("mailDetail/{mailNo:[0-9]+}")
+	@GetMapping("mailDetail/{mailNo}")
 	public String mailDetail(	@PathVariable("mailNo") int mailNo,
+								@RequestParam("mailbox") String mailbox, 
 								@SessionAttribute("loginEmp") Employee2 loginEmp,
 								Mail mail,
 								Model model, 
@@ -281,6 +282,7 @@ public class MailController {
 			model.addAttribute("fileList", map.get("fileList"));
 			model.addAttribute("recipientList", map.get("recipientList")); 
 			model.addAttribute("refererList", map.get("refererList")); 
+			model.addAttribute("mailbox", mailbox); 
 		}
 		
 		return path;
@@ -310,9 +312,8 @@ public class MailController {
 	 */
 	@ResponseBody
 	@PostMapping("delete")
-    public ResponseEntity<Map<String, Object>> toBin (@RequestBody Map<String, 
-    														List<Integer>> request) {
-        List<Integer> mailIds = request.get("mailIds");
+    public ResponseEntity<Map<String, Object>> toBin (@RequestBody Map<String, List<Integer>> request) {
+		List<Integer> mailIds = request.get("mailIds");
         
         boolean success = service.toBin(mailIds);
         
@@ -330,12 +331,12 @@ public class MailController {
 	 */
 	@ResponseBody
 	@PostMapping("restore")
-    public ResponseEntity<?> restoreMails(@RequestBody Map<String, List<Integer>> request) {
-	        List<Integer> mailIds = request.get("mailIds");
-	        // (update mail_flag to 1)
-	        service.restoreMails(mailIds);
-	        return ResponseEntity.ok(Collections.singletonMap("success", true));
-	    }
+	public ResponseEntity<?> restoreMails(@RequestBody Map<String, List<Integer>> request) {
+		List<Integer> mailIds = request.get("mailIds");
+		
+		service.restoreMails(mailIds);
+		return ResponseEntity.ok(Collections.singletonMap("success", true));
+	} 
 
     /** 영구 삭제하기 
      * @param request
@@ -563,6 +564,7 @@ public class MailController {
 							@RequestParam(value = "existingFiles", required = false) String existingFilesJson,
 							RedirectAttributes ra) throws IllegalStateException, IOException {
 		
+		
 		 List<MailFile> existingFiles = new ArrayList<>();
 	        if (existingFilesJson != null && !existingFilesJson.isEmpty()) {
 	            ObjectMapper objectMapper = new ObjectMapper();
@@ -571,6 +573,9 @@ public class MailController {
 				
 		mailContent = mailContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
 		
+		//log.info("기존 파일 넘어오나요 : " + updateOrder); 	 
+		//log.info("파일 몇 개인가요 : " + files.size());
+		//log.info("existingFilesJson : " + existingFilesJson.length());
 		log.info("recipient : 배열인가요 :" + recipient); 
 		log.info("referer : 배열인가요 : " + referer); 
 		
@@ -652,7 +657,7 @@ public class MailController {
 							) throws IllegalStateException, IOException {
 		
 		log.info("기존 파일 넘어오나요 : " + updateOrder); 	 
-		log.info("파일 몇 개인가요 : " + files.size());
+		//log.info("파일 몇 개인가요 : " + files.size());
 		log.info("recipient : 배열인가요 :" + recipient); 
 		log.info("referer : 배열인가요 : " + referer); 
 		
@@ -703,7 +708,7 @@ public class MailController {
 	
 	
 	log.info("기존 파일 넘어오나요 : " + updateOrder); 	 
-	log.info("파일 몇 개인가요 : " + files.size());
+	//log.info("파일 몇 개인가요 : " + files.size());
 	log.info("recipient : 배열인가요 :" + recipient); 
 	log.info("referer : 배열인가요 : " + referer); 
 	

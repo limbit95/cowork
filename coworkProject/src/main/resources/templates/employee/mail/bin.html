@@ -60,7 +60,7 @@
                 </div>
                 <div th:attr="data-mail-id=${bin.mailNo}" 
                      th:text="${bin.mailTitle}" id="mailTitle" class="mailTitle"
-                     th:onclick="|location.href='@{/mail/mailDetail/{mailNo} (mailNo=*{mailNo})}'|"> <!--  -->
+                     th:onclick="|location.href='/mail/mailDetail/' + ${bin.mailNo} + '?mailbox=bin'|"> <!--  -->
                     메일 제목
                 </div>
                 
