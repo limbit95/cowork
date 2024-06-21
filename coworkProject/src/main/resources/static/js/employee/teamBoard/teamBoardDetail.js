@@ -83,14 +83,51 @@ function commentListFunc() {
             const profile = document.createElement("div"); // 프로필 이미지
             profile.classList.add('profile');
 
-            if(comment.profileImg == null) {
+            if(comment.commentDelFl != 'Y') {
+                if(comment.profileImg == null) {
 
-            } else {
-                const profileImg = document.createElement("img");
-                profileImg.src = comment.profileImg;
+                    const empName = comment.empName.toUpperCase().substring(0,1);
 
-                profile.append(profileImg);
-            }
+                    const cho = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+                    let result = "";
+                    
+                    for(let a=0; a<empName.length; a++) {
+                        const code = empName.charCodeAt(a)-44032;
+                        if(code>-1 && code<11172) result += cho[Math.floor(code/588)];
+                        else result += empName.charAt(a);
+                    }
+                    
+                    const grp1 = ['A','B','C','D','E','ㄱ','ㄲ','ㄴ','ㄷ','ㄸ'];
+                    const grp2 = ['F','G','H','I','J','ㄹ','ㅁ','ㅂ','ㅃ'];
+                    const grp3 = ['K','L','M','N','O','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ'];
+                    const grp4 = ['P','Q','R','S','T','ㅊ','ㅋ','ㅌ'];
+                    const grp5 = ['U','V','W','X','Y','Z','ㅍ','ㅎ'];
+
+                    profile.innerText = empName;
+
+                    if(grp1.indexOf(result) != -1){
+                        profile.style.backgroundColor = "#82A6CB";
+                    }
+                    else if(grp2.indexOf(result) != -1){
+                        profile.style.backgroundColor = "#94B7";
+                    }
+                    else if(grp3.indexOf(result) != -1){
+                        profile.style.backgroundColor = "#F1B8B8";
+                    }
+                    else if(grp4.indexOf(result) != -1){
+                        profile.style.backgroundColor = "#9FC99D";
+                    }
+                    else if(grp5.indexOf(result) != -1){
+                        profile.style.backgroundColor = "#F0E68C";
+                    }
+
+                } else {
+                    const profileImg = document.createElement("img");
+                    profileImg.src = comment.profileImg;
+
+                    profile.append(profileImg);
+                }
+            }   
 
             const speechBubble = document.createElement("div"); // 댓글 말풍선
             speechBubble.classList.add('speechBubble');

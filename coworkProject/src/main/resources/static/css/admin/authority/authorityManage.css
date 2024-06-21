@@ -1,0 +1,24 @@
+.tableHead, .tableBody div {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+}
+
+.tableHead {
+    height: 35px;
+    background-color: var(--main5-color);
+    font-weight: bold;
+}
+
+.tableBody div {
+    height: 45px;
+    border-bottom: 1px solid #d9d9d9;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.tableHead div, .info div {
+    width: 100px;
+    margin-right: 10px !important;
+}

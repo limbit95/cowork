@@ -28,4 +28,5 @@ public class TeamBoard {
 	private int comNo;        // 회사번호
 	private String teamType;  // 팀구분
 	private int fileCnt;      // 파일개수
+	private int commentCnt;   // 댓글개수
 }

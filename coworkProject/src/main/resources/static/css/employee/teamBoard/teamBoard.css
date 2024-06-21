@@ -96,12 +96,22 @@ label.radioLabel {
 }
 
 .profile {
+    display: flex;
     width: 60px;
     height: 60px;
-    background: transparent;
+    background: var(--gray-color);
     border-radius: 50%;
     margin-right: 30px !important;
+
+    /* 프로필 이미지 없을 경우 */
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: white;
 }
+
 
 /* 댓글  */
 .commentEmp {

@@ -49,4 +49,9 @@ public class Employee2 {
 	// 사원 이름용 
 	private String empName;
 	
+	// 06.21 PEB
+	private String attendanceYn; // 근태관리 권한
+	private String functionYn;   // 기능관리 권한
+	private String teamBoardYn;  // 팀게시판 권한
+	
 }
