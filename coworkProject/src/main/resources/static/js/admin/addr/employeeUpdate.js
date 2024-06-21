@@ -303,7 +303,7 @@ if(updateEmployee != null) {
 
         const obj = {
             "empCode" : empCode,
-            "empId" : empId.value + "@" + domain,
+            "empId" : empId.value,
             "empFirstName" : empFirstName.value,
             "empLastName" : empLastName.value,
             "phone" : phone.value,

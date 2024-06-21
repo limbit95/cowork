@@ -39,14 +39,12 @@ public class Employee2 {
 	private String comNm; // 회사명
 	private String deptNm; // 부서명
 	private String teamNm; // 팀명
+	private Integer teamNo;
 	private String positionNm; // 직급명
 	private int positionNo; // 직급 식별키
 	private String domain; // 도메인
 	private int generalManager; // 관리자 번호
 	private String comLogo;
-	
-	//재준
-	private Integer teamNo;
 	
 	// 사원 이름용 
 	private String empName;

@@ -656,7 +656,7 @@ if(movecancel != null) {
 };
 
 // 조직 이동 버튼 클릭 시 보이는 이동 버튼으로
-// 부서와 팀을 지정한 뒤 이동 버튼 누르면 체크 박스 선택된 구성원 해당 그 부서의 팀으로 이동한다
+// 부서와 팀을 지정한 뒤 이동 버튼 누르면 체크 박스 선택된 구성원은 해당 그 부서의 팀으로 이동한다
 const moveEmployee = document.querySelector("#moveEmployee");
 
 if(moveEmployee != null) {

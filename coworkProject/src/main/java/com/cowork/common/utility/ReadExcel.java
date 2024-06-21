@@ -41,6 +41,19 @@ public class ReadExcel {
 			Workbook workbook = WorkbookFactory.create(file);
 			Sheet sheet = workbook.getSheetAt(0);
 			
+			if(sheet.getPhysicalNumberOfRows() == 0) {
+				Map<String, Object> flagMap = new HashMap<String, Object>();
+				flagMap.put("error1", "등록하려는 파일이 유효하지 않습니다.");
+				employeeList.add(flagMap);
+				return employeeList; 
+			}
+			if(sheet.getPhysicalNumberOfRows() == 1) {
+				Map<String, Object> flagMap = new HashMap<String, Object>();
+				flagMap.put("error1", "구성원 정보가 존재하지 않습니다.");
+				employeeList.add(flagMap);
+				return employeeList; 
+			}
+			
 			int flag = 0;
 			
 			int whileIndex = 0;
@@ -82,7 +95,7 @@ public class ReadExcel {
 					String column = "null";
 					
 					// 셀 값이 비어있으면 해당 구성원의 정보 항목에는 null 값 담기
-					if(sheet.getRow(rowIndex).getCell(i) == null) {
+					if(sheet.getRow(rowIndex).getCell(i) == null && rowIndex > 0) {
 						continue;
 					} else {
 						column = String.valueOf(sheet.getRow(rowIndex).getCell(i));
@@ -96,6 +109,8 @@ public class ReadExcel {
 					
 					// 헤드 양식 변경 됐을 경우
 					if(rowIndex == 0) {
+						log.info("column : " + column);
+						log.info("draft : " + draft.get(i));
 						if(!draft.get(i).equals(column)) {
 							flag = 1;
 							break;
