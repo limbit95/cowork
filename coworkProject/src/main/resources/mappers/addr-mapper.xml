@@ -148,4 +148,17 @@
 		)
 	</insert>
 	
+	<!-- 개인 주소록 그룹 식별키만 조회  -->
+	<select id="selectAllMyAddr">
+		SELECT ADDR_BOOK_NO "addrBookNo"
+		FROM PERSONAL_ADDR_BOOK
+		WHERE EMP_CODE = #{empCode}
+	</select>
+	
+	<!-- 주소록 사원 전체 삭제 -->
+	<delete id="deleteAllMyAddr">
+		DELETE FROM ADD_EMP
+		WHERE ADDR_BOOK_NO = #{addrBookNo}
+	</delete>
+	
 </mapper>

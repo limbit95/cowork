@@ -53,4 +53,16 @@ public interface AddrService {
 	 */
 	int addAddr(List<Map<String, Object>> data);
 
+	/** 개인 주소록 그룹 식별키만 조회
+	 * @param loginEmp
+	 * @return
+	 */
+	List<Integer> selectAllMyAddr(Employee2 loginEmp);
+
+	/** 주소록에 있는 사원 전체 삭제
+	 * @param myAddrList
+	 * @return
+	 */
+	int deleteAllMyAddr(List<Integer> myAddrList);
+
 }

@@ -251,6 +251,7 @@ section.container .head > div {
     justify-content: start;
     padding: 0 0 0 20px;
     font-weight: bold;
+    box-sizing: border-box;
 }   
 /* 체크박스 */
 .head > :nth-child(1) {
@@ -258,22 +259,22 @@ section.container .head > div {
 }
 /* 성 */
 .head > :nth-child(2) {
-    width: 100px;
+    width: 120px;
     color: #118dff;
 }
 /* 이름 */
 .head > :nth-child(3) {
-    width: 100px;
+    width: 120px;
     color: #118dff;
 }
 /* ID */
 .head > :nth-child(4) {
-    width: 100px;
+    width: 120px;
     color: #118dff;
 }
 /* 비밀번호 */
 .head > :nth-child(5) {
-    width: 100px;
+    width: 120px;
     color: #118dff;
 }
 /* 휴대폰 번호 */
@@ -340,7 +341,7 @@ section.container .employee > div {
     padding: 0 0 0 20px;
     font-size: 14px;
     margin: 10px 0 10px 0;
-    
+    box-sizing: border-box;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -357,19 +358,19 @@ section.container .employee > div span {
 }
 /* 성 */
 .employee > :nth-child(2) {
-    width: 100px;
+    width: 120px;
 }
 /* 이름 */
 .employee > :nth-child(3) {
-    width: 100px;
+    width: 120px;
 }
 /* ID */
 .employee > :nth-child(4) {
-    width: 100px;
+    width: 120px;
 }
 /* 비밀번호 */
 .employee > :nth-child(5) {
-    width: 100px;
+    width: 120px;
 }
 /* 휴대폰 번호 */
 .employee > :nth-child(6) {
@@ -417,8 +418,8 @@ section.container .employee > div span {
 }
 
 /* 인풋창 */
-.employee input[type='text'],
-.employee input[type='password'] {
+section.container .employee input[type='text'],
+section.container .employee input[type='password'] {
     width: 70px;
     height: 28px;
     border-radius: 5px;
@@ -456,7 +457,7 @@ section.container .employee > div span {
     position: absolute;
     color: rgb(42, 42, 42);
     font-size: 11px;
-    margin-top: 103px;
+    margin-top: 120px;
     margin-left: 18px;
 }
 #closeBtn {
@@ -479,11 +480,16 @@ section.container .employee > div span {
     color: rgb(172, 172, 172);
     cursor: pointer;
     font-size: 15px;
+    margin-right: 0p;
 }
 
 #deptList {
+    width: 90px;
     height: 30px;
-    width: 80px;
+}
+#teamList {
+    width: 90px;
+    height: 30px;
 }
 
 

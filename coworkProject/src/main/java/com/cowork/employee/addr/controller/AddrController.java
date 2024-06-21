@@ -53,29 +53,33 @@ public class AddrController {
 		
 		model.addAttribute("groupList", groupList);
 		
-		map.put("empCode", loginEmp.getEmpCode());
-		if((map.get("groupName") == null && map.get("groupCode") == null) || 
-				(map.get("groupCode") != null && map.get("groupCode").equals("myAll"))) {
-			Map<String, Object> selectAllAddrList = service.selectAllAddrList(map, cp);
-			
-			model.addAttribute("pagination", selectAllAddrList.get("pagination"));
-			model.addAttribute("addrList", selectAllAddrList.get("addrList"));
-			model.addAttribute("groupCode", selectAllAddrList.get("groupCode"));
-			
-			return "employee/addr/addrBook";
-		}
+		return "employee/addr/addrBook";
+	}
+	
+	
+	@GetMapping("myGroup")
+	public String addrGroupList(HttpServletRequest request, 
+					   Model model, 
+					   @RequestParam Map<String, Object> map, 
+					   @RequestParam(value="cp", required=false, defaultValue="1") int cp
+					   ) {
 		
-		if(map.get("groupName") != null || map.get("groupCode") != null) {
-			Map<String, Object> selectAddrList = service.selectAddrList(map, cp);
-			
-			model.addAttribute("pagination", selectAddrList.get("pagination"));
-			model.addAttribute("addrList", selectAddrList.get("addrList"));
-			model.addAttribute("groupCode", selectAddrList.get("groupCode"));
-			model.addAttribute("empCode", selectAddrList.get("empCode"));
-		}
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		map.put("empCode", loginEmp.getEmpCode());
+		
+		Map<String, Object> selectAddrList = service.selectAddrList(map, cp);
+		
+		model.addAttribute("pagination", selectAddrList.get("pagination"));
+		model.addAttribute("addrList", selectAddrList.get("addrList"));
+		model.addAttribute("groupCode", selectAddrList.get("groupCode"));
+		model.addAttribute("empCode", selectAddrList.get("empCode"));
 		
 		return "employee/addr/addrBook";
 	}
+	
+	
 	
 	/** 개인 주소록 그룹 저장
 	 * @param map
@@ -132,7 +136,23 @@ public class AddrController {
 	 */
 	@ResponseBody
 	@PostMapping("deleteAddr")
-	public int employeeDetail(@RequestBody List<Map<String, String>> map) {
+	public int employeeDetail(@RequestBody List<Map<String, String>> map,
+							  HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		if(map.get(0).get("groupCode").equals("myAll")) {
+			List<Integer> myAddrList = service.selectAllMyAddr(loginEmp);
+			
+			if(myAddrList.isEmpty()) {
+				return 0;
+			}
+			
+			return service.deleteAllMyAddr(myAddrList);
+		}
+		
+		
 		return service.deleteAddr(map);
 	}
 	

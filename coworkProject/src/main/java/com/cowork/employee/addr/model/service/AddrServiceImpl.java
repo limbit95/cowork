@@ -218,4 +218,20 @@ public class AddrServiceImpl implements AddrService {
 		return 1;
 	}
 
+	// 개인 주소록 그룹 식별키만 조회
+	@Override
+	public List<Integer> selectAllMyAddr(Employee2 loginEmp) {
+		return mapper.selectAllMyAddr(loginEmp);
+	}
+
+	// 주소록 사원 전체 삭제
+	@Override
+	public int deleteAllMyAddr(List<Integer> myAddrList) {
+		for(int i = 0; i < myAddrList.size(); i++) {
+			int result = mapper.deleteAllMyAddr(myAddrList.get(i));
+		}
+		
+		return 1;
+	}
+
 }

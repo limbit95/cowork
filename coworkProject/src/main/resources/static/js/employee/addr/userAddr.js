@@ -340,6 +340,7 @@ if(saveMyAddr != null) {
         }
         
         console.log(obj);
+        console.log(selectValue.value);
 
         fetch("/employee/addr/addAddr", {
             method : "post",
@@ -352,17 +353,20 @@ if(saveMyAddr != null) {
                 alert("추가 실패");
                 return;
             }
-            document.querySelectorAll("#selectOption").forEach((i) => {
+            let saveLocation;
+            document.querySelectorAll(".selectOption").forEach((i) => {
                 if(selectValue.value == i.value) {
+                    saveLocation = i.innerText;
                     alert("[" + i.innerText + "] 에 추가되었습니다.");
                 }
             })
             if(location.pathname != '/employee/addr/employeeDetailPage') {
-                location.href = '/employee/addr';
+                location.href = '/employee/addr?groupName=' + saveLocation;
             } else {
                 selectGroup.style.display = 'none';
                 document.querySelector("#backPage").style.display = 'block';
                 addToMyAddr.style.display = 'block';
+                location.href = '/employee/addr?groupName=' + saveLocation;
             }
         });
     });
@@ -390,6 +394,9 @@ const deleteToMyAddr = document.querySelector("#deleteToMyAddr");
 
 if(deleteToMyAddr != null) {
     deleteToMyAddr.addEventListener("click", e => {
+        if(!confirm("정말로 삭제하시겠습니까?")){
+            return;
+        }
         const obj = [];
 
         check.forEach((i) => {
@@ -397,6 +404,8 @@ if(deleteToMyAddr != null) {
                 obj.push({ "empCode" : i.parentElement.nextElementSibling.children[5].value, "groupCode" : groupCode })
             }
         });
+
+        console.log(obj)
 
         fetch("/employee/addr/deleteAddr", {
             method : "post",
@@ -441,7 +450,7 @@ document.querySelectorAll('.li-hover').forEach(item => {
 
         // 개인 주소록
         if(className.includes('personal')){
-            location.href = '/employee/addr?groupName=' + item.children[1].dataset.addrName;
+            location.href = '/employee/addr/myGroup?groupName=' + item.children[1].dataset.addrName;
         }
         if(className.includes('myAll')){
             location.href = '/employee/addr';
