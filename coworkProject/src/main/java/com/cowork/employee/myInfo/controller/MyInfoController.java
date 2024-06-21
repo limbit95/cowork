@@ -42,17 +42,7 @@ public class MyInfoController {
 	        model.addAttribute("dorojibun", parts[1]);
 	        model.addAttribute("detailAddr", parts[2]);
 		}
-		
-		
-		
 		return "employee/myInfo/myInfoUpdate";
-		
-	}
-	
-	@GetMapping("pwUpdate")
-	public String myInfoPwUpdate() {
-		
-		return "employee/myInfo/myInfoPwUpdate";
 		
 	}
 	
@@ -84,6 +74,39 @@ public class MyInfoController {
 		}
 		
 
+	}
+	
+	@PostMapping("update")
+	@ResponseBody
+	public int update(@SessionAttribute("loginEmp") Employee2 loginEmp,
+				@RequestBody Map<String, Object> paramMap
+			) {		
+		int result = myInfoService.update(paramMap, loginEmp.getEmpCode());
+		
+		if(result > 0) {
+			return 1;
+		} else {
+			return 0;
+		}
+
+		
+	}
+	
+	//------------------------------------------------------------------------
+	// 비밀번호 업데이트 
+	@GetMapping("pwUpdate")
+	public String myInfoPwUpdate() {
+		
+		return "employee/myInfo/myInfoPwUpdate";
+		
+	}
+	
+	@PostMapping("validateCurPw")
+	@ResponseBody
+	public String validateCurPw(@RequestBody Map<String, String> paramMap) {
+		String currentPwVal = paramMap.get("currentPwVal");
+		log.debug("currentPwVal==={}", currentPwVal);
+		return "1";
 	}
 	
 	

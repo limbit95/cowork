@@ -9,30 +9,27 @@
     <link rel="stylesheet" href="/css/employee/myInfo/myInfoPwUpdate.css">
 </head>
 <body>
-    
-    <section class="container">
+	
+	<div th:replace="~{employee/userMain/leftSideBar}"></div>
 
-        <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
-        <div class="title">
-            <span class="">비밀번호 변경</span>
-        </div>
+    <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
+    <div id="title">
+        <span style="font-size: 25px; padding-bottom: 80px;">비밀번호 변경</span>
+		<div id="forBorderBottom"></div>
+    </div>
 
-    </section>
-
-    <hr>
     
     <section class="container topMargin">
-
         <!-- 비밀번호 변경 기능 전체 영역 -->
         <div class="pwUpdateContainer">
             <!-- 비밀번호 안내 -->
             <div>
                 <div>비밀번호 안내</div>
                 <div>
-                    <li>최소 비밀번호 길이는 10자리</li>
-                    <li>문자/숫자/특수 문자 중 최소 3가지가 조합이 되어야함</li>
-                    <li>로그인 시 비밀번호 5회 틀리면 일정 시간 계정이 잠김</li>
-                    <li>↑ 안내사항 내용은 개발 맡게되시는 분이 맘껏 수정하시면 됩니당</li>
+                    <li>비밀번호의 최소 길이는 <span style="color: #ff9494;">10자리</span>  입니다.</li>
+                    <li> <span style="color: #ff9494;">문자/숫자/특수</span> 문자가 각각 하나 이상씩 조합이 되어야 합니다.</li>
+                    <li> <span style="color: #ff9494;">5회 이상</span> 틀릴 시 비밀번호 변경이 일정 시간동안 제한됩니다.</li>
+
                 </div>
             </div>
 
@@ -42,6 +39,9 @@
                 <div>
                     <label for="currentPw">현재 비밀번호</label>
                     <input class="default-line" type="password" id="currentPw">
+					<button type="button" id="submitCurrentPw">
+						제출
+					</button>
                     <span>비밀번호가 일치하지 않습니다</span>
                 </div>
 
@@ -59,10 +59,8 @@
                 </div>
 
                 <div><button class="default-btn glucose-btn">비밀번호 변경</button></div>
-
             </div>
         </div>
-
     </section>
 
 

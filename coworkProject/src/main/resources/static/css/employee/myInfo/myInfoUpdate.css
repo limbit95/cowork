@@ -9,7 +9,7 @@ section.container div {
 }
 
 /* form 태그 */
-form {
+.myInfo {
     display: flex;
     flex-direction: column;
     /* width: 43%;  */
@@ -29,10 +29,13 @@ section.container .myInfoUpdateBtnDiv {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid #d9d9d9;
+    padding-top: 7vh;
+    padding-bottom: 7vh;
+    border-bottom: 1px solid #214177;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 10vh;
+    border: 1px solid #214177;
     border-radius: 5px;
-    margin-top: 0;
-    height: 480px;
 }
 
 /* 정보 입력 항목들 간 위아래 간격 동일하게 주기 위한 속성 */
@@ -43,6 +46,12 @@ section.container .row {
 }
 section.container .subRow {
     margin-top: 15px;
+}
+/* soTitle*/
+.subRow > span:nth-child(1){
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 /* 특정 div만 flex-direction: column 효과 주고 싶을 때 사용할 속성 */
@@ -59,10 +68,21 @@ section.container span {
 }
 
 /* input 공통 속성 */
-.default-line {
-    width: 380px;
-    height: 15px;
+.default-line2 {
+    width: 15vw; 
+    height: 5vh;
     font-size: 14px;
+    border: 1px solid #3667A6;
+    border-radius: 5px;
+    padding-left: 0.5vw;
+}
+.default-line3{
+    width: 15vw; 
+    height: 5vh;
+    font-size: 14px;
+    border-radius: 5px;
+    padding-left: 0.5vw;
+    border: none;	
 }
 
 /* 변경하기, 검색 버튼만 적용할 속성 */
@@ -71,6 +91,9 @@ section.container .btnDiv {
     align-items: start;
     justify-content: end;
     width: 21.5%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
 
 /* 페이지 전체 버튼에 적용할 속성 */
@@ -105,7 +128,6 @@ section.container button {
 section.container .idCheckMessage {
     margin-left: 5px;
     font-size: 13px;
-    color: red;
 }
 
 .myInfo > :nth-child(2) {
@@ -142,11 +164,8 @@ section.container .idCheckMessage {
 .workInfoDiv {
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 800px;
-    border: 1px solid #d9d9d9;
     border-radius: 5px;
-    height: 370px;
 }
 
 section.container .workInfoDiv .row {
@@ -156,7 +175,7 @@ section.container .workInfoDiv .row {
 
 .workInfoDiv input {
     width: 400px;
-    font-size: 20px;
+    font-size: 14px;
 }
 
 
@@ -248,7 +267,11 @@ section.container .download > a:visited{
 	font-size: 20px; 
 	margin-top: 20px;
 	cursor: pointer;
-	color: #3667A6;
+	color: #f7a1a1;
+	transition: color 0.3s;
+}
+.fa-camera-retro:hover{
+	color: #ff7373;
 }
 #profileImgTag{
 	width: 200px; 
@@ -258,6 +281,7 @@ section.container .download > a:visited{
 }
 #changeProfileImgBtnDiv{
 	margin-top: 20px;
+	margin-bottom: 80px;
 }
 #changeProfileImgBtn{
 	width: 80px; 
@@ -275,3 +299,55 @@ section.container .download > a:visited{
 	
 }
 
+#updatePrivateInfo{
+	width: 80px; 
+	height: 40px; 
+	border: none;
+	background-color: #BDD8F1;
+	border-radius: 5px;
+	color: white;
+	transition: background-color 0.3s, color 0.3s; 
+	cursor: pointer;
+	margin-top: 3vh;
+	
+}
+#updatePrivateInfo:hover{
+	background-color: #82A6CB ;
+}
+
+
+.companyInfoContainer{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	
+}
+.companyInfoTitle{
+	color: var(--main-color);
+	font-size: 25px;
+	font-weight: bold;
+}
+
+.companyInfoDiv{
+	display: flex;
+	margin-bottom: 1.5vh;
+}
+.companyInfoSoTitle{
+	width: 7vw;
+	margin-left: 5vw;;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.companyInfoDiv > input:nth-child(2){
+		background-color: #ededed;
+
+}
+/* 유효성 검사를 위함 */
+.confirm {
+    color: green;
+}
+.error {
+    color: red;
+}

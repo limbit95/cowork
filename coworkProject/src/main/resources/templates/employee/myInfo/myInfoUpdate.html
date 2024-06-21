@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="/css/employee/myInfo/myInfoUpdate.css">
 </head>
 <body>
-    
+	<div th:replace="~{employee/userMain/leftSideBar}"></div>
+
     <section class="container">
 
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
@@ -38,12 +39,8 @@
 		
 
         <!-- 기본 정보 수정 form 태그 영역 -->
-        <form action="" method="post" enctype="multipart/form-data">
 			
-            <!-- 수정하기 버튼 -->
-            <div class="myInfoUpdateBtnDiv">
-                <button class="default-btn sapphire-btn">수정하기</button>
-            </div>
+
             
             <!-- 기본 정보 -->
             <div class="myInfo">
@@ -53,18 +50,19 @@
                     <!-- 이름, 성 영역 -->
                     <div class="nameDiv">
                         <div class="subRow">
-                            <span>이름</span>
-                            <input class="default-line" type="text" name="empFirstName" th:value="${loginEmp.empLastName}">
+                            <span class="soTitle">이름</span>
+                            <input class="default-line2" id="empName" type="text" name="empFirstName" th:value="${loginEmp.empLastName}">
                         </div>
     
                         <div class="subRow">
-                            <span>성</span>
-                            <input class="default-line" type="text" name="empLastName" 	th:value="${loginEmp.empFirstName}">
+                            <span class="soTitle">성</span>
+                            <input id="empSung" 
+							class="default-line2" type="text" name="empLastName" 	th:value="${loginEmp.empFirstName}">
                         </div>
     
                         <div class="subRow">
-                            <span>아이디</span>
-                            <input class="default-line" id="sleepyIdInput" type="text" name="empId" th:value="${loginEmp.empId}">
+                            <span class="soTitle">아이디</span>
+                            <input class="default-line2" id="sleepyIdInput" type="text" name="empId" th:value="${loginEmp.empId}">
                         </div>
                         
                         <!-- 중복된 아이디 입력 시 비동기로 중복여부 메시지 띄울 spna 태그 -->
@@ -72,7 +70,11 @@
                             <div></div>
                             <div id="idCheckMessage"></div>
                         </div>
+						
                     </div>
+					
+
+					
                 </div>
                 
 
@@ -80,9 +82,12 @@
                 <!-- 이메일 영역 -->
                 <div class="row">
                     <div class="email">
-                        <span>이메일</span>
-                        <input class="default-line" type="text" name="empEmail" th:value="${loginEmp.empEmail}">
+                        <span class="soTitle" style="display: flex; justify-content: center; align-items: center;">이메일</span>
+                        <input class="default-line2" id="empEmail" type="text" name="empEmail" th:value="${loginEmp.empEmail}">
                     </div>
+					<div>
+						<div id="emailMessage"></div>
+					</div>
                 </div>
 
 
@@ -91,14 +96,17 @@
                 <div class="row">
                     <div class="birthAndPhone">
                         <div class="subRow">
-                            <span>생일</span>
-                            <input class="default-line" type="text" name="empBirth" th:value="${loginEmp.empBirth}">
+                            <span class="soTitle">생일</span>
+							<input class="default-line2" type="date" name="empBirth" id="empBirth" th:value="${loginEmp.empBirth}">
                         </div>
     
                         <div class="subRow">
-                            <span>연락처</span>
-                            <input class="default-line" type="text" name="phone" th:value="${loginEmp.phone}">
+                            <span class="soTitle">연락처</span>
+                            <input class="default-line2" id="phone" type="text" name="phone" th:value="${loginEmp.phone}">
                         </div>
+						<div>
+							<div id="phoneErrorMessage"></div>
+						</div>
                     </div>
                 </div>
                 
@@ -107,8 +115,8 @@
                 <!-- 주소 영역 -->
                 <div class="row subRow">
                     <div class="addrDiv">
-                        <span>우편번호</span>
-                        <input class="default-line" type="text" name="empAddress" placeholder="우편번호" id="postcode" readonly th:value="${postCode}">
+                        <span class="soTitle" style="display: flex; justify-content: center; align-items: center;">우편번호</span>
+                        <input class="default-line2" type="text" name="empAddress" placeholder="우편번호" id="postcode" readonly th:value="${postCode}">
                     </div>
                     <div class="btnDiv">
                         <button class="default-btn glucose-btn" id="searchAddress" type="button">검색</button>
@@ -117,76 +125,83 @@
                         
                 <div class="row column">
                     <div class="addrDiv2 subRow">
-                        <span>도로명/지번</span>
-                        <input class="default-line" type="text" name="empAddress" placeholder="도로명/지번 주소" id="address" readonly 	th:value="${dorojibun}">
+                        <span class="soTitle">도로명/지번</span>
+                        <input class="default-line2" type="text" name="empAddress" placeholder="도로명/지번 주소" id="address" readonly 	th:value="${dorojibun}">
                     </div>
                     
                     <div class="addrDiv2 subRow">
-                        <span>상세주소</span>
-                        <input class="default-line" type="text" name="empAddress" placeholder="상세 주소" id="detailAddress" 	th:value="${detailAddr}">
+                        <span class="soTitle">상세주소</span>
+                        <input class="default-line2" type="text" name="empAddress" placeholder="상세 주소" id="detailAddress" 	th:value="${detailAddr}">
                     </div>
                 </div>
+				
+				
+				<!-- 수정하기 버튼 -->
+				<div class="myInfoUpdateBtnDiv">
+				    <button id="updatePrivateInfo" type="button">수정하기</button>
+				</div>
     
             </div>
-        </form>
         
     </section>
 
 
     <!-- 회사 정보 -->
-    <section class="container">
+    <div class="companyInfoContainer">
 
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
-        <div class="title">
-            <span class="">직장 정보</span>
+        <div  style="		margin-top: 120px;		margin-bottom: 50px;">
+            <span id="companyInfoTitle" 
+			style="color:var(--main-color); font-size: 25px; font-weight: bold;
+			">직장 정보</span>
         </div>
 
         <div class="workInfoDiv">
 
-            <div class="row subRow">
-                <span>사번</span>
-                <input class="default-line" readonly th:value="${loginEmp.empNo}">
+            <div class="companyInfoDiv">
+                <span class="companyInfoSoTitle">사번</span>
+                <input class="default-line3" readonly th:value="${loginEmp.empNo}">
             </div>
 
-            <div class="row subRow">
-                <span>부서</span>
-                <input class="default-line" readonly 	th:value="${loginEmp.deptNm}">
+            <div class="companyInfoDiv">
+                <span class="companyInfoSoTitle">부서</span>
+                <input class="default-line3" readonly 	th:value="${loginEmp.deptNm}">
             </div>
 
-            <div class="row subRow">
-                <span>직급</span>
-                <input class="default-line" readonly 	th:value="${loginEmp.positionNm}">
+            <div class="companyInfoDiv">
+                <span class="companyInfoSoTitle">직급</span>
+                <input class="default-line3" readonly 	th:value="${loginEmp.positionNm}">
             </div>
 
-            <div class="row subRow">
-                <span>근무처</span>
-                <input class="default-line" readonly th:value="${loginEmp.workPlace}">
+            <div class="companyInfoDiv">
+                <span class="companyInfoSoTitle">근무처</span>
+                <input class="default-line3" readonly th:value="${loginEmp.workPlace}">
             </div>
 
-            <div class="row subRow">
-                <span>계약 형태</span>
-                <input class="default-line" readonly 	th:value="${loginEmp.contractType}">
+            <div class="companyInfoDiv">
+                <span class="companyInfoSoTitle">계약 형태</span>
+                <input class="default-line3" readonly 	th:value="${loginEmp.contractType}">
             </div>
 
-            <div class="row subRow">
-                <span>내선 번호</span>
-                <input class="default-line" readonly th:value="${loginEmp.empEmail}">
+            <div class="companyInfoDiv">
+                <span class="companyInfoSoTitle">내선 번호</span>
+                <input class="default-line3" readonly th:value="${loginEmp.empEmail}">
             </div>
 
-            <div class="row subRow">
-                <span>입사일</span>
-                <input class="default-line" readonly th:value="${loginEmp.hireDate}">
+            <div class="companyInfoDiv">
+                <span class="companyInfoSoTitle">입사일</span>
+                <input class="default-line3" readonly th:value="${loginEmp.hireDate}">
             </div>
         </div>
 
-    </section>
+    </div>
 
 
     <!-- 모바일 명함 -->
-    <section class="container">
+<!--    <section class="container"> -->
 
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
-        <div class="title">
+<!--        <div class="title">
             <span class="">모바일 명함</span>
         </div>
 
@@ -213,7 +228,7 @@
 
         </div>
 
-    </section>
+    </section> -->
 
     <script src="/js/employee/myInfo/myInfoUpdate.js"></script>
     <!-- 다음 주소 API -->

@@ -1,6 +1,7 @@
 package com.cowork.employee.myInfo.model.service;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,5 +12,7 @@ public interface MyInfoService {
 	int validateDuplicateEmpId(String empId);
 
 	int updateProfileImg(Employee2 loginEmp, MultipartFile file)  throws IllegalStateException, IOException;
+
+	int update(Map<String, Object> paramMap, int empCode);
 
 }
