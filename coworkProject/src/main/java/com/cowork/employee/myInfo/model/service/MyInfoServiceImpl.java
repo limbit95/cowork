@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 @PropertySource("classpath:/config.properties")
 public class MyInfoServiceImpl implements MyInfoService{
 	
+	private final BCryptPasswordEncoder bcrypt;
+	
 	private final MyInfoMapper myInfoMapper;
 	
 	@Value("${profile.file.web-path}")
@@ -37,8 +40,8 @@ public class MyInfoServiceImpl implements MyInfoService{
 	
 	@Override
 	public int validateDuplicateEmpId(String empId) {
-		
 		int result = myInfoMapper.validateDuplicateEmpId(empId);
+		
 		return result;
 	}
 
@@ -88,8 +91,41 @@ public class MyInfoServiceImpl implements MyInfoService{
 		
 		int result = myInfoMapper.update(paramMap);
 		
-		
 		return result;
+	}
+
+	@Override
+	public int validateCurPw(String currentPwVal, Integer empCode) {
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("currentPwVal", currentPwVal);
+		paramMap.put("empCode", empCode);
+		
+		String findPw  = myInfoMapper.currentPwDetail(empCode);
+		
+		if(!bcrypt.matches(currentPwVal, findPw)) {
+			// 비밀번호가 일치하지 않을 경우
+			return 0; 
+		} else {
+			// 비밀번호가 일치할 경우 
+			return 1;
+		}
+	}
+
+	@Override
+	public int updateAsNewPw(String newPw, Integer empCode) {
+		
+		String encodedNewPw= bcrypt.encode(newPw);
+		log.debug(encodedNewPw);
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("newPw", newPw);
+		paramMap.put("empCode", empCode);
+		
+		
+		int result = myInfoMapper.updateAsNewPw(paramMap);
+		return result;
+		
 	}
 
 }

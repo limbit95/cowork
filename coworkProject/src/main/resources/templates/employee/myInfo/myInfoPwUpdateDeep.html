@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 수정</title>
+
+    <th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/employee/myInfo/myInfoPwUpdateDeep.css">
+</head>
+<body>
+	
+	<div th:replace="~{employee/userMain/leftSideBar}"></div>
+
+    <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
+    <div id="title">
+        <span style="font-size: 25px; padding-bottom: 80px;">비밀번호 변경</span>
+		<div id="forBorderBottom"></div>
+    </div>
+
+    
+    <section class="container topMargin">
+        <!-- 비밀번호 변경 기능 전체 영역 -->
+        <div class="pwUpdateContainer">
+            <!-- 비밀번호 안내 -->
+            <div>
+                <div>비밀번호 안내</div>
+                <div>
+                    <li>
+						영어,숫자,특수문자( !@#$%^&*() ) 포함	 
+						<span style="color: #ff9494;"> 8~20글자 </span> 
+						사이로 입력해주세요.
+					</li>
+
+                </div>
+            </div>
+
+            <!-- 비밀번호 변경 -->
+            <div class="pwUpdateDiv">
+
+                <div>
+                    <label for="newPw">새 비밀번호</label>
+                    <input class="default-line" type="password" id="newPw">
+                    <span id="newPwMessage"></span>
+                </div>
+
+                <div>
+                    <label for="newPwConfirm">새 비밀번호 확인</label>
+                    <input class="default-line" type="password" id="newPwConfirm">
+                    <span id="newPwConfirmMessage"></span>
+                </div>
+
+                <div><button class="default-btn glucose-btn" id="updatePwBtn">비밀번호 변경</button></div>
+            </div>
+        </div>
+    </section>
+
+
+    <script src="/js/employee/myInfo/myInfoPwUpdateDeep.js"></script>
+</body>
+</html>

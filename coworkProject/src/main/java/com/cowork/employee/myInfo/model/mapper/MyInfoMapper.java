@@ -10,6 +10,10 @@ public interface MyInfoMapper {
 
 	public int updateProfileImg(Map<String, Object> paramMap);
 
-	public int update(Map<String, Object> paramMap); 
+	public int update(Map<String, Object> paramMap);
+
+	public String currentPwDetail(Integer empCode);
+
+	public int updateAsNewPw(Map<String, Object> paramMap); 
 	
 }

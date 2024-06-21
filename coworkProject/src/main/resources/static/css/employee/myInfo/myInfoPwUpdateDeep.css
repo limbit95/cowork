@@ -82,49 +82,7 @@ section.topMargin {
     width: 50%;
     height: 100%;
     padding: 20px;
-    justify-content: center;
-    align-items: center;
 }
-#validateCurPwDiv{
-	width: 50%; 
-	display: flex;
-	flex-direction: column;
-}
-#submitRow{
-	width: 100%; 
-	height: 30%; 
-	display: flex; 
-	justify-content: center;
-	align-items: center;
-	margin-top: 3vh;
-}
-#submitCurrentPw{
-	width: 4vw;
-	height: 4vh;
-	color: #214177;
-	background-color: #BDD8F1;
-	transition: color 0.3s, background-color 0.3s; 
-	border: none;
-	font-weight: bold;
-	border-radius: 5px;
-
-	border: 2px solid #426DA7;
-	background-color: white;
-	color: #426DA7;
-}
-#submitCurrentPw:hover{
-	border: 2px solid #BDD8F1;
-	background-color: #BDD8F1;
-	color: white;
-}
-#currentPw{
-	width: 100%;
-	height: 4vh;
-	border: 2px solid #214177;
-}
-
-
-
 /* 인풋창 */
 .pwUpdateDiv input {
     font-weight: bold;
@@ -166,4 +124,30 @@ section.container .pwUpdateDiv > div {
 .pwUpdateDiv > :nth-child(4) {
     display: flex;
     justify-content: end;
+}
+
+#updatePwBtn{
+	width: 25%;
+	height: 5vh;
+	border: 2px solid #426DA7;
+	background-color: white;
+	color: #426DA7;
+	transition: color 0.3s, background-color 0.3s;
+	font-weight: bold;
+}
+#updatePwBtn:hover{
+	background-color: #BDD8F1;
+	border: 2px solid #BDD8F1;
+	color: white;
+}
+
+#newPw{
+	width: 24vw;
+	height: 3.5vh;
+	border: 2px solid #214177;
+}
+#newPwConfirm{
+	width: 24vw;
+	height: 3.5vh;
+	border: 2px solid #214177;
 }

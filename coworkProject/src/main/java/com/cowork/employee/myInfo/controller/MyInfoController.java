@@ -3,6 +3,8 @@ package com.cowork.employee.myInfo.controller;
 import java.io.IOException;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RequestMapping("myInfo")
 public class MyInfoController {
+	
+
 	
 	private final MyInfoService myInfoService; 
 
@@ -96,18 +100,29 @@ public class MyInfoController {
 	// 비밀번호 업데이트 
 	@GetMapping("pwUpdate")
 	public String myInfoPwUpdate() {
-		
 		return "employee/myInfo/myInfoPwUpdate";
-		
 	}
 	
 	@PostMapping("validateCurPw")
 	@ResponseBody
-	public String validateCurPw(@RequestBody Map<String, String> paramMap) {
+	public int validateCurPw(@RequestBody Map<String, String> paramMap, @SessionAttribute("loginEmp") Employee2 loginEmp) {
 		String currentPwVal = paramMap.get("currentPwVal");
-		log.debug("currentPwVal==={}", currentPwVal);
-		return "1";
+		Integer empCode = loginEmp.getEmpCode();
+		int result = myInfoService.validateCurPw(currentPwVal, empCode);
+		return result;
 	}
 	
+	@GetMapping("updateMyPw")
+	public String updateMyPw() {
+		return "employee/myInfo/myInfoPwUpdateDeep";
+	}
+	
+	@PostMapping("updateAsNewPw")
+	public int updateAsNewPw (@RequestBody Map<String, Object> paramMap, @SessionAttribute("loginEmp") Employee2 loginEmp) {
+		String newPw = (String)paramMap.get("newPw");
+		Integer empCode = loginEmp.getEmpCode();
+		int result = myInfoService.updateAsNewPw(newPw, empCode);
+		return result;
+	}
 	
 }
