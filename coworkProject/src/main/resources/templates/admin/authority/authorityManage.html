@@ -118,10 +118,10 @@
                         <div>부서 / 팀</div>
                         <div>이름</div>
                         <div>직급</div>
-                        <div>이메일</div>
-						<div>근태관리</div>
-						<div>기능관리</div>
-						<div>팀게시판</div>
+                        <div class="emailW">이메일</div>
+						<div class="authorityW">근태관리</div>
+						<div class="authorityW">기능관리</div>
+						<div class="authorityW">팀게시판</div>
                     </div>
 					<div class="tableBody">
 						<div class="" th:each="authority : ${authorityList}" th:object="${authority}">
@@ -129,10 +129,10 @@
 								<div><span th:text="|*{deptNm} / *{teamNm}|">운영팀</span></div>
 								<div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
 								<div><span th:text="*{positionNm}">팀장</span></div>
-								<div><span th:text="*{empEmail}">park@naver.com</span></div>
-								<div><input id="check" type="checkbox" th:checked="*{attendanceYn == 'Y'}"></div>
-								<div><input id="check" type="checkbox" th:checked="*{functionYn == 'Y'}"></div>
-								<div><input id="check" type="checkbox" th:checked="*{teamBoardYn == 'Y'}"></div>
+								<div class="emailW"><span th:text="*{empEmail}">park@naver.com</span></div>
+								<div class="authorityW"><input id="check" type="checkbox" th:checked="*{attendanceYn == 'Y'}"></div>
+								<div class="authorityW"><input id="check" type="checkbox" th:checked="*{functionYn == 'Y'}"></div>
+								<div class="authorityW"><input id="check" type="checkbox" th:checked="*{teamBoardYn == 'Y'}"></div>
 							</div>
 						</div>
 					</div>
