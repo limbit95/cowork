@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -238,6 +239,17 @@ public class TeamBoardController {
 	public int commentUpdate(@RequestBody Comment comment) {
 		
 		return service.commentUpdate(comment);
+	}
+	
+	/** 댓글/답글 삭제
+	 * @param commentNo
+	 * @return
+	 */
+	@ResponseBody
+	@DeleteMapping("comment")
+	public int commentDelete(@RequestBody int commentNo) {
+		
+		return service.commentDelete(commentNo);
 	}
 
 }

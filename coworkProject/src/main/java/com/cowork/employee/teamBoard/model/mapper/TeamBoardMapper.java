@@ -69,4 +69,10 @@ public interface TeamBoardMapper {
 	 */
 	int commentUpdate(Comment comment);
 
+	/** 댓글/답글 삭제
+	 * @param commentNo
+	 * @return
+	 */
+	int commentDelete(int commentNo);
+
 }
