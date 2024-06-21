@@ -79,15 +79,14 @@ public class SurveyServiceImpl implements SurveyService{
 		paramMap.put("surveyStartDate", surveyStartDate);
 		paramMap.put("surveyEndDate", surveyEndDate);
 		paramMap.put("surveyEntireTargetFl", surveyEntireTargetFl);
-		surveyMapper.insertSurvey(paramMap);
+		surveyMapper.insertSurvey(paramMap); 
 		
-		
+		log.debug("survey.getPostion()====={}", surveyData.getPosition());		
 		// 다음으로는 SURVEY_TARGET 테이블에 행을 삽입할 거임. 
 		// 전체대상인 경우에는 설문(SURVEY) 테이블 에 컬럼값으로 확인할 수 있으니 패스 
 		// 직급별로 넣었다거나, 특정인들만 대상으로 한 경우 SURVEY_TARGET 테이블에 행을 넣을거임 
-
 		
-			if (surveyData.getPosition() != null) {
+		if (surveyData.getPosition() != null) {
 			String position = surveyData.getPosition(); // 직급을 얻었다. 
 			// 회사 기본키를 얻어온다. 
 			Integer comNo = emp.getComNo();
@@ -101,9 +100,6 @@ public class SurveyServiceImpl implements SurveyService{
 			log.debug("comNo=={}", comNo);
 			
 			List<Integer> empCodeList = surveyMapper.specificPositionEmpList(paramMap2);
-			for(Integer empCode123 : empCodeList) {
-				log.debug("11111111111111111111111111111empCode== {}" , empCode123);			
-			}
 			
 			log.debug("asdasd=={}", empCodeList);
 			
@@ -119,18 +115,18 @@ public class SurveyServiceImpl implements SurveyService{
 				paramMap3.put("surveyNo", surveyNo);
 				surveyMapper.insertSurveyTarget(paramMap3);
 			}
-		}else {
+		}else if(surveyData.getEmpCodeList() != null){
 			// 여기에 왔다면, 특정인들을 찝어가지고 설문을 하려는 경우임 
 			// 개별적으로 찝은 놈들을 얻어옴 
 			List<String> empCodeList = surveyData.getEmpCodeList();
-			
+
 			for(String empCode3 : empCodeList) {
 				Map<String, Object> paramMap4 = new HashMap<>();
 				paramMap4.put("empCode3", empCode3);
 				paramMap4.put("surveyNo", surveyNo);
 				surveyMapper.insertSurveyTarget(paramMap4);
 			}
-		}
+		} 
 		
 		// SURVEY_SUB + SURVEY_MULTIPLE 에 행 삽입 
 		
@@ -161,7 +157,6 @@ public class SurveyServiceImpl implements SurveyService{
 				paramMap5.put("questionType", "1");
 				paramMap5.put("surveyNo", surveyNo);
 				surveyMapper.insertSurveySub(paramMap5);
-				
 				
 				// SURVEY_MULTIPLE 에 행 삽입 
 				// 필요한 데이터는

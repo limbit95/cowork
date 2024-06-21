@@ -22,15 +22,27 @@
 
 <insert id="insertSurvey">
 	INSERT INTO SURVEY
-	VALUES (#{surveyNo},  #{empCode}, #{title}, #{surveyEntireTargetFl}, TO_DATE(#{surveyStartDate}, 'YYYY-MM-DD') , TO_DATE(#{surveyEndDate}, 'YYYY-MM-DD'))
+	VALUES 
+	(
+	#{surveyNo},  
+	#{empCode}, 
+	#{title}, 
+	#{surveyEntireTargetFl}, 
+	TO_DATE(#{surveyStartDate}, 'YYYY-MM-DD') , 
+	TO_DATE(#{surveyEndDate}, 
+	'YYYY-MM-DD'),  
+	0
+	)
 </insert>
 
 <select id="specificPositionEmpList"> 
+
 	SELECT E.EMP_CODE 
 	FROM POSITION P 
 	LEFT JOIN EMPLOYEE E ON (P.POSITION_NO = E.POSITION_NO)
 	WHERE P.POSITION_NM = #{position}
 	AND P.COM_NO = #{comNo}
+	
 </select>
 
 <insert id="insertSurveyTarget">
