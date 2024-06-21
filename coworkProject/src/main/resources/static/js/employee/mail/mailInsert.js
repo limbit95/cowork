@@ -84,17 +84,24 @@ function searchEmp(empName, trId, tableId) {
         searchTable.style.display = 'block'; // 검색 결과가 있으면 검색창 표시
 
         employeeList.forEach(employee => {
+            const empCode = employee.empCode || '없음';
+            const empId = employee.empId || '없음';
+            const teamNm = employee.teamNm || '없음';
+            const empName = employee.empName || '없음';
+            const positionNm = employee.positionNm || '없음';
+
             const div = document.createElement('div');
             div.classList.add('searchRow', trId); // 검색 결과 행 생성
-            div.setAttribute('onclick', `search${trId}Click(${employee.empCode}, '${employee.empName}')`);
+            div.setAttribute('onclick', `search${trId}Click(${empCode}, '${empName}')`);
 
             div.innerHTML = `
-                <div hidden>${employee.empCode}</div>
-                <div id="empId">${employee.empId}</div>
-                <div id="deptNm">${employee.deptNm}</div>
-                <div id="empNm">${employee.empName}</div>
-                <div id="positionNm">${employee.positionNm}</div>
+                <div hidden>${empCode}</div>
+                <div id="empId">${empId}</div>
+                <div id="teamNm">${teamNm}</div>
+                <div id="empNm">${empName}</div>
+                <div id="positionNm">${positionNm}</div>
             `;
+
 
             searchTable.appendChild(div);
         });
@@ -260,6 +267,9 @@ const fileHandler = {
                 fileXIcon.dataset.name = `${file.name}`; // 파일 이름을 dataset에 저장
                 fileXIcon.dataset.index = `${file.lastModified}`;
                 fileXIcon.type = 'button';
+
+                const orderLabel = document.createElement('label');
+                orderLabel.hidden = true;
 
                 fileTd2.appendChild(fileXIcon);
                 fileTd2.appendChild(orderLabel);
