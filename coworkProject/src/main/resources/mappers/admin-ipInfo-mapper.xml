@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.admin.ipInfo.model.mapper.IpInfoMapper">
+
+	<!-- 회사 모든 ip List 조회 -->
+	<select id="selectAllIpInfoList">
+		SELECT E.COM_NO, E.EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME,
+			E.TEAM_NO, I.IP, I.IP_NO, T.DEPT_NO, T.TEAM_NM, D.DEPT_NM
+			FROM EMPLOYEE E
+			LEFT JOIN IP I ON E.EMP_CODE = I.EMP_CODE
+			LEFT JOIN TEAM T ON T.TEAM_NO = E.TEAM_NO
+			LEFT JOIN DEPARTMENT D ON D.DEPT_NO = T.DEPT_NO
+			WHERE E.COM_NO = #{comNo}
+	</select>
+</mapper>

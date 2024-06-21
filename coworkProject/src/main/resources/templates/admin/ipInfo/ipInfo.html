@@ -5,77 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IP</title>
 	<link rel="stylesheet" href="/css/admin/ipInfo/ipInfo.css">
-	<link rel="stylesheet" href="/css/common.css">
+	<th:block th:replace="~{common/common}"></th:block>
 
 </head>
 <body>
-	<div th:replace="~{admin/left/adminLeftSideBar}"></div>
-	<div th:replace="~{common/common}"></div>
+	<th:block th:replace="~{admin/left/adminLeftSideBar}"></th:block>
 	
 	<div id="fullContainer">
 
-		<div id="rightSideSpace">
+		<div id="fullContainerDiv">
+			
+			<!-- 전체 제목 -->
 			<div id="pageTitle">
-						IP 관리		
+				IP 관리		
 			</div>
-			<div>
-				<div id="findDiv">
+
+			<!-- 검색하는 부분 -->
+			<div id="findDiv">
+				<div class="selectDept">
+					<select>
+						<option>부서 전체</option>
+						<option>부서 1부</option>
+						<option>부서 2부</option>
+						<option>부서 3부</option>
+					</select>
+				</div>
+
+				<div class="selectTeam">
+					<select>
+						<option>팀 전체</option>
+						<option>1팀</option>
+						<option>2팀</option>
+						<option>3팀</option>
+					</select>
+				</div>
+
+				<div class="findInput">
 					<input type="text" placeholder="아이디 또는 이름을 입력해주세요." id="findInput">	
 				</div>				
 			</div>
-			<div id="littleTitle">
-				<div></div>
-				<div>부서</div>
-				<div>이름</div>
-				<div>아이피</div>
-				<div></div>
-			</div>
-			<div class="employeesContainer">
-				<div></div>
-				<div>경영1팀</div>
-				<div>송윤지</div>
-				<div>
-					    127.01.01 &nbsp;
-						<i class="fa-regular fa-pen-to-square"></i>
+
+			<!-- 검색 결과 보여줄 곳 -->
+			<div class="findResult">
+				<!-- 소제목 -->
+				<div id="littleTitle">
+					<div class="firstDiv">소속</div>
+					<div class="secondDiv">이름</div>
+					<div class="thirdDiv">아이피</div>
 				</div>
-				<div></div>
-			</div>
-			<div class="employeesContainer">
-				<div></div>
-				<div>경영1팀</div>
-				<div>송윤지</div>
-				<div>
-					    127.01.01 &nbsp;
-						<i class="fa-regular fa-pen-to-square"></i>
+
+				<!-- 검색 결과 -->
+				<div class="scrollSection">
+
+					<!-- 검색 결과가 없을 경우 -->
+					<th:block th:if="${#lists.isEmpty(selectAllIpInfoList)}">
+						<div class="resultBlank">
+							검색 결과가 없습니다.
+						</div>
+					</th:block>
+
+					<!-- 검색 결과가 있을 경우 -->
+					<th:block th:unless="${#lists.isEmpty(selectAllIpInfoList)}">
+						<div class="resultContainer" th:each="ipInfo : ${selectAllIpInfoList}" th:object="${ipInfo}">
+							<!-- <div class="firstResult" th:text="">부서</div>
+							<div class="secondResult" th:text=""></div>
+							<div class="thirdResult">
+								<div class="ipNo">127.01.01</div>
+								
+								<div class="ipBtn">
+									<button class="default-btn glucose-border-btn">수정</button>
+									<button class="default-btn deleteBtn">삭제</button>
+								</div>
+							</div> -->
+						</div>
+					</th:block>
+
 				</div>
-				<div></div>
-			</div>
-			<div class="employeesContainer">
-				<div></div>
-				<div>경영1팀</div>
-				<div>송윤지</div>
-				<div>
-					    127.01.01 &nbsp;
-						<i class="fa-regular fa-pen-to-square"></i>
-				</div>
-				<div></div>
-			</div>
-			<div class="employeesContainer">
-				<div></div>
-				<div>경영1팀</div>
-				<div>송윤지</div>
-				<div>
-					    127.01.01 &nbsp;
-						<i class="fa-regular fa-pen-to-square"></i>
-				</div>
-				<div></div>
+
 			</div>
 		</div>
 
-
 	</div>
-		
-			
+					
 	<script src="/js/admin/ipInfo/ipInfo.js"></script>
+
+	<script th:inline="javascript">
+		const selectAllIpInfoList = /*[[${selectAllIpInfoList}]]*/ "회사 전체 ip 리스트";
+	</script>
 </body>
 </html>

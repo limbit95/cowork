@@ -211,8 +211,12 @@ body {
 	color: black;
 }*/
 
-
-
+/* CompanyLogo a 태그 */
+#CompanyLogo a {
+	color: var(--main-color);
+	text-decoration: none;
+	font-size: 18px;
+}
 
 
 
