@@ -201,47 +201,6 @@ if(calendarModal != null) {
 
 }
 
-// selectView 안에서 span 태그 안에 x 값들을 가져와서 타겟팅된 값만 삭제
-// .selectCancel
-const selectView = document.querySelector(".selectView");
-
-if(selectView != null) {
-    selectView.addEventListener('click', function(event) {
-        if(event.target.classList.contains('selectCancel')) {
-            const selectedDiv = event.target.closest('.selectedDiv');
-            if(selectedDiv) {
-                selectedDiv.remove();
-            }
-        }
-
-        if(selectView.innerHTML == "") {
-            selectView.classList.add("calendarHidden");
-            const selectDept = document.querySelector(".selectDept");
-            const selectTeam = document.querySelector(".selectTeam");
-            selectDept.classList.remove("calendarHidden");
-            selectTeam.classList.remove("calendarHidden");
-        }
-    })
-}
-
-// 취소 버튼 클릭 시 모든 값들을 비워주고 모달창 없애기
-const modalCancelBtn = document.querySelector(".modalCancelBtn");
-
-if(modalCancelBtn != null) {
-    modalCancelBtn.addEventListener("click", () => {
-        document.querySelector("#updateTitle").value = "";
-        document.querySelector("#selectedColor").value = "";
-        document.querySelector(".selectView").innerHTML = "";
-        document.querySelector(".selectView").classList.add("calendarHidden");
-        const clickColors = document.querySelectorAll(".clickColor");
-        clickColors.forEach(div => {
-            div.classList.remove("addBorder");
-        });
-        document.querySelector("#updateContent").innerText = "";
-        calendarModal.classList.add("calendarHidden");
-    })
-}
-
 document.addEventListener('DOMContentLoaded', function() {
 
     const showCalendar = myCalendarList.map(event => ({
@@ -276,6 +235,55 @@ document.addEventListener('DOMContentLoaded', function() {
               alert('지난 날짜는 일정을 추가할 수 없습니다.');
               calendar.unselect(); // 선택 취소
               return;
+            }
+
+            // selectView 안에서 span 태그 안에 x 값들을 가져와서 타겟팅된 값만 삭제
+            // .selectCancel
+            const selectView = document.querySelector(".selectView");
+
+            if(selectView != null) {
+                selectView.addEventListener('click', function(event) {
+
+                    info.startStr = "";
+                    info.endStr = "";
+
+                    if(event.target.classList.contains('selectCancel')) {
+                        const selectedDiv = event.target.closest('.selectedDiv');
+                        if(selectedDiv) {
+                            selectedDiv.remove();
+                        }
+                    }
+
+                    if(selectView.innerHTML == "") {
+                        selectView.classList.add("calendarHidden");
+                        const selectDept = document.querySelector(".selectDept");
+                        const selectTeam = document.querySelector(".selectTeam");
+                        selectDept.classList.remove("calendarHidden");
+                        selectTeam.classList.remove("calendarHidden");
+                    }
+                })
+            }
+
+            // 취소 버튼 클릭 시 모든 값들을 비워주고 모달창 없애기
+            const modalCancelBtn = document.querySelector(".modalCancelBtn");
+
+            if(modalCancelBtn != null) {
+                modalCancelBtn.addEventListener("click", () => {
+                    
+                    info.startStr = "";
+                    info.endStr = "";
+
+                    document.querySelector("#updateTitle").value = "";
+                    document.querySelector("#selectedColor").value = "";
+                    document.querySelector(".selectView").innerHTML = "";
+                    document.querySelector(".selectView").classList.add("calendarHidden");
+                    const clickColors = document.querySelectorAll(".clickColor");
+                    clickColors.forEach(div => {
+                        div.classList.remove("addBorder");
+                    });
+                    document.querySelector("#updateContent").innerText = "";
+                    calendarModal.classList.add("calendarHidden");
+                })
             }
 
             document.querySelector("#calendarModalUpdate").classList.add("calendarHidden");
@@ -363,8 +371,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     if(result > 0) {
 
-                        info.start = "";
-                        info.end = "";
+                        info.startStr = "";
+                        info.endStr = "";
 
                         document.querySelector("#updateTitle").value = "";
                         document.querySelector("#selectedColor").value = "";
@@ -400,8 +408,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     } else {
                         
-                        info.start = "";
-                        info.end = "";
+                        info.startStr = "";
+                        info.endStr = "";
 
                         document.querySelector("#updateTitle").value = "";
                         document.querySelector("#selectedColor").value = "";
@@ -461,12 +469,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 모달 팝업 떴을 때 x 버튼 누른 경우
             spanX.addEventListener("click", e => {
+                info.startStr = "";
+                info.endStr = "";
                 document.getElementById('calendarModalUpdate').classList.add('calendarHidden');
             });
 
             // 삭제 버튼 눌렀을 때
             document.querySelector("#calendarDeleteBtn").addEventListener("click", () => {
                 
+                info.startStr = "";
+                info.endStr = "";
+
                 eventCalendarNo = info.event.extendedProps.calendarNo;
 
                 location.href = "/calendar/calendarDelete?calendarNo=" + eventCalendarNo;
@@ -563,8 +576,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(result => {
                         if(result > 0) {
 
-                            info.start = "";
-                            info.end = "";
+                            info.startStr = "";
+                            info.endStr = "";
 
                             document.querySelector("#updateTitle").value = "";
                             document.querySelector("#selectedColor").value = "";
@@ -600,8 +613,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         } else {
 
-                            info.start = "";
-                            info.end = "";
+                            info.startStr = "";
+                            info.endStr = "";
 
                             document.querySelector("#updateTitle").value = "";
                             document.querySelector("#selectedColor").value = "";

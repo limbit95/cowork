@@ -156,7 +156,7 @@ if(addMiddlePosition != null) {
         saveBtn.className = 'default-btn middleSaveBtn';
         saveBtn.textContent = '저장';
     
-        // 삭제 버튼 생성
+        // 취소 버튼 생성
         const cancelBtn = document.createElement('button');
         cancelBtn.className = 'default-btn cancelBtn';
         cancelBtn.textContent = '취소';
@@ -203,29 +203,21 @@ if(addMiddlePosition != null) {
             }
     
             // indexNo 중 제일 큰 값 가져와서 크기 비교
-            const limitNo = document.querySelectorAll('.firstWidth');
-            limitNo.forEach((index) => {
+            const limitNoElements = document.querySelectorAll('.firstWidth');
+            const lastIndexNoElement = limitNoElements[limitNoElements.length - 2];
+            const lastIndexNo = lastIndexNoElement.innerText;
 
-                console.log(index.innerText);
-
-                if(level > index.innerText) {
-                    alert("직책 추가 버튼을 눌러 추가해주세요");
-                    return;
-                }
-            });
-
-
+            if (level > lastIndexNo) {
+                alert("중간 직책 추가 버튼입니다. 직책 추가 버튼을 눌러 추가해주세요");
+                return;
+            }
 
             if(positionNm.trim().length == 0) {
                 alert("직책을 입력 후 저장 버튼을 눌러주세요");
                 return;
             }
-    
-            console.log("직책 이름 : " + positionNm);
-            console.log("레벨 : " + level);
-    
-            // 여기서 positionNm 값을 처리 (예: 서버로 전송하거나 콘솔에 출력)
-            // location.href = "/position/positionMiddleInsert?positionNm=" + positionNm + "&level=" + level;
+
+            location.href = "/position/positionMiddleInsert?positionNm=" + positionNm + "&level=" + level;
         });
     
     });
@@ -253,5 +245,86 @@ if (deleteButtons.length > 0) {
             // 여기서 positionDiv를 삭제할 수 있음 (선택사항)
             positionDiv.remove();
         });
+    });
+}
+
+// 수정 버튼 클릭 시
+const updateBtns = document.querySelectorAll('.updateBtn');
+
+// updateBtns 배열
+if(updateBtns.length > 0) {
+
+    updateBtns.forEach(function(button) {
+
+        button.addEventListener('click', () => {
+
+            // 직책 추가 버튼 중간 추가 버튼 없애기
+            document.querySelector(".addPosition").classList.add("btnHidden");
+            document.querySelector(".addMiddlePosition").classList.add("btnHidden");
+
+            // 클릭된 버튼의 부모 .positionDiv 요소 찾기
+            const positionDiv = button.closest('.positionDiv');
+            // 해당 .positionDiv 내의 숨김 입력란 (positionNo) 찾기
+            const positionNoInput = positionDiv.querySelector('input[name="positionNo"]');
+            const positionNo = positionNoInput.value;
+            const positionNmInput = positionDiv.querySelector('.inputWidth');
+            
+            let positionNmTemp = positionNmInput.value;
+            
+            positionNmInput.removeAttribute('readonly');
+            
+            // 수정 삭제 버튼은 숨기고 저장 취소 버튼 만들거임
+            button.classList.add("btnHidden");
+
+            const deleteBtn = positionDiv.querySelector(".deleteBtn");
+            deleteBtn.classList.add("btnHidden");
+
+            const thirdWidth = positionDiv.querySelector(".thirdWidth");
+
+            // 저장 버튼 생성
+            const saveBtn = document.createElement('button');
+            saveBtn.className = 'default-btn middleSaveBtn';
+            saveBtn.textContent = '저장';
+        
+            // 취소 버튼 생성
+            const cancelBtn = document.createElement('button');
+            cancelBtn.className = 'default-btn cancelBtn';
+            cancelBtn.textContent = '취소';
+
+            thirdWidth.appendChild(saveBtn);
+            thirdWidth.appendChild(cancelBtn);
+
+            // 취소 버튼 클릭 시 다시 버튼 생성
+            document.querySelector(".cancelBtn").addEventListener("click", () => {
+
+                positionNmInput.value = positionNmTemp;
+                positionNmInput.setAttribute('readonly', 'true');
+
+                document.querySelector(".cancelBtn").classList.add("btnHidden");
+                document.querySelector(".middleSaveBtn").classList.add("btnHidden");
+
+                button.classList.remove("btnHidden");
+                deleteBtn.classList.remove("btnHidden");
+
+                location.href = "/position/positionMain";
+
+            });
+
+            // 저장 버튼 클릭 시
+            document.querySelector(".middleSaveBtn").addEventListener("click", () => {
+
+                const updatePositionNm = positionNmInput.value;
+
+                if(updatePositionNm.trim().length == 0) {
+                    alert("직책명을 작성해주세요");
+                    return;
+                }
+
+                location.href = "/position/positionUpdate?positionNo=" + positionNo + "&positionNm=" + updatePositionNm;
+
+            })
+
+        });
+
     });
 }

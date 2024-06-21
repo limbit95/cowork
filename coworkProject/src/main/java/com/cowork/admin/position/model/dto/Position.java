@@ -20,5 +20,5 @@ public class Position {
 	private int level;
 	private int comNo;
 	
-	private int levelUp;
+	private int levelTemp;
 }

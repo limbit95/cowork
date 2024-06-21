@@ -39,4 +39,16 @@ public interface PositionMapper {
 	 */
 	int positionMiddleUpdate(Position updatePosition);
 
+	/** positionNo로 level 얻어오기
+	 * @param positionNo
+	 * @return level
+	 */
+	int selectLevel(int positionNo);
+
+	/** 직책 이름 수정
+	 * @param position
+	 * @return result
+	 */
+	int positionUpdate(Position position);
+
 }

@@ -52,11 +52,12 @@
 						<div th:text="*{indexNo}" class="firstWidth"></div>
 		
 						<div class="secondWidth">
-							<input class="inputWidth" type="text" th:value="*{positionNm}">
+							<input class="inputWidth" type="text" th:value="*{positionNm}" readonly>
 							<input hidden th:value="*{positionNo}" name="positionNo">
 						</div>
 		
 						<div class="thirdWidth">
+							<button class="default-btn glucose-border-btn updateBtn">수정</button>
 							<button class="default-btn deleteBtn">삭제</button>
 						</div>
 					</div>
