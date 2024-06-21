@@ -25,7 +25,9 @@
 			<img th:src="${session.loginEmp.comLogo}" id="companyLogoImg">
 		</div>
 		<div th:unless="${session.loginEmp.comLogo}" id="CompanyLogo">
-			<img th:src="${session.loginEmp.comLogo}" id="companyLogoImg">
+			<a href="/userMain">
+				메인페이지로 이동
+			</a>
 		</div>
 
 		<div id="businessCard">

@@ -14,39 +14,14 @@ closeLeftSideBar.addEventListener('click', function(){
     leftSideBar.style.transform = "translateX(-100%)";
 });
 
+// image 클릭 시
+const companyLogoImg = document.querySelector("#companyLogoImg");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+if(companyLogoImg != null) {
+    companyLogoImg.addEventListener("click", () => {
+        location.href = "/userMain";
+    })
+}
 
 /* yoon 추가 (메일용) */
 let dropBtns = document.querySelectorAll('.dropbtn');
@@ -85,3 +60,5 @@ dropBtns.forEach(btn => {
         }
     });
 });
+
+
