@@ -59,12 +59,5 @@ public class AddInBulkController {
 		return excelList;
 	}
 	
-	@ResponseBody
-	@PostMapping("excel/regist")
-	public int inviteEmployee(RedirectAttributes ra,
-						      @RequestBody List<Employee2> inputEmployeeList) {
-		
-		return service.registEmployee(inputEmployeeList);
-	}
 
 }

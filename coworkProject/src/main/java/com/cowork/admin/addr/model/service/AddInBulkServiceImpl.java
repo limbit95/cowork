@@ -55,33 +55,5 @@ public class AddInBulkServiceImpl implements AddInBulkService{
 		return mapper.selectEmployeeList();
 	}
 
-	// 읽어온 엑셀 파일의 사원 정보 DB에 저장(계정 등록)
-	@Override
-	public int registEmployee(List<Employee2> inputEmployeeList) {
-		
-		
-		List<Employee2> employeeList = mapper.selectEmployeeList();
-		
-		log.info("test : " + inputEmployeeList); 
-		
-		for(int i = 0; i < inputEmployeeList.size(); i++) {
-			for(int x = 0; x < employeeList.size(); x++) {
-				if(employeeList.get(x).getEmpNo().equals(inputEmployeeList.get(i).getEmpNo())) {
-					return -1;
-				}
-			}
-		}
-		
-		int result = 0;
-		
-		for(Employee2 employee : inputEmployeeList) {
-			result = mapper.registEmployee(employee);
-			if(result == 0) {
-				return 0;
-			}
-		}
-		
-		return 1;
-	}
 
 }

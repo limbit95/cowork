@@ -40,7 +40,6 @@ window.addEventListener("load", e => {
 
 // 이미 등록된 파일 복사할 변수
 let temp1;
-let diffSize = false;
 
 const backPage = document.querySelector("#backPage");
 
@@ -167,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 2번 아코디언에서의 다음 버튼
     document.querySelector("#next2").addEventListener("click", e => {
+        diffSize = true;
         // 파일 입력이 안 된 상태 -> 다음 버튼 비활성화
         if(e.target.getAttribute("class").includes('blur')) {
             return;
@@ -174,15 +174,23 @@ document.addEventListener('DOMContentLoaded', function() {
         // 파일 입력이 된 상태 -> 다음 버튼 클릭 가능
         if(e.target.getAttribute("class").includes('sapphire-btn2')) {
             const formData = new FormData();
-            
             if(temp1.size != document.querySelector("#fileInput").files[0].size) {
                 diffSize = false;
             } 
-            // if(temp1 != null) {
+            
+            if(document.querySelector("#fileInput").files[0] != undefined && temp1.size != document.querySelector("#fileInput").files[0].size) {
+                diffSize = false;
+            } 
             if(diffSize) {
+                console.log('사이즈 그대로야')
                 formData.append("excel", temp1);
             } else {
-                formData.append("excel", document.querySelector("#fileInput").files[0]);
+                console.log('사이즈가 달라졌어')
+                if(document.querySelector("#fileInput").files[0] == undefined) {
+                    formData.append("excel", temp1);
+                } else {
+                    formData.append("excel", document.querySelector("#fileInput").files[0]);
+                }
             }
             
             // ----------------------------------------------------------------------------------------------------------------------
@@ -505,23 +513,34 @@ document.addEventListener('DOMContentLoaded', function() {
                             // ----------------------------------------------------------------------------------------------------------------------
                             // 부서 & 팀 & 직급 select 태그 change 이벤트 일어날 때 마다의 유효성 검사 로직
                             
+
+
+
+
                             // 부서 select 태그 change 일어날때마다 선택된 부서 기준으로
                             // 하위 팀들만 담은 복사본 리스트
-                            let tempTeamList2;
+                            // let tempTeamList2;
+                            // for(let x = 0; x < tempDeptList.length; x++) {
+                            //     if(tempDeptList[x].deptNo == e.target.value) {
+                            //         tempTeamList2 = teamList[x].slice();
+                            //         check5 = 1;
+                            //     } 
+                            // }
+
+
+
+
+                            
 
                             // 부서 select 태그
                             document.querySelectorAll(".deptList").forEach((y) => {
                                 y.addEventListener("change", e => {
-                                    tempTeamList2 = '';
-                                    // 부서 select 태그 change 일어날때마다 선택된 부서 기준으로
-                                    // 하위 팀들만 담은 복사본 리스트
-                                    for(let x = 0; x < tempDeptList.length; x++) {
-                                        if(tempDeptList[x].deptNo == e.target.value) {
-                                            tempTeamList2 = teamList[x].slice();
+                                    for(let x = 0; x < deptList.length; x++) {
+                                        if(deptList[x].deptNo == e.target.value) {
+                                            tempTeamList = teamList[x].slice();
                                         } 
                                     }
-                                    console.log(tempTeamList2)
-                                    
+
                                     let check2 = false;
 
                                     if(e.target.value === "null") {
@@ -589,14 +608,19 @@ document.addEventListener('DOMContentLoaded', function() {
                             })
 
                             // 팀 select
-                            if(i.팀 != null && tempTeamList2 != null) {
+                            if(i.팀 != null && tempTeamList != null) {
                                 document.querySelectorAll(".teamList").forEach((i) => {
                                     i.addEventListener("change", e => {
+                                        for(let x = 0; x < deptList.length; x++) {
+                                            if(deptList[x].deptNo == i.parentElement.previousElementSibling.children[0].value) {
+                                                tempTeamList = teamList[x].slice();
+                                            } 
+                                        }
             
                                         let check7 = false;
     
                                         if(e.target.value === "null") {
-                                            tempTeamList2.forEach((x) => {
+                                            tempTeamList.forEach((x) => {
                                                 if(x.teamNm == e.target.children[0].innerText) {
                                                     check7 = true;
                                                     e.target.style.border = '1px solid var(--gray-color)';
@@ -604,7 +628,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 }
                                             })
                                         } else {
-                                            tempTeamList2.forEach((x) => {
+                                            tempTeamList.forEach((x) => {
                                                 if(x.teamNo == e.target.value) {
                                                     check7 = true;
                                                     e.target.style.border = '1px solid var(--gray-color)';
@@ -978,6 +1002,7 @@ dropZone.addEventListener('drop', (e) => {
 });
 
 document.getElementById('uploadBtn').addEventListener("click", e => {
+    temp1 = document.getElementById('fileInput').files[0];
     if(document.getElementById('fileInput').files.length == 0) {
         if(temp1 != undefined) {
             modal4.style.display = 'flex';
@@ -1007,7 +1032,7 @@ cancel4.addEventListener("click", e => {
 // 파일 등록 이후 파일 변경이 발생했을 때
 fileInput.addEventListener("change", e => {
     // 파일 첫 등록 이후 파일 변경하려다 취소 했을 때 input 값은 비워지는데 그 상태서 아래 로직
-    // 진행 시 파일의 값을 찾을 수 없다고 나옴 그래서 
+    // 진행 시 파일의 값을 찾을 수 없다고 나옴 그래서 처음 파일 등록할 때 미리 복사본 만들어 둠
     if(fileInput.files.length > 0) {
         temp1 = document.getElementById('fileInput').files[0];
     }
@@ -1076,5 +1101,17 @@ window.addEventListener("keydown", e => {
         modal.style.display = 'none';
         modal2.style.display = 'none';
         modal3.style.display = 'none';
+        modal4.style.display = 'none';
     }
+});
+
+window.addEventListener("click", e => {
+    // console.log("복사본");
+    // console.log(temp1);
+    // console.log("-----------------------------------");
+    // console.log("-----------------------------------");
+    // console.log("-----------------------------------");
+    // console.log("-----------------------------------");
+    // console.log("input 파일");
+    // console.log(document.getElementById('fileInput').files[0]);
 });
