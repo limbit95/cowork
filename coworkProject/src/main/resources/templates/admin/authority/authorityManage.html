@@ -5,137 +5,198 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>권한 관리</title>
-    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="	/css/admin/authority/authorityManager.css">
-	
-	<style>
-		
-		
-	</style>
+    
+	<th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/employee/addr/userAddr.css">
+	<link rel="stylesheet" href="/css/admin/authority/authorityManage.css">
 	
 </head>
 <body>
 	
-
-	
 	<div th:replace="~{admin/left/adminLeftSideBar}"></div>
-	<div th:replace="~{common/common}"></div>
 	
-	
- 
-        <div class="content">
-			<div id="contentSecondChild">
-				<div id="scOne">
-					<h1>권한 관리</h1>
-				</div>
-				<div id="scTwo"  >
-						<div  id="pointContainer">
-											<div id="scTwoFirstChild" >
-														asdf	
-											</div>
-											<div id="scTwoSecondChild" >
-												<div class="search-bar">
-								                <i class="fas fa-search"></i>
-								                <input type="text" placeholder="이름, 전화번호 검색">
-								           	    </div>
-								                <div class="button-container">
-								                <button class="grantAuthority-by-position">직책별 권한 추가</button>
-								                <button class="grantAuthority">권한 추가</button>
-								                </div>
-								                <table>
-								                <thead>
-								                    <tr>
-								                        <th class="checkbox-container"><input type="checkbox" class="whole"></th>
-								                        <th>부서</th>
-								                        <th>이름</th>
-								                        <th>직책</th>
-								                        <th>권한</th>
-								                    </tr>
-								                </thead>
-								                <tbody>
-								                    <tr>
-								                        <td class="checkbox-container"><input type="checkbox"></td>
-								                        <td>운영팀</td>
-								                        <td>박은별</td>
-								                        <td>팀장</td>
-								                        <td>게시판, 메신저</td>
-								                    </tr>
-								                    <tr>
-								                        <td class="checkbox-container"><input type="checkbox"></td>
-								                        <td>운영팀</td>
-								                        <td>정윤희</td>
-								                        <td>과장</td>
-								                        <td>게시판</td>
-								                    </tr>
-								                    <tr>
-								                        <td class="checkbox-container"><input type="checkbox"></td>
-								                        <td>운영팀</td>
-								                        <td>최재준</td>
-								                        <td>차장</td>
-								                        <td>게시판</td>
-								                    </tr>
-								                    <tr>
-								                        <td class="checkbox-container"><input type="checkbox"></td>
-								                        <td>운영팀</td>
-								                        <td>송지윤</td>
-								                        <td>대리</td>
-								                        <td>없음</td>
-								                    </tr>
-								                    <tr>
-								                        <td class="checkbox-container"><input type="checkbox"></td>
-								                        <td>운영팀</td>
-								                        <td>임성혁</td>
-								                        <td>사원</td>
-								                        <td>없음</td>
-								                    </tr>
-													<tr>
-													    <td class="checkbox-container"><input type="checkbox"></td>
-													    <td>운영팀</td>
-													    <td>임성혁</td>
-													    <td>사원</td>
-													    <td>없음</td>
-													</tr>
-													<tr>
-													    <td class="checkbox-container"><input type="checkbox"></td>
-													    <td>운영팀</td>
-													    <td>임성혁</td>
-													    <td>사원</td>
-													    <td>없음</td>
-													</tr>
-													<tr>
-													    <td class="checkbox-container"><input type="checkbox"></td>
-													    <td>운영팀</td>
-													    <td>임성혁</td>
-													    <td>사원</td>
-													    <td>없음</td>
-													</tr>
-												
-								                </tbody>
-								            </table>
-											</div>
-							</div>
-								
-						</div>
-						
-								
-				</div>
-				            
-			</div>
-            
+	<section class="container">
+        <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
+
+        <div class="title"><span>권한 관리</span></div>
+
+        <div class="mainBtnList">
+            <button class="default-btn glucose-btn" id="saveGroup">그룹 저장</button>
         </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const wholeCheckbox = document.querySelector('.whole');
-            const otherCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+        <main>
+
+            <!-- 왼쪽 영역(주소록 그룹) -->
+            <div class="left">
+
+                <!-- 회사 주소록 -->
+                <ul>
+                    <li class="company">
+                        
+                        <div class="li-hover">
+                            <i class="fa-solid fa-angle-down"></i>
+                            <div class="comp">
+                                <i class="fa-solid fa-building"></i>
+                                <span th:text="${session.loginEmp.comNm}"></span>
+                            </div>
+                        </div>
+
+                        <ul>    
+
+                            <th:block th:if="${session.comAddrList}">
+
+                                <li class="department" th:each="deptList : ${session.comAddrList}" th:object="${deptList}">
     
-            wholeCheckbox.addEventListener('change', function () {
-                otherCheckboxes.forEach(function (checkbox) {
-                    checkbox.checked = wholeCheckbox.checked;
-                });
-            });
-        });
-    </script>
+                                    <div class="li-hover">
+                                        <i class="fa-solid fa-angle-down"></i>
+                                        <div class="dept" th:data-dept-no="*{deptNo}">
+                                            <i class="fa-solid fa-network-wired"></i>
+                                            <span th:text="*{deptNm}"></span>
+                                        </div>
+                                    </div>
+    
+                                    <ul>
+                                        
+                                        <th:block th:if="*{teamList}">
+
+                                            <li class="team" th:each="t : *{teamList}">
+                                                <div class="li-hover"> 
+                                                    <i class="fa-solid fa-angle-down"></i>
+                                                    <div class="tim" th:data-team-no="|*{deptNo}/${t.teamNo}|">
+                                                        <i class="fa-solid fa-people-group"></i>
+                                                        <span th:text="${t.teamNm}"></span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            
+                                        </th:block>
+    
+                                    </ul>
+    
+                                </li>
+                                
+                            </th:block>
+
+                        </ul>
+
+                    </li>
+                    
+                </ul>
+
+            </div>
+
+            <!-- 오른쪽 영역(구성원 목록) -->
+            <div class="right">
+
+                <!-- 검색창 -->
+                <div>
+                    <div class="default-line">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" placeholder="이름, 전화번호 검색" id="findEmp" autocomplete="off" spellcheck="false">
+                    </div>
+                </div>
+
+                <!-- 체크박스 체크 시 노출되는 버튼(이동, 삭제) -->
+                <div class="subBtnDiv">
+                    <button class="default-btn glucose-btn" id="addToMyAddr">추가</button>
+                    <button class="default-btn glucose-btn" id="deleteToMyAddr">삭제</button>
+
+                    <div th:if="${groupList}" class="selectGroup">
+                        <select name="" id="selectValue" class="default-line">
+                            <th:block th:each="group : ${groupList}">
+                                <option th:value="${group.addrBookNo}" class="selectOption">[[${group.addrName}]]</option>
+                            </th:block>
+                        </select>
+                        <button class="default-btn glucose-btn" id="saveMyAddr">저장</button>
+                        <button class="default-btn glucose-btn" id="cancelMyAddr">취소</button>
+                    </div>
+                </div>
+                
+                <!-- 구성원 목록 -->
+                <div class="authorityList">
+                    <div class="tableHead">
+                        <div>부서 / 팀</div>
+                        <div>이름</div>
+                        <div>직급</div>
+                        <div>이메일</div>
+						<div>근태관리</div>
+						<div>기능관리</div>
+						<div>팀게시판</div>
+                    </div>
+					<div class="tableBody">
+						<div class="" th:each="authority : ${authorityList}" th:object="${authority}">
+							<div class="info">
+								<div><span th:text="|*{deptNm} / *{teamNm}|">운영팀</span></div>
+								<div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
+								<div><span th:text="*{positionNm}">팀장</span></div>
+								<div><span th:text="*{empEmail}">park@naver.com</span></div>
+								<div><input id="check" type="checkbox" th:checked="*{attendanceYn == 'Y'}"></div>
+								<div><input id="check" type="checkbox" th:checked="*{functionYn == 'Y'}"></div>
+								<div><input id="check" type="checkbox" th:checked="*{teamBoardYn == 'Y'}"></div>
+							</div>
+						</div>
+					</div>
+
+                </div>
+                
+                <!-----------------------------------------------   페이지  ------------------------------------------------------------------>
+
+                <div class="pagination-area" th:unless="${#lists.isEmpty(authorityList)}">
+        
+                    <!-- 검색 X -->
+                    <ul class="pagination" th:object="${pagination}">
+
+                        <!-- 첫 페이지로 이동 -->
+                        <li><a th:href="@{/authority/authorityManage(cp=1, key=${param.key}, query=${param.query})}">&lt;&lt;</a></li>
+
+                        <!-- 이전 목록 마지막 번호로 이동 -->
+                        <li><a th:href="@{/authority/authorityManage(cp=*{prevPage}, key=${param.key}, query=${param.query})}">&lt;</a></li>
+
+                        <!-- 특정 페이지로 이동 -->
+                        <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
+                            
+                        <!-- 현재 보고있는 페이지 -->
+                            <li th:if="${i} == *{currentPage}">
+                                <a class="current" th:text="${i}">1</a>
+                            </li>
+                            
+                            <!-- 보고있지 않은 페이지 -->
+                            <li th:unless="${i} == *{currentPage}">
+                                <a th:text="${i}"
+                                    th:href="@{/authority/authorityManage(cp=${i}, key=${param.key}, query=${param.query})}"
+                                >2</a>
+                            </li>
+
+                        </th:block>
+
+                        <!-- 다음 목록 시작 번호로 이동 -->
+                        <li><a th:href="@{/authority/authorityManage(cp=*{nextPage}, key=${param.key}, query=${param.query})}">&gt;</a></li>
+
+                        <!-- 끝 페이지로 이동 -->
+                        <li><a th:href="@{/authority/authorityManage(cp=*{maxPage}, key=${param.key}, query=${param.query})}">&gt;&gt;</a></li>
+                    </ul>
+                
+            </div>
+
+        </main>
+
+    </section>
+
+	<script src="/js/admin/authority/authorityManage.js"></script>
+
+    <!-- 드롭다운 -->
+    <!--<div class="dropdown-menu" id="contextMenu">
+        <div id="addDeptgroup">그룹 추가</div>
+        <div id="groupNameChange">그룹명 변경</div>
+        <div id="deleteGroup">그룹 삭제</div>
+    </div>-->
+
+    <!---->
+    <!--<script th:inline="javascript">
+        const loginEmpCode = /*[[${session.loginEmp.empCode}]]*/ "로그인 사원";
+        const groupCode = /*[[${groupCode}]]*/ "로그인 사원";
+        const backPageLocation = /*[[${session.backPageLocation}]]*/ "뒤로 돌아갈 주소";
+    </script>-->
     
 </body>
 </html>
