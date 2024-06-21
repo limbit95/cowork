@@ -58,7 +58,7 @@ public class SurveyController {
 		emp.setPositionNm("positionNm");
 		emp.setWorkPlace("workPlace");
 		emp.setContractType("contractType");
-		emp.setEmpEmail("empEmail");
+		emp.setEmpEmail("empEmail@naver.com");
 		emp.setHireDate("hireDate");		
 	;
 		

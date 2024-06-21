@@ -2,6 +2,23 @@
     /* border: 1px solid red; */
 }
 
+#title{
+	padding-top: 15vh;
+	display: flex; 
+	align-items: center;
+	flex-direction: column;
+	padding-bottom: 50px;
+    color: var(--main-color);
+    font-weight: bold;
+    
+}
+#forBorderBottom{
+	border-bottom: 1px solid #214177;
+	width: 50%;
+	
+}
+
+
 /* 공통 css에서 정의한 스타일 속성 재정의 */
 /* 수정하기 버튼 margin-bottom 때문에 */
 section.container {
@@ -20,9 +37,10 @@ section.topMargin {
 .pwUpdateContainer {
     display: flex;
     justify-content: space-between;
-    width: 1000px;
+    width: 50%;
     height: 100%;
 }
+
 
 /* 비밀번호 안내 */
 .pwUpdateContainer > :nth-child(1) {

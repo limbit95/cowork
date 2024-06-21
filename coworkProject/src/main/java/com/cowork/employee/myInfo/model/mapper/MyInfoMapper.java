@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MyInfoMapper {
 	public int validateDuplicateEmpId(String empId);
 
-	public int updateProfileImg(Map<String, Object> paramMap); 
+	public int updateProfileImg(Map<String, Object> paramMap);
+
+	public int update(Map<String, Object> paramMap); 
 	
 }

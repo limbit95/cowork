@@ -73,11 +73,23 @@ public class MyInfoServiceImpl implements MyInfoService{
 		
 		
 		//-----------------------------------------------------
+	}
 
-			
-
+	@Override
+	public int update(Map<String, Object> paramMap, int empCode) {
 		
-
+		String postcode = (String) paramMap.get("postcode");
+		String address = (String) paramMap.get("address");
+		String detailAddress = (String) paramMap.get("detailAddress");
+		
+		paramMap.put("empCode", empCode);
+		String addr = postcode + "^^^" + address + "^^^" + detailAddress;
+		paramMap.put("addr", addr);
+		
+		int result = myInfoMapper.update(paramMap);
+		
+		
+		return result;
 	}
 
 }

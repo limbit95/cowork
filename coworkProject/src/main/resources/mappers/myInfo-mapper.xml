@@ -13,6 +13,18 @@
 		WHERE EMP_CODE = #{empCode}
 	</update>
 	
+	<update id="update">
+		UPDATE EMPLOYEE SET 
+		EMP_LAST_NAME = #{empName},
+		EMP_FIRST_NAME = #{empSung},
+		EMP_ID = #{sleepyIdInput},
+		EMP_EMAIL = #{empEmail},
+		EMP_BIRTH = #{empBirth},
+		PHONE = #{phone},
+		EMP_ADDRESS = #{addr}
+		WHERE EMP_CODE = #{empCode}
+	</update>
+	
 
 	
 </mapper>
