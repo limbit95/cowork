@@ -23,7 +23,7 @@
             <div th:if="${groupList}" class="selectGroup">
                 <select name="" id="selectValue" class="default-line">
                     <th:block th:each="group : ${groupList}">
-                        <option th:value="${group.addrBookNo}">[[${group.addrName}]]</option>
+                        <option th:value="${group.addrBookNo}" class="selectOption">[[${group.addrName}]]</option>
                     </th:block>
                 </select>
                 <button class="default-btn glucose-btn" id="saveMyAddr">저장</button>

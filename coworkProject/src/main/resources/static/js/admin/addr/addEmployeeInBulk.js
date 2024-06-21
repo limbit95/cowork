@@ -9,7 +9,12 @@ window.addEventListener("load", e => {
     for(let i = 0; i < comAddrList.length; i++) {
         const deptNm = comAddrList[i].deptNm;
         const deptNo = comAddrList[i].deptNo;
-        deptList.push({ deptNo : deptNm });
+        deptList.push(
+            { 
+                "deptNm" : deptNm, 
+                "deptNo" : deptNo 
+            }
+        );
     }
 
     for(let i = 0; i < comAddrList.length; i++) {
@@ -24,18 +29,12 @@ window.addEventListener("load", e => {
 });
 
 window.addEventListener("click", e => {
-    // for(let i = 0; i < comAddrList.length; i++) {
-    //     comAddrList[i];
-    // }
-    // comAddrList.forEach((i) => {
-    //     console.log(i)
-    // })
     // console.log(positionList);
-
-    console.log(comAddrList[0].deptNo)
-    console.log(deptList)
-    console.log(teamList)
+    // console.log(deptList)
+    // console.log(teamList)
 });
+
+
 
 // 이미 등록된 파일 복사할 변수
 let temp1;
@@ -224,6 +223,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             return;
                         } 
                     })
+                    // 비밀번호 생성 방식 : 관리자가 등록
+                    const admin = document.querySelector("#admin");
 
                     const employeeList = document.querySelector(".employeeList");
                     employeeList.innerHTML = 
@@ -236,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <i class="fa-solid fa-question" id="idPattern"></i>
                                 <div id="idPatternInfo"><span id="closeBtn">&times;</span>영어 대·소문자, 숫자를 조합하여 4~20글자 이내 작성해주세요. (특수문자 사용 불가)</div>
                             </div>
-                            ${admin.checked == true ? `<div>비밀번호<i class="fa-regular fa-eye-slash" id="showPw"></i></div>` : ``}
+                            ${admin.checked == true ? `<div>비밀번호<i class="fa-regular fa-eye-slash" id="showPw"></i></div>` : `<div style="width: 1px; margin: 0; padding: 0;"></div>`}
                             <div>휴대폰 번호</div>
                             <div>개인 이메일</div>
                             <div>생일</div>
@@ -252,42 +253,53 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
                     document.querySelector("[name='createType']");
                     if(check4) {
-                        // 비밀번호 생성 방식 : 관리자가 등록
-                        const admin = document.querySelector("#admin");
-        
                         result.forEach((i) => {
                             const employee = document.createElement("div");
                             employee.classList.add("employee");
                             employee.innerHTML = 
                             `
                                 <div><input type="checkbox"></div>
-                                ${i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input id="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false"></div>`}
-                                ${i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input id="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false"></div>`}
-                                ${i.ID != "null" ? `<div><span>${i.ID}</span></div>` : `<div><input id="empId" type="text" placeholder="미입력" maxlength="100" spellcheck="false"></div>`}
-                                ${admin.checked == true ? `<div><input id="empPw" type="password" placeholder="미입력" maxlength="20"></div>` : ``}
+                                ${i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false"></div>`}
+                                ${i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false"></div>`}
+                                ${i.ID != "null" ? `<div><span>${i.ID}</span></div>` : `<div><input class="empId" type="text" placeholder="미입력" maxlength="100" spellcheck="false"></div>`}
+                                ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"></div>`}
                                 <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
                                 <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
                                 <div><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
                                 ${i.부서 != "null" ? 
                                     `
-                                    <div>
-                                        <select class="default-line" id="deptList">
-                                            <option></option>
-                                            ${deptList.map(item => `<option>${item}</option>`).join('')}
-                                        </select>
-                                    </div>
+                                        <div>
+                                            <select class="default-line deptList">
+                                                <option class="deptOpt" value="null" data-dept-nm="${i.부서}">${i.부서}</option>
+                                                ${deptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
+                                            </select>
+                                        </div>
                                     `
                                  : 
                                     `
-                                    <div>
-                                        <select class="default-line" id="deptList">
-                                            ${deptList.map(item => `<option>${item}</option>`).join('')}
-                                        </select>
-                                    </div>
+                                        <div>
+                                            <select class="default-line deptList">
+                                                ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
+                                            </select>
+                                        </div>
                                     `
                                 }
-                                <div><span>${i.부서 != "null" ? i.부서 : ""}</span></div>
-                                <div><span>${i.팀 != "null" ? i.팀 : ""}</span></div>
+                                ${i.팀 != "null" ?
+                                    `
+                                        <div>
+                                            <select class="default-line teamList">
+                                                <option>${i.팀}</option>
+                                            </select>
+                                        </div>
+                                    `
+                                :
+                                    `
+                                        <div>
+                                            <select class="default-line teamList">
+                                            </select>
+                                        </div>
+                                    `
+                                }
                                 <div><span>${i.직급 != "null" ? i.직급 : ""}</span></div>
                                 <div><span>${i.계약형태 != "null" ? i.계약형태 : ""}</span></div>
                                 <div><span>${i.근무처 != "null" ? i.근무처 : ""}</span></div>
@@ -296,22 +308,110 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <div><span>${i.사번 != "null" ? i.사번 : ""}</span></div>
                             `;
                             employeeList.append(employee);
+
+                            // 엑셀 파일에서 등록된 부서명이 기존 DB의 부서 리스트에 존재하는지 확인
+                            // 존재하지 않으면 select 태그 border 빨간색으로 변경
+                            document.querySelectorAll(".deptOpt").forEach((x) => {
+                                let check = false;
+                                deptList.forEach((i) => {
+                                    if(i.deptNm == x.dataset.deptNm) {
+                                        x.parentElement.value = i.deptNo;
+                                        check = true;
+                                        return;
+                                    }
+                                })
+                                if(!check) {
+                                    x.parentElement.style.border = '1px solid red';
+                                }
+                            })
     
                             accordions[0].nextElementSibling.style.display = 'none';
                             accordions[1].nextElementSibling.style.display = 'none';
                             check3 = true;
                             accordions[2].nextElementSibling.style.display = 'flex';
                             accordions[2].style.color = 'black';
+
+                            // select 태그의 값 변경이 일어날 때 마다의 로직
+                            document.querySelectorAll(".deptList").forEach((y) => {
+                                y.addEventListener("click", e => {
+
+                                    let check2 = false;
+
+                                    // 
+                                    if(e.target.value === "null") {
+                                        deptList.forEach((x) => {
+                                            if(x.deptNm == e.target.children[0].innerText) {
+                                                check2 = true;
+                                                e.target.style.border = '1px solid var(--gray-color)';
+                                                return;
+                                            }
+                                        })
+                                    } else {
+                                        deptList.forEach((x) => {
+                                            if(x.deptNo == e.target.value) {
+                                                console.log('2');
+                                                check2 = true;
+                                                e.target.style.border = '1px solid var(--gray-color)';
+                                                return;
+                                            }
+                                        })
+                                    }
+                                
+                                    if(!check2) {
+                                        e.target.style.border = '1px solid red';
+                                        return;
+                                    }
+
+
+                                    // 팀 그룹 담을 select 태그
+                                    const selectTeamList = y.parentElement.nextElementSibling.children[0];
+                                    if(e.target.value == "null") {
+                                        return;
+                                    }
+                                    const obj = {
+                                        "deptNo" : y.value,
+                                        "comNo" : comNo
+                                    };
+                                    
+                                    fetch("/admin/addr/getTeamList", {
+                                        method : "post",
+                                        headers : {"Content-Type" : "application/json"},
+                                        body : JSON.stringify(obj)
+                                    })
+                                    .then(resp => resp.json())
+                                    .then(teamList => {
+                                        if(teamList.length == 0){
+                                            alert("불러오기 실패");
+                                            return;
+                                        }
+                            
+                                        selectTeamList.innerHTML = 
+                                        `
+                                            <option value="">팀 선택</option>
+                                        `;
+                                        teamList.forEach((i) => {
+                                            if(document.querySelector(".deptList").value == i.teamNm) {
+                                                return;
+                                            }
+                                            const opt = document.createElement("option");
+                                            opt.value = i.teamNo;
+                                            opt.innerText = i.teamNm;
+                            
+                                            selectTeamList.append(opt);
+                                        });
+                                    })
+                                })
+                            })
                         })
                         // 성 인풋창 포커스 시
-                        document.querySelectorAll("#empLastName").forEach((i) => {
+                        document.querySelectorAll(".empLastName").forEach((i) => {
                             i.addEventListener("focus", e => {
                                 e.target.style.borderColor = 'black';
                                 e.target.style.border = '2px solid black';
                             });
                         })
                         // 성 인풋창 포커스 아웃 시
-                        document.querySelectorAll("#empLastName").forEach((i) => {
+                        document.querySelectorAll(".empLastName").forEach((i) => {
                             i.addEventListener("blur", e => {
                                 if(e.target.value.trim().length == 0) {
                                     e.target.style.borderColor = 'red';
@@ -323,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             });
                         })
                         // 성 인풋창 입력 시
-                        document.querySelectorAll("#empLastName").forEach((i) => {
+                        document.querySelectorAll(".empLastName").forEach((i) => {
                             i.addEventListener("input", e => {
                                 if(e.target.value.trim().length == 0) {
                                     e.target.style.borderColor = 'red';
@@ -338,14 +438,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
                         // 이름 인풋창 포커스 시
-                        document.querySelectorAll("#empFirstName").forEach((i) => {
+                        document.querySelectorAll(".empFirstName").forEach((i) => {
                             i.addEventListener("focus", e => {
                                 e.target.style.borderColor = 'black';
                                 e.target.style.border = '2px solid black';
                             });
                         })
                         // 이름 인풋창 포커스 아웃 시
-                        document.querySelectorAll("#empFirstName").forEach((i) => {
+                        document.querySelectorAll(".empFirstName").forEach((i) => {
                             i.addEventListener("blur", e => {
                                 if(e.target.value.trim().length == 0) {
                                     e.target.style.borderColor = 'red';
@@ -357,7 +457,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             });
                         })
                         // 이름 인풋창 입력 시
-                        document.querySelectorAll("#empFirstName").forEach((i) => {
+                        document.querySelectorAll(".empFirstName").forEach((i) => {
                             i.addEventListener("input", e => {
                                 if(e.target.value.trim().length == 0) {
                                     e.target.style.borderColor = 'red';
@@ -372,14 +472,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
                         // ID 인풋창 포커스 시
-                        document.querySelectorAll("#empId").forEach((i) => {
+                        document.querySelectorAll(".empId").forEach((i) => {
                             i.addEventListener("focus", e => {
                                 e.target.style.borderColor = 'black';
                                 e.target.style.border = '2px solid black';
                             });
                         })
                         // ID 인풋창 포커스 아웃 시
-                        document.querySelectorAll("#empId").forEach((i) => {
+                        document.querySelectorAll(".empId").forEach((i) => {
                             i.addEventListener("blur", e => {
                                 
                                 const regExp = /^[A-Za-z0-9]{4,20}$/;
@@ -409,7 +509,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             });
                         })
                         // ID 인풋창 입력 시
-                        document.querySelectorAll("#empId").forEach((i) => {
+                        document.querySelectorAll(".empId").forEach((i) => {
                             i.addEventListener("input", e => {
                                 if(e.target.value.trim().length == 0) {
                                     e.target.style.borderColor = 'red';
@@ -423,13 +523,15 @@ document.addEventListener('DOMContentLoaded', function() {
                             });
                         })
 
-                        // ID 작성 양식 창 토글
-                        document.querySelector("#idPattern").addEventListener("click", e => {
-                            document.querySelector("#idPatternInfo").style.display = 'flex';
-                        });
-                        document.querySelector("#closeBtn").addEventListener("click", e => {
-                            document.querySelector("#idPatternInfo").style.display = 'none';
-                        });
+                        if(document.querySelector("#idPattern") != null) {
+                            // ID 작성 양식 창 토글
+                            document.querySelector("#idPattern").addEventListener("click", e => {
+                                document.querySelector("#idPatternInfo").style.display = 'flex';
+                            });
+                            document.querySelector("#closeBtn").addEventListener("click", e => {
+                                document.querySelector("#idPatternInfo").style.display = 'none';
+                            });
+                        }
 
                         const showPw = document.querySelector("#showPw");
 
@@ -441,7 +543,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     showPw.classList.remove("fa-eye-slash");
                                     showPw.classList.add("fa-eye");
                                     showPw.style.color = 'black';
-                                    document.querySelectorAll("#empPw").forEach((i) => {
+                                    document.querySelectorAll(".empPw").forEach((i) => {
                                         i.removeAttribute("type");
                                         i.setAttribute("type", "text");
                                     })
@@ -452,7 +554,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     showPw.classList.add("fa-eye-slash");
                                     showPw.classList.remove("fa-eye");
                                     showPw.style.color = 'rgb(172, 172, 172)';
-                                    document.querySelectorAll("#empPw").forEach((i) => {
+                                    document.querySelectorAll(".empPw").forEach((i) => {
                                         i.removeAttribute("type");
                                         i.setAttribute("type", "password");
                                     })
@@ -462,19 +564,19 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
 
                         // 비밀번호 인풋창 포커스 시
-                        if(document.querySelectorAll("#empPw") != null) {
-                            document.querySelectorAll("#empPw").forEach((i) => {
+                        if(document.querySelectorAll(".empPw") != null) {
+                            document.querySelectorAll(".empPw").forEach((i) => {
                                 i.addEventListener("focus", e => {
                                     e.target.style.borderColor = 'black';
                                     e.target.style.border = '2px solid black';
                                 });
                             })
                             // 비밀번호 인풋창 포커스 아웃 시
-                            document.querySelectorAll("#empPw").forEach((i) => {
+                            document.querySelectorAll(".empPw").forEach((i) => {
                                 i.addEventListener("blur", e => {
                                     const regExp = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,20}$/;
         
-                                    if(!regExp.test(e.target)){
+                                    if(!regExp.test(e.target.value)){
                                         e.target.style.borderColor = 'red';
                                         e.target.style.border = '1px solid red';
                                         return;
@@ -490,7 +592,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 });
                             })
                             // 비밀번호 인풋창 입력 시
-                            document.querySelectorAll("#empPw").forEach((i) => {
+                            document.querySelectorAll(".empPw").forEach((i) => {
                                 i.addEventListener("input", e => {
                                     if(e.target.value.trim().length == 0) {
                                         e.target.style.borderColor = 'red';
@@ -507,12 +609,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
                     }
 
                 }
             });
-
-
         }
     })
 
@@ -719,3 +820,4 @@ window.addEventListener("keydown", e => {
         modal3.style.display = 'none';
     }
 });
+
