@@ -366,90 +366,94 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
 
-                fetch("/calendar/calendarInsert", {
-                    method : "POST",
-                    headers : {"Content-Type" : "application/json"},
-                    body : JSON.stringify(obj)
-                })
-                .then(resp => resp.text())
-                .then(result => {
-                    
-                    if(result > 0) {
+                if(info.startStr != null) {
 
-                        info.startStr = "";
-                        info.endStr = "";
-
-                        document.querySelector("#updateTitle").value = "";
-                        document.querySelector("#selectedColor").value = "";
-                        document.querySelector(".selectView").innerHTML = "";
-                        document.querySelector(".selectView").classList.add("calendarHidden");
-                        document.querySelector("#updateContent").value = "";
-                        calendarModal.classList.add("calendarHidden");
-
-                        // 선택된 색상에 border 없애주기
-                        const clickColors = document.querySelectorAll(".clickColor");
-                        clickColors.forEach(div => {
-                            div.classList.remove("addBorder");
-                        });
-
-                        // select 태그 쪽
-                        const selectCompany = document.querySelector(".selectCompany");
-                        const selectDept = document.querySelector(".selectDept");
-                        const selectTeam = document.querySelector(".selectTeam");
-
-                        selectCompany.classList.remove("calendarHidden");
-                        selectDept.classList.remove("calendarHidden");
-                        selectTeam.classList.remove("calendarHidden");
+                    fetch("/calendar/calendarInsert", {
+                        method : "POST",
+                        headers : {"Content-Type" : "application/json"},
+                        body : JSON.stringify(obj)
+                    })
+                    .then(resp => resp.text())
+                    .then(result => {
                         
-                        const selectDeptDefalut = document.querySelector(".selectDeptDefalut").value;
-                        const selectTeamDefalut = document.querySelector(".selectTeamDefalut").value;
+                        if(result > 0) {
+    
+                            info.startStr = "";
+                            info.endStr = "";
+    
+                            document.querySelector("#updateTitle").value = "";
+                            document.querySelector("#selectedColor").value = "";
+                            document.querySelector(".selectView").innerHTML = "";
+                            document.querySelector(".selectView").classList.add("calendarHidden");
+                            document.querySelector("#updateContent").value = "";
+                            calendarModal.classList.add("calendarHidden");
+    
+                            // 선택된 색상에 border 없애주기
+                            const clickColors = document.querySelectorAll(".clickColor");
+                            clickColors.forEach(div => {
+                                div.classList.remove("addBorder");
+                            });
+    
+                            // select 태그 쪽
+                            const selectCompany = document.querySelector(".selectCompany");
+                            const selectDept = document.querySelector(".selectDept");
+                            const selectTeam = document.querySelector(".selectTeam");
+    
+                            selectCompany.classList.remove("calendarHidden");
+                            selectDept.classList.remove("calendarHidden");
+                            selectTeam.classList.remove("calendarHidden");
+                            
+                            const selectDeptDefalut = document.querySelector(".selectDeptDefalut").value;
+                            const selectTeamDefalut = document.querySelector(".selectTeamDefalut").value;
+    
+                            selectDept.value = selectDeptDefalut;
+                            selectTeam.value = selectTeamDefalut;
+    
+                            alert("일정이 추가되었습니다.");
 
-                        selectDept.value = selectDeptDefalut;
-                        selectTeam.value = selectTeamDefalut;
+                            location.href = "/calendar/calendar";
+    
+                        } else {
+    
+                            info.startStr = "";
+                            info.endStr = "";
+    
+                            document.querySelector("#updateTitle").value = "";
+                            document.querySelector("#selectedColor").value = "";
+                            document.querySelector(".selectView").innerHTML = "";
+                            document.querySelector(".selectView").classList.add("calendarHidden");
+                            document.querySelector("#updateContent").value = "";
+                            calendarModal.classList.add("calendarHidden");
+    
+                            // 선택된 색상에 border 없애주기
+                            const clickColors = document.querySelectorAll(".clickColor");
+                            clickColors.forEach(div => {
+                                div.classList.remove("addBorder");
+                            });
+    
+                            // select 태그 쪽
+                            const selectCompany = document.querySelector(".selectCompany");
+                            const selectDept = document.querySelector(".selectDept");
+                            const selectTeam = document.querySelector(".selectTeam");
+    
+                            selectCompany.classList.remove("calendarHidden");
+                            selectDept.classList.remove("calendarHidden");
+                            selectTeam.classList.remove("calendarHidden");
+                            
+                            const selectDeptDefalut = document.querySelector(".selectDeptDefalut").value;
+                            const selectTeamDefalut = document.querySelector(".selectTeamDefalut").value;
+    
+                            selectDept.value = selectDeptDefalut;
+                            selectTeam.value = selectTeamDefalut;
+    
+                            alert("일정 추가 실패");
 
-                        calendar.render();
+                            location.href = "/calendar/calendar";
+                        }
+    
+                    })
 
-                        alert("일정이 추가되었습니다.");
-
-                    } else {
-
-                        info.startStr = "";
-                        info.endStr = "";
-
-                        document.querySelector("#updateTitle").value = "";
-                        document.querySelector("#selectedColor").value = "";
-                        document.querySelector(".selectView").innerHTML = "";
-                        document.querySelector(".selectView").classList.add("calendarHidden");
-                        document.querySelector("#updateContent").value = "";
-                        calendarModal.classList.add("calendarHidden");
-
-                        // 선택된 색상에 border 없애주기
-                        const clickColors = document.querySelectorAll(".clickColor");
-                        clickColors.forEach(div => {
-                            div.classList.remove("addBorder");
-                        });
-
-                        // select 태그 쪽
-                        const selectCompany = document.querySelector(".selectCompany");
-                        const selectDept = document.querySelector(".selectDept");
-                        const selectTeam = document.querySelector(".selectTeam");
-
-                        selectCompany.classList.remove("calendarHidden");
-                        selectDept.classList.remove("calendarHidden");
-                        selectTeam.classList.remove("calendarHidden");
-                        
-                        const selectDeptDefalut = document.querySelector(".selectDeptDefalut").value;
-                        const selectTeamDefalut = document.querySelector(".selectTeamDefalut").value;
-
-                        selectDept.value = selectDeptDefalut;
-                        selectTeam.value = selectTeamDefalut;
-
-                        alert("일정 추가 실패");
-                    }
-
-                })
-
-
+                }
 
             })
 

@@ -25,5 +25,7 @@ public class IpInfo {
 	private String ip;
 	private int deptNo;
 	private String deptNm;
-		
+	
+	private String fullName;
+	private String affiliation;
 }

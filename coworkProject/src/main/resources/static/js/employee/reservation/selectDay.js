@@ -529,6 +529,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
                             info.start = "";
                             info.end = "";
+
+                            location.href = "/reservation/selectMonth";
     
                             calendar.render();
                         } else if (result == -1){
@@ -570,8 +572,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // 시간 포맷
             const date = new Date(info.event.start);
 
-            console.log("date 출력 " + date);
-
             const endDate = new Date(info.event.end);
 
             const startHours = date.getUTCHours();
@@ -593,8 +593,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const day = date.getUTCDate().toString().padStart(2, '0');
             const formattedDate = `${year}년 ${month}월 ${day}일`;
 
-            console.log("제목 눌렀을 때 예약일이 이상하잖아" + formattedDate);
-
             document.querySelector(".reservationDay").value = formattedDate;
             document.querySelector(".reservationStart").value = formattedStartTime;
             document.querySelector(".reservationEnd").value = formattedEndTime;
@@ -609,20 +607,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 모달 수정 삭제 팝업 떴을 때 x 버튼 누른 경우
             updateX.addEventListener("click", () => {
-                var now = new Date();
-                now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); // Adjust for timezone offset
+                // var now = new Date();
+                // now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); // Adjust for timezone offset
 
-                const eventDate = new Date(info.event.start);
+                // const eventDate = new Date(info.event.start);
 
-                const year = eventDate.getFullYear();
-                const month = (eventDate.getMonth() + 1).toString().padStart(2, '0');
-                const day = eventDate.getDate().toString().padStart(2, '0');
+                // const year = eventDate.getFullYear();
+                // const month = (eventDate.getMonth() + 1).toString().padStart(2, '0');
+                // const day = eventDate.getDate().toString().padStart(2, '0');
 
-                const formattedDate = `${year}-${month}-${day}`;
+                // const formattedDate = `${year}-${month}-${day}`;
 
-                window.location.href = '/reservation/selectDay?date=' + formattedDate;
+                // window.location.href = '/reservation/selectDay?date=' + formattedDate;
+                const reservationUpdateModal = document.querySelector("#reservationUpdateModal");
 
+                reservationUpdateModal.classList.add("reservationHidden");
+                
             });
+
+            const modalCancelBtn = document.querySelector(".modalCancelBtn");
+
+            if(modalCancelBtn != null) {
+                modalCancelBtn.addEventListener("click", () => {
+
+                    info.start = "";
+                    info.end = "";
+
+                    document.querySelector("#selectedColor").value = "";
+                    document.querySelector(".selectView").innerHTML = "";
+                    document.querySelector(".selectView").classList.add("reservationHidden");
+                    const clickColors = document.querySelectorAll(".clickColor");
+                    clickColors.forEach(div => {
+                        div.classList.remove("addBorder");
+                    });
+                    reservationInsertModal.classList.add("reservationHidden");
+
+                    calendar.unselect();
+                })
+            }
 
             // 삭제 버튼 눌렀을 때
             const modalDeleteBtn = document.querySelector(".modalDeleteBtn");
@@ -651,8 +673,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         // 원하는 형식으로 변환
                         const formattedDate = `${year}-${month}-${day}`;
-                        
-                        console.log(formattedDate); // "2024-06-17"
+
                         window.location.href = '/reservation/selectDay?date=' + formattedDate;
                     }
 
@@ -751,11 +772,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         const dbEnd = reserveEndDate.getTimezoneOffset() * 60000; // 밀리초 단위 오프셋 계산
                         const dbUpdateEnd = new Date(reserveEndDate.getTime() - dbEnd).toISOString().slice(0, -1) + "Z";
-
-                        console.log("제목에 넣어야돼"+updateEndTime.value);
-
-                        console.log("DB Update StartTime : " + dbUpdateStart);
-                        console.log("DB Update EndTime : " + dbUpdateEnd);
 
                         // 색, 부서, 회의실 No, 회의실 Nm
                         const selectedColor = document.querySelector("#selectedColor");
