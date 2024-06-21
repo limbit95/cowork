@@ -25,6 +25,18 @@
 		WHERE EMP_CODE = #{empCode}
 	</update>
 	
-
+	<select id="currentPwDetail">
+		SELECT EMP_PW FROM EMPLOYEE
+		WHERE EMP_CODE = #{empCode}
+	</select>
+	
+	<update id="updateAsNewPw">
+		UPDATE EMPLOYEE
+		SET EMP_PW = #{encodedNewPw}
+		WHERE EMP_CODE = #{empCode}
+	</update>
+	
+	
+	
 	
 </mapper>

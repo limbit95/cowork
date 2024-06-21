@@ -15,4 +15,8 @@ public interface MyInfoService {
 
 	int update(Map<String, Object> paramMap, int empCode);
 
+	int validateCurPw(String currentPwVal, Integer empCode);
+
+	int updateAsNewPw(String newPw, Integer empCode);
+
 }

@@ -20,47 +20,22 @@
 
     
     <section class="container topMargin">
-        <!-- 비밀번호 변경 기능 전체 영역 -->
-        <div class="pwUpdateContainer">
-            <!-- 비밀번호 안내 -->
-            <div>
-                <div>비밀번호 안내</div>
-                <div>
-                    <li>비밀번호의 최소 길이는 <span style="color: #ff9494;">10자리</span>  입니다.</li>
-                    <li> <span style="color: #ff9494;">문자/숫자/특수</span> 문자가 각각 하나 이상씩 조합이 되어야 합니다.</li>
-                    <li> <span style="color: #ff9494;">5회 이상</span> 틀릴 시 비밀번호 변경이 일정 시간동안 제한됩니다.</li>
-
-                </div>
-            </div>
 
             <!-- 비밀번호 변경 -->
             <div class="pwUpdateDiv">
-
-                <div>
+				
+                <div id="validateCurPwDiv">
                     <label for="currentPw">현재 비밀번호</label>
                     <input class="default-line" type="password" id="currentPw">
-					<button type="button" id="submitCurrentPw">
-						제출
-					</button>
-                    <span>비밀번호가 일치하지 않습니다</span>
+					<div id="submitRow">
+						<button type="button" id="submitCurrentPw">
+							제출
+						</button>	
+					</div>
                 </div>
-
-                <div>
-                    <label for="newPw">새 비밀번호</label>
-                    <input class="default-line" type="password" id="newPw">
-                    <span>유효한 비밀번호입니다</span>
-                </div>
-
-                <div>
-
-                    <label for="newPwConfirm">새 비밀번호 확인</label>
-                    <input class="default-line" type="password" id="newPwConfirm">
-                    <span>비밀번호가 일치합니다</span>
-                </div>
-
-                <div><button class="default-btn glucose-btn">비밀번호 변경</button></div>
+				
             </div>
-        </div>
+
     </section>
 
 
