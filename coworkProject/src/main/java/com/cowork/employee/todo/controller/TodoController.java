@@ -167,6 +167,7 @@ public class TodoController {
 								Todo inputTodo, 
 								RedirectAttributes ra,
 								@SessionAttribute("loginEmp") Employee2 loginEmp
+								//@RequestParam("empCode") int empCode
 								) throws IllegalStateException, IOException {
 		
 			int empCode = loginEmp.getEmpCode(); 
@@ -213,6 +214,7 @@ public class TodoController {
 	@PostMapping("update/{todoNo}")
 	public int todoUpdate(	@PathVariable("todoNo") int todoNo, 
 							Todo inputTodo,
+							@RequestParam("empCode") String inChargeEmpCode, 
 							@RequestParam("files") List<MultipartFile> files,
 							@RequestParam(value="deleteOrder", required=false) String deleteOrder,
 							@RequestParam(value="updateOrder", required=false) String updateOrder,
@@ -230,15 +232,14 @@ public class TodoController {
 		if (files == null) {
 	        files = new ArrayList<>();
 	    }
-		
-				
-		// 담당자 여러명인 경우 
-	    String inChargeEmpStr = inputTodo.getInChargeEmp(); 
-	    List<String> inChargeEmpList = Arrays.asList(inChargeEmpStr.split("\\s*,\\s*")); 
 
-	    log.info("담당자 여러명일때 넘겨받은 리스트 : " + inChargeEmpList.toString());
+		// 담당자 여러명인 경우 
+	    // String inChargeEmpStr = inputTodo.getInChargeEmp(); 
+	    //List<String> inChargeEmpList = Arrays.asList(inChargeEmpStr.split("\\s*,\\s*")); 
+
+	   // log.info("담당자 여러명일때 넘겨받은 리스트 : " + inChargeEmpList.toString());
 		
-		int result = service.todoUpdate(inputTodo, files, deleteOrder, updateOrder, inChargeEmpList); 
+		int result = service.todoUpdate(inputTodo, files, deleteOrder, updateOrder, inChargeEmpCode); 
 				
 		return result; 
 	     

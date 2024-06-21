@@ -94,19 +94,77 @@ function initializeEventListeners() {
     window.addEventListener('resize', positionModalAboveButton);
     window.addEventListener('scroll', positionModalAboveButton);
 
+    // 수정하기 
     const todoUpdateForm = document.getElementById('todoUpdateForm');
     if (todoUpdateForm) {
         todoUpdateForm.addEventListener('submit', invalidateUpdateForm);
     }
 
+    // 등록 유효성 검사 
     const todoInsertForm = document.getElementById('todoInsertForm');
     if (todoInsertForm) {
         todoInsertForm.addEventListener('submit', invalidateInsertForm);
     }
 
-    initializeSearchFeature('inChargeInput1', 'tagsWrapperEdit'); // 첫 번째 input 요소에 대한 초기화
-    initializeSearchFeature('inChargeInput2', 'tagsWrapperRegister'); // 두 번째 input 요소에 대한 초기화
+    // 등록하기 
+    const insertBtn2 = document.getElementById('insertBtn2'); 
+    if(insertBtn2) {
+        insertBtn2.addEventListener('submit', insertTodo);
+    }
+
+   // initializeSearchFeature('inChargeInput1', 'tagsWrapperEdit'); // 첫 번째 input 요소에 대한 초기화
+   // initializeSearchFeature('inChargeInput2', 'tagsWrapperRegister'); // 두 번째 input 요소에 대한 초기화
 }
+
+function insertTodo () {
+    const clone = new FormData(document.getElementById('todoInsertForm'));
+   
+    for (let file of todoFileList) {
+        if (!deleteOrder.has(file.fileOrder)) {
+            updateOrder.add(file.fileOrder);
+        }
+    }
+
+    clone.append('updateOrder', Array.from(updateOrder).join(','));
+    clone.append('deleteOrder', Array.from(deleteOrder).join(','));
+
+    for (const pair of formData.entries()) {
+        clone.append(pair[0], pair[1]);
+    }
+
+    console.log("Submitting form with data:");
+    for (const pair of clone.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+    }
+
+    const empCode = document.querySelector('input[name="inChargeEmp"]').value;
+    clone.append('empCode', empCode); 
+
+
+    fetch('/todo/update/' + clone.get('todoNo'), {
+        method: 'POST',
+        body: clone
+    })
+    .then(resp => {
+        console.log("Server response status:", resp.status);
+        return resp.text();
+    })
+    .then(result => {
+        console.log("폼 데이타 : ");
+        console.log("updateOrder: ", Array.from(updateOrder).join(','));
+        console.log("deleteOrder: ", Array.from(deleteOrder).join(','));
+        if (result > 0) {
+            alert('할 일 수정되었습니다');
+            location.reload();
+        } else {
+            alert('할 일 수정 실패');
+        }
+    })
+    .catch(error => {
+        console.error('Error during form submission:', error);
+    });
+
+} 
 
 function setMinDate() {
     const dateInputs = document.querySelectorAll('input[name="todoEndDate"]');
@@ -283,7 +341,7 @@ function addEventListeners() {
     });
 }
 
-// 등록하기 
+// 등록하기 창 
 function toggleInsertForm(e) {
     e.preventDefault();
     const todoDetailArea = document.getElementById('todoDetailArea');
@@ -504,6 +562,7 @@ function showTodoDetail(todo) {
     }
 }
 
+// 수정하기 
 function updateTodo() {
 
     const clone = new FormData(document.getElementById('todoUpdateForm'));
@@ -525,6 +584,10 @@ function updateTodo() {
     for (const pair of clone.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
     }
+
+    const empCode = document.querySelector('input[name="inChargeEmp"]').value;
+    clone.append('empCode', empCode); 
+
 
     fetch('/todo/update/' + clone.get('todoNo'), {
         method: 'POST',
@@ -719,7 +782,7 @@ function invalidateInsertForm(e) {
     }
 }
 
-
+/* 사원 검색 */
 function createSearchTable(inputElement, tagsWrapperId) {
     const searchTable = document.createElement('div');
     searchTable.className = 'searchTable';
@@ -751,7 +814,7 @@ function searchEmp(empName, trId, searchTable) {
 
             div.innerHTML = `
                 <div hidden>${employee.empCode}</div>
-                <div id="empId">${employee.empId}</div>
+                <div id="empId" hidden>${employee.empId}</div>
                 <div id="deptNm">${employee.deptNm}</div>
                 <div id="empNm">${employee.empName}</div>
                 <div id="positionNm">${employee.positionNm}</div>
@@ -869,151 +932,11 @@ initializeSearchFeature('inChargeEmpInput1', 'tagsWrapperEdit');
 initializeSearchFeature('inChargeEmpInput2', 'tagsWrapperRegister');
 
 
-
-
-
-
-/*
-function createSearchTable(inputElement) {
-    const searchTable = document.createElement('div');
-    searchTable.className = 'searchTable';
-    const parentElement = inputElement.parentElement;
-
-    if (parentElement) {
-        parentElement.appendChild(searchTable);
-        console.log('searchTable이 추가되었습니다.');
-    } else {
-        console.error('inputElement의 부모 요소가 존재하지 않습니다.');
-    }
-    return searchTable;
-}
-
-// 사원 검색 함수
-function searchEmp(empName, trId, searchTable) {
-    fetch(`/mail/mailInsert/empSearch?empName=${empName}`, {
-        method: "GET",
-        headers: {"Content-Type": "application/json"}
-    })
-    .then(resp => resp.json())
-    .then(employeeList => {
-        searchTable.innerHTML = '';
-        searchTable.style.display = 'block'; // 검색 결과가 있으면 검색창 표시
-
-        employeeList.forEach(employee => {
-            const div = document.createElement('div');
-            div.classList.add('searchRow', trId); // 검색 결과 행 생성
-            div.setAttribute('onclick', `searchtrInChargeClick(${employee.empCode}, '${employee.empName}', '${searchTable.id}')`);
-
-            div.innerHTML = `
-                <div hidden>${employee.empCode}</div>
-                <div id="empId">${employee.empId}</div>
-                <div id="deptNm">${employee.deptNm}</div>
-                <div id="empNm">${employee.empName}</div>
-                <div id="positionNm">${employee.positionNm}</div>
-            `;
-
-            searchTable.appendChild(div);
-        });
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-
-// 담당자 클릭 시
-function searchtrInChargeClick(empCode, empName, tableId, inputId) {
-    const inputElement = document.getElementById(inputId);
-    const tagsWrapper = inputElement ? inputElement.parentElement : null;
-
-    if (!tagsWrapper || !inputElement) {
-        console.error('inputElement 또는 tagsWrapper가 존재하지 않습니다.');
-        return;
-    }
-
-    // 태그 생성
-    const tag = document.createElement('span');
-    tag.className = 'tag';
-    tag.dataset.empCode = empCode;
-    tag.textContent = empName + ' ';
-
-    // 태그에 삭제 기능 추가
-    const deleteButton = document.createElement('span');
-    deleteButton.className = 'delete-button';
-    deleteButton.textContent = 'x';
-    deleteButton.onclick = () => {
-        tag.remove();
-        updateInputValue(tagsWrapper.id);
-    };
-    tag.appendChild(deleteButton);
-
-    // 태그 추가 (인풋 창 앞에)
-    tagsWrapper.insertBefore(tag, inputElement);
-
-    // 인풋 창 초기화
-    inputElement.value = '';
-    inputElement.focus();
-    updateInputValue(tagsWrapper.id);
-}
-
-// 검색 초기화 함수
-function initializeSearchFeature(inputId, tagsWrapperId) {
-    console.log(`Initializing search feature for input: ${inputId}`); // 디버그 로그 추가
-    const inputElement = document.getElementById(inputId);
-    let searchTable;
-    inputElement.addEventListener('input', () => {
-        console.log(`Input event triggered for: ${inputId}`); // 디버그 로그 추가
-        const empName = inputElement.value.split(',').pop().trim(); // 콤마로 구분된 마지막 이름으로 검색
-        if (!searchTable) {
-            searchTable = createSearchTable(inputElement);
-            searchTable.id = `${tagsWrapperId}Table`;
-        }
-        if (empName) {
-            searchEmp(empName, 'trInCharge', searchTable);
-        } else {
-            searchTable.innerHTML = '';
-            searchTable.style.display = 'none';
-        }
-    });
-}
-
-// 인풋 값 업데이트 함수
-function updateInputValue(tagsWrapperId) {
-    const tagsWrapper = document.querySelector(`#${tagsWrapperId}`);
-    const tags = tagsWrapper.querySelectorAll('.tag');
-    const empCodes = [];
-    tags.forEach(tag => {
-        empCodes.push(tag.dataset.empCode);
-    });
-    document.querySelector('#empCode').value = empCodes.join(',');
-}
-
-
-
-// 검색창 외부 클릭 시 검색창 숨기기
-document.addEventListener('click', (event) => {
-    if (!event.target.closest('.searchTable') && !event.target.closest('detailContent')) {
-        document.querySelectorAll('.searchTable').forEach(table => {
-            table.style.display = 'none';
-        });
-    }
-});
-
-// 삭제 버튼 생성 함수
-function createDeleteButton(parentDiv) {
-    const deleteButton = document.createElement('span');
-    deleteButton.className = 'delete-button';
-    deleteButton.textContent = 'X';
-    deleteButton.onclick = () => {
-        parentDiv.remove();
-        updateInputValue(parentDiv.parentElement.id);
-    };
-    return deleteButton;
-} */
-
 /* 내 글이 아닌경우 readOnly  */
 function setReadOnlyFields(loginEmp, todoEmpCode) {
 
     if (loginEmp !== todoEmpCode) {
-        const fields = [
+        /* const fields = [
             'todoEndDate',
             'inChargeInput1',
             'todoTitle',
@@ -1022,13 +945,13 @@ function setReadOnlyFields(loginEmp, todoEmpCode) {
             'inChargeEmpInput'
         ];
 
-        fields.forEach(fieldId => {
+       fields.forEach(fieldId => {
             const field = document.getElementById(fieldId);
             if (field) {
                 field.readOnly = true;
                 field.disabled = true;  // 파일 업로드 필드를 비활성화합니다.
             }
-        });
+        }); */
 
         // 수정 버튼 숨기기
         const updateBtn = document.getElementById('updateBtn');
@@ -1043,80 +966,3 @@ function setReadOnlyFields(loginEmp, todoEmpCode) {
         }
     }
 }
-
-/*
-
-// 담당자 클릭 시
-function searchtrInChargeClick(empCode, empName) {
-    const inChargeContainer = document.querySelector('#inchargeEmp');
-    const inChargeDiv = document.createElement('div');
-    inChargeDiv.className = 'default-label lavenderLabel putRecipient';
-    inChargeDiv.dataset.empCode = empCode;
-    inChargeDiv.dataset.empName = empName;
-    inChargeDiv.textContent = empName;
-    inChargeDiv.appendChild(createDeleteButton(inChargeDiv));
-    inChargeContainer.appendChild(inChargeDiv);
-}
-
-
-// 담당자 클릭 시
-function searchtrInChargeClick(empCode, empName) {
-    inputElement = document.querySelector('#inChargeInput2');
-    const currentValue = inputElement.value; 
-
-    if(currentValue) {
-        inputElement.value = currentValue + ',' + empName; 
-    } else {
-        alert(empName);
-        inputElement.value = empName; 
-    }
-    inputElement.dataset.empCode = empCode;
-    inputElement.dataset.empName = empName;
-    //inputElement.textContent = empName; 
-}
-
-// 삭제 버튼 생성 함수
-function createDeleteButton(parentDiv) {
-    const deleteButton = document.createElement('span');
-    deleteButton.className = 'delete-button';
-    deleteButton.textContent = 'X';
-    deleteButton.onclick = () => {
-        parentDiv.remove();
-    };
-    return deleteButton;
-}
-
-// 검색 초기화 함수
-function initializeSearchFeature(inputId) {
-   
-    console.log(`Initializing search feature for input: ${inputId}`); // 디버그 로그 추가
-    const inputElement = document.getElementById(inputId);
-    let searchTable;
-    inputElement.addEventListener('input', () => {
-        console.log(`Input event triggered for: ${inputId}`); // 디버그 로그 추가
-        const empName = inputElement.value;
-        if (!searchTable) {
-            searchTable = createSearchTable(inputElement);
-        }
-        if(empName) {
-            searchEmp(empName, 'trInCharge', searchTable);
-        } else {
-            searchTable.innerHTML = ''; 
-            searchTable.style.display = 'none';
-        }
-    });
-}
-
-
-
-
-// 인풋창 옆에 삭제 버튼 추가
-    let deleteButton = inputElement.nextSibling;
-    if (!deleteButton || !deleteButton.classList.contains('delete-button')) {
-        deleteButton = createDeleteButton(inputElement);
-        inputElement.parentElement.appendChild(deleteButton);
-    }
-
-
-
-*/

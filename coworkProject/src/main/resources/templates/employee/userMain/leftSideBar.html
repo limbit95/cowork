@@ -32,6 +32,37 @@
 			<div></div>
 		</div>
 		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
 		<a id="logOutLink">로그아웃</a>
 
 		<div class="leftMenu">
@@ -43,7 +74,16 @@
 			<a href="/reservation/selectMonth" id="reservationLink">회의실 예약</a>
 			<a href="/todo/todoList" id="todoLink">할 일</a>
 			<a href="/chat" id="chattingLink">메신저</a>
-			<a href="/mail/mailList" id="mailLink">메일</a>
+			<div class="dropdown"> <!--24-06-21 yoon 메일 하위메뉴 추가-->
+				<button class="dropbtn" id="mail">메일</button>
+				<div class="dropdownContent">
+					<a href="/mail/mailList">전체 메일함</a>
+					<a href="/mail/inbox">받은 메일함</a>
+					<a href="/mail/sentbox">보낸 메일함</a>
+					<a href="/mail/outbox">임시 보관함</a>
+					<a href="/mail/bin">휴지통</a>
+				</div>
+			</div>
 			<a href="/employee/attendance/list" id="attendanceLink">근태내역</a>
 			<a href="/survey/receiveSurvey" id="surveyLink">설문</a>
 			<th:block th:if="${session.loginEmp.generalManager == 1}">
