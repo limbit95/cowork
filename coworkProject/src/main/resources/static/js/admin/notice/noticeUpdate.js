@@ -214,7 +214,7 @@ document.querySelector("#noticeUpdate").addEventListener("click", () => {
 
 });
 
-/* 공지사항 수정 */
+/* 공지사항 취소 */
 document.getElementById("noticeDetail").addEventListener("click", () => {
 
     location.href = location.pathname.replace('noticeUpdate', 'noticeDetail') + location.search;

@@ -147,10 +147,12 @@ for(let i=1; i<=approverForm.childElementCount; i++) {
         });
 
         document.querySelector('#approver' + i).addEventListener('input', () => {
-            const empFirstName = document.querySelector('#approver' + i).value;
+            const empFirstName = document.querySelector('#empCode' + i).value;
 
             // 기존에 등록한 empCode값 삭제
             document.querySelector('#empCode' + i).value = '';
+
+            console.log(empFirstName);
             
             for(let x=(i+1); x<approverForm.childElementCount; x++) {
 
@@ -160,7 +162,7 @@ for(let i=1; i<=approverForm.childElementCount; i++) {
 
             inputChange(empFirstName, 'trApp', '.searchApp');
 
-            console.log("값" + (i+1));
+            
             document.querySelector('#approver' + (i+1)).disabled = false;
 
         });

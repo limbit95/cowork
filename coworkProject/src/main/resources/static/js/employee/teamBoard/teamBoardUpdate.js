@@ -228,3 +228,9 @@ document.querySelector("#teamBoardUpdate").addEventListener("click", () => {
     });
 
 });
+
+/* 팀게시판 취소 */
+document.getElementById("teamBoardCancel").addEventListener("click", () => {
+
+    location.href = location.pathname.replace('teamBoardUpdate', 'teamBoardDetail') + location.search;
+});
