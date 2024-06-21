@@ -13,3 +13,12 @@ closeLeftSideBar.addEventListener('click', function(){
     leftSideBarMini.style.transform = "translateX(0%)";
     leftSideBar.style.transform = "translateX(-100%)";
 })
+
+// image 클릭 시
+const companyLogoImg = document.querySelector("#companyLogoImg");
+
+if(companyLogoImg != null) {
+    companyLogoImg.addEventListener("click", () => {
+        location.href = "/userMain";
+    })
+}
