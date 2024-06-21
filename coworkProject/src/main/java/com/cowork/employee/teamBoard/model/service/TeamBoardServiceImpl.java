@@ -276,5 +276,12 @@ public class TeamBoardServiceImpl implements TeamBoardService {
 		// TODO Auto-generated method stub
 		return mapper.commentUpdate(comment);
 	}
+
+	// 댓글/답글 삭제
+	@Override
+	public int commentDelete(int commentNo) {
+		// TODO Auto-generated method stub
+		return mapper.commentDelete(commentNo);
+	}
 	
 }

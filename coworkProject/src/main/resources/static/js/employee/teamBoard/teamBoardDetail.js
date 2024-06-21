@@ -83,6 +83,15 @@ function commentListFunc() {
             const profile = document.createElement("div"); // 프로필 이미지
             profile.classList.add('profile');
 
+            if(comment.profileImg == null) {
+
+            } else {
+                const profileImg = document.createElement("img");
+                profileImg.src = comment.profileImg;
+
+                profile.append(profileImg);
+            }
+
             const speechBubble = document.createElement("div"); // 댓글 말풍선
             speechBubble.classList.add('speechBubble');
 
@@ -95,58 +104,69 @@ function commentListFunc() {
 
                 commentGroup.append(speechBubble, profile);
 
-                const commentEmp = document.createElement('div'); // 답변 To.
-                commentEmp.classList.add('commentEmp');
-                commentEmp.innerText = comment.empNameTo;
+                if(comment.parentCommentDelFl != 'Y') {
 
-                speechBubble.append(commentEmp);
+                    const commentEmp = document.createElement('div'); // 답변 To.
+                    commentEmp.classList.add('commentEmp');
+                    commentEmp.innerText = comment.empNameTo;
+
+                    speechBubble.append(commentEmp);
+                }
             }
 
             const commentContent = document.createElement("div"); // 댓글 내용
-            //commentContent.classList.add('commentDetail');
-            commentContent.innerText = comment.commentContent;
 
-            const commentBtn = document.createElement("div"); // 댓글 작성자 정보 및 버튼
-            commentBtn.classList.add('commentBtn');
+            if(comment.commentDelFl == 'Y') {
+                commentContent.innerText = "삭제된 댓글입니다";
+                speechBubble.append(commentContent);
+            } else {
+                commentContent.innerText = comment.commentContent;
 
-            const commentInfo = document.createElement("div"); // 댓글 작성자 정보
+                const commentBtn = document.createElement("div"); // 댓글 작성자 정보 및 버튼
+                commentBtn.classList.add('commentBtn');
 
-            const commentIns = document.createElement("label"); // 댓글 작성자
-            commentIns.classList.add("commentIns");
-            commentIns.innerText = comment.empName;
+                const commentInfo = document.createElement("div"); // 댓글 작성자 정보
 
-            const commentDate = document.createElement("div"); // 댓글 작성일
-            commentDate.innerText = comment.commentWriteDate;
-            
-            const commentLabel = document.createElement("div"); // 댓글 버튼
-            commentLabel.classList.add('commentLabel');
+                const commentIns = document.createElement("label"); // 댓글 작성자
+                commentIns.classList.add("commentIns");
+                commentIns.innerText = comment.empName;
 
-            const commentAnsBtn = document.createElement("label"); // 답글 버튼
-            commentAnsBtn.innerText = "답글";
-            commentAnsBtn.setAttribute("onclick", `commentAnsInsert(${comment.commentNo},this)`);
-            
-            speechBubble.append(commentContent, commentBtn);
-            commentBtn.append(commentInfo, commentLabel);
-            commentInfo.append(commentIns, commentDate);
-            commentLabel.append(commentAnsBtn);
+                const commentDate = document.createElement("div"); // 댓글 작성일
+                commentDate.innerText = comment.commentWriteDate;
+                
+                const commentLabel = document.createElement("div"); // 댓글 버튼
+                commentLabel.classList.add('commentLabel');
 
-            if(loginEmpCode != null && loginEmpCode == comment.empCode) {
+                const commentAnsBtn = document.createElement("label"); // 답글 버튼
+                commentAnsBtn.innerText = "답글";
+                commentAnsBtn.setAttribute("onclick", `commentAnsInsert(${comment.commentNo},this)`);
+                
+                speechBubble.append(commentContent, commentBtn);
+                commentBtn.append(commentInfo, commentLabel);
+                commentInfo.append(commentIns, commentDate);
+                commentLabel.append(commentAnsBtn);
 
-                const commentUpdBtn = document.createElement("label"); // 수정 버튼
-                commentUpdBtn.classList.add("updBtn");
-                commentUpdBtn.innerText = "수정";
-                commentUpdBtn.setAttribute('onclick', `commentUpdBtn(${comment.commentNo},this)`);
+                if(loginEmpCode != null && loginEmpCode == comment.empCode) {
 
-                const commentDelBtn = document.createElement("label"); // 삭제 버튼
-                commentDelBtn.innerText = "삭제";
-                // 이벤트 함수 처리
+                    const commentUpdBtn = document.createElement("label"); // 수정 버튼
+                    commentUpdBtn.classList.add("updBtn");
+                    commentUpdBtn.innerText = "수정";
+                    commentUpdBtn.setAttribute('onclick', `commentUpdBtn(${comment.commentNo},this)`);
 
-                commentLabel.append(commentUpdBtn, commentDelBtn);
+                    const commentDelBtn = document.createElement("label"); // 삭제 버튼
+                    commentDelBtn.innerText = "삭제";
+                    commentDelBtn.setAttribute('onclick', `commentDelBtn(${comment.commentNo})`);
 
+                    commentLabel.append(commentUpdBtn, commentDelBtn);
+
+                }
             }
 
+           
             commentStart.append(commentGroup);
         }
+            
+            
 
         document.querySelector('.commentNum').innerText = commentStart.childElementCount + " ";
     });
@@ -311,7 +331,7 @@ const commentUpdBtn = (commentNo, btn) => {
     commentLabelDiv.classList.add('commentLabelDiv');
 
     const commentLabel = btn.parentElement;
-    console.log(commentLabel);
+    //console.log(commentLabel);
     commentLabel.after(commentLabelDiv);
     commentLabel.classList.add('disNone', 'commentDisNone');
 
@@ -322,7 +342,7 @@ const commentUpdBtn = (commentNo, btn) => {
 
     const commentCancelBtn = document.createElement('label');
     commentCancelBtn.innerText = "취소";
-    // 이벤트 처리
+    commentCancelBtn.setAttribute('onclick', "commentCancelBtn(this)");
 
     commentLabelDiv.append(commentUpdateBtn, commentCancelBtn);
 }
@@ -348,7 +368,7 @@ const commentUpdateBtn = (commentNo, btn) => {
         headers: {"Content-Type" : "application/json"},
         body: JSON.stringify(data)
     })
-    .then(resp => resp.text)
+    .then(resp => resp.text())
     .then(result => {
 
         if(result > 0) {
@@ -360,5 +380,44 @@ const commentUpdateBtn = (commentNo, btn) => {
     })
 }
 
+/* 댓글 수정 취소 */
+const commentCancelBtn = (btn) => {
+
+    if(confirm("수정 중인 댓글이 있습니다. 현재 댓글을 취소하겠습니까?")) {
+        const contentDetailDiv = btn.parentElement.parentElement.parentElement.lastChild.previousElementSibling.previousElementSibling;
+        console.log(contentDetailDiv);
+        contentDetailDiv.classList.remove('disNone');
+
+        const commentAnsUpd = document.querySelector(".commentAnsUpd")
+        commentAnsUpd.remove();
+
+        const commentDisNone = document.querySelector('.commentDisNone');
+        commentDisNone.classList.remove('disNone', 'commentDisNone');
+
+        const commentLabelDivDisNone = document.querySelector('.commentLabelDiv');
+        commentLabelDivDisNone.remove();
+    }
+}
+
+/* 댓글 삭제 버튼 */
+const commentDelBtn = (commentNo) => {
+
+    if(!confirm("삭제 하시겠습니까?")) return;
+
+    fetch("/teamBoard/comment", {
+        method: "DELETE",
+        headers: {"Content-Type" : "application/json"},
+        body: commentNo
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        if(result > 0) {
+            alert("댓글이 삭제되었습니다");
+            commentListFunc(); // 댓글 목록 조회
+        } else {
+            alert("댓글삭제 실패");
+        }
+    })
+}
 
 commentListFunc(); // 댓글 목록 조회
