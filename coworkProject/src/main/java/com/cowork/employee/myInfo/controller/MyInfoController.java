@@ -34,11 +34,8 @@ public class MyInfoController {
 
 	@GetMapping("myInfoUpdate")
 	public String myInfoUpdate(@SessionAttribute("loginEmp") Employee2 loginEmp, Model model) {
-		
 		model.addAttribute("loginEmp", loginEmp);
-		
 		String address = loginEmp.getEmpAddress();
-
         // 문자열을 "^^^" 구분자로 분할
 		if(address != null) {
 	        String[] parts = address.split("\\^\\^\\^");
