@@ -60,5 +60,3 @@ dropBtns.forEach(btn => {
         }
     });
 });
-
-
