@@ -239,7 +239,7 @@ section.container .type3 {
 section.container .head {
     display: flex;
     margin: 0;
-    width: 2050px;
+    width: 1900px;
     height: 40px;
     border-bottom: 1px solid #ddd;
     background-color: #f3efef;
@@ -299,15 +299,15 @@ section.container .head > div {
 }
 /* 직급 */
 .head > :nth-child(11) {
-    width: 100px;
+    width: 120px;
 }
 /* 계약 형태 */
 .head > :nth-child(12) {
-    width: 100px;
+    width: 120px;
 }
 /* 근무처 */
 .head > :nth-child(13) {
-    width: 150px;
+    width: 180px;
 }
 /* 내선 번호 */
 .head > :nth-child(14) {
@@ -319,7 +319,7 @@ section.container .head > div {
 }
 /* 사번 */
 .head > :nth-child(16) {
-    width: 100px;
+    width: 120px;
 }
 
 
@@ -327,7 +327,7 @@ section.container .head > div {
 section.container .employee {
     display: flex;
     margin: 0;
-    width: 2050px;
+    width: 1900px;
     height: 55px;
     background-color: white;
     white-space: nowrap;
@@ -394,15 +394,15 @@ section.container .employee > div span {
 }
 /* 직급 */
 .employee > :nth-child(11) {
-    width: 100px;
+    width: 120px;
 }
 /* 계약 형태 */
 .employee > :nth-child(12) {
-    width: 100px;
+    width: 120px;
 }
 /* 근무처 */
 .employee > :nth-child(13) {
-    width: 150px;
+    width: 180px;
 }
 /* 내선 번호 */
 .employee > :nth-child(14) {
@@ -414,7 +414,7 @@ section.container .employee > div span {
 }
 /* 사번 */
 .employee > :nth-child(16) {
-    width: 100px;
+    width: 120px;
 }
 
 /* 인풋창 */
@@ -488,6 +488,10 @@ section.container .employee input[type='password'] {
     height: 30px;
 }
 #teamList {
+    width: 90px;
+    height: 30px;
+}
+section.container .positionList {
     width: 90px;
     height: 30px;
 }

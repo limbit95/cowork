@@ -395,7 +395,7 @@ empPw.addEventListener("keydown", e => {
         return;
     } else {
         if(empPw.value.trim().length === 0){
-            document.getElementById("pwMessage").innerText = "영어,숫자,특수문자( !@#$%^&*() ) 포함 8~16글자 사이로 입력해주세요."
+            document.getElementById("pwMessage").innerText = "영어,숫자,특수문자( !@#$%^&*() ) 포함 8~20글자 사이로 입력해주세요."
             document.getElementById("pwMessage").classList.remove("confirm", "error");
         } else {
             if(!checkObj.empPw){
@@ -426,7 +426,7 @@ empPw.addEventListener("input", e => {
 
     // 3) 입력되지 않은 경우
     if(inputPw.trim().length === 0){
-        pwMessage.innerText = "영어,숫자,특수문자( !@#$%^&*() ) 포함 8~16글자 사이로 입력해주세요.";
+        pwMessage.innerText = "영어,숫자,특수문자( !@#$%^&*() ) 포함 8~20글자 사이로 입력해주세요.";
         pwMessage.classList.remove("confirm", "error");
         checkObj.empPw = false; // 비밀번호가 유효하지 않음 표시
         empPw.value = ""; // 처음 입력시 띄어쓰기 입력 못하게 하기
@@ -467,7 +467,7 @@ empPwConfirm.addEventListener("keydown", e => {
         return;
     }else {
         if(empPw.value.trim().length === 0) {
-            document.getElementById("pwMessage").innerText = "영어,숫자,특수문자( !@#$%^&*() ) 포함 8~16글자 사이로 입력해주세요."
+            document.getElementById("pwMessage").innerText = "영어,숫자,특수문자( !@#$%^&*() ) 포함 8~20글자 사이로 입력해주세요."
             document.getElementById("pwMessage").classList.remove("confirm", "error");
             return;
         } 

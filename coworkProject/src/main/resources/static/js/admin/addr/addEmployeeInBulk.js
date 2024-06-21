@@ -1,38 +1,40 @@
 document.querySelector('#fncMenu').classList.add('active');
 document.querySelector('#addrSub').style.fontWeight = 'bold';
 
-
 const deptList = [];
 const teamList = [];
-    
+
+
 window.addEventListener("load", e => {
-    for(let i = 0; i < comAddrList.length; i++) {
-        const deptNm = comAddrList[i].deptNm;
-        const deptNo = comAddrList[i].deptNo;
-        deptList.push(
-            { 
-                "deptNm" : deptNm, 
-                "deptNo" : deptNo 
+    if(comAddrList != null) {
+        for(let i = 0; i < comAddrList.length; i++) {
+            const deptNm = comAddrList[i].deptNm;
+            const deptNo = comAddrList[i].deptNo;
+            deptList.push(
+                { 
+                    "deptNm" : deptNm, 
+                    "deptNo" : deptNo 
+                }
+            );
+        }
+    
+        for(let i = 0; i < comAddrList.length; i++) {
+            teamList.push([]);
+        }
+    
+        for(let i = 0; i < comAddrList.length; i++) {
+            for(let x = 0; x < comAddrList[i].teamList.length; x++) {
+                teamList[i].push(
+                    {
+                        "teamNm" : comAddrList[i].teamList[x].teamNm,
+                        "teamNo" : comAddrList[i].teamList[x].teamNo
+                    }
+                );
             }
-        );
-    }
-
-    for(let i = 0; i < comAddrList.length; i++) {
-        teamList.push([]);
-    }
-
-    for(let i = 0; i < comAddrList.length; i++) {
-        for(let x = 0; x < comAddrList[i].teamList.length; x++) {
-            teamList[i].push(comAddrList[i].teamList[x].teamNm);
         }
     }
 });
 
-window.addEventListener("click", e => {
-    // console.log(positionList);
-    // console.log(deptList)
-    // console.log(teamList)
-});
 
 
 
@@ -183,9 +185,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 formData.append("excel", document.querySelector("#fileInput").files[0]);
             }
             
-            // ----------------------------------------------------------------------------
-            // ----------------------------------------------------------------------------
-            // ----------------------------------------------------------------------------
+            // ----------------------------------------------------------------------------------------------------------------------
+            // ----------------------------------------------------------------------------------------------------------------------
             // 구성원 일괄 추가 로직
             $.ajax({
                 url : '/admin/addInBulk/excelUpload',
@@ -195,6 +196,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 type : 'post',
                 dataType : 'json',
                 success : function(result) {
+                    // ----------------------------------------------------------------------------------------------------------------------
+                    // ----------------------------------------------------------------------------------------------------------------------
+                    // 엑셀 파일의 양식이 올바른지 검사하는 로직
+                    // 자바에서 검사해서 필요없긴 하지만 혹시 몰라서 남겨놓음
                     let check4  = true;
                     result.forEach((i) => {
                         if(i.error1 != undefined) {
@@ -226,6 +231,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 비밀번호 생성 방식 : 관리자가 등록
                     const admin = document.querySelector("#admin");
 
+                    // ----------------------------------------------------------------------------------------------------------------------
+                    // ----------------------------------------------------------------------------------------------------------------------
+                    // 구성원 일괄 추가할 때 구성원 정보 볼 수 있는 공간의 헤드 (정보 항목 리스트)
                     const employeeList = document.querySelector(".employeeList");
                     employeeList.innerHTML = 
                     `
@@ -256,60 +264,184 @@ document.addEventListener('DOMContentLoaded', function() {
                         result.forEach((i) => {
                             const employee = document.createElement("div");
                             employee.classList.add("employee");
-                            employee.innerHTML = 
-                            `
-                                <div><input type="checkbox"></div>
-                                ${i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false"></div>`}
-                                ${i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false"></div>`}
-                                ${i.ID != "null" ? `<div><span>${i.ID}</span></div>` : `<div><input class="empId" type="text" placeholder="미입력" maxlength="100" spellcheck="false"></div>`}
-                                ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"></div>`}
-                                <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
-                                <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
-                                <div><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
-                                ${i.부서 != "null" ? 
-                                    `
-                                        <div>
-                                            <select class="default-line deptList">
-                                                <option class="deptOpt" value="null" data-dept-nm="${i.부서}">${i.부서}</option>
-                                                ${deptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
-                                            </select>
-                                        </div>
-                                    `
-                                 : 
-                                    `
-                                        <div>
-                                            <select class="default-line deptList">
-                                                ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
-                                            </select>
-                                        </div>
-                                    `
-                                }
-                                ${i.팀 != "null" ?
-                                    `
-                                        <div>
-                                            <select class="default-line teamList">
-                                                <option>${i.팀}</option>
-                                            </select>
-                                        </div>
-                                    `
-                                :
-                                    `
-                                        <div>
-                                            <select class="default-line teamList">
-                                            </select>
-                                        </div>
-                                    `
-                                }
-                                <div><span>${i.직급 != "null" ? i.직급 : ""}</span></div>
-                                <div><span>${i.계약형태 != "null" ? i.계약형태 : ""}</span></div>
-                                <div><span>${i.근무처 != "null" ? i.근무처 : ""}</span></div>
-                                <div><span>${i.내선번호 != "null" ? i.내선번호 : ""}</span></div>
-                                <div><span>${i.입사일 != "null" ? i.입사일 : ""}</span></div>
-                                <div><span>${i.사번 != "null" ? i.사번 : ""}</span></div>
-                            `;
-                            employeeList.append(employee);
 
-                            // 엑셀 파일에서 등록된 부서명이 기존 DB의 부서 리스트에 존재하는지 확인
+                            // 기존 DB에서 가져온 부서리스트인 deptList 복사본
+                            const tempDeptList = deptList.slice();
+
+                            // 0 : 엑셀에 작성한 부서명이 해당 회사에 없는 부서명
+                            // 1 : 엑셀에 작성한 부서명이 해당 회사에 있는 부서명
+                            let check5 = 0;
+
+                            // 엑셀에 작성한 부서명이 있어 복사한 부서 리스트에서 동일한 부서명 삭제하기 전에
+                            // 중복 부서명 데이터 복사하기
+                            let tempDeptNm;
+                            let tempDeptNo;
+                            // 엑셀에 작성한 부서가 DB의 부서 리스트에 있으면 해당하는 부서의 하위 팀 리스트만 담은 공간
+                            let tempTeamList;
+                            for(let x = 0; x < tempDeptList.length; x++) {
+                                if(tempDeptList[x].deptNm == i.부서) {
+                                    tempDeptNm = tempDeptList[x].deptNm;
+                                    tempDeptNo = tempDeptList[x].deptNo;
+                                    tempDeptList.splice(x, 1)
+                                    tempTeamList = teamList[x].slice();
+                                    check5 = 1;
+                                } 
+                            }
+
+                            // 0 : 엑셀에 작성한 부서명이 해당 회사에 없는 부서명일 때
+                            if(check5 == 0) {
+                                employee.innerHTML = 
+                                `
+                                    <div><input type="checkbox"></div>
+                                    ${i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false"></div>`}
+                                    ${i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false"></div>`}
+                                    ${i.ID != "null" ? `<div><span>${i.ID}</span></div>` : `<div><input class="empId" type="text" placeholder="미입력" maxlength="100" spellcheck="false"></div>`}
+                                    ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"></div>`}
+                                    <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
+                                    <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
+                                    <div><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
+                                    ${i.부서 != "null" ? 
+                                        `
+                                            <div>
+                                                <select class="default-line deptList">
+                                                    <option class="deptOpt" value="null" data-dept-nm="${i.부서}">${i.부서}</option>
+                                                    ${deptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
+                                                </select>
+                                            </div>
+                                        `
+                                     : 
+                                        `
+                                            <div>
+                                                <select class="default-line deptList">
+                                                    <option class="deptOpt" value="null" >부서 선택</option>
+                                                    ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
+                                                </select>
+                                            </div>
+                                        `
+                                    }
+                                    ${i.팀 != "null" ?
+                                        `
+                                            <div>
+                                                <select class="default-line teamList">
+                                                </select>
+                                            </div>
+                                        `
+                                    :
+                                        `
+                                            <div>
+                                                <select class="default-line teamList">
+                                                </select>
+                                            </div>
+                                        `
+                                    }
+                                    ${i.직급 != "null" ?
+                                        `
+                                            <div>
+                                                <select class="default-line positionList">
+                                                    <option class="positionOpt" value="null" data-position-nm="${i.직급}">${i.직급}</option>
+                                                    ${positionList.map(item => `<option  value="${item.positionNo}">${item.positionNm}</option>`).join('')}
+                                                </select>
+                                            </div>
+                                        `
+                                    :
+                                        `
+                                            <div>
+                                                <select class="default-line positionList">
+                                                    ${positionList.map(item => `<option  value="${item.positionNo}">${item.positionNm}</option>`).join('')}
+                                                </select>
+                                            </div>
+                                        `
+                                    }
+                                    <div><span>${i.계약형태 != "null" ? i.계약형태 : ""}</span></div>
+                                    <div><span>${i.근무처 != "null" ? i.근무처 : ""}</span></div>
+                                    <div><span>${i.내선번호 != "null" ? i.내선번호 : ""}</span></div>
+                                    <div><span>${i.입사일 != "null" ? i.입사일 : ""}</span></div>
+                                    <div><span>${i.사번 != "null" ? i.사번 : ""}</span></div>
+                                `;
+                                employeeList.append(employee);
+                            }
+
+                            // 1 : 엑셀에 작성한 부서명이 해당 회사에 있는 부서명일 때
+                            // -> 작성한 부서가 DB에 있는 부서면 그 부서 하위 팀 리스트만 불러와야 한다
+                            if(check5 == 1) {
+                                employee.innerHTML = 
+                                `
+                                    <div><input type="checkbox"></div>
+                                    ${i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false"></div>`}
+                                    ${i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false"></div>`}
+                                    ${i.ID != "null" ? `<div><span>${i.ID}</span></div>` : `<div><input class="empId" type="text" placeholder="미입력" maxlength="100" spellcheck="false"></div>`}
+                                    ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"></div>`}
+                                    <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
+                                    <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
+                                    <div><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
+                                    ${i.부서 != "null" ? 
+                                        `
+                                            <div>
+                                                <select class="default-line deptList">
+                                                    <option class="deptOpt" value="${tempDeptNo}" data-dept-nm="${tempDeptNm}">${tempDeptNm}</option>
+                                                    ${tempDeptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
+                                                </select>
+                                            </div>
+                                        `
+                                     : 
+                                        `
+                                            <div>
+                                                <select class="default-line deptList">
+                                                    ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
+                                                </select>
+                                            </div>
+                                        `
+                                    }
+                                    ${i.팀 != "null" ?
+                                        `
+                                            <div>
+                                                <select class="default-line teamList">
+                                                    <option class="teamOpt" value="null" data-team-nm="${i.팀}">${i.팀}</option>
+                                                    ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                </select>
+                                            </div>
+                                        `
+                                    :
+                                        `
+                                            <div>
+                                                <select class="default-line teamList">
+                                                    ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                </select>
+                                            </div>
+                                        `
+                                    }
+                                    ${i.직급 != "null" ?
+                                        `
+                                            <div>
+                                                <select class="default-line positionList">
+                                                    <option class="positionOpt" value="null" data-position-nm="${i.직급}">${i.직급}</option>
+                                                    ${positionList.map(item => `<option  value="${item.positionNo}">${item.positionNm}</option>`).join('')}
+                                                </select>
+                                            </div>
+                                        `
+                                    :
+                                        `
+                                            <div>
+                                                <select class="default-line positionList">
+                                                    ${positionList.map(item => `<option  value="${item.positionNo}">${item.positionNm}</option>`).join('')}
+                                                </select>
+                                            </div>
+                                        `
+                                    }
+                                    <div><span>${i.계약형태 != "null" ? i.계약형태 : ""}</span></div>
+                                    <div><span>${i.근무처 != "null" ? i.근무처 : ""}</span></div>
+                                    <div><span>${i.내선번호 != "null" ? i.내선번호 : ""}</span></div>
+                                    <div><span>${i.입사일 != "null" ? i.입사일 : ""}</span></div>
+                                    <div><span>${i.사번 != "null" ? i.사번 : ""}</span></div>
+                                `;
+                                employeeList.append(employee);
+                            }
+
+                            // ----------------------------------------------------------------------------------------------------------------------
+                            // ----------------------------------------------------------------------------------------------------------------------
+                            // 구성원 정보 일괄 조회하면서 동시에 바로 유효성 검사하는 로직
+
+                            // 엑셀 파일에서 작성한 부서명이 기존 DB의 부서 리스트에 있는지 확인 및
                             // 존재하지 않으면 select 태그 border 빨간색으로 변경
                             document.querySelectorAll(".deptOpt").forEach((x) => {
                                 let check = false;
@@ -324,20 +456,74 @@ document.addEventListener('DOMContentLoaded', function() {
                                     x.parentElement.style.border = '1px solid red';
                                 }
                             })
+
+                            // 엑셀 파일에서 작성한 부서명이 기존 DB의 부서 리스트에 있는 부서명이고
+                            // 작성한 부서 즉, DB의 그 해당 부서의 하위 팀 리스트에 엑셀 파일에서 작성한 팀명이 존재하지 않으면
+                            // select 태그 border 빨간색으로 변경
+                            if(tempTeamList != null) {
+                                document.querySelectorAll(".teamOpt").forEach((x) => {
+                                    let check6 = false;
+                                    tempTeamList.forEach((i) => {
+                                        if(i.teamNm == x.dataset.teamNm) {
+                                            x.parentElement.value = i.teamNo;
+                                            check6 = true;
+                                            return;
+                                        }
+                                    })
+                                    if(!check6) {
+                                        x.parentElement.style.border = '1px solid red';
+                                    }
+                                })
+                            }
+
+                            // 엑셀 파일에서 작성한 직급명이 기존 DB의 직급 리스트에 없는 직급명이면 
+                            // select 태그의 border 빨간색으로 변경
+                            if(positionList != null) {
+                                document.querySelectorAll(".positionOpt").forEach((x) => {
+                                    let check8 = false;
+                                    positionList.forEach((i) => {
+                                        if(i.positionNm == x.dataset.positionNm) {
+                                            x.parentElement.value = i.positionNo;
+                                            check8 = true;
+                                            return;
+                                        }
+                                    })
+                                    if(!check8) {
+                                        x.parentElement.style.border = '1px solid red';
+                                    }
+                                })
+                            }
     
+                            // 3번째 아코디언 내용을 제외한 나머지 아코디언 내용 접기
                             accordions[0].nextElementSibling.style.display = 'none';
                             accordions[1].nextElementSibling.style.display = 'none';
                             check3 = true;
                             accordions[2].nextElementSibling.style.display = 'flex';
                             accordions[2].style.color = 'black';
 
-                            // select 태그의 값 변경이 일어날 때 마다의 로직
-                            document.querySelectorAll(".deptList").forEach((y) => {
-                                y.addEventListener("click", e => {
+                            // ----------------------------------------------------------------------------------------------------------------------
+                            // ----------------------------------------------------------------------------------------------------------------------
+                            // 부서 & 팀 & 직급 select 태그 change 이벤트 일어날 때 마다의 유효성 검사 로직
+                            
+                            // 부서 select 태그 change 일어날때마다 선택된 부서 기준으로
+                            // 하위 팀들만 담은 복사본 리스트
+                            let tempTeamList2;
 
+                            // 부서 select 태그
+                            document.querySelectorAll(".deptList").forEach((y) => {
+                                y.addEventListener("change", e => {
+                                    tempTeamList2 = '';
+                                    // 부서 select 태그 change 일어날때마다 선택된 부서 기준으로
+                                    // 하위 팀들만 담은 복사본 리스트
+                                    for(let x = 0; x < tempDeptList.length; x++) {
+                                        if(tempDeptList[x].deptNo == e.target.value) {
+                                            tempTeamList2 = teamList[x].slice();
+                                        } 
+                                    }
+                                    console.log(tempTeamList2)
+                                    
                                     let check2 = false;
 
-                                    // 
                                     if(e.target.value === "null") {
                                         deptList.forEach((x) => {
                                             if(x.deptNm == e.target.children[0].innerText) {
@@ -349,19 +535,18 @@ document.addEventListener('DOMContentLoaded', function() {
                                     } else {
                                         deptList.forEach((x) => {
                                             if(x.deptNo == e.target.value) {
-                                                console.log('2');
                                                 check2 = true;
                                                 e.target.style.border = '1px solid var(--gray-color)';
                                                 return;
                                             }
                                         })
                                     }
-                                
                                     if(!check2) {
+                                        // 존재하는 부서명과 일치하지 않으면 팀리스트도 다시 초기화
+                                        y.parentElement.nextElementSibling.children[0].innerHTML = '';
                                         e.target.style.border = '1px solid red';
                                         return;
                                     }
-
 
                                     // 팀 그룹 담을 select 태그
                                     const selectTeamList = y.parentElement.nextElementSibling.children[0];
@@ -387,7 +572,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             
                                         selectTeamList.innerHTML = 
                                         `
-                                            <option value="">팀 선택</option>
+                                            <option value="null">팀 선택</option>
                                         `;
                                         teamList.forEach((i) => {
                                             if(document.querySelector(".deptList").value == i.teamNm) {
@@ -402,7 +587,81 @@ document.addEventListener('DOMContentLoaded', function() {
                                     })
                                 })
                             })
+
+                            // 팀 select
+                            if(i.팀 != null && tempTeamList2 != null) {
+                                document.querySelectorAll(".teamList").forEach((i) => {
+                                    i.addEventListener("change", e => {
+            
+                                        let check7 = false;
+    
+                                        if(e.target.value === "null") {
+                                            tempTeamList2.forEach((x) => {
+                                                if(x.teamNm == e.target.children[0].innerText) {
+                                                    check7 = true;
+                                                    e.target.style.border = '1px solid var(--gray-color)';
+                                                    return;
+                                                }
+                                            })
+                                        } else {
+                                            tempTeamList2.forEach((x) => {
+                                                if(x.teamNo == e.target.value) {
+                                                    check7 = true;
+                                                    e.target.style.border = '1px solid var(--gray-color)';
+                                                    return;
+                                                }
+                                            })
+                                        }
+                                        if(!check7) {
+                                            // 존재하는 팀명과 일치하지 않으면
+                                            e.target.style.border = '1px solid red';
+                                            return;
+                                        }
+    
+                                    })
+                                })
+                            }
+
+                            // 직급 select
+                            if(i.직급 != null && positionList != null) {
+                                document.querySelectorAll(".positionList").forEach((i) => {
+                                    i.addEventListener("change", e => {
+            
+                                        let check9 = false;
+    
+                                        if(e.target.value === "null") {
+                                            positionList.forEach((x) => {
+                                                if(x.positionNm == e.target.children[0].innerText) {
+                                                    check9 = true;
+                                                    e.target.style.border = '1px solid var(--gray-color)';
+                                                    return;
+                                                }
+                                            })
+                                        } else {
+                                            positionList.forEach((x) => {
+                                                if(x.positionNo == e.target.value) {
+                                                    check9 = true;
+                                                    e.target.style.border = '1px solid var(--gray-color)';
+                                                    return;
+                                                }
+                                            })
+                                        }
+                                        if(!check9) {
+                                            // 존재하는 팀명과 일치하지 않으면
+                                            e.target.style.border = '1px solid red';
+                                            return;
+                                        }
+    
+                                    })
+                                })
+                            }
+
                         })
+
+                        // ----------------------------------------------------------------------------------------------------------------------
+                        // ----------------------------------------------------------------------------------------------------------------------
+                        // 구성원 정보 일괄 조회 이후 input 태그 한정 유효성 검사 로직
+
                         // 성 인풋창 포커스 시
                         document.querySelectorAll(".empLastName").forEach((i) => {
                             i.addEventListener("focus", e => {
@@ -672,7 +931,6 @@ let dragCheck = false;
 
 // 파일 드롭 시 파일 입력 창에 파일 추가
 dropZone.addEventListener('drop', (e) => {
-    console.log()
     e.preventDefault();
     e.stopPropagation();
     dropZone.classList.remove('dragover');
@@ -820,4 +1078,3 @@ window.addEventListener("keydown", e => {
         modal3.style.display = 'none';
     }
 });
-

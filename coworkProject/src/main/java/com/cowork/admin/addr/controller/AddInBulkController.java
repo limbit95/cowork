@@ -40,6 +40,11 @@ public class AddInBulkController {
 		return "admin/addr/addEmployeeInBulk";
 	}
 	
+	/** 구성원 일괄 추가 서비스
+	 * @param excel
+	 * @return
+	 * @throws Exception
+	 */
 	@ResponseBody
 	@PostMapping("excelUpload")
 	public List<Map<String, Object>> excel(@RequestParam("excel") MultipartFile excel) throws Exception {
