@@ -8,6 +8,83 @@ a:hover {
 }
 
 
+/* ------ 파일 업로드 영역 ----- */
+
+
+.fileInput {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+    width: 0;
+    height: 0;
+}
+
+.uploadFileLabel{
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    font-size: 12px;
+    width: 60px;
+    text-align: center;
+    height: 18px;
+    padding-top: 4px;
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+/* 파일 리스트 보여주는 영역 */
+.fileList, .detailFileList {
+    list-style-type: none;
+    width: 278px;
+    min-height: 120px !important;
+    border: 1px solid #d9d9d9;
+    overflow-y: auto;
+    padding: 10px;
+    margin-top: 0 !important;
+  /*  box-sizing: border-box;
+    margin-left: 65px !important; */
+}
+
+.fileList ul, .detailFileList ul {
+    padding: 0;
+    margin: 0;
+}
+
+.fileList li, .detailFileList li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+.fileList button, .detailFileList button {
+    background-color: #82A6CB;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 3px 6px;
+    margin-left: 10px;
+    height: 18px;
+    display: flex;
+    align-items:center; 
+}
+
+.fileList button:hover, .detailFileList button:hover {
+    background-color: #d9d9d9;
+}
+
+.show {
+    display: block !important;
+}
+
+
+/* 첨부파일 div */
+#fileArea {
+    align-items: center;
+}
+
+
+
 /* 검색 */
 #searchTodo{
     margin-top: 0 !important;
@@ -199,13 +276,10 @@ ul{
 .todoDetailArea, .todoInsertArea {
     border: 1px solid #d9d9d9;
     width: 340px;
-    height: 733px;
+    min-height: 733px;
     margin: 15px 0 15px 20px !important;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     padding: 15px;
-   transition: opacity 0.3s, display 0s 0.3s;
+    transition: opacity 0.3s, display 0s 0.3s;
 }
 
 .todoDetailArea.show, .todoInsertArea.show {
@@ -217,22 +291,24 @@ ul{
 /* ------------ 상세 내부 ------------ */
 .todoDetailArea div, .todoInsertArea div  {
     display: flex;
-    align-items: center;
+    align-items: baseline;
+    justify-content: flex-start;
+    margin: 9px !important;
 }
 
+/*
 .todoDetailArea div:first-child, 
 .todoInsertArea div:first-child  {
-    margin-left: 30px !important;
+    margin-left: 15px !important;
+} */
+
+/* 담당자 입력하는 인풋 */
+#inChargeInputbox {
+    margin: 0 !important;
 }
 
 /* 기한 / 요청자 부분 높이 */
-.list, .todoTitleArea {
-    height: 25px;
-}
 
-.todoTitleArea {
-    margin-bottom: 0px !important;
-}
 
 .inCharge {
     height: 40px;
@@ -240,11 +316,11 @@ ul{
 
 /* 할 일 상세 내부 input창 */
 #todoTitle {
-    margin-left: 15px;
     border: 0px;
     border-bottom: 1px solid var(--gray-color);
-    padding: 10px;
+    padding: 5px;
     width: 210px;
+   /* margin-left: 8px; */
 }
 
 #todoTitle:hover {
@@ -257,9 +333,10 @@ ul{
     padding: 10px;
     resize: none;
     height: 180px !important;
-    width: 220px;
+    width: 278px;
     overflow-y: auto;
-    margin-left: 32px;
+    margin-left: 9px;
+    margin-top: 15px;
 }
 
 #requestContent:focus {
@@ -274,6 +351,7 @@ ul{
     font-size: 14px;
     color: #214177;
     width: 60px;
+    margin-left: 25px !important;
 }
 
 /* 목록 내부 내용 부분 */
@@ -290,7 +368,6 @@ ul{
 /* 기한 input */
 input[type="date"] {
     border: none;
-    padding-left: 28px;
 }
 
 /* 기한 부분 */
@@ -303,84 +380,11 @@ input[type="date"]:hover {
     height: 25px;
 }
 
+/*
 #requestName {
     margin-left: 10px;
-}
+} */
 
-
-/* ------ 파일 업로드 영역 ----- */
-
-
-.fileInput {
-    opacity: 0;
-    position: absolute;
-    z-index: -1;
-    width: 0;
-    height: 0;
-}
-
-.uploadFileLabel{
-    border: 1px solid #d9d9d9;
-    border-radius: 5px;
-    font-size: 12px;
-    width: 60px;
-    text-align: center;
-    height: 18px;
-    padding-top: 4px;
-    margin-top: 3px;
-    cursor: pointer;
-}
-
-/* 파일 리스트 보여주는 영역 */
-.fileList, .detailFileList {
-    list-style-type: none;
-    width: 244px;
-    min-height: 120px !important;
-    border: 1px solid #d9d9d9;
-    overflow-y: auto;
-    padding: 10px;
-    box-sizing: border-box;
-    margin-left: 95px !important;
-}
-
-.fileList ul, .detailFileList ul {
-    padding: 0;
-    margin: 0;
-}
-
-.fileList li, .detailFileList li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px;
-}
-
-.fileList button, .detailFileList button {
-    background-color: #82A6CB;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 3px;
-    padding: 3px 6px;
-    margin-left: 10px;
-    height: 18px;
-    display: flex;
-    align-items:center; 
-}
-
-.fileList button:hover, .detailFileList button:hover {
-    background-color: #d9d9d9;
-}
-
-.show {
-    display: block !important;
-}
-
-
-/* 첨부파일 div */
-#fileArea {
-    align-items: center;
-}
 
 /* --------- 버튼 ---------*/
 
@@ -399,7 +403,7 @@ input[type="date"]:hover {
 }
 
 #insertBtn2 {
-    margin-left: 310px;
+    margin-left: 280px;
     border: none;
     background-color: transparent;
     color: #214177;
@@ -490,27 +494,28 @@ input[type="date"]:hover {
 
 #tagsWrapperRegister {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
     padding: 5px;
     white-space: nowrap; 
     border-bottom: 1px solid #d9d9d9 ;
-    width: 220px;
+    width: 287px;
     overflow-x: auto;
-    max-height: 30px;
-    margin: 0 0 0 13px !important;
+    /*max-height: 30px;
+    margin: 0 0 0 13px !important; */
 }
 
 #tagsWrapperEdit {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
     padding: 5px;
     white-space: nowrap; 
     border-bottom: 1px solid #d9d9d9 ;
-    width: 220px;
-    max-height: 30px;
-    margin: 0 0 0 13px !important;
+    width: 287px;
+    overflow-x: auto;
 }
 
 #tagsWrapperEdit:hover, #tagsWrapperRegister:hover {
@@ -529,38 +534,36 @@ input[type="date"]:hover {
 .inChargeDetail, .detailContent {
     display: flex;
     align-items: center;
-}
-
-.inChargeDetail .detailContent {
     flex-grow: 1;
 }
 
-.inChargeDetail input {
-    width: 100%;
-    border: 1px solid #ccc;
-    padding: 8px;
-    box-sizing: border-box;
+.inChargeDetail {
+    margin-bottom: 0 !important;
+}
+
+.inChargeDetail input:focus {
+    outline: none;
 }
 
 .inChargeDetail .tag {
     display: inline-block;
     margin-right: 5px;
     padding: 5px;
-    background-color: #f1f1f1;
+ /*   background-color: #f1f1f1;
     border: 1px solid #ccc;
-    border-radius: 3px;
+    border-radius: 3px; */
 }
 
 .inChargeDetail .delete-button {
     margin-left: 5px;
     cursor: pointer;
-    color: red;
+    color: rgb(0, 0, 0);
 }
 
 .searchTable {
     position: absolute;
     top: calc(60% + 5px); /* tagsWrapper div 바로 아래에 위치 */
-    width: 300px;
+    width: 215px;
     background-color: white;
     border: 1px solid var(--gray-color);
     z-index: 1000;
@@ -571,18 +574,40 @@ input[type="date"]:hover {
 
 .searchRow {
     display: flex;
+    justify-content: space-around;
     padding: 5px; /* 내부 여백 추가 */
     cursor: pointer;
     margin: 5px 5px 5px 15px !important; 
     height: 15px !important;
 }
 
-#inChargeInput2, #inChargeInput1 {
+.searchTable .searchRow div[hidden] {
+    display: none; /* empCode 숨김 처리 */
+}
+
+#inChargeEmpInput2, #inChargeEmpInput1, 
+#inChargeInput1, #inChargeInput2 {
     border: none;
     outline: none;
-    flex-shrink: 0;
-    min-width: 100px;
+    /*flex-shrink: 0;*/
     white-space: nowrap; 
+   /* padding-left: 18px; */
+}
+
+#inChargeEmpInput2 {
+    width: 216px;
+    border-bottom: 1px solid #d9d9d9;
+    padding: 5px;
+}
+
+#inChargeEmpInput1 {
+    width: 207px;
+    border-bottom: 1px solid #d9d9d9;
+    padding: 5px;
+}
+
+#inChargeEmpInput2:hover, #inChargeEmpInput1:hover {
+    border-bottom: 1px solid #214177;
 }
 
 .tag {

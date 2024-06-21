@@ -94,12 +94,15 @@
                                 <div class="inChargeDetail">
                                     <div class="detailTitle">담당자</div>
                                     <div class="detailContent">
-                                        <input name="inChargeEmpInput" id="inChargeEmpInput1" placeholder="이름 입력">
+                                    <input name="inChargeEmpInput" id="inChargeEmpInput1" placeholder="이름 입력">
                                     </div>
+                                </div>
+                                <div class="inchargeinput">
                                     <div id="tagsWrapperEdit" class="detailContent">
                                         <input name="inChargeEmp" id="inChargeInput1" readonly>
                                     </div>
-                                </div>
+                                </div>        
+                                
                               <!-- <div class="inChargeDetail">
                                     <div class="detailTitle">담당자</div>
                                     <div id="tagsWrapperEdit">
@@ -129,11 +132,12 @@
                                         <label for="detailUploadFile" class="uploadFileLabel">내 PC</label>
                                     </div>
                                 </div>
-                                <div class="detailFileList">
-                                    <ul id="detailFileList">
-                                        
-                                    </ul>
-                                </div>
+                                <div>
+                                    <div class="detailFileList">
+                                        <ul id="detailFileList">
+                                        </ul>
+                                    </div>
+                                </div>    
                         </div>
                     </form>
         
@@ -143,30 +147,31 @@
                             <div id="insertBtn2Area">
                                 <button id="insertBtn2" type="submit">등록</button>
                             </div>
-                            <div class="list">
+                            <div class="date">
                                 <div class="detailTitle">기한</div>
                                 <div class="detailContent">
                                     <input type="date" name="todoEndDate" id="todoEndDate2">
                                 </div>
                             </div>
-                            <div class="list"> 
-                                <div class="detailTitle">요청자</div>
+                            <div> 
+                                <div class="detailTitle request">요청자</div>
                                 <div class="detailContent">
-                                    <div th:text="|${session.loginEmp.empLastName}${session.loginEmp.empFirstName}|"></div>
+                                    <div th:text="|${session.loginEmp.empLastName}${session.loginEmp.empFirstName}|" class="empName"></div>
                                 </div>
                             </div>
-
                             <div class="inChargeDetail">
                                 <div class="detailTitle">담당자</div>
-                                <div class="inchargeinput">
-                                    <div class="detailContent">
-                                        <input name="inChargeEmpInput" id="inChargeEmpInput2" placeholder="이름 입력">
-                                    </div>
-                                    <div id="tagsWrapperRegister" class="detailContent">
-                                        <input name="inChargeEmp" id="inChargeInput2">
-                                    </div>
+                                <div class="detailContent" id="inChargeInputbox"> 
+                                    <input name="inChargeEmpInput" id="inChargeEmpInput2" placeholder="이름 입력">
                                 </div>
                             </div>
+                            <div class="inchargeinput">
+                                <div id="tagsWrapperRegister" class="detailContent">
+                                    <input name="inChargeEmp" id="inChargeInput2" readonly>
+                                </div>
+                            </div>
+                        
+                            
                         <!--    <div class="inCharge" id="inCharge">
                                 <div class="detailTitle">담당자</div>
                                 <div class="detailContent" id="inChargeEmp2">
@@ -195,8 +200,10 @@
                                     <label for="uploadFile" class="uploadFileLabel">내 PC</label>
                                 </div>
                             </div>
-                            <div class="fileList">
-                                <ul id="fileList"></ul>
+                            <div>
+                                <div class="fileList">
+                                    <ul id="fileList"></ul>
+                                </div>
                             </div>
                         </div>
                     </form>

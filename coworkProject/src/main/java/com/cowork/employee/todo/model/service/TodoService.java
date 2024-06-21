@@ -85,8 +85,19 @@ public interface TodoService {
 	 */
 	List<String> getEmpList(int todoNo);
 
+	
+	/** 수정하기 
+	 * @param inputTodo
+	 * @param files
+	 * @param deleteOrder
+	 * @param updateOrder
+	 * @param inChargeEmpCode
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	int todoUpdate(Todo inputTodo, List<MultipartFile> files, String deleteOrder,
-			String updateOrder, List<String> inChargeEmpList) throws FileNotFoundException, IOException;
+			String updateOrder, String inChargeEmpCode) throws FileNotFoundException, IOException;
 
 	/** 사원 검색 
 	 * @param empName

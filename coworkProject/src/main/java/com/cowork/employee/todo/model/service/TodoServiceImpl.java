@@ -235,26 +235,34 @@ public class TodoServiceImpl implements TodoService{
 
 	// 할 일 수정 
 	@Override
-	public int todoUpdate(Todo inputTodo, List<MultipartFile> files, String deleteOrder, String updateOrder,List<String> inChargeEmpList)
+	public int todoUpdate(Todo inputTodo, List<MultipartFile> files, String deleteOrder, String updateOrder, String inChargeEmpCode)
 			throws FileNotFoundException, IOException {
 		
 		int todoNo = inputTodo.getTodoNo();
-		
-		log.info("inChargeEmpList : " + inChargeEmpList);
-		if (inChargeEmpList == null) {
-            inChargeEmpList = new ArrayList<>();
+	
+        // 할 일 업데이트
+        int result = mapper.todoUpdate(inputTodo);
+        
+        if (result == 0) {
+            log.error("투두 업데이트 실패!!");
+            return 0;
         }
-        List<String> oldInChargeEmpList = mapper.getEmpList(todoNo);
-        if (oldInChargeEmpList == null) {
-            oldInChargeEmpList = new ArrayList<>();
+        
+        String[] inChargeEmpCodeArr = inChargeEmpCode.split(","); 
+      
+        // 기존 담당자 가져오기 
+        List<String> originInChargeEmpList  = mapper.getEmpList(todoNo); 
+        if (originInChargeEmpList == null) {
+        	originInChargeEmpList = new ArrayList<>();
         }
-
+        List<String> inChargeEmpList = new ArrayList<>();
+        
         // 기존 담당자와 새로운 담당자 비교하여 삭제할 것과 추가할 것 결정
-        List<String> toDelete = new ArrayList<>(oldInChargeEmpList);
+        List<String> toDelete = new ArrayList<>(originInChargeEmpList);
         toDelete.removeAll(inChargeEmpList);
 
         List<String> toAdd = new ArrayList<>(inChargeEmpList);
-        toAdd.removeAll(oldInChargeEmpList);
+        toAdd.removeAll(originInChargeEmpList);
 
         // 삭제할 담당자 처리
         for (String emp : toDelete) {
@@ -263,7 +271,7 @@ public class TodoServiceImpl implements TodoService{
             map.put("inChargeEmp", emp);
             log.info("담당자 삭제: " + map);
 
-            int result = mapper.deleteTodoManager(map);
+             result = mapper.deleteTodoManager(map);
 
             if (result == 0) {
                 log.error("투두 담당자 삭제 실패!! 담당자: " + emp);
@@ -279,7 +287,7 @@ public class TodoServiceImpl implements TodoService{
                 map.put("inChargeEmp", emp);
                 log.info("담당자 등록: " + map);
 
-                int result = mapper.insertTodoManagerList(map);
+                 result = mapper.insertTodoManagerList(map);
 
                 if (result == 0) {
                     log.error("투두 담당자 등록 실패!! 담당자: " + emp);
@@ -287,29 +295,11 @@ public class TodoServiceImpl implements TodoService{
                 }
             }
         }
-
-        // 할 일 업데이트
-        int result = mapper.todoUpdate(inputTodo);
         
-        if (result == 0) {
-            log.error("투두 업데이트 실패!!");
-            return 0;
-        }
-
+        
+ 
         // 기존 파일 목록 가져오기
         List<TodoFile> existingFiles = mapper.todoFiles(todoNo);
-
-        // 삭제할 파일 처리
-   /*     if (deleteOrder != null && !deleteOrder.isEmpty()) {
-            List<Integer> deleteFileOrders = Arrays.stream(deleteOrder.split(","))
-                    .map(Integer::parseInt)
-                    .collect(Collectors.toList());
-            for (TodoFile file : existingFiles) {
-                if (deleteFileOrders.contains(file.getFileOrder())) {
-                    mapper.deleteTodoFile(file.getFileNo());
-                }
-            }
-        } */
         
         int fileOrder = 0; 
         
