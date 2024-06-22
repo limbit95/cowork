@@ -83,7 +83,7 @@ public interface TodoService {
 	 * @param todoNo
 	 * @return
 	 */
-	List<String> getEmpList(int todoNo);
+	List<Map<String, Object>> getEmpList(int todoNo);
 
 	
 	/** 수정하기 
@@ -91,13 +91,13 @@ public interface TodoService {
 	 * @param files
 	 * @param deleteOrder
 	 * @param updateOrder
-	 * @param inChargeEmpCode
+	 * @param inChargeEmpList
 	 * @return
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
 	int todoUpdate(Todo inputTodo, List<MultipartFile> files, String deleteOrder,
-			String updateOrder, String inChargeEmpCode) throws FileNotFoundException, IOException;
+			String updateOrder, List<String> inChargeEmpList) throws FileNotFoundException, IOException;
 
 	/** 사원 검색 
 	 * @param empName

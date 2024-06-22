@@ -59,7 +59,7 @@ public interface TodoMapper {
 	int todoManagerUpdate(Todo inputTodo);
 
 
-	/** 파일 삭제 
+	/** 파일 삭제 (삭제시 투두 파일들 전부 삭제하게)
 	 * @param todoNos
 	 */
 	void deleteTodoFiles(@Param("todoIds") List<Integer> todoNos);
@@ -129,7 +129,7 @@ public interface TodoMapper {
 	 * @param todoNo
 	 * @return
 	 */
-	List<String> getEmpList(int todoNo);
+	List<Map<String, Object>> getEmpList(int todoNo);
 
 	/** 담당자 여러명인 경우 수정시 삭제 
 	 * @param todoNo

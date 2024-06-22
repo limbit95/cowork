@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cowork.admin.notice.model.exception.BoardFileDeleteException;
 import com.cowork.admin.notice.model.exception.BoardInsertException;
 import com.cowork.common.utility.Utility;
+import com.cowork.employee.mail.model.exception.MailFileDeleteException;
 import com.cowork.employee.notice.model.dto.BoardFile;
 import com.cowork.employee.todo.model.dto.Todo;
 import com.cowork.employee.todo.model.dto.TodoFile;
@@ -61,7 +62,7 @@ public class TodoServiceImpl implements TodoService{
 
 	
 	// 할 일 등록 
-	@Override
+/*	@Override
 	public int todoInsert(Todo inputTodo, List<MultipartFile> files, List<String> inChargeEmpList) throws IllegalStateException, IOException {
 		
 		int result = mapper.todoInsert(inputTodo); 
@@ -157,7 +158,8 @@ public class TodoServiceImpl implements TodoService{
 		
 		return result; 
 		
-	}
+	} 
+	*/
 
 
 	// 할 일 상세 조회 
@@ -227,164 +229,168 @@ public class TodoServiceImpl implements TodoService{
 
 	// 담당자 여러명인 경우 조회 
 	@Override
-	public List<String> getEmpList(int todoNo) {
-		
-		return mapper.getEmpList(todoNo);
+	public List<Map<String, Object>> getEmpList(int todoNo) {
+	    List<Map<String, Object>> empList = mapper.getEmpList(todoNo);
+	    log.info("getEmpList 결과: " + empList);
+	    return empList;
 	}
 
 
 	// 할 일 수정 
 	@Override
-	public int todoUpdate(Todo inputTodo, List<MultipartFile> files, String deleteOrder, String updateOrder, String inChargeEmpCode)
-			throws FileNotFoundException, IOException {
-		
-		int todoNo = inputTodo.getTodoNo();
-	
-        // 할 일 업데이트
-        int result = mapper.todoUpdate(inputTodo);
-        
-        if (result == 0) {
-            log.error("투두 업데이트 실패!!");
-            return 0;
-        }
-        
-        String[] inChargeEmpCodeArr = inChargeEmpCode.split(","); 
-      
-        // 기존 담당자 가져오기 
-        List<String> originInChargeEmpList  = mapper.getEmpList(todoNo); 
-        if (originInChargeEmpList == null) {
-        	originInChargeEmpList = new ArrayList<>();
-        }
-        List<String> inChargeEmpList = new ArrayList<>();
-        
-        // 기존 담당자와 새로운 담당자 비교하여 삭제할 것과 추가할 것 결정
-        List<String> toDelete = new ArrayList<>(originInChargeEmpList);
-        toDelete.removeAll(inChargeEmpList);
+	public int todoUpdate(Todo inputTodo, List<MultipartFile> files, String deleteOrder, String updateOrder, List<String> inChargeEmpList)
+	        throws FileNotFoundException, IOException {
 
-        List<String> toAdd = new ArrayList<>(inChargeEmpList);
-        toAdd.removeAll(originInChargeEmpList);
+	    int todoNo = inputTodo.getTodoNo();
 
-        // 삭제할 담당자 처리
-        for (String emp : toDelete) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("todoNo", todoNo);
-            map.put("inChargeEmp", emp);
-            log.info("담당자 삭제: " + map);
+	    // 할 일 업데이트
+	    int result = mapper.todoUpdate(inputTodo);
 
-             result = mapper.deleteTodoManager(map);
+	    if (result == 0) {
+	        log.error("투두 업데이트 실패!!");
+	        return 0;
+	    }
 
-            if (result == 0) {
-                log.error("투두 담당자 삭제 실패!! 담당자: " + emp);
-                return 0;
-            }
-        }
+	    // 기존 담당자 가져오기
+	    List<Map<String, Object>> originInChargeEmpData = mapper.getEmpList(todoNo);
+	    if (originInChargeEmpData == null) {
+	        originInChargeEmpData = new ArrayList<>();
+	    }
 
-        // 추가할 담당자 처리
-        for (String emp : toAdd) {
-            if (emp != null && !emp.isEmpty()) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("todoNo", todoNo);
-                map.put("inChargeEmp", emp);
-                log.info("담당자 등록: " + map);
+	    log.info("originInChargeEmpData: " + originInChargeEmpData);
+	    
+	    List<String> originInChargeEmpList = new ArrayList<>();
+	    for (Map<String, Object> empData : originInChargeEmpData) {
+	    	log.info("empData: " + empData);
+	    	
+	    	if (empData.get("EMPCODE") != null) { // "empCode" 대신 "EMPCODE"로 수정
+	            originInChargeEmpList.add(empData.get("EMPCODE").toString());
+	        }
+	    }
+	    
+	    log.info("기존 담당자: " + originInChargeEmpList);
 
-                 result = mapper.insertTodoManagerList(map);
+	    // 기존 담당자와 새로운 담당자 비교하여 삭제할 것과 추가할 것 결정
+	    List<String> toDelete = new ArrayList<>(originInChargeEmpList);
+	    toDelete.removeAll(inChargeEmpList);
 
-                if (result == 0) {
-                    log.error("투두 담당자 등록 실패!! 담당자: " + emp);
-                    return 0;
-                }
-            }
-        }
-        
-        
- 
-        // 기존 파일 목록 가져오기
-        List<TodoFile> existingFiles = mapper.todoFiles(todoNo);
-        
-        int fileOrder = 0; 
-        
-        if(deleteOrder != null && !deleteOrder.equals("")) {
-        	Map<String, Object> map = new HashMap<>(); 
-        	
-        	map.put("deleteOrder", deleteOrder); 
-        	map.put("todoNo", todoNo); 
-        	
-        	result = mapper.deleteFiles(map); 
-        	
-        	if(result == 0) throw new TodoDeleteException(); 
-             
-             if(updateOrder != null && !updateOrder.equals("")) {
-            	 
-            	 String[] updateArr = updateOrder.split(","); 
-            	 
-            	 for(int i=0; i<updateArr.length; i++) {
-            		 TodoFile updateFile = TodoFile.builder()
- 							.fileOrder(i)
- 							.todoNo(todoNo)
- 							.updateFileOrder(updateArr[i])
- 							.build();
-            		 
-            		 fileOrder = i;
-            		 result = mapper.fileOrderUpdate(updateFile); 
-            	 }
-             }
-        	
-        }
-             
-        // 
-        if (files != null && !files.isEmpty()) {
-        	
-            List<TodoFile> uploadList = new ArrayList<>();
+	    List<String> toAdd = new ArrayList<>(inChargeEmpList);
+	    toAdd.removeAll(originInChargeEmpList);
 
-            String[] updateArr = null; 
-            
-            if(updateOrder != null && updateOrder.equals("")) {
-            	updateArr = updateOrder.split(",");
-            	fileOrder = updateArr.length; 
-            } //else {
-            	//  fileOrder = existingFiles.size();
-           // }
-            
-            fileOrder += 1;
-            
-            for (int i = 0; i < files.size(); i++) {
-            	
-            	if(!files.get(i).isEmpty()) {
-            	String originalName = files.get(i).getOriginalFilename(); // 원본명
-				String rename = Utility.fileRename(originalName);
-				
-				TodoFile file = TodoFile.builder()
-						.filePath(webPath)
-						.fileOriginName(originalName)
-						.fileRename(rename)
-						.fileOrder(fileOrder)
-						.todoNo(todoNo)
-						.uploadFile(files.get(i))
-						.build();
-				uploadList.add(file);
-				
-				fileOrder++;
-		}
+	    // 삭제할 담당자 처리
+	    for (String emp : toDelete) {
+	        if (emp != null && !emp.isEmpty()) {
+	            Map<String, Object> map = new HashMap<>();
+	            map.put("todoNo", todoNo);
+	            map.put("inChargeEmp", emp);
+	            log.info("담당자 삭제: " + map);
+
+	            result = mapper.deleteTodoManager(map);
+
+	            if (result == 0) {
+	                log.error("투두 담당자 삭제 실패!! 담당자: " + emp);
+	                return 0;
+	            }
+	        }
+	    }
+
+	    // 추가할 담당자 처리
+	    for (String emp : toAdd) {
+	        if (emp != null && !emp.isEmpty()) {
+	            Map<String, Object> map = new HashMap<>();
+	            map.put("todoNo", todoNo);
+	            map.put("inChargeEmp", emp);
+	            log.info("담당자 등록: " + map);
+
+	            result = mapper.insertTodoManagerList(map);
+
+	            if (result == 0) {
+	                log.error("투두 담당자 등록 실패!! 담당자: " + emp);
+	                return 0;
+	            }
+	        }
+	    }
+
+
+	    // 기존 파일 목록 가져오기
+	   // List<TodoFile> originFiles = mapper.todoFiles(todoNo);
+
+	    // 삭제할 파일 처리
+	    if (deleteOrder != null && !deleteOrder.equals("")) {
+		    Map<String, Object> map = new HashMap<>();
+		    map.put("deleteOrder", deleteOrder);
+		    map.put("todoNo", todoNo);
+
+		    result = mapper.deleteOriginFile(map);
+
+		    if (result == 0) throw new MailFileDeleteException();
+		    
+	    }
+	   
+
+	    // 파일 순서 업데이트 처리
+	    if (updateOrder != null && !updateOrder.isEmpty()) {
+	        String[] updateArr = updateOrder.split(",");
+	        
+	        int order = 0; 
+	        for(String fileOrder : updateArr) {
+	        	if(!deleteOrder.contains(fileOrder)) {
+	        		  TodoFile updateFile = TodoFile.builder()
+			                    .fileOrder(order++) // 새로운 파일 순서!
+			                    .todoNo(todoNo)
+			                    .updateFileOrder(fileOrder) // 기존 순서 
+			                    .build();
+
+		            result = mapper.fileOrderUpdate(updateFile);
+	        	}
+	        }
+	      
+	    }
+
+	    // 새 파일 추가
+	    if (files != null && !files.isEmpty()) {
+	        List<TodoFile> uploadList = new ArrayList<>();
+	        int fileOrder = 0; 
+	        
+	        if (updateOrder != null && !updateOrder.equals("")) {
+		    	String[] updateArr = updateOrder.split(",");
+		        fileOrder = updateArr.length;
+		    }
+
+	        for (int i = 0; i < files.size(); i++) {
+	            if (!files.get(i).isEmpty()) {
+	                String originalName = files.get(i).getOriginalFilename(); // 원본명
+	                String rename = Utility.fileRename(originalName);
+
+	                TodoFile file = TodoFile.builder()
+	                        .filePath(webPath)
+	                        .fileOriginName(originalName)
+	                        .fileRename(rename)
+	                        .fileOrder(fileOrder++)
+	                        .todoNo(todoNo)
+	                        .uploadFile(files.get(i))
+	                        .build();
+	                uploadList.add(file);
+	            }
+	        }
+
+	        if (!uploadList.isEmpty()) {
+	        
+	        	result = mapper.insertUploadList(uploadList);
+	        	
+	        	if(result == uploadList.size()) {
+	        		for(TodoFile file : uploadList) {
+	        			file.getUploadFile().transferTo(new File (folderPath + file.getFileRename()));
+	        		}
+	        	} else {
+	        		throw new BoardInsertException("파일이 정상 삽입되지 않음"); 
+	        	}
+	        }
+	    } 
+	       
+	    return result;
 	}
-                
-                if(uploadList.isEmpty()) return todoNo; 
-                
-                
-                
-                result = mapper.insertUploadList(uploadList); 
 
-                if(result == uploadList.size()) {
-                	for(TodoFile file : uploadList) {
-                		file.getUploadFile().transferTo(new File(folderPath + file.getFileRename()));
-                	}
-                } else {
-                	throw new TodoInsertException("파일 업로드 중 예외 발생"); 
-                }
-            }
-        
-        return result;
-        
-	}
 
 
 	// 사원 검색 
@@ -408,15 +414,111 @@ public class TodoServiceImpl implements TodoService{
 		
 		return employeeList;
 		
-	}	
+	}
+
+
+	@Override
+	public int todoInsert(Todo inputTodo, List<MultipartFile> files, List<String> inChargeEmpList)
+			throws IllegalStateException, IOException {
+		
+		int result = mapper.todoInsert(inputTodo); 
+	    
+	    if(result == 0) {
+	        log.error("todo 등록 실패!!");
+	        return 0; 
+	    }
+
+	    log.info("투두 등록 완료 : " + result);
+	    log.info("투두 등록 완료 번호!! : " + inputTodo.getTodoNo());
+
+	    int todoNo = inputTodo.getTodoNo();		
+	    int empCode = inputTodo.getEmpCode(); 
+	    String empName = mapper.getEmpName(empCode);
+	    
+	    log.info("empCode로 가져온 이름: " + empName);
+	    log.info("초기 inputTodo: " + inputTodo.toString());
+	    
+	    // requestEmp 값이 비어 있는 경우
+	    if (inputTodo.getRequestEmp() == null || inputTodo.getRequestEmp().isEmpty()) {
+	        inputTodo.setRequestEmp(empName);
+	        log.info("requestEmp 설정: " + inputTodo.getRequestEmp());
+	    }
+	    
+	    log.info("최종 inputTodo: " + inputTodo.toString());
+
+	    // 담당자 등록
+	    if(inChargeEmpList != null && !inChargeEmpList.isEmpty()) {
+	        for(String inChargeEmp : inChargeEmpList) {
+	            if(inChargeEmp != null && !inChargeEmp.isEmpty()) {
+	                Map<String, Object> map = new HashMap<>(); 
+	                map.put("todoNo", todoNo); 
+	                map.put("inChargeEmp", Integer.parseInt(inChargeEmp));  
+	                map.put("loginEmp", empCode);
+	                log.info("담당자 등록: " + map);
+
+	                result = mapper.insertTodoManagerList(map); 
+
+	                if(result == 0) {
+	                    log.error("투두 담당자 등록 실패!! 담당자: " + inChargeEmp);
+	                    return 0;
+	                }
+	            }
+	        }
+	    }	    
+	    log.info("투두 담당자 등록 완료 : " + result);
+	    
+	    // 파일 업로드 처리
+	    List<TodoFile> uploadList = new ArrayList<>();
+	    
+	    if(files != null && !files.isEmpty()) {
+	    for(int i=0; i< files.size(); i++) {
+	        if(!files.get(i).isEmpty()) {
+	            String originalName = files.get(i).getOriginalFilename(); 
+	            String rename = Utility.fileRename(originalName); 
+	            TodoFile todoFile = TodoFile.builder()
+	                                .fileOriginName(originalName)
+	                                .fileRename(rename)
+	                                .filePath(webPath)
+	                                .todoNo(todoNo)
+	                                .fileOrder(i)
+	                                .uploadFile(files.get(i))
+	                                .build(); 
+	                                
+	            uploadList.add(todoFile); 
+	        }
+	    }
+	    
+	    }
+	    
+	    if(uploadList.isEmpty()) {
+	        log.info("등록된 파일 없음!! : " + result);
+	        return result; 
+	    }
+	    
+	    log.info("등록할 파일 리스트 : " + uploadList.size());
+	    result = mapper.insertUploadList(uploadList);
+	    
+	    if(result == uploadList.size()) {
+	        for(TodoFile file : uploadList) {
+	            files.get(file.getFileOrder()).transferTo(new File(folderPath + file.getFileRename()));
+	        }
+	        log.info("투두 파일들 등록 완료!!");
+	    } else {
+	        log.error("파일 등록 실패.. : " + uploadList.size() + ", !! 얻은 결과 !! : " + result);
+	        return 0; 
+	    }
+	    
+	    return result; 
+		
+	}
 	
+
 
 }
 	
 
 
 
-	
 
 
 
