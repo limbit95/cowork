@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    showSection('edsmSection');
+    showSection('addressSection');
     disableRightClickOnVideo();
 
 

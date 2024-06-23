@@ -33,13 +33,13 @@
             <!-- 배너 밑 네비바 영역 -->
             <section>
                 <div class="mainNav">
-                    <div><button class="navBtn" onclick="showSection('edsmSection')">전자 결재</button></div>
-                    <div><button class="navBtn" onclick="showSection('messengerSection')">메신저</button></div>
-                    <div><button class="navBtn" onclick="showSection('boardSection')">게시판</button></div>
-                    <div><button class="navBtn" onclick="showSection('calendarSection')">캘린더</button></div>
-                    <div><button class="navBtn" onclick="showSection('todoSection')">할 일</button></div>
-                    <div><button class="navBtn" onclick="showSection('mailSection')">메일</button></div>
                     <div><button class="navBtn" onclick="showSection('addressSection')">주소록</button></div>
+                    <div><button class="navBtn" onclick="showSection('edsmSection')">전자 결재</button></div>
+                    <div><button class="navBtn" onclick="showSection('mailSection')">메일</button></div> 
+                    <div><button class="navBtn" onclick="showSection('calendarSection')">캘린더</button></div>
+                    <div><button class="navBtn" onclick="showSection('messengerSection')">메신저</button></div>
+                    <div><button class="navBtn" onclick="showSection('todoSection')">할 일</button></div>
+                    <div><button class="navBtn" onclick="showSection('boardSection')">게시판</button></div>
                     <div><button class="navBtn" onclick="showSection('surveySection')">설문</button></div>
                     <div><button class="navBtn" onclick="showSection('reservationSection')">예약</button></div>
                 </div>
@@ -47,6 +47,36 @@
 
             <!-- 기능 설명 영역 -->
             <section class="functionArea">
+
+                 <!-- 주소록 -->
+                 <section id="addressSection" class="contentSection">
+                  
+                    <div class="functionVid">
+                        <video src="/images/addressVid1.mp4" autoplay loop muted playsinline 
+                                         style="width: 90%;  border: none; outline: none;"></video> 
+                    </div>
+
+                    <div class="marginDiv"></div>
+
+                    <div class="functionVid">
+                        <video src="/images/addressVid2.mp4" autoplay loop muted playsinline 
+                                         style="width: 90%;  border: none; outline: none;"></video> 
+                    </div>
+
+                    <div class="marginDiv"></div>
+
+                    <div class="functionVid">
+                        <video src="/images/addressVid3.mp4" autoplay loop muted playsinline 
+                                         style="width: 90%;  border: none; outline: none;"></video> 
+                    </div>
+
+                    <div class="marginDiv"></div>
+                    
+                    <div class="images">
+                        <img src="/images/address1.svg" style="width: 87%;">
+                    </div>
+                    
+                 </section>
 
                 <!-- 전자 결재 -->
                 <section id="edsmSection" class="contentSection">
@@ -61,15 +91,15 @@
                     </div>
 
                     <div class="images">
-                        <img src="/images/edsm2.svg" style="width: 86%;">
+                        <img src="/images/edsm2.svg" style="width: 84%;">
                     </div>
 
                     <div class="images"> 
-                        <img src="/images/edsm3.svg" style="width: 86%;">
+                        <img src="/images/edsm3.svg" style="width: 87%;">
                     </div>
 
                     <div class="images">
-                        <img src="/images/edsm4.svg" style="width: 86%;">
+                        <img src="/images/edsm4.svg" style="width: 85%;">
                     </div>
 
                 </section>
@@ -86,7 +116,7 @@
                     </div>
 
                     <div class="images">
-                        <img src="/images/messenger3.svg" style="width: 86%;">
+                        <img src="/images/messenger3.svg" style="width: 87%;">
                     </div>
 
                     <div class="images">
@@ -94,6 +124,7 @@
                     </div>
 
                 </section>
+
                 <!-- 게시판 -->
                 <section id="boardSection" class="contentSection">
 
@@ -114,13 +145,11 @@
                         <img src="/images/calendar1.svg" style="width: 92%;">
                     </div>
 
-                    <div class="images">
-                        <img src="/images/calendar2.svg" style="width: 92%;">
+                    <div class="functionVid">
+                        <video src="/images/calendarVid1.mp4" autoplay loop muted playsinline 
+                                         style="width: 90%;  border: none; outline: none;"></video> 
                     </div>
-
-                    <div class="images">
-                        <img src="/images/calendar3.svg" style="width: 92%;">
-                    </div>
+                  
 
                 </section>
 
@@ -130,16 +159,16 @@
                     <div class="functionVid">
                         <video src="/images/todoVid.mp4" autoplay loop muted playsinline 
                                          style="width: 90%;  border: none; outline: none;"></video> 
-                     </div>
+                    </div>
 
-                     <div class="images">
+                    <div class="images">
                         <img src="/images/todo1.svg" style="width: 87%;">
                     </div>
 
                     <div class="functionVid">
                         <video src="/images/todoVid2.mp4" autoplay loop muted playsinline 
                                          style="width: 90%;  border: none; outline: none;"></video> 
-                     </div>
+                    </div>
 
                 </section>
                 <!-- 메일 -->
@@ -155,14 +184,13 @@
                                             style="width: 84%; margin-top: 50px; border: none; outline: none;"></video>
                     </div>
                     
+                    <div class="functionVid">
+                        <video src="/images/mailVid3.mp4" autoplay loop muted playsinline 
+                                            style="width: 84%; margin-top: 50px; border: none; outline: none;"></video>
+                    </div>
                        
                 </section>
-                <!-- 주소록 -->
-                <section id="addressSection" class="contentSection">
-                  
-
-                    
-                </section>
+               
                 <!-- 설문 -->
                 <section id="surveySection" class="contentSection">
                     <div>
@@ -192,29 +220,12 @@
                 </section>
                 <!-- 예약 -->
                 <section id="reservationSection" class="contentSection">
-                    <div>
-                        <img>
-                        <div class="description">
-                            <pre>
-<h1>회의실 예약을 쉽고 간편하게</h1>
-<h6>
-번거로운 절차 없이 온라인에서 쉽고 간편하게 
-한 눈에 일정 확인이 가능해 편리해요. 
-</h6>
-                            </pre>
-                        </div>
+                    
+                    <div class="functionVid">
+                        <video src="/images/reserveVid1.mp4" autoplay loop muted playsinline 
+                                            style="width: 84%; margin-top: 50px; border: none; outline: none;"></video>
                     </div>
-                    <div>
-                        <img>
-                        <div class="description">
-                            <pre>
-<h1>예약 후 수정이나 취소도 간편하게</h1>
-<h6>
-하루 전까지만 취소 가능해요 
-</h6>
-                            </pre>
-                        </div>
-                    </div>
+      
                 </section>
 
             </section>
@@ -238,7 +249,7 @@
                         <div id="respChat" class="chat-box"></div>
                     </main>
                     <footer class="chat-footer">
-                        <input type="text" id="inputChat" placeholder="무엇이든 물어보세요">
+                        <input type="text" id="inputChat" placeholder="코워크 기능에 대해 물어보세요">
                         <button id="buttonChat">전송</button>
                     </footer>
                 </div>
