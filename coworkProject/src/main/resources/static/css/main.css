@@ -426,6 +426,11 @@ video::-webkit-media-controls-overlay-play-button {
     background: #3667A6;
 }
 
+.chatRespImage {
+    width: 380px;
+    margin-top: 10px;
+}
+
 
 
 /* 스크롤바 */
