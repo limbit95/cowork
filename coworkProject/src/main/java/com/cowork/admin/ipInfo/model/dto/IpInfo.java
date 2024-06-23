@@ -25,6 +25,7 @@ public class IpInfo {
 	private String ip;
 	private int deptNo;
 	private String deptNm;
+	private String empNo; // 사번
 	
 	private String fullName;
 	private String affiliation;

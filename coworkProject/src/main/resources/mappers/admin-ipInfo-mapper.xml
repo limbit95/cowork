@@ -4,12 +4,35 @@
 
 	<!-- 회사 모든 ip List 조회 -->
 	<select id="selectAllIpInfoList">
-		SELECT E.COM_NO, E.EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME,
+		SELECT E.EMP_NO, E.COM_NO, E.EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME,
 			E.TEAM_NO, I.IP, I.IP_NO, T.DEPT_NO, T.TEAM_NM, D.DEPT_NM
-			FROM EMPLOYEE E
-			LEFT JOIN IP I ON E.EMP_CODE = I.EMP_CODE
-			LEFT JOIN TEAM T ON T.TEAM_NO = E.TEAM_NO
-			LEFT JOIN DEPARTMENT D ON D.DEPT_NO = T.DEPT_NO
-			WHERE E.COM_NO = #{comNo}
+		FROM EMPLOYEE E
+		LEFT JOIN IP I ON E.EMP_CODE = I.EMP_CODE
+		LEFT JOIN TEAM T ON T.TEAM_NO = E.TEAM_NO
+		LEFT JOIN DEPARTMENT D ON D.DEPT_NO = T.DEPT_NO
+		WHERE E.COM_NO = #{comNo}
 	</select>
+	
+	<!-- 이름 검색 결과 조회하기 -->
+	<select id="selectIpInfoList">
+		SELECT NVL(E.EMP_NO, '사번 없음') AS EMP_NO, E.EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME,
+			E.TEAM_NO, I.IP, I.IP_NO, T.DEPT_NO, T.TEAM_NM, D.DEPT_NM
+		FROM EMPLOYEE E
+		LEFT JOIN IP I ON E.EMP_CODE = I.EMP_CODE
+		LEFT JOIN TEAM T ON T.TEAM_NO = E.TEAM_NO
+		LEFT JOIN DEPARTMENT D ON D.DEPT_NO = T.DEPT_NO
+		WHERE E.COM_NO = #{comNo}
+		AND (EMP_LAST_NAME LIKE '%' || #{fullName} || '%'
+		OR EMP_FIRST_NAME LIKE '%' || #{fullName} || '%')
+	</select>
+	
+	<!-- ip 수정 -->
+	<update id="updateIpInfo">
+		UPDATE IP SET IP = #{ip} WHERE EMP_CODE = #{empCode}
+	</update>
+	
+	<!-- ip 삭제 -->
+	<delete id="deleteIpInfo">
+		DELETE IP WHERE EMP_CODE = #{empCode}
+	</delete>
 </mapper>

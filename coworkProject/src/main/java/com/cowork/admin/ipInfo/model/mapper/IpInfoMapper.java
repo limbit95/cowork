@@ -15,4 +15,22 @@ public interface IpInfoMapper {
 	 */
 	List<IpInfo> selectAllIpInfoList(int comNo);
 
+	/** 검색한 이름 조회
+	 * @param inputInfo
+	 * @return selectIpInfoList
+	 */
+	List<IpInfo> selectIpInfoList(IpInfo inputInfo);
+
+	/** ip 수정
+	 * @param updateIpInfo
+	 * @return result
+	 */
+	int updateIpInfo(IpInfo updateIpInfo);
+
+	/** ip 삭제
+	 * @param empCode
+	 * @return result
+	 */
+	int deleteIpInfo(int empCode);
+
 }

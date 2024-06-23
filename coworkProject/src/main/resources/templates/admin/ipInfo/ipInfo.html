@@ -22,26 +22,8 @@
 
 			<!-- 검색하는 부분 -->
 			<div id="findDiv">
-				<div class="selectDept">
-					<select>
-						<option>부서 전체</option>
-						<option>부서 1부</option>
-						<option>부서 2부</option>
-						<option>부서 3부</option>
-					</select>
-				</div>
-
-				<div class="selectTeam">
-					<select>
-						<option>팀 전체</option>
-						<option>1팀</option>
-						<option>2팀</option>
-						<option>3팀</option>
-					</select>
-				</div>
-
 				<div class="findInput">
-					<input type="text" placeholder="아이디 또는 이름을 입력해주세요." id="findInput">	
+					<input type="text" placeholder="이름을 입력해주세요." id="findInput">	
 				</div>				
 			</div>
 
@@ -55,30 +37,30 @@
 				</div>
 
 				<!-- 검색 결과 -->
-				<div class="scrollSection">
+				<div class="scrollSection" id="scrollSection">
 
 					<!-- 검색 결과가 없을 경우 -->
-					<th:block th:if="${#lists.isEmpty(selectAllIpInfoList)}">
+					<div id="noResultsMessage" style="display: none;">
 						<div class="resultBlank">
 							검색 결과가 없습니다.
 						</div>
-					</th:block>
+					</div>
 
 					<!-- 검색 결과가 있을 경우 -->
-					<th:block th:unless="${#lists.isEmpty(selectAllIpInfoList)}">
+					<div id="resultList">
 						<div class="resultContainer" th:each="ipInfo : ${selectAllIpInfoList}" th:object="${ipInfo}">
-							<!-- <div class="firstResult" th:text="">부서</div>
-							<div class="secondResult" th:text=""></div>
+							<div class="firstResult" th:text="*{affiliation}">부서</div>
+							<div class="secondResult" th:text="*{fullName}">이름</div>
 							<div class="thirdResult">
-								<div class="ipNo">127.01.01</div>
-								
+								<div class="ipNo" th:text="*{ip}">192.168.0.1</div>
+								<input type="hidden" th:value="*{empCode}">
 								<div class="ipBtn">
-									<button class="default-btn glucose-border-btn">수정</button>
+									<button class="default-btn glucose-border-btn updateBtn">수정</button>
 									<button class="default-btn deleteBtn">삭제</button>
 								</div>
-							</div> -->
+							</div>
 						</div>
-					</th:block>
+					</div>
 
 				</div>
 
