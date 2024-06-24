@@ -62,26 +62,31 @@
 	<div id="paginationContainer">
 	<div id="pagination">
 	    <!-- 처음 -->
-	    <a th:if="${currentGroupFirstPage != 1}" th:href="@{/survey/receiveSurvey}" id="first-page-a">&lt;&lt;</a>
-	    <a th:if="${currentGroupFirstPage != 1}" th:href="@{/survey/receiveSurvey(currentPage=${currentGroupFirstPage}-1)}" id="previous-a">&lt;</a>
-	    
+	    <a th:if="${currentGroupFirstPage != 1}" th:href="@{/survey/receiveSurvey}" id="first-page-a" 		style="font-weight: bold; text-decoration: none; color: black;">&lt;&lt;</a>
+		&nbsp;&nbsp;
+	    <a th:if="${currentGroupFirstPage != 1}" th:href="@{/survey/receiveSurvey(currentPage=${currentGroupFirstPage}-1)}" id="previous-a"		style="font-weight: bold; text-decoration: none; color: black;">&lt;</a>
+		&nbsp;&nbsp;		&nbsp;
 	    <!-- 중간 -->
 	    <div th:if="${currentGroupLastPage != 0}" id="paginationMiddleContainer">
 	        <div th:each="i : ${#numbers.sequence(currentGroupFirstPage, currentGroupLastPage)}" class="pagination-element">
-	            <span th:if="${i == currentPage}" th:text="${i}" class="current-page-span">Current Page</span>
+	            <span th:if="${i == currentPage}" th:text="${i}" class="current-page-span"				style="font-weight: bold; text-decoration: underline;">Current Page</span>
 	            <a th:if="${i != currentPage}" th:href="@{/survey/receiveSurvey(currentPage=${i})}" class="pagination-a"
-	                th:text="${i}">Page Link</a>
+	                th:text="${i}"
+					style="text-decoration: none; color: black;"
+					>Page Link</a>
 	            &nbsp;&nbsp;
 	        </div>
 	    </div>
 	    
 	    <div th:if="${currentGroupLastPage == 0}">
 	        <span style="color:#e06500;" class="current-page-span">1</span>
+			&nbsp;&nbsp;
 	    </div>
 	
 	    <!-- 끝 -->
-	    <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/receiveSurvey(page=${currentGroupLastPage}+1)}" id="next-a">&gt;</a>
-	    <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/receiveSurvey(page=${totalPages})}" id="last-page-a">&gt;&gt;</a>
+	    <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/receiveSurvey(currentPage=${currentGroupLastPage}+1)}" id="next-a"		style="font-weight: bold; text-decoration: none; color: black;">&gt;</a>
+		&nbsp;&nbsp;
+	    <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/receiveSurvey(currentPage=${totalPages})}" id="last-page-a"		style="font-weight: bold; text-decoration: none; color: black;">&gt;&gt;</a>
 	</div>
 	</div>
 	<!-- 페이지네이션 조각 끝 -->

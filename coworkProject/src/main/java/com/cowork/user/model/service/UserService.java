@@ -92,7 +92,19 @@ public interface UserService {
 	 * @return
 	 */
 	int inviteSignUp(Map<String, Object> data);
-
-
 	
+	// 0622_재준 시작
+	/**비즈니스 카드 관련 로직 
+	 * @param empCode
+	 * @return
+	 */
+	Integer businessCardProcess(int empCode);
+	// 0622_재준 끝
+
+	void addAuth(String phoneNum, int randomNum);
+
+	int verifyAuth(String phoneNum, String authKey);
+
+	int validatePhoneNum(String empId, String phoneNum);
+
 }

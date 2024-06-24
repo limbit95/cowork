@@ -27,8 +27,8 @@
 	align-items: center;
 	color: #214177;
 	font-weight: bold;
-
 }
+
 #highlight{
 	width: 0%;
 	height: 10%; 
@@ -36,8 +36,9 @@
     transition: width 2s; /* width 변경 시 2초 동안 애니메이션 */
     border-radius: 10px;
 }
+
 #conditionDiv{
-	padding-top: 20px;
+	padding-top: 5vh;
 	border-top: 1px solid #214177;
 	margin-top: 5vh;
 	display: flex;
@@ -47,15 +48,14 @@
 }
 .conditionDivInnerDiv{
 	width: 100%; 
-	margin-bottom: 3vh;
+	margin-bottom: 10vh;
 }
 .conditionDivInnerInnerDiv{
 	width: 100%; 
 	border-radius: 5px;
-	border: 1.5px solid #BDD8F1;
 }
 .surveySubTitle{
-	background-color: #BDD8F1;
+	background-color: #f5fbff;
 	font-size: 15px;
 	padding-top: 2vh;
 	padding-left: 1vw;
@@ -165,7 +165,26 @@
 	background-color: #F1B8B8;
 }
 
-
+#deleteBtnDiv{
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+}
+#deleteBtn{
+	margin-top: 80px;
+	width: 5vw; 
+	height: 4vh;
+	background-color: #f07f7f;
+	border: none; 
+	color: white;
+	border-radius: 5px; 
+	font-weight: bold;
+	transition: color 0.3s, background-color 0.3s;
+}
+#deleteBtn:hover{
+	background-color: #FFE0E6;
+	color: #214177;
+}
 
 
 

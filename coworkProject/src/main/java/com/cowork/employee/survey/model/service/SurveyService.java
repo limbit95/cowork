@@ -36,4 +36,6 @@ public interface SurveyService {
 
 	List<SubjectiveAnswer> showSubjectiveAnswer(String surveySubNo);
 
+	int surveyDelete(Employee2 loginEmp, Integer surveyNo);
+
 }

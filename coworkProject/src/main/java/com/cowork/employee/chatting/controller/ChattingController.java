@@ -44,7 +44,7 @@ public class ChattingController {
 	private final GPTService gptService;
 	
 	
-	@GetMapping("/chat")
+	@GetMapping("chat")
 	public String chattingWowns590(HttpServletRequest request) {
 //		Employee emp = new Employee();
 //		emp.setEmpCode(55);
@@ -54,10 +54,10 @@ public class ChattingController {
 //		emp.setComNo(10);		
 //		HttpSession session = request.getSession();
 //		session.setAttribute("loginEmp", emp);
-		return "/employee/chatting/chatting";
+		return "employee/chatting/chatting";
 	}
 	
-	@GetMapping("/chat/wowns5902")
+	@GetMapping("chat/wowns5902")
 	public String chattingWowns5902(HttpServletRequest request) {
 		Employee emp = new Employee();
 		emp.setEmpCode(2);
@@ -67,12 +67,12 @@ public class ChattingController {
 		emp.setEmpLastName("지윤");		
 		HttpSession session = request.getSession();
 		session.setAttribute("loginEmp", emp);
-		return "/employee/chatting/chatting";
+		return "employee/chatting/chatting";
 	}	
 	
 	
 	/* 이름, 부서, 팀 조회으로 사원조회 */
-    @PostMapping("/chat/empList")
+    @PostMapping("chat/empList")
     @ResponseBody
     public List<Employee2> empList(@SessionAttribute("loginEmp") Employee2 loginMember,
     									@RequestBody Map<String, String> paramMap) {
@@ -83,7 +83,7 @@ public class ChattingController {
     }
     
     // 채팅방을 만드는 것 
-    @PostMapping("/chat/makeChat")
+    @PostMapping("chat/makeChat")
     @ResponseBody
     public String makeChat(@RequestBody MakeChat makeChat, Model model) {
     	
@@ -109,7 +109,7 @@ public class ChattingController {
     	return subscribeAddr;
     }
 	
-    @PostMapping("/chat/getChattingRooms")
+    @PostMapping("chat/getChattingRooms")
     @ResponseBody
     public List<ChatRoom> getChattingRooms(@RequestBody Map<String, String> paramMap) {
     	String empCode = paramMap.get("empCode");    	
@@ -122,7 +122,7 @@ public class ChattingController {
     	return roomList;    	
     }
     
-    @PostMapping("/chat/getChatMessage")
+    @PostMapping("chat/getChatMessage")
     @ResponseBody
     public List<ChatMessageMe> getChatMessage(@RequestBody Map<String, String> paramMap) {
     	List<ChatMessageMe> messageList = chatService.getChatMessage(paramMap);
@@ -181,7 +181,7 @@ public class ChattingController {
     	messagingTemplate.convertAndSend(destination, chatMessage);
     }
     
-    @PostMapping("/chat/upload")
+    @PostMapping("chat/upload")
     @ResponseBody
     public void handleFileUpload(@RequestParam("senderEmpCode") String senderEmpCode,
             @RequestParam("empNickname") String empNickname,
@@ -214,7 +214,7 @@ public class ChattingController {
 
     }
     
-    @PostMapping("/chat/exitChatRoom")
+    @PostMapping("chat/exitChatRoom")
     @ResponseBody
     public String exitChatRoom(@RequestBody Map<String,Object> map,
     			@SessionAttribute("loginEmp") Employee2 loginEmp
@@ -230,7 +230,7 @@ public class ChattingController {
 
     }
     
-    @GetMapping("/chat/loginBy58")
+    @GetMapping("chat/loginBy58")
     @ResponseBody
     public String loginBy58(HttpServletRequest request) {
 		Employee2 emp = new Employee2();
@@ -246,7 +246,7 @@ public class ChattingController {
     }
     
     
-    @GetMapping("/chat/getDeptAndTeam")
+    @GetMapping("chat/getDeptAndTeam")
     @ResponseBody
     public List<Department> getDeptAndTeam(@SessionAttribute("loginEmp") Employee2 loginEmp) {
     	
@@ -255,7 +255,7 @@ public class ChattingController {
     	return deptTeamList;
     	
     }
-    @GetMapping("/chat/getTeamEmps")
+    @GetMapping("chat/getTeamEmps")
     @ResponseBody
     public List<Employee2> getTeamEmps (@RequestParam("teamNo") String teamNo, 
     			@SessionAttribute("loginEmp") Employee2 loginEmp
@@ -266,7 +266,7 @@ public class ChattingController {
     	return empList;
     }
     
-    @PostMapping("/survey/getEmpList")
+    @PostMapping("survey/getEmpList")
     @ResponseBody
     public List<Employee2> getEmpList (@RequestBody Map<String, List<Integer>> request){
     	

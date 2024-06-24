@@ -12,10 +12,20 @@
 <body>
     <th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
 
-    <section class="container" id="surveyTitleBtn">
+	
+	<div id="surveyMenuBar">
+	    <a href="/survey/receiveSurvey" type="button" id="receiveSurveyBtn">
+	        받은 설문            
+	    </a>
+	    <a href="/survey/mySurvey" type="button" id="mySurveyBtn">
+	        내가 쓴 설문            
+	    </a>
+	</div>
+	
+    <div  id="surveyTitleBtn">
         <!-- 설문조사 상세 대제목 -->
-        <div class="title"><span th:text="${mainTitle}"></span></div>
-    </section>
+        <div class="title" th:text="${mainTitle}"></div>
+    </div>
 
     <!-- 객관식 선택할 경우 -->
     <form class="submitForm" action="/survey/submitAnswer" method="post">

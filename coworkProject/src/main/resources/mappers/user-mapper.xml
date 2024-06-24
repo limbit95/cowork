@@ -228,4 +228,51 @@
 		WHERE COM_NO IS NULL
 	</insert>
 	
+	<select id="countRow">
+		SELECT COUNT(*) FROM BUSINESS_CARD 
+		WHERE EMP_CODE = #{empCode}
+	</select>
+	
+	<select id="insertRow">
+		INSERT INTO BUSINESS_CARD 
+		VALUES (SEQ_BUSINESS_CARD.NEXTVAL, #{empCode}, 1)
+	</select>
+	
+	<select id="cardTypeDetail">
+		SELECT CARD_TYPE FROM BUSINESS_CARD
+		WHERE EMP_CODE = #{empCode}
+	</select>
+	
+	<select id="validatePhoneNum">
+		SELECT COUNT(*) FROM EMPLOYEE
+		WHERE EMP_ID = #{empId}
+		AND PHONE = #{phoneNum}
+	</select>
+	
+	<insert id="addAuth">
+		INSERT INTO COOL_SMS_AUTH
+		VALUES (SEQ_COOL_SMS_AUTH.NEXTVAL, #{phoneNum}, #{randomNum})
+	</insert>
+	
+	<select id="verifyAuth">
+		SELECT COUNT(*) FROM COOL_SMS_AUTH
+		WHERE PHONE = #{phoneNum}
+		AND AUTH_KEY = #{authKey}
+	</select>
+	
+	
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+

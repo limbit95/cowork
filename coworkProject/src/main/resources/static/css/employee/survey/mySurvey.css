@@ -21,38 +21,41 @@
 }
 #listContainerInnerDiv{
 	display: flex;
-	width: 50%; 
+	width: 40%; 
 	height: 100%; 
-	background-color:#426DA7;
-	color: white;
+	background-color:white;
 	display: flex; 
 	border-radius: 5px;
 	font-weight: bold;
 	font-size: 16px;
+	background-color: #E5F2FE;
 }
 #titleDiv{
-	color: white;
+	color:#214177;
 	flex-basis: 40%; 
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	border-radius: 5px;
 }
 #writerDiv{
-	color: white;
+	color:#214177;
 	flex-basis: 20%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 #endDateDiv{
-	color: white;
+	color:#214177;
 	flex-basis: 20%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 #totalResponseCountDiv{
-	color: white;
+	color:#214177;
+
+
 	flex-basis: 20%;
 	display: flex;
 	justify-content: center;
@@ -68,17 +71,17 @@
 	align-items: center;
 }
 .oneRowA{
-	width: 50%;
+	width: 40%;
 	height: 5vh;
 	display: flex; 
-	background-color: #E5F2FE;
+	background-color: #fafdff;
 	border-radius: 5px; 
 	margin-bottom: 0.5vh;
-	transition: box-shadow 0.3s;
+	transition: background-color 0.3s;
 	text-decoration: none;
 }
 .oneRowA:hover{
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+	background-color: #E5F2FE;
 }
 .oneRowA>div:nth-child(1){
 	flex-basis: 40%;
@@ -121,6 +124,9 @@
 }
 #paginationMiddleContainer{
 	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 /* survey 메뉴 바 */
@@ -206,7 +212,7 @@
 	}
 #surveyInsertA{
 	margin-top: 50px;
-	width: 3.5vw;
+	width: 4.5vw;
 	height: 3.5vh;
 	border: 1.5px solid #214177;
 	text-decoration: none;

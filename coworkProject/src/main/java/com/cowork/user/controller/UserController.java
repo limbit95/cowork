@@ -186,14 +186,16 @@ public class UserController {
 	public String login(Employee2 inputEmp,
 			 			RedirectAttributes ra,
 			 			Model model) {
-		
-
 		Employee2 loginEmp = service.login(inputEmp);
 		
 		if(loginEmp == null) {
 			ra.addFlashAttribute("message", "아이디 또는 비밀번호가 일치하지 않습니다.");
 			return "redirect:/user/login";
-		} 
+		}
+		// 0622 재준 시작
+		Integer businessCardFl = service.businessCardProcess(loginEmp.getEmpCode());
+		loginEmp.setBusinessCardFl(businessCardFl);
+		// 0622 재준 끝 
 		
 		if(loginEmp.getComNm().equals("없음")) {
 			ra.addFlashAttribute("message", "기업 정보 등록 후 서비스 이용 가능합니다.");
@@ -206,7 +208,6 @@ public class UserController {
 		
 		model.addAttribute("loginEmp", loginEmp);
 		ra.addFlashAttribute("message", loginEmp.getEmpLastName() + loginEmp.getEmpFirstName() + "님 환영합니다.");
-
 		return "redirect:/userMain";
 	}
 	
@@ -329,6 +330,30 @@ public class UserController {
 		ra.addFlashAttribute("message", loginEmp.getEmpLastName() + loginEmp.getEmpFirstName() + "님 환영합니다.");
 		return "redirect:/userMain";
 	}
+	
+	@GetMapping("logout")
+	public String logoutMethod (SessionStatus status) {
+		status.setComplete();
+		return "redirect:/";
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

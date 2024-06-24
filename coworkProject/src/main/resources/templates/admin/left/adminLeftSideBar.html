@@ -30,11 +30,300 @@
 		<div th:unless="${session.loginEmp.comLogo}" id="CompanyLogo">
 			<img th:src="${session.loginEmp.comLogo}" id="companyLogoImg">
 		</div>
-		
-		<div id="businessCard">
-			<div></div>
+			
+		<!--0622 재준 명함 시작 -->
+
+	
+		<div style="width: 100%; display: flex; justify-content: flex-end; margin-right: 0.7vw; margin-bottom: 1.5vh; margin-top: 1vh;" >
+		<th:block th:if="${session.loginEmp.businessCardFl == 1}" style="width:20vw;">
+			<div id="templateDesignOne" style="
+			width: 15vw;
+			height: 130px;
+			display: flex; 
+			justify-content: center;
+			align-items: center;
+			">
+				<div id="firstTemplateDesign"
+				style="
+				width: 12vw; 
+				height: 130px; 
+				background-color: #82A6CB;
+				border-radius: 5px;
+				box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+				"
+				>
+					<!-- ------------------- 첫번째 명함 시작 ---------------------- -->
+					<div class="test" 
+					style="display: flex; 
+					justify-content: center;  
+					flex-direction: column;
+					width: 100%; 
+					height: 100%; 
+					border-top-left-radius: 15%;
+					border-bottom-right-radius: 15%;
+					background-color: white;
+					border: 1px solid white;
+					">
+						<!-- 이미지 부분 시작 -->
+						<div style="display:flex; justify-content: flex-end; width: 100%; ">
+							<img th:if="${session.loginEmp.comLogo} != null" th:src="${session.loginEmp.comLogo}" class="comLogoImg" 
+															style="width: 50px;
+																   height: 50px;
+																   border-radius: 50%;
+																   margin-right: 20px;
+																   object-fit: cover; 
+																   object-position: center; 
+																   ">
+							<img th:if="${session.loginEmp.comLogo} == null" src="/images/cowork_favicon.png" class="comLogoImg" 
+								style="width: 50px;
+									   height: 50px;
+									   border-radius: 50%;
+									   margin-right: 20px;
+									   object-fit: cover; 
+									   object-position: center; 
+							   ">		
+						</div>
+						<!-- 이미지 부분 끝 -->
+						
+						<!-- 글 부분 시작 -->
+						<div style="margin-top: 5px; 
+									margin-left: 20px;
+									display: flex; 
+									justify-content: center;  
+									flex-direction: column;
+									">
+							<!-- 이름 + 직급 -->
+							<div style="display: flex;
+							 			color:#214177;">
+								<div th:text="${session.loginEmp.empLastName} + ${session.loginEmp.empFirstName}"
+									 style="color:#214177; font-size:12px;"
+								></div>
+								&nbsp;|	&nbsp;
+								<div th:text="${session.loginEmp.positionNm}"></div>							
+							</div>
+							<!-- 핸드폰 -->
+							<div style="display: flex; 
+										margin-top: 3px; 
+										align-items: center;
+										">
+								<i class="fa-solid fa-phone-volume" 
+									style="color:#214177;	font-size:12px;"></i>
+								&nbsp; &nbsp;
+								<div th:text="${session.loginEmp.phone}" 
+								style="margin-top:5px; color:#214177;	font-size:12px;"></div>
+							</div>
+							<!-- 이메일 -->
+							<div style="display: flex; align-items: center;">
+								<i class="fa-solid fa-at" 
+								style="color:#214177;	font-size:12px;"></i>
+								&nbsp; &nbsp;
+								<div th:text="${session.loginEmp.empEmail}"	style="margin-top:5px; font-size:12px; color:#214177;"></div>
+							</div>
+						</div>		
+						<!-- 글 부분 끝 -->
+					</div>
+					<!-- ------------------- 첫번째 명함 끝 ---------------------- -->
+				</div>
+			</div>	
+		</th:block>
+		<th:block th:if="${session.loginEmp.businessCardFl} == 2" style="width:20vw;">
+			<div id="templateDesignTwo" style="
+			width: 15vw;
+			height: 130px;
+			display: flex; 
+			justify-content: center;
+			align-items: center;
+			">
+				<div id="secondTemplateDesign" style="
+				width: 12vw; 
+				height: 130px; 
+				background-color:  #FF6F61;
+				border-radius: 5px;
+				box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+				">
+					<!-- ------------------- 두번째 명함 시작 ---------------------- -->
+					<div class="test" 
+					style="display: flex; 
+					justify-content: center;  
+					flex-direction: column;
+					width: 100%; 
+					height: 100%; 
+					border-top-left-radius: 15%;
+					border-bottom-right-radius: 15%;
+					background-color: white;
+					border: 1px solid white;">
+						<!-- 이미지 부분 시작 -->
+						<div style="display:flex; justify-content: flex-end; width: 100%; ">
+							<img th:if="${session.loginEmp.comLogo} != null" th:src="${session.loginEmp.comLogo}" class="comLogoImg" 
+															style="width: 50px;
+																   height: 50px;
+																   border-radius: 50%;
+																   margin-right: 20px;
+																   object-fit: cover; 
+																   object-position: center; 
+																   ">
+							<img th:if="${session.loginEmp.comLogo} == null" src="/images/cowork_favicon.png" class="comLogoImg" 
+								style="width: 50px;
+									   height: 50px;
+									   border-radius: 50%;
+									   margin-right: 20px;
+									   object-fit: cover; 
+									   object-position: center; 
+							   ">		
+						</div>
+						<!-- 이미지 부분 끝 -->
+						
+						<!-- 글 부분 시작 -->
+						<div style="margin-top: 5px; 
+									margin-left: 20px;
+									display: flex; 
+									justify-content: center;  
+									flex-direction: column;
+									">
+							<!-- 이름 + 직급 -->
+							<div style="display: flex;
+							 			color:#214177;">
+								<div th:text="${session.loginEmp.empLastName} + ${session.loginEmp.empFirstName}"
+									 style="color:#214177; font-size: 12px;"
+								></div>
+								&nbsp;|	&nbsp;
+								<div th:text="${session.loginEmp.positionNm}"
+								style="font-size: 12px;"
+								></div>							
+							</div>
+							<!-- 핸드폰 -->
+							<div style="display: flex; 
+										margin-top: 3px; 
+										align-items: center;">
+								<i class="fa-solid fa-phone-volume" 
+									style="color:#214177; font-size: 12px;"></i>
+								&nbsp; &nbsp;
+								<div th:text="${session.loginEmp.phone}" 
+								style="margin-top:5px; color:#214177; font-size: 12px;"></div>
+							</div>
+							<!-- 이메일 -->
+							<div style="display: flex; align-items: center;">
+								<i class="fa-solid fa-at" 
+								style="color:#214177; font-size: 12px;"></i>
+								&nbsp; &nbsp;
+								<div th:text="${session.loginEmp.empEmail}"	style="margin-top:5px;	font-size: 12px;					color:#214177;"></div>
+							</div>
+						</div>		
+						<!-- 글 부분 끝 -->
+					</div>
+					<!-- ------------------- 두번째 명함 끝 ---------------------- -->
+				</div>
+			</div>
+		</th:block>
+		<th:block th:if="${session.loginEmp.businessCardFl} == 3">
+			<div id="templateDesignThree" style="
+			width: 15vw;
+			height: 130px;
+			display: flex; 
+			justify-content: center;
+			align-items: center;
+			">
+				<div id="thirdTemplateDesign" style="
+					width: 12vw; 
+					height: 130px; 
+					background-color: #6A5ACD;
+					border-radius: 5px;
+					box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+	
+				">
+					<!-- ------------------- 세번째 명함 시작 ---------------------- -->
+					<div class="test" 
+					style="display: flex; 
+					justify-content: center;  
+					flex-direction: column;
+					width: 100%; 
+					height: 100%; 
+					border-top-left-radius: 15%;
+					border-bottom-right-radius: 15%;
+					background-color: white;
+					border: 1px solid white;">
+						<!-- 이미지 부분 시작 -->
+						<div style="display:flex; justify-content: flex-end; width: 100%; ">
+							<img th:if="${session.loginEmp.comLogo} != null" th:src="${session.loginEmp.comLogo}" class="comLogoImg" 
+															style="width: 50px;
+																   height: 50px;
+																   border-radius: 50%;
+																   margin-right: 20px;
+																   object-fit: cover; 
+																   object-position: center; 
+																   ">
+							<img th:if="${session.loginEmp.comLogo} == null" src="/images/cowork_favicon.png" class="comLogoImg" 
+								style="width: 50px;
+									   height: 50px;
+									   border-radius: 50%;
+									   margin-right: 20px;
+									   object-fit: cover; 
+									   object-position: center; 
+							   ">	
+						</div>
+						<!-- 이미지 부분 끝 -->
+						
+						<!-- 글 부분 시작 -->
+						<div style="margin-top: 5px; 
+									margin-left: 20px;
+									display: flex; 
+									justify-content: center;  
+									flex-direction: column;
+									">
+							<!-- 이름 + 직급 -->
+							<div style="display: flex;
+							 			color:#214177;">
+								<div th:text="${session.loginEmp.empLastName} + ${session.loginEmp.empFirstName}"
+									 style="color:#214177; font-size: 12px;"
+								></div>
+								&nbsp;|	&nbsp;
+								<div th:text="${session.loginEmp.positionNm}" style="font-size: 12px;"></div>							
+							</div>
+							<!-- 핸드폰 -->
+							<div style="display: flex; 
+										margin-top: 3px; 
+										align-items: center;
+										font-size: 12px;
+										">
+								<i class="fa-solid fa-phone-volume" 
+									style="color:#214177;
+									font-size: 12px;
+									"></i>
+								&nbsp; &nbsp;
+								<div th:text="${session.loginEmp.phone}" 
+								style="margin-top:5px; color:#214177;
+								font-size: 12px;
+								"></div>
+							</div>
+							<!-- 이메일 -->
+							<div style="display: flex; align-items: center;">
+								<i class="fa-solid fa-at" 
+								style="color:#214177;
+								font-size: 12px;
+								"></i>
+								&nbsp; &nbsp;
+								<div th:text="${session.loginEmp.empEmail}"						style="margin-top:5px;	color:#214177;								font-size: 12px;"></div>
+							</div>
+						</div>		
+						<!-- 글 부분 끝 -->
+					</div>
+					<!-- ------------------- 세번째 명함 끝 ---------------------- -->
+				</div>
+			</div>
+		</th:block>
 		</div>
-		<a id="logOutLink">로그아웃</a>
+		
+		<!--0622 재준 명함 끝  -->		
+		
+		
+		<!--<div id="businessCard">
+			<div></div>
+		</div> -->
+		
+		<div style="display: flex; justify-content: space-evenly; width:80%;">
+
+			<a href="/user/logout" id="logOutLink">로그아웃</a>			
+		</div>
 		
 		<!-- 직급 관리 -->
 		<div class="dropdown" id="positionMenu">

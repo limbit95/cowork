@@ -54,6 +54,7 @@ body {
 	background-color: #ECF2FA;
 	transition: transform 0.5s ease, opacity 0.3s;
 	transform: translateX(-100%);
+
 }
 #closeLeftSideBar{
 	margin-top: 10px;
@@ -81,8 +82,33 @@ body {
 	justify-content: center;
 	align-content: center;
 }
+/*0622 재준 명함변경 버튼 시작*/
+#businessCardChangeBtnDiv{
+	width: 225px; 
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 1vh;
+}
+#businessCardChangeBtn{
+	border: none; 
+	width: 2.5vw;
+	height: 2.5vh;
+	border-radius: 5px;
+	background-color:#82A6CB;
+	color: #E5F2FE;
+	font-size: 11px;
+	transition: background-color 0.3s;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	text-decoration: none;
+}
+#businessCardChangeBtn:hover{
+	background-color: #6c9ccc;
+}
+/*0622 재준 명함변경 버튼 끝*/
 #businessCard{
-	margin-top: 10px;
 	flex-basis: 10%;
 	width: 100%;
 	display: flex;
@@ -100,17 +126,32 @@ body {
     background-size: contain;
 
 }
+/* 0622_ 재준 수정 시작 */
+#sideBarUpdateMyInfomationBtn, #sideBarUpdatePasswordBtn{
+	color: black;
+	font-weight: bold;
+	transition: color 0.3s;
+	font-size: 11px;
+}
+#sideBarUpdateMyInfomationBtn:hover, #sideBarUpdatePasswordBtn:hover{
+	color:#426DA7;
+}
+
+/* 0622_ 재준 수정 끝 */
+
 #logOutLink{
-	flex-basis: 2%;
+	/*0622 재준 수정*/
+	/*flex-basis: 2%;
 	width: 100%;
 	display: flex;
 	justify-content: flex-end;
-	margin-right:140px;
+	margin-right:140px; */
 	font-weight:  bold;
-	transition: background-color 0.3s;
+	transition: color 0.3s;
 	cursor: pointer;
-	font-size: 12px;
 	color: black;
+	font-size: 11px;
+
 	
 }
 #logOutLink:hover{

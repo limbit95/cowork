@@ -55,6 +55,9 @@ dependencies {
 	implementation 'com.oracle.database.security:osdt_cert:21.3.0.0'
 	implementation 'com.oracle.database.security:oraclepki:21.3.0.0'
 	implementation 'com.oracle.database.security:osdt_core:21.3.0.0'
+	
+	// 본인인증을 위해 coolsms 라이브러리 추가
+	implementation 'net.nurigo:sdk:4.3.0'
 }
 
 tasks.named('test') {

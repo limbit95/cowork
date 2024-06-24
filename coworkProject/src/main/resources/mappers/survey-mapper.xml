@@ -92,6 +92,7 @@ AND S.SURVEY_END_DATE + 1 >= SYSDATE
 	LEFT JOIN SURVEY S ON (ST.SURVEY_NO = S.SURVEY_NO)
 	WHERE ST.EMP_CODE = #{empCode}
 	AND S.SURVEY_END_DATE + 1 >= SYSDATE	
+	ORDER BY S.SURVEY_END_DATE DESC
 </select>
 
 <select id="findEmpFullName">
@@ -191,8 +192,7 @@ AND S.SURVEY_END_DATE + 1 >= SYSDATE
 	FROM SURVEY S
 	LEFT JOIN EMPLOYEE E ON E.EMP_CODE = S.EMP_CODE
 	WHERE S.EMP_CODE = #{empCode}
-	AND S.SURVEY_END_DATE + 1 >= SYSDATE
-	ORDER BY S.SURVEY_NO DESC
+	ORDER BY S.SURVEY_END_DATE DESC
     OFFSET #{startRow} ROWS
     FETCH NEXT #{pageSize} ROWS ONLY	
 </select>
@@ -252,6 +252,32 @@ AND S.SURVEY_END_DATE + 1 >= SYSDATE
 	SELECT TOTAL_RESPONSE_COUNT FROM SURVEY 
 	WHERE SURVEY_NO = #{surveyNo}
 </select>
+
+<delete id="surveyTargetDelete">
+	DELETE FROM SURVEY_TARGET WHERE SURVEY_NO = #{surveyNo}
+</delete>
+
+<select id="surveySubNoList">
+	SELECT SURVEY_SUB_NO FROM SURVEY_SUB 
+	WHERE SURVEY_NO = #{surveyNo}
+</select>
+
+<delete id="deleteSurveyAnswer">
+	DELETE FROM SURVEY_ANSWER WHERE SURVEY_SUB_NO = #{surveySubNo}
+</delete>
+
+<delete id="deleteSurveyMultiple">
+	DELETE FROM SURVEY_MULTIPLE WHERE SURVEY_SUB_NO = #{surveySubNo}
+</delete>
+
+<delete id="deletesurveySub">
+	DELETE FROM SURVEY_SUB WHERE SURVEY_NO = #{surveyNo}
+</delete>
+
+<delete id="deleteSurvey">
+	DELETE FROM SURVEY WHERE SURVEY_NO = #{surveyNo}
+</delete>
+
 	
 </mapper>
 

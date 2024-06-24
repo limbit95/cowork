@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.employee.businesscard.model.mapper.BusinessCardMapper">
+	
+<select id="findRow">
+	SELECT * FROM BUSINESS_CARD
+	WHERE EMP_CODE = #{empCode}
+</select>
+
+<insert id="insertRow">
+	INSERT INTO BUSINESS_CARD
+	VALUES (SEQ_BUSINESS_CARD.NEXTVAL, #{empCode}, #{flag})
+</insert>
+	
+<update id="updateRow">
+	UPDATE BUSINESS_CARD 
+	SET CARD_TYPE = #{flag}
+	WHERE EMP_CODE = #{empCode}
+</update>
+	
+	
+</mapper>

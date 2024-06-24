@@ -129,4 +129,34 @@ public interface UserMapper {
 	 */
 	int registDraft(Map<String, Object> map);
 
+	// 0622_재준 시작
+	/** 명함 관련 로직 
+	 * @param empCode
+	 * @return
+	 */
+	int countRow(int empCode);
+
+	/** 명함 삽입 
+	 * @param empCode
+	 */
+	void insertRow(int empCode);
+	
+	/** 명함의 타입 조회 
+	 * @param empCode
+	 * @return
+	 */
+	int cardTypeDetail(int empCode);
+	// 0622_재준 끝
+
+	int validatePhoneNum(Map<String, Object> paramMap);
+
+	void addAuth(Map<String, Object> paramMap);
+
+	int verifyAuth(Map<String, Object> paramMap);
+
+
+
+
+
+	
 }

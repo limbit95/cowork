@@ -81,8 +81,17 @@ public interface SurveyMapper {
 
 	Integer totalResponseCount(Integer surveyNo);
 
+	void surveyTargetDelete(Integer surveyNo);
 
+	List<Integer> surveySubNoList(Integer surveyNo);
 
+	void deleteSurveyAnswer(Integer surveySubNo);
+
+	void deleteSurveyMultiple(Integer surveySubNo);
+
+	void deletesurveySub(Integer surveyNo);
+
+	void deleteSurvey(Integer surveyNo);
 	
 
 }

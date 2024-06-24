@@ -302,9 +302,71 @@ public class UserServiceImpl implements UserService {
 	public Employee2 quickLogin(String empId) {
 		String encPw = bcrypt.encode("qwer1234!");
 		log.info("password : " + encPw);
-		
 		return mapper.login(empId);
 	}
+
+	// 0622_재준 시작
+	/**
+	 *비즈니스 카드 관련 로직 
+	 */
+	@Override
+	public Integer businessCardProcess(int empCode) {
+		
+		int count = mapper.countRow(empCode);
+		if(count == 0) {
+			// 최초 로그인 시 
+			mapper.insertRow(empCode);
+		}
+		
+		int businessCardFl = mapper.cardTypeDetail(empCode);
+		
+		
+		return businessCardFl;
+	}
+	
+	@Override
+	public int validatePhoneNum(String empId, String phoneNum) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("empId", empId);
+		paramMap.put("phoneNum", phoneNum);
+		log.debug("empId=={}", empId);
+		log.debug("phoneNum=={}", phoneNum);
+		
+		int result = mapper.validatePhoneNum(paramMap);
+		
+		if(result == 0) {
+			return 0;
+		}
+		
+		return 1;
+	}
+	
+	/**
+	 *COOLSMS 인증키 저장 로직 
+	 */
+	@Override
+	public void addAuth(String phoneNum, int randomNum) {		
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("phoneNum", phoneNum);
+		paramMap.put("randomNum", randomNum);
+		mapper.addAuth(paramMap);
+		
+		
+	}
+
+	@Override
+	public int verifyAuth(String phoneNum, String authKey) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("phoneNum", phoneNum);
+		paramMap.put("authKey", authKey);
+		
+		int result = mapper.verifyAuth(paramMap);
+		return result;
+	}
+
+
+	// 0622_재준 끝
 
 
 }
