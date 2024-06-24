@@ -11,6 +11,15 @@
 		LEFT JOIN DEPARTMENT D ON T.DEPT_NO = D.DEPT_NO
 		LEFT JOIN "POSITION" P ON E.POSITION_NO = P.POSITION_NO 
 		WHERE E.COM_NO = #{comNo}
+		<if test="deptNo > 0">
+		AND D.DEPT_NO = #{deptNo}
+		</if>
+		<if test="teamNo > 0">
+		AND E.TEAM_NO = #{teamNo}
+		</if>
+		<if test="empName != null">
+		AND EMP_LAST_NAME || EMP_FIRST_NAME like '%' ||  #{empName} || '%'
+		</if>
 	</select>
 	
 	<!-- 사원별 권한 목록 조회 -->
@@ -38,7 +47,49 @@
 		LEFT JOIN DEPARTMENT D ON T.DEPT_NO = D.DEPT_NO
 		LEFT JOIN "POSITION" P ON E.POSITION_NO = P.POSITION_NO 
 		WHERE E.COM_NO = #{comNo}
-		ORDER BY DEPT_NO, TEAM_NO, POSITION_NO
+		<if test="deptNo > 0">
+		AND D.DEPT_NO = #{deptNo}
+		</if>
+		<if test="teamNo > 0">
+		AND E.TEAM_NO = #{teamNo}
+		</if>
+		<if test="empName != null">
+		AND EMP_LAST_NAME || EMP_FIRST_NAME like '%' ||  #{empName} || '%'
+		</if>
+		ORDER BY DEPT_NO, TEAM_NO, "LEVEL"
 	</select>
-
+	
+	<!-- 사원 권한 조회 -->
+	<select id="authorityDetail">
+		SELECT 
+			 AUTHORITY_MEMBER_NO
+			,AUTHORITY_NO
+			,EMP_CODE
+		FROM AUTHORITY_MEMBER
+		WHERE EMP_CODE = #{empCode}
+	</select>
+	
+	<!-- 사원 권한 삭제 -->
+	<delete id="authorityDelete" parameterType="list">
+	    DELETE FROM AUTHORITY_MEMBER
+	    WHERE (EMP_CODE, AUTHORITY_NO) IN (
+	    <foreach collection="list" item="authority" open="(" separator="),(" close=")">
+	        ${authority.empCdoe}, ${authority.authorityNo}
+	    </foreach>
+	    )
+	</delete>
+	
+	<!-- 사원 권한 등록 -->
+	<insert id="authorityInsert" parameterType="list">
+		INSERT INTO AUTHORITY_MEMBER
+		
+		<foreach collection="list" item="authority" 
+			open="(" close=")" separator=" UNION ">
+			SELECT 
+				  NEXT_AUTHORITY_MEMBER()
+				, #{authority.authorityNo}
+				, #{authority.empCdoe}
+			FROM DUAL
+		</foreach>
+	</insert>
 </mapper>

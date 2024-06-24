@@ -1,140 +1,235 @@
-// 사원 찾기
-const findEmp = document.querySelector("#findEmp");
+const tableBody = document.querySelector('.tableBody'); 
+const paginationArea = document.querySelector('.pagination'); 
 
-if(findEmp != null) {
-    document.querySelector("#findEmp").focus();
-    findEmp.addEventListener("input", e => {
-        const inputName = e.target.value;
+let deptNo = "";
+let teamNo = "";
 
-        if(inputName.trim().length == 0) {
-            location.reload();
-            return;
+/* 권한관리 조회 */
+function authorityManage(deptNo, teamNo, empName) {
+
+    queryString = "";
+
+    if(deptNo != "") {
+        queryString += "&deptNo=" +  deptNo;
+    }
+
+    if(teamNo != "") {
+        if(queryString != "") queryString += "&"
+        queryString += "teamNo=" +  teamNo;
+    }
+
+    if(empName != "") {
+        if(queryString != "") queryString += "&"
+        queryString += "empName=" +  empName;
+    }
+
+
+    fetch("/authority/authorityList?" + queryString)
+    .then(resp => resp.json())
+    .then(data => {
+
+        
+        tableBody.innerHTML = ""; // 기존 댓글 목록 초기화
+
+        const authorityList = data.authorityList;
+
+        // 권한관리 조회
+        for(let authority of authorityList) {
+
+            const authorityForm = document.createElement('div');
+            authorityForm.id = "authorityForm";
+
+            const info = document.createElement('div');
+            info.classList.add("info");
+
+            authorityForm.append(info);
+
+            const div1 = document.createElement('div');
+
+            const teamSpan = document.createElement('span');
+            teamSpan.innerText = authority.deptNm + " / " + authority.teamNm;
+
+            div1.append(teamSpan);
+
+            const div2 = document.createElement('div');
+
+            const nameSpan = document.createElement('span');
+            nameSpan.innerText = authority.empLastName + authority.empFirstName;
+
+            const empCoInput = document.createElement('input');
+            empCoInput.value = authority.empCode;
+            empCoInput.id = "empCode";
+            empCoInput.hidden = true;
+
+            div2.append(nameSpan, empCoInput);
+
+            const div3 = document.createElement('div');
+
+            const positionSapn = document.createElement('span');
+            positionSapn.innerText = authority.positionNm;
+
+            div3.append(positionSapn);
+
+            const div4 = document.createElement('div');
+            div4.classList.add('emailW');
+            
+            const emailSapn = document.createElement('span');
+            emailSapn.innerText = authority.empEmail;
+
+            div4.append(emailSapn);
+
+            const div5 = document.createElement('div');
+            div5.classList.add('authorityW');
+
+            const attendanceYn = document.createElement('input');
+            attendanceYn.id = "attendanceYn";
+            attendanceYn.type = "checkbox";
+            if(authority.attendanceYn == 'Y') attendanceYn.checked = true;
+
+            div5.append(attendanceYn);
+
+            const div6 = document.createElement('div');
+            div6.classList.add('authorityW');
+
+            const functionYn = document.createElement('input');
+            functionYn.id = "functionYn";
+            functionYn.type = "checkbox";
+            if(authority.functionYn == 'Y') functionYn.checked = true;
+
+            div6.append(functionYn);
+
+            const div7 = document.createElement('div');
+            div7.classList.add('authorityW');
+
+            const teamBoardYn = document.createElement('input');
+            teamBoardYn.id = "attendanceYn";
+            teamBoardYn.type = "checkbox";
+            if(authority.teamBoardYn == 'Y') teamBoardYn.checked = true;
+
+            div7.append(teamBoardYn);
+
+            info.append(div1, div2, div3, div4, div5, div6, div7);
+            tableBody.append(authorityForm);
+
         }
 
-        fetch("/admin/addr/findEmp?name=" + inputName)
-        .then(resp => resp.json())
-        .then(employeeList => {
-            const employeeListDiv = document.querySelector(".employeeList");
-            employeeListDiv.nextElementSibling.innerHTML = '';
-            if(employeeList.length > 10) {
-                employeeListDiv.style.height = '100%';
-            } else {
-                employeeListDiv.style.height = '545px';
-            }
-            employeeListDiv.innerHTML = /*<div><input id="wholeCheck" type="checkbox" class="mine"></div>*/
-            `
-                <div>
-                    
-                    <div>부서 / 팀</div>
-                    <div>이름</div>
-                    <div>직급</div>
-                    <div>이메일</div>
-                    <div>전화번호</div>
-                </div>
-            `;
+        // 페이지 조회
+        const pagination = data.pagination;
+        
+        paginationArea.innerHTML = "";
 
-            employeeList.forEach((i) => {
-                const div = document.createElement('div');
-                div.classList.add("employee");
-                div.innerHTML = /*<div><input id="check" type="checkbox" class="mine"></div>*/
-                `
-                    
-                    <div class="info">
-                        <div><span>${i.deptNm} / ${i.teamNm}</span></div>
-                        <div><span>${i.empLastName}${i.empFirstName}</span></div>
-                        <div><span>${i.positionNm = "null" ? "" : i.positionNm}</span></div>
-                        <div><span>${i.empEmail}</span></div>
-                        <div><span>${i.phone}</span></div>
-                        <input hidden value="${i.empCode}" id="empCode">
-                    </div>
-                `;
-                employeeListDiv.append(div);
-            })
+         // 첫 페이지로 이동
+         const firstPage = document.createElement('li');
+         const firstPageLink = document.createElement('a');
+         firstPageLink.href = `/authority/authorityManage?cp=1`;
+         firstPageLink.innerHTML = "&lt;&lt;";
+         firstPage.append(firstPageLink);
+         paginationArea.append(firstPage);
 
-            document.querySelectorAll(".info").forEach((i) => {
-                i.addEventListener("click", e => {
-                    const obj = {
-                        "empCode" : i.children[5].value,
-                        "backPageLocation" : location.pathname + location.search
-                    }
-            
-                    fetch("/admin/addr/employeeDetail", {
-                        method : "post",
-                        headers : {"Content-Type" : "application/json"},
-                        body : JSON.stringify(obj)
-                    })
-                    .then(resp => resp.text())
-                    .then(result => {
-                        if(result == "") {
-                            alert("사원 정보가 존재하지 않습니다.");
-                            return;
-                        }
-                        location.href = '/admin/addr/employeeDetailPage';
-                    });
-                })
-            });
-            
-            if(document.querySelector("#backPage") != null) {
-                document.querySelector("#backPage").addEventListener("click", function () {
-                    location.href = backPageLocation;
-                });
-            }; 
+         // 이전 목록 마지막 번호로 이동
+         const prevPage = document.createElement('li');
+         const prevPageLink = document.createElement('a');
+         prevPageLink.href = `/authority/authorityManage?cp=${pagination.prevPage}`;
+         prevPageLink.innerHTML = "&lt;";
+         prevPage.append(prevPageLink);
+         paginationArea.append(prevPage);
+         
+         // 특정 페이지로 이동
+         for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+             const pageItem = document.createElement('li');
+             const pageLink = document.createElement('a');
+             pageLink.href = `/authority/authorityManage?cp=${i}`;
+             pageLink.innerText = i;
 
-            /*function anyCheckboxChecked() {
-                for (let i = 0; i < document.querySelectorAll("#check").length; i++) {
-                    if (document.querySelectorAll("#check")[i].checked == true) {
-                        return false;
-                    }
-                }
-                return true;
-            }
+             console.log(i);
 
-            if(document.querySelector("#wholeCheck") != null) {
-                document.querySelector("#wholeCheck").addEventListener("change", e => {
-                    if(document.querySelectorAll("#check")[0] != null){
-                        if(document.querySelector("#wholeCheck").checked == true){
-                            document.querySelectorAll("#check").forEach((i) => {
-                                i.checked = true;
-                            })
-                            //document.querySelector(".subBtnDiv").children[0].style.display = "block"
-                            //document.querySelector(".subBtnDiv").children[1].style.display = "block"
-                            return;
-                        }
-                        if(document.querySelector("#wholeCheck").checked == false){
-                            document.querySelectorAll("#check").forEach((i) => {
-                                i.checked = false;
-                            })
-                            //document.querySelector(".subBtnDiv").children[0].style.display = "none"
-                            //document.querySelector(".subBtnDiv").children[1].style.display = "none"
-                            return;
-                        }
-                    }
-                });
-            }
+             if (i === pagination.currentPage) {
+                 pageLink.classList.add('current');
+             }
 
-            if(document.querySelectorAll("#check") != null) {
-                document.querySelectorAll("#check").forEach((i) => {
-                    i.addEventListener("change", e => {
-                        if(anyCheckboxChecked()){
-                           // document.querySelector(".subBtnDiv").children[0].style.display = "none"
-                            document.querySelector(".subBtnDiv").children[1].style.display = "none"
-                            document.querySelector("#wholeCheck").checked = false;
-                            return;
-                        }
-                        if(document.querySelector("#wholeCheck").checked == true){return;}
-                        if(i.checked == true){
-                            document.querySelector(".subBtnDiv").children[0].style.display = "block"
-                            document.querySelector(".subBtnDiv").children[1].style.display = "block"
-                            return;
-                        }
-                        if(anyCheckboxChecked()){
-                            document.querySelector(".subBtnDiv").children[0].style.display = "none"
-                            document.querySelector(".subBtnDiv").children[1].style.display = "none"
-                        }
-                    })
-                })
-            }*/
+             pageItem.append(pageLink);
+             paginationArea.append(pageItem);
+         }
 
-        })
-    })
+         // 다음 목록 시작 번호로 이동
+         const nextPage = document.createElement('li');
+         const nextPageLink = document.createElement('a');
+         nextPageLink.href = `/authority/authorityManage?cp=${pagination.nextPage}`;
+         nextPageLink.innerHTML = "&gt;";
+         nextPage.append(nextPageLink);
+         paginationArea.append(nextPage);
+
+         // 끝 페이지로 이동
+         const lastPage = document.createElement('li');
+         const lastPageLink = document.createElement('a');
+         lastPageLink.href = `/authority/authorityManage?cp=${pagination.maxPage}`;
+         lastPageLink.innerHTML = "&gt;&gt;";
+         lastPage.append(lastPageLink);
+         paginationArea.append(lastPage);
+    });
 }
+
+/* 부서클릭 */
+function deptSelect(deptNo) {
+
+    authorityManage(deptNo , "", "");
+}
+
+/* 팀 클릭 */
+function teamSelect(teamNo, deptNo) {
+
+    authorityManage(deptNo , teamNo, "");
+}
+
+/* 회사 클릭 */
+function comSelect() {
+    authorityManage("" , "", "");
+}
+
+/* 이름 검색 */
+document.querySelector('#findEmp').addEventListener("input", () => {
+    
+    empName = document.querySelector('#findEmp').value;
+
+    authorityManage(deptNo , teamNo, empName);
+
+});
+
+
+/* 권한 등록 */
+document.querySelector('#saveGroup').addEventListener("click", () => {
+
+    const authorityList = [];
+            
+    document.querySelectorAll('.tableBody .info').forEach(info => {
+        const attendanceYn = info.querySelector('#attendanceYn').checked;
+        const functionYn = info.querySelector('#functionYn').checked;
+        const teamBoardYn = info.querySelector('#teamBoardYn').checked;
+
+        const empCode = info.querySelector('#empCode').value;
+
+        authorityList.push({
+            empCode,
+            attendanceYn,
+            functionYn,
+            teamBoardYn
+        });
+    });
+
+    fetch('/authority/authorityManage', {
+        method: 'POST',
+        headers: {"Content-Type" : "application/json"},
+        body: JSON.stringify(authorityList)
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        if(result > 0) {
+            alert("권한이 등록되었습니다");
+            location.reload(true);
+        } else {
+            alert("업데이트할 권한이 없습니다");
+        }
+    });
+});
+
+authorityManage("" , "", "");

@@ -61,6 +61,8 @@ public class TeamBoardServiceImpl implements TeamBoardService {
 		// 팀게시판 조회
 		List<TeamBoard> teamBoardList = mapper.teamBoardList(paramMap, rowBounds);
 		
+		// 팀게시판 권한여부
+		
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("pagination", pagination);
