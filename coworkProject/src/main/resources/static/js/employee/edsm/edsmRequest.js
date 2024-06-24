@@ -72,12 +72,14 @@ function setEqualRowWidth() {
 /* 검색창 클릭 */
 function inputChange(empFirstName, trId, tableId) {
 
+
     fetch("/employee/edsm/edsmSerach?empFirstName=" + empFirstName, {
         method : "GET",
         headers : {"Content-Type" : "application/json"}
     })
     .then(resp => resp.text())
     .then(result => {
+
         const searchTable = document.querySelector(tableId);
 
         searchTable.innerHTML = ''; // 기존 내용을 지우기
@@ -152,12 +154,15 @@ for(let i=1; i<=approverForm.childElementCount; i++) {
             // 기존에 등록한 empCode값 삭제
             document.querySelector('#empCode' + i).value = '';
 
-            console.log(empFirstName);
+            //console.log(empFirstName);
             
             for(let x=(i+1); x<approverForm.childElementCount; x++) {
 
-                document.querySelector('#approver' + x).disabled = true;
-                document.querySelector('#approver' + x).value = '';
+                //console.log(document.querySelector('#approver' + x));
+                if(x < 4) {
+                    document.querySelector('#approver' + x).disabled = true;
+                    document.querySelector('#approver' + x).value = '';
+                }
             }
 
             inputChange(empFirstName, 'trApp', '.searchApp');

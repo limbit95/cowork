@@ -201,7 +201,7 @@ label.updBtn {
 }
 
 /* 목록 버튼 */
-.tableBtn form {
+.tableBtn div {
     width: auto;
 }
 .tableBtn {
