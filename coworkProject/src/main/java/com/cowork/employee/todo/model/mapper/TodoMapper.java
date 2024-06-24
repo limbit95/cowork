@@ -169,6 +169,12 @@ public interface TodoMapper {
 	 * @return
 	 */
 	List<Employee2> employeeListSearch(Map<String, Object> map);
+
+	/** 유저 메인용 투두 검색 
+	 * @param empCode
+	 * @return
+	 */
+	List<Todo> userMainTodoList(int empCode);
 	
 	
 

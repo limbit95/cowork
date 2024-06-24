@@ -511,6 +511,13 @@ public class TodoServiceImpl implements TodoService{
 	    return result; 
 		
 	}
+
+
+	@Override
+	public List<Todo> userMainTodoList(int empCode) {
+		
+		return mapper.userMainTodoList(empCode);
+	}
 	
 
 

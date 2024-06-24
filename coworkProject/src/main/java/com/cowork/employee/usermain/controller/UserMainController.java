@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.cowork.employee.calendar.model.dto.Calendar;
 import com.cowork.employee.calendar.model.service.CalendarService;
+import com.cowork.employee.todo.model.dto.Todo;
+import com.cowork.employee.todo.model.service.TodoService;
 import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
@@ -32,7 +34,7 @@ public class UserMainController {
 		List<Calendar> companyAllCalendarList = cs.companyAllCalendarList(loginEmp.getComNo());
 		
 		model.addAttribute("companyAllCalendarList", companyAllCalendarList);			
-		
+
 		return "employee/userMain/userMain";
 	}
 	
@@ -49,5 +51,6 @@ public class UserMainController {
 		
 		return "employee/userMain/attendanceReigst";
 	}
+
 	
 }
