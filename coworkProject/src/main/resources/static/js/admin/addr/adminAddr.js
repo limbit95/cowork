@@ -1010,8 +1010,8 @@ if(addEmployeeconfirm != null) {
             const top = (screenHeight / 2) - (height / 2);
             
             // 팝업 창 열기
-            const popup = window.open("http://localhost/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
-            // const popup = window.open("http://coworkintranet.site/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
+            // const popup = window.open("http://localhost/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
+            const popup = window.open("http://coworkintranet.site/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
             hide2();
         }
     });
