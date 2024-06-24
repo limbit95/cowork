@@ -33,4 +33,16 @@ public interface IpInfoMapper {
 	 */
 	int deleteIpInfo(int empCode);
 
+	/** 삭제된 회원인지 조회
+	 * @param empCode
+	 * @return N / Y
+	 */
+	String selectDelFl(int empCode);
+
+	/** IP 중복 확인
+	 * @param updateIpInfo
+	 * @return count
+	 */
+	int duplicationIp(IpInfo updateIpInfo);
+
 }
