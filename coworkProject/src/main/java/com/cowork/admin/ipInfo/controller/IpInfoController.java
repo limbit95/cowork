@@ -42,10 +42,12 @@ public class IpInfoController {
 		List<Department> deptList = cs.selectDeptList(loginEmp.getComNo());
 		
 		List<Team> teamList = new ArrayList<>();
-		for(Department dept : deptList) {
-			if(dept.getTeamList() != null) {
-				teamList.addAll(dept.getTeamList());
-			}
+		if(deptList != null) {
+			for(Department dept : deptList) {
+				if(dept.getTeamList() != null) {
+					teamList.addAll(dept.getTeamList());
+				}
+			}			
 		}
 		
 		// comNo로 부서, 팀, ip 등등 다 가져와야함
