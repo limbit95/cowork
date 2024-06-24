@@ -107,4 +107,16 @@ public interface UserService {
 
 	int validatePhoneNum(String empId, String phoneNum);
 
+	/** 로그인한 회원의 ip가 DB에 존재하지는지 확인
+	 * @param loginEmp
+	 * @return
+	 */
+	String loginEmpGetIp(Employee2 loginEmp);
+
+	/** 최초 로그인 시 ip 저장
+	 * @param loginEmp
+	 * @return
+	 */
+	int firstInsertIp(Employee2 loginEmp);
+
 }

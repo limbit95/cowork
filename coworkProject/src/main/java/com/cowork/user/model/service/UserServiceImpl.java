@@ -263,49 +263,18 @@ public class UserServiceImpl implements UserService {
 		return mapper.inviteSignUp(data);
 	}
 	
-	
-	
-	
-	
-	public String createAuthKey() {
-   		String key = "";
-   	
-   		for(int i=0 ; i< 6 ; i++) {
-	        int sel1 = (int)(Math.random() * 3); // 0:숫자 / 1,2:영어
-	      
-	        if(sel1 == 0) {
-	          
-	            int num = (int)(Math.random() * 10); // 0~9
-	            key += num;
-	          
-	        }else {
-	        	char ch = (char)(Math.random() * 26 + 65); // A~Z
-	          
-	            int sel2 = (int)(Math.random() * 2); // 0:소문자 / 1:대문자
-	          
-	            if(sel2 == 0) {
-	                ch = (char)(ch + ('a' - 'A')); // 대문자로 변경
-	            }
-	          
-	            key += ch;
-	        }
-          
-   		}
-        return key;
-	}
-	
-	
-
-	
-	// 빠른 로그인
+	// 로그인한 회원의 ip가 DB에 존재하지는지 확인
 	@Override
-	public Employee2 quickLogin(String empId) {
-		String encPw = bcrypt.encode("qwer1234!");
-		log.info("password : " + encPw);
-		return mapper.login(empId);
+	public String loginEmpGetIp(Employee2 loginEmp) {
+		return mapper.loginEmpGetIp(loginEmp);
 	}
-
-	// 0622_재준 시작
+	
+	// 최초 로그인 시 ip 저장
+	@Override
+	public int firstInsertIp(Employee2 loginEmp) {
+		return mapper.firstInsertIp(loginEmp);
+	}
+	
 	/**
 	 *비즈니스 카드 관련 로직 
 	 */
@@ -365,8 +334,44 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
+	
+	
+	
+	public String createAuthKey() {
+   		String key = "";
+   	
+   		for(int i=0 ; i< 6 ; i++) {
+	        int sel1 = (int)(Math.random() * 3); // 0:숫자 / 1,2:영어
+	      
+	        if(sel1 == 0) {
+	          
+	            int num = (int)(Math.random() * 10); // 0~9
+	            key += num;
+	          
+	        }else {
+	        	char ch = (char)(Math.random() * 26 + 65); // A~Z
+	          
+	            int sel2 = (int)(Math.random() * 2); // 0:소문자 / 1:대문자
+	          
+	            if(sel2 == 0) {
+	                ch = (char)(ch + ('a' - 'A')); // 대문자로 변경
+	            }
+	          
+	            key += ch;
+	        }
+          
+   		}
+        return key;
+	}
+	
 
-	// 0622_재준 끝
-
+	
+	// 빠른 로그인
+	@Override
+	public Employee2 quickLogin(String empId) {
+		String encPw = bcrypt.encode("qwer1234!");
+		log.info("password : " + encPw);
+		return mapper.login(empId);
+	}
 
 }

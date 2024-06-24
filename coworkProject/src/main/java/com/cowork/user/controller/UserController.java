@@ -25,6 +25,7 @@ import com.cowork.email.model.service.EmailService;
 import com.cowork.user.model.dto.Employee2;
 import com.cowork.user.model.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -160,11 +161,12 @@ public class UserController {
 		
 		ra.addFlashAttribute("message", message);
 		
-		return "redirect:" + path;
+		return "redirect:/userMain";
 	}
 	
-	// 공공데이터 사업자등록정보 진위확인 및 상태조회 서비스
-	// 서비스키 리턴하기
+	/** 공공데이터 사업자등록정보 진위확인 및 상태조회 서비스 서비스키 리턴하기
+	 * @return
+	 */
 	@ResponseBody 
 	@GetMapping("/getServiceKey")
 	public String getServiceKey() {
@@ -185,17 +187,20 @@ public class UserController {
 	@PostMapping("login")
 	public String login(Employee2 inputEmp,
 			 			RedirectAttributes ra,
-			 			Model model) {
+			 			Model model,
+			 			HttpServletRequest request) {
+		
 		Employee2 loginEmp = service.login(inputEmp);
 		
 		if(loginEmp == null) {
 			ra.addFlashAttribute("message", "아이디 또는 비밀번호가 일치하지 않습니다.");
 			return "redirect:/user/login";
 		}
-		// 0622 재준 시작
+		
 		Integer businessCardFl = service.businessCardProcess(loginEmp.getEmpCode());
 		loginEmp.setBusinessCardFl(businessCardFl);
-		// 0622 재준 끝 
+
+		model.addAttribute("loginEmp", loginEmp);
 		
 		if(loginEmp.getComNm().equals("없음")) {
 			ra.addFlashAttribute("message", "기업 정보 등록 후 서비스 이용 가능합니다.");
@@ -206,12 +211,51 @@ public class UserController {
 		List<Department> comAddrList = adminAddrService.selectComAddrList(loginEmp);
 		model.addAttribute("comAddrList", comAddrList);
 		
-		model.addAttribute("loginEmp", loginEmp);
+        String connectIP = request.getHeader("X-Forwarded-For");
+        if (connectIP == null || connectIP.isEmpty() || "unknown".equalsIgnoreCase(connectIP)) {
+        	connectIP = request.getHeader("Proxy-Client-IP");
+        }
+        if (connectIP == null || connectIP.isEmpty() || "unknown".equalsIgnoreCase(connectIP)) {
+        	connectIP = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (connectIP == null || connectIP.isEmpty() || "unknown".equalsIgnoreCase(connectIP)) {
+        	connectIP = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (connectIP == null || connectIP.isEmpty() || "unknown".equalsIgnoreCase(connectIP)) {
+        	connectIP = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (connectIP == null || connectIP.isEmpty() || "unknown".equalsIgnoreCase(connectIP)) {
+        	connectIP = request.getRemoteAddr();
+        }
+
+        log.info("@@@@@@@@@@@@@ 접속한 ip @@@@@@@@@@@@@@ : " + connectIP);
+        
+        // 로그인한 회원의 ip가 DB에 존재하지는지 확인
+        String loginEmpGetIp = service.loginEmpGetIp(loginEmp);
+        
+        // DB에 존재하지 않으면 ip 삽입
+        // 결국 회원가입 후 첫 로그인 시 당연히 DB에 ip가 없기 때문에
+        // 그 때 사용자의 ip가 DB에 저장되기에 최초 로그인 시에만 DB에 ip가 저장됨
+        if(loginEmpGetIp == null) {
+        	loginEmp.setEmpIp(connectIP);
+        	int result = service.firstInsertIp(loginEmp);
+        }
+		
 		ra.addFlashAttribute("message", loginEmp.getEmpLastName() + loginEmp.getEmpFirstName() + "님 환영합니다.");
+		
 		return "redirect:/userMain";
 	}
 	
-	
+	/** 로그아웃
+	 * @param status
+	 * @return
+	 */
+	@GetMapping("logout")
+	public String logoutMethod (SessionStatus status) {
+		status.setComplete();
+		return "redirect:/";
+		
+	}
 	
 	/** 아이디 찾기 페이지
 	 * @return
@@ -317,11 +361,19 @@ public class UserController {
 		return "user/registrationNumCheck";
 	}
 	
+	
+	
+	
+	
+	// 빠른 로그인
 	@GetMapping("quick")
 	public String quickLogin(@RequestParam("empId") String empId,
 							 RedirectAttributes ra,
 							 Model model) {
 		Employee2 loginEmp = service.quickLogin(empId);
+		
+		Integer businessCardFl = service.businessCardProcess(loginEmp.getEmpCode());
+		loginEmp.setBusinessCardFl(businessCardFl);
 		
 		List<Department> comAddrList = adminAddrService.selectComAddrList(loginEmp);
 		model.addAttribute("comAddrList", comAddrList);
@@ -330,30 +382,5 @@ public class UserController {
 		ra.addFlashAttribute("message", loginEmp.getEmpLastName() + loginEmp.getEmpFirstName() + "님 환영합니다.");
 		return "redirect:/userMain";
 	}
-	
-	@GetMapping("logout")
-	public String logoutMethod (SessionStatus status) {
-		status.setComplete();
-		return "redirect:/";
-		
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

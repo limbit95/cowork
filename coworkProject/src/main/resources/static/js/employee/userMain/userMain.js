@@ -1,8 +1,8 @@
 const attdRegistBtn = document.querySelector("#attdRegistBtn");
 
 attdRegistBtn.addEventListener("click", e => {
-    const width = 800;
-    const height = 600;
+    const width = 352;
+    const height = 253;
 
     const screenWidth = window.screen.width;
     const screenHeight = window.screen.height;
