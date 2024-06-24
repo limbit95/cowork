@@ -199,3 +199,80 @@ label.updBtn {
     height: 100%;
     border-radius: 50%;
 }
+
+/* 목록 버튼 */
+.tableBtn form {
+    width: auto;
+}
+.tableBtn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.authorityBtn {
+    margin-right: 10px !important;
+}
+
+/* 팝업창 */
+.authorityManagePop {
+    position: fixed;
+    width: 500px;
+    height: auto;
+    margin: 0 !important;
+    padding: 10px !important;
+    background: white;
+    box-shadow: 2px 2px 2px 2px var(--gray-color);
+    top: 37%;
+}
+
+.authorityManagePop .popTitle {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.authorityManagePop span {
+    color: var(--main-color);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.times {
+    margin-top: 10px !important;
+    font-size: 19px;
+    text-align: right;
+    width: 15px;
+    cursor: pointer;
+}
+
+.tHead, .tBody div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.tHead {
+    height: 35px;
+    background-color: var(--main5-color);
+    font-weight: bold;
+}
+
+.tHead, .tBody {
+    width: 90%;
+    margin-left: 20px !important;
+}
+
+.tBody div {
+    height: 45px;
+    border-bottom: 1px solid #d9d9d9;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.tHead div, .tBody div {
+    width: 100%;
+    margin-right: 10px !important;
+}
+

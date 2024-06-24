@@ -163,6 +163,8 @@ public interface UserMapper {
 	 * @return
 	 */
 	int firstInsertIp(Employee2 loginEmp);
+  
+	void resetPwPhoneVersion(Map<String, Object> paramMap);
 
 
 

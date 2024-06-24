@@ -7,6 +7,8 @@ const comboValue = urlParams.get('combo');
 const keyValue = urlParams.get('key');
 const queryValue = urlParams.get('query');
 
+const authorityPop = document.querySelector('#authorityPop');
+
 // comboValue 값이 있을 경우
 if (comboValue) {
     searchCombo.value = comboValue;
@@ -24,3 +26,11 @@ searchCombo.addEventListener('change', () => {
                 + "&query=" + searchQuery.value
                 + "&combo=" + searchCombo.value;
 });
+
+// 권한 팝업창
+if(authorityPop) {
+    authorityPop.addEventListener('click', () => {
+        authorityPop.classList.remove('disNone');
+        authorityPop.classList.add('disNone');
+    });
+}

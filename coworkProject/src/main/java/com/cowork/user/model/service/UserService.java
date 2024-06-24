@@ -119,4 +119,6 @@ public interface UserService {
 	 */
 	int firstInsertIp(Employee2 loginEmp);
 
+  void resetPwPhoneVersion(String empId, String empPw);
+
 }

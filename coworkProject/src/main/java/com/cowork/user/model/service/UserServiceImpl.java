@@ -333,9 +333,19 @@ public class UserServiceImpl implements UserService {
 		int result = mapper.verifyAuth(paramMap);
 		return result;
 	}
+  
+	@Override
+	public void resetPwPhoneVersion(String empId, String empPw) {
+		String encodedPw = bcrypt.encode(empPw);
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("empId", empId);
+		paramMap.put("empPw", empPw);
+		mapper.resetPwPhoneVersion(paramMap);
+	}
+  
+  
+  
 
-	
-	
 	
 	public String createAuthKey() {
    		String key = "";
@@ -363,8 +373,6 @@ public class UserServiceImpl implements UserService {
    		}
         return key;
 	}
-	
-
 	
 	// 빠른 로그인
 	@Override

@@ -321,7 +321,6 @@ public class UserController {
 		}
 		
 		ra.addFlashAttribute("message", "비밀번호 재설정 되었습니다. 새로운 비밀번호로 로그인 해주세요.");
-		
 		return "redirect:/";
 	}
 	
@@ -382,5 +381,28 @@ public class UserController {
 		ra.addFlashAttribute("message", loginEmp.getEmpLastName() + loginEmp.getEmpFirstName() + "님 환영합니다.");
 		return "redirect:/userMain";
 	}
-
+	
+	@GetMapping("logout")
+	public String logoutMethod (SessionStatus status) {
+		status.setComplete();
+		return "redirect:/";
+		
+	}
+	
+	@GetMapping("resetPw")
+	public String resetPw (@RequestParam("empId") String empId, Model model) {
+		model.addAttribute("empId", empId);
+		return "user/resetPwFindByPhoneVersion";
+	}
+	
+	@PostMapping("resetPwPhoneVersion")
+	public String resetPwPhoneVersion (@RequestParam("empPw") String empPw, 
+				@RequestParam("empId") String empId,
+				Model model
+			) {
+		service.resetPwPhoneVersion(empId, empPw);
+		model.addAttribute("message", "비밀번호가 정상적으로 수정되었습니다.");
+		return "common/main";
+	}
+	
 }

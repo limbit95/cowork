@@ -274,6 +274,12 @@
 		WHERE COM_NO = #{comNo}
 		AND EMP_CODE = #{empCode}
 	</select>
+  
+	<update id="resetPwPhoneVersion">
+		UPDATE EMPLOYEE SET EMP_PW = #{empPw}
+		WHERE EMP_ID = #{empId}
+	</update>
+	
 	
 	<!-- 최초 로그인 시 로그인한 사용자의 IP 저장 -->
 	<insert id="firstInsertIp">
@@ -284,18 +290,5 @@
 			#{empCode}
 		)
 	</insert>
-	
+  
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-

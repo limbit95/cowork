@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cowork.admin.authority.dto.AuthorityMember;
 import com.cowork.admin.notice.model.exception.BoardFileDeleteException;
 import com.cowork.admin.notice.model.exception.BoardInsertException;
 import com.cowork.admin.notice.model.mapper.AdminNoticeMapper;
@@ -24,6 +25,7 @@ import com.cowork.employee.notice.model.dto.Notice;
 import com.cowork.employee.teamBoard.model.dto.Comment;
 import com.cowork.employee.teamBoard.model.dto.TeamBoard;
 import com.cowork.employee.teamBoard.model.mapper.TeamBoardMapper;
+import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,12 +64,44 @@ public class TeamBoardServiceImpl implements TeamBoardService {
 		List<TeamBoard> teamBoardList = mapper.teamBoardList(paramMap, rowBounds);
 		
 		// 팀게시판 권한여부
+		int authorityCnt = mapper.authorityCnt(paramMap);
+		
+		// 팀내에 최고 레벨
+		int levelCnt = mapper.levelCnt(paramMap);
+		
+		// 팀게시판 권한 조회
+		List<Employee2> teamAuthorityList = mapper.teamAuthorityList(paramMap);
 		
 		Map<String, Object> map = new HashMap<>();
 		
 		map.put("pagination", pagination);
 		map.put("teamBoardList", teamBoardList);
+		//map.put("authorityCnt", authorityCnt);
+		//map.put("levelCnt", levelCnt);
+		//map.put("teamAuthorityList", teamAuthorityList);
 		
+		return map;
+	}
+	
+	// 팀 게시판 권한 조회
+	@Override
+	public Map<String, Object> teamAuthorityList(Map<String, Object> paramMap) {
+		
+		// 팀게시판 권한여부
+		int authorityCnt = mapper.authorityCnt(paramMap);
+				
+		// 팀내에 최고 레벨
+		int levelCnt = mapper.levelCnt(paramMap);
+				
+		// 팀게시판 권한 조회
+		List<Employee2> teamAuthorityList = mapper.teamAuthorityList(paramMap);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("authorityCnt", authorityCnt);
+		map.put("levelCnt", levelCnt);
+		map.put("teamAuthorityList", teamAuthorityList);
+				
 		return map;
 	}
 	

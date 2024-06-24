@@ -1,5 +1,3 @@
-
-
 findBtn2.addEventListener('click', function(){
 	let phoneNum = phoneOfFindPw.value;
 	let findPwByPhoneValue = findPwByPhone.value; 
@@ -31,8 +29,6 @@ findBtn2.addEventListener('click', function(){
 })
 
 let findBtn3 = document.querySelector('.findBtn3');
-
-
 findBtn3.addEventListener('click', function(){
 	
 	let inputAuthKey = authKey.value;
@@ -52,13 +48,13 @@ findBtn3.addEventListener('click', function(){
 			return; 
 		}else{
 			alert('인증 성공');
+			window.location.href = '/user/resetPw?empId=' + findPwByPhone.value;
 			return;			
 		}
-		
 	})
-	
-	
 })
+
+
 
 
 
