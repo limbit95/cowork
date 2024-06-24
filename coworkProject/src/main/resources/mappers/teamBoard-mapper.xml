@@ -217,5 +217,52 @@
 			COMMENT_DEL_FL = 'Y'
 		WHERE COMMENT_NO = #{commentNo}
 	</delete>
+	
+	<!-- 팀권한여부 -->
+	<select id="authorityCnt" resultType="_int">
+		SELECT 
+			COUNT(*)
+		FROM AUTHORITY_MEMBER
+		WHERE EMP_CODE = #{empCode}
+		AND AUTHORITY_NO = 3
+	</select>
+	
+	<!-- 팀권한여부 -->
+	<select id="levelCnt" resultType="_int">
+		SELECT
+			MIN(POSITION_LEVEL)
+		FROM(
+			SELECT 
+				"LEVEL" AS POSITION_LEVEL
+			FROM EMPLOYEE
+			JOIN "POSITION" USING(POSITION_NO)
+			WHERE TEAM_NO = #{teamNo}
+		)
+	</select>
+	
+	<!-- 팀 권한 조회 -->
+	<select id="teamAuthorityList">
+		SELECT 
+			 EMP_CODE
+			,EMP_LAST_NAME
+			,EMP_FIRST_NAME
+			,P.POSITION_NM 
+			,EMP_EMAIL
+			, DECODE( (SELECT COUNT(*) FROM AUTHORITY_MEMBER WHERE EMP_CODE = E.EMP_CODE AND AUTHORITY_NO = 3), 0, 'N', 'Y' ) AS TEAM_BOARD_YN
+			,D.DEPT_NO 
+			,EMP_NO
+			,EMP_ID
+			,E.COM_NO
+			,E.TEAM_NO
+			,P.POSITION_NO
+			,GENERAL_MANAGER
+		FROM EMPLOYEE E
+		LEFT JOIN TEAM T ON E.TEAM_NO = T.TEAM_NO 
+		LEFT JOIN DEPARTMENT D ON T.DEPT_NO = D.DEPT_NO
+		LEFT JOIN "POSITION" P ON E.POSITION_NO = P.POSITION_NO 
+		WHERE E.COM_NO = #{comNo}
+		AND E.TEAM_NO = #{teamNo}
+		ORDER BY "LEVEL", EMP_CODE
+	</select>
 
 </mapper>

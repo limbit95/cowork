@@ -3,9 +3,19 @@ const paginationArea = document.querySelector('.pagination');
 
 let deptNo = "";
 let teamNo = "";
+let empName = "";
+
+let urlSearch = new URLSearchParams(location.search);
+let cp = 1;
+if(urlSearch.get('cp')) {
+    cp = urlSearch.get('cp');
+}
+
 
 /* 권한관리 조회 */
-function authorityManage(deptNo, teamNo, empName) {
+function authorityManage(deptNo, teamNo, empName, cp) {
+
+    //console.log(cp);
 
     queryString = "";
 
@@ -14,17 +24,15 @@ function authorityManage(deptNo, teamNo, empName) {
     }
 
     if(teamNo != "") {
-        if(queryString != "") queryString += "&"
-        queryString += "teamNo=" +  teamNo;
+        queryString += "&teamNo=" +  teamNo;
     }
 
     if(empName != "") {
-        if(queryString != "") queryString += "&"
-        queryString += "empName=" +  empName;
+        queryString += "&empName=" +  empName;
     }
 
 
-    fetch("/authority/authorityList?" + queryString)
+    fetch("/authority/authorityList?cp=" + cp + queryString)
     .then(resp => resp.json())
     .then(data => {
 
@@ -102,7 +110,7 @@ function authorityManage(deptNo, teamNo, empName) {
             div7.classList.add('authorityW');
 
             const teamBoardYn = document.createElement('input');
-            teamBoardYn.id = "attendanceYn";
+            teamBoardYn.id = "teamBoardYn";
             teamBoardYn.type = "checkbox";
             if(authority.teamBoardYn == 'Y') teamBoardYn.checked = true;
 
@@ -133,15 +141,13 @@ function authorityManage(deptNo, teamNo, empName) {
          prevPageLink.innerHTML = "&lt;";
          prevPage.append(prevPageLink);
          paginationArea.append(prevPage);
-         
+
          // 특정 페이지로 이동
          for (let i = pagination.startPage; i <= pagination.endPage; i++) {
              const pageItem = document.createElement('li');
              const pageLink = document.createElement('a');
              pageLink.href = `/authority/authorityManage?cp=${i}`;
              pageLink.innerText = i;
-
-             console.log(i);
 
              if (i === pagination.currentPage) {
                  pageLink.classList.add('current');
@@ -172,18 +178,18 @@ function authorityManage(deptNo, teamNo, empName) {
 /* 부서클릭 */
 function deptSelect(deptNo) {
 
-    authorityManage(deptNo , "", "");
+    authorityManage(deptNo , "", "", 1);
 }
 
 /* 팀 클릭 */
 function teamSelect(teamNo, deptNo) {
 
-    authorityManage(deptNo , teamNo, "");
+    authorityManage(deptNo , teamNo, "", 1);
 }
 
 /* 회사 클릭 */
 function comSelect() {
-    authorityManage("" , "", "");
+    authorityManage("" , "", "", 1);
 }
 
 /* 이름 검색 */
@@ -232,4 +238,4 @@ document.querySelector('#saveGroup').addEventListener("click", () => {
     });
 });
 
-authorityManage("" , "", "");
+authorityManage("" , "", "", cp);

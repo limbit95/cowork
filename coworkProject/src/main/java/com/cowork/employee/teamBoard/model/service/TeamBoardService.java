@@ -18,6 +18,12 @@ public interface TeamBoardService {
 	 */
 	Map<String, Object> teamBoardList(Map<String, Object> paramMap, int cp);
 	
+	/** 권한 조회
+	 * @param paramMap
+	 * @return
+	 */
+	Map<String, Object> teamAuthorityList(Map<String, Object> paramMap);
+	
 	/** 팀게시판 상세
 	 * @param teamBoardNo
 	 * @return

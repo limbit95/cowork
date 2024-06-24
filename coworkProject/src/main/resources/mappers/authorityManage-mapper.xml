@@ -56,7 +56,7 @@
 		<if test="empName != null">
 		AND EMP_LAST_NAME || EMP_FIRST_NAME like '%' ||  #{empName} || '%'
 		</if>
-		ORDER BY DEPT_NO, TEAM_NO, "LEVEL"
+		ORDER BY DEPT_NO, TEAM_NO, "LEVEL", EMP_CODE
 	</select>
 	
 	<!-- 사원 권한 조회 -->

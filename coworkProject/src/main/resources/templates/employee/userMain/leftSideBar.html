@@ -354,9 +354,10 @@
 			</div>
 			<a href="/employee/attendance/list" id="attendanceLink">근태내역</a>
 			<a href="/survey/receiveSurvey" id="surveyLink">설문</a>
-			<th:block th:if="${session.loginEmp.generalManager == 1}">
+			<!--<th:block class="authority"> 
 				<a href="/admin/companyInfo/companyInfo">관리자 메뉴로 이동</a>
-			</th:block>
+				
+			</th:block>-->
 		</div>
 	</div>
     
@@ -364,6 +365,7 @@
 
 	<script th:inline="javascript">
 		const message = /*[[${message}]]*/ "전달 메세지";
+		const manager = /*[[${session.loginEmp.generalManager}]]*/ "전체 관리자";
 		
 		if (message != null) {
 			alert(message);

@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.cowork.employee.teamBoard.model.dto.Comment;
 import com.cowork.employee.teamBoard.model.dto.TeamBoard;
+import com.cowork.user.model.dto.Employee2;
 
 @Mapper
 public interface TeamBoardMapper {
@@ -74,5 +75,23 @@ public interface TeamBoardMapper {
 	 * @return
 	 */
 	int commentDelete(int commentNo);
+
+	/** 권한 여부 조회
+	 * @param object
+	 * @return
+	 */
+	int authorityCnt(Map<String, Object> paramMap);
+
+	/** 직업최고레벨
+	 * @param object
+	 * @return
+	 */
+	int levelCnt(Map<String, Object> paramMap);
+
+	/** 팀 권한 조회
+	 * @param paramMap
+	 * @return
+	 */
+	List<Employee2> teamAuthorityList(Map<String, Object> paramMap);
 
 }
