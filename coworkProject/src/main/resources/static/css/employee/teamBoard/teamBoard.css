@@ -217,7 +217,7 @@ label.updBtn {
 .authorityManagePop {
     position: fixed;
     width: 500px;
-    height: 245px;
+    height: auto;
     margin: 0 !important;
     padding: 10px !important;
     background: white;
@@ -244,3 +244,35 @@ label.updBtn {
     width: 15px;
     cursor: pointer;
 }
+
+.tHead, .tBody div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.tHead {
+    height: 35px;
+    background-color: var(--main5-color);
+    font-weight: bold;
+}
+
+.tHead, .tBody {
+    width: 90%;
+    margin-left: 20px !important;
+}
+
+.tBody div {
+    height: 45px;
+    border-bottom: 1px solid #d9d9d9;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.tHead div, .tBody div {
+    width: 100%;
+    margin-right: 10px !important;
+}
+

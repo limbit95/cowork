@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.employee.usermain.model.mapper.UserMainMapper">
+	
+	<!-- 사용자 권한여부 -->
+	<select id="authorityCnt">
+		SELECT COUNT(*) FROM AUTHORITY_MEMBER 
+		WHERE EMP_CODE = #{empCode}
+		AND AUTHORITY_NO IN (1, 2)
+	</select>
+	
+	<!-- 관리자 권한 조회 -->
+	<select id="authorityList">
+		SELECT AUTHORITY_NO FROM AUTHORITY_MEMBER 
+		WHERE EMP_CODE = #{empCode}
+		AND AUTHORITY_NO IN (1, 2)
+	</select>
+	
+</mapper>

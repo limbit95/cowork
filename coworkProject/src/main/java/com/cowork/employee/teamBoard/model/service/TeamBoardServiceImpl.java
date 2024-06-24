@@ -76,10 +76,32 @@ public class TeamBoardServiceImpl implements TeamBoardService {
 		
 		map.put("pagination", pagination);
 		map.put("teamBoardList", teamBoardList);
+		//map.put("authorityCnt", authorityCnt);
+		//map.put("levelCnt", levelCnt);
+		//map.put("teamAuthorityList", teamAuthorityList);
+		
+		return map;
+	}
+	
+	// 팀 게시판 권한 조회
+	@Override
+	public Map<String, Object> teamAuthorityList(Map<String, Object> paramMap) {
+		
+		// 팀게시판 권한여부
+		int authorityCnt = mapper.authorityCnt(paramMap);
+				
+		// 팀내에 최고 레벨
+		int levelCnt = mapper.levelCnt(paramMap);
+				
+		// 팀게시판 권한 조회
+		List<Employee2> teamAuthorityList = mapper.teamAuthorityList(paramMap);
+		
+		Map<String, Object> map = new HashMap<>();
+		
 		map.put("authorityCnt", authorityCnt);
 		map.put("levelCnt", levelCnt);
 		map.put("teamAuthorityList", teamAuthorityList);
-		
+				
 		return map;
 	}
 	

@@ -1,6 +1,7 @@
 package com.cowork.employee.teamBoard.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cowork.admin.authority.dto.AuthorityMember;
 import com.cowork.admin.notice.model.service.AdminNoticeService;
 import com.cowork.employee.teamBoard.model.dto.Comment;
 import com.cowork.employee.teamBoard.model.dto.TeamBoard;
@@ -48,7 +50,7 @@ public class TeamBoardController {
 				@RequestParam Map<String, Object> paramMap
 			) {
 		
-		paramMap.put("comNo", loginEmp.getComNo());
+		//paramMap.put("comNo", loginEmp.getComNo());
 		paramMap.put("teamNo", loginEmp.getTeamNo());
 		paramMap.put("combo", combo);
 		
@@ -59,11 +61,35 @@ public class TeamBoardController {
 		
 		model.addAttribute("pagination", map.get("pagination"));
 		model.addAttribute("teamBoardList", map.get("teamBoardList"));
-		model.addAttribute("authorityCnt", map.get("authorityCnt"));
-		model.addAttribute("levelCnt", map.get("levelCnt"));
-		model.addAttribute("teamAuthorityList", map.get("teamAuthorityList"));
+		//model.addAttribute("authorityCnt", map.get("authorityCnt"));
+		//model.addAttribute("levelCnt", map.get("levelCnt"));
+		//model.addAttribute("teamAuthorityList", map.get("teamAuthorityList"));
 		
 		return "employee/teamBoard/teamBoardList";
+	}
+	
+	/** 권한여부 확인
+	 * @return
+	 */
+	@GetMapping("teamAuthorityList")
+	public Map<String, Object> teamAuthorityList(
+				@SessionAttribute("loginEmp") Employee2 loginEmp,
+				@RequestParam Map<String, Object> paramMap
+			) {
+		
+		paramMap.put("comNo", loginEmp.getComNo());
+		paramMap.put("teamNo", loginEmp.getTeamNo());
+		paramMap.put("empCode", loginEmp.getEmpCode());
+		
+		// 조회 서비스 호출 후 결과 반환
+		Map<String, Object> map = service.teamAuthorityList(paramMap);
+		
+		/*model.put("authorityCnt", map.get("authorityCnt"));
+		model.addAttribute("levelCnt", map.get("levelCnt"));
+		model.addAttribute("teamAuthorityList", map.get("teamAuthorityList"));*/
+		
+		return map;
+		
 	}
 	
 	/** 팀 게시판 상세
