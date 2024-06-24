@@ -94,11 +94,11 @@ public class TeamBoardController {
 				@RequestBody List<Employee2> authorityList
 			) {
 		
-		log.info(authorityList.size() + "ddd");
+		//log.info(authorityList.size() + "ddd");
 		
 		int result = service.teamAuthorityManage(authorityList);
 		
-		log.info("result : " + result);
+		//log.info("result : " + result);
 		
 		return result;
 	}
