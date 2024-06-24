@@ -49,9 +49,11 @@ public class CalendarController {
 		// 부서가 없으면 null 있으면 List 들어있음 teamList 안에 team 있으면 teamList, 없으면 null
 		
 		List<Team> teamList = new ArrayList<>();
-		for(Department dept : deptList) {
-			if(dept.getTeamList() != null) {
-				teamList.addAll(dept.getTeamList());
+		if(deptList != null) {
+			for(Department dept : deptList) {
+				if(dept.getTeamList() != null) {
+					teamList.addAll(dept.getTeamList());
+				}
 			}
 		}
 		
