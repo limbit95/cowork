@@ -403,8 +403,109 @@
 		OR POSITION_NM LIKE '%' || #{empName} || '%')
 	</select>
     
-    
-    
+    <!-- 유저 메인용 투두 조회 
+	<select id="userMainTodoList">  
+		
+		SELECT *
+		FROM (
+		    SELECT t.*
+		    FROM TODO t
+		    LEFT JOIN TODO_MANAGER tm ON t.TODO_NO = tm.TODO_NO
+		    WHERE t.EMP_CODE = #{empCode}
+		      AND t.TODO_END_DATE = SYSDATE - INTERVAL '3' DAY
+		    ORDER BY t.TODO_WRITE_DATE
+		) 
+		<![CDATA[ WHERE ROWNUM <= 5 ]]>
+		AND TODO_COMPLETE = '1'
+		
+		UNION ALL
+		
+		SELECT *
+		FROM (
+		    SELECT t.*
+		    FROM TODO t
+		    LEFT JOIN TODO_MANAGER tm ON t.TODO_NO = tm.TODO_NO
+		    WHERE t.EMP_CODE = #{empCode}
+		      AND NOT EXISTS (
+		          SELECT 1
+		          FROM TODO t2
+		          WHERE t2.EMP_CODE = t.EMP_CODE
+		            AND t2.TODO_END_DATE = SYSDATE - INTERVAL '3' DAY
+		      )
+		    ORDER BY t.TODO_WRITE_DATE
+		) 
+		<![CDATA[ WHERE ROWNUM <= 5 ]]>
+		AND TODO_COMPLETE = '1'
+	</select>  -->
+	    
+	<select id="userMainTodoList">
+		WITH TODO_DATA AS (
+		    SELECT  
+		        t.TODO_NO,
+		        t.TODO_TITLE,
+		        t.TODO_CONTENT,
+		        TO_CHAR(t.TODO_WRITE_DATE, 'YYYY-MM-DD') AS TODO_WRITE_DATE,
+		        TO_CHAR(t.TODO_END_DATE, 'YYYY-MM-DD') AS TODO_END_DATE,
+		        t.TODO_COMPLETE,
+		        t.EMP_CODE,
+		        e.EMP_LAST_NAME || e.EMP_FIRST_NAME AS requestEmp
+		    FROM TODO t
+		    LEFT JOIN EMPLOYEE e ON t.EMP_CODE = e.EMP_CODE
+		    WHERE t.EMP_CODE = #{empCode}
+		),
+		TODO_MANAGERS AS (
+		    SELECT
+		        tm.TODO_NO,
+		        LISTAGG(tmEmp.EMP_LAST_NAME || tmEmp.EMP_FIRST_NAME, ', ') WITHIN GROUP (ORDER BY tmEmp.EMP_LAST_NAME || tmEmp.EMP_FIRST_NAME) AS inChargeEmp
+		    FROM TODO_MANAGER tm
+		    LEFT JOIN EMPLOYEE tmEmp ON tm.EMP_CODE = tmEmp.EMP_CODE
+		    GROUP BY tm.TODO_NO
+		),
+		PRIORITY_TODOS AS (
+		    SELECT 
+		        td.TODO_NO,
+		        td.TODO_TITLE,
+		        td.TODO_CONTENT,
+		        td.TODO_WRITE_DATE,
+		        td.TODO_END_DATE,
+		        td.TODO_COMPLETE,
+		        td.EMP_CODE,
+		        td.requestEmp,
+		        tm.inChargeEmp
+		    FROM TODO_DATA td
+		    LEFT JOIN TODO_MANAGERS tm ON td.TODO_NO = tm.TODO_NO
+		    WHERE td.TODO_END_DATE BETWEEN TO_CHAR(SYSDATE, 'YYYY-MM-DD') AND TO_CHAR(SYSDATE + INTERVAL '3' DAY, 'YYYY-MM-DD')
+		      AND td.TODO_COMPLETE = '1'
+		    ORDER BY td.TODO_END_DATE ASC
+		),
+		ALL_TODOS AS (
+		    SELECT 
+		        td.TODO_NO,
+		        td.TODO_TITLE,
+		        td.TODO_CONTENT,
+		        td.TODO_WRITE_DATE,
+		        td.TODO_END_DATE,
+		        td.TODO_COMPLETE,
+		        td.EMP_CODE,
+		        td.requestEmp,
+		        tm.inChargeEmp
+		    FROM TODO_DATA td
+		    LEFT JOIN TODO_MANAGERS tm ON td.TODO_NO = tm.TODO_NO
+		    WHERE td.TODO_COMPLETE = '1'
+		    ORDER BY td.TODO_WRITE_DATE ASC
+		)
+		SELECT *
+		FROM (
+		    SELECT * FROM PRIORITY_TODOS
+		    UNION ALL
+		    SELECT * FROM ALL_TODOS
+		    WHERE NOT EXISTS (
+		        SELECT 1
+		        FROM PRIORITY_TODOS
+		    )
+		)
+		FETCH FIRST 5 ROWS ONLY
+	</select>    
     
 </mapper>
 

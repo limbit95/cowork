@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.cowork.admin.authority.dto.AuthorityMember;
 import com.cowork.employee.calendar.model.dto.Calendar;
 import com.cowork.employee.calendar.model.service.CalendarService;
+
 import com.cowork.employee.usermain.model.service.UserMainService;
+
 import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
@@ -35,7 +37,7 @@ public class UserMainController {
 		List<Calendar> companyAllCalendarList = cs.companyAllCalendarList(loginEmp.getComNo());
 		
 		model.addAttribute("companyAllCalendarList", companyAllCalendarList);			
-		
+
 		return "employee/userMain/userMain";
 	}
 	
@@ -47,6 +49,7 @@ public class UserMainController {
 		
 		return "employee/userMain/attendanceReigst";
 	}
+
 	
 	/** 사용자 메뉴 권한
 	 * @param loginEmp

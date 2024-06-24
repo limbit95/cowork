@@ -154,6 +154,8 @@ public interface UserMapper {
 
 	int verifyAuth(Map<String, Object> paramMap);
 
+	void resetPwPhoneVersion(Map<String, Object> paramMap);
+
 
 
 

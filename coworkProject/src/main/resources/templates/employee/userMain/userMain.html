@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="	/css/common.css">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.13/index.global.min.js"></script>
     <script src='https://fullcalendar.io/releases/fullcalendar/3.10.2/lib/moment.min.js'></script>
+	<link rel="stylesheet" href="/css/employee/userMain/userMainTodo.css">
     <title>userMain</title>
 </head>
 <body>
@@ -26,8 +27,51 @@
 			        <div id='calendar'></div>	
 				</div>
 
-				<div id="todoSection">				
-					여기에다가 투두를 넣어주세요!
+				<div id="todoSection"> 		
+					<i class="fa-solid fa-list" id="todoIcon"></i>
+					<span id="todoSpan">할 일</span>
+
+					<div class="todoHead">
+						<span>할 일</span>
+						<span>기한</span>
+					</div>
+
+					<div class="todo" id="todo"></div>
+
+					<div id="todoModal" class="modal">
+						<div class="modal-content">
+							<div id="closeArea">
+								<span class="close">&times;</span>
+							</div>
+							
+							<div class="todoContents">
+								<div>
+									<span>할 일</span>
+									<span id="todoTitleSpan">Todo Title</span>
+								</div>
+								<div>
+									<span>요청자</span>
+									<span id="requestEmpSpan"></span>
+								</div>
+								<div>
+									<span>담당자</span>
+									<span id="inChargeEmpSpan"></span>
+								</div>
+								<div>
+									<span>작성일</span>
+									<span id="writeDate"></span>
+								</div>
+								<div>
+									<span>기한</span>
+									<span id="endDate"></span>
+								</div>
+								<div>
+									<span>내용</span>
+									<span id="todoContentSpan">내용</span>
+								</div>								
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>	
 			
@@ -62,6 +106,7 @@
 	<script src="/js/employee/userMain/userMain.js"></script>
 	<script th:inline="javascript">
 		const companyAllCalendarList = /*[[${session.companyAllCalendarList}]]*/ "회사 전체 리스트";
+		const loginEmpTodoList = /*${session.loginEmpTodoList}*/ "투두리스트"; 
 
 		document.addEventListener('DOMContentLoaded', function() {
 
@@ -88,7 +133,6 @@
 		});
 
 	</script>
-
 	
 </body>
 </html>

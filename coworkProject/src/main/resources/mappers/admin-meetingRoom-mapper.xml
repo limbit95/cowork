@@ -22,4 +22,9 @@
 	<delete id="meetingRoomDelete">
 		DELETE FROM MEETING_ROOM WHERE MEETING_ROOM_NO = #{meetingRoomNo} AND COM_NO = #{comNo}
 	</delete>
+	
+	<!-- 회의실 수정 -->
+	<update id="updateMeetingRoom">
+		UPDATE MEETING_ROOM SET MEETING_ROOM_NM = #{meetingRoomNm} WHERE MEETING_ROOM_NO = #{meetingRoomNo}
+	</update>
 </mapper>

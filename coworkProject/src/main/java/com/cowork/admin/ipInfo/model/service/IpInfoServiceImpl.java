@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cowork.admin.ipInfo.model.dto.IpInfo;
 import com.cowork.admin.ipInfo.model.mapper.IpInfoMapper;
+import com.cowork.user.model.dto.Employee2;
 
 import lombok.RequiredArgsConstructor;
 
@@ -119,7 +120,17 @@ public class IpInfoServiceImpl implements IpInfoService {
 	 */
 	@Override
 	public int updateIpInfo(IpInfo updateIpInfo) {
-		return mapper.updateIpInfo(updateIpInfo);
+		
+		// ip 중복 검사해야함
+		// 중복 ip 존재하면 count 됨
+		int count = mapper.duplicationIp(updateIpInfo);
+		
+		if(count > 0) {
+			return -5;
+		} else {
+			return mapper.updateIpInfo(updateIpInfo);			
+		}
+		
 	}
 
 	/** ip 삭제
@@ -127,7 +138,17 @@ public class IpInfoServiceImpl implements IpInfoService {
 	 */
 	@Override
 	public int deleteIpInfo(int empCode) {
-		return mapper.deleteIpInfo(empCode);
+		
+		// 삭제된 회원인지 먼저 검사한 다음에 삭제된 회원이면 삭제해도 됨.
+		String check = mapper.selectDelFl(empCode);
+		// 삭제된 회원이 아니라면 삭제 할 수 없다고 알려줘야함
+		if(check.equals("N")) {
+			// 삭제가 안된 경우라면
+			return -5;
+		} else {
+			return mapper.deleteIpInfo(empCode);			
+		}
+		
 	}
 	
 }

@@ -83,6 +83,7 @@ public class IpInfoController {
 	@GetMapping("updateIpInfo")
 	public String updateIpInfo(@RequestParam("empCode") int empCode,
 			@RequestParam("ip") String updateIp,
+			@SessionAttribute("loginEmp") Employee2 loginEmp,
 			RedirectAttributes ra) {
 		
 		log.info("empCode=={}", empCode);
@@ -91,6 +92,7 @@ public class IpInfoController {
 		IpInfo updateIpInfo = IpInfo.builder()
 				.empCode(empCode)
 				.ip(updateIp)
+				.comNo(loginEmp.getComNo())
 				.build();
 		
 		int result = service.updateIpInfo(updateIpInfo);
@@ -98,6 +100,8 @@ public class IpInfoController {
 		
 		if(result > 0) {
 			message = "IP 수정 성공";
+		} else if (result == -5) {
+			message = "중복된 IP가 존재합니다. 수정 불가";
 		} else {
 			message = "IP 수정 실패";
 		}
@@ -117,6 +121,8 @@ public class IpInfoController {
 		
 		if(result > 0) {
 			message = "IP 삭제 성공";
+		} else if (result == -5) {
+			message = "탈퇴하지 않은 회원 IP는 삭제할 수 없습니다.";
 		} else {
 			message = "IP 삭제 실패";
 		}

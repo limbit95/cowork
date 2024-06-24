@@ -303,6 +303,15 @@ public class TodoController {
 			return service.todoEmpSearch(empName, loginEmp.getComNo()); 
 			
 		}
+		
+		@GetMapping("userMainTodo")
+		@ResponseBody
+		public List<Todo> userMainTodoList(@SessionAttribute("loginEmp") Employee2 loginEmp) {
+			
+			List<Todo> todoList = service.userMainTodoList(loginEmp.getEmpCode());
+			
+			return todoList; 
+		}
 	
 
 }

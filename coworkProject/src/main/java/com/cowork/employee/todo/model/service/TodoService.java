@@ -106,6 +106,12 @@ public interface TodoService {
 	 */
 	List<Employee2> todoEmpSearch(String empName, int comNo);
 
+	/** 유저 메인용 투두리스트 조회 
+	 * @param empCode 
+	 * @return
+	 */
+	List<Todo> userMainTodoList(int empCode);
+
 	
 		
 

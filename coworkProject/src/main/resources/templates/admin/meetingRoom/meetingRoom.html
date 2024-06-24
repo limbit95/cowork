@@ -43,8 +43,9 @@
 					<!-- 회의실이 존재할 때 -->
 					<th:block th:unless="${#lists.isEmpty(meetingRoomList)}">
 						<div class="meetingRoomLoop" th:each="meetingRoom : ${meetingRoomList}" th:object="${meetingRoom}">
-							<div th:text="*{meetingRoomNm}">회의실 이름</div>
+							<div class="meetingRoomNm" th:text="*{meetingRoomNm}">회의실 이름</div>
 							<input type="hidden" th:value="*{meetingRoomNo}" class="meetingRoomNo">
+							<p class="updateP">수정</p>
 							<button class="deleteXBtn"><i class="fa-solid fa-xmark"></i></button>
 						</div>
 					</th:block>

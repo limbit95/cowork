@@ -107,4 +107,6 @@ public interface UserService {
 
 	int validatePhoneNum(String empId, String phoneNum);
 
+	void resetPwPhoneVersion(String empId, String empPw);
+
 }
