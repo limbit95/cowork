@@ -172,6 +172,9 @@ public class TodoController {
 								@SessionAttribute("loginEmp") Employee2 loginEmp
 								) throws IllegalStateException, IOException {
 		
+		String todoEndDate = inputTodo.getTodoEndDate(); 
+		log.info("todoEndDate" + todoEndDate);
+		
 			int empCode = loginEmp.getEmpCode(); 
 			inputTodo.setEmpCode(empCode); 
 			

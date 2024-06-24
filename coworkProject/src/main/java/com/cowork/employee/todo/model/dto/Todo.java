@@ -1,5 +1,6 @@
 package com.cowork.employee.todo.model.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import com.cowork.user.model.dto.Employee2;
@@ -22,7 +23,7 @@ public class Todo {
 	private int todoNo; 
 	private String todoTitle; 
 	private String todoContent; 
-	private String todoWriteDate; 
+	private Date todoWriteDate; 
 	private String todoEndDate; 
 	private String todoComplete; 
 	private int empCode;

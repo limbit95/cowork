@@ -19,7 +19,7 @@
 /* 할 일 헤드 */
 .todoHead {
     margin-top: 25px;
-    width: 400px;
+    width: 450px;
     background-color: #3667A6;
     color: white;
     height: 35px;
@@ -31,7 +31,7 @@
 
 /* 목록 내부 할 일 */
 .todo div{
-    width: 400px;
+    width: 450px;
     border: 1px solid #d9d9d9;
     height: 35px;
     display: flex;
@@ -42,7 +42,7 @@
 /* 할 일 제목 */
 .todo div span:first-child, .todoHead span:first-child {
     margin-left: 20px;
-    width: 280px;
+    width: 320px;
 }
 
 /* 모달 관련 */
@@ -66,19 +66,37 @@
     border: 1px solid #888;
     border-radius: 10px;
     width: 25%;
-    height: 40%;
+    height: auto;
 }
 
 .todoContents {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 25px;
+    padding: 30px;
+    margin-left: 10px;
+}
+
+.todoContents div {
+    display: flex;
+    height: 30px;
 }
 
 .todoContents div span:first-child {
     width: 100px;
+    color: #214177;
+    font-weight: bold;
+}
+
+#todoTitleSpan {
+    color: black;
+    text-decoration: underline;
+    text-underline-offset: 8px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#todoTitleDiv {
+    margin-bottom: 20px;
 }
 
 /* 모달 닫기 버튼 */ 
