@@ -251,7 +251,7 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("logout")
-	public String logoutMethod (SessionStatus status) {
+	public String logoutMethod(SessionStatus status) {
 		status.setComplete();
 		return "redirect:/";
 		
@@ -380,13 +380,6 @@ public class UserController {
 		model.addAttribute("loginEmp", loginEmp);
 		ra.addFlashAttribute("message", loginEmp.getEmpLastName() + loginEmp.getEmpFirstName() + "님 환영합니다.");
 		return "redirect:/userMain";
-	}
-	
-	@GetMapping("logout")
-	public String logoutMethod (SessionStatus status) {
-		status.setComplete();
-		return "redirect:/";
-		
 	}
 	
 	@GetMapping("resetPw")
