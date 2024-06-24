@@ -38,4 +38,9 @@ public class AdminAttendanceController {
 		return "admin/attendance/attendanceRejectManager";
 	}
 	
+	@GetMapping("standardManagement")
+	public String attendanceStandardManagement() {
+		return "admin/attendance/attendanceStandardManagement";
+	}
+	
 }
