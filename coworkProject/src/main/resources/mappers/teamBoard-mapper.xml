@@ -230,14 +230,18 @@
 	<!-- 팀권한여부 -->
 	<select id="levelCnt" resultType="_int">
 		SELECT
-			MIN(POSITION_LEVEL)
+			 POSITION_NO
 		FROM(
-			SELECT 
-				"LEVEL" AS POSITION_LEVEL
-			FROM EMPLOYEE
-			JOIN "POSITION" USING(POSITION_NO)
-			WHERE TEAM_NO = #{teamNo}
+		SELECT
+		   ROWNUM AS ROW_NUMBER
+			,"LEVEL" 
+			,POSITION_NO
+		FROM EMPLOYEE
+		JOIN "POSITION" USING(POSITION_NO)
+		WHERE TEAM_NO = #{teamNo}
+		ORDER BY "LEVEL", EMP_CODE
 		)
+		WHERE ROW_NUMBER = 1
 	</select>
 	
 	<!-- 팀 권한 조회 -->

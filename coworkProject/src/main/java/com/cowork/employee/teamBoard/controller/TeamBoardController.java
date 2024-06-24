@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.cowork.admin.authority.dto.AuthorityMember;
-import com.cowork.admin.notice.model.service.AdminNoticeService;
 import com.cowork.employee.teamBoard.model.dto.Comment;
 import com.cowork.employee.teamBoard.model.dto.TeamBoard;
 import com.cowork.employee.teamBoard.model.service.TeamBoardService;
@@ -71,11 +69,13 @@ public class TeamBoardController {
 	/** 권한여부 확인
 	 * @return
 	 */
+	@ResponseBody
 	@GetMapping("teamAuthorityList")
 	public Map<String, Object> teamAuthorityList(
-				@SessionAttribute("loginEmp") Employee2 loginEmp,
-				@RequestParam Map<String, Object> paramMap
+				@SessionAttribute("loginEmp") Employee2 loginEmp
 			) {
+		
+		Map<String, Object> paramMap = new HashMap<>();
 		
 		paramMap.put("comNo", loginEmp.getComNo());
 		paramMap.put("teamNo", loginEmp.getTeamNo());

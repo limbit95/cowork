@@ -42,12 +42,12 @@
         <div class="board">
 
             <div class="tableBtn">
-                <form class="defaultBtn listBtn authorityBtn">
+                <!--<form class="defaultBtn listBtn authorityBtn">
                     <button class="default-btn glucose-btn" type="button" th:if="${levelCnt > 0}" id="authorityPop">권한</button>
                 </form>
                 <form class="defaultBtn listBtn" th:action="@{teamBoardInsert}" method="get">
                     <button class="default-btn glucose-btn" th:if="${authorityCnt > 0}">등록</button>
-                </form>
+                </form>-->
             </div>
             
 
@@ -162,6 +162,7 @@
 
     <script th:inline="javascript">
         const cp = /*[[${pagination.currentPage}]]*/ "현재페이지";
+        const positionNo = /*[[${session.loginEmp.positionNo}]]*/ "직급번호";
     </script>
 
     <script src="/js/employee/teamboard/teamboard.js"></script> <!-- Left 메뉴 클릭 -->
