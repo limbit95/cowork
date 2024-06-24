@@ -97,7 +97,7 @@ public class SurveyController {
 		surveyService.receiveSurvey(loginEmp, currentPage, model);
 		
 		
-		return "/employee/survey/surveyList";
+		return "employee/survey/surveyList";
 	}
 	
 	@GetMapping("surveyDetail/{surveyNo}")
