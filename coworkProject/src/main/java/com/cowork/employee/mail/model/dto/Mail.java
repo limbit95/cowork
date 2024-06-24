@@ -20,7 +20,7 @@ public class Mail {
 	private int mailNo; 
 	private String mailTitle; 
 	private String mailContent; 
-	private Date mailWriteDate; 
+	private String mailWriteDate; 
 	private String mailFlag; // 1 : 기본, 2 : 임시보관함, 3 : 휴지통 
 	private String originMailFlag; // 메일 임시보관함에서 삭제시 임시보관함 저장용 
 	private int empCode; 
