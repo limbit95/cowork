@@ -50,7 +50,7 @@ public class CompanyInfoController {
 
 		}
 
-		return "/admin/companyInfo/companyInfo";
+		return "admin/companyInfo/companyInfo";
 	}
 	
 	/** 관리자 회사 로고 수정

@@ -57,7 +57,7 @@ public class IpInfoController {
 		model.addAttribute("teamList", teamList);
 		model.addAttribute("selectAllIpInfoList", selectAllIpInfoList);
 		
-		return "/admin/ipInfo/ipInfo";
+		return "admin/ipInfo/ipInfo";
 	}
 	
 	@ResponseBody
@@ -87,10 +87,7 @@ public class IpInfoController {
 			@RequestParam("ip") String updateIp,
 			@SessionAttribute("loginEmp") Employee2 loginEmp,
 			RedirectAttributes ra) {
-		
-		log.info("empCode=={}", empCode);
-		log.info("updateIp=={}", updateIp);
-		
+
 		IpInfo updateIpInfo = IpInfo.builder()
 				.empCode(empCode)
 				.ip(updateIp)
