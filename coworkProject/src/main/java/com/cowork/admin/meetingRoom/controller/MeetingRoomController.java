@@ -19,6 +19,7 @@ import com.cowork.admin.meetingRoom.model.dto.MeetingRoom;
 import com.cowork.admin.meetingRoom.model.service.MeetingRoomService;
 import com.cowork.user.model.dto.Employee2;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -88,5 +89,32 @@ public class MeetingRoomController {
 		meetingRoom.setMeetingRoomNo(meetingRoomNo);
 		
 		return service.meetingRoomDelete(meetingRoom);
+	}
+	
+	@GetMapping("meetingRoomUpdate")
+	public String meetingRoomUpdate(@RequestParam("meetingRoomNo") int meetingRoomNo,
+			@RequestParam("meetingRoomNm") String meetingRoomNm,
+			@SessionAttribute("loginEmp") Employee2 loginEmp,
+			RedirectAttributes ra) {
+		
+		MeetingRoom updateMeetingRoom = MeetingRoom.builder()
+				.comNo(loginEmp.getComNo())
+				.meetingRoomNm(meetingRoomNm)
+				.meetingRoomNo(meetingRoomNo)
+				.build();
+
+		int result = service.updateMeetingRoom(updateMeetingRoom);
+		
+		String message = "";
+		
+		if(result > 0) {
+			message = "회의실 이름 수정 성공";
+		} else {
+			message = "회의실 이름 수정 실패";
+		}
+		
+		ra.addFlashAttribute(message);
+		
+		return "redirect:meetingRoomList";
 	}
 }

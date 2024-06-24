@@ -44,5 +44,13 @@ public class MeetingRoomServiceImpl implements MeetingRoomService {
 		return mapper.meetingRoomDelete(meetingRoom);
 	}
 
+	/** 회의실 수정
+	 * @return result
+	 */
+	@Override
+	public int updateMeetingRoom(MeetingRoom updateMeetingRoom) {
+		return mapper.updateMeetingRoom(updateMeetingRoom);
+	}
+
 	
 }

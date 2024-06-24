@@ -81,8 +81,39 @@
 	margin-bottom: 20px;
 	font-weight: bold;
 }
-.deleteXBtn{
+.deleteXBtn, .cancelBtn{
 	border: none;
 	font-weight: bold;	
 	background-color: white;
+}
+
+.updateP, .registerP {
+	display: flex;
+	width: 80%;
+	justify-content: flex-end;
+	cursor: pointer;
+	color: var(--main3-color);
+}
+
+.registerP {
+	width: 33%;
+	display: flex;
+	text-align: center;
+	align-items: center;
+}
+
+.updateP:hover, .registerP:hover {
+	font-weight: bold;
+	color: var(--main6-color);
+}
+
+.btnHidden {
+	display: none !important;
+}
+
+.updateNm {
+	border: 1px solid var(--main6-color);
+	border-radius: 5px;
+	width: 60%;
+	height: 30px;
 }

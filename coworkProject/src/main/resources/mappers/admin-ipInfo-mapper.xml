@@ -11,6 +11,7 @@
 		LEFT JOIN TEAM T ON T.TEAM_NO = E.TEAM_NO
 		LEFT JOIN DEPARTMENT D ON D.DEPT_NO = T.DEPT_NO
 		WHERE E.COM_NO = #{comNo}
+		AND E.EMP_DEL_FL = 'N'
 	</select>
 	
 	<!-- 이름 검색 결과 조회하기 -->
@@ -22,6 +23,7 @@
 		LEFT JOIN TEAM T ON T.TEAM_NO = E.TEAM_NO
 		LEFT JOIN DEPARTMENT D ON D.DEPT_NO = T.DEPT_NO
 		WHERE E.COM_NO = #{comNo}
+		AND E.EMP_DEL_FL = 'N'
 		AND (EMP_LAST_NAME LIKE '%' || #{fullName} || '%'
 		OR EMP_FIRST_NAME LIKE '%' || #{fullName} || '%')
 	</select>
@@ -35,4 +37,22 @@
 	<delete id="deleteIpInfo">
 		DELETE IP WHERE EMP_CODE = #{empCode}
 	</delete>
+	
+	<!-- 삭제된 회원인지 조회하기 -->
+	<select id="selectDelFl">
+		SELECT EMP_DEL_FL
+		FROM EMPLOYEE
+		WHERE EMP_CODE = #{empCode}
+	</select>
+	
+	<!-- ip 중복 확인 -->
+	<select id="duplicationIp">
+		SELECT COUNT(*) 
+		FROM EMPLOYEE E
+		LEFT JOIN IP I ON E.EMP_CODE = I.EMP_CODE
+		WHERE E.COM_NO = #{comNo}
+		AND E.EMP_DEL_FL = 'N'
+		AND I.EMP_CODE != #{empCode}
+		AND IP = #{ip}
+	</select>
 </mapper>
