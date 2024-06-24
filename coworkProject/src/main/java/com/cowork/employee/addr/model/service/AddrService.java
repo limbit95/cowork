@@ -33,7 +33,7 @@ public interface AddrService {
 	 * @param loginEmpCode 
 	 * @return
 	 */
-	int insertGroupList(List<Map<String, String>> map, String loginEmpCode);
+	int insertGroupList(List<Map<String, Object>> map, String loginEmpCode);
 
 	/** 주소록에 등록된 사원 정보 상세 조회
 	 * @param map

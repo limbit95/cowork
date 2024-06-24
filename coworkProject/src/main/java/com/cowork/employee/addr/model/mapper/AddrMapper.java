@@ -53,13 +53,13 @@ public interface AddrMapper {
 	 * @param map
 	 * @return
 	 */
-	int changeGroupName(Map<String, String> map);
+	int changeGroupName(Map<String, Object> map);
 
 	/** 기존 DB에 없는 주소록은 insert
 	 * @param map
 	 * @return
 	 */
-	int insertGroup(Map<String, String> map);
+	int insertGroup(Map<String, Object> map);
 
 	/** 그룹 삭제
 	 * @param deleteMap
@@ -71,7 +71,7 @@ public interface AddrMapper {
 	 * @param map
 	 * @return
 	 */
-	int checkAddrName(Map<String, String> map);
+	int checkAddrName(Map<String, Object> map);
 
 	/** 주소록에 등록된 사원 정보 상세 조회
 	 * @param map

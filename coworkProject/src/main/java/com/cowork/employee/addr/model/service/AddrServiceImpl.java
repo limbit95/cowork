@@ -84,7 +84,7 @@ public class AddrServiceImpl implements AddrService {
 
 	// 개인 주소록 그룹 저장
 	@Override
-	public int insertGroupList(List<Map<String, String>> map, String loginEmpCode) {
+	public int insertGroupList(List<Map<String, Object>> map, String loginEmpCode) {
 		// -1 : 그룹이 하나도 없음
 		// -2 : 중복된 이름의 주소록이 있음
 		// 1 : 그룹 저장 성공

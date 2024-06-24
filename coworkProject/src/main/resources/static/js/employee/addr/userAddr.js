@@ -766,7 +766,7 @@ if(saveGroup != null) {
             })
         })
 
-        const groupList = [{"loginEmpCode" : loginEmpCode }];
+        const groupList = [{"loginEmpCode" : loginEmpCode}];
         for(let i = 0; i < document.querySelectorAll("#addrName").length; i++) {
 
             if(addrBookNo[i] != undefined) {
