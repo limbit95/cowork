@@ -55,38 +55,41 @@ public class ReservationController {
 		int size = reserveInfoList.size();
 		
 		List<ReserveInfo> shareList = new ArrayList<>(size);
-				
-		for(int i = 0 ; i < reserveInfoList.size() ; i ++) {
-			ReserveInfo shareInfo = new ReserveInfo();
-			
-			String share = "";
-			
-			// 회사 전체 공유일 때 comReserve
-			if(reserveInfoList.get(i).getComShare() != null) {
-				share = "회사 전체";
-			}
-				
-			// 부서 공유 null 이 아닐 때
-			if(reserveInfoList.get(i).getDeptShare() != null) {	
-				if(!share.equals("")) {
-					share += ", ";
-				}
-				share += reserveInfoList.get(i).getDeptShare().replace("^^^", ", ");
-			}
-			
-			// 팀 공유 null 이 아닐 때
-			if(reserveInfoList.get(i).getTeamShare() != null) {
-				share += reserveInfoList.get(i).getTeamShare().replace("^^^", ", ");
-			}
-			
-			shareInfo.setShareStr(share);
-			shareList.add(shareInfo);
-			
-		}
 		
-		for(int i = 0 ; i < reserveInfoList.size() ; i ++) {
-			reserveInfoList.get(i).setShareStr(shareList.get(i).getShareStr());
+		if(reserveInfoList != null) {
+			for(int i = 0 ; i < reserveInfoList.size() ; i ++) {
+				ReserveInfo shareInfo = new ReserveInfo();
+				
+				String share = "";
+				
+				// 회사 전체 공유일 때 comReserve
+				if(reserveInfoList.get(i).getComShare() != null) {
+					share = "회사 전체";
+				}
+					
+				// 부서 공유 null 이 아닐 때
+				if(reserveInfoList.get(i).getDeptShare() != null) {	
+					if(!share.equals("")) {
+						share += ", ";
+					}
+					share += reserveInfoList.get(i).getDeptShare().replace("^^^", ", ");
+				}
+				
+				// 팀 공유 null 이 아닐 때
+				if(reserveInfoList.get(i).getTeamShare() != null) {
+					share += reserveInfoList.get(i).getTeamShare().replace("^^^", ", ");
+				}
+				
+				shareInfo.setShareStr(share);
+				shareList.add(shareInfo);
+				
+			}
+			
+			for(int i = 0 ; i < reserveInfoList.size() ; i ++) {
+				reserveInfoList.get(i).setShareStr(shareList.get(i).getShareStr());
+			}
 		}
+
 		
 		model.addAttribute("reserveInfoList", reserveInfoList);
 		
