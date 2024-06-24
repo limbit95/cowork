@@ -27,10 +27,9 @@
 	#{surveyNo},  
 	#{empCode}, 
 	#{title}, 
-	#{surveyEntireTargetFl}, 
 	TO_DATE(#{surveyStartDate}, 'YYYY-MM-DD') , 
-	TO_DATE(#{surveyEndDate}, 
-	'YYYY-MM-DD'),  
+	TO_DATE(#{surveyEndDate}, 'YYYY-MM-DD'),  
+	#{surveyEntireTargetFl}, 
 	0
 	)
 </insert>
