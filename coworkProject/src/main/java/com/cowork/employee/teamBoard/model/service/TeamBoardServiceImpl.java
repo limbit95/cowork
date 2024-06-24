@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.admin.authority.dto.AuthorityMember;
+import com.cowork.admin.authority.model.mapper.AuthorityManageMapper;
 import com.cowork.admin.notice.model.exception.BoardFileDeleteException;
 import com.cowork.admin.notice.model.exception.BoardInsertException;
 import com.cowork.admin.notice.model.mapper.AdminNoticeMapper;
@@ -39,6 +40,7 @@ public class TeamBoardServiceImpl implements TeamBoardService {
 
 	private final TeamBoardMapper mapper;
 	private final AdminNoticeMapper mapper2;
+	private final AuthorityManageMapper mapper3;
 	
 	@Value("${board.file.web-path}")
 	private String webPath;
@@ -76,9 +78,6 @@ public class TeamBoardServiceImpl implements TeamBoardService {
 		
 		map.put("pagination", pagination);
 		map.put("teamBoardList", teamBoardList);
-		//map.put("authorityCnt", authorityCnt);
-		//map.put("levelCnt", levelCnt);
-		//map.put("teamAuthorityList", teamAuthorityList);
 		
 		return map;
 	}
@@ -290,6 +289,57 @@ public class TeamBoardServiceImpl implements TeamBoardService {
 		return mapper.teamBoardDelete(teamBoardNo);
 	}
 	
+	// 사원별 권한 처리
+	@Override
+	public int teamAuthorityManage(List<Employee2> authorityList) {
+		int result = 0;
+		int index = 0;
+
+		List<AuthorityMember> inputAuthorityD = new ArrayList<>();
+		List<AuthorityMember> inputAuthorityI = new ArrayList<>();
+
+		for (Employee2 emp : authorityList) {
+		    int empCode = emp.getEmpCode();
+		    String teamBoard = emp.getTeamBoardYn(); // 팀게시판
+
+		    // 권한 여부 조회
+		    List<AuthorityMember> authorityMember = mapper3.authorityDetail(empCode);
+
+		    for (AuthorityMember authority : authorityMember) {
+		        AuthorityMember authorityD = new AuthorityMember();
+		        authorityD.setEmpCdoe(empCode);
+
+		        // 삭제 조건
+		        if ((authority.getAuthorityNo() == 3 && teamBoard.equals("false"))) {
+		            
+		            authorityD.setAuthorityNo(authority.getAuthorityNo());
+		            
+		            inputAuthorityD.add(authorityD);
+		        }
+
+		        // 권한 상태 업데이트
+		        if (authority.getAuthorityNo() == 3 && teamBoard.equals("true")) {
+		            teamBoard = "Y";
+		        }
+
+		        
+		    }
+
+		    // 추가할 권한 설정
+		    if (teamBoard.equals("true") && authorityMember.stream().noneMatch(a -> a.getAuthorityMemberNo() == 3)) {
+		        AuthorityMember insert = new AuthorityMember();
+		        insert.setEmpCdoe(empCode);
+		        insert.setAuthorityNo(3);
+		        inputAuthorityI.add(insert);
+		    }
+		}
+
+		if(inputAuthorityD.size() != 0) result = mapper3.authorityDelete(inputAuthorityD);
+		if(inputAuthorityI.size() != 0) result = mapper3.authorityInsert(inputAuthorityI);
+		
+		return result;
+	}
+	
 	/*******************/
 	
 	// 댓글 목록 조회
@@ -319,5 +369,7 @@ public class TeamBoardServiceImpl implements TeamBoardService {
 		// TODO Auto-generated method stub
 		return mapper.commentDelete(commentNo);
 	}
+
+	
 	
 }

@@ -16,60 +16,154 @@ closeLeftSideBar.addEventListener('click', function(){
 
 
 //mini 가 사라지고 사이드바가 튀어나오는 효과 
-let dropBtns = document.querySelectorAll('.dropbtn');
+function dropbtnClick(btn) {
 
-dropBtns.forEach(btn => {
+    let dropBtns = document.querySelectorAll('.dropbtn');
+    // 현재 클릭된 버튼의 드롭다운 내용
+    let dropdownContent = btn.nextElementSibling;
 
-    btn.addEventListener('click', function() {
+    // 현재 클릭된 버튼의 드롭다운 내용이 펼쳐져 있는지 확인
+    let isOpen = dropdownContent.style.display === 'contents';
 
-        // 현재 클릭된 버튼의 드롭다운 내용
-        let dropdownContent = this.nextElementSibling;
-
-        // 현재 클릭된 버튼의 드롭다운 내용이 펼쳐져 있는지 확인
-        let isOpen = dropdownContent.style.display === 'contents';
-
-        // 모든 드롭다운 버튼에 대한 클래스 제거
-        dropBtns.forEach(dropbtn => {
-            if (dropbtn !== this) {
-                dropbtn.classList.remove('active'); // 클래스 제거
-            }
-        });
-
-        // 모든 드롭다운 내용을 닫음
-        document.querySelectorAll('.dropdownContent').forEach(content => {
-            if (content !== dropdownContent) {
-                content.style.display = 'none';
-            }
-        });
-
-        /// 현재 클릭된 버튼의 드롭다운 내용을 토글
-        if (isOpen) {
-            dropdownContent.style.display = 'none';
-            this.classList.remove('active'); // 클래스 제거
-        } else {
-            dropdownContent.style.display = 'contents';
-            this.classList.add('active'); // 클래스 추가
+    // 모든 드롭다운 버튼에 대한 클래스 제거
+    dropBtns.forEach(dropbtn => {
+        if (dropbtn !== btn) {
+            dropbtn.classList.remove('active'); // 클래스 제거
         }
     });
-});
+
+    // 모든 드롭다운 내용을 닫음
+    document.querySelectorAll('.dropdownContent').forEach(content => {
+        if (content !== dropdownContent) {
+            content.style.display = 'none';
+        }
+    });
+
+    /// 현재 클릭된 버튼의 드롭다운 내용을 토글
+    if (isOpen) {
+        dropdownContent.style.display = 'none';
+        this.classList.remove('active'); // 클래스 제거
+    } else {
+        dropdownContent.style.display = 'contents';
+        this.classList.add('active'); // 클래스 추가
+    }
+}
+
+
+/* 근태관리 메뉴 */
+function attendanceFun(returnUserMain) {
+    const attendanceMenu = document.createElement('div');
+    attendanceMenu.classList.add('dropdown');
+    attendanceMenu.id = "attendanceMenu";
+
+    returnUserMain.before(attendanceMenu);
+
+    const dropbtn = document.createElement('button');
+    dropbtn.classList.add('dropbtn');
+    dropbtn.innerText = "근태 관리";
+    dropbtn.setAttribute("onclick", `dropbtnClick(this)`);
+
+    const dropdownContent = document.createElement('div');
+    dropdownContent.classList.add('dropdownContent');
+
+    attendanceMenu.append(dropbtn, dropdownContent);
+
+    const a1 = document.createElement('a');
+    a1.href = "/admin/attendance";
+    a1.id = "attendanceSub";
+    a1.innerText = "근태 내역 조회";
+
+    const a2 = document.createElement('a');
+    a2.href = "/admin/attendance/requestManager";
+    a2.id = "requestManagerSub";
+    a2.innerText = "근태 수정 요청 내역";
+
+    const a3 = document.createElement('a');
+    a3.href = "/admin/attendance/standardManagement";
+    a3.id = "attendanceSub1";
+    a3.innerText = "근태 기준 관리";
+
+    dropdownContent.append(a1, a2, a3);
+}
+
+/* 기능관리 메뉴 */
+function functionFun(returnUserMain) {
+    const fncMenu = document.createElement('div');
+    fncMenu.classList.add('dropdown');
+    fncMenu.id = "fncMenu";
+
+    returnUserMain.before(fncMenu);
+
+    const dropbtn = document.createElement('button');
+    dropbtn.classList.add('dropbtn');
+    dropbtn.id = "fncMenu";
+    dropbtn.innerText = "기능 관리";
+    dropbtn.setAttribute("onclick", `dropbtnClick(this)`);
+
+    const dropdownContent = document.createElement('div');
+    dropdownContent.classList.add('dropdownContent');
+
+    fncMenu.append(dropbtn, dropdownContent);
+
+    const a1 = document.createElement('a');
+    a1.href = "/admin/addr";
+    a1.id = "addrSub";
+    a1.innerText = "주소록";
+
+    const a2 = document.createElement('a');
+    a2.href = "/admin/notice/noticeList";
+    a2.id = "noticeSub";
+    a2.innerText = "공지사항";
+
+    const a3 = document.createElement('a');
+    a3.href = "/admin/edsm/edsmList";
+    a3.id = "edsmSub";
+    a3.innerText = "결재문서관리";
+
+    const a4 = document.createElement('a');
+    a4.href = "/meetingRoom/meetingRoomList";
+    a4.id = "meetingSub";
+    a4.innerText = "회의실 등록";
+
+    const a5 = document.createElement('a');
+    a5.href = "/ipInfo/ipInfoMain";
+    a5.id = "meetingSub";
+    a5.innerText = "IP 관리";
+
+    dropdownContent.append(a1, a2, a3, a4, a5);
+}
    
-   /*
+function authorityMenu() {
 
-    
-        btn.addEventListener('click', function() {
-            let dropdownContent = this.nextElementSibling; // 바로 다음 형제 요소인 dropdownContent 선택
+    const returnUserMain = document.querySelector('#returnUserMain');
 
-            if (dropdownContent.classList.contains('show')) {
-                dropdownContent.classList.remove('show');
-                setTimeout(() => {
-                    dropdownContent.style.display = 'none';
-                }, 300); // transition duration
-            } else {
-                dropdownContent.style.display = 'flex';
-                dropdownContent.style.flexDirection = 'column'; // Add this line to set flex-direction
-                setTimeout(() => {
-                    dropdownContent.classList.add('show');
-                }, 10); // Slight delay to ensure display is set before opacity transition
+    fetch("/authorityYnAdmin")
+    .then(resp => resp.json())
+    .then(authorityList => {
+        
+        if(authorityList.length > 0){
+
+            for(let authority of authorityList) {
+                //console.log(authority);
+
+                //console.log(authority.authorityNo);
+
+                if(authority.authorityNo == 1) attendanceFun(returnUserMain);
+
+                if(authority.authorityNo == 2) functionFun(returnUserMain);
+            } 
+
+        }else {
+            console.log(manager);
+            if(manager == 1) {
+
+                attendanceFun(returnUserMain);
+
+                functionFun(returnUserMain);
             }
-        });
-    });*/
+        }
+    });
+}
+
+authorityMenu();
+

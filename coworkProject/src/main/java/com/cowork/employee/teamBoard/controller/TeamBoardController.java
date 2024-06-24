@@ -47,10 +47,9 @@ public class TeamBoardController {
 				Model model,
 				@RequestParam Map<String, Object> paramMap
 			) {
-		
-		//paramMap.put("comNo", loginEmp.getComNo());
+		paramMap.put("comNo", loginEmp.getComNo());
 		paramMap.put("teamNo", loginEmp.getTeamNo());
-		paramMap.put("combo", combo);
+		//paramMap.put("combo", combo);
 		
 		paramMap.put("empCode", loginEmp.getEmpCode());
 		
@@ -59,9 +58,6 @@ public class TeamBoardController {
 		
 		model.addAttribute("pagination", map.get("pagination"));
 		model.addAttribute("teamBoardList", map.get("teamBoardList"));
-		//model.addAttribute("authorityCnt", map.get("authorityCnt"));
-		//model.addAttribute("levelCnt", map.get("levelCnt"));
-		//model.addAttribute("teamAuthorityList", map.get("teamAuthorityList"));
 		
 		return "employee/teamBoard/teamBoardList";
 	}
@@ -84,12 +80,27 @@ public class TeamBoardController {
 		// 조회 서비스 호출 후 결과 반환
 		Map<String, Object> map = service.teamAuthorityList(paramMap);
 		
-		/*model.put("authorityCnt", map.get("authorityCnt"));
-		model.addAttribute("levelCnt", map.get("levelCnt"));
-		model.addAttribute("teamAuthorityList", map.get("teamAuthorityList"));*/
-		
 		return map;
 		
+	}
+	
+	/** 사원별 권한 처리
+	 * @param authorityList
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("teamAuthorityManage")
+	public int teamAuthorityManage(
+				@RequestBody List<Employee2> authorityList
+			) {
+		
+		//log.info(authorityList.size() + "ddd");
+		
+		int result = service.teamAuthorityManage(authorityList);
+		
+		//log.info("result : " + result);
+		
+		return result;
 	}
 	
 	/** 팀 게시판 상세
