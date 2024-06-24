@@ -158,6 +158,17 @@ function anyCheckboxChecked() {
     }
     return true;
 }
+function anyCheckboxChecked2() {
+    let check10 = true;
+    for (let i = 0; i < check.length; i++) {
+        if (check[i].checked == false) {
+            check10 = false;
+        }
+    }
+    if(check10) {
+        return true;
+    }
+}
 
 // 체크박스 클릭 시 나타나는 버튼들
 const subBtnDiv = document.querySelector(".subBtnDiv");
@@ -193,6 +204,10 @@ if(wholeCheck != null) {
 if(check != null) {
     check.forEach((i) => {
         i.addEventListener("change", e => {
+            if(anyCheckboxChecked2()){
+                wholeCheck.checked = true;
+                return;
+            }
             if(anyCheckboxChecked()){
                 subBtnDiv.children[0].style.display = "none"
                 subBtnDiv.children[1].style.display = "none"
@@ -995,8 +1010,8 @@ if(addEmployeeconfirm != null) {
             const top = (screenHeight / 2) - (height / 2);
             
             // 팝업 창 열기
-            // const popup = window.open("http://localhost/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
-            const popup = window.open("http://coworkintranet.site/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
+            const popup = window.open("http://localhost/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
+            // const popup = window.open("http://coworkintranet.site/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
             hide2();
         }
     });

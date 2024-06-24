@@ -55,5 +55,20 @@ public class AddInBulkServiceImpl implements AddInBulkService{
 		return mapper.selectEmployeeList();
 	}
 
+	// 일괄 추가하려는 구성원 정보 DB에 저장(계정 생성)
+	@Override
+	public int regist(List<Map<String, Object>> data) {
+		int result = 0;
+		
+		for(int i = 0; i < data.size(); i++) {
+			String encPw = bcrypt.encode((String)data.get(i).get("empPw"));
+			data.get(i).put("empPw", encPw);
+			
+			result = mapper.regist(data.get(i));
+		}
+		
+		return 1;
+	}
+
 
 }

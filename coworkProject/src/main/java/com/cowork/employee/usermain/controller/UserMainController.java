@@ -41,4 +41,13 @@ public class UserMainController {
 		return "admin/left/adminLeftSideBar";
 	}
 	
+	/** 출퇴근 등록 팝업창
+	 * @return
+	 */
+	@GetMapping("userMain/attendanceRegist")
+	public String attendanceRegist() {
+		
+		return "employee/userMain/attendanceReigst";
+	}
+	
 }

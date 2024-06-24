@@ -1,0 +1,79 @@
+#day-of-week {
+    display: flex;
+    justify-content: space-between; /* 요일명을 가로로 배치 */
+    width: 200px; /* 요일명이 차지할 너비 */
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px; /* 시간과의 간격을 조절하기 위한 여백 */
+}
+
+  #current-time-container {
+    border: 2px solid black; /* 테두리 추가 */
+    padding: 10px; /* 내부 여백 추가 */
+    border-radius: 10px; /* 테두리 모서리 둥글게 만듦 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; /* 상대 위치 설정 */
+  }
+
+  #current-time {
+    font-size: 45px;
+    font-weight: bold;
+    text-align: center; /* 텍스트 가운데 정렬 */
+    line-height: 1.5; /* 텍스트 수직 정렬을 위한 값 설정 */
+  }
+
+  #day-of-week {
+    width: 200px; /* 시간 상자와 같은 너비 설정 */
+    display: flex;
+    justify-content: space-between; /* 요일명을 가로로 배치 */
+  }
+  
+  #button-container {
+    display: flex;
+    justify-content: space-between; /* 요일명을 가로로 배치 */
+    width: 180px; /* 버튼들이 차지할 너비 */
+  }
+  
+  #button-container > button {
+    height: 30px;
+    width: 80px;
+    padding: 10px; /* 내부 여백 설정 */
+    font-size: 16px;
+    line-height: 8px;
+    cursor: pointer;
+  }
+
+  #time-log {
+    display: flex;
+    margin-top: 10px; /* 상단 여백 추가 */
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  #time-log > div {
+    width: 100px;
+  }
+
+
+* {
+    border: 1px solid green;
+}
+
+#body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    flex-direction: column; 
+    width: 500px;
+    height: 350px;
+}
+
+#body > :nth-child(1) {
+    display: flex;
+}
+#body > :nth-child(2) {
+    display: flex;
+}

@@ -31,6 +31,8 @@ public class AddInBulkController {
 	
 	private final AddInBulkService service;
 	
+	private final EmailService emailService;
+	
 	/** 구성원 일괄 추가 페이지 이동
 	 * @param model
 	 * @return
@@ -57,6 +59,38 @@ public class AddInBulkController {
 		log.info("excelList : " + excelList);
 		
 		return excelList;
+	}
+	
+	/** 일괄 추가하려는 구성원 정보 DB에 저장(계정 생성)
+	 * @param data
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("regist")
+	public int regist(@RequestBody List<Map<String, Object>> data) {
+		
+		log.info("구성원 정보 리스트 : " + data);
+		
+		return service.regist(data);
+	}
+	
+	/** 구성원 일괄 등록 이후 등록한 계정을 사용할 구성원들에게 계정 정보 메일로 전송
+	 * @param data
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("sendMail")
+	public int sendMail(@RequestBody List<Map<String, Object>> data) {
+		
+		log.info("메일로 보낼 구성원 정보 : " + data);
+		
+		int result = 0;
+		
+		for(int i = 0; i < data.size(); i++) {
+			result = emailService.sendMailAfterAddInBulk(data.get(i));
+		}
+		
+		return result;
 	}
 	
 

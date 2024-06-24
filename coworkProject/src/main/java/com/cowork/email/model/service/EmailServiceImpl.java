@@ -163,74 +163,74 @@ public class EmailServiceImpl implements EmailService{
 	}
 	
 	// 비밀번호 재설정 이메일 보내기
-//	@Override
-//	public int sendEmail(String htmlName, Map<String, Object> map) {
-//		String authKey = createAuthKey();
-//		String empInfo = (String)map.get("empId") + "," + (String)map.get("empEmail")  + "," + authKey;
-//		
-//		try {
-//			// 메일 제목
-//			String subject = null;
-//			
-//			switch(htmlName) {
-//				case "findPwByEmail" : 
-//					subject = "[CoWork] 비밀번호 재설정 인증 메일입니다."; break;
-//			}
-//			
-//			MimeMessage mimeMessgae = mailSender.createMimeMessage(); 
-//			
-//			MimeMessageHelper helper = new MimeMessageHelper(mimeMessgae, true, "UTF-8");
-//			
-//			helper.setTo((String)map.get("empEmail"));
-//			helper.setSubject(subject);
-//			
-//			helper.setText( loadHtml(empInfo, htmlName), true );
-//			helper.addInline("logo", new ClassPathResource("static/images/coworkLogo.png"));
-//			
-//			mailSender.send(mimeMessgae);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return 0;
-//		}
-//		
-//		Map<String, String> map2 = new HashMap<String, String>();
-//		map2.put("authKey", authKey);
-//		map2.put("email", (String)map.get("empEmail"));
-//		
-//		int result = mapper.updateAuthKey(map2);
-//		
-//		if(result == 0) {
-//			if(map2.get("authKey") == null || map2.get("email") == null) {
-//				return -1;
-//			}
-//			result = mapper.insertAuthKey(map2);
-//		}
-//		
-//		if(result == 0) {
-//			return -1;
-//		}
-//		
-//		return 1;
-//	}
+	@Override
+	public int sendEmail(String htmlName, Map<String, Object> map) {
+		String authKey = createAuthKey();
+		String empInfo = (String)map.get("empId") + "," + (String)map.get("empEmail")  + "," + authKey;
+		
+		try {
+			// 메일 제목
+			String subject = null;
+			
+			switch(htmlName) {
+				case "findPwByEmail" : 
+					subject = "[CoWork] 비밀번호 재설정 인증 메일입니다."; break;
+			}
+			
+			MimeMessage mimeMessgae = mailSender.createMimeMessage(); 
+			
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessgae, true, "UTF-8");
+			
+			helper.setTo((String)map.get("empEmail"));
+			helper.setSubject(subject);
+			
+			helper.setText( loadHtml(empInfo, htmlName), true );
+			helper.addInline("logo", new ClassPathResource("static/images/coworkLogo.png"));
+			
+			mailSender.send(mimeMessgae);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+		
+		Map<String, String> map2 = new HashMap<String, String>();
+		map2.put("authKey", authKey);
+		map2.put("email", (String)map.get("empEmail"));
+		
+		int result = mapper.updateAuthKey(map2);
+		
+		if(result == 0) {
+			if(map2.get("authKey") == null || map2.get("email") == null) {
+				return -1;
+			}
+			result = mapper.insertAuthKey(map2);
+		}
+		
+		if(result == 0) {
+			return -1;
+		}
+		
+		return 1;
+	}
 	
 	
-//	@Transactional(propagation = Propagation.REQUIRES_NEW)
-//	public boolean storeAuthKey2(Map<String, String> map2) {
-//		int result = mapper.updateAuthKey(map2);
-//		
-//		if(result == 0) {
-//			if(map2.get("authKey") == null || map2.get("email") == null) {
-//				return false;
-//			}
-//			result = mapper.insertAuthKey(map2);
-//		}
-//		
-//		if(result == 0) {
-//			return false;
-//		}
-//		
-//		return true;
-//	}
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public boolean storeAuthKey2(Map<String, String> map2) {
+		int result = mapper.updateAuthKey(map2);
+		
+		if(result == 0) {
+			if(map2.get("authKey") == null || map2.get("email") == null) {
+				return false;
+			}
+			result = mapper.insertAuthKey(map2);
+		}
+		
+		if(result == 0) {
+			return false;
+		}
+		
+		return true;
+	}
 	
 	
 	
@@ -274,6 +274,32 @@ public class EmailServiceImpl implements EmailService{
 		}
 		
 		return loginEmp.getInviteAuthKey();
+	}
+	
+	// 구성원 일괄 등록 이후 등록한 계정을 사용할 구성원들에게 계정 정보 메일로 전송
+	@Override
+	public int sendMailAfterAddInBulk(Map<String, Object> data) {
+		
+		try {
+			MimeMessage mimeMessgae = mailSender.createMimeMessage(); 
+			
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessgae, true, "UTF-8");
+			
+			helper.setTo((String)data.get("empEmail")); 
+			helper.setSubject((String)data.get("senderName") + "님이 당신을 COWORK에 초대하였습니다.");
+			
+			helper.setText( loadHtml2(data, "addInBulk"), true ); 
+			
+			helper.addInline("logo", new ClassPathResource("static/images/coworkLogo.png"));
+			
+			// 메일 보내기
+			mailSender.send(mimeMessgae);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+		
+		return 1;
 	}
 	
 	

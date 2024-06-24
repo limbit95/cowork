@@ -21,4 +21,10 @@ public interface AddInBulkService {
 	 */
 	List<Employee2> selectEmployeeList();
 
+	/** 일괄 추가하려는 구성원 정보 DB에 저장(계정 생성)
+	 * @param data
+	 * @return
+	 */
+	int regist(List<Map<String, Object>> data);
+
 }

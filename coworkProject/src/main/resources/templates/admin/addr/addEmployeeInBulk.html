@@ -68,6 +68,9 @@
             <div class="accordion-item">
                 <button class="accordion-header" type="button">3. 구성원 일괄 추가</button>
                 <div class="accordion-content type3">
+                    <div class="subBtnDiv">
+                        <button class="default-btn sapphire-btn" id="deleteBtn">삭제</button>
+                    </div>
                     <div class="employeeList">
                         <!-- <div class="head">
                             <div><input type="checkbox"></div>
@@ -156,12 +159,71 @@
             </div>
         </div>
     </div>
+
+    <div id="myModal5" class="modal5">
+        <div class="modal-content5">
+            <p>구성원을 일괄 추가하시겠습니까?</p>
+            <p>추가한 구성원의 정보는 추후 수정이 가능합니다.</p>
+            <div id="btnDiv5">
+                <button class="default-btn sapphire-btn"  id="confirmBtn5" type="button">확인</button>
+                <button class="default-btn sapphire-btn" id="cancelBtn5" type="button">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal6" class="modal6">
+        <div class="modal-content6">
+            <p>구성원 추가 완료</p>
+            <p>등록된 해당 계정으로 구성원이 로그인 하여 서비스를 이용할 수 있도록 이메일을 통해 계정 정보를 전달해 주세요.</p>
+            <div class="list">
+
+                <div class="list-head">
+                    <div><input type="checkbox" class="wholeCheck2"></div>
+                    <span>전체
+                        <span class="wholeCount">0</span>
+                        <span>│</span>
+                    </span>
+                    <span>선택<span class="selectCount">0</span></span>
+                </div>
+
+                <div class="list-content">
+                    <!-- <div class="listOne">
+                        <div><input type="checkbox" class="check2"></div>
+                        <div>
+                            <div><span>임성혁</span>/<span>limbit</span></div>
+                            <div>
+                                <input type="text" class="default-line sendEmail" autocomplete="off" spellcheck="false">
+                                <span class="emailMessage">이메일을 작성해주세요.</span>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div id="btnDiv6">
+                <button class="default-btn blur" id="confirmBtn6" type="button">보내기</button>
+                <button class="default-btn sapphire-btn" id="cancelBtn6" type="button">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal7" class="modal7">
+        <div class="modal-content7">
+            <p>파일 내 변경사항이 존재합니다.</p>
+            <p>변경된 파일로 다시 업로드 해주세요.</p>
+            <div id="btnDiv7">
+                <button class="default-btn sapphire-btn" id="confirmBtn7" type="button">확인</button>
+            </div>
+        </div>
+    </div>
     
     <script src="/js/admin/addr/addEmployeeInBulk.js"></script>
     <script th:inline="javascript">
         const comNo = /*[[${session.loginEmp.comNo}]]*/ '';
         const comAddrList = /*[[${session.comAddrList}]]*/ '';
         const positionList = /*[[${session.positionList}]]*/ '';
+        const empLastName = /*[[${session.loginEmp.empLastName}]]*/ '';
+        const empFirstName = /*[[${session.loginEmp.empFirstName}]]*/ '';
+        const domain = /*[[${session.loginEmp.domain}]]*/ '';
     </script>
 </body>
 </html>
