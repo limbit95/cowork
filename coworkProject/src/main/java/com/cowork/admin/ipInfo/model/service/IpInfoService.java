@@ -12,4 +12,22 @@ public interface IpInfoService {
 	 */
 	List<IpInfo> selectAllIpInfoList(int comNo);
 
+	/** 이름 검색 결과 돌려주기
+	 * @param inputInfo
+	 * @return selectIpInfoList
+	 */
+	List<IpInfo> selectIpInfoList(IpInfo inputInfo);
+
+	/** ip 수정
+	 * @param updateIpInfo
+	 * @return updateIpInfo
+	 */
+	int updateIpInfo(IpInfo updateIpInfo);
+
+	/** ip 실패
+	 * @param empCode
+	 * @return result
+	 */
+	int deleteIpInfo(int empCode);
+
 }
