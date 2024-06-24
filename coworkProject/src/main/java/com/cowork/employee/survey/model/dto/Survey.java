@@ -29,13 +29,10 @@ public class Survey {
 	private Date surveyStartDateDate;
 	private Date surveyEndDateDate;
 	private Integer restDays;
+	private String restDaysNoExist;
 	
 	// 사원이 해당 설문에 답을 작성한적이 있었는지 여부 
 	private Boolean answerFl;
-	
-	
-	
-	
 	
 	//SURVEY_MULTIPLE 테이블 
 	private Integer surveyMultipleNo;
@@ -44,14 +41,8 @@ public class Survey {
 	// EMPLOYEE 테이블 
 	private String fullName;
 	
-	
-
 	private Integer surveyTargetTotalCount; // 설문 전체 대상자 수 
 	private Integer totalResponseCount;  // 응답한 사람 수 
-	
 	private Double responseRatio; // 응답비율
-	
-	
-	
 	
 }

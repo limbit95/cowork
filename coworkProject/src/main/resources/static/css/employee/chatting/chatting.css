@@ -6,35 +6,17 @@ body {
 	box-sizing: border-box;
 	font-size: 15px;
 }	
-
-#forMariginTop {
-    height: 25vh;
-    display: flex;
-    align-items: center; /* 콘텐츠를 수직 가운데 정렬 */
-    justify-content: center; /* 콘텐츠를 수평 가운데 정렬 */
-    margin-bottom: 5vh;
-    position: relative;
-    width: 100vw;
-    overflow: hidden; /* 비디오가 컨테이너를 벗어나지 않도록 함 */
+#titleContainerForChat{
+	width: 100vw;
+	height: 15vh;
+	display: flex; 
+	justify-content: center;
+	align-items: flex-end;
+	margin-bottom: 80px;
 }
-
-.bgVideo {
-    opacity: 0.2;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* 비디오가 컨테이너에 맞게 크기 조정 */
-    transform: translate(-50%, -50%); /* 비디오를 가운데로 이동 */
-    z-index: -1; /* 비디오를 콘텐츠 뒤로 보내기 */
-}
-
-.content {
-    z-index: 0; /* 콘텐츠를 비디오 위로 올리기 */
-    position: relative;
-    font-size: 25px;
-    color: #214177; /* 필요에 따라 텍스트 색상 변경 */
+#titleContainerForChat>div:nth-child(1){
+	font-size: 25px;
+	color: #214177;
 }
 
 
@@ -94,13 +76,12 @@ body {
 
 /* 구성원 추가 버튼 */
 #addEmpBtn{
-	width: 200px; 
-	height: 200px; 
-	border-radius: 50%;
+	width: 100%; 
+	height: 10%; 
 	background-color: #E5F2FE;
 	border: none;
 	color: #214177;
-	font-size: 25px;
+	font-size: 15px;
 	display: flex; 
 	justify-content: center;
 	align-items: center;
@@ -463,11 +444,20 @@ body {
 	align-items: center;
 	flex-basis: 17%;
 	margin-left: 1.5%;
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
 
-	border-radius: 30px;
+	height: 70vh;
+	
 
     
+
+}
+#chattingRooms{
+	width: 100%; 
+	height: 90%;
+	margin-top: 2vh;
+	border-radius: 6%;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+
 
 }
 #chattingRoomsTitle{
@@ -478,8 +468,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border-top-left-radius: 30px;
-	border-top-right-radius: 30px;
+
 
 }
 #chattingRoomsContent{
@@ -498,30 +487,31 @@ body {
 /* chatting Container 시작  */
 #chattingsContainer{
 	flex-basis: 44%;
-	height: 60vh;
+	height: 70vh;
 	margin-left: 1.5vw;
 	display: flex; 
 	flex-direction:column;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
-	border-top-left-radius: 30px;
-	border-top-right-radius: 30px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
 	display: none;
 }
 #topAreaInChattingsContainer{
 	width: 100%;
 	height: 6%;	
-	background-color: #214177;
+	background-color: #fafdff;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	color: #E5F2FE;
-	font-size: 20px;
-	border-top-left-radius: 30px;
-	border-top-right-radius: 30px;
+	color: #214177;
+	font-size: 15px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	font-weight: bold;
 
 }
 #chattingsArea{
-	height: 80%;
+	height: 80vh;
 	transition: background-color 0.3s;
 	padding-right: 40px;
 	background-color: #E5F2FE;
@@ -534,77 +524,73 @@ body {
 }
 #messageContainer{
 	width: 100%; 
-	height: 5vh;
+	height: 22vh;
 	display: flex; 
-	flex-basis: 10%;
+
 	align-items: center;
+	flex-direction: column;
 	
 }
 #fileClip{
-	border-radius: 50%; 
-	background-color: #BDD8F1;
-	color:#E5F2FE;
+	color: #214177;
 	width: 40px;
 	height: 40px;
-	font-size: 25px;
+	font-size: 15px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	transition: color 0.3s, background-color 0.3s;
 	cursor: pointer;
+	
 }
 #fileClip:hover{
-	background-color: #BDD8F1;
-	color: gray;
+	color:#ff7575;
 }
 
-#messageContainer > div:nth-child(1){
-	flex-basis: 10%;
+#textareaArea{
+	flex-basis: 80%;
+	width: 100%;
 	display: flex; 
 	justify-content: center;
 	align-items: center;
 	font-size: 20px;
 }
-#messageContainer > textarea:nth-child(2){
-	flex-basis: 80%;
-	height: 50%;
-	outline: none;
-	margin-right: 1.5vw;
-	font-size: 15px;
-	font-weight: bold;
+#message{
+	width: 100%; 
+	height: 100%;
 	resize: none; 
-	border: none;
-	background-color: #E5F2FE;
-	border-radius: 10px;
-	color:#214177;
-}
-#messageContainer > input:nth-child(3){
-	display: none;
-}
-#messageContainer > button:nth-child(4){
-	flex-basis:8%;
-	margin-right: 1vw;
-}
-
-#sendBtn{
-	border: none;
-	background-color: #E5F2FE;
-	color: #214177;
-	border-radius: 5px;
-	transition: color 0.3s, background-color 0.3s;
-	height: 80%;
-}
-#sendBtn:hover{
-	background-color:#214177;
-	color: #E5F2FE;
-	border-radius: 5px;
-}
-
-#sendBtnIcon{
-	font-size: 20px;
+	border: none; 
+	outline:none;
+	padding: 20px;
 	
 }
-
+#optionAndSend{
+	display: flex; 
+	width: 100%; 
+	height: 25%; 
+	
+}
+#optionsArea{
+	flex-basis: 10%; 
+	display: flex; 
+	align-items: center;
+	justify-content: space-evenly;
+	margin-left: 1vw;
+}
+#sendBtnArea{
+	flex-basis: 80%; 
+	display: flex; 
+	justify-content: flex-end;
+	align-items: center;
+}
+#sendBtn{
+	width: 3.5vw;
+	height: 80%;
+	border: none; 
+	background-color: #fafdff;
+	border-radius: 5px;
+	
+}
 /* chatting Container 끝  */
 
 
@@ -709,35 +695,38 @@ body {
 
 /*--------------------------------------------번역-----------------------------------------------------*/
 
-#translate{
-	display: flex;
-	justify-content: flex-end;
-	margin-right: 2vw;
-	align-items: center;
-	height: 7vh;
-}
+
 #translateBtn{
 	height: 30px; 
-	background-color: #E5F2FE;
-	border-radius: 5px;
 	border: none;
-	transition: background-color 0.3s;
 	margin-right: 0.5vw;
+	background-color: transparent;
+	border: none;
 }
-#translateBtn:hover{
-	background-color: #214177;
-	color: white;
+.fa-earth-asia{
+	color: #214177;
+	font-size: 15px;
+	transition: color 0.3s;
+	margin-top: 1px;
+}
+.fa-earth-asia:hover{
+	color: #ff7575;
 }
 #exitBtn{
 	height: 30px; 
-	background-color: #E5F2FE;
-	border-radius: 5px;
 	border: none;
-	transition: background-color 0.3s;
+	background-color: transparent;
+	border: none;
+	color: #214177;
 }
-#exitBtn:hover{
-	background-color: #214177;
-	color: white;
+
+.fa-door-open{
+	font-size: 15px; 
+	transition: color 0.3s;
+
+}
+.fa-door-open:hover{
+	color: #ff7575;
 }
 
 #translateContainer{

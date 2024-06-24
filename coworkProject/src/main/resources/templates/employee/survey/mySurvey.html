@@ -28,7 +28,13 @@
 	
 	<div id="surveyInsertDivContainer">
 		<div id="surveyInsertDiv">
-			<a href="/survey/surveyInsert" id="surveyInsertA" >설문 쓰기</a>			
+			<a href="/survey/surveyInsert" id="surveyInsertA" >
+				&nbsp;
+				<i class="fa-regular fa-pen-to-square"></i>	
+				&nbsp;
+				설문 쓰기
+				&nbsp;
+			</a>			
 		</div>
 	</div>
 	
@@ -44,7 +50,7 @@
 				기한 
 			</div>
 			<div id="totalResponseCountDiv">
-				설문 응답자 수 	
+				응답자 수 	
 			</div>
 		</div>
 	</div>
@@ -57,16 +63,10 @@
 			>
 			<div th:text="${survey.surveyMainTitle}" class="innerContent"></div>
 			<div th:text="${survey.fullName}" class="innerContent" >asdfadf</div>
-			<div th:text="${survey.restDays} +  ' 일' " 	class="innerContent"></div>
-
-<!--			<div th:text="${survey.surveyMainTitle}" 
-			     th:classappend="${survey.answerFl} ? 'title-true' : 'title-false'"></div>
-	-->			
-			
+			<div th:if="${survey.restDaysNoExist}==null" th:text="${survey.restDays} +  ' 일' " 	class="innerContent"></div>
+			<div th:if="${survey.restDaysNoExist}!=null" th:text="${survey.restDaysNoExist}" 	class="innerContent" style="color: coral"></div>
+			<div th:text="${survey.totalResponseCount}"></div>
 			</a>	
-<!--		    <a th:href="@{/survey/calculate/{surveyNo}(surveyNo=${survey.surveyNo})}">Calculate</a>
-		    <div th:text="${survey.surveyMainTitle}"></div> <!-- survey.someField 를 원하는 필드로 교체 -->
-		
 		</th:block>
 		<!-- 잘 들어갈려나? -->
 	</div>
@@ -77,15 +77,18 @@
 	<div id="pagination">
 		
 	    <!-- 처음 -->
-	    <a th:if="${currentGroupFirstPage != 1}" th:href="@{/survey/receiveSurvey}" id="first-page-a">&lt;&lt;</a>
-	    <a th:if="${currentGroupFirstPage != 1}" th:href="@{/survey/receiveSurvey(currentPage=${currentGroupFirstPage}-1)}" id="previous-a">&lt;</a>
-	    
+	    <a th:if="${currentGroupFirstPage != 1}" th:href="@{/survey/mySurvey}" id="first-page-a"		style="font-weight: bold; text-decoration: none; color: black;">&lt;&lt;</a>
+		&nbsp; &nbsp;
+		<a th:if="${currentGroupFirstPage != 1}" th:href="@{/survey/mySurvey(currentPage=${currentGroupFirstPage}-1)}" id="previous-a"		style="font-weight: bold; text-decoration: none; color: black;">&lt;</a>
+		&nbsp; &nbsp; 		&nbsp;
 	    <!-- 중간 -->
 	    <div th:if="${currentGroupLastPage != 0}" id="paginationMiddleContainer">
 	        <div th:each="i : ${#numbers.sequence(currentGroupFirstPage, currentGroupLastPage)}" class="pagination-element">
-	            <span th:if="${i == currentPage}" th:text="${i}" class="current-page-span">Current Page</span>
-	            <a th:if="${i != currentPage}" th:href="@{/survey/receiveSurvey(currentPage=${i})}" class="pagination-a"
-	                th:text="${i}">Page Link</a>
+	            <span th:if="${i == currentPage}" th:text="${i}" class="current-page-span" style="font-weight: bold; text-decoration: underline;">Current Page</span>
+	            <a th:if="${i != currentPage}" th:href="@{/survey/mySurvey(currentPage=${i})}" class="pagination-a"
+	                th:text="${i}"
+					style="text-decoration: none; color: black;"
+					>Page Link</a>
 	            &nbsp;&nbsp;
 	        </div>
 	    </div>
@@ -95,8 +98,9 @@
 	    </div>
 	
 	    <!-- 끝 -->
-	    <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/receiveSurvey(page=${currentGroupLastPage}+1)}" id="next-a">&gt;</a>
-	    <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/receiveSurvey(page=${totalPages})}" id="last-page-a">&gt;&gt;</a>
+	    <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/mySurvey(currentPage=${currentGroupLastPage}+1)}" id="next-a" style="font-weight: bold; text-decoration: none; color: black;"> &gt;</a>
+		&nbsp; &nbsp;
+	    <a th:if="${currentGroupLastPage < totalPages}" th:href="@{/survey/mySurvey(currentPage=${totalPages})}" id="last-page-a"		style="font-weight: bold;		text-decoration: none; color: black;">&gt;&gt;</a>
 	</div>
 	
 	</div>

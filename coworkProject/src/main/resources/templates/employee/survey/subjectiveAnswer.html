@@ -40,7 +40,7 @@
 				
 				<div class="subjectiveAnswerContainerInnerTop">
 					<img th:if="${subjectiveAnswer.profileImg != null}" th:src="${subjectiveAnswer.profileImg}" class="profileImgTag">
-					<img th:if="${subjectiveAnswer.profileImg == null}" src="/images/bannerImg.jpg" class="profileImgTag">
+					<img th:if="${subjectiveAnswer.profileImg == null}" src="/images/user.png" class="profileImgTag" style="margin-right:5px;">
 					<div th:text="${subjectiveAnswer.fullName}"></div>
 				</div>
 				
@@ -55,9 +55,6 @@
 				
 			</div>			
 		</div>
-		
-		
-		
    </div>
    
    <script    th:inline="javascript">

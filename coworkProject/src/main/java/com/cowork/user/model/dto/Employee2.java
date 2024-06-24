@@ -54,4 +54,9 @@ public class Employee2 {
 	private String functionYn;   // 기능관리 권한
 	private String teamBoardYn;  // 팀게시판 권한
 	
+	
+	// 06.22 최재준
+	private Integer businessCardFl;
+	
+	
 }

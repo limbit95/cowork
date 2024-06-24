@@ -60,7 +60,7 @@ public class SurveyController {
 		emp.setContractType("contractType");
 		emp.setEmpEmail("empEmail@naver.com");
 		emp.setHireDate("hireDate");		
-	;
+	
 		
 		
 		
@@ -92,14 +92,17 @@ public class SurveyController {
 //		session.setAttribute("loginEmp", emp2);
 		/* 지울 부분 */
 		
+		log.debug("!!!!!!!!!!!!={}", currentPage);
+		
 		surveyService.receiveSurvey(loginEmp, currentPage, model);
 		
 		
 		return "/employee/survey/surveyList";
 	}
 	
-	@GetMapping("/surveyDetail/{surveyNo}")
-	public String surveyDetail (@PathVariable("surveyNo") String surveyNo, 
+	@GetMapping("surveyDetail/{surveyNo}")
+	public String surveyDetail (
+			@PathVariable("surveyNo") String surveyNo, 
 			@SessionAttribute("loginEmp") Employee2 loginEmp,
 			Model model,
 			RedirectAttributes ra 
@@ -107,11 +110,9 @@ public class SurveyController {
 		
 		// 1. 지금 HTTP 요청 메세지를 보낸 사원이 이 설문을 작성할 권한이 있는 사람인지 검증 
 		Boolean flag = surveyService.validate(surveyNo, loginEmp);
-		
 		if(!flag) { //  !flag ==> 작성할 권한이 없는 경우 
 			ra.addFlashAttribute("noAuthority","잘못된 접근입니다");
 			return "redirect:/survey/receiveSurvey";
-			
 		} else { // 작성할 권한이 있는 경우 
 			// 2. 지금 HTTP 요청 메세지를 보낸 사람이 이 설문을 작성한 적이 있는지 검증 
 			// 작성한 적이 있다면? 
@@ -128,27 +129,26 @@ public class SurveyController {
 				// 해당 설문에 관한 걸 가져와서 뿌려주면 되겠네 
 				surveyService.getSurvey(surveyNo, model);
 			}
-			
 		}
+		return "employee/survey/surveyDetail";
 		
-		return "/employee/survey/surveyDetail";
-	
 	}
 	
 	@PostMapping("submitAnswer")
-	@ResponseBody
 	public String submitAnswer(@RequestParam Map<String, String> answerMap, Model model, @SessionAttribute("loginEmp") Employee2 loginEmp) {
 		log.debug("answerMap ==={}", answerMap);
 		surveyService.submitAnswer(answerMap, loginEmp);
 		return "redirect:/survey/receiveSurvey";
-		
 	}
 	
 	
 	@GetMapping("mySurvey")
-	public String mySurvey(@SessionAttribute("loginEmp") Employee2 loginEmp,@RequestParam(value="currentPage", defaultValue="1") String currentPage ,Model model) {
+	public String mySurvey(@SessionAttribute("loginEmp") Employee2 loginEmp,
+			@RequestParam(value="currentPage", defaultValue="1") String currentPage ,Model model) {
+		
+		log.debug("currentPage=={}", currentPage);
 		surveyService.mySurvey(loginEmp, currentPage, model);		
-		return "/employee/survey/mySurvey";
+		return "employee/survey/mySurvey";
 	
 	}
 	
@@ -170,7 +170,7 @@ public class SurveyController {
 	
 	
 	
-   @PostMapping("/survey2")
+   @PostMapping("survey2")
    @ResponseBody
     public SurveyData handleSurvey(@RequestBody SurveyData surveyData) {
         // 여기서 surveyData를 처리합니다.
@@ -181,7 +181,7 @@ public class SurveyController {
         return surveyData;
    }
 
-   @PostMapping("/insertSurvey")
+   @PostMapping("insertSurvey")
    @ResponseBody
     public SurveyData insertSurvey(@RequestBody SurveyData surveyData,
     		@SessionAttribute("loginEmp") Employee2 emp 
@@ -205,13 +205,8 @@ public class SurveyController {
 	
    @GetMapping("positionList")
    @ResponseBody
-   public List<String> positionList(@SessionAttribute("loginEmp") Employee2 emp){
-	   
-
-	   
+   public List<String> positionList(@SessionAttribute("loginEmp") Employee2 emp){	   
 	   List<String> positionList = surveyService.positionList(emp);
-	   
-	   
 	   return positionList;
    }
    
@@ -229,7 +224,7 @@ public class SurveyController {
    }
    
    
-   @GetMapping("/calculate/{surveyNo}")
+   @GetMapping("calculate/{surveyNo}")
    public String calculate (@PathVariable("surveyNo") String surveyNo, Model model,
 		   	@SessionAttribute("loginEmp") Employee2 loginEmp
 		   ) {
@@ -239,16 +234,13 @@ public class SurveyController {
 	   List<SurveySub> surveySubList = (List<SurveySub>) returnMap.get("surveySubListReturn");
 	   Survey survey = (Survey)returnMap.get("survey");
 	   
-	   for(SurveySub survey2 : surveySubList) {
-		   log.debug("survey ====={}", survey2);
-	   }
-	   
 	   model.addAttribute("surveySubList", surveySubList);
 	   model.addAttribute("survey", survey);
+	   
 	   return "employee/survey/surveyCalculate";
    }
    
-   @GetMapping("/showSubjectiveAnswer")
+   @GetMapping("showSubjectiveAnswer")
    public String showSubjectiveAnswer (@RequestParam("surveySubNo") String surveySubNo, 
 		   	@RequestParam("surveySubTitle") String surveySubTitle,
 		   	@RequestParam("surveyMainTitle") String surveyMainTitle,
@@ -264,7 +256,22 @@ public class SurveyController {
 	   log.debug("surveySubTitle=={}", surveySubTitle);
 	   log.debug("surveyMainTitle=={}", surveyMainTitle);
 	   
-	   return "/employee/survey/subjectiveAnswer";
+	   return "employee/survey/subjectiveAnswer";
+   }
+   
+   @PostMapping("delete")
+   @ResponseBody
+   public int surveyDelete (@SessionAttribute("loginEmp") Employee2 loginEmp, 
+		   					@RequestBody Map<String, Integer> paramMap
+		   ) {
+	   
+	   Integer surveyNo = paramMap.get("surveyNo");
+	   log.debug("surveyNo=={}", surveyNo);
+	   
+	   int result = surveyService.surveyDelete(loginEmp, surveyNo);
+	   
+	   
+	   return result;
    }
 	
 	

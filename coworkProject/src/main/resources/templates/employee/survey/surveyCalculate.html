@@ -95,16 +95,20 @@
                         </a>
                     </div>
                 </div>
-            </div>        
+            </div>
         </div>
         
         <div th:if="${surveySubList.size == 0}" style="font-size: 25px; color: gray;">
             설문에 응답한 사원이 존재하지 않습니다. 
         </div>
-
+		
+		<div id="deleteBtnDiv">
+			<button type="button" id="deleteBtn">삭제</button>
+		</div>
+		
+		
         <!-- 바닥에 딱 붙는게 싫어서 추가한 빈 공간  -->
         <div id="embrace">
-
         </div>
     </div>
    
@@ -113,6 +117,7 @@
     <!-- 동그라미 백분율을 위한 js 코드 시작 -->
     <script th:inline="javascript">
         let responseRatio = /*[[${survey.responseRatio}]]*/ 75; // 실제 데이터로 대체
+		let surveyNo = /*[[${survey.surveyNo}]]*/ 1; 
     </script>
     <script>
         function drawPercentageCircle(canvasId, percentage) {

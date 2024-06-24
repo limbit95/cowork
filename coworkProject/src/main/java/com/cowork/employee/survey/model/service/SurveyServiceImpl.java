@@ -291,19 +291,22 @@ public class SurveyServiceImpl implements SurveyService{
 			Integer surveyNo = survey.getSurveyNo();
 			// 해당 설문에 포함된 소제목 기본키 하나만 가져와 
 			List<Integer> surveySubNoList = surveyMapper.findSurveySubNo(surveyNo);
-			Integer firstSurveySubNo = surveySubNoList.get(0);
-			
-			Map<String, Object> paramMap11 = new HashMap<>();
-			paramMap11.put("firstSurveySubNo", firstSurveySubNo);
-			paramMap11.put("empCode", empCode);
-			
-			Integer count = surveyMapper.answerCount(paramMap11);
-			
-			if(count == 0) {
-				survey.setAnswerFl(false);
-			} else {
-				survey.setAnswerFl(true);
+			if(surveySubNoList.size() != 0) {
+				Integer firstSurveySubNo = surveySubNoList.get(0);
+				
+				Map<String, Object> paramMap11 = new HashMap<>();
+				paramMap11.put("firstSurveySubNo", firstSurveySubNo);
+				paramMap11.put("empCode", empCode);
+				
+				Integer count = surveyMapper.answerCount(paramMap11);
+				
+				if(count == 0) {
+					survey.setAnswerFl(false);
+				} else {
+					survey.setAnswerFl(true);
+				}				
 			}
+
 		}
 				
 		model.addAttribute("currentPage", Integer.valueOf(currentPage));
@@ -484,7 +487,11 @@ public class SurveyServiceImpl implements SurveyService{
 		// 2) 한 페이지당 보여질 설문의 수 
 		int pageSize = 10; 
 		// 3) 총 페이지 수 
+		log.debug("totalPosts=={}", totalPosts);
+		log.debug("pageSize=={}", pageSize);
 		int totalPages = (int) Math.ceil((double) totalPosts/pageSize);
+		
+		log.debug("totalPages=={}", totalPages);
 		
 		// 6. 그룹당 페이지 개수 
 		int pageGroupSize = 5; 
@@ -539,10 +546,12 @@ public class SurveyServiceImpl implements SurveyService{
             Integer totalResponseCount = surveyMapper.totalResponseCount(surveyNo);
             survey.setTotalResponseCount(totalResponseCount);
             
-            log.debug("asdfasdfasdf=={}",survey);
-
-		}
-		 
+            /* 기한이 1보다 작을 경우 "기한 만료" */
+            log.debug("survey.기한=={}", survey.getRestDays());
+            if(survey.getRestDays() < 1) {
+            	survey.setRestDaysNoExist("기한 만료");
+            }
+		}		 
 		
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalPages", totalPages);
@@ -659,6 +668,37 @@ public class SurveyServiceImpl implements SurveyService{
 		
 		List<SubjectiveAnswer> subjectiveAnswerList = surveyMapper.showSubjectiveAnswer(surveySubNo);
 		return subjectiveAnswerList;
+	}
+
+	@Override
+	public int surveyDelete(Employee2 loginEmp, Integer surveyNo) {
+		// 1. 지금 삭제 요청한 사원이 해당 설문을 작성한 사람이 맞는지 검증한다. 
+		Survey findSurvey = surveyMapper.surveyDetail(String.valueOf(surveyNo));
+		if(findSurvey.getEmpCode() != loginEmp.getEmpCode()) {
+			return 0; 
+		}
+		
+		// 여기까지 왔다는 건, 설문을 작성한 사람이 삭제요청을 보냈다는 것. 
+		// 2. SURVEY_TARGET 에서 관련 대상자들을 지운다.		
+		surveyMapper.surveyTargetDelete(surveyNo);
+		
+		// 3. SURVEY_ANSWER 에서 답변들을 지운다. 
+		// 4. SURVEY_MULTIPLE 에서 객관식 문항들을 지운다.
+		// 위 두가지를 하기 위해서, SURVEY_SUB 의 기본키가 필요하다. 
+		List<Integer> surveySubNoList = surveyMapper.surveySubNoList(surveyNo);
+		for(Integer surveySubNo : surveySubNoList) {
+			surveyMapper.deleteSurveyAnswer(surveySubNo);
+			surveyMapper.deleteSurveyMultiple(surveySubNo);
+		}
+		
+		// 5. SURVEY_SUB 에서 소제목들을 지운다. 
+		surveyMapper.deletesurveySub(surveyNo);
+		
+		// 6. SURVEY 에서 해당 설문을 지운다. 
+		surveyMapper.deleteSurvey(surveyNo);
+		
+		
+		return 1;
 	}
 	
 	

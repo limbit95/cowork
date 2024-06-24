@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
+import java.util.Random;
 
 public class Utility {
 	
@@ -41,5 +42,16 @@ public class Utility {
 
 	        Files.copy(sourceFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 	    }
+	
+	// 06_23 재준 CoolSMS
+	public static int phoneAuth() {
+        Random random = new Random();
+        
+        // 1000 (포함)과 10000 (미포함) 사이의 랜덤 숫자 생성
+        int fourDigitNumber = 1000 + random.nextInt(9000);
+        
+        return fourDigitNumber;
+		
+	}
 
 }

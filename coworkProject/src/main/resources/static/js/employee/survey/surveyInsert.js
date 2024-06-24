@@ -43,7 +43,6 @@ makeMultipleQuestion.addEventListener('click', function(){
 					// 그리고, 항목이 존재한다면 그 항목을 가져온다. 는 코드를 작성해주면 됨. 
 					
 					// 제목 가져오기 
-					alert("객관식 입니다");	
 					let title  = questionArea.lastElementChild.children[0].children[1].children[1].value;
 					console.log("title!!!!!!=" +title);
 					
@@ -72,7 +71,6 @@ makeMultipleQuestion.addEventListener('click', function(){
 					
 				}else if(questionType.trim() == 'subjective'){
 					// 주관식이라면 어떻게 해야할까? 
-					alert('주관식입니다!');
 /*					let subjectiveQuestionTitle = questionArea.lastElementChild.children[0].children[1].value;*/
 					let subjectiveQuestionTitle = questionArea.lastElementChild.children[0].children[1].children[1].value;
 
@@ -680,10 +678,7 @@ forBottomEmptySpace.addEventListener('click', function(){
 		let positionInput = document.querySelector('#selectTag');
 		let positionValue = positionInput.value;
 		
-		console.log('position!!!!');
-		console.log(positionInput);
-		console.log(positionValue);
-		alert('surveyTitle.value==' + surveyTitle.value);
+
 		
 		surveyData = {
 			'position': positionValue,

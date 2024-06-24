@@ -21,31 +21,30 @@
 }
 #listContainerInnerDiv{
 	display: flex;
-	width: 50%; 
+	width: 40%; 
 	height: 100%; 
-	background-color:#426DA7;
-	color: white;
+	background-color:#E5F2FE;
 	display: flex; 
 	border-radius: 5px;
 	font-weight: bold;
 	font-size: 16px;
 }
 #titleDiv{
-	color: white;
+	color: #214177;
 	flex-basis: 50%; 
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 #writerDiv{
-	color: white;
+	color: #214177;
 	flex-basis: 25%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 #endDateDiv{
-	color: white;
+	color: #214177;
 	flex-basis: 25%;
 	display: flex;
 	justify-content: center;
@@ -60,19 +59,19 @@
 	align-items: center;
 }
 .oneRowA{
-	width: 50%;
+	width: 40%;
 	height: 5vh;
 	display: flex; 
-	background-color: #E5F2FE;
+	background-color: #fafdff;
 	border-radius: 5px; 
 	margin-bottom: 0.5vh;
-	transition: box-shadow 0.3s;
+	transition: background-color 0.3s;
 	text-decoration: none;
 	color: #214177;
 	font-weight: bold;
 }
 .oneRowA:hover{
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+	background-color: #E5F2FE;
 }
 .oneRowA>div:nth-child(1){
 	flex-basis: 50%;
@@ -109,6 +108,9 @@
 }
 #paginationMiddleContainer{
 	color: black;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
 }
 .current-page-span{
 	font-weight: bold; 

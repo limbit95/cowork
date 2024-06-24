@@ -37,7 +37,6 @@ modalCancelBtn2.addEventListener('click', function(){
 	empCodeList = [];
 });
 
-
 selectedEmps.style.display= 'flex';
 selectedEmps.style.flexWrap = 'wrap';
 selectedEmps.style.justifyContent = 'center';
@@ -53,7 +52,6 @@ organizationSelect.addEventListener('click', function(){
 	
     organizationSelectContainer.style.display = 'flex';
     nameSelectContainer.style.display = 'none';
-	
 	
 	// 현재 로그인한 사원이 속한 회사의 부서와 팀을 모두 조회한다. 
 	fetch('/chat/getDeptAndTeam')
@@ -100,7 +98,6 @@ organizationSelect.addEventListener('click', function(){
 				iconAndTeamNmDiv.style.alignItems = 'center';
 				iconAndTeamNmDiv.style.marginLeft = '3vw';
 				
-				
 				// 아이콘 
 				let newIcon = document.createElement('i');
 				newIcon.classList.add('fa-solid', 'fa-people-group');
@@ -108,26 +105,19 @@ organizationSelect.addEventListener('click', function(){
 				newIcon.style.marginRight = '0.3vw';
 				newIcon.style.fontSize = '18px';
 
-				
 				// teamNm(팀이름)
 				let teamNmDiv = document.createElement('div');
 				let teamNmNode = document.createTextNode(teamNm);
 				iconAndTeamNmDiv.appendChild(teamNmNode);
-				
 				
 				teamDiv.appendChild(teamNoDiv);
 				teamDiv.appendChild(iconAndTeamNmDiv);
 				teamDiv.style.marginTop = '0.5vh';
 				teamDiv.style.marginBottom = '0.5vh';
 				
-				teamDiv.classList.add('teamDiv');
-				
+				teamDiv.classList.add('teamDiv');	
 				
 				newDiv.appendChild(teamDiv);
-				
-
-	
-				
 				
 				teamDiv.addEventListener('click', function(){
 					fetch('/chat/getTeamEmps?teamNo=' + teamNo)
@@ -136,8 +126,6 @@ organizationSelect.addEventListener('click', function(){
 						//---------------------------------------------------------------------------
 						console.log(empList);
 						
-
-				
 						// 기존에 조회된 사원들을 없앰
 						const empListBeRendered= document.querySelector('#empListBeRendered');
 						 
@@ -157,14 +145,21 @@ organizationSelect.addEventListener('click', function(){
 							// 새로운 이미지 태그 생성해서 위에 만든 새로운 div 에 추가 
 							const newImg = document.createElement('img');
 							newImg.src = emp.profileImg;
+							newImg.style.width = '30px';
+							newImg.style.height = '30px';
+							newImg.style.borderRadius = '50%';
+							newImg.style.marginLeft = '3.5%';
+							newImg.style.marginRight = '3.5%';
 							//newImg.classList.add('newImg');
-							
+							newImg.style.width='';
 							if(emp.profileImg != null){ // 프로필 사진이 있는 경우에만 
 								newDiv.appendChild(newImg);
 							} else{
 								// 프로필 사진이 없는 경우에는 
+                				let empLastName = emp.empLastName;
+                			 	let firstChar = empLastName.charAt(0);
 								let newImgDiv= document.createElement('div');
-								newImgDiv.innerText = emp.empLastName;
+								newImgDiv.innerText = firstChar;
 								newImgDiv.classList.add('newImgDiv');
 				
 						        const lastNameColors = {
@@ -177,9 +172,9 @@ organizationSelect.addEventListener('click', function(){
 				                 '임': '#D1C4E9'
 				                 // 필요에 따라 더 추가할 수 있음
 				                };
-                
-				                if(lastNameColors[emp.empLastName]){
-							        newImgDiv.style.backgroundColor = lastNameColors[emp.empLastName];
+
+				                if(lastNameColors[firstChar]){
+							        newImgDiv.style.backgroundColor = lastNameColors[firstChar];
 								} else{
 									newImgDiv.style.backgroundColor = '#fff0fa';
 								}
@@ -274,7 +269,7 @@ organizationSelect.addEventListener('click', function(){
 						        }
 
 								empListBeRendered.innerHTML = '';
-																empListBeRendered.innerHTML = '';
+								empListBeRendered.innerHTML = '';
 
 							});
 							//dkkkkkkkkkkkkkkkkkkkkkkkkkkkkk 여기예여~~~~~~~~~~~~~~~~~~
@@ -362,14 +357,23 @@ searchInput.addEventListener('input', function(){
 			// 새로운 이미지 태그 생성해서 위에 만든 새로운 div 에 추가 
 			const newImg = document.createElement('img');
 			newImg.src = emp.profileImg;
-			//newImg.classList.add('newImg');
-			
-			if(emp.profileImg != null){ // 프로필 사진이 있는 경우에만 
+			newImg.style.width = '30px';
+			newImg.style.height = '30px';
+			newImg.style.borderRadius = '50%';
+			newImg.style.marginLeft = '3.5%';
+			newImg.style.marginRight = '3.5%';
+						
+			if(emp.profileImg != null){
+				// 프로필 사진이 있는 경우에만
 				newDiv.appendChild(newImg);
+				
 			} else{
 				// 프로필 사진이 없는 경우에는 
+				let empLastName = emp.empLastName;
+				let firstChar = empLastName.charAt(0);
+				
 				let newImgDiv= document.createElement('div');
-				newImgDiv.innerText = emp.empLastName;
+				newImgDiv.innerText = firstChar;
 				newImgDiv.classList.add('newImgDiv');
 				
 		        const lastNameColors = {
@@ -383,10 +387,8 @@ searchInput.addEventListener('input', function(){
                  // 필요에 따라 더 추가할 수 있음
                 };
                 
-                if(lastNameColors[emp.empLastName]){
-				
-			        newImgDiv.style.backgroundColor = lastNameColors[emp.empLastName];
-				
+                if(lastNameColors[firstChar]){
+			        newImgDiv.style.backgroundColor = lastNameColors[firstChar];
 				} else{
 					newImgDiv.style.backgroundColor = '#fff0fa';
 				}
@@ -472,7 +474,6 @@ searchInput.addEventListener('input', function(){
 		            selectedEmps.style.height = 'auto'; // 높이를 자동으로 설정
 		        }
 				
-				
 			});
 			
         var maxHeight = 200; // 스크롤바가 생기게 할 최대 높이
@@ -503,9 +504,6 @@ let chattingsArea = document.querySelector('#chattingsArea');
 let subscribeAddr; // 구독주소. 전역으로 해서 동적으로 바뀌게 할거야. 
 
 // 채팅방들이 보여질 영역 : addedEmpContent 라는 변수에 있음. 
-
-
-
 makeChatButton.addEventListener('click', function(){
 	// 채팅방 만들기 버튼을 클릭하면, 어떤 것들이 서버에 넘어가야 할까? 
 	// 일단, CHAT_ROOM 테이블에 행이 삽입되어야 함. 
@@ -518,7 +516,6 @@ makeChatButton.addEventListener('click', function(){
 		alert('대화상대를 선택해주세요');
 		return; 
 	}
-	
 	let obj = {
 		'empCodeList': empCodeList,
 		'makeEmpCode': empCode,					
@@ -539,13 +536,10 @@ makeChatButton.addEventListener('click', function(){
 		connect(subscribeAddr);
 		// 채팅방을 만들어줘야 함.
 		
-		alert(empCode);
 		
 		getChattingRooms(empCode);
 		
-		alert('asdfasdf');
 	})
-	
 	selectModalContainer.style.display = 'none';
 	
 	// 사람들 이름이 띄워져 있던 div 태그인 id="addedEmpContent" 를 비워주도록 한다.
@@ -599,6 +593,7 @@ function getChattingRooms(empCode){
 			newDiv.classList.add('chattingRoomDiv');
 			
 			
+			
 
 			// 최초 초대자의 프로필이미지 부터.
 			/* <div> <img> </div>*/
@@ -618,12 +613,16 @@ function getChattingRooms(empCode){
                };
                
                let makerProfileDiv = document.createElement('div');
-               let empLastNameNode = document.createTextNode(room.empLastName);
                
-               console.log(room.empLastName);
                
-               if(lastNameColors[room.empLastName]){
-			      makerProfileDiv.style.backgroundColor = lastNameColors[room.empLastName];
+               
+               let firstChar = room.empLastName.charAt(0);
+               let empLastNameNode = document.createTextNode(firstChar);
+
+               
+               
+               if(lastNameColors[empLastNameNode]){
+			      makerProfileDiv.style.backgroundColor = lastNameColors[empLastNameNode];
 			   } else{
 				  makerProfileDiv.style.backgroundColor = '#fff0fa';
 			   }
@@ -634,13 +633,19 @@ function getChattingRooms(empCode){
 			   makerProfileDiv.classList.add('firstEmpImg');
                
 			   
-			} else if(profileImgFlag == '0'){
+			} else if(profileImgFlag == '1'){
+				
 				// 프로필 이미지가 있는 경우,
 				let newImg = document.createElement('img');
 				newImg.src=room.profileImg; // 최초 초대자 프로필 
-				newImg.classList.add('newImg');
+				newImg.style.width = '30px';
+				newImg.style.height = '30px';
+				newImg.style.borderRadius = '50%';
+				newImg.style.marginRight = '3.5%';
+				
+				
 				newDiv.appendChild(newImg);
-				newImg.classList.add('firstEmpImg');
+				newImg.classList.add('firstEmpImg');				
 			}
 
 
@@ -760,10 +765,10 @@ function getChattingRooms(empCode){
 					
 					/* 말풍선 */
 					let newChatBalloon = document.createElement('i');
-					newChatBalloon.classList.add('fa-regular', 'fa-comment');
-					newChatBalloon.style.marginRight = '3px';
+					newChatBalloon.classList.add('fa-regular', 'fa-comments');
+					newChatBalloon.style.marginRight = '0.5vw';
 					newChatBalloon.style.fontSize = '20px';
-					newChatBalloon.style.color = '#F1B8B8';
+					newChatBalloon.style.color = '#82A6CB';
 					topAreaInChattingsContainer.appendChild(newChatBalloon);
 					
 					/*채팅방의 제목*/
@@ -842,7 +847,6 @@ function getChattingRooms(empCode){
 						        newP.style.paddingTop = '10px';
 						        newP.style.paddingBottom = '10px';
 						        newP.style.borderRadius = '10px';
-													
 											
 							} else{
 								// 너인 경우
@@ -872,6 +876,8 @@ function getChattingRooms(empCode){
 									
 									// 이미지가 없는 경우 
 									let empLastName = document.createTextNode(message.empLastName);	
+									
+									
 									profileDiv.appendChild(empLastName);
 									
 									if(lastNameColors[message.empLastName]){
@@ -892,6 +898,9 @@ function getChattingRooms(empCode){
 									// 이미지가 있는 경우 										
 									let messengerImg = document.createElement('img');	
 									messengerImg.src = message.profileImg;
+									messengerImg.style.width = '30px';
+									messengerImg.style.height = '30px';
+									messengerImg.style.borderRadius = '50%';
 									firstDiv.appendChild(messengerImg);
 								}
 								
@@ -1060,6 +1069,9 @@ function getChattingRooms(empCode){
 									// 이미지가 있는 경우 										
 									let messengerImg = document.createElement('img');	
 									messengerImg.src = message.profileImg;
+									messengerImg.style.width = '30px';
+									messengerImg.style.height = '30px';
+									messengerImg.style.borderRadius = '50%';
 									// 이미지 태그 : messengerImg 
 									
 									firstDiv.appendChild(messengerImg);
@@ -1153,7 +1165,7 @@ function getChattingRooms(empCode){
 			
 			
 	
-	        var maxHeightheight11 = 800; // 스크롤바가 생기게 할 최대 높이
+	        var maxHeightheight11 = 300; // 스크롤바가 생기게 할 최대 높이
 
 	        if (chattingRoomsContent.scrollHeight > maxHeightheight11) {
 	            chattingRoomsContent.style.overflowY = 'scroll'; // 높이가 초과하면 세로 스크롤바 추가
@@ -1220,31 +1232,29 @@ function connect(subscribeAddr2) {
 // 다른 사람이 채팅방을 만들어서 메세지를 보냈을 떄, 이를 받는 놈에게 실시간으로 그걸 보여주기 위해서 
 // 새로운 귀를 만들어준것 
 
-let stompClient2 = null; 
+let stompClient2 = null;
 
 connect2(empCode);
 
-function connect2(empNo) { 
+function connect2(empNo) {
 
     if (stompClient2 !== null && stompClient2.connected) {
         stompClient2.disconnect();
     }
 	
     var socket = new SockJS('/ws');
-    stompClient2 = Stomp.over(socket); 
+    stompClient2 = Stomp.over(socket);
 									  									
 	// Websocket 서버(실시간 양방향 통신을 처리하는 서버) : 파티 장소. 모든 사람들이 여기서 이야기를 나눔
-	// SockJS : 파티 장소까지 가는 셔틀버스 
+	// SockJS : 파티 장소까지 가는 셔틀버스
 	// STOMP 클라이언트 : 파티의 안내원. 사람들이 올바른 방에 가도록 안내하고 이야기를 나누는 방식을 도와준다.  
     stompClient2.connect({}, function (frame) {
         console.log('Connected: ' + frame); // 로그를 보면, 잘 연결됬다는 게 콘솔에 찍힘. 별내용 없음.
         stompClient2.subscribe('/topic/newRoom/' + empNo, function (chatMessage) { // 클라이언트들의 주소. 서버는 이 주소를 가진 클라이언트를 고무호스로 연결하고 있음. 
 			// 현재 chatMessage 는 메세지를 보낼때마다 클 -> 서 -> 클 을 다시 거쳐서 온 거임.
-
 			// 서버에서는 뭘 줬어야 될까?
 			// 채팅방을 표시해주기 위해서 뭐가 필요한데? 그거부터 찾아보자.  
 		    getChattingRooms(empNo);
-			  
         });
     });
 }
@@ -1318,7 +1328,6 @@ function sendMessage() {
 // 메세지 보여주게 하기 
 function showMessage(message) {
 	
-	
 	/*
 	type: 'CHAT',
 	senderEmpCode: '1', 
@@ -1330,17 +1339,14 @@ function showMessage(message) {
 	roomNo : "15",
 	 */
 	
-	
     let messageElement = document.createElement('li'); // li 태그 생성
     //messageElement.classList.add('chat-message'); //css 붙여주고 
-
 
     if (message.type === 'CHAT') { // 현재 매개변수로 넘어온 message 라는 js 객체 안 type 에 든 값이 'CHAT' 인 경우 
     	// 경우의 수는 2가지임. 
     	// 1. 내가 쓴 거
     	if(message.senderEmpCode == empCode){
 
-			
     		let newP = document.createElement('p'); // p 태그를 만든다.
     		if(message.content.includes("^^^")){
 				// 번역된게 같이 들어있는 경우 
@@ -1372,9 +1378,7 @@ function showMessage(message) {
     			newP.appendChild(messageContent);
 				
 			}
-    		
-    		
-
+    	
 			newP.style.display = 'flex';
 			newP.style.flexDirection = 'column';
 			newP.style.justifyContent = 'flex-end';
@@ -1395,12 +1399,8 @@ function showMessage(message) {
 			newP.style.paddingRight = '10px';
 			newP.style.borderRadius = '10px';
 			newP.style.marginBottom = '2%';
-
 		} else{
-		
-		
-		
-		
+
 		// 2. 너가 쓴 거 	
 		// 2개의 div 태그가 있어야 하고, 첫번째 div 태그에는 프로필사진과 이름이, 두번째 div 태그에는 메시지 내용이 들어가 있어야 함. 
 		// li 태그는 display: flex; flex-direction: column; 이어야 함. 
@@ -1410,10 +1410,8 @@ function showMessage(message) {
 		messageElement.style.flexDirection = 'column';
 		
 		let firstDiv = document.createElement('div');
-		let secondDiv = document.createElement('div');			
-		
-		let profileDiv; 
-		
+		let secondDiv = document.createElement('div');					
+		let profileDiv;
 		// 프로필사진부터 처리
 		if(message.profileImg == null){
 			// 프로필 이미지가 없는 경우 
@@ -1449,8 +1447,11 @@ function showMessage(message) {
 		} else{
 			// 프로필 이미지가 있는 경우
 			profileDiv = document.createElement('img');
-			priflleDiv.src = message.profileImg;
-			
+			profileDiv.src = message.profileImg;
+			profileDiv.style.width = '30px';
+			profileDiv.style.height = '30px';
+			profileDiv.style.borderRadius = '50%';
+			console.log(profileDiv);
 			
 		}
 		
@@ -1487,12 +1488,7 @@ function showMessage(message) {
 			contentDiv.style.flexDirection = 'column';
 			originalContentDiv.style.borderBottom = '1px solid lightgray';
 			originalContentDiv.style.padding = '5px';
-			
 			translatedContentDiv.style.padding = '5px';
-
-
-		    
-		    
 				
 		}else{
 			let contentNode = document.createTextNode(message.content);
@@ -1532,7 +1528,7 @@ function showMessage(message) {
 		messageElement.appendChild(secondDiv);
 		
 		chattingsArea.appendChild(messageElement);
-
+		
 		}
 
     		
@@ -1621,6 +1617,9 @@ function showMessage(message) {
 				// 프로필 이미지가 있는 경우
 				profileDiv = document.createElement('img');
 				priflleDiv.src = message.profileImg;
+				profileDiv.style.width ='50px';
+				profileDiv.style.height = '50px';
+				profileDiv.style.borderRadius = '50%';
 			
 			
 			}
@@ -1863,7 +1862,6 @@ exitBtn.addEventListener('click', function(){
 		})
 		.then(response => {return response.text();})
 		.then(responseValue => {	
-			alert(responseValue);
 			getChattingRooms(empCode);	
 			document.querySelector('#chattingsContainer').style.display = 'none';
 			
@@ -1889,5 +1887,49 @@ exitBtn.addEventListener('click', function(){
 		
 	}
 })
+
+
+
+//------------------------------------------------------------------------------------
+
+document.getElementById('message').addEventListener('keyup', function(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        // Enter 키만 눌렸을 때 동작
+        event.preventDefault(); // 기본 동작 방지 (새 줄 추가 방지)
+        sendMessage();
+    }
+});
+
+let sendBtn = document.querySelector('#sendBtn');
+
+document.getElementById('message').addEventListener('input', function() {
+    if (document.getElementById('message').value.length > 0) {
+        sendBtn.style.backgroundColor = '#BDD8F1'; // 텍스트가 있을 때 배경색 변경
+        sendBtn.style.color = '#214177';
+    } else {
+        sendBtn.style.backgroundColor = '#fafdff'; // 텍스트가 없을 때 기본 배경색으로 복원
+    	sendBtn.style.color = '#214177';
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
