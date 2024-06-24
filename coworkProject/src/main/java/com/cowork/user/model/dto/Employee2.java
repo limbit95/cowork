@@ -45,15 +45,16 @@ public class Employee2 {
 	private String domain; // 도메인
 	private int generalManager; // 관리자 번호
 	private String comLogo;
-	
-	// 사원 이름용 
 	private String empName;
+	private String empIp;
+	
+	private String arrivalTime;
+	private String departureTime;
 	
 	// 06.21 PEB
 	private String attendanceYn; // 근태관리 권한
 	private String functionYn;   // 기능관리 권한
 	private String teamBoardYn;  // 팀게시판 권한
-	
 	
 	// 06.22 최재준
 	private Integer businessCardFl;

@@ -129,7 +129,6 @@ public interface UserMapper {
 	 */
 	int registDraft(Map<String, Object> map);
 
-	// 0622_재준 시작
 	/** 명함 관련 로직 
 	 * @param empCode
 	 * @return
@@ -146,7 +145,6 @@ public interface UserMapper {
 	 * @return
 	 */
 	int cardTypeDetail(int empCode);
-	// 0622_재준 끝
 
 	int validatePhoneNum(Map<String, Object> paramMap);
 
@@ -154,6 +152,18 @@ public interface UserMapper {
 
 	int verifyAuth(Map<String, Object> paramMap);
 
+	/** 로그인한 회원의 ip가 DB에 존재하지는지 확인
+	 * @param loginEmp
+	 * @return
+	 */
+	String loginEmpGetIp(Employee2 loginEmp);
+
+	/** 최초 로그인 시 ip 저장
+	 * @param loginEmp
+	 * @return
+	 */
+	int firstInsertIp(Employee2 loginEmp);
+  
 	void resetPwPhoneVersion(Map<String, Object> paramMap);
 
 
