@@ -78,7 +78,7 @@ public class AuthorityManageController {
 	@ResponseBody
 	@PostMapping("authorityManage")
 	public int authorityManage(
-			@RequestBody List<Employee2> authorityList
+				@RequestBody List<Employee2> authorityList
 			) {
 		
 		int result = service.authorityManage(authorityList);

@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cowork.employee.teamBoard.model.dto.Comment;
 import com.cowork.employee.teamBoard.model.dto.TeamBoard;
+import com.cowork.user.model.dto.Employee2;
 
 public interface TeamBoardService {
 	
@@ -51,6 +52,12 @@ public interface TeamBoardService {
 	 * @return
 	 */
 	int teamBoardDelete(int teamBoardNo);
+	
+	/** 사원별 권한 처리
+	 * @param authorityList
+	 * @return
+	 */
+	int teamAuthorityManage(List<Employee2> authorityList);
 	
 	/*******************/
 
