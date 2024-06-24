@@ -151,7 +151,7 @@
 	        #{todoTitle},
 	        #{todoContent},
 	        DEFAULT,
-	        #{todoEndDate},
+	        TO_DATE(#{todoEndDate}, 'YYYY-MM-DD'),
 	        DEFAULT,
 	        #{empCode}
 	    )
