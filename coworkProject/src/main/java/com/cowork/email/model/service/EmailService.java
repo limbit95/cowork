@@ -44,7 +44,7 @@ public interface EmailService {
 	 * @param map
 	 * @return
 	 */
-//	int sendEmail(String string, Map<String, Object> map);
+	int sendEmail(String string, Map<String, Object> map);
 
 	/** 구성원 초대 이메일 발송
 	 * @param emailList
@@ -52,5 +52,11 @@ public interface EmailService {
 	 * @return
 	 */
 	String registYourself(String[] emailList, Employee2 loginEmp);
+
+	/** 구성원 일괄 등록 이후 등록한 계정을 사용할 구성원들에게 계정 정보 메일로 전송
+	 * @param map
+	 * @return
+	 */
+	int sendMailAfterAddInBulk(Map<String, Object> map);
 
 }

@@ -99,10 +99,10 @@ public class EmailController {
 	 * @param map
 	 * @return
 	 */
-//	@ResponseBody
-//	@PostMapping("findPwByEmail")
-//	public int findPwByEmail(@RequestBody Map<String, Object> map) {
-//		return service.sendEmail("findPwByEmail", map);
-//	}
+	@ResponseBody
+	@PostMapping("findPwByEmail")
+	public int findPwByEmail(@RequestBody Map<String, Object> map) {
+		return service.sendEmail("findPwByEmail", map);
+	}
 	
 }

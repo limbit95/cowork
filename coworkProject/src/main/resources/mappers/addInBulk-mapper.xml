@@ -2,6 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cowork.admin.addr.model.mapper.AddInBulkMapper">
 	
-
+	<!-- 일괄 추가하려는 구성원 DB에 저장(계정 생성) -->
+	<insert id="regist">
+		INSERT INTO EMPLOYEE VALUES(
+			SEQ_EMPLOYEE.NEXTVAL,
+			#{empNo},
+			#{empId},
+			#{empPw},
+			#{empLastName},
+			#{empFirstName},
+			#{phone},
+			NULL,
+			#{empBirth},
+			#{hireDate},
+			#{contractType},
+			#{empTel},
+			#{workPlace},
+			#{empEmail},
+			#{comNo},
+			#{teamNo},
+			#{positionNo},
+			NULL,
+			2,
+			DEFAULT, 
+			DEFAULT,
+			NULL
+		)
+	</insert>
 	
 </mapper>

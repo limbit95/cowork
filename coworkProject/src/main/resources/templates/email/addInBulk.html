@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body style="display: flex; justify-content: center;">
+    <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+        <img src="cid:logo" width="200px">
+
+        <div style="width: 550px;">
+            <h1 style="text-align: start;">
+                <span style="color: #007bff; font-weight: bold; font-size: 40px;" th:text="${data.domain}"></span> 구성원으로 추가되었습니다.
+            </h1>
+        </div>
+
+<pre style="font-family: 'NanumBarunGothic'; width: 550px;">
+<span style="color: #007bff; font-weight: bold;" th:text="|${data.empLastName}${data.empFirstName}|"></span><span style="font-weight: bold;">님의 계정과 임시 비밀번호가 생성되었습니다.</span>
+
+생성된 계정과 임시 비밀번호로 로그인해 서비스를 시작해주세요.
+도용 방지를 위해 로그인 후 새 비밀번호로 변경해주세요.
+
+<hr style="border: 1px solid rgba(0, 0, 0, 0.281);">
+<span style="font-weight: bold; font-size: 14px;">이름</span>
+<span style="font-size: 18px; line-height: 30px;" th:text="|${data.empLastName}${data.empFirstName}|"></span>
+
+<span style="font-weight: bold; font-size: 14px;">계정</span>
+<span style="font-size: 18px; line-height: 30px;" th:text="${data.empId}"></span>
+
+<span style="font-weight: bold; font-size: 14px;">비밀번호</span>
+<span style="font-size: 18px; line-height: 30px;" th:text="${data.empPw}"></span>
+
+<hr style="border: 1px solid rgba(0, 0, 0, 0.281);">
+</pre>
+        <div style="display: flex; width: 560px; justify-content: center;">
+            <a href="http://localhost/user/login" style="
+            border-radius: 5px; padding: 5px 20px;
+            background-color: #82A6CB; border: 2px solid #82A6CB; width: 180px; height: 50px; font-size: 16px; color: white;
+            text-decoration: none; cursor: pointer; text-align: center;
+            ">서비스 시작하기</a>
+        </div>
+
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+</body>
+</html>

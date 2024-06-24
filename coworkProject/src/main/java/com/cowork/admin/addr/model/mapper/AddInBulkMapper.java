@@ -1,6 +1,7 @@
 package com.cowork.admin.addr.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,6 +20,12 @@ public interface AddInBulkMapper {
 	 * @return
 	 */
 	List<Employee2> selectEmployeeList();
+
+	/** 일괄 추가하려는 구성원 정보 DB에 저장(계정 생성)
+	 * @param map
+	 * @return
+	 */
+	int regist(Map<String, Object> map);
 
 
 }
