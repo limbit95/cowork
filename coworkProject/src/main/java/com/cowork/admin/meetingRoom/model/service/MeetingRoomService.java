@@ -24,4 +24,10 @@ public interface MeetingRoomService {
 	 */
 	int meetingRoomDelete(MeetingRoom meetingRoom);
 
+	/** 회의실 수정
+	 * @param updateMeetingRoom
+	 * @return result
+	 */
+	int updateMeetingRoom(MeetingRoom updateMeetingRoom);
+
 }

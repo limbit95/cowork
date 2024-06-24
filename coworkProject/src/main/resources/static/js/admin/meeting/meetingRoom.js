@@ -1,5 +1,3 @@
-console.log("admin meetingRoom.js 연결 확인");
-
 // deleteXBtn 요소 선택하기
 const deleteXBtns = document.querySelectorAll(".deleteXBtn");
 
@@ -36,8 +34,49 @@ if (deleteXBtns != null) {
                     });
                 };
             } else {
-                return;
+                location.href = "/meetingRoom/meetingRoomList";
             }
         });
     });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('updateP')) {
+            let parentDiv = event.target.closest('.meetingRoomLoop');
+            let meetingRoomNmDiv = parentDiv.querySelector('.meetingRoomNm');
+            let meetingRoomNm = meetingRoomNmDiv.textContent;
+
+            meetingRoomNmDiv.classList.add('btnHidden');
+
+            let input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'updateNm';
+            input.value = meetingRoomNm;
+
+            meetingRoomNmDiv.insertAdjacentElement('beforebegin', input);
+
+            event.target.textContent = '등록';
+            event.target.classList.remove('updateP');
+            event.target.classList.add('registerP');
+
+            let deleteBtn = parentDiv.querySelector('.deleteXBtn');
+            deleteBtn.classList.add('cancelBtn');
+            deleteBtn.classList.remove('deleteXBtn');
+            deleteBtn.innerHTML = '<i class="fa-solid fa-times"></i>';
+
+        } else if (event.target.classList.contains('registerP')) {
+            let parentDiv = event.target.closest('.meetingRoomLoop');
+            let input = parentDiv.querySelector('.updateNm');
+            let newMeetingRoomName = input.value;
+            let meetingRoomNo = parentDiv.querySelector('.meetingRoomNo').value;
+
+            console.log(newMeetingRoomName);
+            console.log(meetingRoomNo);
+
+            window.location.href = "/meetingRoom/meetingRoomUpdate?meetingRoomNo=" + meetingRoomNo + "&meetingRoomNm=" + newMeetingRoomName;
+        }
+
+    });
+});
+
