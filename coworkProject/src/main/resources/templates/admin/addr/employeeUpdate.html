@@ -176,7 +176,7 @@
                                 <span>직급</span>
                                 <select class="default-line" id="" name="positionNo">
                                     <th:block th:unless="*{positionNo}">
-                                        <option>직급 선택</option>
+                                        <option></option>
                                     </th:block>
                                     <th:block th:each="p : ${session.positionList}">
                                         <option th:if="*{positionNo} == ${p.positionNo}" th:value="${p.positionNo}">[[${p.positionNm}]]</option>

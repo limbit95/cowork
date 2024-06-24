@@ -643,15 +643,17 @@ document.addEventListener('DOMContentLoaded', function() {
                             // 존재하지 않으면 select 태그 border 빨간색으로 변경
                             document.querySelectorAll(".deptOpt").forEach((x) => {
                                 let check = false;
-                                deptList.forEach((i) => {
-                                    if(i.deptNm == x.dataset.deptNm) {
-                                        x.parentElement.value = i.deptNo;
-                                        check = true;
-                                        return;
+                                if(x.innerText.length > 0) {
+                                    deptList.forEach((i) => {
+                                        if(i.deptNm == x.dataset.deptNm) {
+                                            x.parentElement.value = i.deptNo;
+                                            check = true;
+                                            return;
+                                        }
+                                    })
+                                    if(!check) {
+                                        x.parentElement.style.border = '1px solid red';
                                     }
-                                })
-                                if(!check) {
-                                    x.parentElement.style.border = '1px solid red';
                                 }
                             })
 
@@ -661,15 +663,17 @@ document.addEventListener('DOMContentLoaded', function() {
                             if(tempTeamList != null) {
                                 document.querySelectorAll(".teamOpt").forEach((x) => {
                                     let check6 = false;
-                                    tempTeamList.forEach((i) => {
-                                        if(i.teamNm == x.dataset.teamNm) {
-                                            x.parentElement.value = i.teamNo;
-                                            check6 = true;
-                                            return;
+                                    if(x.innerText.length > 0) {
+                                        tempTeamList.forEach((i) => {
+                                            if(i.teamNm == x.dataset.teamNm) {
+                                                x.parentElement.value = i.teamNo;
+                                                check6 = true;
+                                                return;
+                                            }
+                                        })
+                                        if(!check6) {
+                                            x.parentElement.style.border = '1px solid red';
                                         }
-                                    })
-                                    if(!check6) {
-                                        x.parentElement.style.border = '1px solid red';
                                     }
                                 })
                             }
@@ -679,15 +683,17 @@ document.addEventListener('DOMContentLoaded', function() {
                             if(positionList != null) {
                                 document.querySelectorAll(".positionOpt").forEach((x) => {
                                     let check8 = false;
-                                    positionList.forEach((i) => {
-                                        if(i.positionNm == x.dataset.positionNm) {
-                                            x.parentElement.value = i.positionNo;
-                                            check8 = true;
-                                            return;
+                                    if(x.innerText.length > 0) {
+                                        positionList.forEach((i) => {
+                                            if(i.positionNm == x.dataset.positionNm) {
+                                                x.parentElement.value = i.positionNo;
+                                                check8 = true;
+                                                return;
+                                            }
+                                        })
+                                        if(!check8) {
+                                            x.parentElement.style.border = '1px solid red';
                                         }
-                                    })
-                                    if(!check8) {
-                                        x.parentElement.style.border = '1px solid red';
                                     }
                                 })
                             }
@@ -1701,9 +1707,9 @@ document.querySelector("#confirmBtn5").addEventListener("click", e => {
                         "phone" : employee.children[5].children[0].innerText.length > 0 ? employee.children[5].children[0].innerText : null,
                         "empEmail" : employee.children[6].children[0].innerText.length > 0 ? employee.children[6].children[0].innerText : "null",
                         "empBirth" : employee.children[7].children[0].innerText.length > 0 ? employee.children[7].children[0].innerText : null,
-                        "deptNo" : employee.children[8].children[0].tagName == "SPAN" ? employee.children[8].children[0].innerText : employee.children[8].children[0].value,
-                        "teamNo" : employee.children[9].children[0].tagName == "SPAN" ? employee.children[9].children[0].innerText : employee.children[9].children[0].value,
-                        "positionNo" : employee.children[10].children[0].tagName == "SPAN" ? employee.children[10].children[0].innerText : employee.children[10].children[0].value,
+                        "deptNo" : employee.children[8].children[0].value == "null" ? null : employee.children[8].children[0].value,
+                        "teamNo" : employee.children[9].children[0].value == "null" ? null : employee.children[9].children[0].value,
+                        "positionNo" : employee.children[10].children[0].value == "null" ? null : employee.children[10].children[0].value,
                         "contractType" : employee.children[11].children[0].innerText.length > 0 ? employee.children[11].children[0].innerText : "null",
                         "workPlace" : employee.children[12].children[0].innerText.length > 0 ? employee.children[12].children[0].innerText: "null",
                         "empTel" : employee.children[13].children[0].innerText.length > 0 ? employee.children[13].children[0].innerText : "null",
@@ -1752,9 +1758,9 @@ document.querySelector("#confirmBtn5").addEventListener("click", e => {
                         "phone" : employee.children[5].children[0].innerText.length > 0 ? employee.children[5].children[0].innerText : "null",
                         "empEmail" : employee.children[6].children[0].innerText.length > 0 ? employee.children[6].children[0].innerText : "null",
                         "empBirth" : employee.children[7].children[0].innerText.length > 0 ? employee.children[7].children[0].innerText : null,
-                        "deptNo" : employee.children[8].children[0].tagName == "SPAN" ? employee.children[8].children[0].innerText : employee.children[8].children[0].value,
-                        "teamNo" : employee.children[9].children[0].tagName == "SPAN" ? employee.children[9].children[0].innerText : employee.children[9].children[0].value,
-                        "positionNo" : employee.children[10].children[0].tagName == "SPAN" ? employee.children[10].children[0].innerText : employee.children[10].children[0].value,
+                        "deptNo" : employee.children[8].children[0].value == "null" ? null : employee.children[8].children[0].value,
+                        "teamNo" : employee.children[9].children[0].value == "null" ? null : employee.children[9].children[0].value,
+                        "positionNo" : employee.children[10].children[0].value == "null" ? null : employee.children[10].children[0].value,
                         "contractType" : employee.children[11].children[0].innerText.length > 0 ? employee.children[11].children[0].innerText : "null",
                         "workPlace" : employee.children[12].children[0].innerText.length > 0 ? employee.children[12].children[0].innerText : "null",
                         "empTel" : employee.children[13].children[0].innerText.length > 0 ? employee.children[13].children[0].innerText : "null",

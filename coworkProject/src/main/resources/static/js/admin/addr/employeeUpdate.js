@@ -318,6 +318,8 @@ if(updateEmployee != null) {
             "empTel" : empTel.value.length > 0 ? empTel.value : null,
             "comNo" : comNo
         }
+        console.log(obj)
+        return;
         
         fetch("/admin/addr/employeeUpdate", {
             method : 'post', 

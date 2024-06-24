@@ -87,9 +87,9 @@ public class AddrController {
 	 */
 	@ResponseBody
 	@PostMapping("insertGroupList")
-	public int insertGroupList(@RequestBody List<Map<String, String>> map) {
+	public int insertGroupList(@RequestBody List<Map<String, Object>> map) {
 		// 로그인 회원 번호 다른 변수에 값 담고
-		String loginEmpCode = map.get(0).get("loginEmpCode");
+		String loginEmpCode = String.valueOf(map.get(0).get("loginEmpCode"));
 		// map 안에서 삭제 -> 불필요 하기 때문에
 		map.remove(0);
 		
