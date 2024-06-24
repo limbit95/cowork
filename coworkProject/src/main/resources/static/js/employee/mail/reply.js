@@ -289,6 +289,9 @@ const fileHandler = {
                 fileXIcon.dataset.index = `${file.lastModified}`;
                 fileXIcon.type = 'button';
 
+                const orderLabel = document.createElement('label');
+                orderLabel.hidden = true;
+
                 fileTd2.appendChild(fileXIcon);
                 fileTd2.appendChild(orderLabel);
                 fileTr.appendChild(fileTd);

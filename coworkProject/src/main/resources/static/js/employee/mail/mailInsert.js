@@ -37,7 +37,7 @@ const refererListContainer = document.getElementById('refererListContainer');
     
 
     // 받는 사람 입력에 스페이스나 엔터를 눌렀을 때
-    recipientInput.addEventListener('keydown', (event) => {
+  /*  recipientInput.addEventListener('keydown', (event) => {
         if (event.key === ' ' || event.key === 'Enter') {
             event.preventDefault();
             const empName = recipientInput.value.trim();
@@ -60,7 +60,7 @@ const refererListContainer = document.getElementById('refererListContainer');
         }
     });
 
-
+*/
 
 
 // 사원 검색 영역 생성 
@@ -166,18 +166,6 @@ function searchtrRefClick(empCode, empName) {
     refererDiv.appendChild(createDeleteButton(refererDiv));
     document.querySelector('.refererForm').appendChild(refererDiv);
 }
-
- // 참조 입력에 스페이스나 엔터를 눌렀을 때
- refererInput.addEventListener('keydown', (event) => {
-    if (event.key === ' ' || event.key === 'Enter') {
-        event.preventDefault();
-        const empName = refererInput.value.trim();
-        if (empName) {
-            addRefererEmail(empName);
-            refererInput.value = '';
-        }
-    }
-});
 
 // 이메일 참조인 추가 함수
 function addRefererEmail(empName) {

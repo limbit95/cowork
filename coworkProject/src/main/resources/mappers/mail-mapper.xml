@@ -190,7 +190,7 @@
 	            M.MAIL_FLAG,
 	            M.READ_FL,
 	            M.EMP_CODE AS SENDER_EMP_CODE,
-	            SENDER.EMP_ID || '@' ||COMPANY.DOMAIN AS senderMail
+	            SENDER.EMP_ID || '@' ||COMPANY.DOMAIN AS senderMail,
 	            SENDER.EMP_LAST_NAME || SENDER.EMP_FIRST_NAME AS SENDER,
 	            SENDER_TEAM.TEAM_NM AS SENDER_TEAM_NM,
 	            R.EMP_CODE AS RECIPIENT_EMP_CODE,

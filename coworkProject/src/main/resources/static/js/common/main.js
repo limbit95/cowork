@@ -27,46 +27,10 @@ function showSection(sectionId) {
 }
 
 
-/* 
-document.addEventListener('DOMContentLoaded', function() {
-    var video = document.querySelector('video');
-    var thumbnail = document.getElementById('thumbnail');
-
-    // 자동 재생 실패한 경우 
-    video.addEventListener('error', function() {
-        thumbnail.style.display = 'block';
-    });
-
-    // 재생 시 썸네일 숨김
-    video.addEventListener('play', function() {
-        thumbnail.style.display = 'none';
-    });
-
-    // 썸네일 클릭 시 재생
-    thumbnail.addEventListener('click', function() {
-        video.play();
-        thumbnail.style.display = 'none';
-    });
-
-    // 자동 재생 실패한 경우 썸네일 표시
-    video.addEventListener('loadeddata', function() {
-        setTimeout(function() {
-            if (video.paused) {
-                thumbnail.style.display = 'block';
-            }
-        }, 100);
-    });
-});
-
-*/
-
-
-
 document.addEventListener('DOMContentLoaded', function () {
 
-    showSection('edsmSection');
+    showSection('addressSection');
     disableRightClickOnVideo();
-
 
     /* 챗봇 */
     const inputChat = document.getElementById('inputChat');
@@ -136,6 +100,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* 챗봇에게 묻기 */
     function sendMessage(message) {
+
+        console.log('sendMessage called with message:', message); 
+
         const userBubble = document.createElement('div');
         userBubble.className = 'chat-bubble user';
         userBubble.textContent = message;
@@ -148,9 +115,10 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify({ message: message })
         })
-        .then(response => response.json())
+        .then(resp => resp.json())
         .then(data => {
-            displayResponse(data.response);
+            console.log('fetch response data:', data);
+            displayResponse(data.response, data.imageUrls);
         })
         .catch(error => {
             console.error('Error:', error);
@@ -160,11 +128,32 @@ document.addEventListener('DOMContentLoaded', function () {
         scrollToBottom();
     }
 
-    function displayResponse(response) {
+
+    function displayResponse(response, imageUrls) {
+
+        console.log('displayResponse called with response:', response); // 로그 추가
+        console.log('imageUrls:', imageUrls); 
+
         const botBubble = document.createElement('div');
         botBubble.className = 'chat-bubble bot';
         botBubble.textContent = response;
         respChat.appendChild(botBubble);
+
+        if (imageUrls && imageUrls.length > 0) {
+
+            imageUrls.forEach(url => {
+                const image = document.createElement('img');
+                image.src = url;
+                image.alt = '응답 이미지';
+                image.className = 'chatRespImage';
+                respChat.appendChild(image);
+    
+                console.log(`이미지 URL: ${url}`);
+            });
+        } else {
+            console.log('No images to display.');
+        }
+
         scrollToBottom();
         createQuestionButtons(); // 질문 버튼을 다시 생성
     }

@@ -315,7 +315,7 @@ ul{
 }
 
 /* 할 일 상세 내부 input창 */
-#todoTitle {
+#todoTitle, #todoTitleIn {
     border: 0px;
     border-bottom: 1px solid var(--gray-color);
     padding: 5px;
@@ -328,7 +328,7 @@ ul{
 }
 
 /* 요청 내용 박스 부분 */
-#requestContent {
+#requestContent, #requestContentIn {
     border: 1px solid #d9d9d9;
     padding: 10px;
     resize: none;
@@ -527,9 +527,10 @@ input[type="date"]:hover {
     flex-direction: column;
 }
 
+/*
 #inCharge, #inChargeDetail {
     position: relative;
-}
+} */
 
 .inChargeDetail, .detailContent {
     display: flex;
@@ -562,7 +563,7 @@ input[type="date"]:hover {
 
 .searchTable {
     position: absolute;
-    top: calc(60% + 5px); /* tagsWrapper div 바로 아래에 위치 */
+    top: calc(104% + 5px); /* tagsWrapper div 바로 아래에 위치 */
     width: 215px;
     background-color: white;
     border: 1px solid var(--gray-color);
@@ -585,8 +586,8 @@ input[type="date"]:hover {
     display: none; /* empCode 숨김 처리 */
 }
 
-#inChargeEmpInput2, #inChargeEmpInput1, 
-#inChargeInput1, #inChargeInput2 {
+#inChargeEmpInputUpdate, #inChargeEmpInput, 
+#inChargeInputUpdate, #inChargeInput {
     border: none;
     outline: none;
     /*flex-shrink: 0;*/
@@ -594,21 +595,21 @@ input[type="date"]:hover {
    /* padding-left: 18px; */
 }
 
-#inChargeEmpInput2 {
+#inChargeEmpInputUpdate {
     width: 216px;
     border-bottom: 1px solid #d9d9d9;
     padding: 5px;
     position: relative;
 }
 
-#inChargeEmpInput1 {
+#inChargeEmpInput {
     position: relative;
     width: 207px;
     border-bottom: 1px solid #d9d9d9;
     padding: 5px;
 }
 
-#inChargeEmpInput2:hover, #inChargeEmpInput1:hover {
+#inChargeEmpInputUpdate:hover, #inChargeEmpInput:hover {
     border-bottom: 1px solid #214177;
 }
 

@@ -74,7 +74,7 @@
                     <form action="update" method="post" enctype="multipart/form-data" name="todoUpdateForm" id="todoUpdateForm">
                         <div class="todoDetailArea" style="display: none;" id="todoDetailArea">
                             <div id="updateBtnArea">
-                                <button class="updateBtn" id="updateBtn" type="submit" style="display: none;">수정</button>
+                                <button class="updateBtn" id="updateBtn" type="button" style="display: none;">수정</button>
                                 <button class="cancelBtn" id="cancelBtn" type="button">취소</button>
                             </div>
                             <input type="hidden" name="todoNo" id="todoNo">
@@ -93,13 +93,13 @@
                                 </div>
                                 <div class="inChargeDetail">
                                     <div class="detailTitle">담당자</div>
-                                    <div class="detailContent">
-                                    <input name="inChargeEmpInput" id="inChargeEmpInput1" placeholder="이름 입력">
+                                    <div class="detailContent" id="inChargeInputboxUpdate">
+                                    <input name="inChargeEmpInputUpdate" id="inChargeEmpInputUpdate" placeholder="이름 입력">
                                     </div>
                                 </div>
                                 <div class="inchargeinput">
                                     <div id="tagsWrapperEdit" class="detailContent">
-                                        <input name="inChargeEmp" id="inChargeInput1" readonly>
+                                        <input hidden name="inChargeEmp" id="inChargeInputUpdate" readonly>
                                     </div>
                                 </div>        
                                 
@@ -145,7 +145,7 @@
                     <form action="insert" method="post" enctype="multipart/form-data" name="todoInsertForm" id="todoInsertForm">
                         <div class="todoInsertArea" style="display: none;" id="todoInsertArea">
                             <div id="insertBtn2Area">
-                                <button id="insertBtn2" type="submit">등록</button>
+                                <button id="insertBtn2" type="button">등록</button>
                             </div>
                             <div class="date">
                                 <div class="detailTitle">기한</div>
@@ -162,12 +162,12 @@
                             <div class="inChargeDetail">
                                 <div class="detailTitle">담당자</div>
                                 <div class="detailContent" id="inChargeInputbox"> 
-                                    <input name="inChargeEmpInput" id="inChargeEmpInput2" placeholder="이름 입력">
+                                    <input name="inChargeEmpInput" id="inChargeEmpInput" placeholder="이름 입력">
                                 </div>
                             </div>
                             <div class="inchargeinput">
                                 <div id="tagsWrapperRegister" class="detailContent">
-                                    <input name="inChargeEmp" id="inChargeInput2" readonly>
+                                    <input hidden name="inChargeEmp" id="inChargeInput">
                                 </div>
                             </div>
                         
@@ -184,14 +184,14 @@
                             <div class="todotitleArea">
                                 <div class="detailTitle">요청 제목</div>
                                 <div class="detailContent">
-                                    <input name="todoTitle" id="todoTitle">
+                                    <input type="text" name="todoTitle" id="todoTitleIn">
                                 </div>
                             </div>
                             <div class="request">
                                 <div class="detailTitle">요청 내용</div>
                             </div>
                             <div class="detailContent">
-                                <textarea id="requestContent" name="todoContent"></textarea>
+                                <textarea id="requestContentIn" name="todoContent"></textarea>
                             </div>
                             <div>
                                 <div class="detailTitle" id="fileArea">첨부파일</div>

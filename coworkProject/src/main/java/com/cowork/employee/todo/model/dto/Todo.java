@@ -35,6 +35,7 @@ public class Todo {
 	
 	private List<TodoFile> fileList;
 	private List<String> inChargeEmpList; // 담당자 리스트
+	private List<String> inChargeEmpNames;
 
 		
 }
