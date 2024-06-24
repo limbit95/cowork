@@ -15,13 +15,13 @@
 	
 	<div th:replace="~{admin/left/adminLeftSideBar}"></div>
 	
-	<section class="container">
+	<div class="container">
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
 
         <div class="title"><span>권한 관리</span></div>
 
         <div class="mainBtnList">
-            <button class="default-btn glucose-btn" id="saveGroup">그룹 저장</button>
+            <button class="default-btn glucose-btn" id="saveGroup">권한등록</button>
         </div>
 
         <main>
@@ -35,7 +35,7 @@
                         
                         <div class="li-hover">
                             <i class="fa-solid fa-angle-down"></i>
-                            <div class="comp">
+                            <div class="comp" th:onclick="|comSelect()|">
                                 <i class="fa-solid fa-building"></i>
                                 <span th:text="${session.loginEmp.comNm}"></span>
                             </div>
@@ -49,7 +49,7 @@
     
                                     <div class="li-hover">
                                         <i class="fa-solid fa-angle-down"></i>
-                                        <div class="dept" th:data-dept-no="*{deptNo}">
+                                        <div class="dept" th:data-dept-no="*{deptNo}" th:onclick="|deptSelect(*{deptNo})|">
                                             <i class="fa-solid fa-network-wired"></i>
                                             <span th:text="*{deptNm}"></span>
                                         </div>
@@ -62,9 +62,9 @@
                                             <li class="team" th:each="t : *{teamList}">
                                                 <div class="li-hover"> 
                                                     <i class="fa-solid fa-angle-down"></i>
-                                                    <div class="tim" th:data-team-no="|*{deptNo}/${t.teamNo}|">
+                                                    <div class="tim" th:onclick="|teamSelect(${t.teamNo}, *{deptNo})|">
                                                         <i class="fa-solid fa-people-group"></i>
-                                                        <span th:text="${t.teamNm}"></span>
+                                                        <span id="teamName" th:text="${t.teamNm}" ></span>
                                                     </div>
                                                 </div>
                                             </li>
@@ -92,7 +92,7 @@
                 <div>
                     <div class="default-line">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="search" placeholder="이름, 전화번호 검색" id="findEmp" autocomplete="off" spellcheck="false">
+                        <input type="search" placeholder="이름 검색" id="findEmp" autocomplete="off" spellcheck="false">
                     </div>
                 </div>
 
@@ -113,7 +113,7 @@
                 </div>
                 
                 <!-- 구성원 목록 -->
-                <div class="authorityList">
+                <div class="authorityList" id="authorityForm">
                     <div class="tableHead">
                         <div>부서 / 팀</div>
                         <div>이름</div>
@@ -124,63 +124,66 @@
 						<div class="authorityW">팀게시판</div>
                     </div>
 					<div class="tableBody">
-						<div class="" th:each="authority : ${authorityList}" th:object="${authority}">
+						<!--<div id="authorityForm" th:each="authority, stat : ${authorityList}" th:object="${authority}">
 							<div class="info">
 								<div><span th:text="|*{deptNm} / *{teamNm}|">운영팀</span></div>
-								<div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
+								<div>
+                                    <span th:text="|*{empLastName}*{empFirstName}|">박은별</span>
+                                    <input th:value="*{empCode}" id="empCode" hidden>
+                                </div>
 								<div><span th:text="*{positionNm}">팀장</span></div>
 								<div class="emailW"><span th:text="*{empEmail}">park@naver.com</span></div>
-								<div class="authorityW"><input id="check" type="checkbox" th:checked="*{attendanceYn == 'Y'}"></div>
-								<div class="authorityW"><input id="check" type="checkbox" th:checked="*{functionYn == 'Y'}"></div>
-								<div class="authorityW"><input id="check" type="checkbox" th:checked="*{teamBoardYn == 'Y'}"></div>
+								<div class="authorityW"><input id="attendanceYn" type="checkbox" th:checked="*{attendanceYn == 'Y'}"></div>
+								<div class="authorityW"><input id="functionYn" type="checkbox" th:checked="*{functionYn == 'Y'}"></div>
+								<div class="authorityW"><input id="teamBoardYn" type="checkbox" th:checked="*{teamBoardYn == 'Y'}"></div>
 							</div>
-						</div>
+						</div>-->
 					</div>
 
                 </div>
                 
                 <!-----------------------------------------------   페이지  ------------------------------------------------------------------>
 
-                <div class="pagination-area" th:unless="${#lists.isEmpty(authorityList)}">
+                <div class="pagination-area">
         
-                    <!-- 검색 X -->
-                    <ul class="pagination" th:object="${pagination}">
+                    <!-- 검색 X-->
+                    <ul class="pagination">
 
-                        <!-- 첫 페이지로 이동 -->
+                        <!-- 첫 페이지로 이동 
                         <li><a th:href="@{/authority/authorityManage(cp=1, key=${param.key}, query=${param.query})}">&lt;&lt;</a></li>
-
-                        <!-- 이전 목록 마지막 번호로 이동 -->
+-->
+                        <!-- 이전 목록 마지막 번호로 이동 
                         <li><a th:href="@{/authority/authorityManage(cp=*{prevPage}, key=${param.key}, query=${param.query})}">&lt;</a></li>
-
-                        <!-- 특정 페이지로 이동 -->
+-->
+                        <!-- 특정 페이지로 이동 
                         <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
-                            
-                        <!-- 현재 보고있는 페이지 -->
+                            -->
+                        <!-- 현재 보고있는 페이지 
                             <li th:if="${i} == *{currentPage}">
                                 <a class="current" th:text="${i}">1</a>
                             </li>
-                            
-                            <!-- 보고있지 않은 페이지 -->
+                            -->
+                            <!-- 보고있지 않은 페이지 
                             <li th:unless="${i} == *{currentPage}">
                                 <a th:text="${i}"
                                     th:href="@{/authority/authorityManage(cp=${i}, key=${param.key}, query=${param.query})}"
                                 >2</a>
                             </li>
 
-                        </th:block>
+                        </th:block>-->
 
-                        <!-- 다음 목록 시작 번호로 이동 -->
+                        <!-- 다음 목록 시작 번호로 이동 
                         <li><a th:href="@{/authority/authorityManage(cp=*{nextPage}, key=${param.key}, query=${param.query})}">&gt;</a></li>
-
-                        <!-- 끝 페이지로 이동 -->
-                        <li><a th:href="@{/authority/authorityManage(cp=*{maxPage}, key=${param.key}, query=${param.query})}">&gt;&gt;</a></li>
+-->
+                        <!-- 끝 페이지로 이동
+                        <li><a th:href="@{/authority/authorityManage(cp=*{maxPage}, key=${param.key}, query=${param.query})}">&gt;&gt;</a></li>-->
                     </ul>
                 
             </div>
 
         </main>
 
-    </section>
+    </div>
 
 	<script src="/js/admin/authority/authorityManage.js"></script>
 

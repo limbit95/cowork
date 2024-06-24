@@ -36,3 +36,13 @@
 .emailW {
     width: 150px !important;
 }
+
+main div {
+    margin: 0px !important;
+}
+
+.mainBtnList {
+    width: 1000px;
+    display: flex;
+    justify-content: flex-end;
+}
