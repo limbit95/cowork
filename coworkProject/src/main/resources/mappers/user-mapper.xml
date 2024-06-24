@@ -260,6 +260,11 @@
 		AND AUTH_KEY = #{authKey}
 	</select>
 	
+	<update id="resetPwPhoneVersion">
+		UPDATE EMPLOYEE SET EMP_PW = #{empPw}
+		WHERE EMP_ID = #{empId}
+	</update>
+	
 	
 	
 </mapper>
