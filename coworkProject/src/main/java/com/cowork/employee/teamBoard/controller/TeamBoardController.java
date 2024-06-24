@@ -52,11 +52,16 @@ public class TeamBoardController {
 		paramMap.put("teamNo", loginEmp.getTeamNo());
 		paramMap.put("combo", combo);
 		
+		paramMap.put("empCode", loginEmp.getEmpCode());
+		
 		// 조회 서비스 호출 후 결과 반환
 		Map<String, Object> map = service.teamBoardList(paramMap, cp);
 		
 		model.addAttribute("pagination", map.get("pagination"));
 		model.addAttribute("teamBoardList", map.get("teamBoardList"));
+		model.addAttribute("authorityCnt", map.get("authorityCnt"));
+		model.addAttribute("levelCnt", map.get("levelCnt"));
+		model.addAttribute("teamAuthorityList", map.get("teamAuthorityList"));
 		
 		return "employee/teamBoard/teamBoardList";
 	}

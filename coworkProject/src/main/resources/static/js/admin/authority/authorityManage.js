@@ -102,7 +102,7 @@ function authorityManage(deptNo, teamNo, empName) {
             div7.classList.add('authorityW');
 
             const teamBoardYn = document.createElement('input');
-            teamBoardYn.id = "attendanceYn";
+            teamBoardYn.id = "teamBoardYn";
             teamBoardYn.type = "checkbox";
             if(authority.teamBoardYn == 'Y') teamBoardYn.checked = true;
 
@@ -133,7 +133,7 @@ function authorityManage(deptNo, teamNo, empName) {
          prevPageLink.innerHTML = "&lt;";
          prevPage.append(prevPageLink);
          paginationArea.append(prevPage);
-         
+
          // 특정 페이지로 이동
          for (let i = pagination.startPage; i <= pagination.endPage; i++) {
              const pageItem = document.createElement('li');

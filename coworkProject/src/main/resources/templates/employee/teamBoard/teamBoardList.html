@@ -7,6 +7,7 @@
 
     <th:block th:replace="~{common/common}"></th:block>
     <link rel="stylesheet" href="/css/employee/board/board.css">
+    <link rel="stylesheet" href="/css/employee/teamBoard/teamBoard.css">
 </head>
 <body>
 
@@ -40,9 +41,15 @@
 
         <div class="board">
 
-            <form class="defaultBtn listBtn" th:action="@{teamBoardInsert}" method="get">
-                <button class="default-btn glucose-btn">등록</button>
-            </form>
+            <div class="tableBtn">
+                <form class="defaultBtn listBtn authorityBtn">
+                    <button class="default-btn glucose-btn" type="button" th:if="${levelCnt > 0}" id="authorityPop">권한</button>
+                </form>
+                <form class="defaultBtn listBtn" th:action="@{teamBoardInsert}" method="get">
+                    <button class="default-btn glucose-btn" th:if="${authorityCnt > 0}">등록</button>
+                </form>
+            </div>
+            
 
             <div class="table-head">
                 <div>
@@ -117,6 +124,18 @@
                     <li><a th:href="@{/teamBoard/teamBoardList(cp=*{maxPage}, key=${param.key}, query=${param.query}, combo=${param.combo})}">&gt;&gt;</a></li>
                 </ul>
                 
+            </div>
+        </div>
+
+        <!-- 권한 팝업창 -->
+        <div class="default-line authorityManagePop "> <!--disNone-->
+            <div class="popTitle">
+                <div><span class="">권한</span></div>
+                <div class="times">&times;</div>
+            </div>
+            
+            <div class="defaultBtn insBtn">
+                <button type="button" class="default-btn glucose-btn" id="rejectedYn">반려</button>
             </div>
         </div>
     </section>
