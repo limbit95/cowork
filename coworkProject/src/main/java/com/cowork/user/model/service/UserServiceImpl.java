@@ -365,6 +365,15 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
+	@Override
+	public void resetPwPhoneVersion(String empId, String empPw) {
+		String encodedPw = bcrypt.encode(empPw);
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("empId", empId);
+		paramMap.put("empPw", empPw);
+		mapper.resetPwPhoneVersion(paramMap);
+	}
+
 
 	// 0622_재준 끝
 
