@@ -155,7 +155,7 @@ public class UserController {
 			message = "기업 정보 등록 실패";
 			path = "/user/companyInfo";
 		} else {
-			message = "등록이 완료되었습니다. \n로그인 후 서비스 이용해주세요.";
+			message = "등록이 완료되었습니다.";
 			path = "/";
 		}
 		
