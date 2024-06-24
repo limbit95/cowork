@@ -319,7 +319,6 @@ if(updateEmployee != null) {
             "comNo" : comNo
         }
         console.log(obj)
-        return;
         
         fetch("/admin/addr/employeeUpdate", {
             method : 'post', 
