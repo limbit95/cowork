@@ -196,7 +196,6 @@ AND S.SURVEY_END_DATE + 1 >= SYSDATE
     FETCH NEXT #{pageSize} ROWS ONLY	
 </select>
 
-
 <select id="countResponse">
 	SELECT COUNT(*) FROM SURVEY_ANSWER
 	WHERE SURVEY_SUB_NO = #{surveySubNo}

@@ -630,11 +630,11 @@ function getChattingRooms(empCode){
                
                let firstChar = room.empLastName.charAt(0);
                let empLastNameNode = document.createTextNode(firstChar);
-
+				
+			   
                
-               
-               if(lastNameColors[empLastNameNode]){
-			      makerProfileDiv.style.backgroundColor = lastNameColors[empLastNameNode];
+               if(lastNameColors[firstChar]){
+			      makerProfileDiv.style.backgroundColor = lastNameColors[firstChar];
 			   } else{
 				  makerProfileDiv.style.backgroundColor = '#fff0fa';
 			   }
