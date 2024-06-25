@@ -71,10 +71,21 @@ function fetchInitialTodos() {
                 todos.forEach(todo => {
                     const todoDiv = document.createElement('div');
                     todoDiv.className = 'todo';
+
+                     // 기한 만료 확인
+                const todoEndDate = new Date(todo.todoEndDate);
+                const today = new Date();
+                let expiredMessage = '';
+                if (todoEndDate < today) {
+                    expiredMessage = '<div class="expired">기한 지남</div>';
+                }
+
                     todoDiv.setAttribute('data-todo-complete', todo.todoComplete);
                     todoDiv.innerHTML = `
                         <div><input type="checkbox" class="todoCheckbox" data-todo-id="${todo.todoNo}"></div>
                         <div class="todoTitle" data-todo-id="${todo.todoNo}">${todo.todoTitle}</div>
+                         <div><input type="hidden" data-todo-id="${todo.todoEndDate}"></div>
+                        ${expiredMessage}
                         <div class="select" data-todo-id="${todo.todoNo}" data-todo-complete="${todo.todoComplete}">
                             <div class="selected" data-to-do-id="${todo.todoNo}">${todo.todoComplete == '1' ? '진행중' : '완료'}</div>
                             <ul class="optionList">
@@ -115,10 +126,21 @@ function fetchTodos(todoComplete, sortBy, filters = {}) {
             todos.forEach(todo => {
                 const todoDiv = document.createElement('div');
                 todoDiv.className = 'todo';
+
+            // 기한 만료 확인
+            const todoEndDate = new Date(todo.todoEndDate);
+            const today = new Date();
+            let expiredMessage = '';
+            if (todoEndDate < today) {
+                expiredMessage = '<div class="expired">기한 지남</div>';
+            }
+
                 todoDiv.setAttribute('data-todo-complete', todo.todoComplete);
                 todoDiv.innerHTML = `
                     <div><input type="checkbox" class="todoCheckbox" data-todo-id="${todo.todoNo}"></div>
                     <div class="todoTitle" data-todo-id="${todo.todoNo}">${todo.todoTitle}</div>
+                    <div><input type="hidden" data-todo-id="${todo.todoEndDate}"></div>
+                        ${expiredMessage}
                     <div class="select" data-todo-id="${todo.todoNo}" data-todo-complete="${todo.todoComplete}">
                         <div class="selected" data-to-do-id="${todo.todoNo}">${todo.todoComplete == '1' ? '진행중' : '완료'}</div>
                         <ul class="optionList">

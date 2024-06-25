@@ -76,7 +76,7 @@ a {
 
 footer {
     position: relative;
-    transform: translateY(0%) !important;
+    transform: translateY(7%) !important;
     bottom: 0px; 
 }
 
@@ -445,7 +445,7 @@ video::-webkit-media-controls-overlay-play-button {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #BDD8F1; /* 스크롤바 색상 */
+    background: #82A6CB; /* 스크롤바 색상 */
     border-radius: 5px; /* 스크롤바 모서리 둥글게 */
 }
 
@@ -456,7 +456,7 @@ video::-webkit-media-controls-overlay-play-button {
 /* Firefox */
 * {
     scrollbar-width: thin; /* 스크롤바 너비 */
-    scrollbar-color: #BDD8F1 #e2e7ec; /* 스크롤바 색상 및 트랙 배경 */
+    scrollbar-color: #82A6CB #e2e7ec; /* 스크롤바 색상 및 트랙 배경 */
 }
 
 /* IE, Edge (Old versions) */

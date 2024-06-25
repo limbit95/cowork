@@ -184,10 +184,15 @@ a:hover {
     border: 1px solid #D9D9D9;
 }
 
+.todo:hover {
+    background-color: #fbfbfb;
+}
+
 .todo div:nth-of-type(1){
     margin-left: 20px;
     width: 20px;
 }
+
 .todo div:nth-of-type(2){
     margin-left: 10px;
     width: 86%;
@@ -339,7 +344,7 @@ ul{
     margin-top: 15px;
 }
 
-#requestContent:focus {
+#requestContent:focus, #requestContentIn:focus {
     outline: none;
 }
 
@@ -563,8 +568,8 @@ input[type="date"]:hover {
 
 .searchTable {
     position: absolute;
-    top: calc(104% + 5px); /* tagsWrapper div 바로 아래에 위치 */
-    width: 215px;
+    top: calc(64% + 5px);
+    width: 271px;
     background-color: white;
     border: 1px solid var(--gray-color);
     z-index: 1000;
