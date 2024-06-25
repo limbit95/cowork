@@ -94,12 +94,7 @@
     </section>
 
     <script th:inline="javascript">
-		const message = /*[[${message}]]*/ "전달 메세지";
-		const manager = /*[[${session.loginEmp.generalManager}]]*/ "전체 관리자";
-		
-		if (message != null) {
-			alert(message);
-		}
+		const manager2 = /*[[${session.loginEmp.generalManager}]]*/ "전체 관리자";
 	</script>
 
     <script src="/js/admin/left/adminMain.js"></script>

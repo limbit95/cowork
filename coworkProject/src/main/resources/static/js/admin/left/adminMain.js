@@ -1,5 +1,5 @@
 /* 근태관리 메뉴 */
-function attendanceFun() {
+function attendanceFun2() {
     
     const attendanceDiv = document.querySelector('#attendanceDiv');
     attendanceDiv.setAttribute('onclick', "location.href='/admin/attendance'");
@@ -9,7 +9,7 @@ function attendanceFun() {
 }
 
 /* 기능관리 메뉴 */
-function functionFun() {
+function functionFun2() {
     
     const functionDiv = document.querySelector('#functionDiv');
     functionDiv.setAttribute('onclick', "location.href='/admin/addr'");
@@ -18,7 +18,7 @@ function functionFun() {
     functionText.innerText = "화면들어가기";
 }
 
-function authorityMenu() {
+function authorityMenu2() {
 
     fetch("/authorityYnAdmin")
     .then(resp => resp.json())
@@ -31,21 +31,21 @@ function authorityMenu() {
 
                 //console.log(authority.authorityNo);
 
-                if(authority.authorityNo == 1) attendanceFun();
+                if(authority.authorityNo == 1) attendanceFun2();
 
-                if(authority.authorityNo == 2) functionFun();
+                if(authority.authorityNo == 2) functionFun2();
             } 
 
         }else {
             //console.log(manager);
-            if(manager == 1) {
+            if(manager2 == 1) {
 
-                attendanceFun();
+                attendanceFun2();
 
-                functionFun();
+                functionFun2();
             }
         }
     });
 }
 
-authorityMenu();
+authorityMenu2();
