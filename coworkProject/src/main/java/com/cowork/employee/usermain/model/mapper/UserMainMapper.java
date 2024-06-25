@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cowork.admin.authority.dto.AuthorityMember;
+import com.cowork.employee.notice.model.dto.Notice;
 
 @Mapper
 public interface UserMainMapper {
@@ -20,5 +21,11 @@ public interface UserMainMapper {
 	 * @return
 	 */
 	List<AuthorityMember> authorityList(int empCode);
+
+	/** 공지사항 조회
+	 * @param comNo
+	 * @return
+	 */
+	List<Notice> noticeList(int comNo);
 
 }

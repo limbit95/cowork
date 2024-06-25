@@ -55,6 +55,8 @@ body {
 	transition: transform 0.5s ease, opacity 0.3s;
 	transform: translateX(-100%);
 
+	z-index: 90; /*0624PEB*/
+
 }
 #closeLeftSideBar{
 	margin-top: 10px;
@@ -194,15 +196,21 @@ body {
 
 /*=========================================================*/
 #userMainFullContainer{
-	width: 100vw; 
+	/*width: 100vw; 0624PEB*/
 	display: flex; 
 	flex-direction: column;
+
+	width: 100%; /*0624PEB*/
+    align-items: center; /*0624PEB*/
+
 }
 #attendanceRegisterBtn{
 	display: flex; 
 	justify-content: flex-end;
 	margin-top: 10px; 
 	margin-right: 10px; 
+
+	width: 100%; /*0624PEB*/
 }
 #calendarTodoContainer{
 	display:flex;
@@ -212,9 +220,11 @@ body {
 	flex-basis: 15%; 
 }
 #rightSpace{
-	flex-basis: 85%; 
+	/*flex-basis: 85%; 0624PEB*/
 	display: flex;
 	justify-content: space-around;
+
+	flex-basis: 100%; /*0624PEB*/
 }
 #calendarSection{
 	flex-basis: 30%;	
@@ -231,9 +241,12 @@ body {
 	font-size: 25px;
 }
 #noticeContainer{
-	width: 100vw;
+	/*width: 100vw; 0624PEB*/
 	display: flex; 
 	margin-top: 50px;
+
+	width: 100%;
+    justify-content: center;
 
 }
 #noticeSection{
@@ -317,4 +330,58 @@ body {
 }
 .hide{
 	opacity: 0.3s;
+}
+
+/* 공지사항 */
+#noticeForm {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 1007px;
+}
+
+.noticeBoarder {
+    border: 1px solid var(--gray-color);
+    border-radius: 10px !important;
+    padding: 20px !important;
+    margin-top: 25px;
+}
+
+.noticeBoarder .tBody {
+    display: flex;
+    border-bottom: 1px solid var(--gray-color);
+    padding: 10px !important;
+}
+
+.tBody div {
+    font-size: 15px !important;
+    width: 150px;
+}
+
+.noticeContent {
+    width: 650px !important;
+}
+
+.uiMainForm {
+    display: flex;
+    flex-direction: column;
+    width: 1200px;
+}
+
+.tBody:hover {
+	background-color: #eef5fc;
+	cursor: pointer;
+}
+
+h2#fc-dom-1 {
+    font-size: 18px !important;
+}
+
+button.fc-prev-button.fc-button.fc-button-primary {
+    width: 30px;
+}
+
+button.fc-next-button.fc-button.fc-button-primary {
+    width: 35px;
+    height: -2px;
 }

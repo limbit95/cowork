@@ -1,13 +1,13 @@
 /* 유저 메인용 투두 */
 
 /* 아이콘 */
-#todoIcon {
+.todoIcon {
     font-size: 25px;
     color: #214177;
 }
 
 /* 투 두 이름 */
-#todoSpan {
+.todoSpan {
     margin-left: 10px;
     font-size: 25px;
     color: #3667A6;
