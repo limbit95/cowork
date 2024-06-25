@@ -162,7 +162,7 @@ public class UserController {
 		
 		ra.addFlashAttribute("message", message);
 		
-		return "redirect:/userMain";
+		return "redirect:" + path;
 	}
 	
 	/** 공공데이터 사업자등록정보 진위확인 및 상태조회 서비스 서비스키 리턴하기
@@ -178,11 +178,16 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("login")
-	public String login(HttpServletRequest request, Model model) {
+	public String login(@RequestParam(value="empId", required=false) String empId,
+                      HttpServletRequest request, 
+                      Model model) {
+    
+    model.addAttribute("findEmpId", empId);
 		HttpSession session= request.getSession();
 		String needLoginMakeInInterceptor = (String)session.getAttribute("needLoginMakeInInterceptor");
 		model.addAttribute("needLoginMakeInInterceptor", needLoginMakeInInterceptor);
 		session.removeAttribute("needLoginMakeInInterceptor");
+    
 		return "user/login"; 
 	}
 	 
@@ -205,12 +210,12 @@ public class UserController {
 		Integer businessCardFl = service.businessCardProcess(loginEmp.getEmpCode());
 		loginEmp.setBusinessCardFl(businessCardFl);
 
-		model.addAttribute("loginEmp", loginEmp);
-		
 		if(loginEmp.getComNm().equals("없음")) {
 			ra.addFlashAttribute("message", "기업 정보 등록 후 서비스 이용 가능합니다.");
-			model.addAttribute("loginEmp", loginEmp);
+			ra.addFlashAttribute("loginEmp", loginEmp);
 			return "redirect:/user/companyInfo";
+		} else {
+			model.addAttribute("loginEmp", loginEmp);
 		}
 		
 		List<Department> comAddrList = adminAddrService.selectComAddrList(loginEmp);

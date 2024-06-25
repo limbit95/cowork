@@ -3,6 +3,7 @@
 
 const deptList = [];
 const teamList = [];
+const excelIdList = [];
 
 window.addEventListener("load", e => {
     if(comAddrList != null) {
@@ -33,6 +34,11 @@ window.addEventListener("load", e => {
         }
     }
 });
+
+// window.addEventListener("click", e => {
+//     console.log(deptList)
+//     console.log(teamList)
+// })
 
 
 // 새로운 방법의 파일 복사본
@@ -243,7 +249,15 @@ document.addEventListener('DOMContentLoaded', function() {
                             return;
                         } 
                     })
-                    
+
+                    // 엑셀 파일의 아이디 리스트화
+                    result.forEach((i) => {
+                        // if(i.ID == "") {
+                        //     return;
+                        // }
+                        excelIdList.push(i.ID);
+                    })
+
                     // 비밀번호 생성 방식 : 관리자가 등록
                     const admin = document.querySelector("#admin");
 
@@ -275,43 +289,71 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div><span>사번</span></div>
                         </div>
                     `;
-                    document.querySelector("[name='createType']");
+                    // document.querySelector("[name='createType']");
+                    const checkEmpId = [];
                     if(check4) {
-                        result.forEach((i) => {
+                        result.forEach((i, index1) => {
                             const employee = document.createElement("div");
                             employee.classList.add("employee");
 
-                            // 기존 DB에서 가져온 부서리스트인 deptList 복사본
-                            const tempDeptList = deptList.slice();
-
-                            // 0 : 엑셀에 작성한 부서명이 해당 회사에 없는 부서명
-                            // 1 : 엑셀에 작성한 부서명이 해당 회사에 있는 부서명
+                            // 0 : 엑셀에 작성한 ID가 DB에 없을 때
+                            // 1 : 엑셀에 작성한 ID가 DB에 있을 때
+                            // 2 : 엑셀에 작성한 ID가 정규식에 맞지 않을 때 
                             let check5 = 0;
 
-                            // 엑셀에 작성한 부서명이 있어 복사한 부서 리스트에서 동일한 부서명 삭제하기 전에
-                            // 중복 부서명 데이터 복사하기
-                            let tempDeptNm;
-                            let tempDeptNo;
-                            // 엑셀에 작성한 부서가 DB의 부서 리스트에 있으면 해당하는 부서의 하위 팀 리스트만 담은 공간
-                            let tempTeamList;
-                            for(let x = 0; x < tempDeptList.length; x++) {
-                                if(tempDeptList[x].deptNm == i.부서) {
-                                    tempDeptNm = tempDeptList[x].deptNm;
-                                    tempDeptNo = tempDeptList[x].deptNo;
-                                    tempDeptList.splice(x, 1)
-                                    tempTeamList = teamList[x].slice();
+                            // DB의 ID와 중복 검사
+                            empList.forEach((x) => {
+                                if(x == i.ID) {
                                     check5 = 1;
-                                } 
+                                }
+                            })
+
+                            let flag6 = true;
+                            let flag7 = true;
+                            if(checkEmpId.length > 0) {
+                                checkEmpId.forEach((t) => {
+                                    if(!flag7) {
+                                        return;
+                                    }
+                                    if(i.ID == t) {
+                                        check5 = 1;
+                                        flag6 = false;
+                                        flag7 = false;
+                                    }
+                                })
                             }
 
-                            // 0 : 엑셀에 작성한 부서명이 해당 회사에 없는 부서명일 때
+                            if(flag6) {
+                                // DB에 중복 ID 없으면 이번엔 엑셀 파일 등록 ID들끼리 중복 검사
+                                if(check5 == 0) {
+                                    result.forEach((y, index2) => {
+                                        // 자기 자신과는 비교하면 안됨
+                                        if(index1 == index2) {
+                                            return;
+                                        }
+                                        if(i.ID == y.ID) {
+                                            checkEmpId.push(i.ID);
+                                        }
+                                    })
+                                }
+                            }
+
                             if(check5 == 0) {
+                                const regExp = /^[A-Za-z0-9]{4,20}$/;
+        
+                                if(!regExp.test(i.ID)){
+                                    check5 = 2;
+                                }
+                            }
+
+                            // 1 : 엑셀에 작성한 ID가 DB에 있거나 정규식에 맞지 않을 때
+                            if(check5 == 1 || check5 == 2) {
                                 employee.innerHTML = 
                                 `
                                     <div><input type="checkbox" class="check"></div>
-                                    ${i.성.length != 0 ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
-                                    ${i.이름.length != 0 ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
-                                    ${i.ID.length != 0 ? `<div class="inputEmpId"><span  class="empId">${i.ID}</span></div>` : `<div class="inputEmpId"><input class="empId" type="text" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                    ${i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                    ${i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                    ${`<div class="empId"><input type="text" value="${i.ID}" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
                                     ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20" style="border: 1px solid red;"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`}
                                     <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
                                     <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
@@ -321,7 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             <div>
                                                 <select class="default-line deptList">
                                                     <option class="deptOpt" value="null" data-dept-nm="${i.부서}">${i.부서}</option>
-                                                    ${deptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
+                                                    ${deptList.map(item => `<option class="deptOpt" value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
                                                 </select>
                                             </div>
                                         `
@@ -329,23 +371,23 @@ document.addEventListener('DOMContentLoaded', function() {
                                         `
                                             <div>
                                                 <select class="default-line deptList">
-                                                    <option class="deptOpt" value="null" >부서 선택</option>
-                                                    ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
+                                                    ${deptList.map(item => `<option class="deptOpt" value="${item.deptNo}">${item.deptNm}</option>`).join('')}
                                                 </select>
                                             </div>
                                         `
                                     }
-                                    ${i.팀 != "null" ?
+                                    ${deptList.length > 0 ?
                                         `
                                             <div>
                                                 <select class="default-line teamList">
+                                                    <option class="teamOpt" value="${i.팀 == 'null' ? "" : i.팀}" >${i.팀 == 'null' ? "" : i.팀}</option>
                                                 </select>
                                             </div>
                                         `
                                     :
                                         `
                                             <div>
-                                                <select class="default-line teamList">
+                                                <select class="default-line teamList" style="border: 1px solid red;">
                                                 </select>
                                             </div>
                                         `
@@ -355,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             <div>
                                                 <select class="default-line positionList">
                                                     <option class="positionOpt" value="null" data-position-nm="${i.직급}">${i.직급}</option>
-                                                    ${positionList.map(item => `<option  value="${item.positionNo}">${item.positionNm}</option>`).join('')}
+                                                    ${positionList.map(item => `<option class="positionOpt" value="${item.positionNo}">${item.positionNm}</option>`).join('')}
                                                 </select>
                                             </div>
                                         `
@@ -363,7 +405,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         `
                                             <div>
                                                 <select class="default-line positionList">
-                                                    ${positionList.map(item => `<option  value="${item.positionNo}">${item.positionNm}</option>`).join('')}
+                                                    ${positionList.map(item => `<option class="positionOpt" value="${item.positionNo}">${item.positionNm}</option>`).join('')}
                                                 </select>
                                             </div>
                                         `
@@ -377,15 +419,14 @@ document.addEventListener('DOMContentLoaded', function() {
                                 employeeList.append(employee);
                             }
 
-                            // 1 : 엑셀에 작성한 부서명이 해당 회사에 있는 부서명일 때
-                            // -> 작성한 부서가 DB에 있는 부서면 그 부서 하위 팀 리스트만 불러와야 한다
-                            if(check5 == 1) {
+                            // 0 : 엑셀에 작성한 ID가 DB에 없거나 정규식에 맞으면
+                            if(check5 == 0) {
                                 employee.innerHTML = 
                                 `
                                     <div><input type="checkbox" class="check"></div>
-                                    ${i.성.length != 0 ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
-                                    ${i.이름.length != 0 ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
-                                    ${i.ID.length != 0 ? `<div class="inputEmpId"><span class="empId">${i.ID}</span></div>` : `<div class="inputEmpId"><input class="empId" type="text" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                    ${i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                    ${i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                    ${`<div class="empId"><span>${i.ID}</span></div>`}
                                     ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20" style="border: 1px solid red;"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`}
                                     <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
                                     <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
@@ -394,8 +435,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                         `
                                             <div>
                                                 <select class="default-line deptList">
-                                                    <option class="deptOpt" value="${tempDeptNo}" data-dept-nm="${tempDeptNm}">${tempDeptNm}</option>
-                                                    ${tempDeptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
+                                                    <option class="deptOpt" value="null" data-dept-nm="${i.부서}">${i.부서}</option>
+                                                    ${deptList.map(item => `<option class="deptOpt" value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
                                                 </select>
                                             </div>
                                         `
@@ -403,25 +444,23 @@ document.addEventListener('DOMContentLoaded', function() {
                                         `
                                             <div>
                                                 <select class="default-line deptList">
-                                                    ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
+                                                    ${deptList.map(item => `<option class="deptOpt" value="${item.deptNo}">${item.deptNm}</option>`).join('')}
                                                 </select>
                                             </div>
                                         `
                                     }
-                                    ${i.팀 != "null" ?
+                                    ${deptList.length > 0 ?
                                         `
                                             <div>
                                                 <select class="default-line teamList">
-                                                    <option class="teamOpt" value="null" data-team-nm="${i.팀}">${i.팀}</option>
-                                                    ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                    <option class="teamOpt" value="${i.팀 == 'null' ? "" : i.팀}" >${i.팀 == 'null' ? "" : i.팀}</option>
                                                 </select>
                                             </div>
                                         `
                                     :
                                         `
                                             <div>
-                                                <select class="default-line teamList">
-                                                    ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                <select class="default-line teamList" style="border: 1px solid red;">
                                                 </select>
                                             </div>
                                         `
@@ -431,7 +470,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             <div>
                                                 <select class="default-line positionList">
                                                     <option class="positionOpt" value="null" data-position-nm="${i.직급}">${i.직급}</option>
-                                                    ${positionList.map(item => `<option  value="${item.positionNo}">${item.positionNm}</option>`).join('')}
+                                                    ${positionList.map(item => `<option class="positionOpt" value="${item.positionNo}">${item.positionNm}</option>`).join('')}
                                                 </select>
                                             </div>
                                         `
@@ -439,7 +478,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         `
                                             <div>
                                                 <select class="default-line positionList">
-                                                    ${positionList.map(item => `<option  value="${item.positionNo}">${item.positionNm}</option>`).join('')}
+                                                    ${positionList.map(item => `<option class="positionOpt" value="${item.positionNo}">${item.positionNm}</option>`).join('')}
                                                 </select>
                                             </div>
                                         `
@@ -453,605 +492,357 @@ document.addEventListener('DOMContentLoaded', function() {
                                 employeeList.append(employee);
                             }
 
-                            // ----------------------------------------------------------------------------------------------------------------------
-                            // ----------------------------------------------------------------------------------------------------------------------
-                            // 구성원 정보 일괄 조회하면서 동시에 바로 유효성 검사하는 로직
-
-
-                            // 엑셀에 등록된 아이디의 유효성과 중복 검사 후 두 가지 경우 중 하나라도 걸리면
-                            // span 태그를 input 태그로 변경 후 해당 input 태그의 border를 red로 변경
-                            document.querySelectorAll(".inputEmpId").forEach((x, index1) => {
-                                
-                                const text = x.children[0].innerText;
-
-                                if(x.children[0].innerText.length > 0) {
-                                    const regExp = /^[A-Za-z0-9]{4,20}$/;
-                                    if(!regExp.test(x.children[0].innerText)) {
-                                        x.innerHTML = ``;
-
-                                        // 나중에 시간 되면 아래 코드를 통해 유효성 검사 여부 메시지 노출하기
-                                        // <i class="fa-solid fa-exclamation checkReg"
-                                        // style="border: 1.5px solid red; width: 14px; height: 14px; border-radius: 50px; font-size: 10px; margin-left: 7px; color: red; font-weight: 900;
-                                        //        display: flex; justify-content: center; align-items: center; cursor: pointer; padding: 0;">
-                                        // </i>
-                                        x.innerHTML = 
-                                            `
-                                                <input class="empId" type="text" value="${text}" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;">
-                                            `;
-                                        return;
-                                    }
-                                    
-                                    document.querySelectorAll(".inputEmpId").forEach((h, index2) => {
-                                        const text2 = h.children[0].innerText;
-
-                                        if(index1 == index2) {
-                                            return;
-                                        }
-                                        if(x.children[0].innerText == h.children[0].innerText) {
-                                            h.innerHTML = ``;
-                                            h.innerHTML = 
-                                                `
-                                                    <input class="empId" type="text" value="${text2}" placeholder="미입력" maxlength="100" spellcheck="false"  style="border: 1px solid red; color: red;">
-                                                `;
-                                            return;
-                                        }
-                                    })
-
-                                    empList.forEach((i) => {
-                                        if(i == x.children[0].innerText) {
-                                            x.innerHTML = ``;
-                                            x.innerHTML = 
-                                                `
-                                                    <input class="empId" type="text" value="${text}" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;">
-                                                `;
-                                            return;
-                                        }
-                                    })
-                                }
-                            })
-                            
-                            // ----------------------------------------------------------------------------------------------------------------------
-                            // ----------------------------------------------------------------------------------------------------------------------
-                            // 바로 위에서 처음 등록할 때 유효성 검사 이후 아이디 input 입력시마다 유효성 검사하는 로직
-
-                            // ID 인풋창 포커스 시
-                            document.querySelectorAll(".empId").forEach((i) => {
-                                i.addEventListener("focus", e => {
-                                    e.target.style.borderColor = 'black';
-                                    e.target.style.border = '2px solid black';
-                                });
-                            })
-                            // ID 인풋창 입력 시
-                            document.querySelectorAll(".empId").forEach((i, index1) => {
-                                i.addEventListener("input", e => {
-
-                                    if(e.target.value.trim().length == 0) {
-                                        e.target.style.border = '1px solid red';
-                                        return;
-                                    }
-
-                                    const regExp = /^[A-Za-z0-9]{4,20}$/;
-        
-                                    if(!regExp.test(e.target.value)){
-                                        e.target.style.color = 'red';
-                                        e.target.style.border = '2px solid red';
-                                        return;
-                                    }
-
-                                    let check12 = true;
-                                    // 등록 목록 내 같은 아이디가 있는지
-                                    document.querySelectorAll(".inputEmpId").forEach((h, index2) => {
-                                        let checkId;
-                                        
-                                        if(h.children[0].innerText != undefined) {
-                                            checkId = h.children[0].innerText;
-                                        }
-                                        if(h.children[0].value != undefined) {
-                                            checkId = h.children[0].value;
-                                        }
-
-                                        if(index1 == index2) {
-                                            return;
-                                        }
-                                        if(e.target.value == checkId) {
-                                            e.target.style.color = 'red';
-                                            e.target.style.border = '2px solid red';
-                                            check12 = false;
-                                            return;
-                                        }
-                                    })
-
-                                    if(!check12) {
-                                        return;
-                                    }
-
-                                    empList.forEach((i) => {
-                                        if(i == e.target.value) {
-                                            e.target.style.color = 'red';
-                                            e.target.style.border = '1px solid red';
-                                            return;
-                                        }
-                                        e.target.style.color = 'black';
-                                        e.target.style.border = '1px solid #ddd';
-                                    })
-                                });
-                            })
-                            // ID 인풋창 포커스 아웃 시
-                            document.querySelectorAll(".empId").forEach((i, index1) => {
-                                i.addEventListener("blur", e => {
-                                    if(e.target.style.color == 'red') {
-                                        e.target.style.border = '1px solid red';
-                                    } else {
-                                        e.target.style.border = '1px solid var(--gray-color)';
-                                    }
-                                });
-                            })
-
-                            // 엑셀 파일에서 작성한 부서명이 기존 DB의 부서 리스트에 있는지 확인 및
-                            // 존재하지 않으면 select 태그 border 빨간색으로 변경
-                            document.querySelectorAll(".deptOpt").forEach((x) => {
-                                let check = false;
-                                if(x.innerText.length > 0) {
-                                    deptList.forEach((i) => {
-                                        if(i.deptNm == x.dataset.deptNm) {
-                                            x.parentElement.value = i.deptNo;
-                                            check = true;
-                                            return;
-                                        }
-                                    })
-                                    if(!check) {
-                                        x.parentElement.style.border = '1px solid red';
-                                    }
-                                }
-                            })
-
-                            // 엑셀 파일에서 작성한 부서명이 기존 DB의 부서 리스트에 있는 부서명이고
-                            // 엑셀 파일에서 작성한 팀명이 앞서 작성한 부서 즉, DB에서 해당 부서의 하위 팀 리스트에 존재하지 않으면
-                            // select 태그 border 빨간색으로 변경
-                            if(tempTeamList != null) {
-                                document.querySelectorAll(".teamOpt").forEach((x) => {
-                                    let check6 = false;
-                                    if(x.innerText.length > 0) {
-                                        tempTeamList.forEach((i) => {
-                                            if(i.teamNm == x.dataset.teamNm) {
-                                                x.parentElement.value = i.teamNo;
-                                                check6 = true;
-                                                return;
-                                            }
-                                        })
-                                        if(!check6) {
-                                            x.parentElement.style.border = '1px solid red';
-                                        }
-                                    }
-                                })
-                            }
-
-                            // 엑셀 파일에서 작성한 직급명이 기존 DB의 직급 리스트에 없는 직급명이면 
-                            // select 태그의 border 빨간색으로 변경
-                            if(positionList != null) {
-                                document.querySelectorAll(".positionOpt").forEach((x) => {
-                                    let check8 = false;
-                                    if(x.innerText.length > 0) {
-                                        positionList.forEach((i) => {
-                                            if(i.positionNm == x.dataset.positionNm) {
-                                                x.parentElement.value = i.positionNo;
-                                                check8 = true;
-                                                return;
-                                            }
-                                        })
-                                        if(!check8) {
-                                            x.parentElement.style.border = '1px solid red';
-                                        }
-                                    }
-                                })
-                            }
-    
-                            // 3번째 아코디언 내용을 제외한 나머지 아코디언 내용 접기
-                            accordions[0].nextElementSibling.style.display = 'none';
-                            accordions[1].nextElementSibling.style.display = 'none';
-                            check3 = true;
-                            accordions[2].nextElementSibling.style.display = 'flex';
-                            accordions[2].style.color = 'black';
-
-                            // ----------------------------------------------------------------------------------------------------------------------
-                            // ----------------------------------------------------------------------------------------------------------------------
-                            // 부서 & 팀 & 직급 select 태그 change 이벤트 일어날 때 마다의 유효성 검사 로직
-                            
-                            // 부서 select 태그
-                            document.querySelectorAll(".deptList").forEach((y) => {
-                                y.addEventListener("change", async e => {
-
-                                    // 부서 select 태그의 change 이벤트가 일어나면 팀 select의 border가 무조건 red가 되므로
-                                    // 부서 select 태그 change가 일어나면 '일괄 추가' 버튼 비활성화 적용
-                                    if(y.parentElement.parentElement.children[0].children[0].checked == true) {
-                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                        document.querySelector("#addInBulk").classList.add("blur");
-                                    }
-
-                                    let check2 = false;
-
-                                    if(e.target.value === "null") {
-                                        deptList.forEach((x) => {
-                                            if(x.deptNm == e.target.children[0].innerText) {
-                                                check2 = true;
-                                                e.target.style.border = '1px solid var(--gray-color)';
-                                                return;
-                                            }
-                                        })
-                                    } else {
-                                        deptList.forEach((x) => {
-                                            if(x.deptNo == e.target.value) {
-                                                check2 = true;
-                                                e.target.style.border = '1px solid var(--gray-color)';
-                                                return;
-                                            }
-                                        })
-                                    }
-                                    if(!check2) {
-                                        // 존재하는 부서명과 일치하지 않으면 팀리스트도 다시 초기화
-                                        y.parentElement.nextElementSibling.children[0].innerHTML = '';
-                                        e.target.style.border = '1px solid red';
-                                        return;
-                                    }
-                                    
-                                    // 팀 그룹 담을 select 태그
-                                    const selectTeamList = y.parentElement.nextElementSibling.children[0];
-                                    if(e.target.value == "null") {
-                                        return;
-                                    }
-                                    const obj = {
-                                        "deptNo" : y.value,
-                                        "comNo" : comNo
-                                    };
-                                    
-                                    await fetch("/admin/addr/getTeamList", {
-                                        method : "post",
-                                        headers : {"Content-Type" : "application/json"},
-                                        body : JSON.stringify(obj)
-                                    })
-                                    .then(resp => resp.json())
-                                    .then(teamList => {
-                                        if(teamList.length == 0){
-                                            alert("불러오기 실패");
-                                            return;
-                                        }
-                            
-                                        selectTeamList.innerHTML = 
-                                        `
-                                            <option value="null">팀 선택</option>
-                                        `;
-                                        teamList.forEach((i) => {
-                                            if(document.querySelector(".deptList").value == i.teamNm) {
-                                                return;
-                                            }
-                                            const opt = document.createElement("option");
-                                            opt.value = i.teamNo;
-                                            opt.innerText = i.teamNm;
-                            
-                                            selectTeamList.append(opt);
-                                        });
-                                    })
-
-                                    // 부서를 새로 선택하면 팀 select 태그의 최상단이 '팀 선택' 이라는 텍스트를 가진 option 태그인데
-                                    // 해당 태그일 때 유효성 검사에서 유효하지 않음으로 border red로 변경
-                                    if(y.parentElement.nextElementSibling.children[0].value == "null") {
-                                        y.parentElement.nextElementSibling.children[0].style.border = '1px solid red';
-                                    }
-                                    
-                                })
-                            })
-
-                            // 팀 select
-                            if(i.팀 != null || tempTeamList != null) {
-                                document.querySelectorAll(".teamList").forEach((i) => {
-                                    i.addEventListener("change", e => {
-                                        for(let x = 0; x < deptList.length; x++) {
-                                            if(deptList[x].deptNo == i.parentElement.previousElementSibling.children[0].value) {
-                                                tempTeamList = teamList[x].slice();
-                                            } 
-                                        }
-            
-                                        let check7 = false;
-    
-                                        if(e.target.value === "null") {
-                                            tempTeamList.forEach((x) => {
-                                                if(x.teamNm == e.target.children[0].innerText) {
-                                                    check7 = true;
-                                                    e.target.style.border = '1px solid var(--gray-color)';
-                                                    return;
-                                                }
-                                            })
-                                        } else {
-                                            tempTeamList.forEach((x) => {
-                                                if(x.teamNo == e.target.value) {
-                                                    check7 = true;
-                                                    e.target.style.border = '1px solid var(--gray-color)';
-                                                    return;
-                                                }
-                                            })
-                                        }
-                                        if(!check7) {
-                                            // 존재하는 팀명과 일치하지 않으면
-                                            e.target.style.border = '1px solid red';
-                                        }
-                                        
-                                    })
-                                })
-                            }
-
-                            // 직급 select
-                            if(i.직급 != null && positionList != null) {
-                                document.querySelectorAll(".positionList").forEach((i) => {
-                                    i.addEventListener("change", e => {
-            
-                                        let check9 = false;
-    
-                                        if(e.target.value === "null") {
-                                            positionList.forEach((x) => {
-                                                if(x.positionNm == e.target.children[0].innerText) {
-                                                    check9 = true;
-                                                    e.target.style.border = '1px solid var(--gray-color)';
-                                                    return;
-                                                }
-                                            })
-                                        } else {
-                                            positionList.forEach((x) => {
-                                                if(x.positionNo == e.target.value) {
-                                                    check9 = true;
-                                                    e.target.style.border = '1px solid var(--gray-color)';
-                                                    return;
-                                                }
-                                            })
-                                        }
-                                        if(!check9) {
-                                            // 존재하는 직급명과 일치하지 않으면
-                                            e.target.style.border = '1px solid red';
-                                            return;
-                                        }
-
-                                    })
-                                })
-                            }
-
                         })
 
-                        // ----------------------------------------------------------------------------------------------------------------------
-                        // ----------------------------------------------------------------------------------------------------------------------
-                        // 구성원 정보 일괄 조회 이후 input 태그 한정 유효성 검사 로직
-
-                        // 성 인풋창 포커스 시
-                        document.querySelectorAll(".empLastName").forEach((i) => {
-                            i.addEventListener("focus", e => {
-                                e.target.style.border = '2px solid black';
-                            });
-                        })
-                        // 성 인풋창 포커스 아웃 시
-                        document.querySelectorAll(".empLastName").forEach((i) => {
-                            i.addEventListener("blur", e => {
-                                if(e.target.style.color == 'red') {
-                                    e.target.style.border = '1px solid red';
-                                } else {
-                                    e.target.style.border = '1px solid var(--gray-color)';
-                                }
-                                let flag1 = true;
-                                document.querySelectorAll(".employee").forEach((x) => {
-                                    const style = x.children[1].children[0].style
-                                    const style1 = x.children[2].children[0].style
-                                    const style2 = x.children[3].children[0].style
-                                    const style3 = x.children[4].children[0].style
-                                    const style4 = x.children[7].children[0].style
-                                    const style5 = x.children[8].children[0].style
-                                    const style6 = x.children[9].children[0].style
-                                    const style7 = x.children[10].children[0].style
-                                    const style8 = x.children[14].children[0].style
-                                    if(x.children[0].children[0].checked == true && (style.borderColor == 'red' ||
-                                        style1.borderColor == 'red' || style2.borderColor == 'red' ||
-                                        style3.borderColor == 'red' || style4.borderColor == 'red' ||
-                                        style5.borderColor == 'red' || style6.borderColor == 'red' ||
-                                        style7.borderColor == 'red' || style8.borderColor)) {
-                                            console.log('test')
-                                        flag1 = false;
-                                        document.querySelector("#addInBulk").classList.add("blur");
-                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                        return;
-                                    }
-                                })
-                                if(flag1) {
-                                    document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-                                    document.querySelector("#addInBulk").classList.remove("blur");
-                                }
-                            });
-                        })
-                        // 성 인풋창 입력 시
-                        document.querySelectorAll(".empLastName").forEach((i) => {
-                            i.addEventListener("input", e => {
-                                if(e.target.value.trim().length == 0) {
-                                    e.target.value = '';
-                                    e.target.style.color = 'red';
-                                    e.target.style.border = '1px solid red';
-                                    return;
-                                }
-                                e.target.style.color = 'black';
-                                e.target.style.border = '2px solid black';
-                            });
-                        })
-
-
-                        // 이름 인풋창 포커스 시
-                        document.querySelectorAll(".empFirstName").forEach((i) => {
-                            i.addEventListener("focus", e => {
-                                e.target.style.border = '2px solid black';
-                            });
-                        })
-                        // 이름 인풋창 포커스 아웃 시
-                        document.querySelectorAll(".empFirstName").forEach((i) => {
-                            i.addEventListener("blur", e => {
-                                if(e.target.style.color == 'red') {
-                                    e.target.style.border = '1px solid red';
-                                } else {
-                                    e.target.style.border = '1px solid var(--gray-color)';
-                                }
-                                let flag1 = true;
-                                document.querySelectorAll(".employee").forEach((x) => {
-                                    const style = x.children[1].children[0].style
-                                    const style1 = x.children[2].children[0].style
-                                    const style2 = x.children[3].children[0].style
-                                    const style3 = x.children[4].children[0].style
-                                    const style4 = x.children[7].children[0].style
-                                    const style5 = x.children[8].children[0].style
-                                    const style6 = x.children[9].children[0].style
-                                    const style7 = x.children[10].children[0].style
-                                    const style8 = x.children[14].children[0].style
-                                    if(x.children[0].children[0].checked == true && (style.borderColor == 'red' ||
-                                        style1.borderColor == 'red' || style2.borderColor == 'red' ||
-                                        style3.borderColor == 'red' || style4.borderColor == 'red' ||
-                                        style5.borderColor == 'red' || style6.borderColor == 'red' ||
-                                        style7.borderColor == 'red' || style8.borderColor)) {
-                                            console.log('test')
-                                        flag1 = false;
-                                        document.querySelector("#addInBulk").classList.add("blur");
-                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                        return;
-                                    }
-                                })
-                                if(flag1) {
-                                    document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-                                    document.querySelector("#addInBulk").classList.remove("blur");
-                                }
-                            });
-                        })
-                        // 이름 인풋창 입력 시
-                        document.querySelectorAll(".empFirstName").forEach((i) => {
-                            i.addEventListener("input", e => {
-                                if(e.target.value.trim().length == 0) {
-                                    e.target.value = '';
-                                    e.target.style.color = 'red';
-                                    e.target.style.border = '1px solid red';
-                                    return;
-                                }
-                                e.target.style.color = 'black';
-                                e.target.style.border = '2px solid black';
-                            });
-                        })
-
-
-
-                        if(document.querySelector("#idPattern") != null) {
-                            // ID 작성 양식 창 열기
-                            document.querySelector("#idPattern").addEventListener("click", e => {
-                                document.querySelector("#idPatternInfo").style.display = 'flex';
-                            });
-                            // ID 작성 양식 창 닫기
-                            document.querySelector("#closeBtn").addEventListener("click", e => {
-                                document.querySelector("#idPatternInfo").style.display = 'none';
-                            });
-                        }
-
-                        // ----------------------------------------------------------------------------------------------------------------------
-                        // ----------------------------------------------------------------------------------------------------------------------
-                        // 비밀번호 암호화의 활성화, 비활성화 토글
-                        const showPw = document.querySelector("#showPw");
-                        
-                        if(showPw != null) {
-                            showPw.addEventListener("click", e => {
-                                if(showPw.getAttribute("class") == 'fa-regular fa-eye-slash') {
-                                    showPw.classList.remove("fa-eye-slash");
-                                    showPw.classList.add("fa-eye");
-                                    showPw.style.color = 'black';
-                                    document.querySelectorAll(".empPw").forEach((i) => {
-                                        i.removeAttribute("type");
-                                        i.setAttribute("type", "text");
-                                    })
-                                    return;
-                                }
-                                if(showPw.getAttribute("class") == 'fa-regular fa-eye') {
-                                    showPw.classList.add("fa-eye-slash");
-                                    showPw.classList.remove("fa-eye");
-                                    showPw.style.color = 'rgb(172, 172, 172)';
-                                    document.querySelectorAll(".empPw").forEach((i) => {
-                                        i.removeAttribute("type");
-                                        i.setAttribute("type", "password");
-                                    })
-                                    return;
-                                }
-                            });
-                        }
-
-                        // 비밀번호 인풋창 포커스 시
-                        if(document.querySelectorAll(".empPw") != null) {
-                            document.querySelectorAll(".empPw").forEach((i) => {
-                                i.addEventListener("focus", e => {
-                                    e.target.style.borderColor = 'black';
-                                    e.target.style.border = '2px solid black';
-                                });
-                            })
-                            // 비밀번호 인풋창 포커스 아웃 시
-                            document.querySelectorAll(".empPw").forEach((i) => {
-                                i.addEventListener("blur", e => {
-                                    const regExp = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,20}$/;
-        
-                                    if(!regExp.test(e.target.value)){
-                                        e.target.style.borderColor = 'red';
-                                        e.target.style.border = '1px solid red';
-                                        if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
-                                            document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                            document.querySelector("#addInBulk").classList.add("blur");
-                                        }
-                                        return;
-                                    }
-                                    
-                                    if(e.target.value.trim().length == 0) {
-                                        e.target.style.borderColor = 'red';
-                                        e.target.style.border = '1px solid red';
-                                        if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
-                                            document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                            document.querySelector("#addInBulk").classList.add("blur");
-                                        }
-                                    } else {
-                                        e.target.style.borderColor = '#ddd';
-                                        e.target.style.border = '1px solid #ddd';
-                                        if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
-                                            document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-                                            document.querySelector("#addInBulk").classList.remove("blur");
-                                        }
-                                    }
-                                });
-                            })
-                            // 비밀번호 인풋창 입력 시
-                            document.querySelectorAll(".empPw").forEach((i) => {
-                                i.addEventListener("input", e => {
-                                    const regExp = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,20}$/;
-        
-                                    if(!regExp.test(e.target.value)){
-                                        e.target.style.borderColor = 'red';
-                                        e.target.style.border = '2px solid red';
-                                        if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
-                                            document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                            document.querySelector("#addInBulk").classList.add("blur");
-                                        }
-                                        return;
-                                    }
-                                    
-                                    if(e.target.value.trim().length == 0) {
-                                        e.target.style.borderColor = 'red';
-                                        e.target.style.border = '1px solid red';
-                                        if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
-                                            document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                            document.querySelector("#addInBulk").classList.add("blur");
-                                        }
-                                    } else {
-                                        e.target.style.borderColor = '#ddd';
-                                        e.target.style.border = '1px solid #ddd';
-                                        if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
-                                            document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-                                            document.querySelector("#addInBulk").classList.remove("blur");
-                                        }
-                                    }
-                                });
-                            })
-                        }
+                        // 3번째 아코디언 내용을 제외한 나머지 아코디언 내용 접기
+                        accordions[0].nextElementSibling.style.display = 'none';
+                        accordions[1].nextElementSibling.style.display = 'none';
+                        check3 = true;
+                        accordions[2].nextElementSibling.style.display = 'flex';
+                        accordions[2].style.color = 'black';
 
                     }
+
+                    document.querySelectorAll(".empId").forEach((i) => {
+                        excelIdList.pop(i);
+                    })
+
+                    // ----------------------------------------------------------------------------------------------------------------------
+                    // ----------------------------------------------------------------------------------------------------------------------
+                    // 구성원 정보 일괄 조회 이후 input 태그 한정 유효성 검사 로직
+
+                    // 성 인풋창 포커스 시
+                    document.querySelectorAll(".empLastName").forEach((i) => {
+                        i.addEventListener("focus", e => {
+                            e.target.style.border = '2px solid black';
+                        });
+                    })
+                    // 성 인풋창 포커스 아웃 시
+                    document.querySelectorAll(".empLastName").forEach((i) => {
+                        i.addEventListener("blur", e => {
+                            if(e.target.style.color == 'red') {
+                                e.target.style.border = '1px solid red';
+                            } else {
+                                e.target.style.border = '1px solid var(--gray-color)';
+                            }
+                            let flag1 = true;
+                            let count = 0;
+                            document.querySelectorAll(".employee").forEach((x) => {
+                                if(!flag1) {
+                                    return;
+                                }
+                                const style = x.children[1].children[0].style
+                                const style1 = x.children[2].children[0].style
+                                const style2 = x.children[3].children[0].style
+                                const style3 = x.children[4].children[0].style
+                                const style4 = x.children[7].children[0].style
+                                const style5 = x.children[8].children[0].style
+                                const style6 = x.children[9].children[0].style
+                                const style7 = x.children[10].children[0].style
+                                const style8 = x.children[14].children[0].style
+                                if(x.children[0].children[0].checked == true && (style.borderColor == 'red' ||
+                                    style1.borderColor == 'red' || style2.borderColor == 'red' ||
+                                    style3.borderColor == 'red' || style4.borderColor == 'red' ||
+                                    style5.borderColor == 'red' || style6.borderColor == 'red' ||
+                                    style7.borderColor == 'red' || style8.borderColor)) {
+                                    flag1 = false;
+                                    document.querySelector("#addInBulk").classList.add("blur");
+                                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                                    return;
+                                } 
+                                if(x.children[0].children[0].checked == false) {
+                                    count++;
+                                }
+                            })
+                            if(flag1) {
+                                document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+                                document.querySelector("#addInBulk").classList.remove("blur");
+                            }
+                            if(count == document.querySelectorAll(".employee").length) {
+                                document.querySelector("#addInBulk").classList.add("blur");
+                                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                            }
+                        });
+                    })
+                    // 성 인풋창 입력 시
+                    document.querySelectorAll(".empLastName").forEach((i) => {
+                        i.addEventListener("input", e => {
+                            if(e.target.value.trim().length == 0) {
+                                e.target.value = '';
+                                e.target.style.color = 'red';
+                                e.target.style.border = '1px solid red';
+                                return;
+                            }
+                            e.target.style.color = 'black';
+                            e.target.style.border = '2px solid black';
+                        });
+                    })
+
+
+                    // 이름 인풋창 포커스 시
+                    document.querySelectorAll(".empFirstName").forEach((i) => {
+                        i.addEventListener("focus", e => {
+                            e.target.style.border = '2px solid black';
+                        });
+                    })
+                    // 이름 인풋창 포커스 아웃 시
+                    document.querySelectorAll(".empFirstName").forEach((i) => {
+                        i.addEventListener("blur", e => {
+                            if(e.target.style.color == 'red') {
+                                e.target.style.border = '1px solid red';
+                            } else {
+                                e.target.style.border = '1px solid var(--gray-color)';
+                            }
+                            let flag1 = true;
+                            let count = 0;
+                            document.querySelectorAll(".employee").forEach((x) => {
+                                if(!flag1) {
+                                    return;
+                                }
+                                const style = x.children[1].children[0].style
+                                const style1 = x.children[2].children[0].style
+                                const style2 = x.children[3].children[0].style
+                                const style3 = x.children[4].children[0].style
+                                const style4 = x.children[7].children[0].style
+                                const style5 = x.children[8].children[0].style
+                                const style6 = x.children[9].children[0].style
+                                const style7 = x.children[10].children[0].style
+                                const style8 = x.children[14].children[0].style
+                                if(x.children[0].children[0].checked == true && (style.borderColor == 'red' ||
+                                    style1.borderColor == 'red' || style2.borderColor == 'red' ||
+                                    style3.borderColor == 'red' || style4.borderColor == 'red' ||
+                                    style5.borderColor == 'red' || style6.borderColor == 'red' ||
+                                    style7.borderColor == 'red' || style8.borderColor)) {
+                                    flag1 = false;
+                                    document.querySelector("#addInBulk").classList.add("blur");
+                                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                                    return;
+                                } 
+                                if(x.children[0].children[0].checked == false) {
+                                    count++;
+                                }
+                            })
+                            if(flag1) {
+                                document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+                                document.querySelector("#addInBulk").classList.remove("blur");
+                            }
+                            if(count == document.querySelectorAll(".employee").length) {
+                                document.querySelector("#addInBulk").classList.add("blur");
+                                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                            }
+                        });
+                    })
+                    // 이름 인풋창 입력 시
+                    document.querySelectorAll(".empFirstName").forEach((i) => {
+                        i.addEventListener("input", e => {
+                            if(e.target.value.trim().length == 0) {
+                                e.target.value = '';
+                                e.target.style.color = 'red';
+                                e.target.style.border = '1px solid red';
+                                return;
+                            }
+                            e.target.style.color = 'black';
+                            e.target.style.border = '2px solid black';
+                        });
+                    })
+
+                    if(document.querySelector("#idPattern") != null) {
+                        // ID 작성 양식 창 열기
+                        document.querySelector("#idPattern").addEventListener("click", e => {
+                            document.querySelector("#idPatternInfo").style.display = 'flex';
+                        });
+                        // ID 작성 양식 창 닫기
+                        document.querySelector("#closeBtn").addEventListener("click", e => {
+                            document.querySelector("#idPatternInfo").style.display = 'none';
+                        });
+                    }
+
+                    // ----------------------------------------------------------------------------------------------------------------------
+                    // ----------------------------------------------------------------------------------------------------------------------
+                    // 비밀번호 암호화의 활성화, 비활성화 토글
+                    const showPw = document.querySelector("#showPw");
+                    
+                    if(showPw != null) {
+                        showPw.addEventListener("click", e => {
+                            if(showPw.getAttribute("class") == 'fa-regular fa-eye-slash') {
+                                showPw.classList.remove("fa-eye-slash");
+                                showPw.classList.add("fa-eye");
+                                showPw.style.color = 'black';
+                                document.querySelectorAll(".empPw").forEach((i) => {
+                                    i.removeAttribute("type");
+                                    i.setAttribute("type", "text");
+                                })
+                                return;
+                            }
+                            if(showPw.getAttribute("class") == 'fa-regular fa-eye') {
+                                showPw.classList.add("fa-eye-slash");
+                                showPw.classList.remove("fa-eye");
+                                showPw.style.color = 'rgb(172, 172, 172)';
+                                document.querySelectorAll(".empPw").forEach((i) => {
+                                    i.removeAttribute("type");
+                                    i.setAttribute("type", "password");
+                                })
+                                return;
+                            }
+                        });
+                    }
+
+                    // 비밀번호 인풋창 포커스 시
+                    if(document.querySelectorAll(".empPw") != null) {
+                        document.querySelectorAll(".empPw").forEach((i) => {
+                            i.addEventListener("focus", e => {
+                                e.target.style.borderColor = 'black';
+                                e.target.style.border = '2px solid black';
+                            });
+                        })
+                        // 비밀번호 인풋창 포커스 아웃 시
+                        document.querySelectorAll(".empPw").forEach((i) => {
+                            i.addEventListener("blur", e => {
+                                const regExp = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,20}$/;
+    
+                                if(!regExp.test(e.target.value)){
+                                    e.target.style.borderColor = 'red';
+                                    e.target.style.border = '1px solid red';
+                                    if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
+                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                                        document.querySelector("#addInBulk").classList.add("blur");
+                                    }
+                                    return;
+                                }
+                                
+                                if(e.target.value.trim().length == 0) {
+                                    e.target.style.borderColor = 'red';
+                                    e.target.style.border = '1px solid red';
+                                    if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
+                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                                        document.querySelector("#addInBulk").classList.add("blur");
+                                    }
+                                } else {
+                                    e.target.style.borderColor = '#ddd';
+                                    e.target.style.border = '1px solid #ddd';
+                                    if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
+                                        document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+                                        document.querySelector("#addInBulk").classList.remove("blur");
+                                    }
+                                }
+                            });
+                        })
+
+                        // 비밀번호 인풋창 입력 시
+                        document.querySelectorAll(".empPw").forEach((i) => {
+                            i.addEventListener("input", e => {
+                                const regExp = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,20}$/;
+    
+                                if(!regExp.test(e.target.value)){
+                                    e.target.style.borderColor = 'red';
+                                    e.target.style.border = '2px solid red';
+                                    if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
+                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                                        document.querySelector("#addInBulk").classList.add("blur");
+                                    }
+                                    return;
+                                }
+                                
+                                if(e.target.value.trim().length == 0) {
+                                    e.target.style.borderColor = 'red';
+                                    e.target.style.border = '1px solid red';
+                                    if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
+                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                                        document.querySelector("#addInBulk").classList.add("blur");
+                                    }
+                                } else {
+                                    e.target.style.borderColor = '#ddd';
+                                    e.target.style.border = '1px solid #ddd';
+                                    if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
+                                        document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+                                        document.querySelector("#addInBulk").classList.remove("blur");
+                                    }
+                                }
+                            });
+                        })
+                    }
+
+                    // ----------------------------------------------------------------------------------------------------------------------
+                    // ----------------------------------------------------------------------------------------------------------------------
+                    // ID 인풋창 포커스 시
+                    document.querySelectorAll(".empId").forEach((i) => {
+                        i.children[0].addEventListener("focus", e => {
+                            e.target.style.border = '2px solid black';
+                        });
+                    })
+
+                    // ID 인풋창 입력 시
+                    document.querySelectorAll(".empId").forEach((i, index1) => {
+                        i.children[0].addEventListener("input", e => {
+                            let inputId = e.target.value.trim();
+                    
+                            if (inputId.length === 0) {
+                                e.target.style.color = 'red';
+                                e.target.style.border = '2px solid red';
+                                borderIsRed();
+                                return;
+                            }
+                    
+                            const regExp = /^[A-Za-z0-9]{4,20}$/;
+                    
+                            if (!regExp.test(inputId)) {
+                                e.target.style.color = 'red';
+                                e.target.style.border = '2px solid red';
+                                borderIsRed();
+                                return;
+                            }
+                    
+                            let hasDuplicate = false;
+                    
+                            document.querySelectorAll(".empId").forEach((x, index2) => {
+                                let inputId2;
+                                if(x.children[0].tagName == "INPUT") {
+                                    inputId2 = x.children[0].value.trim();
+                                } else {
+                                    inputId2 = x.children[0].innerText.trim();
+                                }
+                    
+                                if (index1 !== index2 && inputId2 === inputId) {
+                                    hasDuplicate = true;
+                                }
+                            });
+                    
+                            if (hasDuplicate) {
+                                e.target.style.color = 'red';
+                                e.target.style.border = '2px solid red';
+                            } else {
+                                fetch("/user/checkId?empId=" + inputId)
+                                    .then(resp => resp.text())
+                                    .then(result => {
+                                        if (result > 0) {
+                                            e.target.style.color = 'red';
+                                            e.target.style.border = '2px solid red';
+                                        } else {
+                                            e.target.style.color = 'black';
+                                            e.target.style.border = '2px solid black';
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                        e.target.style.color = 'red';
+                                        e.target.style.border = '2px solid red';
+                                    });
+                            }
+                            borderIsRed();
+                        });
+                    });
+                    
+                    // // ID 인풋창 포커스 아웃 시
+                    document.querySelectorAll(".empId").forEach((i, index1) => {
+                        i.children[0].addEventListener("blur", e => {
+                            if(e.target.style.color == 'red') {
+                                e.target.style.border = '1px solid red';
+                            } else {
+                                e.target.style.border = '1px solid var(--gray-color)';
+                            }
+                        })
+                    })
+
 
                     // 엑셀 파일에서 등록한 생일의 날짜 유효성 검사
                     document.querySelectorAll(".empBirth").forEach((i) => {
@@ -1087,13 +878,49 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 생일 인풋창 포커스 아웃 시
                     document.querySelectorAll(".inputEmpBirth").forEach((i) => {
                         i.addEventListener("blur", e => {
-                            if(e.target.style.color == 'red') {
+                            if (e.target.style.color == 'red') {
                                 e.target.style.border = '1px solid red';
+                                borderIsRed();
                             } else {
                                 e.target.style.border = '1px solid var(--gray-color)';
                             }
+                    
+                            let flag1 = true;
+                            let anyChecked = false;
+                    
+                            document.querySelectorAll(".employee").forEach((x) => {
+                                const style = x.children[1].children[0].style;
+                                const style1 = x.children[2].children[0].style;
+                                const style2 = x.children[3].children[0].style;
+                                const style3 = x.children[4].children[0].style;
+                                const style4 = x.children[7].children[0].style;
+                                const style5 = x.children[8].children[0].style;
+                                const style6 = x.children[9].children[0].style;
+                                const style7 = x.children[10].children[0].style;
+                                const style8 = x.children[14].children[0].style;
+                    
+                                if (x.children[0].children[0].checked) {
+                                    anyChecked = true;
+                                    if (style.borderColor == 'red' ||
+                                        style1.borderColor == 'red' || style2.borderColor == 'red' ||
+                                        style3.borderColor == 'red' || style4.borderColor == 'red' ||
+                                        style5.borderColor == 'red' || style6.borderColor == 'red' ||
+                                        style7.borderColor == 'red' || style8.borderColor == 'red') {
+                                        flag1 = false;
+                                    }
+                                }
+                            });
+                    
+                            if (flag1 && anyChecked) {
+                                document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+                                document.querySelector("#addInBulk").classList.remove("blur");
+                            } else {
+                                document.querySelector("#addInBulk").classList.add("blur");
+                                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                            }
                         });
-                    })                    
+                    });
+                                       
 
                     // 생일 입력시마다 날짜 유효성 검사 코드
                     document.querySelectorAll(".inputEmpBirth").forEach((i) => {
@@ -1104,22 +931,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
                             if(i.value.trim().length == 0) {
                                 i.value = '';
+                                i.style.color = 'red';
                                 i.style.border = '2px solid red';
+                                borderIsRed();
                                 return;
                             }
 
                             if(!regExp.test(i.value)) {
+                                i.style.color = 'red';
                                 i.style.border = '2px solid red';
+                                borderIsRed();
                                 return;
                             }
     
                             if(!validDate) {
+                                i.style.color = 'red';
                                 i.style.border = '2px solid red';
+                                borderIsRed();
                                 return;
                             }
 
-                            i.style.border = '2px solid black';
                             i.style.color = 'black';
+                            i.style.border = '2px solid black';
                         })
                     })           
 
@@ -1157,13 +990,49 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 입사일 인풋창 포커스 아웃 시
                     document.querySelectorAll(".inputHireDate").forEach((i) => {
                         i.addEventListener("blur", e => {
-                            if(e.target.style.color == 'red') {
+                            if (e.target.style.color == 'red') {
                                 e.target.style.border = '1px solid red';
+                                borderIsRed();
                             } else {
                                 e.target.style.border = '1px solid var(--gray-color)';
                             }
+                    
+                            let flag1 = true;
+                            let anyChecked = false;
+                    
+                            document.querySelectorAll(".employee").forEach((x) => {
+                                const style = x.children[1].children[0].style;
+                                const style1 = x.children[2].children[0].style;
+                                const style2 = x.children[3].children[0].style;
+                                const style3 = x.children[4].children[0].style;
+                                const style4 = x.children[7].children[0].style;
+                                const style5 = x.children[8].children[0].style;
+                                const style6 = x.children[9].children[0].style;
+                                const style7 = x.children[10].children[0].style;
+                                const style8 = x.children[14].children[0].style;
+                    
+                                if (x.children[0].children[0].checked) {
+                                    anyChecked = true;
+                                    if (style.borderColor == 'red' ||
+                                        style1.borderColor == 'red' || style2.borderColor == 'red' ||
+                                        style3.borderColor == 'red' || style4.borderColor == 'red' ||
+                                        style5.borderColor == 'red' || style6.borderColor == 'red' ||
+                                        style7.borderColor == 'red' || style8.borderColor == 'red') {
+                                        flag1 = false;
+                                    }
+                                }
+                            });
+                    
+                            if (flag1 && anyChecked) {
+                                document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+                                document.querySelector("#addInBulk").classList.remove("blur");
+                            } else {
+                                document.querySelector("#addInBulk").classList.add("blur");
+                                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                            }
                         });
-                    })                    
+                    });
+                                       
 
                     // 입사일 입력시마다 날짜 유효성 검사 코드
                     document.querySelectorAll(".inputHireDate").forEach((i) => {
@@ -1174,24 +1043,194 @@ document.addEventListener('DOMContentLoaded', function() {
 
                             if(i.value.trim().length == 0) {
                                 i.value = '';
+                                i.style.color = 'red';
                                 i.style.border = '2px solid red';
+                                borderIsRed();
                                 return;
                             }
 
                             if(!regExp.test(i.value)) {
+                                i.style.color = 'red';
                                 i.style.border = '2px solid red';
+                                borderIsRed();
                                 return;
                             }
     
                             if(!validDate) {
+                                i.style.color = 'red';
                                 i.style.border = '2px solid red';
+                                borderIsRed();
                                 return;
                             }
 
-                            i.style.border = '2px solid black';
                             i.style.color = 'black';
+                            i.style.border = '2px solid black';
                         })
                     })           
+
+
+                    // --------------------------------------------------------------------------------------------------
+                    // --------------------------------------------------------------------------------------------------
+                    // ----------------------------------------------------------------------------------------------------------------------
+                    // ----------------------------------------------------------------------------------------------------------------------
+                    // 부서 & 팀 & 직급 select 태그 change 이벤트 일어날 때 마다의 유효성 검사 로직
+                    
+                    // 부서 select 태그
+                    document.querySelectorAll(".deptList").forEach((y) => {
+                        y.addEventListener("change", async e => {
+
+                            // 부서 select 태그의 change 이벤트가 일어나면 팀 select의 border가 무조건 red가 되므로
+                            // 부서 select 태그 change가 일어나면 '일괄 추가' 버튼 비활성화 적용
+                            if(y.parentElement.parentElement.children[0].children[0].checked == true) {
+                                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                                document.querySelector("#addInBulk").classList.add("blur");
+                            }
+
+                            let check2 = false;
+
+                            if(e.target.value === "null") {
+                                deptList.forEach((x) => {
+                                    if(x.deptNm == e.target.children[0].innerText) {
+                                        check2 = true;
+                                        e.target.style.border = '1px solid var(--gray-color)';
+                                        return;
+                                    }
+                                })
+                            } else {
+                                deptList.forEach((x) => {
+                                    if(x.deptNo == e.target.value) {
+                                        check2 = true;
+                                        e.target.style.border = '1px solid var(--gray-color)';
+                                        return;
+                                    }
+                                })
+                            }
+                            if(!check2) {
+                                // 존재하는 부서명과 일치하지 않으면 팀리스트도 다시 초기화
+                                y.parentElement.nextElementSibling.children[0].innerHTML = '';
+                                e.target.style.border = '1px solid red';
+                                return;
+                            }
+                            
+                            // 팀 그룹 담을 select 태그
+                            const selectTeamList = y.parentElement.nextElementSibling.children[0];
+                            if(e.target.value == "null") {
+                                return;
+                            }
+                            const obj = {
+                                "deptNo" : y.value,
+                                "comNo" : comNo
+                            };
+                            
+                            await fetch("/admin/addr/getTeamList", {
+                                method : "post",
+                                headers : {"Content-Type" : "application/json"},
+                                body : JSON.stringify(obj)
+                            })
+                            .then(resp => resp.json())
+                            .then(teamList => {
+                                if(teamList.length == 0){
+                                    alert("불러오기 실패");
+                                    return;
+                                }
+                    
+                                selectTeamList.innerHTML = 
+                                `
+                                    <option value="null">팀 선택</option>
+                                `;
+                                teamList.forEach((i) => {
+                                    if(document.querySelector(".deptList").value == i.teamNm) {
+                                        return;
+                                    }
+                                    const opt = document.createElement("option");
+                                    opt.value = i.teamNo;
+                                    opt.innerText = i.teamNm;
+                    
+                                    selectTeamList.append(opt);
+                                });
+                            })
+
+                            // 부서를 새로 선택하면 팀 select 태그의 최상단이 '팀 선택' 이라는 텍스트를 가진 option 태그인데
+                            // 해당 태그일 때 유효성 검사에서 유효하지 않음으로 border red로 변경
+                            if(y.parentElement.nextElementSibling.children[0].value == "null") {
+                                y.parentElement.nextElementSibling.children[0].style.border = '1px solid red';
+                            }
+                            
+                        })
+                    })
+
+                    // 팀 select
+                    // if(i.팀 != null || tempTeamList != null) {
+                    //     document.querySelectorAll(".teamList").forEach((i) => {
+                    //         i.addEventListener("change", e => {
+                    //             for(let x = 0; x < deptList.length; x++) {
+                    //                 if(deptList[x].deptNo == i.parentElement.previousElementSibling.children[0].value) {
+                    //                     tempTeamList = teamList[x].slice();
+                    //                 } 
+                    //             }
+    
+                    //             let check7 = false;
+
+                    //             if(e.target.value === "null") {
+                    //                 tempTeamList.forEach((x) => {
+                    //                     if(x.teamNm == e.target.children[0].innerText) {
+                    //                         check7 = true;
+                    //                         e.target.style.border = '1px solid var(--gray-color)';
+                    //                         return;
+                    //                     }
+                    //                 })
+                    //             } else {
+                    //                 tempTeamList.forEach((x) => {
+                    //                     if(x.teamNo == e.target.value) {
+                    //                         check7 = true;
+                    //                         e.target.style.border = '1px solid var(--gray-color)';
+                    //                         return;
+                    //                     }
+                    //                 })
+                    //             }
+                    //             if(!check7) {
+                    //                 // 존재하는 팀명과 일치하지 않으면
+                    //                 e.target.style.border = '1px solid red';
+                    //                 let flag1 = true;
+                    //             }
+                    //             let flag1 = true;
+                    //             let anyChecked = false;
+                        
+                    //             document.querySelectorAll(".employee").forEach((x) => {
+                    //                 const style = x.children[1].children[0].style;
+                    //                 const style1 = x.children[2].children[0].style;
+                    //                 const style2 = x.children[3].children[0].style;
+                    //                 const style3 = x.children[4].children[0].style;
+                    //                 const style4 = x.children[7].children[0].style;
+                    //                 const style5 = x.children[8].children[0].style;
+                    //                 const style6 = x.children[9].children[0].style;
+                    //                 const style7 = x.children[10].children[0].style;
+                    //                 const style8 = x.children[14].children[0].style;
+                        
+                    //                 if (x.children[0].children[0].checked) {
+                    //                     anyChecked = true;
+                    //                     if (style.borderColor == 'red' ||
+                    //                         style1.borderColor == 'red' || style2.borderColor == 'red' ||
+                    //                         style3.borderColor == 'red' || style4.borderColor == 'red' ||
+                    //                         style5.borderColor == 'red' || style6.borderColor == 'red' ||
+                    //                         style7.borderColor == 'red' || style8.borderColor == 'red') {
+                    //                         flag1 = false;
+                    //                     }
+                    //                 }
+                    //             });
+                        
+                    //             if (flag1 && anyChecked) {
+                    //                 document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+                    //                 document.querySelector("#addInBulk").classList.remove("blur");
+                    //             } else {
+                    //                 document.querySelector("#addInBulk").classList.add("blur");
+                    //                 document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                    //             }
+                    //         })
+                    //     })
+                    // }
+
+
                     
                     checkBox();
                     
@@ -1611,7 +1650,7 @@ function checkBox() {
     }
 }
 
-function borderIsRed() {
+function borderIsRed2() {
     let flag1 = true;
     document.querySelectorAll(".employee").forEach((x) => {
         const style = x.children[1].children[0].style
@@ -1644,32 +1683,32 @@ function borderIsRed() {
 
 
 
-// function borderIsRed() {
-//     const employeeList = document.querySelector(".employeeList");
+function borderIsRed() {
+    const employeeList = document.querySelector(".employeeList");
 
-//     for(let x = 1; x < employeeList.children.length; x++) {
+    for(let x = 1; x < employeeList.children.length; x++) {
 
-//         console.log(employeeList.children[x].children[0].children[0].checked)
-//         if(employeeList.children[x].children[0].children[0].checked == true) {
-//             let check11 = true;
-//             for(let h = 0; h < employeeList.children[x].children.length; h++) {
-//                 const style = employeeList.children[x].children[h].children[0].style;
-//                 if(style.borderColor == 'red') {
-//                     check11 = false;
-//                 }
-//             }
-//             if(check11) {
-//                 document.querySelector("#addInBulk").classList.remove("blur");
-//                 document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-//             } else {
-//                 document.querySelector("#addInBulk").classList.add("blur");
-//                 document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-//                 check11 = false;
-//                 return;
-//             }
-//         }
-//     }
-// }
+        console.log(employeeList.children[x].children[0].children[0].checked)
+        if(employeeList.children[x].children[0].children[0].checked == true) {
+            let check11 = true;
+            for(let h = 0; h < employeeList.children[x].children.length; h++) {
+                const style = employeeList.children[x].children[h].children[0].style;
+                if(style.borderColor == 'red') {
+                    check11 = false;
+                }
+            }
+            if(check11) {
+                document.querySelector("#addInBulk").classList.remove("blur");
+                document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+            } else {
+                document.querySelector("#addInBulk").classList.add("blur");
+                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                check11 = false;
+                return;
+            }
+        }
+    }
+}
 
 // ----------------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------------------

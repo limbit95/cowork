@@ -253,7 +253,7 @@ section.formArea #resultDiv {
 #btnDiv > div {
     display: flex;
     justify-content: space-between;
-    width: 210px;
+    width: 100px;
 }
 #loginPageMove, #findPwOfSelectedId {
     height: 28px;

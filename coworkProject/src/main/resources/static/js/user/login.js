@@ -155,7 +155,12 @@ const findPwOfSelectedId = document.querySelector("#findPwOfSelectedId");
 
 if(loginPageMove != null){
     loginPageMove.addEventListener("click", e => {
-        location.href = '/user/login';
+        document.querySelectorAll("#selectId").forEach((i) => {
+            if(i.checked == true){
+                console.log(i.nextElementSibling.innerText);
+                location.href = '/user/login?empId=' + i.nextElementSibling.innerText;
+            }
+        })
     });
 }
 
