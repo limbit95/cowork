@@ -57,7 +57,7 @@ function selectTodo() {
 
                 // 클릭 이벤트 리스너 추가
                 todoDiv.addEventListener('click', () => {
-                    showModal(todo.todoTitle, todo.requestEmp, todo.inChargeEmp, todo.todoWriteDate, todo.todoEndDate, todo.todoContent);
+                    showModal(todo.todoTitle, todo.requestEmp, todo.inChargeEmp, formatDate(todo.todoWriteDate), formatDate(todo.todoEndDate), todo.todoContent);
                 });
 
                 todoContainer.appendChild(todoDiv);
