@@ -28,7 +28,10 @@
 			<img th:src="${session.loginEmp.comLogo}" id="companyLogoImg">
 		</div>
 		<div th:unless="${session.loginEmp.comLogo}" id="CompanyLogo">
-			<img th:src="${session.loginEmp.comLogo}" id="companyLogoImg">
+			<!--<img th:src="${session.loginEmp.comLogo}" id="companyLogoImg">-->
+			<a href="/adminMain">
+				관리자 메인페이지로 이동
+			</a>
 		</div>
 			
 		<!--0622 재준 명함 시작 -->
@@ -326,15 +329,25 @@
 		</div>
 		
 		<!-- 직급 관리 -->
-		<div class="dropdown" id="positionMenu">
-		    <button class="dropbtn" onclick="location.href='/position/positionMain'">직책 관리</button>
+		<div class="dropdown" id="positionMenu" th:if="${session.loginEmp.generalManager == 1}">
+			<button class="dropbtn" onclick="location.href='/position/positionMain'">직책 관리</button>
 		</div>
 		<!-- 직급 관리 -->
 		<!-- 권한 관리 -->
-		<div class="dropdown" id="authorityMenu">
-		    <button class="dropbtn" onclick="location.href='/authority/authorityManage'">권한 관리</button>
+		<div class="dropdown" id="authorityMenu" th:if="${session.loginEmp.generalManager == 1}">
+			<button class="dropbtn" onclick="location.href='/authority/authorityManage'">권한 관리</button>
 		</div>
 		<!-- 권한 관리 -->
+		
+		<!-- 회사 관리 -->
+		<div class="dropdown" id="companyMenu" th:if="${session.loginEmp.generalManager == 1}">
+			<button class="dropbtn" onclick="location.href='/admin/companyInfo/companyInfo'">회사 정보</button>
+			<!--<div class="dropdownContent">
+				<a href="#">	1 </a>
+			</div>-->
+		</div>		
+		
+
 		<!-- 근태 관리 -->
 		<!-- <div class="dropdown" id="attendanceMenu">
 		    <button class="dropbtn">근태 관리</button>
@@ -359,21 +372,12 @@
 		    </div>
 		</div> -->
 		<!-- 기능 관리 -->
-		<!-- 회사 관리 -->
-		<div class="dropdown" id="companyMenu">
-		    <button class="dropbtn" onclick="location.href='/admin/companyInfo/companyInfo'">회사 정보</button>
-		    <!--<div class="dropdownContent">
-		        <a href="#">	1 </a>
-		    </div>-->
-		</div>		
 		<!-- 사용자 메뉴로 돌아가기 -->
 		<div class="dropdown" id="returnUserMain">
 			<button class="dropbtn" onclick="location.href='/userMain'">사용자 메뉴</button>
 		</div>
 
     </div>
-	
-    <script src="/js/admin/left/adminLeftSideBar.js"></script>
 
 	<script th:inline="javascript">
 		const message = /*[[${message}]]*/ "전달 메세지";
@@ -383,5 +387,9 @@
 			alert(message);
 		}
 	</script>
+	
+    <script src="/js/admin/left/adminLeftSideBar.js"></script>
+
+	
 </body>
 </html>

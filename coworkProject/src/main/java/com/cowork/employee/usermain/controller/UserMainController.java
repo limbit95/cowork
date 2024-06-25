@@ -87,13 +87,13 @@ public class UserMainController {
 		return service.authorityList(loginEmp.getEmpCode());
 	}
 	
-	/** 관리자 Left 메뉴
+	/** 관리자 메인페이지
 	 * @return
 	 */
 	@GetMapping("adminMain")
 	public String adminMain() {
 		
-		return "admin/left/adminLeftSideBar";
+		return "admin/left/adminMain";
 	}
 	
 }

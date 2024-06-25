@@ -272,7 +272,6 @@ label.updBtn {
 }
 
 .tHead div, .tBody div {
-    width: 100%;
+    width: 100% !important;
     margin-right: 10px !important;
 }
-

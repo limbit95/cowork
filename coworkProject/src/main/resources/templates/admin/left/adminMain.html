@@ -1,11 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 메인페이지</title>
+
+    <th:block th:replace="~{common/common}"></th:block>
+    <link rel="stylesheet" href="/css/admin/left/adminMain.css">
 </head>
 <body>
+
+    <div th:replace="~{admin/left/adminLeftSideBar}"></div>
     
+    <section class="container">
+        
+        <div class="mainBox">
+            <!-- 첫번째 행 -->
+            <div class="rowGroup">
+                <div class="rowDiv" th:onclick="|${session.loginEmp.generalManager} == 1 ? location.href='/position/positionMain' : '' |">
+                    <img src="/images/admin_position.png">
+                    <div>
+                        <label class="title">직책관리</label>
+                        <div>
+                            회사의 직책 및 직급을 관리합니다.
+                            각 직책에 대한 역할과 책임을 설정할 수 있습니다.
+                        </div>
+                    </div>
+                    <figcaption th:text="|${session.loginEmp.generalManager == 1 ? '화면들어가기' : '권한불충분'}  |">화면들어가기</figcaption>
+                </div>
+
+                <div class="rowDiv" th:onclick="|${session.loginEmp.generalManager} == 1 ? location.href='/authority/authorityManage' : '' |">
+                    <img src="/images/admin_authority.png">
+                    <div>
+                        <label class="title">권한관리</label>
+                        <div>
+                            사용자 권한을 설정하고 관리합니다.
+                            각 사용자가 접근할 수 있는 기능과 데이터를 정의합니다.
+                        </div>
+                    </div>
+                    <figcaption th:text="|${session.loginEmp.generalManager == 1 ? '화면들어가기' : '권한불충분'}  |">화면들어가기</figcaption>
+                </div>
+
+            </div>
+
+            <!-- 두번째 행 -->
+            <div class="rowGroup">
+                <div class="rowDiv" th:onclick="|${session.loginEmp.generalManager} == 1 ? location.href='/admin/companyInfo/companyInfo' : '' |">
+                    <img src="/images/admin_company.png">
+                    <div>
+                        <label class="title">회사정보</label>
+                        <div>
+                            회사의 기본 정보를 관리합니다. 
+                            회사명, 주소, 연락처 등의 정보를 업데이트할 수 있습니다.
+                        </div>
+                    </div>
+                    <figcaption th:text="|${session.loginEmp.generalManager == 1 ? '화면들어가기' : '권한불충분'}  |">화면들어가기</figcaption>
+                </div>
+
+                <div class="rowDiv" id="attendanceDiv">
+                    <img src="/images/admin_attendanct.png">
+                    <div>
+                        <label class="title">근태관리</label>
+                        <div>
+                            직원들의 근태를 관리합니다. 
+                            출퇴근 시간, 휴가 신청 및 승인, 근무 시간 등을 기록하고 확인합니다.
+                        </div>
+                    </div>
+                    <figcaption id="attendanceText">권한불충분</figcaption>
+                </div>
+
+            </div>
+
+            <!-- 세번째 행 -->
+            <div class="rowGroup rowGroup2">
+
+                <div class="rowDiv rowDiv2" id="functionDiv">
+                    <img src="/images/admin_function.png">
+                    <div>
+                        <label class="title">기능관리</label>
+                        <div>
+                            다양한 부가 기능을 관리합니다. 
+                            주소록, 공지사항, 결재문서관리, 회의실등록, IP 등록 기능을 포함합니다.
+                        </div>
+                    </div>
+                    <figcaption id="functionText">권한불충분</figcaption>
+                </div>
+
+            </div>
+        </div>
+        
+
+        <input class="homeUi" value="" hidden/>
+    </section>
+
+    <script th:inline="javascript">
+		const manager2 = /*[[${session.loginEmp.generalManager}]]*/ "전체 관리자";
+	</script>
+
+    <script src="/js/admin/left/adminMain.js"></script>
 </body>
 </html>

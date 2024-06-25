@@ -1,0 +1,70 @@
+/* 전체그룹 */
+.mainBox {
+    /* margin-top: 100px !important; */
+    padding: 100px 250px !important;
+}
+
+.rowGroup, .rowGroup .rowDiv {
+    display: flex;
+    align-items: center;
+}
+
+.rowGroup .rowDiv:nth-child(1) {
+    margin-right: 100px;
+}
+
+.rowDiv {
+    width: 300px;
+    height: 130px;
+    padding: 30px;
+    background: #e5f2fe;
+    border-radius: 20px;
+    position: relative;
+}
+
+.rowDiv.rowDiv2 {
+    width: 759px !important;
+    margin-right: 0px !important;
+}
+
+.rowDiv figcaption{
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.7);
+  
+    position: absolute; /* 이미지와 겹치게 처리 */
+    top: 0; left: 0;
+  
+    color: #fff; text-align: center;
+    line-height: 200px;
+  
+    opacity: 0; /* 처음엔 안보이고 */
+  
+    transition: 0.3s;
+
+    border-radius: 20px;
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+.rowDiv:hover figcaption, .rowDiv:focus figcaption{
+    /* 마우스를 올리면 보이게 처리 */
+    opacity: 1;
+    cursor: pointer;
+}
+
+
+/* 이미지 */
+.rowGroup img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 50px;
+}
+
+label.title {
+    color: #3667a6;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+

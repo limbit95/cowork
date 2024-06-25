@@ -23,8 +23,8 @@
             <div class="ins-css insertForm">
                 <div><label>제목</label></div>
                 <input class="default-line listBtn" name="draftTitle" id="draftTitle" th:value="*{draftTitle}" 
-                    th:readonly="${draftFlag eq 7 ? false: 'readonly'}"
-                    th:style="${draftFlag eq 7 ? '': 'border:none; cursor:default;' }"
+                    th:readonly="*{draftFlag eq '7' ? false: 'readonly'}"
+                    th:style="*{draftFlag eq '7' ? '': 'border:none; cursor:default;' }"
                 >
             </div>
 
