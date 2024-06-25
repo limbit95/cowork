@@ -30,7 +30,7 @@ public interface EdsmMapper {
 	/** 자주찾는 결재 입력
 	 * @param draftKeep
 	 */
-	void draftKeepInsert(DraftKeep draftKeep);
+	int draftKeepInsert(DraftKeep draftKeep);
 
 	/** 전자결재 등록
 	 * @param inputEdsm

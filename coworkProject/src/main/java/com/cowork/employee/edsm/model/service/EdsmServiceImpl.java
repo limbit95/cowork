@@ -67,7 +67,7 @@ public class EdsmServiceImpl implements EdsmService{
 		// 자주찾는 결재 등록되어 있는 경우 수정
 		int result = mapper.draftKeepUpdate(draftKeep);
 		
-		if(result == 0) mapper.draftKeepInsert(draftKeep);
+		if(result == 0) result = mapper.draftKeepInsert(draftKeep);
 		
 		return result;
 	}
