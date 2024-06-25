@@ -1,7 +1,9 @@
-/*package com.cowork.common.interceptor;
+package com.cowork.common.interceptor;
 
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.cowork.user.model.dto.Employee2;
 
@@ -20,7 +22,8 @@ public class LoginInterceptor implements HandlerInterceptor{
 		
         // 로그인이 되어 있지 않으면 홈 페이지로 리다이렉트
         if (loginEmp == null) {
-            response.sendRedirect(request.getContextPath() + "/");
+        	session.setAttribute("needLoginMakeInInterceptor", "로그인이 필요한 서비스입니다");
+            response.sendRedirect(request.getContextPath() + "/user/login");
             return false; // 요청 처리를 중단하고 리다이렉트
         }
         
@@ -28,4 +31,4 @@ public class LoginInterceptor implements HandlerInterceptor{
 	}
 	
 
-}*/
+}

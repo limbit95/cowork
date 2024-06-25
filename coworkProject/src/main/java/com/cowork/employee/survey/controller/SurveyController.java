@@ -121,7 +121,7 @@ public class SurveyController {
 			Boolean check = surveyService.checkAlreadyWrite(surveyNo, loginEmp);
 			if(check) {
 				// 작성한적이 있다 
-				ra.addFlashAttribute("noAuthority","이미 작성한 설문입니다.");
+				ra.addFlashAttribute("noAuthority","이미 참여한 설문입니다.");
 				// 시간이 되면, 이미 작성한 설문입니다. 작성한 설문을 수정할 수 있는 흐름도 만들어주면 좋겠네 )
 				return "redirect:/survey/receiveSurvey";
 			} else {

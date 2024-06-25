@@ -39,10 +39,16 @@
 
         <script th:inline="javascript">
             const message = /*[[${message}]]*/ "전달 메세지";
+			const 	needLoginMakeInInterceptor = /*[[${needLoginMakeInInterceptor}]]*/ "로그인이 필요한 서비스입니다 메세지";
             
             if (message != null) {
                 alert(message);
             }
+			
+			if(needLoginMakeInInterceptor != null){
+				alert(needLoginMakeInInterceptor);
+			}
+			
         </script>
     </body>
 </html>

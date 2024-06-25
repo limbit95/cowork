@@ -26,6 +26,7 @@ import com.cowork.user.model.dto.Employee2;
 import com.cowork.user.model.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -177,7 +178,11 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("login")
-	public String login() {
+	public String login(HttpServletRequest request, Model model) {
+		HttpSession session= request.getSession();
+		String needLoginMakeInInterceptor = (String)session.getAttribute("needLoginMakeInInterceptor");
+		model.addAttribute("needLoginMakeInInterceptor", needLoginMakeInInterceptor);
+		session.removeAttribute("needLoginMakeInInterceptor");
 		return "user/login"; 
 	}
 	 
