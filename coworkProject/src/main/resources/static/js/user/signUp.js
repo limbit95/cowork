@@ -99,7 +99,7 @@ if(empId != null) {
         fetch("/user/checkId?empId=" + inputEmpId)
         .then(resp => resp.text())
         .then(result => {
-            if(result == 1){
+            if(result > 0){
                 empIdMessage.innerText = "이미 사용 중인 아이디 입니다";
                 empIdMessage.classList.add("error");
                 empIdMessage.classList.remove("confirm");

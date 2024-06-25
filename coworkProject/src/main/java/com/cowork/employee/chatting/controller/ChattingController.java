@@ -74,11 +74,13 @@ public class ChattingController {
 	/* 이름, 부서, 팀 조회으로 사원조회 */
     @PostMapping("chat/empList")
     @ResponseBody
-    public List<Employee2> empList(@SessionAttribute("loginEmp") Employee2 loginMember,
+    public List<Employee2> empList(@SessionAttribute("loginEmp") Employee2 loginEmp,
     									@RequestBody Map<String, String> paramMap) {
+    	
+    	
     	String inputData = paramMap.get("inputData");
     	// db 에서 조회해오자. 
-    	List<Employee2> empList = chatService.empList(inputData, loginMember.getEmpCode());
+    	List<Employee2> empList = chatService.empList(inputData, loginEmp);
     	return empList;    	
     }
     
