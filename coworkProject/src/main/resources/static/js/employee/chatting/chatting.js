@@ -403,17 +403,29 @@ searchInput.addEventListener('input', function(){
 			
 			// 부서이름과 팀이름을 보여줘야 함. 
 			let deptNmDiv = document.createElement('div');
-			let deptNmNode = document.createTextNode(emp.deptNm);
+			let deptNmNode;
+			if(emp.deptNm == null){
+				deptNmNode = document.createTextNode('');
+			} else{
+				deptNmNode =  document.createTextNode(emp.deptNm);
+			}
+
 			deptNmDiv.appendChild(deptNmNode);
 			newDiv.appendChild(deptNmDiv);
 			deptNmDiv.classList.add('deptNmDiv');
 			
 			let teamNmDiv = document.createElement('div');
-			let teamNmNode = document.createTextNode(emp.teamNm);
+			
+			let teamNmNode;
+			if(emp.teamNm == null){
+				teamNmNode = document.createTextNode('');
+			} else{
+				teamNmNode= document.createTextNode(emp.teamNm);
+			}
+			
 			teamNmDiv.appendChild(teamNmNode);
 			newDiv.appendChild(teamNmDiv);
 			teamNmDiv.classList.add('teamNmDiv');			
-			
 			
 			// 바로 위에서 보여진 newDiv 태그를 클릭할 시, 해당 이름이 추가되어야 함 
 			newDiv.addEventListener('click', function(){
