@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.cowork.admin.authority.dto.AuthorityMember;
 import com.cowork.employee.calendar.model.dto.Calendar;
 import com.cowork.employee.calendar.model.service.CalendarService;
-
+import com.cowork.employee.notice.model.dto.Notice;
 import com.cowork.employee.usermain.model.service.UserMainService;
 
 import com.cowork.user.model.dto.Employee2;
@@ -36,7 +36,11 @@ public class UserMainController {
 		// loginEmp comNo 로 calendar 조회해오기
 		List<Calendar> companyAllCalendarList = cs.companyAllCalendarList(loginEmp.getComNo());
 		
-		model.addAttribute("companyAllCalendarList", companyAllCalendarList);			
+		// 공지사항조회
+		List<Notice> noticeList = service.noticeList(loginEmp.getComNo());
+		
+		model.addAttribute("companyAllCalendarList", companyAllCalendarList);
+		model.addAttribute("noticeList", noticeList);
 
 		return "employee/userMain/userMain";
 	}

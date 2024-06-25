@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cowork.admin.authority.dto.AuthorityMember;
+import com.cowork.employee.notice.model.dto.Notice;
 import com.cowork.employee.usermain.model.mapper.UserMainMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,13 @@ public class UserMainServiceImpl implements UserMainService {
 	public List<AuthorityMember> authorityList(int empCode) {
 		// TODO Auto-generated method stub
 		return mapper.authorityList(empCode);
+	}
+
+	// 공지사항 조회
+	@Override
+	public List<Notice> noticeList(int comNo) {
+		// TODO Auto-generated method stub
+		return mapper.noticeList(comNo);
 	}
 
 }

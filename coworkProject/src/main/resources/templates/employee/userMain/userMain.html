@@ -15,81 +15,92 @@
 		<div id="attendanceRegisterBtn">
 			<button class="default-btn sapphire-btn" id="attdRegistBtn" type="button">출퇴근 등록</button>	
 		</div>
-		    
-		<div id="calendarTodoContainer">
-			
-			<div id="leftBarSpace">
-			</div>
-			
-			<div id="rightSpace" >
-				<div id="calendarSection">
-					<i class="fa-solid fa-calendar-days" id="calendarId"></i> <span  id="calendarSpan">캘린더</span> 
-			        <div id='calendar'></div>	
-				</div>
+		<div class="uiMainForm">
 
-				<div id="todoSection"> 		
-					<i class="fa-solid fa-list" id="todoIcon"></i>
-					<span id="todoSpan">할 일</span>
-
-					<div class="todoHead">
-						<span>할 일</span>
-						<span>기한</span>
+			<div id="calendarTodoContainer">
+			
+				<!--<div id="leftBarSpace">
+				</div>-->
+				
+				<div id="rightSpace" >
+					<div id="calendarSection">
+						<i class="fa-solid fa-calendar-days todoIcon" id="calendarId"></i> <span class="todoSpan"  id="calendarSpan">캘린더</span> 
+						<div id='calendar'></div>	
 					</div>
-
-					<div class="todo" id="todo"></div>
-
-					<div id="todoModal" class="modal">
-						<div class="modal-content">
-							<div id="closeArea">
-								<span class="close">&times;</span>
-							</div>
-							
-							<div class="todoContents">
-								<div id="todoTitleDiv">
-							<!--	<span id="todoheadSpan">할 일</span>-->	
-									<span id="todoTitleSpan">Todo Title</span>
+	
+					<div id="todoSection"> 		
+						<i class="fa-solid fa-list todoIcon" id="todoIcon"></i>
+						<span class="todoSpan" id="todoSpan">할 일</span>
+	
+						<div class="todoHead">
+							<span>할 일</span>
+							<span>기한</span>
+						</div>
+	
+						<div class="todo" id="todo"></div>
+	
+						<div id="todoModal" class="modal">
+							<div class="modal-content">
+								<div id="closeArea">
+									<span class="close">&times;</span>
 								</div>
-								<div>
-									<span>요청자</span>
-									<span id="requestEmpSpan"></span>
+								
+								<div class="todoContents">
+									<div id="todoTitleDiv">
+								<!--	<span id="todoheadSpan">할 일</span>-->	
+										<span id="todoTitleSpan">Todo Title</span>
+									</div>
+									<div>
+										<span>요청자</span>
+										<span id="requestEmpSpan"></span>
+									</div>
+									<div>
+										<span>담당자</span>
+										<span id="inChargeEmpSpan"></span>
+									</div>
+									<div>
+										<span>작성일</span>
+										<span id="writeDate"></span>
+									</div>
+									<div>
+										<span>기한</span>
+										<span id="endDate"></span>
+									</div>
+									<div>
+										<span>내용</span>
+										<span id="todoContentSpan">내용</span>
+									</div>								
 								</div>
-								<div>
-									<span>담당자</span>
-									<span id="inChargeEmpSpan"></span>
-								</div>
-								<div>
-									<span>작성일</span>
-									<span id="writeDate"></span>
-								</div>
-								<div>
-									<span>기한</span>
-									<span id="endDate"></span>
-								</div>
-								<div>
-									<span>내용</span>
-									<span id="todoContentSpan">내용</span>
-								</div>								
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>	
+				</div>	
+				
+			</div>
 			
-	    </div>
+			<div id="noticeContainer">
+				<!--<div id="leftBarSpace">
+				</div>-->
+				<div id="noticeForm">
+					<div>
+						<i class="fa-solid fa-chalkboard todoIcon" ></i>
+						<span class="todoSpan" >공지사항</span>		
+					</div>
+					
+					<div class="noticeBoarder">
+						<div class="tBody" th:each="notic : ${noticeList}" th:object="${notic}"
+						th:onclick="|location.href='@{/employee/notice/noticeDetail/{noticeNo} (noticeNo=*{noticeNo})}'|">
+							<div class="noticeContent" th:text="*{noticeTitle}">안녕하세요 공지사항입니다.</div>
+							<div th:text="*{empName}">정희윤</div>
+							<div th:text="*{noticeWriteDate}">2024-05-22</div>
+						</div>
+					</div>
+						
+				</div>
+			</div>
+
+		</div>    
 		
-		<div id="noticeContainer">
-			<div id="leftBarSpace">
-			</div>
-			<div id="noticeSection">
-					공지사항은 여기에 넣어주세요!
-					공지사항은 여기에 넣어주세요!				
-					공지사항은 여기에 넣어주세요!				
-					공지사항은 여기에 넣어주세요!				
-					공지사항은 여기에 넣어주세요!				
-					공지사항은 여기에 넣어주세요! 
-					공지사항은 여기에 넣어주세요!				
-			</div>
-		</div>
 
 		
 	</div>
@@ -103,7 +114,7 @@
 	
 	</script>
 	
-	<script src="/js/employee/userMain/userMain.js"></script>
+	
 	<script th:inline="javascript">
 		const companyAllCalendarList = /*[[${session.companyAllCalendarList}]]*/ "회사 전체 리스트";
 		const loginEmpTodoList = /*${session.loginEmpTodoList}*/ "투두리스트"; 
@@ -133,6 +144,8 @@
 		});
 
 	</script>
+
+	<script src="/js/employee/userMain/userMain.js"></script>
 	
 </body>
 </html>
