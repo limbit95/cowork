@@ -144,7 +144,8 @@ function sendInvite() {
             obj.push(i.value);
         })
 
-        fetch("http://localhost/admin/addr/registYourself", {
+        // fetch("http://coworkintranet.site/admin/addr/registYourself", {
+        fetch("/admin/addr/registYourself", {
             method : "post",
             headers : {"Content-Type" : "application/json"},
             body : JSON.stringify(obj)

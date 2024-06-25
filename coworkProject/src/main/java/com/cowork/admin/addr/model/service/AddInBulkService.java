@@ -27,4 +27,10 @@ public interface AddInBulkService {
 	 */
 	int regist(List<Map<String, Object>> data);
 
+	/** ID 리스트 조회
+	 * @param comNo
+	 * @return
+	 */
+	List<String> getEmpIdList(int comNo);
+
 }

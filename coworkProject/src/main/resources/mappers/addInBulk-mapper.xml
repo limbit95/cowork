@@ -13,8 +13,8 @@
 			#{empFirstName},
 			#{phone},
 			NULL,
-			#{empBirth},
-			#{hireDate},
+			TO_DATE(#{empBirth}, 'YYYY-MM-DD'),
+			TO_DATE(#{hireDate}, 'YYYY-MM-DD'),
 			#{contractType},
 			#{empTel},
 			#{workPlace},
@@ -29,5 +29,12 @@
 			NULL
 		)
 	</insert>
+	
+	<!-- ID 리스트 조회 -->
+	<select id="getEmpIdList">
+		SELECT EMP_ID
+		FROM EMPLOYEE
+		WHERE EMP_DEL_FL = 'N'
+	</select>
 	
 </mapper>

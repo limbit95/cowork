@@ -1,5 +1,5 @@
-document.querySelector('#fncMenu').classList.add('active');
-document.querySelector('#addrSub').style.fontWeight = 'bold';
+// document.querySelector('#fncMenu').classList.add('active');
+// document.querySelector('#addrSub').style.fontWeight = 'bold';
 
 const deptList = [];
 const teamList = [];
@@ -187,6 +187,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     formData.append("excel", document.querySelector("#fileInput").files[0]);
                 }
             }
+
+            // fetch("/admin/addInBulk/getEmpIdList?comNo=" + comNo)
+            // .then(resp => resp.json())
+            // .then(idList => {
+            //     idList.forEach((i) => {
+            //         empIdList.push(i);
+            //     })
+            //     empIdList.forEach((i) => {
+            //         console.log(i)
+            //     })
+            // })
             
             // ----------------------------------------------------------------------------------------------------------------------
             // ----------------------------------------------------------------------------------------------------------------------
@@ -298,9 +309,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                 employee.innerHTML = 
                                 `
                                     <div><input type="checkbox" class="check"></div>
-                                    ${i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red;"></div>`}
-                                    ${i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red;"></div>`}
-                                    ${i.ID.length != 0 ? `<div class="inputEmpId"><span  class="empId">${i.ID}</span></div>` : `<div class="inputEmpId"><input class="empId" type="text" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red;"></div>`}
+                                    ${i.성.length != 0 ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                    ${i.이름.length != 0 ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                    ${i.ID.length != 0 ? `<div class="inputEmpId"><span  class="empId">${i.ID}</span></div>` : `<div class="inputEmpId"><input class="empId" type="text" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
                                     ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20" style="border: 1px solid red;"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`}
                                     <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
                                     <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
@@ -372,9 +383,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                 employee.innerHTML = 
                                 `
                                     <div><input type="checkbox" class="check"></div>
-                                    ${i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red;"></div>`}
-                                    ${i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red;"></div>`}
-                                    ${i.ID.length != 0 ? `<div class="inputEmpId"><span class="empId">${i.ID}</span></div>` : `<div class="inputEmpId"><input class="empId" type="text" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red;"></div>`}
+                                    ${i.성.length != 0 ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                    ${i.이름.length != 0 ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                    ${i.ID.length != 0 ? `<div class="inputEmpId"><span class="empId">${i.ID}</span></div>` : `<div class="inputEmpId"><input class="empId" type="text" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
                                     ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20" style="border: 1px solid red;"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`}
                                     <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
                                     <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
@@ -467,6 +478,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             `
                                                 <input class="empId" type="text" value="${text}" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;">
                                             `;
+                                        return;
                                     }
                                     
                                     document.querySelectorAll(".inputEmpId").forEach((h, index2) => {
@@ -481,162 +493,98 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 `
                                                     <input class="empId" type="text" value="${text2}" placeholder="미입력" maxlength="100" spellcheck="false"  style="border: 1px solid red; color: red;">
                                                 `;
+                                            return;
                                         }
                                     })
 
-                                    fetch("/user/checkId?empId=" + x.children[0].innerText)
-                                    .then(resp => resp.text())
-                                    .then(result => {
-                                        if(result == 1){
+                                    empList.forEach((i) => {
+                                        if(i == x.children[0].innerText) {
                                             x.innerHTML = ``;
                                             x.innerHTML = 
                                                 `
                                                     <input class="empId" type="text" value="${text}" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;">
                                                 `;
+                                            return;
+                                        }
+                                    })
+                                }
+                            })
+                            
+                            // ----------------------------------------------------------------------------------------------------------------------
+                            // ----------------------------------------------------------------------------------------------------------------------
+                            // 바로 위에서 처음 등록할 때 유효성 검사 이후 아이디 input 입력시마다 유효성 검사하는 로직
+
+                            // ID 인풋창 포커스 시
+                            document.querySelectorAll(".empId").forEach((i) => {
+                                i.addEventListener("focus", e => {
+                                    e.target.style.borderColor = 'black';
+                                    e.target.style.border = '2px solid black';
+                                });
+                            })
+                            // ID 인풋창 입력 시
+                            document.querySelectorAll(".empId").forEach((i, index1) => {
+                                i.addEventListener("input", e => {
+
+                                    if(e.target.value.trim().length == 0) {
+                                        e.target.style.border = '1px solid red';
+                                        return;
+                                    }
+
+                                    const regExp = /^[A-Za-z0-9]{4,20}$/;
+        
+                                    if(!regExp.test(e.target.value)){
+                                        e.target.style.color = 'red';
+                                        e.target.style.border = '2px solid red';
+                                        return;
+                                    }
+
+                                    let check12 = true;
+                                    // 등록 목록 내 같은 아이디가 있는지
+                                    document.querySelectorAll(".inputEmpId").forEach((h, index2) => {
+                                        let checkId;
+                                        
+                                        if(h.children[0].innerText != undefined) {
+                                            checkId = h.children[0].innerText;
+                                        }
+                                        if(h.children[0].value != undefined) {
+                                            checkId = h.children[0].value;
                                         }
 
-                                        // ----------------------------------------------------------------------------------------------------------------------
-                                        // ----------------------------------------------------------------------------------------------------------------------
-                                        // 바로 위에서 처음 등록할 때 유효성 검사 이후 아이디 input 입력시마다 유효성 검사하는 로직
+                                        if(index1 == index2) {
+                                            return;
+                                        }
+                                        if(e.target.value == checkId) {
+                                            e.target.style.color = 'red';
+                                            e.target.style.border = '2px solid red';
+                                            check12 = false;
+                                            return;
+                                        }
+                                    })
 
-                                        // ID 인풋창 포커스 시
-                                        document.querySelectorAll(".empId").forEach((i) => {
-                                            i.addEventListener("focus", e => {
-                                                e.target.style.borderColor = 'black';
-                                                e.target.style.border = '2px solid black';
-                                            });
-                                        })
-                                        // ID 인풋창 포커스 아웃 시
-                                        document.querySelectorAll(".empId").forEach((i, index1) => {
-                                            i.addEventListener("blur", e => {
-                                                let check12 = true;
-                                                // 등록 목록 내 같은 아이디가 있는지
-                                                document.querySelectorAll(".inputEmpId").forEach((h, index2) => {
-                                                    let checkId;
-                                                    
-                                                    if(h.children[0].innerText != undefined) {
-                                                        checkId = h.children[0].innerText;
-                                                    }
-                                                    if(h.children[0].value != undefined) {
-                                                        checkId = h.children[0].value;
-                                                    }
-                                                    
-                                                    if(index1 == index2) {
-                                                        return;
-                                                    }
-                                                    if(e.target.value == checkId) {
-                                                        e.target.style.color = 'red';
-                                                        e.target.style.border = '1px solid red';
-                                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                                        document.querySelector("#addInBulk").classList.add("blur");
-                                                        check12 = false;
-                                                        return;
-                                                    }
-                                                })
-                                                
-                                                if(!check12) {
-                                                    return;
-                                                }
-                                                
-                                                const regExp = /^[A-Za-z0-9]{4,20}$/;
-                    
-                                                if(!regExp.test(e.target.value)){
-                                                    e.target.style.color = 'red';
-                                                    e.target.style.border = '1px solid red';
-                                                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                                    document.querySelector("#addInBulk").classList.add("blur");
-                                                    return;
-                                                }
-                                                
-                                                fetch("/user/checkId?empId=" + e.target.value)
-                                                .then(resp => resp.text())
-                                                .then(result => {
-                                                    if(result == 1){
-                                                        e.target.style.color = 'red';
-                                                        e.target.style.border = '1px solid red';
-                                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                                        document.querySelector("#addInBulk").classList.add("blur");
-                                                        return;
-                                                    } else {
-                                                        e.target.style.color = 'black';
-                                                        e.target.style.border = '1px solid #ddd';
-                                                    }
+                                    if(!check12) {
+                                        return;
+                                    }
 
-                                                    borderIsRed();
-                                                });
-                                            });
-                                        })
-                                        // ID 인풋창 입력 시
-                                        document.querySelectorAll(".empId").forEach((i, index1) => {
-                                            i.addEventListener("input", e => {
-                                                let check12 = true;
-                                                // 등록 목록 내 같은 아이디가 있는지
-                                                document.querySelectorAll(".inputEmpId").forEach((h, index2) => {
-                                                    let checkId;
-                                                    
-                                                    if(h.children[0].innerText != undefined) {
-                                                        checkId = h.children[0].innerText;
-                                                    }
-                                                    if(h.children[0].value != undefined) {
-                                                        checkId = h.children[0].value;
-                                                    }
-
-                                                    if(index1 == index2) {
-                                                        return;
-                                                    }
-                                                    if(e.target.value == checkId) {
-                                                        e.target.style.color = 'red';
-                                                        e.target.style.border = '2px solid red';
-                                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                                        document.querySelector("#addInBulk").classList.add("blur");
-                                                        check12 = false;
-                                                        return;
-                                                    }
-                                                })
-
-                                                if(!check12) {
-                                                    return;
-                                                }
-
-                                                if(e.target.value.trim().length == 0) {
-                                                    e.target.style.border = '1px solid red';
-                                                    return;
-                                                }
-
-                                                const regExp = /^[A-Za-z0-9]{4,20}$/;
-                    
-                                                if(!regExp.test(e.target.value)){
-                                                    e.target.style.color = 'red';
-                                                    e.target.style.border = '2px solid red';
-                                                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                                    document.querySelector("#addInBulk").classList.add("blur");
-                                                    return;
-                                                }
-
-                                                fetch("/user/checkId?empId=" + e.target.value)
-                                                .then(resp => resp.text())
-                                                .then(result => {
-                                                    if(result == 1){
-                                                        e.target.style.color = 'red';
-                                                        e.target.style.border = '2px solid red';
-                                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                                        document.querySelector("#addInBulk").classList.add("blur");
-                                                        return;
-                                                    } else {
-                                                        e.target.style.color = 'black';
-                                                        e.target.style.border = '2px solid black';
-                                                    }
-
-                                                    borderIsRed();
-                                                });
-                                                
-                                            });
-                                        })
-
-                                    });
-
-                                }
-                                
+                                    empList.forEach((i) => {
+                                        if(i == e.target.value) {
+                                            e.target.style.color = 'red';
+                                            e.target.style.border = '1px solid red';
+                                            return;
+                                        }
+                                        e.target.style.color = 'black';
+                                        e.target.style.border = '1px solid #ddd';
+                                    })
+                                });
+                            })
+                            // ID 인풋창 포커스 아웃 시
+                            document.querySelectorAll(".empId").forEach((i, index1) => {
+                                i.addEventListener("blur", e => {
+                                    if(e.target.style.color == 'red') {
+                                        e.target.style.border = '1px solid red';
+                                    } else {
+                                        e.target.style.border = '1px solid var(--gray-color)';
+                                    }
+                                });
                             })
 
                             // 엑셀 파일에서 작성한 부서명이 기존 DB의 부서 리스트에 있는지 확인 및
@@ -826,8 +774,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                             // 존재하는 팀명과 일치하지 않으면
                                             e.target.style.border = '1px solid red';
                                         }
-
-                                        borderIsRed();
                                         
                                     })
                                 })
@@ -863,8 +809,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                             return;
                                         }
 
-                                        borderIsRed();
-    
                                     })
                                 })
                             }
@@ -884,13 +828,37 @@ document.addEventListener('DOMContentLoaded', function() {
                         // 성 인풋창 포커스 아웃 시
                         document.querySelectorAll(".empLastName").forEach((i) => {
                             i.addEventListener("blur", e => {
-                                if(e.target.value.trim().length == 0) {
+                                if(e.target.style.color == 'red') {
                                     e.target.style.border = '1px solid red';
-                                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                    document.querySelector("#addInBulk").classList.add("blur");
-                                    borderIsRed();
                                 } else {
-                                    e.target.style.border = '1px solid #ddd';
+                                    e.target.style.border = '1px solid var(--gray-color)';
+                                }
+                                let flag1 = true;
+                                document.querySelectorAll(".employee").forEach((x) => {
+                                    const style = x.children[1].children[0].style
+                                    const style1 = x.children[2].children[0].style
+                                    const style2 = x.children[3].children[0].style
+                                    const style3 = x.children[4].children[0].style
+                                    const style4 = x.children[7].children[0].style
+                                    const style5 = x.children[8].children[0].style
+                                    const style6 = x.children[9].children[0].style
+                                    const style7 = x.children[10].children[0].style
+                                    const style8 = x.children[14].children[0].style
+                                    if(x.children[0].children[0].checked == true && (style.borderColor == 'red' ||
+                                        style1.borderColor == 'red' || style2.borderColor == 'red' ||
+                                        style3.borderColor == 'red' || style4.borderColor == 'red' ||
+                                        style5.borderColor == 'red' || style6.borderColor == 'red' ||
+                                        style7.borderColor == 'red' || style8.borderColor)) {
+                                            console.log('test')
+                                        flag1 = false;
+                                        document.querySelector("#addInBulk").classList.add("blur");
+                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                                        return;
+                                    }
+                                })
+                                if(flag1) {
+                                    document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+                                    document.querySelector("#addInBulk").classList.remove("blur");
                                 }
                             });
                         })
@@ -898,15 +866,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.querySelectorAll(".empLastName").forEach((i) => {
                             i.addEventListener("input", e => {
                                 if(e.target.value.trim().length == 0) {
+                                    e.target.value = '';
+                                    e.target.style.color = 'red';
                                     e.target.style.border = '1px solid red';
-                                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                    document.querySelector("#addInBulk").classList.add("blur");
-                                    borderIsRed();
                                     return;
                                 }
                                 e.target.style.color = 'black';
                                 e.target.style.border = '2px solid black';
-                                borderIsRed();
                             });
                         })
 
@@ -920,13 +886,37 @@ document.addEventListener('DOMContentLoaded', function() {
                         // 이름 인풋창 포커스 아웃 시
                         document.querySelectorAll(".empFirstName").forEach((i) => {
                             i.addEventListener("blur", e => {
-                                if(e.target.value.trim().length == 0) {
+                                if(e.target.style.color == 'red') {
                                     e.target.style.border = '1px solid red';
-                                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                    document.querySelector("#addInBulk").classList.add("blur");
-                                    borderIsRed();
                                 } else {
-                                    e.target.style.border = '1px solid #ddd';
+                                    e.target.style.border = '1px solid var(--gray-color)';
+                                }
+                                let flag1 = true;
+                                document.querySelectorAll(".employee").forEach((x) => {
+                                    const style = x.children[1].children[0].style
+                                    const style1 = x.children[2].children[0].style
+                                    const style2 = x.children[3].children[0].style
+                                    const style3 = x.children[4].children[0].style
+                                    const style4 = x.children[7].children[0].style
+                                    const style5 = x.children[8].children[0].style
+                                    const style6 = x.children[9].children[0].style
+                                    const style7 = x.children[10].children[0].style
+                                    const style8 = x.children[14].children[0].style
+                                    if(x.children[0].children[0].checked == true && (style.borderColor == 'red' ||
+                                        style1.borderColor == 'red' || style2.borderColor == 'red' ||
+                                        style3.borderColor == 'red' || style4.borderColor == 'red' ||
+                                        style5.borderColor == 'red' || style6.borderColor == 'red' ||
+                                        style7.borderColor == 'red' || style8.borderColor)) {
+                                            console.log('test')
+                                        flag1 = false;
+                                        document.querySelector("#addInBulk").classList.add("blur");
+                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                                        return;
+                                    }
+                                })
+                                if(flag1) {
+                                    document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+                                    document.querySelector("#addInBulk").classList.remove("blur");
                                 }
                             });
                         })
@@ -934,17 +924,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.querySelectorAll(".empFirstName").forEach((i) => {
                             i.addEventListener("input", e => {
                                 if(e.target.value.trim().length == 0) {
+                                    e.target.value = '';
+                                    e.target.style.color = 'red';
                                     e.target.style.border = '1px solid red';
-                                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                    document.querySelector("#addInBulk").classList.add("blur");
-                                    borderIsRed();
                                     return;
                                 }
                                 e.target.style.color = 'black';
                                 e.target.style.border = '2px solid black';
-                                borderIsRed();
                             });
                         })
+
+
 
                         if(document.querySelector("#idPattern") != null) {
                             // ID 작성 양식 창 열기
@@ -1003,24 +993,28 @@ document.addEventListener('DOMContentLoaded', function() {
                                     if(!regExp.test(e.target.value)){
                                         e.target.style.borderColor = 'red';
                                         e.target.style.border = '1px solid red';
-                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                        document.querySelector("#addInBulk").classList.add("blur");
-                                        borderIsRed();
+                                        if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
+                                            document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                                            document.querySelector("#addInBulk").classList.add("blur");
+                                        }
                                         return;
                                     }
                                     
                                     if(e.target.value.trim().length == 0) {
                                         e.target.style.borderColor = 'red';
                                         e.target.style.border = '1px solid red';
-                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                        document.querySelector("#addInBulk").classList.add("blur");
-                                        borderIsRed();
+                                        if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
+                                            document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                                            document.querySelector("#addInBulk").classList.add("blur");
+                                        }
                                     } else {
                                         e.target.style.borderColor = '#ddd';
                                         e.target.style.border = '1px solid #ddd';
+                                        if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
+                                            document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+                                            document.querySelector("#addInBulk").classList.remove("blur");
+                                        }
                                     }
-
-                                    borderIsRed();
                                 });
                             })
                             // 비밀번호 인풋창 입력 시
@@ -1031,24 +1025,28 @@ document.addEventListener('DOMContentLoaded', function() {
                                     if(!regExp.test(e.target.value)){
                                         e.target.style.borderColor = 'red';
                                         e.target.style.border = '2px solid red';
-                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                        document.querySelector("#addInBulk").classList.add("blur");
-                                        borderIsRed();
+                                        if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
+                                            document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                                            document.querySelector("#addInBulk").classList.add("blur");
+                                        }
                                         return;
                                     }
                                     
                                     if(e.target.value.trim().length == 0) {
                                         e.target.style.borderColor = 'red';
                                         e.target.style.border = '1px solid red';
-                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                        document.querySelector("#addInBulk").classList.add("blur");
-                                        borderIsRed();
+                                        if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
+                                            document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                                            document.querySelector("#addInBulk").classList.add("blur");
+                                        }
                                     } else {
                                         e.target.style.borderColor = '#ddd';
                                         e.target.style.border = '1px solid #ddd';
+                                        if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
+                                            document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+                                            document.querySelector("#addInBulk").classList.remove("blur");
+                                        }
                                     }
-
-                                    borderIsRed();
                                 });
                             })
                         }
@@ -1089,32 +1087,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 생일 인풋창 포커스 아웃 시
                     document.querySelectorAll(".inputEmpBirth").forEach((i) => {
                         i.addEventListener("blur", e => {
-                            const validDate = isValidDate(i.value);
-                            
-                            const regExp = /^[0-9]{8}$/;
-                            
-                            if(i.value.trim().length == 0) {
-                                i.style.border = '1px solid red';
-                                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                document.querySelector("#addInBulk").classList.add("blur");
-                                borderIsRed();
-                            } 
-
-                            if(!regExp.test(i.value)) {
-                                i.style.border = '1px solid red';
-                                borderIsRed();
-                                return;
+                            if(e.target.style.color == 'red') {
+                                e.target.style.border = '1px solid red';
+                            } else {
+                                e.target.style.border = '1px solid var(--gray-color)';
                             }
-                            
-                            if(!validDate) {
-                                i.style.border = '1px solid red';
-                                borderIsRed();
-                                return;
-                            }
-                            
-                            i.style.border = '1px solid #ddd';
-                            i.style.color = 'black';
-                            borderIsRed();
                         });
                     })                    
 
@@ -1128,39 +1105,23 @@ document.addEventListener('DOMContentLoaded', function() {
                             if(i.value.trim().length == 0) {
                                 i.value = '';
                                 i.style.border = '2px solid red';
-                                borderIsRed();
                                 return;
                             }
 
                             if(!regExp.test(i.value)) {
                                 i.style.border = '2px solid red';
-                                borderIsRed();
                                 return;
                             }
     
                             if(!validDate) {
                                 i.style.border = '2px solid red';
-                                borderIsRed();
                                 return;
                             }
 
                             i.style.border = '2px solid black';
                             i.style.color = 'black';
-                            borderIsRed();
                         })
                     })           
-
-
-
-
-
-
-
-
-
-
-
-
 
                     // 엑셀 파일에서 등록한 입사일의 날짜 유효성 검사
                     document.querySelectorAll(".hireDate").forEach((i) => {
@@ -1196,32 +1157,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 입사일 인풋창 포커스 아웃 시
                     document.querySelectorAll(".inputHireDate").forEach((i) => {
                         i.addEventListener("blur", e => {
-                            const validDate = isValidDate(i.value);
-                            
-                            const regExp = /^[0-9]{8}$/;
-                            
-                            if(i.value.trim().length == 0) {
-                                i.style.border = '1px solid red';
-                                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                document.querySelector("#addInBulk").classList.add("blur");
-                                borderIsRed();
-                            } 
-
-                            if(!regExp.test(i.value)) {
-                                i.style.border = '1px solid red';
-                                borderIsRed();
-                                return;
+                            if(e.target.style.color == 'red') {
+                                e.target.style.border = '1px solid red';
+                            } else {
+                                e.target.style.border = '1px solid var(--gray-color)';
                             }
-                            
-                            if(!validDate) {
-                                i.style.border = '1px solid red';
-                                borderIsRed();
-                                return;
-                            }
-                            
-                            i.style.border = '1px solid #ddd';
-                            i.style.color = 'black';
-                            borderIsRed();
                         });
                     })                    
 
@@ -1235,30 +1175,25 @@ document.addEventListener('DOMContentLoaded', function() {
                             if(i.value.trim().length == 0) {
                                 i.value = '';
                                 i.style.border = '2px solid red';
-                                borderIsRed();
                                 return;
                             }
 
                             if(!regExp.test(i.value)) {
                                 i.style.border = '2px solid red';
-                                borderIsRed();
                                 return;
                             }
     
                             if(!validDate) {
                                 i.style.border = '2px solid red';
-                                borderIsRed();
                                 return;
                             }
 
                             i.style.border = '2px solid black';
                             i.style.color = 'black';
-                            borderIsRed();
                         })
                     })           
                     
                     checkBox();
-                    borderIsRed();
                     
                 },
                 error: function(xhr, status, error) {
@@ -1552,26 +1487,6 @@ function checkBox() {
     // 개별 체크박스
     const check = document.querySelectorAll(".check");
 
-    function anyCheckboxChecked() {
-        for (let i = 0; i < document.querySelectorAll(".check").length; i++) {
-            if (document.querySelectorAll(".check")[i].checked == true) {
-                return false;
-            }
-        }
-        return true;
-    }
-    function anyCheckboxChecked2() {
-        let check10 = true;
-        for (let i = 0; i < document.querySelectorAll(".check").length; i++) {
-            if (document.querySelectorAll(".check")[i].checked == false) {
-                check10 = false;
-            }
-        }
-        if(check10) {
-            return true;
-        }
-    }
-
     // 체크박스 클릭 시 나타나는 버튼들
     const subBtnDiv = document.querySelector(".subBtnDiv");
 
@@ -1585,7 +1500,32 @@ function checkBox() {
                     check.forEach((i) => {
                         i.checked = true;
                     })
-                    borderIsRed();
+                    let flag1 = true;
+                    document.querySelectorAll(".employee").forEach((x) => {
+                        const style = x.children[1].children[0].style
+                        const style1 = x.children[2].children[0].style
+                        const style2 = x.children[3].children[0].style
+                        const style3 = x.children[4].children[0].style
+                        const style4 = x.children[7].children[0].style
+                        const style5 = x.children[8].children[0].style
+                        const style6 = x.children[9].children[0].style
+                        const style7 = x.children[10].children[0].style
+                        const style8 = x.children[14].children[0].style
+                        if(x.children[0].children[0].checked == true && (style.borderColor == 'red' ||
+                            style1.borderColor == 'red' || style2.borderColor == 'red' ||
+                            style3.borderColor == 'red' || style4.borderColor == 'red' ||
+                            style5.borderColor == 'red' || style6.borderColor == 'red' ||
+                            style7.borderColor == 'red' || style8.borderColor)) {
+                            flag1 = false;
+                            document.querySelector("#addInBulk").classList.add("blur");
+                            document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                            return;
+                        }
+                    })
+                    if(flag1) {
+                        document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+                        document.querySelector("#addInBulk").classList.remove("blur");
+                    }
                     subBtnDiv.children[0].style.display = "block"
                     return;
                 }
@@ -1594,8 +1534,8 @@ function checkBox() {
                         i.checked = false;
                     })
                     subBtnDiv.children[0].style.display = "none"
-                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
                     document.querySelector("#addInBulk").classList.add("blur");
+                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
                     return;
                 }
             }
@@ -1607,54 +1547,129 @@ function checkBox() {
         check.forEach((i) => {
             i.addEventListener("change", e => {
 
-                borderIsRed();
+                let flag1 = true;
+                document.querySelectorAll(".employee").forEach((x) => {
+                    const style = x.children[1].children[0].style
+                    const style1 = x.children[2].children[0].style
+                    const style2 = x.children[3].children[0].style
+                    const style3 = x.children[4].children[0].style
+                    const style4 = x.children[7].children[0].style
+                    const style5 = x.children[8].children[0].style
+                    const style6 = x.children[9].children[0].style
+                    const style7 = x.children[10].children[0].style
+                    const style8 = x.children[14].children[0].style
+                    if(x.children[0].children[0].checked == true && (style.borderColor == 'red' ||
+                        style1.borderColor == 'red' || style2.borderColor == 'red' ||
+                        style3.borderColor == 'red' || style4.borderColor == 'red' ||
+                        style5.borderColor == 'red' || style6.borderColor == 'red' ||
+                        style7.borderColor == 'red' || style8.borderColor)) {
+                        flag1 = false;
+                        document.querySelector("#addInBulk").classList.add("blur");
+                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                        return;
+                    }
+                })
+                if(flag1) {
+                    document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+                    document.querySelector("#addInBulk").classList.remove("blur");
+                }
 
-                if(anyCheckboxChecked2()) {
-                    wholeCheck.checked = true;
-                    return;
-                }
-                if(anyCheckboxChecked()) {
-                    subBtnDiv.children[0].style.display = "none"
-                    wholeCheck.checked = false;
-                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                    document.querySelector("#addInBulk").classList.add("blur");
-                    return;
-                }
-                if(wholeCheck.checked == true) {return;}
                 if(i.checked == true) {
                     subBtnDiv.children[0].style.display = "block"
-                    return;
+                    let flag1 = true;
+                    for(let x = check.length - 1; x >= 0; x--) {
+                        if(check[x].checked == false) {
+                            flag1 = false;
+                            return;
+                        }
+                        flag1 = true;
+                    }
+                    if(flag1) {
+                        wholeCheck.checked = true;
+                    } 
                 }
+
+                if(i.checked == false) {
+                    wholeCheck.checked = false;
+                    let flag1 = true;
+                    for(let x = check.length - 1; x >= 0; x--) {
+                        if(check[x].checked == true) {
+                            flag1 = false;
+                            return;
+                        }
+                        flag1 = true;
+                    }
+                    if(flag1) {
+                        subBtnDiv.children[0].style.display = "none"
+                        document.querySelector("#addInBulk").classList.add("blur");
+                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+                    } 
+                }
+
             })
         })
     }
 }
 
 function borderIsRed() {
-    const employeeList = document.querySelector(".employeeList");
-
-    for(let x = 1; x < employeeList.children.length; x++) {
-        if(employeeList.children[x].children[0].children[0].checked == true) {
-            
-            let check11 = true;
-            for(let h = 0; h < employeeList.children[x].children.length; h++) {
-                const style = employeeList.children[x].children[h].children[0].style;
-                if(style.borderColor == 'red') {
-                    check11 = false;
-                }
-            }
-            if(check11) {
-                document.querySelector("#addInBulk").classList.remove("blur");
-                document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-            } else {
-                document.querySelector("#addInBulk").classList.add("blur");
-                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                check11 = false;
-                return;
-            }
+    let flag1 = true;
+    document.querySelectorAll(".employee").forEach((x) => {
+        const style = x.children[1].children[0].style
+        const style1 = x.children[2].children[0].style
+        const style2 = x.children[3].children[0].style
+        const style3 = x.children[4].children[0].style
+        const style4 = x.children[7].children[0].style
+        const style5 = x.children[8].children[0].style
+        const style6 = x.children[9].children[0].style
+        const style7 = x.children[10].children[0].style
+        const style8 = x.children[14].children[0].style
+        if(x.children[0].children[0].checked == true && (style.borderColor == 'red' ||
+            style1.borderColor == 'red' || style2.borderColor == 'red' ||
+            style3.borderColor == 'red' || style4.borderColor == 'red' ||
+            style5.borderColor == 'red' || style6.borderColor == 'red' ||
+            style7.borderColor == 'red' || style8.borderColor)) {
+                console.log('test')
+            flag1 = false;
+            document.querySelector("#addInBulk").classList.add("blur");
+            document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+            return;
         }
+    })
+    if(flag1) {
+        document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+        document.querySelector("#addInBulk").classList.remove("blur");
     }
 }
+
+
+
+
+// function borderIsRed() {
+//     const employeeList = document.querySelector(".employeeList");
+
+//     for(let x = 1; x < employeeList.children.length; x++) {
+
+//         console.log(employeeList.children[x].children[0].children[0].checked)
+//         if(employeeList.children[x].children[0].children[0].checked == true) {
+//             let check11 = true;
+//             for(let h = 0; h < employeeList.children[x].children.length; h++) {
+//                 const style = employeeList.children[x].children[h].children[0].style;
+//                 if(style.borderColor == 'red') {
+//                     check11 = false;
+//                 }
+//             }
+//             if(check11) {
+//                 document.querySelector("#addInBulk").classList.remove("blur");
+//                 document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+//             } else {
+//                 document.querySelector("#addInBulk").classList.add("blur");
+//                 document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
+//                 check11 = false;
+//                 return;
+//             }
+//         }
+//     }
+// }
 
 // ----------------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------------------
