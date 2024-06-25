@@ -7,6 +7,7 @@
     FROM EMPLOYEE 
     WHERE CONCAT(EMP_LAST_NAME, EMP_FIRST_NAME) LIKE '%' || #{inputData} || '%'
     AND EMP_CODE != #{empCode}
+    AND COM_NO = #{comNo}
 </select>
 
 <insert id="makeChat" useGeneratedKeys="true" keyProperty="roomNo" keyColumn="ROOM_NO">

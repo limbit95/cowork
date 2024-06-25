@@ -49,11 +49,12 @@ public class ChatServiceImpl implements ChatService{
 	 * 부서, 팀, 이름 으로 사원들 조회 
 	 */
 	@Override
-	public List<Employee2> empList(String inputData, Integer empCode) {
+	public List<Employee2> empList(String inputData, Employee2 loginEmp) {
 		
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("inputData", inputData);
-		paramMap.put("empCode", empCode);
+		paramMap.put("empCode", loginEmp.getEmpCode());
+		paramMap.put("comNo", loginEmp.getComNo());
 		
 		List<Employee2> empList = chatMapper.empList(paramMap);
 		

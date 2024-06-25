@@ -13,7 +13,7 @@ import com.cowork.user.model.dto.Employee2;
 
 public interface ChatService {
 
-	List<Employee2> empList(String inputData, Integer empCode);
+	List<Employee2> empList(String inputData, Employee2 loginEmp);
 
 	String makeChat(List<String> empCodeList, String empCode);
 

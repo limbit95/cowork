@@ -338,6 +338,7 @@ body {
     justify-content: center;
     flex-direction: column;
     width: 1007px;
+	margin-top: 45px; /* yoon 24-06-25 */
 }
 
 .noticeBoarder {
