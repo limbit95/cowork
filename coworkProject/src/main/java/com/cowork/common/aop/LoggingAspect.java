@@ -82,7 +82,7 @@ public class LoggingAspect {
 	}
 
 	private String getRemoteAddr(HttpServletRequest request) {
-			
+		
 		String ip = null;
 			
 		ip = request.getHeader("X-Forwarded-For");

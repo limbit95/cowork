@@ -182,21 +182,6 @@ body {
 	background-color: white;
 
 }
-.dept{
-	width: 100%;
-	background-color: white;
-	display: flex;
-	flex-direction: column; 
-}
-.deptNm{
-	width: 100%;
-	padding-left: 0.3vw;
-	height: 3vh;
-	font-size: 20px;
-	font-weight: bold; 
-	display: flex;
-	align-items: center;
-}
 .teamDiv{
 	transition: color 0.3s; 
 	cursor: pointer;
