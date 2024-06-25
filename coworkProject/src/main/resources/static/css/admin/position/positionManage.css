@@ -24,7 +24,7 @@
 
 .fullSection {
     display: flex;
-    width: 65%;
+    width: 50%;
     margin-top: 20px;
     flex-direction: column;
     padding: 40px;
