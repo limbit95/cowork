@@ -73,12 +73,13 @@
 
     </section>
 
+    <input class="homeUi" value="notice" hidden/>
+
     <script th:inline="javascript">
         const noticeNo = /*[[${notice.noticeNo}]]*/ "공지사항 번호";
         const fileCnt = /*[[${notice.fileCnt}]]*/"파일개수";
     </script>
 
     <script src="/js/admin/notice/noticeDetail.js"></script>
-    <script src="/js/admin/notice/notice.js"></script> <!-- Left 메뉴 클릭 -->
 </body>
 </html>

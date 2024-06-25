@@ -44,8 +44,8 @@
                 <div class="menuDiv checkDiv">
                     <div th:if="${mail.mailFlag == '1'}"><label class="delBtn" id="mailListBtn">목록</label></div>
                     <div th:unless="${mail.mailFlag == '1'}"><label class="delBtn" id="mailListBtn">목록</label></div>
-                    <i class="fa-solid fa-angle-up"></i>
-                    <i class="fa-solid fa-angle-down"></i>
+                <!--    <i class="fa-solid fa-angle-up"></i>
+                    <i class="fa-solid fa-angle-down"></i> -->
                 </div>
             </div>
 
@@ -97,10 +97,18 @@
                         <button type="button" class="fa-solid fa-chevron-up btnBoarder fileListInfo"></button>
                     </div>
                     <table class="default-line preview">
-                        <tr th:each="file : ${fileList}" th:object="${file}">
+                        <!--<tr th:each="file : ${fileList}" th:object="${file}">
                             <td><i class="fa-solid fa-paperclip"></i><label th:text="*{fileOriginName}">검색.png</label></td>
                             <td></td>
                             <td><a class="fa-solid fa-download" th:href="|*{filePath}*{fileRename}|" th:download="*{fileOriginName}"></a></td>
+                        </tr> -->
+                        <tr th:each="file, stat : ${fileList}" th:object="${file}">
+                            <td><i class="fa-solid fa-paperclip"></i><label th:text="*{fileOriginName}">검색.png</label></td>
+                            <td></td>
+                            <td><a class="fa-solid fa-download" th:href="|*{filePath}*{fileRename}|" th:download="*{fileOriginName}"></a></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(fileList)}">
+                            <td colspan="3"><div>첨부파일이 없습니다.</div></td>
                         </tr>
                     </table>
                     

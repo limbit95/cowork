@@ -66,7 +66,7 @@
 										<span>기한</span>
 										<span id="endDate"></span>
 									</div>
-									<div>
+									<div id="todoContentDiv">
 										<span>내용</span>
 										<span id="todoContentSpan">내용</span>
 									</div>								
@@ -88,12 +88,28 @@
 					</div>
 					
 					<div class="noticeBoarder">
-						<div class="tBody" th:each="notic : ${noticeList}" th:object="${notic}"
-						th:onclick="|location.href='@{/employee/notice/noticeDetail/{noticeNo} (noticeNo=*{noticeNo})}'|">
-							<div class="noticeContent" th:text="*{noticeTitle}">안녕하세요 공지사항입니다.</div>
-							<div th:text="*{empName}">정희윤</div>
-							<div th:text="*{noticeWriteDate}">2024-05-22</div>
+
+						<div th:if="${#lists.size(noticeList) > 0}">
+							<div class="tBody" th:each="notic : ${noticeList}" th:object="${notic}"
+								 th:onclick="|location.href='@{/employee/notice/noticeDetail/{noticeNo} (noticeNo=*{noticeNo})}'|">
+								<div class="noticeContent" th:text="*{noticeTitle}">안녕하세요 공지사항입니다.</div>
+								<div th:text="*{empName}">정희윤</div>
+								<div th:text="*{noticeWriteDate}">2024-05-22</div>
+							</div>
 						</div>
+						<div th:if="${#lists.size(noticeList) == 0}">
+							<div class="noticeContent">등록된 공지사항이 없습니다.</div>
+						</div>
+<!--
+							<div class="tBody" th:each="notic : ${noticeList}" th:object="${notic}"
+							th:onclick="|location.href='@{/employee/notice/noticeDetail/{noticeNo} (noticeNo=*{noticeNo})}'|">
+									<div class="noticeContent" th:text="*{noticeTitle}">안녕하세요 공지사항입니다.</div>
+									<div th:text="*{empName}">정희윤</div>
+									<div th:text="*{noticeWriteDate}">2024-05-22</div>
+								
+							</div>   -->
+
+					</div>
 					</div>
 						
 				</div>

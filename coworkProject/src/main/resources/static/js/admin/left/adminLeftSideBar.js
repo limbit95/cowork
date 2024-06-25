@@ -127,10 +127,12 @@ function functionFun(returnUserMain) {
 
     const a5 = document.createElement('a');
     a5.href = "/ipInfo/ipInfoMain";
-    a5.id = "meetingSub";
+    a5.id = "ipSub";
     a5.innerText = "IP 관리";
 
     dropdownContent.append(a1, a2, a3, a4, a5);
+
+    adminMenu(); // 메뉴 클릭 이벤트
 }
    
 function authorityMenu() {
@@ -167,3 +169,60 @@ function authorityMenu() {
 
 authorityMenu();
 
+function adminMenu() {
+
+    const homeUi = document.querySelector('.homeUi').value;
+
+    if(homeUi != "") {
+        
+        if(homeUi == "position") { // 직책관리
+            document.querySelector('#positionMenu .dropbtn').classList.add('active'); // 클래스 추가
+        }
+
+        if(homeUi == "authority") { // 권한관리
+            document.querySelector('#authorityMenu .dropbtn').classList.add('active'); // 클래스 추가
+        }
+
+        if(homeUi == "attendanceSub") { // 근태 내역 조회
+            document.querySelector('#attendanceMenu .dropbtn').classList.add('active'); // 클래스 추가
+            document.querySelector('#attendanceSub').style.fontWeight = 'bold';
+        }
+
+        if(homeUi == "requestManagerSub") { // 근태 수정 요청 내역
+            document.querySelector('#attendanceMenu .dropbtn').classList.add('active'); // 클래스 추가
+            document.querySelector('#requestManagerSub').style.fontWeight = 'bold';
+        }
+
+        if(homeUi == "attendanceSub1") { // 근태 기준 관리
+            document.querySelector('#attendanceMenu .dropbtn').classList.add('active'); // 클래스 추가
+            document.querySelector('#attendanceSub1').style.fontWeight = 'bold';
+        }
+
+        if(homeUi == "addrSub") { // 주소록
+            document.querySelector('#fncMenu .dropbtn').classList.add('active'); // 클래스 추가
+            document.querySelector('#addrSub').style.fontWeight = 'bold';
+        }
+
+        if(homeUi == "notice") { // 공지사항
+            document.querySelector('#fncMenu .dropbtn').classList.add('active'); // 클래스 추가
+            document.querySelector('#noticeSub').style.fontWeight = 'bold';
+        }
+
+        if(homeUi == "edsmSub") { // 결재문서관리
+            document.querySelector('#fncMenu .dropbtn').classList.add('active'); // 클래스 추가
+            document.querySelector('#edsmSub').style.fontWeight = 'bold';
+        }
+
+        if(homeUi == "meetingSub") { // 회의실등록
+            document.querySelector('#fncMenu .dropbtn').classList.add('active'); // 클래스 추가
+            document.querySelector('#meetingSub').style.fontWeight = 'bold';
+        }
+
+        if(homeUi == "ipSub") { // IP 관리
+            document.querySelector('#fncMenu .dropbtn').classList.add('active'); // 클래스 추가
+            document.querySelector('#ipSub').style.fontWeight = 'bold';
+        }
+
+    }
+    
+}
