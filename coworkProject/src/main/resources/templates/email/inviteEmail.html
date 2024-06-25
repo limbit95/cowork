@@ -18,7 +18,8 @@
         <br>
 
         <!-- 추후 http -> https 변경해야 할수도? -->
-        <form action="http://localhost/user/inviteSignUpPage" method="post">
+        <form action="http://coworkintranet.site/user/inviteSignUpPage" method="post">
+        <!-- <form action="http://localhost/user/inviteSignUpPage" method="post"> -->
             <input hidden th:value="${data.authKey}" name="authKey" style="display: none;">
             <input hidden th:value="${data.comNo}" name="comNo" style="display: none;">
             <input hidden th:value="${data.domain}" name="domain" style="display: none;">

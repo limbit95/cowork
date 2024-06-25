@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -20,6 +21,8 @@ import com.cowork.email.model.service.EmailService;
 import com.cowork.employee.addr.model.service.AddrService;
 import com.cowork.user.model.dto.Employee2;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("admin/addInBulk")
+@SessionAttributes({"empList"})
 public class AddInBulkController {
 	
 	private final AddInBulkService service;
@@ -38,7 +42,15 @@ public class AddInBulkController {
 	 * @return
 	 */
 	@GetMapping("")
-	public String userList(Model model) {
+	public String userList(HttpServletRequest request,
+						   Model model) {
+		
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		List<String> employeeList = service.getEmpIdList(loginEmp.getComNo());
+		model.addAttribute("empList", employeeList);
+		
 		return "admin/addr/addEmployeeInBulk";
 	}
 	

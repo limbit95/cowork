@@ -1,5 +1,5 @@
-document.querySelector('#attendanceSub').style.fontWeight = 'bold';
-document.querySelector('#attendanceMenu .dropbtn').classList.add('active');
+// document.querySelector('#attendanceSub').style.fontWeight = 'bold';
+// document.querySelector('#attendanceMenu .dropbtn').classList.add('active');
 
 // // 전체 체크박스
 // const wholeCheck = document.querySelector("#wholeCheck");

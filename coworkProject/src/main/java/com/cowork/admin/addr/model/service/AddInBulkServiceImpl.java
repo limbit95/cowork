@@ -70,5 +70,11 @@ public class AddInBulkServiceImpl implements AddInBulkService{
 		return 1;
 	}
 
+	// ID 리스트 조회
+	@Override
+	public List<String> getEmpIdList(int comNo) {
+		return mapper.getEmpIdList(comNo);
+	}
+
 
 }

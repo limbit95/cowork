@@ -27,5 +27,11 @@ public interface AddInBulkMapper {
 	 */
 	int regist(Map<String, Object> map);
 
+	/** ID 리스트 조회
+	 * @param comNo
+	 * @return
+	 */
+	List<String> getEmpIdList(int comNo);
+
 
 }

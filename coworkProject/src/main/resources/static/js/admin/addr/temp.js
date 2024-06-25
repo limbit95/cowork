@@ -1,5 +1,5 @@
-document.querySelector('#fncMenu').classList.add('active');
-document.querySelector('#addrSub').style.fontWeight = 'bold';
+// document.querySelector('#fncMenu').classList.add('active');
+// document.querySelector('#addrSub').style.fontWeight = 'bold';
 
 const deptList = [];
 const teamList = [];
@@ -187,6 +187,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     formData.append("excel", document.querySelector("#fileInput").files[0]);
                 }
             }
+
+            // fetch("/admin/addInBulk/getEmpIdList?comNo=" + comNo)
+            // .then(resp => resp.json())
+            // .then(idList => {
+            //     idList.forEach((i) => {
+            //         empIdList.push(i);
+            //     })
+            //     empIdList.forEach((i) => {
+            //         console.log(i)
+            //     })
+            // })
             
             // ----------------------------------------------------------------------------------------------------------------------
             // ----------------------------------------------------------------------------------------------------------------------
@@ -298,8 +309,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 employee.innerHTML = 
                                 `
                                     <div><input type="checkbox" class="check"></div>
-                                    ${i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red;"></div>`}
-                                    ${i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red;"></div>`}
+                                    ${i.성.length != 0 ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red;"></div>`}
+                                    ${i.이름.length != 0 ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red;"></div>`}
                                     ${i.ID.length != 0 ? `<div class="inputEmpId"><span  class="empId">${i.ID}</span></div>` : `<div class="inputEmpId"><input class="empId" type="text" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red;"></div>`}
                                     ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20" style="border: 1px solid red;"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`}
                                     <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
@@ -372,8 +383,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 employee.innerHTML = 
                                 `
                                     <div><input type="checkbox" class="check"></div>
-                                    ${i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red;"></div>`}
-                                    ${i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red;"></div>`}
+                                    ${i.성.length != 0 ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red;"></div>`}
+                                    ${i.이름.length != 0 ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red;"></div>`}
                                     ${i.ID.length != 0 ? `<div class="inputEmpId"><span class="empId">${i.ID}</span></div>` : `<div class="inputEmpId"><input class="empId" type="text" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red;"></div>`}
                                     ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20" style="border: 1px solid red;"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`}
                                     <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
@@ -467,6 +478,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             `
                                                 <input class="empId" type="text" value="${text}" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;">
                                             `;
+                                        return;
                                     }
                                     
                                     document.querySelectorAll(".inputEmpId").forEach((h, index2) => {
@@ -481,20 +493,22 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 `
                                                     <input class="empId" type="text" value="${text2}" placeholder="미입력" maxlength="100" spellcheck="false"  style="border: 1px solid red; color: red;">
                                                 `;
+                                            return;
                                         }
                                     })
 
-                                    fetch("/user/checkId?empId=" + x.children[0].innerText)
-                                    .then(resp => resp.text())
+                                    fetch("/admin/addInBulk/getEmpIdList?comNo=" + comNo)
+                                    .then(resp => resp.json())
                                     .then(result => {
-                                        if(result == 1){
-                                            x.innerHTML = ``;
-                                            x.innerHTML = 
-                                                `
-                                                    <input class="empId" type="text" value="${text}" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;">
-                                                `;
-                                        }
-
+                                        result.forEach((i) => {
+                                            if(i == x.children[0].innerText) {
+                                                x.innerHTML = ``;
+                                                x.innerHTML = 
+                                                    `
+                                                        <input class="empId" type="text" value="${text}" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;">
+                                                    `;
+                                            }
+                                        })
                                         // ----------------------------------------------------------------------------------------------------------------------
                                         // ----------------------------------------------------------------------------------------------------------------------
                                         // 바로 위에서 처음 등록할 때 유효성 검사 이후 아이디 input 입력시마다 유효성 검사하는 로직
@@ -527,8 +541,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                                     if(e.target.value == checkId) {
                                                         e.target.style.color = 'red';
                                                         e.target.style.border = '1px solid red';
-                                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                                        document.querySelector("#addInBulk").classList.add("blur");
                                                         check12 = false;
                                                         return;
                                                     }
@@ -543,8 +555,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 if(!regExp.test(e.target.value)){
                                                     e.target.style.color = 'red';
                                                     e.target.style.border = '1px solid red';
-                                                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                                    document.querySelector("#addInBulk").classList.add("blur");
                                                     return;
                                                 }
                                                 
@@ -554,15 +564,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                                     if(result == 1){
                                                         e.target.style.color = 'red';
                                                         e.target.style.border = '1px solid red';
-                                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                                        document.querySelector("#addInBulk").classList.add("blur");
                                                         return;
                                                     } else {
                                                         e.target.style.color = 'black';
                                                         e.target.style.border = '1px solid #ddd';
                                                     }
 
-                                                    borderIsRed();
                                                 });
                                             });
                                         })
@@ -587,8 +594,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                                     if(e.target.value == checkId) {
                                                         e.target.style.color = 'red';
                                                         e.target.style.border = '2px solid red';
-                                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                                        document.querySelector("#addInBulk").classList.add("blur");
                                                         check12 = false;
                                                         return;
                                                     }
@@ -608,8 +613,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 if(!regExp.test(e.target.value)){
                                                     e.target.style.color = 'red';
                                                     e.target.style.border = '2px solid red';
-                                                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                                    document.querySelector("#addInBulk").classList.add("blur");
                                                     return;
                                                 }
 
@@ -619,39 +622,38 @@ document.addEventListener('DOMContentLoaded', function() {
                                                     if(result == 1){
                                                         e.target.style.color = 'red';
                                                         e.target.style.border = '2px solid red';
-                                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                                        document.querySelector("#addInBulk").classList.add("blur");
                                                         return;
                                                     } else {
                                                         e.target.style.color = 'black';
                                                         e.target.style.border = '2px solid black';
                                                     }
 
-                                                    borderIsRed();
                                                 });
                                                 
                                             });
                                         })
-
-                                    });
-
+                                    })
                                 }
-                                
+
                             })
+
+
 
                             // 엑셀 파일에서 작성한 부서명이 기존 DB의 부서 리스트에 있는지 확인 및
                             // 존재하지 않으면 select 태그 border 빨간색으로 변경
                             document.querySelectorAll(".deptOpt").forEach((x) => {
                                 let check = false;
-                                deptList.forEach((i) => {
-                                    if(i.deptNm == x.dataset.deptNm) {
-                                        x.parentElement.value = i.deptNo;
-                                        check = true;
-                                        return;
+                                if(x.innerText.length > 0) {
+                                    deptList.forEach((i) => {
+                                        if(i.deptNm == x.dataset.deptNm) {
+                                            x.parentElement.value = i.deptNo;
+                                            check = true;
+                                            return;
+                                        }
+                                    })
+                                    if(!check) {
+                                        x.parentElement.style.border = '1px solid red';
                                     }
-                                })
-                                if(!check) {
-                                    x.parentElement.style.border = '1px solid red';
                                 }
                             })
 
@@ -661,15 +663,17 @@ document.addEventListener('DOMContentLoaded', function() {
                             if(tempTeamList != null) {
                                 document.querySelectorAll(".teamOpt").forEach((x) => {
                                     let check6 = false;
-                                    tempTeamList.forEach((i) => {
-                                        if(i.teamNm == x.dataset.teamNm) {
-                                            x.parentElement.value = i.teamNo;
-                                            check6 = true;
-                                            return;
+                                    if(x.innerText.length > 0) {
+                                        tempTeamList.forEach((i) => {
+                                            if(i.teamNm == x.dataset.teamNm) {
+                                                x.parentElement.value = i.teamNo;
+                                                check6 = true;
+                                                return;
+                                            }
+                                        })
+                                        if(!check6) {
+                                            x.parentElement.style.border = '1px solid red';
                                         }
-                                    })
-                                    if(!check6) {
-                                        x.parentElement.style.border = '1px solid red';
                                     }
                                 })
                             }
@@ -679,15 +683,17 @@ document.addEventListener('DOMContentLoaded', function() {
                             if(positionList != null) {
                                 document.querySelectorAll(".positionOpt").forEach((x) => {
                                     let check8 = false;
-                                    positionList.forEach((i) => {
-                                        if(i.positionNm == x.dataset.positionNm) {
-                                            x.parentElement.value = i.positionNo;
-                                            check8 = true;
-                                            return;
+                                    if(x.innerText.length > 0) {
+                                        positionList.forEach((i) => {
+                                            if(i.positionNm == x.dataset.positionNm) {
+                                                x.parentElement.value = i.positionNo;
+                                                check8 = true;
+                                                return;
+                                            }
+                                        })
+                                        if(!check8) {
+                                            x.parentElement.style.border = '1px solid red';
                                         }
-                                    })
-                                    if(!check8) {
-                                        x.parentElement.style.border = '1px solid red';
                                     }
                                 })
                             }
@@ -1628,8 +1634,9 @@ function borderIsRed() {
     const employeeList = document.querySelector(".employeeList");
 
     for(let x = 1; x < employeeList.children.length; x++) {
+
         if(employeeList.children[x].children[0].children[0].checked == true) {
-            
+            console.log(employeeList.children[x].children[0].children[0].checked)
             let check11 = true;
             for(let h = 0; h < employeeList.children[x].children.length; h++) {
                 const style = employeeList.children[x].children[h].children[0].style;
@@ -1701,9 +1708,9 @@ document.querySelector("#confirmBtn5").addEventListener("click", e => {
                         "phone" : employee.children[5].children[0].innerText.length > 0 ? employee.children[5].children[0].innerText : null,
                         "empEmail" : employee.children[6].children[0].innerText.length > 0 ? employee.children[6].children[0].innerText : "null",
                         "empBirth" : employee.children[7].children[0].innerText.length > 0 ? employee.children[7].children[0].innerText : null,
-                        "deptNo" : employee.children[8].children[0].tagName == "SPAN" ? employee.children[8].children[0].innerText : employee.children[8].children[0].value,
-                        "teamNo" : employee.children[9].children[0].tagName == "SPAN" ? employee.children[9].children[0].innerText : employee.children[9].children[0].value,
-                        "positionNo" : employee.children[10].children[0].tagName == "SPAN" ? employee.children[10].children[0].innerText : employee.children[10].children[0].value,
+                        "deptNo" : employee.children[8].children[0].value == "null" ? null : employee.children[8].children[0].value,
+                        "teamNo" : employee.children[9].children[0].value == "null" ? null : employee.children[9].children[0].value,
+                        "positionNo" : employee.children[10].children[0].value == "null" ? null : employee.children[10].children[0].value,
                         "contractType" : employee.children[11].children[0].innerText.length > 0 ? employee.children[11].children[0].innerText : "null",
                         "workPlace" : employee.children[12].children[0].innerText.length > 0 ? employee.children[12].children[0].innerText: "null",
                         "empTel" : employee.children[13].children[0].innerText.length > 0 ? employee.children[13].children[0].innerText : "null",
@@ -1752,9 +1759,9 @@ document.querySelector("#confirmBtn5").addEventListener("click", e => {
                         "phone" : employee.children[5].children[0].innerText.length > 0 ? employee.children[5].children[0].innerText : "null",
                         "empEmail" : employee.children[6].children[0].innerText.length > 0 ? employee.children[6].children[0].innerText : "null",
                         "empBirth" : employee.children[7].children[0].innerText.length > 0 ? employee.children[7].children[0].innerText : null,
-                        "deptNo" : employee.children[8].children[0].tagName == "SPAN" ? employee.children[8].children[0].innerText : employee.children[8].children[0].value,
-                        "teamNo" : employee.children[9].children[0].tagName == "SPAN" ? employee.children[9].children[0].innerText : employee.children[9].children[0].value,
-                        "positionNo" : employee.children[10].children[0].tagName == "SPAN" ? employee.children[10].children[0].innerText : employee.children[10].children[0].value,
+                        "deptNo" : employee.children[8].children[0].value == "null" ? null : employee.children[8].children[0].value,
+                        "teamNo" : employee.children[9].children[0].value == "null" ? null : employee.children[9].children[0].value,
+                        "positionNo" : employee.children[10].children[0].value == "null" ? null : employee.children[10].children[0].value,
                         "contractType" : employee.children[11].children[0].innerText.length > 0 ? employee.children[11].children[0].innerText : "null",
                         "workPlace" : employee.children[12].children[0].innerText.length > 0 ? employee.children[12].children[0].innerText : "null",
                         "empTel" : employee.children[13].children[0].innerText.length > 0 ? employee.children[13].children[0].innerText : "null",

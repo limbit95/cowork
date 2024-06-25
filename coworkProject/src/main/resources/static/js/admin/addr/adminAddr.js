@@ -1,5 +1,5 @@
-document.querySelector('#fncMenu').classList.add('active');
-document.querySelector('#addrSub').style.fontWeight = 'bold';
+// document.querySelector('#fncMenu').classList.add('active');
+// document.querySelector('#addrSub').style.fontWeight = 'bold';
 
 // 사원 찾기
 const findEmp = document.querySelector("#findEmp");
@@ -1010,7 +1010,7 @@ if(addEmployeeconfirm != null) {
             const top = (screenHeight / 2) - (height / 2);
             
             // 팝업 창 열기
-            // const popup = window.open("http://localhost/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
+            // const popup = window.open("/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
             const popup = window.open("http://coworkintranet.site/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
             hide2();
         }
