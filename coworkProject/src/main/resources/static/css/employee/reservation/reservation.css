@@ -59,7 +59,7 @@
 
 #reservationInsertModal {
 	width: 30%;
-    height: 50%;
+    height: 60%;
 	background-color: white;
 	position: fixed;
 	margin: auto;
@@ -212,7 +212,8 @@
 
 /* 회의실 예약하기 버튼 부분 */
 .reservationModalBtn {
-    margin-top: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 /* Full Calendar API 자체 시간 보여주는 거 숨김 */
