@@ -20,7 +20,8 @@
                 <form action="/user/login" method="post" id="loginForm">
 
                     <div class="loginInput">
-                        <input autocomplete="off" placeholder="아이디" id="empId" name="empId">
+                        <input th:if="${findEmpId}" th:value="${findEmpId}" autocomplete="off" placeholder="아이디" id="empId" name="empId">
+                        <input th:unless="${findEmpId}" autocomplete="off" placeholder="아이디" id="empId" name="empId">
                         <input type="password" placeholder="비밀번호" id="empPw" name="empPw">
                     </div>
                     <button id="loginBtn">로그인</button>

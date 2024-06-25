@@ -8,7 +8,7 @@ if(findEmp != null) {
     findEmp.addEventListener("input", e => {
         const inputName = e.target.value;
 
-        if(location.pathname == '/employee/addr/comList' || location.pathname == '/employee/addr/deptList' || location.pathname == '/employee/addr/teamList' || location.pathname == '/employee/addr') {
+        if(location.pathname == '/employee/addr/comList' || location.pathname == '/employee/addr/deptList' || location.pathname == '/employee/addr/teamList' || location.pathname == '/employee/addr' || location.pathname == '/employee/addr/myGroup') {
             if(inputName.trim().length == 0) {
                 location.reload();
                  return;

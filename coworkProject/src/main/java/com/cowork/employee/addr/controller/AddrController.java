@@ -136,7 +136,7 @@ public class AddrController {
 	 */
 	@ResponseBody
 	@PostMapping("deleteAddr")
-	public int employeeDetail(@RequestBody List<Map<String, String>> map,
+	public int employeeDetail(@RequestBody List<Map<String, Object>> map,
 							  HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
@@ -185,6 +185,10 @@ public class AddrController {
 		
 		model.addAttribute("pagination", map.get("pagination"));
 		model.addAttribute("comList", map.get("comList"));
+		
+		List<MyAddr> groupList = service.selectGroupList(loginEmp);
+		
+		model.addAttribute("groupList", groupList);
 
 		return "employee/addr/addrBook";
 	}

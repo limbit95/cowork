@@ -45,7 +45,7 @@ public interface AddrService {
 	 * @param map
 	 * @return
 	 */
-	int deleteAddr(List<Map<String, String>> map);
+	int deleteAddr(List<Map<String, Object>> map);
  
 	/** 개인 주소록에 사원 추가
 	 * @param data
