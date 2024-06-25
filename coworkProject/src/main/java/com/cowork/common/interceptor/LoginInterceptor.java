@@ -1,4 +1,4 @@
-package com.cowork.common.interceptor;
+/*package com.cowork.common.interceptor;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
@@ -32,3 +32,4 @@ public class LoginInterceptor implements HandlerInterceptor{
 	
 
 }
+*/
