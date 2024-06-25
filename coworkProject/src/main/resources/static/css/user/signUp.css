@@ -124,7 +124,7 @@ textarea{
     width: 450px;
 }
 
-.inputInfo input:hover , .inputAddr input:hover, #registrationNum:hover {
+.inputInfo input:hover , .inputAddr input:hover {
     border-bottom: 2px solid var(--main-color);
 }
 

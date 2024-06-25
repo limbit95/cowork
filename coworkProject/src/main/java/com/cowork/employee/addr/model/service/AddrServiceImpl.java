@@ -185,7 +185,7 @@ public class AddrServiceImpl implements AddrService {
 
 	// 개인 주소록에 등록된 사원 삭제
 	@Override
-	public int deleteAddr(List<Map<String, String>> map) {
+	public int deleteAddr(List<Map<String, Object>> map) {
 		int result = 0;
 		for(int i = 0; i < map.size(); i++) {
 			result = mapper.deleteAddr(map.get(i));

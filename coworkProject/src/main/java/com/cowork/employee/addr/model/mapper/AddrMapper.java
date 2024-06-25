@@ -83,7 +83,7 @@ public interface AddrMapper {
 	 * @param map
 	 * @return
 	 */
-	int deleteAddr(Map<String, String> map);
+	int deleteAddr(Map<String, Object> map);
 
 	/** 기존 삭제 로직의 요건인 not in 에 들어갈 그룹 식별키가 넘어오지 않아
 	 * 그룹이 하나만 남아있을 때는 삭제 기능 수행이 되지 않으므로
