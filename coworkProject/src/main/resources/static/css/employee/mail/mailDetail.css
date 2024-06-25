@@ -87,6 +87,9 @@ table.default-line td:nth-child(1) {
 .insertCombo {
     display: flex;
 }
+.fa-solid.fa-download {
+    color: black !important;
+}
 
 /* 에디터 */
 .default-line.smarteditorDetail {

@@ -37,6 +37,11 @@
     display: flex;
     align-items: center;
     margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.todo div:hover {
+    background-color: #eef5fc;
 }
 
 /* 할 일 제목 */
@@ -97,6 +102,10 @@
 
 #todoTitleDiv {
     margin-bottom: 20px;
+}
+
+#todoContentDiv {
+    height: auto;
 }
 
 /* 모달 닫기 버튼 */ 
