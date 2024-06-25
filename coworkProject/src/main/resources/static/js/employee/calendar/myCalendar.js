@@ -474,6 +474,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('calendarModalUpdate').classList.add('calendarHidden');
             });
 
+            // info.
+
             // 삭제 버튼 눌렀을 때
             document.querySelector("#calendarDeleteBtn").addEventListener("click", () => {
                 
