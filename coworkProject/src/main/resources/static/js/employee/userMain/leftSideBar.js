@@ -1,7 +1,6 @@
 let showLeftSideBarBtn = document.querySelector('#showLeftSideBarBtn');
 let leftSideBarMini = document.querySelector('#leftSideBarMini');
 let leftSideBar = document.querySelector('#leftSideBar');
-
 showLeftSideBarBtn.addEventListener('click', function(){
 	leftSideBarMini.style.opacity = '0';
     leftSideBarMini.style.transform = "translateX(-100%)";
@@ -62,29 +61,3 @@ dropBtns.forEach(btn => {
     });
 });
 
-
-/*0622 재준 명함 시작*/
-
-
-/*0622 재준 명함 끝*/
-
-/* 관리자 메뉴 */
-function employeeAuthority() {
-
-    fetch("/authorityYn")
-    .then(resp => resp.text())
-    .then(result => {
-
-        if(result > 0 || manager == 1) {
-            const surveyLink = document.querySelector('#surveyLink');
-
-            const adminMenu = document.createElement('a');
-            adminMenu.href = "/admin/companyInfo/companyInfo";
-            adminMenu.innerText = "관리자 메뉴로 이동";
-
-            surveyLink.after(adminMenu);
-        }
-    })
-}
-
-employeeAuthority();
