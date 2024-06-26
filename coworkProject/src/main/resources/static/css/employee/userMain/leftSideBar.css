@@ -84,6 +84,11 @@ body {
 	justify-content: center;
 	align-content: center;
 }
+
+#CompanyLogo img{
+	cursor: pointer;
+}
+
 /*0622 재준 명함변경 버튼 시작*/
 #businessCardChangeBtnDiv{
 	width: 225px; 

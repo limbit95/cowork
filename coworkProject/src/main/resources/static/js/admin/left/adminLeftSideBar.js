@@ -146,10 +146,7 @@ function authorityMenu() {
         if(authorityList.length > 0){
 
             for(let authority of authorityList) {
-                //console.log(authority);
-
-                //console.log(authority.authorityNo);
-
+                
                 if(authority.authorityNo == 1) attendanceFun(returnUserMain);
 
                 if(authority.authorityNo == 2) functionFun(returnUserMain);
@@ -184,7 +181,7 @@ function adminMenu() {
         }
 
         if(homeUi == "company") { // 회사관리
-            document.querySelector('#authorityMenu .dropbtn').classList.add('active'); // 클래스 추가
+            document.querySelector('#companyMenu .dropbtn').classList.add('active'); // 클래스 추가
         }
 
         if(homeUi == "attendanceSub") { // 근태 내역 조회
@@ -229,4 +226,13 @@ function adminMenu() {
 
     }
     
+}
+
+// image 클릭 시
+const companyLogoImg = document.querySelector("#companyLogoImg");
+
+if(companyLogoImg != null) {
+    companyLogoImg.addEventListener("click", () => {
+        location.href = "/adminMain";
+    })
 }

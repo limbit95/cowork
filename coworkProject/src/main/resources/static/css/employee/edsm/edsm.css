@@ -287,11 +287,16 @@ input#referrer {
 /*즐겨찾기*/
 .keep {
     width: 20px;
-    cursor: pointer;
+    
+}
+
+.keep img {
+    width: 20px;
 }
 
 i.fa-solid.fa-star {
     font-size: 18px;
+    cursor: pointer;
 }
 
 .noStar, .yesStar:hover {
@@ -300,6 +305,10 @@ i.fa-solid.fa-star {
 
 .yesStar, .noStar:hover {
     color: #ffe200;
+}
+
+.coworkLogo {
+    border: 2px solid var(--main6-color) !important;
 }
 
 /***********************/

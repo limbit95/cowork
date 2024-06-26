@@ -149,20 +149,19 @@ for(let i=1; i<=approverForm.childElementCount; i++) {
         });
 
         document.querySelector('#approver' + i).addEventListener('input', () => {
-            const empFirstName = document.querySelector('#empCode' + i).value;
+            const empFirstName = document.querySelector('#approver' + i).value;
 
             // 기존에 등록한 empCode값 삭제
             document.querySelector('#empCode' + i).value = '';
-
-            //console.log(empFirstName);
             
             for(let x=(i+1); x<approverForm.childElementCount; x++) {
 
-                //console.log(document.querySelector('#approver' + x));
                 if(x < 4) {
                     document.querySelector('#approver' + x).disabled = true;
                     document.querySelector('#approver' + x).value = '';
                 }
+
+                console.log(document.querySelector('#approver' + x));
             }
 
             inputChange(empFirstName, 'trApp', '.searchApp');
@@ -175,6 +174,8 @@ for(let i=1; i<=approverForm.childElementCount; i++) {
 }
 
 function searchtrAppClick(empCode, empNm) {
+
+    console.log("searchClick : " + searchClick + "/ empNm : " + empNm + " / empCode" + empCode); 
     document.querySelector('#approver' + searchClick).value = empNm;
     document.querySelector('#empCode' + searchClick).value = empCode;
 

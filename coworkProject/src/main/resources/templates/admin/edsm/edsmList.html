@@ -39,25 +39,31 @@
         
         <!-----------------------------------------------   기안 목록  ------------------------------------------------------------------>
         <div class="draftList2">
-            <div class="default-line" th:each="draft : ${draftList}" th:object="${draft}">
-                <div class="draftDiv">
-                    <div class="draftImg"
-                            th:classappend="*{draftFlag eq '2' ? 'fa-solid fa-file-circle-plus' 
-                            : draftFlag eq '3' ? 'fa-regular fa-paste'
-                            : draftFlag eq '4' ? 'fa-regular fa-file-lines'
-                            : draftFlag eq '5' ? 'fa-regular fa-file-word'
-                            : draftFlag eq '6' ? 'fa-regular fa-file'
-                            : 'fa-solid fa-file-signature'}"  ></div>
-                    <div><label th:text="*{draftNm}">기안서</label></div>
+            <th:block th:each="draft : ${draftList}" th:object="${draft}">
+                <div class="default-line" th:classappend="*{draftFlag != '7' ? 'coworkLogo' : ''}">
+                    <div class="keep">
+                        <img th:if="*{draftFlag != '7'}" src="/images/edsmLogo.png">
+                    </div>
+                    <div class="draftDiv">
+                        <div class="draftImg"
+                                th:classappend="*{draftFlag eq '2' ? 'fa-solid fa-file-circle-plus' 
+                                : draftFlag eq '3' ? 'fa-regular fa-paste'
+                                : draftFlag eq '4' ? 'fa-regular fa-file-lines'
+                                : draftFlag eq '5' ? 'fa-regular fa-file-word'
+                                : draftFlag eq '6' ? 'fa-regular fa-file'
+                                : 'fa-solid fa-file-signature'}"  ></div>
+                        <div><label th:text="*{draftNm}">기안서</label></div>
+                    </div>
+                    <div class="draftLabel">
+                        <label th:text="*{draftTitle}">무슨 기안을 올릴까요 업무 기안서</label>
+                    </div>
+                    <div class="draftBtn">
+                        <label th:onclick="|location.href='@{edsmUpdateDraft/{draftNo} (draftNo=*{draftNo})}'|">수정</label>
+                        <label th:if="*{draftFlag eq '7'}" th:onclick="deleteDraft([[*{draftNo}]])">삭제</label>
+                    </div>
                 </div>
-                <div class="draftLabel">
-                    <label th:text="*{draftTitle}">무슨 기안을 올릴까요 업무 기안서</label>
-                </div>
-                <div class="draftBtn">
-                    <label th:onclick="|location.href='@{edsmUpdateDraft/{draftNo} (draftNo=*{draftNo})}'|">수정</label>
-                    <label th:if="*{draftFlag eq '7'}" th:onclick="deleteDraft([[*{draftNo}]])">삭제</label>
-                </div>
-            </div>
+            </th:block>
+            
 
             <!--<div class="default-line">
                 <div class="draftDiv">
