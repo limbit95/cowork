@@ -61,3 +61,23 @@ dropBtns.forEach(btn => {
     });
 });
 
+/* 관리자 메뉴 */
+function employeeAuthority() {
+
+    fetch("/authorityYn")
+    .then(resp => resp.text())
+    .then(result => {
+
+        if(result > 0 || manager == 1) {
+            const surveyLink = document.querySelector('#surveyLink');
+
+            const adminMenu = document.createElement('a');
+            adminMenu.href = "/adminMain";
+            adminMenu.innerText = "관리자 메뉴로 이동";
+
+            surveyLink.after(adminMenu);
+        }
+    })
+}
+
+employeeAuthority();
