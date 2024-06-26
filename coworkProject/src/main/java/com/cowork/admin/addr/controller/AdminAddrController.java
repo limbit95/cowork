@@ -407,5 +407,18 @@ public class AdminAddrController {
 	public int empInTeamIsEmpty(@RequestBody Map<String, Object> data) {
 		return service.empInTeamIsEmpty(data);
 	}
+	
+	/** 선택한 구성원 삭제
+	 * @param data
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("deleteEmployee")
+	public int deleteEmployee(@RequestBody List<Map<String, Object>> data) {
+		
+		log.info("data : " + data);
+		
+		return service.deleteEmployee(data);
+	}
 
 }

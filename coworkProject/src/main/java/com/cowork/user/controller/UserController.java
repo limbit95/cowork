@@ -143,9 +143,16 @@ public class UserController {
 	@PostMapping("companyInfo")
 	public String companyInfo(Company inputCompany,
 			 				  @RequestParam("comAddr") String[] comAddr,
-			 				  @RequestParam("empCode") int empCode,
+			 				  @RequestParam(value = "empCode", required = false) String empCode1,
 							  RedirectAttributes ra,
  							  Model model) {
+		
+		if(empCode1 == null) {
+			ra.addFlashAttribute("message", "인증이 만료되었습니다. 다시 로그인해서 등록해주세요.");
+			return "redirect:/";
+		}
+		
+		int empCode = Integer.valueOf(empCode1);
 		
 		int result = service.registCompanyInfo(inputCompany, comAddr, empCode);
 		

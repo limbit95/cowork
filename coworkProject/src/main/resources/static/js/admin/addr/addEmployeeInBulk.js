@@ -382,6 +382,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
 
                             // check5 == 1 or 2 : 엑셀에 작성한 ID가 DB에 있거나 정규식에 맞지 않을 때
+                            // check5 == 0 : 엑셀에 작성한 ID가 DB에 없을 때
                             // check200 == 0 : 엑셀에 작성한 부서가 DB에 없을 때
                             // check200 == 1 : 엑셀에 작성한 부서명이 DB에 있으면
                             if(check5 == 1 || check5 == 2) {
@@ -397,25 +398,36 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
                                         <div class="empBirth"><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
                                         ${i.부서 != "null" ? 
-                                            `
-                                                <div>
-                                                    <select class="default-line deptList">
-                                                        <option class="deptOpt" value="null" data-dept-nm="${i.부서}">${i.부서}</option>
-                                                        ${deptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
+
+                                            `${deptList.length > 0 ? 
+                                                `
+                                                    <div>
+                                                        <select class="default-line deptList">
+                                                            <option class="deptOpt" value="null" data-dept-nm="${i.부서}">${i.부서}</option>
+                                                            ${deptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                `
+                                            : 
+                                                `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
+                                                }
                                             `
                                          : 
-                                            `
-                                                <div>
-                                                    <select class="default-line deptList">
-                                                        <option class="deptOpt" value="null" >부서 선택</option>
-                                                        ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
+                                            `${deptList.length > 0 ? 
+                                                `
+                                                    <div>
+                                                        <select class="default-line deptList">
+                                                            <option class="deptOpt" value="null" >부서 선택</option>
+                                                            ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                `
+                                            : 
+                                                `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
+                                                }
                                             `
                                         }
-                                        ${i.팀 != "null" ?
+                                        ${deptList.length > 0 ?
                                             `
                                                 <div>
                                                     <select class="default-line teamList">
@@ -423,12 +435,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 </div>
                                             `
                                         :
-                                            `
-                                                <div>
-                                                    <select class="default-line teamList">
-                                                    </select>
-                                                </div>
-                                            `
+                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -461,40 +468,44 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
                                         <div class="empBirth"><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
                                         ${i.부서 != "null" ? 
+
+                                            `${deptList.length > 0 ? 
+                                                `
+                                                    <div>
+                                                        <select class="default-line deptList">
+                                                            <option class="deptOpt" value="null" data-dept-nm="${i.부서}">${i.부서}</option>
+                                                            ${deptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                `
+                                            : 
+                                                `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
+                                                }
                                             `
-                                                <div>
-                                                    <select class="default-line deptList">
-                                                        <option class="deptOpt" value="${tempDeptNo}" data-dept-nm="${tempDeptNm}">${tempDeptNm}</option>
-                                                        ${tempDeptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
-                                            `
-                                        : 
-                                            `
-                                                <div>
-                                                    <select class="default-line deptList">
-                                                        ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
+                                         : 
+                                            `${deptList.length > 0 ? 
+                                                `
+                                                    <div>
+                                                        <select class="default-line deptList">
+                                                            <option class="deptOpt" value="null" >부서 선택</option>
+                                                            ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                `
+                                            : 
+                                                `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
+                                                }
                                             `
                                         }
-                                        ${i.팀 != "null" ?
+                                        ${deptList.length > 0 ?
                                             `
                                                 <div>
                                                     <select class="default-line teamList">
-                                                        <option class="teamOpt" value="null" data-team-nm="${i.팀}">${i.팀}</option>
-                                                        ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
                                                     </select>
                                                 </div>
                                             `
                                         :
-                                            `
-                                                <div>
-                                                    <select class="default-line teamList">
-                                                        ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
-                                            `
+                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -535,25 +546,36 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
                                         <div class="empBirth"><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
                                         ${i.부서 != "null" ? 
-                                            `
-                                                <div>
-                                                    <select class="default-line deptList">
-                                                        <option class="deptOpt" value="null" data-dept-nm="${i.부서}">${i.부서}</option>
-                                                        ${deptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
+
+                                            `${deptList.length > 0 ? 
+                                                `
+                                                    <div>
+                                                        <select class="default-line deptList">
+                                                            <option class="deptOpt" value="null" data-dept-nm="${i.부서}">${i.부서}</option>
+                                                            ${deptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                `
+                                            : 
+                                                `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
+                                                }
                                             `
                                          : 
-                                            `
-                                                <div>
-                                                    <select class="default-line deptList">
-                                                        <option class="deptOpt" value="null" >부서 선택</option>
-                                                        ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
+                                            `${deptList.length > 0 ? 
+                                                `
+                                                    <div>
+                                                        <select class="default-line deptList">
+                                                            <option class="deptOpt" value="null" >부서 선택</option>
+                                                            ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                `
+                                            : 
+                                                `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
+                                                }
                                             `
                                         }
-                                        ${i.팀 != "null" ?
+                                        ${deptList.length > 0 ?
                                             `
                                                 <div>
                                                     <select class="default-line teamList">
@@ -561,12 +583,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 </div>
                                             `
                                         :
-                                            `
-                                                <div>
-                                                    <select class="default-line teamList">
-                                                    </select>
-                                                </div>
-                                            `
+                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -578,7 +595,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 </div>
                                             `
                                         :
-                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
+                                             `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         <div><span>${i.계약형태 != "null" ? i.계약형태 : ""}</span></div>
                                         <div><span>${i.근무처 != "null" ? i.근무처 : ""}</span></div>
@@ -599,40 +616,44 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
                                         <div class="empBirth"><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
                                         ${i.부서 != "null" ? 
-                                            `
-                                                <div>
-                                                    <select class="default-line deptList">
-                                                        <option class="deptOpt" value="${tempDeptNo}" data-dept-nm="${tempDeptNm}">${tempDeptNm}</option>
-                                                        ${tempDeptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
+
+                                            `${deptList.length > 0 ? 
+                                                `
+                                                    <div>
+                                                        <select class="default-line deptList">
+                                                            <option class="deptOpt" value="null" data-dept-nm="${i.부서}">${i.부서}</option>
+                                                            ${deptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                `
+                                            : 
+                                                `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
+                                                }
                                             `
                                          : 
-                                            `
-                                                <div>
-                                                    <select class="default-line deptList">
-                                                        ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
+                                            `${deptList.length > 0 ? 
+                                                `
+                                                    <div>
+                                                        <select class="default-line deptList">
+                                                            <option class="deptOpt" value="null" >부서 선택</option>
+                                                            ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                `
+                                            : 
+                                                `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
+                                                }
                                             `
                                         }
-                                        ${i.팀 != "null" ?
+                                        ${deptList.length > 0 ?
                                             `
                                                 <div>
                                                     <select class="default-line teamList">
-                                                        <option class="teamOpt" value="null" data-team-nm="${i.팀}">${i.팀}</option>
-                                                        ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
                                                     </select>
                                                 </div>
                                             `
                                         :
-                                            `
-                                                <div>
-                                                    <select class="default-line teamList">
-                                                        ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
-                                            `
+                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -644,7 +665,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 </div>
                                             `
                                         :
-                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
+                                             `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         <div><span>${i.계약형태 != "null" ? i.계약형태 : ""}</span></div>
                                         <div><span>${i.근무처 != "null" ? i.근무처 : ""}</span></div>
@@ -761,7 +782,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                         if(!check7) {
                                             // 존재하는 팀명과 일치하지 않으면
                                             e.target.style.border = '1px solid red';
-                                            let flag1 = true;
                                         }
                                         let flag1 = true;
                                         let anyChecked = false;
@@ -827,59 +847,44 @@ document.addEventListener('DOMContentLoaded', function() {
                                         if(!check9) {
                                             // 존재하는 직급명과 일치하지 않으면
                                             e.target.style.border = '1px solid red';
-                                            let flag1 = true;
-                                            let count = 0;
-                                            document.querySelectorAll(".employee").forEach((x) => {
-                                                if(!flag1) {
-                                                    return;
-                                                }
-                                                const style = x.children[1].children[0].style
-                                                const style1 = x.children[2].children[0].style
-                                                const style2 = x.children[3].children[0].style
-                                                const style3 = x.children[4].children[0].style
-                                                const style4 = x.children[7].children[0].style
-                                                const style5 = x.children[8].children[0].style
-                                                const style6 = x.children[9].children[0].style
-                                                const style7 = x.children[10].children[0].style
-                                                const style8 = x.children[14].children[0].style
-                                                if(x.children[0].children[0].checked == true && (style.borderColor == 'red' ||
+                                        }
+                                        let flag1 = true;
+                                        let anyChecked = false;
+                                
+                                        document.querySelectorAll(".employee").forEach((x) => {
+                                            const style = x.children[1].children[0].style;
+                                            const style1 = x.children[2].children[0].style;
+                                            const style2 = x.children[3].children[0].style;
+                                            const style3 = x.children[4].children[0].style;
+                                            const style4 = x.children[7].children[0].style;
+                                            const style5 = x.children[8].children[0].style;
+                                            const style6 = x.children[9].children[0].style;
+                                            const style7 = x.children[10].children[0].style;
+                                            const style8 = x.children[14].children[0].style;
+                                
+                                            if (x.children[0].children[0].checked) {
+                                                anyChecked = true;
+                                                if (style.borderColor == 'red' ||
                                                     style1.borderColor == 'red' || style2.borderColor == 'red' ||
                                                     style3.borderColor == 'red' || style4.borderColor == 'red' ||
                                                     style5.borderColor == 'red' || style6.borderColor == 'red' ||
-                                                    style7.borderColor == 'red' || style8.borderColor)) {
+                                                    style7.borderColor == 'red' || style8.borderColor == 'red') {
                                                     flag1 = false;
-                                                    document.querySelector("#addInBulk").classList.add("blur");
-                                                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                                    return;
-                                                } 
-                                                if(x.children[0].children[0].checked == false) {
-                                                    count++;
                                                 }
-                                            })
-                                            if(flag1) {
-                                                document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-                                                document.querySelector("#addInBulk").classList.remove("blur");
                                             }
-                                            if(count == document.querySelectorAll(".employee").length) {
-                                                document.querySelector("#addInBulk").classList.add("blur");
-                                                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                            }
+                                        });
+                                
+                                        if (flag1 && anyChecked) {
+                                            document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+                                            document.querySelector("#addInBulk").classList.remove("blur");
+                                        } else {
+                                            document.querySelector("#addInBulk").classList.add("blur");
+                                            document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
                                         }
 
                                     })
                                 })
                             }
-
-
-
-
-
-
-
-
-
-
-
 
                         })
 
@@ -1087,32 +1092,43 @@ document.addEventListener('DOMContentLoaded', function() {
                         // 비밀번호 인풋창 포커스 아웃 시
                         document.querySelectorAll(".empPw").forEach((i) => {
                             i.addEventListener("blur", e => {
-                                const regExp = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,20}$/;
-    
-                                if(!regExp.test(e.target.value)){
-                                    e.target.style.borderColor = 'red';
+                                if(e.target.style.color == 'red') {
                                     e.target.style.border = '1px solid red';
-                                    if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
-                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                        document.querySelector("#addInBulk").classList.add("blur");
-                                    }
-                                    return;
-                                }
-                                
-                                if(e.target.value.trim().length == 0) {
-                                    e.target.style.borderColor = 'red';
-                                    e.target.style.border = '1px solid red';
-                                    if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
-                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                        document.querySelector("#addInBulk").classList.add("blur");
-                                    }
                                 } else {
-                                    e.target.style.borderColor = '#ddd';
-                                    e.target.style.border = '1px solid #ddd';
-                                    if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
-                                        document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-                                        document.querySelector("#addInBulk").classList.remove("blur");
+                                    e.target.style.border = '1px solid var(--gray-color)';
+                                }
+                                let flag1 = true;
+                                let anyChecked = false;
+                            
+                                document.querySelectorAll(".employee").forEach((x) => {
+                                    const style = x.children[1].children[0].style;
+                                    const style1 = x.children[2].children[0].style;
+                                    const style2 = x.children[3].children[0].style;
+                                    const style3 = x.children[4].children[0].style;
+                                    const style4 = x.children[7].children[0].style;
+                                    const style5 = x.children[8].children[0].style;
+                                    const style6 = x.children[9].children[0].style;
+                                    const style7 = x.children[10].children[0].style;
+                                    const style8 = x.children[14].children[0].style;
+                            
+                                    if (x.children[0].children[0].checked) {
+                                        anyChecked = true;
+                                        if (style.borderColor == 'red' ||
+                                            style1.borderColor == 'red' || style2.borderColor == 'red' ||
+                                            style3.borderColor == 'red' || style4.borderColor == 'red' ||
+                                            style5.borderColor == 'red' || style6.borderColor == 'red' ||
+                                            style7.borderColor == 'red' || style8.borderColor == 'red') {
+                                            flag1 = false;
+                                        }
                                     }
+                                });
+                            
+                                if (flag1 && anyChecked) {
+                                    document.querySelector("#addInBulk").classList.add("sapphire-btn2");
+                                    document.querySelector("#addInBulk").classList.remove("blur");
+                                } else {
+                                    document.querySelector("#addInBulk").classList.add("blur");
+                                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
                                 }
                             });
                         })
@@ -1123,29 +1139,19 @@ document.addEventListener('DOMContentLoaded', function() {
                                 const regExp = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()])[a-zA-Z\d!@#$%^&*()]{8,20}$/;
     
                                 if(!regExp.test(e.target.value)){
+                                    e.target.style.color = 'red';
                                     e.target.style.borderColor = 'red';
                                     e.target.style.border = '2px solid red';
-                                    if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
-                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                        document.querySelector("#addInBulk").classList.add("blur");
-                                    }
                                     return;
                                 }
                                 
                                 if(e.target.value.trim().length == 0) {
+                                    e.target.style.color = 'red';
                                     e.target.style.borderColor = 'red';
                                     e.target.style.border = '1px solid red';
-                                    if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
-                                        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                        document.querySelector("#addInBulk").classList.add("blur");
-                                    }
                                 } else {
-                                    e.target.style.borderColor = '#ddd';
-                                    e.target.style.border = '1px solid #ddd';
-                                    if(e.target.parentElement.parentElement.children[0].children[0].checked == true) {
-                                        document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-                                        document.querySelector("#addInBulk").classList.remove("blur");
-                                    }
+                                    e.target.style.color = 'black';
+                                    e.target.style.border = '2px solid black';
                                 }
                             });
                         })

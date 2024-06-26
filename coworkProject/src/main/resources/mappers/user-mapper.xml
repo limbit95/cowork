@@ -291,19 +291,28 @@
 		)
 	</insert>
 	
-	<!-- 회원가입한 관리자에게 전체 권한 부여  -->
-	<select id="registAuthority">
-		INSERT INTO AUTHORITY_MEMBER
-		
-		<foreach collection="list"  
-			open="(" close=")" separator=" UNION ">
-			SELECT
-				NEXT_AUTHORITY_MEMBER()
-				,AUTHORITY_NO 
-				,EMP_CODE
-			FROM AUTHORITY
-			WHERE EMP_CODE = #{empCdoe}
-		</foreach>
+	<!-- 권한 번호 가져오기 -->
+	<select id="getAuthorityNo">
+		SELECT AUTHORITY_NO FROM AUTHORITY
 	</select>
+	
+	<!-- 회원가입한 관리자에게 전체 권한 부여  -->
+	<insert id="registAuthority">
+		INSERT INTO AUTHORITY_MEMBER VALUES(
+			SEQ_AUTHORITY_MEMBER.NEXTVAL,
+			#{authorityNo},
+			#{empCode}
+		)
+	</insert>
+	
+	<!-- 등록한 회사에 기본 직책 레벨 부여 -->
+	<insert id="registPosition">
+		INSERT INTO POSITION VALUES(
+			SEQ_POSITION.NEXTVAL,
+			#{positionNm},
+			#{level},
+			#{comNo}
+		)
+	</insert>
   
 </mapper>

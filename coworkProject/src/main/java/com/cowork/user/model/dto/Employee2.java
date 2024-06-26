@@ -1,3 +1,4 @@
+
 package com.cowork.user.model.dto;
 
 import java.util.List;
@@ -47,6 +48,7 @@ public class Employee2 {
 	private String comLogo;
 	private String empName;
 	private String empIp;
+	private int managerType;
 	
 	private String arrivalTime;
 	private String departureTime;

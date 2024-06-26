@@ -39,7 +39,7 @@ public class MyInfoServiceImpl implements MyInfoService{
 	private String folderPath; //찐 저장소
 	
 	@Override
-	public int validateDuplicateEmpId(String empId) {
+	public int validateDuplicateEmpId(Map<String, String> empId) {
 		int result = myInfoMapper.validateDuplicateEmpId(empId);
 		
 		return result;
@@ -126,6 +126,11 @@ public class MyInfoServiceImpl implements MyInfoService{
 		int result = myInfoMapper.updateAsNewPw(paramMap);
 		return result;
 		
+	}
+
+	@Override
+	public Employee2 getEmp(int empCode) {
+		return myInfoMapper.getEmp(empCode);
 	}
 
 }

@@ -633,12 +633,67 @@ if(updateEmployeePage != null) {
         location.href = "/admin/addr/employeeUpdate";
     });
 };
-
 if(deleteEmployee != null) {
     deleteEmployee.addEventListener("click", function () {
-        if(confirm("정말로 삭제하시겠습니까? 삭제된 시점부터 해당 사원은 CoWork 서비스를 이용할 수 없게 됩니다.")){
-            return;
+        if(confirm("정말로 삭제하시겠습니까? \n삭제된 시점부터 해당 사원은 CoWork 서비스를 이용할 수 없게 됩니다.")){
+            const employee = document.querySelectorAll(".employee");
+
+            let flag10 = true;
+
+            for(let i = 0; i < employee.length; i++) {
+                if(employee[i].children[0].children[0].checked == true) {
+                    if(flag10) {
+                        if(loginEmpCode == employee[i].children[1].children[5].value) {
+                            alert("자기 자신은 삭제할 수 없습니다.");
+                            flag10 = false;
+                            return;
+                        } 
+                        if(employee[i].children[1].children[6].value > 0) {
+                            alert("삭제 대상에 관리자가 포함되어있습니다. \n관리자는 권한 해제 후 삭제를 진행해주세요.");
+                            flag10 = false;
+                            return;
+                        } 
+                    }
+                }
+            }
+
+            // 삭제할 구성원 리스트
+            const deleteList = [];
+
+            if(flag10) {
+                employee.forEach((i) => {
+                    if(i.children[0].children[0].checked == true) {
+                        deleteList.push(
+                            {
+                                "empCode" : i.children[1].children[5].value,
+                                "comNo" : comNo
+                            }
+                        );
+                    }
+                })
+            }
+
+            console.log(deleteList);
+            
+            const templocation = location.pathname + location.search;
+
+            fetch("/admin/addr/deleteEmployee", {
+                method : 'post',
+                headers : {"Content-Type" : "application/json"},
+                body : JSON.stringify(deleteList)
+            })
+            .then(resp => resp.text())
+            .then(result => {
+                if(result == 0) {
+                    alert("삭제 실패");
+                    return;
+                }
+                alert("삭제되었습니다.");
+                location.href = templocation;
+            })
+
         }
+
     });
 };
 

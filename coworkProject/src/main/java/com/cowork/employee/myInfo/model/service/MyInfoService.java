@@ -9,7 +9,7 @@ import com.cowork.user.model.dto.Employee2;
 
 public interface MyInfoService {
 
-	int validateDuplicateEmpId(String empId);
+	int validateDuplicateEmpId(Map<String, String> paramMap);
 
 	int updateProfileImg(Employee2 loginEmp, MultipartFile file)  throws IllegalStateException, IOException;
 
@@ -18,5 +18,7 @@ public interface MyInfoService {
 	int validateCurPw(String currentPwVal, Integer empCode);
 
 	int updateAsNewPw(String newPw, Integer empCode);
+
+	Employee2 getEmp(int empCode);
 
 }

@@ -184,5 +184,11 @@ public interface AdminAddrMapper {
 	 */
 	int empInTeamIsEmpty(Map<String, Object> data);
 
+	/** 선택한 구성원 삭제
+	 * @param map
+	 * @return
+	 */
+	int deleteEmployee(Map<String, Object> map);
+
 
 }

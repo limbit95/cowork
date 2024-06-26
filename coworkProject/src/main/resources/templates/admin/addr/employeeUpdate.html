@@ -153,6 +153,9 @@
                             <div>
                                 <span>부서</span>
                                 <select class="default-line" id="updateDept" th:data-dept-list="${session.comAddrList}" name="deptNo">
+                                    <th:block th:if="*{deptNm} == null">
+                                        <option th:value="null">부서 선택</option>
+                                    </th:block>
                                     <th:block th:each="dept : ${session.comAddrList}">
                                         <option th:if="*{deptNm} == ${dept.deptNm}" th:value="${dept.deptNo}">[[*{deptNm}]]</option>
                                     </th:block>
@@ -175,8 +178,8 @@
                             <div>
                                 <span>직급</span>
                                 <select class="default-line" id="" name="positionNo">
-                                    <th:block th:unless="*{positionNo}">
-                                        <option></option>
+                                    <th:block th:if="*{positionNo} == null">
+                                        <option th:value="null">직급 선택</option>
                                     </th:block>
                                     <th:block th:each="p : ${session.positionList}">
                                         <option th:if="*{positionNo} == ${p.positionNo}" th:value="${p.positionNo}">[[${p.positionNm}]]</option>
