@@ -229,19 +229,32 @@
 	
 	<!-- 팀권한여부 -->
 	<select id="levelCnt" resultType="_int">
-		SELECT
-			 POSITION_NO
-		FROM(
-		SELECT
-		   ROWNUM AS ROW_NUMBER
-			,"LEVEL" 
-			,POSITION_NO
-		FROM EMPLOYEE
-		JOIN "POSITION" USING(POSITION_NO)
-		WHERE TEAM_NO = #{teamNo}
-		ORDER BY "LEVEL", EMP_CODE
+		SELECT 
+		    COALESCE(POSITION_NO, 0) AS POSITION_NO
+		FROM (
+		    SELECT 
+		        POSITION_NO
+		    FROM (
+		        SELECT 
+		        	ROWNUM AS ROW_NUMBER
+							,"LEVEL" 
+							,POSITION_NO
+		        FROM EMPLOYEE
+		        JOIN "POSITION" USING (POSITION_NO)
+		        WHERE TEAM_NO = #{teamNo}
+		        ORDER BY "LEVEL", EMP_CODE
+		    )
+		    WHERE ROW_NUMBER = 1
+		    UNION ALL
+		    SELECT NULL AS POSITION_NO
+		    FROM DUAL
+		    WHERE NOT EXISTS (
+		        SELECT 1 
+		        FROM EMPLOYEE
+		        JOIN "POSITION" USING (POSITION_NO)
+		        WHERE TEAM_NO = #{teamNo}
+		    )
 		)
-		WHERE ROW_NUMBER = 1
 	</select>
 	
 	<!-- 팀 권한 조회 -->
