@@ -151,6 +151,7 @@
                         <div>직급</div>
                         <div>이메일</div>
                         <div>전화번호</div>
+                        <div>유형</div>
                     </div>
 
                     <th:block th:if="${addrList}" th:each="addr : ${addrList}" th:object="${addr}">
@@ -166,6 +167,7 @@
                                 <div><span th:text="*{empEmail}">park@naver.com</span></div>
                                 <div><span th:text="*{phone}">010-1234-1234</span></div>
                                 <input hidden th:value="*{empCode}" id="empCode">
+                                <div><span th:if="*{managerType} > 0">관리자</span></div>
                             </div>
                         </div>
                     </th:block>
@@ -173,53 +175,68 @@
 
                     <!-- 회사별 조회 -->
                     <th:block th:if="${comList}" th:each="emp : ${comList}" th:object="${emp}">
-                        <div class="employee">
-                            <div><input id="check" type="checkbox" class="notMine"></div>
-                            <div class="info">
-                                <div>
-                                    <span th:if="*{deptNm}" th:text="|*{deptNm} / *{teamNm}|">운영팀</span>
-                                    <span th:unless="*{deptNm}"></span>
+                        <th:block th:if="*{empDelFl} == 'N'">
+                            <div class="employee">
+                                <div><input id="check" type="checkbox" class="mine"></div>
+                                <div class="info">
+                                    <div>
+                                        <span th:if="*{deptNm}" th:text="|*{deptNm} / *{teamNm}|">운영팀</span>
+                                        <span th:unless="*{deptNm}"></span>
+                                    </div>
+                                    <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
+                                    <div><span th:text="*{positionNm}">팀장</span></div>
+                                    <div><span th:text="*{empEmail}">park@naver.com</span></div>
+                                    <div><span th:text="*{phone}">010-1234-1234</span></div>
+                                    <input hidden th:value="*{empCode}" id="empCode">
+                                    <input hidden th:value="*{managerType}" id="managerType">
+                                    <div><span th:if="*{managerType} > 0">관리자</span></div>
                                 </div>
-                                <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
-                                <div><span th:text="*{positionNm}">팀장</span></div>
-                                <div><span th:text="*{empEmail}">park@naver.com</span></div>
-                                <div><span th:text="*{phone}">010-1234-1234</span></div>
-                                <input hidden th:value="*{empCode}" id="empCode">
                             </div>
-                        </div>
+                        </th:block>
                     </th:block>
 
                     <!-- 부서별 조회 -->
                     <th:block th:if="${deptList}" th:each="emp : ${deptList}" th:object="${emp}">
-                        <div class="employee">
-                            <div><input id="check" type="checkbox" class="notMine"></div>
-                            <div class="info">
-                                <div>
-                                    <span th:if="*{deptNm}" th:text="|*{deptNm} / *{teamNm}|">운영팀</span>
-                                    <span th:unless="*{deptNm}"></span>
+                        <th:block th:if="*{empDelFl} == 'N'">
+                            <div class="employee">
+                                <div><input id="check" type="checkbox" class="mine"></div>
+                                <div class="info">
+                                    <div>
+                                        <span th:if="*{deptNm}" th:text="|*{deptNm} / *{teamNm}|">운영팀</span>
+                                        <span th:unless="*{deptNm}"></span>
+                                    </div>
+                                    <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
+                                    <div><span th:text="*{positionNm}">팀장</span></div>
+                                    <div><span th:text="*{empEmail}">park@naver.com</span></div>
+                                    <div><span th:text="*{phone}">010-1234-1234</span></div>
+                                    <input hidden th:value="*{empCode}" id="empCode">
+                                    <input hidden th:value="*{managerType}" id="managerType">
+                                    <div><span th:if="*{managerType} > 0">관리자</span></div>
                                 </div>
-                                <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
-                                <div><span th:text="*{positionNm}">팀장</span></div>
-                                <div><span th:text="*{empEmail}">park@naver.com</span></div>
-                                <div><span th:text="*{phone}">010-1234-1234</span></div>
-                                <input hidden th:value="*{empCode}" id="empCode">
                             </div>
-                        </div>
+                        </th:block>
                     </th:block>
 
                     <!-- 팀별 조회 -->
                     <th:block th:if="${teamList}" th:each="emp : ${teamList}" th:object="${emp}">
-                        <div class="employee">
-                            <div><input id="check" type="checkbox" class="notMine"></div>
-                            <div class="info">
-                                <div><span th:text="|*{deptNm} / *{teamNm}|">운영팀</span></div>
-                                <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
-                                <div><span th:text="*{positionNm}">팀장</span></div>
-                                <div><span th:text="*{empEmail}">park@naver.com</span></div>
-                                <div><span th:text="*{phone}">010-1234-1234</span></div>
-                                <input hidden th:value="*{empCode}" id="empCode">
+                        <th:block th:if="*{empDelFl} == 'N'">
+                            <div class="employee">
+                                <div><input id="check" type="checkbox" class="mine"></div>
+                                <div class="info">
+                                    <div>
+                                        <span th:if="*{deptNm}" th:text="|*{deptNm} / *{teamNm}|">운영팀</span>
+                                        <span th:unless="*{deptNm}"></span>
+                                    </div>
+                                    <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
+                                    <div><span th:text="*{positionNm}">팀장</span></div>
+                                    <div><span th:text="*{empEmail}">park@naver.com</span></div>
+                                    <div><span th:text="*{phone}">010-1234-1234</span></div>
+                                    <input hidden th:value="*{empCode}" id="empCode">
+                                    <input hidden th:value="*{managerType}" id="managerType">
+                                    <div><span th:if="*{managerType} > 0">관리자</span></div>
+                                </div>
                             </div>
-                        </div>
+                        </th:block>
                     </th:block>
 
                 </div>

@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.addr.model.service.AdminAddrService;
+import com.cowork.admin.companyInfo.model.dto.Department;
 import com.cowork.employee.addr.model.dto.MyAddr;
 import com.cowork.employee.addr.model.service.AddrService;
 import com.cowork.user.model.dto.Employee2;
@@ -50,7 +52,6 @@ public class AddrController {
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
 		List<MyAddr> groupList = service.selectGroupList(loginEmp);
-		
 		model.addAttribute("groupList", groupList);
 		
 		return "employee/addr/addrBook";
@@ -75,6 +76,9 @@ public class AddrController {
 		model.addAttribute("addrList", selectAddrList.get("addrList"));
 		model.addAttribute("groupCode", selectAddrList.get("groupCode"));
 		model.addAttribute("empCode", selectAddrList.get("empCode"));
+		
+		List<MyAddr> groupList = service.selectGroupList(loginEmp);
+		model.addAttribute("groupList", groupList);
 		
 		return "employee/addr/addrBook";
 	}
@@ -124,7 +128,12 @@ public class AddrController {
 	 * @return
 	 */
 	@GetMapping("employeeDetailPage")
-	public String employeeDetail() {
+	public String employeeDetail(@SessionAttribute("loginEmp") Employee2 loginEmp,
+								 Model model) {
+		
+		List<MyAddr> groupList = service.selectGroupList(loginEmp);
+		model.addAttribute("groupList", groupList);
+		
 		return "employee/addr/userEmployeeDetail";
 	}
 	
@@ -187,7 +196,6 @@ public class AddrController {
 		model.addAttribute("comList", map.get("comList"));
 		
 		List<MyAddr> groupList = service.selectGroupList(loginEmp);
-		
 		model.addAttribute("groupList", groupList);
 
 		return "employee/addr/addrBook";
@@ -214,6 +222,9 @@ public class AddrController {
 		model.addAttribute("pagination", selectDeptList.get("pagination"));
 		model.addAttribute("deptList", selectDeptList.get("deptList"));
 		model.addAttribute("deptNo", data.get("deptNo"));
+
+		List<MyAddr> groupList = service.selectGroupList(loginEmp);
+		model.addAttribute("groupList", groupList);
 
 		return "employee/addr/addrBook";
 	}
@@ -245,6 +256,9 @@ public class AddrController {
 		model.addAttribute("pagination", selectTeamList.get("pagination"));
 		model.addAttribute("teamList", selectTeamList.get("teamList"));
 		model.addAttribute("teamNo", data.get("deptNo") + "/" + data.get("teamNo"));
+		
+		List<MyAddr> groupList = service.selectGroupList(loginEmp);
+		model.addAttribute("groupList", groupList);
 
 		return "employee/addr/addrBook";
 	}

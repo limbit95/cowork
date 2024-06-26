@@ -348,6 +348,17 @@ public class AdminAddrServiceImpl implements AdminAddrService {
 		return result;
 	}
 	
+	// 구성원 복구
+	@Override
+	public int restore(Map<String, Object> data) {
+		return mapper.restore(data);
+	}
+
+	// 구성원 영구 삭제
+	@Override
+	public int permanentDeletion(Map<String, Object> data) {
+		return mapper.permanentDeletion(data);
+	}
 	
 	
 	

@@ -173,7 +173,7 @@ public class AddrServiceImpl implements AddrService {
 	public Employee2 empDetail(Map<String, Object> map) {
 		
 		Employee2 empDetail = mapper.empDetail(map);
-		
+
 		if(empDetail.getEmpId().contains("@")) {
 			int index = empDetail.getEmpId().indexOf("@");
 			String empId = empDetail.getEmpId().substring(0, index);

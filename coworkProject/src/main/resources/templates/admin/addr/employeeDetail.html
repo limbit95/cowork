@@ -37,6 +37,7 @@
                                 <i class="fa-solid fa-building"></i>
                                 <span th:text="${session.loginEmp.comNm}"></span>
                             </div>
+                            <button class="default-btn sapphire-btn" id="saveGroup">저장</button>
                         </div>
 
                         <ul>
@@ -189,6 +190,14 @@
         </main>
 
     </section>
+
+    <!-- 드롭다운 -->
+    <div class="dropdown-menu" id="contextMenu">
+        <div id="addDeptgroup">부서 추가</div>
+        <div id="addTeamgroup">팀 추가</div>
+        <div id="groupNameChange">그룹명 변경</div>
+        <div id="deleteGroup">그룹 삭제</div>
+    </div>
 
     <input class="homeUi" value="addrSub" hidden/>
 

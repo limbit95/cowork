@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -68,6 +69,8 @@ public class AdminAddrController {
 		List<Map<String, Object>> positionList = service.getpositionList(loginEmp);
 		model.addAttribute("positionList", positionList);
 		
+		model.addAttribute("backPageLocation", "/admin/addr");
+		
 		return "admin/addr/addrBookManager";
 	}
 	
@@ -111,6 +114,9 @@ public class AdminAddrController {
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		data.put("comNo", loginEmp.getComNo());
 		
+		List<Department> comAddrList = service.selectComAddrList(loginEmp);
+		model.addAttribute("comAddrList", comAddrList);
+		
 		Map<String, Object> selectDeptList = service.selectDeptList(data, cp);
 		
 		model.addAttribute("pagination", selectDeptList.get("pagination"));
@@ -141,6 +147,9 @@ public class AdminAddrController {
 		data.put("deptNo", arr[0]);
 		data.put("teamNo", arr[1]);
 		
+		List<Department> comAddrList = service.selectComAddrList(loginEmp);
+		model.addAttribute("comAddrList", comAddrList);
+		
 		Map<String, Object> selectTeamList = service.selectTeamList(data, cp);
 		
 		model.addAttribute("pagination", selectTeamList.get("pagination"));
@@ -164,9 +173,13 @@ public class AdminAddrController {
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
+		List<Department> comAddrList = service.selectComAddrList(loginEmp);
+		model.addAttribute("comAddrList", comAddrList);
+		
 		map.put("comNo", loginEmp.getComNo());
 		
 		Employee2 empDetail = addrService.empDetail(map);
+		model.addAttribute("empDetail", empDetail);
 		
 		model.addAttribute("empDetail", empDetail);
 		model.addAttribute("backPageLocation", map.get("backPageLocation"));
@@ -179,7 +192,8 @@ public class AdminAddrController {
 	 */
 	@GetMapping("employeeDetailPage")
 	public String employeeDetail(HttpServletRequest request,
-								 Model model) {
+								 Model model,
+								 @SessionAttribute("loginEmp") Employee2 loginEmp) {
 		
 		HttpSession session = request.getSession();
 		Employee2 empDetail = (Employee2)session.getAttribute("empDetail");
@@ -194,6 +208,9 @@ public class AdminAddrController {
 		empDetail.setHireDate(hireDate);
 		
 		model.addAttribute("empDetail", empDetail);
+		
+		List<Department> comAddrList = service.selectComAddrList(loginEmp);
+		model.addAttribute("comAddrList", comAddrList);
 		
 		return "admin/addr/employeeDetail";
 	}
@@ -336,7 +353,9 @@ public class AdminAddrController {
 	 * @return
 	 */
 	@GetMapping("employeeUpdate")
-	public String employeeUpdate(HttpServletRequest request) {
+	public String employeeUpdate(HttpServletRequest request,
+								 @SessionAttribute("loginEmp") Employee2 loginEmp,
+								 Model model) {
 		
 		HttpSession session = request.getSession();
 		Employee2 empDetail = (Employee2)session.getAttribute("empDetail");
@@ -352,6 +371,9 @@ public class AdminAddrController {
 		if(empDetail.getEmpTel() != null) {
 			empDetail.setEmpTel(empDetail.getEmpTel().replace("-", ""));
 		}
+		
+		List<Department> comAddrList = service.selectComAddrList(loginEmp);
+		model.addAttribute("comAddrList", comAddrList);
 
 		return "admin/addr/employeeUpdate";
 	}
@@ -415,10 +437,27 @@ public class AdminAddrController {
 	@ResponseBody
 	@PostMapping("deleteEmployee")
 	public int deleteEmployee(@RequestBody List<Map<String, Object>> data) {
-		
-		log.info("data : " + data);
-		
 		return service.deleteEmployee(data);
+	}
+	
+	/** 구성원 복구
+	 * @param data
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("restore")
+	public int restore(@RequestBody Map<String, Object> data) {
+		return service.restore(data);
+	}
+	
+	/** 구성원 영구 삭제
+	 * @param data
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("permanentDeletion")
+	public int permanentDeletion(@RequestBody Map<String, Object> data) {
+		return service.permanentDeletion(data);
 	}
 
 }

@@ -249,6 +249,11 @@ section.container .employeeList > :first-child > :nth-child(1) {
     flex-basis: 15%;
     margin-left: 10px;
 }
+.employeeList > :first-child > :nth-child(7) {
+    justify-content: start;
+    flex-basis: 10%;
+    margin-left: 10px;
+}
 
 /* 구성원 정보 */
 .right > .employeeList > .employee {
@@ -256,6 +261,7 @@ section.container .employeeList > :first-child > :nth-child(1) {
     border-bottom: 1px solid #d9d9d9;
     white-space: nowrap;
     overflow: hidden;
+    z-index: 1;
 }
 .right > .employeeList > .employee:hover {
     background-color: var(--main4-color);
@@ -303,7 +309,7 @@ section.container .employeeList > .employee > :nth-child(2) > :nth-child(1) {
 }
 .employeeList > .employee > :nth-child(2) > :nth-child(3) {
     justify-content: start;
-    flex-basis: 7.6%;
+    flex-basis: 7.8%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -318,6 +324,13 @@ section.container .employeeList > .employee > :nth-child(2) > :nth-child(1) {
 .employeeList > .employee > :nth-child(2) > :nth-child(5) {
     justify-content: start;
     flex-basis: 16%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.employeeList > .employee > :nth-child(2) > :nth-child(8) {
+    justify-content: start;
+    flex-basis: 9%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -599,4 +612,137 @@ section.container .addEmployeeBtnDiv {
     to {
         opacity: 0;
     }
+}
+
+
+#saveGroup {
+    width: 40px;
+    font-size: 12px;
+    text-align: center;
+    padding: 5px;
+    margin-left: 10px;
+    font-weight: 500;
+}
+#saveGroup:hover {
+    background-color: var(--main-color);
+    color: white;
+}
+
+#restore {
+    z-index: 2;
+    cursor: pointer;
+    color: #118dff;
+    text-decoration: underline;
+}
+/* #restore:hover {
+    color: var(--main6-color);
+} */
+#permanentDeletion { 
+    z-index: 2;
+    cursor: pointer;
+    color: #118dff;
+    text-decoration: underline;
+}
+/* #permanentDeletion:hover { 
+    color: red;
+} */
+#underArea {
+    z-index: 3;
+}
+
+
+.deleteInfo {
+    color: rgba(0, 0, 0, 0.282);
+}
+#deleteEmployee2 {
+    cursor: default;
+}
+#deleteEmployee2:hover {
+    background-color: white;
+}
+
+.modal2 {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    overflow: hidden;
+}
+
+
+.modal-content2 {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    background-color: #fefefe;
+    margin: 20% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+    height: 180px;
+    border-radius: 10px;
+}
+.modal-content2 >:nth-child(1) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50px;
+    background-color: rgb(248, 225, 225);
+}
+.modal-content2 >:nth-child(1) > :nth-child(1) {
+    color: red;
+    font-size: 20px;
+}
+
+.modal-header2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.modal-body2 {
+    margin-bottom: 20px;
+}
+
+.modal-footer2 {
+    display: flex;
+    width: 100%;
+    justify-content: end;
+}
+.modal-footer2 button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-footer2 .cancel-btn {
+    background-color: white;
+    color: black;
+    border: 1px solid var(--gray-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.modal-footer2 .delete-btn {
+    background-color: white;
+    color: red;
+    border: 1px solid red;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
 }

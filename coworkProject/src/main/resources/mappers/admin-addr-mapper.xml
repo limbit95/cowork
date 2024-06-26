@@ -49,15 +49,15 @@
 	<!-- 회사별 전체 사원 리스트 조회 -->
 	<select id="selectComList">
 		SELECT EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_EMAIL, 
-		COM_NM, DEPT_NM, TEAM_NM, POSITION_NM, "LEVEL",
+		COM_NM, DEPT_NM, TEAM_NM, POSITION_NM, "LEVEL", EMP_DEL_FL, 
 		(SELECT COUNT(*) FROM AUTHORITY_MEMBER WHERE EMP_CODE = E.EMP_CODE) "managerType"
 		FROM EMPLOYEE E
 		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
 		LEFT JOIN TEAM T USING(TEAM_NO)
 		LEFT JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
 		LEFT JOIN POSITION USING(POSITION_NO)
-		WHERE E.EMP_DEL_FL = 'N'
-		AND E.COM_NO =  #{comNo}
+		WHERE E.COM_NO = #{comNo}
+		AND EMP_DEL_FL != 'M'
 		ORDER BY "LEVEL", D.DEPT_NO, TEAM_NO ASC
 	</select>
 	
@@ -65,7 +65,7 @@
 	<select id="getComListCount" resultType="_int">
 		SELECT COUNT(*) 
 		FROM EMPLOYEE
-		WHERE EMP_DEL_FL = 'N'
+		WHERE EMP_DEL_FL != 'M'
 		AND COM_NO = #{comNo}
 	</select>	
 	
@@ -76,7 +76,7 @@
 		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
 		JOIN TEAM T USING(TEAM_NO)
 		JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
-		WHERE E.EMP_DEL_FL = 'N'
+		WHERE EMP_DEL_FL != 'M'
 		AND E.COM_NO = #{comNo}
 		AND D.DEPT_NO = #{deptNo}
 	</select>	
@@ -84,16 +84,16 @@
 	<!-- 부서별 사원 리스트 조회 -->
 	<select id="selectDeptList">
 		SELECT EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_EMAIL, 
-		COM_NM, DEPT_NM, TEAM_NM, POSITION_NM, "LEVEL",
+		COM_NM, DEPT_NM, TEAM_NM, POSITION_NM, "LEVEL", EMP_DEL_FL, 
 		(SELECT COUNT(*) FROM AUTHORITY_MEMBER WHERE EMP_CODE = E.EMP_CODE) "managerType"
 		FROM EMPLOYEE E
 		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
 		LEFT JOIN TEAM T USING(TEAM_NO)
 		LEFT JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
 		LEFT JOIN POSITION USING(POSITION_NO)
-		WHERE E.EMP_DEL_FL = 'N'
-		AND E.COM_NO =  #{comNo}
+		WHERE E.COM_NO =  #{comNo}
 		AND D.DEPT_NO = #{deptNo}
+		AND EMP_DEL_FL != 'M'
 		ORDER BY "LEVEL", TEAM_NO, EMP_CODE ASC
 	</select>
 	
@@ -105,12 +105,13 @@
 		JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
 		WHERE T.TEAM_NO = #{teamNo}
 		AND D.DEPT_NO = #{deptNo}
+		AND EMP_DEL_FL != 'M'
 	</select>
 	
 	<!-- 팀별 사원 리스트 조회 -->
 	<select id="selectTeamList">
 		SELECT EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_EMAIL, 
-		DEPT_NM, TEAM_NM, POSITION_NM, "LEVEL",
+		DEPT_NM, TEAM_NM, POSITION_NM, "LEVEL", EMP_DEL_FL, 
 		(SELECT COUNT(*) FROM AUTHORITY_MEMBER WHERE EMP_CODE = E.EMP_CODE) "managerType"
 		FROM TEAM T
 		JOIN EMPLOYEE E ON(E.TEAM_NO = T.TEAM_NO)
@@ -119,7 +120,7 @@
 		WHERE T.TEAM_NO = #{teamNo}
 		AND D.DEPT_NO = #{deptNo}
 		AND E.COM_NO = #{comNo}
-		AND E.EMP_DEL_FL = 'N'
+		AND EMP_DEL_FL != 'M'
 		ORDER BY "LEVEL", EMP_CODE ASC
 	</select>
 	
@@ -247,7 +248,7 @@
 		LEFT JOIN TEAM T USING(TEAM_NO)
 		LEFT JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
 		LEFT JOIN POSITION USING(POSITION_NO)
-		WHERE E.EMP_DEL_FL = 'N'
+		WHERE EMP_DEL_FL != 'M'
 		AND E.COM_NO =  #{comNo}
 		AND E.EMP_LAST_NAME || E.EMP_FIRST_NAME LIKE '%${name}%'
 		ORDER BY "LEVEL", D.DEPT_NO, TEAM_NO ASC
@@ -304,7 +305,7 @@
 		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
 		JOIN TEAM T USING(TEAM_NO)
 		JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
-		WHERE E.EMP_DEL_FL = 'N'
+		WHERE E.EMP_DEL_FL != 'M'
 		AND E.COM_NO = #{comNo}
 		AND D.DEPT_NO = #{deptNo}
 	</select>
@@ -326,12 +327,29 @@
 		WHERE T.TEAM_NO = #{teamNo}
 		AND D.DEPT_NO = #{deptNo}
 		AND E.COM_NO = #{comNo}
+		AND E.EMP_DEL_FL != 'M'
 	</select>
 	
-	<!-- 선택한 구성원 삭젠 -->
+	<!-- 선택한 구성원 삭제 -->
 	<update id="deleteEmployee">
 		UPDATE EMPLOYEE SET
 		EMP_DEL_FL = 'Y'
+		WHERE COM_NO = #{comNo}
+		AND EMP_CODE = #{empCode}
+	</update>
+	
+	<!-- 구성원 복구 -->
+	<update id="restore">
+		UPDATE EMPLOYEE SET
+		EMP_DEL_FL = 'N'
+		WHERE COM_NO = #{comNo}
+		AND EMP_CODE = #{empCode}
+	</update>
+	
+	<!-- 구성원 영구 삭제 -->
+	<update id="permanentDeletion">
+		UPDATE EMPLOYEE SET
+			EMP_DEL_FL = 'M'
 		WHERE COM_NO = #{comNo}
 		AND EMP_CODE = #{empCode}
 	</update>
