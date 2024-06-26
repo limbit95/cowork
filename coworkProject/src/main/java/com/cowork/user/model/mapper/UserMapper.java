@@ -166,6 +166,12 @@ public interface UserMapper {
   
 	void resetPwPhoneVersion(Map<String, Object> paramMap);
 
+	/** 회원가입한 관리자에게 전체 권한 부여
+	 * @param map
+	 * @return
+	 */
+	int registAuthority(Map<String, Object> map);
+
 
 
 

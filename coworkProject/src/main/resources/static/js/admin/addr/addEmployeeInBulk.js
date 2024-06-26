@@ -383,140 +383,277 @@ document.addEventListener('DOMContentLoaded', function() {
 
                             // check5 == 1 or 2 : 엑셀에 작성한 ID가 DB에 있거나 정규식에 맞지 않을 때
                             // check200 == 0 : 엑셀에 작성한 부서가 DB에 없을 때
-                            if(check5 == 1 || check5 == 2 || check200 == 0) {
-                                employee.innerHTML = 
-                                `
-                                    <div><input type="checkbox" class="check"></div>
-                                    ${i.성.length > 0 && i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
-                                    ${i.이름.length > 0 && i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
-                                    ${`<div class="empId"><input type="text" value="${i.ID}" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
-                                    ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20" style="border: 1px solid red;"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`}
-                                    <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
-                                    <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
-                                    <div class="empBirth"><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
-                                    ${i.부서 != "null" ? 
-                                        `
-                                            <div>
-                                                <select class="default-line deptList">
-                                                    <option class="deptOpt" value="null" data-dept-nm="${i.부서}">${i.부서}</option>
-                                                    ${deptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
-                                                </select>
-                                            </div>
-                                        `
-                                     : 
-                                        `
-                                            <div>
-                                                <select class="default-line deptList">
-                                                    <option class="deptOpt" value="null" >부서 선택</option>
-                                                    ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
-                                                </select>
-                                            </div>
-                                        `
-                                    }
-                                    ${i.팀 != "null" ?
-                                        `
-                                            <div>
-                                                <select class="default-line teamList">
-                                                </select>
-                                            </div>
-                                        `
-                                    :
-                                        `
-                                            <div>
-                                                <select class="default-line teamList">
-                                                </select>
-                                            </div>
-                                        `
-                                    }
-                                    ${positionList.length > 0 ?
-                                        `
-                                            <div>
-                                                <select class="default-line positionList">
-                                                    <option class="inputpositionOpt" value="${i.직급 == 'null' ? "" : i.직급}">${i.직급 == 'null' ? "" : i.직급}</option>
-                                                    ${positionList.map(item => `<option class="positionOpt" value="${item.positionNo}">${item.positionNm}</option>`).join('')}
-                                                </select>
-                                            </div>
-                                        `
-                                    :
-                                         `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
-                                    }
-                                    <div><span>${i.계약형태 != "null" ? i.계약형태 : ""}</span></div>
-                                    <div><span>${i.근무처 != "null" ? i.근무처 : ""}</span></div>
-                                    <div><span>${i.내선번호 != "null" ? i.내선번호 : ""}</span></div>
-                                    <div class="hireDate"><span>${i.입사일 != "null" ? i.입사일 : ""}</span></div>
-                                    <div><span>${i.사번 != "null" ? i.사번 : ""}</span></div>
-                                `;
-                                employeeList.append(employee);
+                            // check200 == 1 : 엑셀에 작성한 부서명이 DB에 있으면
+                            if(check5 == 1 || check5 == 2) {
+                                if(check200 == 0) {
+                                    employee.innerHTML = 
+                                    `
+                                        <div><input type="checkbox" class="check"></div>
+                                        ${i.성.length > 0 && i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                        ${i.이름.length > 0 && i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                        ${`<div class="empId"><input type="text" value="${i.ID}" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                        ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20" style="border: 1px solid red;"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`}
+                                        <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
+                                        <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
+                                        <div class="empBirth"><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
+                                        ${i.부서 != "null" ? 
+                                            `
+                                                <div>
+                                                    <select class="default-line deptList">
+                                                        <option class="deptOpt" value="null" data-dept-nm="${i.부서}">${i.부서}</option>
+                                                        ${deptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                         : 
+                                            `
+                                                <div>
+                                                    <select class="default-line deptList">
+                                                        <option class="deptOpt" value="null" >부서 선택</option>
+                                                        ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                        }
+                                        ${i.팀 != "null" ?
+                                            `
+                                                <div>
+                                                    <select class="default-line teamList">
+                                                    </select>
+                                                </div>
+                                            `
+                                        :
+                                            `
+                                                <div>
+                                                    <select class="default-line teamList">
+                                                    </select>
+                                                </div>
+                                            `
+                                        }
+                                        ${positionList.length > 0 ?
+                                            `
+                                                <div>
+                                                    <select class="default-line positionList">
+                                                        <option class="inputpositionOpt" value="${i.직급 == 'null' ? "" : i.직급}">${i.직급 == 'null' ? "" : i.직급}</option>
+                                                        ${positionList.map(item => `<option class="positionOpt" value="${item.positionNo}">${item.positionNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                        :
+                                             `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
+                                        }
+                                        <div><span>${i.계약형태 != "null" ? i.계약형태 : ""}</span></div>
+                                        <div><span>${i.근무처 != "null" ? i.근무처 : ""}</span></div>
+                                        <div><span>${i.내선번호 != "null" ? i.내선번호 : ""}</span></div>
+                                        <div class="hireDate"><span>${i.입사일 != "null" ? i.입사일 : ""}</span></div>
+                                        <div><span>${i.사번 != "null" ? i.사번 : ""}</span></div>
+                                    `;
+                                    employeeList.append(employee);
+                                } else {
+                                    employee.innerHTML = 
+                                    `
+                                        <div><input type="checkbox" class="check"></div>
+                                        ${i.성.length > 0 && i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                        ${i.이름.length > 0 && i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                        ${`<div class="empId"><input type="text" value="${i.ID}" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                        ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20" style="border: 1px solid red;"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`}
+                                        <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
+                                        <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
+                                        <div class="empBirth"><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
+                                        ${i.부서 != "null" ? 
+                                            `
+                                                <div>
+                                                    <select class="default-line deptList">
+                                                        <option class="deptOpt" value="${tempDeptNo}" data-dept-nm="${tempDeptNm}">${tempDeptNm}</option>
+                                                        ${tempDeptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                        : 
+                                            `
+                                                <div>
+                                                    <select class="default-line deptList">
+                                                        ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                        }
+                                        ${i.팀 != "null" ?
+                                            `
+                                                <div>
+                                                    <select class="default-line teamList">
+                                                        <option class="teamOpt" value="null" data-team-nm="${i.팀}">${i.팀}</option>
+                                                        ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                        :
+                                            `
+                                                <div>
+                                                    <select class="default-line teamList">
+                                                        ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                        }
+                                        ${positionList.length > 0 ?
+                                            `
+                                                <div>
+                                                    <select class="default-line positionList">
+                                                        <option class="inputpositionOpt" value="${i.직급 == 'null' ? "" : i.직급}">${i.직급 == 'null' ? "" : i.직급}</option>
+                                                        ${positionList.map(item => `<option class="positionOpt" value="${item.positionNo}">${item.positionNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                        :
+                                             `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
+                                        }
+                                        <div><span>${i.계약형태 != "null" ? i.계약형태 : ""}</span></div>
+                                        <div><span>${i.근무처 != "null" ? i.근무처 : ""}</span></div>
+                                        <div><span>${i.내선번호 != "null" ? i.내선번호 : ""}</span></div>
+                                        <div class="hireDate"><span>${i.입사일 != "null" ? i.입사일 : ""}</span></div>
+                                        <div><span>${i.사번 != "null" ? i.사번 : ""}</span></div>
+                                    `;
+                                    employeeList.append(employee);
+
+                                }
                             }
 
                             // check5 == 0 : 엑셀에 작성한 ID가 DB에 없거나 정규식에 맞으면
+                            // check200 == 0 : 엑셀에 작성한 부서가 DB에 없을 때
                             // check200 == 1 : 엑셀에 작성한 부서명이 DB에 있으면
-                            else if(check5 == 0 || check200 == 1) {
-                                employee.innerHTML = 
-                                `
-                                    <div><input type="checkbox" class="check"></div>
-                                    ${i.성.length > 0 && i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
-                                    ${i.이름.length > 0 && i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
-                                    ${`<div class="empId"><span>${i.ID}</span></div>`}
-                                    ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20" style="border: 1px solid red;"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`}
-                                    <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
-                                    <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
-                                    <div class="empBirth"><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
-                                    ${i.부서 != "null" ? 
-                                        `
-                                            <div>
-                                                <select class="default-line deptList">
-                                                    <option class="deptOpt" value="${tempDeptNo}" data-dept-nm="${tempDeptNm}">${tempDeptNm}</option>
-                                                    ${tempDeptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
-                                                </select>
-                                            </div>
-                                        `
-                                     : 
-                                        `
-                                            <div>
-                                                <select class="default-line deptList">
-                                                    ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
-                                                </select>
-                                            </div>
-                                        `
-                                    }
-                                    ${i.팀 != "null" ?
-                                        `
-                                            <div>
-                                                <select class="default-line teamList">
-                                                    <option class="teamOpt" value="null" data-team-nm="${i.팀}">${i.팀}</option>
-                                                    ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
-                                                </select>
-                                            </div>
-                                        `
-                                    :
-                                        `
-                                            <div>
-                                                <select class="default-line teamList">
-                                                    ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
-                                                </select>
-                                            </div>
-                                        `
-                                    }
-                                    ${positionList.length > 0 ?
-                                        `
-                                            <div>
-                                                <select class="default-line positionList">
-                                                    <option class="inputpositionOpt" value="${i.직급 == 'null' ? "" : i.직급}">${i.직급 == 'null' ? "" : i.직급}</option>
-                                                    ${positionList.map(item => `<option class="positionOpt" value="${item.positionNo}">${item.positionNm}</option>`).join('')}
-                                                </select>
-                                            </div>
-                                        `
-                                    :
-                                        `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
-                                    }
-                                    <div><span>${i.계약형태 != "null" ? i.계약형태 : ""}</span></div>
-                                    <div><span>${i.근무처 != "null" ? i.근무처 : ""}</span></div>
-                                    <div><span>${i.내선번호 != "null" ? i.내선번호 : ""}</span></div>
-                                    <div class="hireDate"><span>${i.입사일 != "null" ? i.입사일 : ""}</span></div>
-                                    <div><span>${i.사번 != "null" ? i.사번 : ""}</span></div>
-                                `;
-                                employeeList.append(employee);
+                            else if(check5 == 0) {
+                                if(check200 == 0) {
+                                    employee.innerHTML = 
+                                    `
+                                        <div><input type="checkbox" class="check"></div>
+                                        ${i.성.length > 0 && i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                        ${i.이름.length > 0 && i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                        ${`<div class="empId"><span>${i.ID}</span></div>`}
+                                        ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20" style="border: 1px solid red;"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`}
+                                        <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
+                                        <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
+                                        <div class="empBirth"><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
+                                        ${i.부서 != "null" ? 
+                                            `
+                                                <div>
+                                                    <select class="default-line deptList">
+                                                        <option class="deptOpt" value="null" data-dept-nm="${i.부서}">${i.부서}</option>
+                                                        ${deptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                         : 
+                                            `
+                                                <div>
+                                                    <select class="default-line deptList">
+                                                        <option class="deptOpt" value="null" >부서 선택</option>
+                                                        ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                        }
+                                        ${i.팀 != "null" ?
+                                            `
+                                                <div>
+                                                    <select class="default-line teamList">
+                                                    </select>
+                                                </div>
+                                            `
+                                        :
+                                            `
+                                                <div>
+                                                    <select class="default-line teamList">
+                                                    </select>
+                                                </div>
+                                            `
+                                        }
+                                        ${positionList.length > 0 ?
+                                            `
+                                                <div>
+                                                    <select class="default-line positionList">
+                                                        <option class="inputpositionOpt" value="${i.직급 == 'null' ? "" : i.직급}">${i.직급 == 'null' ? "" : i.직급}</option>
+                                                        ${positionList.map(item => `<option class="positionOpt" value="${item.positionNo}">${item.positionNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                        :
+                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
+                                        }
+                                        <div><span>${i.계약형태 != "null" ? i.계약형태 : ""}</span></div>
+                                        <div><span>${i.근무처 != "null" ? i.근무처 : ""}</span></div>
+                                        <div><span>${i.내선번호 != "null" ? i.내선번호 : ""}</span></div>
+                                        <div class="hireDate"><span>${i.입사일 != "null" ? i.입사일 : ""}</span></div>
+                                        <div><span>${i.사번 != "null" ? i.사번 : ""}</span></div>
+                                    `;
+                                    employeeList.append(employee);
+                                } else {
+                                    employee.innerHTML = 
+                                    `
+                                        <div><input type="checkbox" class="check"></div>
+                                        ${i.성.length > 0 && i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                        ${i.이름.length > 0 && i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                        ${`<div class="empId"><span>${i.ID}</span></div>`}
+                                        ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20" style="border: 1px solid red;"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`}
+                                        <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
+                                        <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
+                                        <div class="empBirth"><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
+                                        ${i.부서 != "null" ? 
+                                            `
+                                                <div>
+                                                    <select class="default-line deptList">
+                                                        <option class="deptOpt" value="${tempDeptNo}" data-dept-nm="${tempDeptNm}">${tempDeptNm}</option>
+                                                        ${tempDeptList.map(item => `<option value="${item.deptNo}" data-dept-nm="${item.deptNm}">${item.deptNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                         : 
+                                            `
+                                                <div>
+                                                    <select class="default-line deptList">
+                                                        ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                        }
+                                        ${i.팀 != "null" ?
+                                            `
+                                                <div>
+                                                    <select class="default-line teamList">
+                                                        <option class="teamOpt" value="null" data-team-nm="${i.팀}">${i.팀}</option>
+                                                        ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                        :
+                                            `
+                                                <div>
+                                                    <select class="default-line teamList">
+                                                        ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                        }
+                                        ${positionList.length > 0 ?
+                                            `
+                                                <div>
+                                                    <select class="default-line positionList">
+                                                        <option class="inputpositionOpt" value="${i.직급 == 'null' ? "" : i.직급}">${i.직급 == 'null' ? "" : i.직급}</option>
+                                                        ${positionList.map(item => `<option class="positionOpt" value="${item.positionNo}">${item.positionNm}</option>`).join('')}
+                                                    </select>
+                                                </div>
+                                            `
+                                        :
+                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
+                                        }
+                                        <div><span>${i.계약형태 != "null" ? i.계약형태 : ""}</span></div>
+                                        <div><span>${i.근무처 != "null" ? i.근무처 : ""}</span></div>
+                                        <div><span>${i.내선번호 != "null" ? i.내선번호 : ""}</span></div>
+                                        <div class="hireDate"><span>${i.입사일 != "null" ? i.입사일 : ""}</span></div>
+                                        <div><span>${i.사번 != "null" ? i.사번 : ""}</span></div>
+                                    `;
+                                    employeeList.append(employee);
+                                }
                             }
 
 

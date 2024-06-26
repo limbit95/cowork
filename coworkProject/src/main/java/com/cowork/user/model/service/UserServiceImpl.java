@@ -1,5 +1,6 @@
 package com.cowork.user.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -148,18 +149,29 @@ public class UserServiceImpl implements UserService {
 		map.put("comNo", comNo);
 		map.put("empCode", empCode);
 		
+		// 등록한 회사의 번호를 회원가입한 관리자에게 부여
 		result = mapper.registAdminCompany(map);
 		
 		if(result == 0) {
 			return 0;
 		}
 		
+		// 등록한 회사에 전자결재 기본 양식 부여
 		result = mapper.registDraft(map);
 		
 		if(result == 0) {
 			return -1;
 		}
 		
+		// 회원가입한 관리자에게 전체 권한 부여 
+		result = mapper.registAuthority(map);
+		
+		if(result == 0) {
+			return -1;
+		}
+		
+		// 등록한 회사에 기본 직책 레벨 부여
+//		return mapper.registPosition(map);
 		return result;
 	}
 
