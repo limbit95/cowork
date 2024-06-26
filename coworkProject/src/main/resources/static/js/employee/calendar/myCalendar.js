@@ -525,6 +525,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 document.querySelector(".modalUpdateBtn").classList.add("modalModifyTempBtn");
 
+                // 취소 버튼 클릭 시
+                const modalCancelBtn = document.querySelector(".modalCancelBtn");
+
+                modalCancelBtn.addEventListener("click", () => {
+                    location.href = "/calendar/myCalendar";
+                })
+
                 // 등록 버튼 클릭 시
                 document.querySelector(".modalModifyTempBtn").addEventListener("click", e => {
 
@@ -612,6 +619,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             document.querySelector(".modalUpdateBtn").classList.remove("modalModifyTempBtn");
 
                             alert("일정 수정 완료");
+                            location.href = "/calendar/myCalendar";
 
                         } else {
 
@@ -649,6 +657,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             document.querySelector(".modalUpdateBtn").classList.remove("modalModifyTempBtn");
 
                             alert("일정 수정 실패");
+                            location.href = "/calendar/myCalendar";
                         }
                     })
                 })
