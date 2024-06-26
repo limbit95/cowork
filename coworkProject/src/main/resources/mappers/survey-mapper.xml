@@ -47,7 +47,7 @@
 
 <insert id="insertSurveyTarget">
 	INSERT INTO SURVEY_TARGET
-	VALUES (SEQ_SURVEY_TARGET.NEXTVAL,  #{empCode3}, #{surveyNo})
+	VALUES (SEQ_SURVEY_TARGET.NEXTVAL,  #{empCode}, #{surveyNo})
 </insert>
 
 <select id="findNextSequenceVal">
@@ -78,7 +78,6 @@ LEFT JOIN EMPLOYEE E ON S.EMP_CODE = E.EMP_CODE
 WHERE S.SURVEY_ENTIRE_TARGET_FL = 'Y' 
 AND S.SURVEY_END_DATE + 1 >= SYSDATE
 AND S.COM_NO = #{comNo}
-
 </select>
 
 <select id="receiveSurvey">

@@ -141,7 +141,6 @@ public class SurveyController {
 		return "redirect:/survey/receiveSurvey";
 	}
 	
-	
 	@GetMapping("mySurvey")
 	public String mySurvey(@SessionAttribute("loginEmp") Employee2 loginEmp,
 			@RequestParam(value="currentPage", defaultValue="1") String currentPage ,Model model) {
@@ -167,8 +166,6 @@ public class SurveyController {
 		
 		return "employee/survey/surveyInsert";
 	}
-	
-	
 	
    @PostMapping("survey2")
    @ResponseBody

@@ -237,7 +237,7 @@ public class UserController {
         if (connectIP == null || connectIP.isEmpty() || "unknown".equalsIgnoreCase(connectIP)) {
         	connectIP = request.getRemoteAddr();
         }
-
+        
         log.info("@@@@@@@@@@@@@ 접속한 ip @@@@@@@@@@@@@@ : " + connectIP);
         
         // 로그인한 회원의 ip가 DB에 존재하지는지 확인
