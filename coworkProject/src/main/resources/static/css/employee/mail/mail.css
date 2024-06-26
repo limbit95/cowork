@@ -6,7 +6,13 @@
     align-items: center;
 }
 
+/*
 .table-body.row:hover {
+    font-weight: bold;
+    cursor: pointer;
+} */
+
+#mailTitle:hover {
     font-weight: bold;
     cursor: pointer;
 }

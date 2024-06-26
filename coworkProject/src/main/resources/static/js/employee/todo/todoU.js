@@ -552,7 +552,7 @@ function applyTodoStyles(size) {
             });
             todo.querySelectorAll('div:nth-of-type(2)').forEach(element => {
                 element.style.marginLeft = '10px';
-                element.style.width = '86%';
+                element.style.width = '84%';
             });
         }
     });
