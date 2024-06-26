@@ -340,10 +340,23 @@ function fetchTodos(todoComplete, sortBy, filters = {}) {
                 todoDiv.className = 'todo';
                 todoDiv.setAttribute('data-todo-complete', todo.todoComplete);
 
+                const todoEndDate = todo.todoEndDate ? new Date(todo.todoEndDate) : null; // 문자열을 Date 객체로 변환하거나 null 처리
+
+                    function isBeforeToday(date) {
+                        if (!date) {
+                            return ""; // 날짜가 null 또는 빈 문자열인 경우 빈 문자열 반환
+                        }
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0); // 오늘의 날짜를 시간 부분 없이 설정
+                        return today > date ? "기한 지남" : formatDate(date);
+                    }
+                
+                    const overdueMessage = isBeforeToday(todoEndDate);
+
                 todoDiv.innerHTML = `
                     <div><input type="checkbox" class="todoCheckbox" data-todo-id="${todo.todoNo}"></div>
                     <div class="todoTitle sample" data-todo-id="${todo.todoNo}">${todo.todoTitle}</div>
-                    <div class="todoEndDate">${todo.todoEndDate}</div>
+                    <div>${overdueMessage}</div>
                     <div class="select" data-todo-id="${todo.todoNo}" data-todo-complete="${todo.todoComplete}">
                         <div class="selected" data-to-do-id="${todo.todoNo}">${todo.todoComplete == '1' ? '진행중' : '완료'}</div>
                         <ul class="optionList">
