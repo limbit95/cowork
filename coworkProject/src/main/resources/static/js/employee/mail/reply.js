@@ -42,7 +42,7 @@ smartEditor = function() {
     console.log("Referer Emp Name Input:", refererEmpNameInput);
 
     // 받는 사람 입력에 스페이스나 엔터를 눌렀을 때
-    recipientInput.addEventListener('keydown', (event) => {
+/*    recipientInput.addEventListener('keydown', (event) => {
         if (event.key === ' ' || event.key === 'Enter') {
             event.preventDefault();
             const empName = recipientInput.value.trim();
@@ -63,7 +63,7 @@ smartEditor = function() {
                 refererInput.value = '';
             }
         }
-    });
+    });  */
 
     if (sender) {
         const recipientDiv = document.createElement('div');
@@ -72,10 +72,10 @@ smartEditor = function() {
         recipientDiv.dataset.empName = sender;
         recipientDiv.textContent = sender;
         recipientDiv.appendChild(createDeleteButton(recipientDiv));
-        recipientListContainer.appendChild(recipientDiv);
-
-        recipientEmpCodeInput.value = senderEmpCode;
-        recipientEmpNameInput.value = sender;
+        document.getElementById('recipientListContainer').appendChild(recipientDiv);
+    
+        document.getElementById('recipientEmpCode').value = senderEmpCode;
+        document.getElementById('recipientEmpName').value = sender;
     }
 
 console.log("Initial recipient list:", Array.from(document.querySelectorAll('.putRecipient')).map(el => el.dataset.empCode));
@@ -86,11 +86,11 @@ console.log(senderMail);
 console.log(refererList); 
 
 // 사원 검색 영역 생성 
-function createSearchTable(tableId, inputElement) {
+function createSearchTable(tableId, formClass) {
     const searchTable = document.createElement('div');
     searchTable.className = 'searchTable';
     searchTable.id = tableId;
-    inputElement.parentElement.appendChild(searchTable); // 인풋 창 바로 아래에 검색 영역 추가
+    document.querySelector(`.${formClass}`).appendChild(searchTable); // formClass 아래에 검색 영역 추가
 }
 
 // 사원 검색 함수
@@ -106,7 +106,6 @@ function searchEmp(empName, trId, tableId) {
         searchTable.style.display = 'block'; // 검색 결과가 있으면 검색창 표시
 
         employeeList.forEach(employee => {
-            
             const empCode = employee.empCode || '없음';
             const empId = employee.empId || '없음';
             const teamNm = employee.teamNm || '없음';
@@ -115,7 +114,7 @@ function searchEmp(empName, trId, tableId) {
 
             const div = document.createElement('div');
             div.classList.add('searchRow', trId); // 검색 결과 행 생성
-            div.setAttribute('onclick', `search${trId}Click(${empCode}, '${empName}')`);
+            div.setAttribute('onclick', `search${trId}Click('${empCode}', '${empName}')`);
 
             div.innerHTML = `
                 <div hidden>${empCode}</div>
@@ -125,11 +124,8 @@ function searchEmp(empName, trId, tableId) {
                 <div id="positionNm">${positionNm}</div>
             `;
 
-
             searchTable.appendChild(div);
         });
-
-        isWidthIncreased = false;
     })
     .catch(error => console.error('Error:', error));
 }
@@ -138,20 +134,21 @@ function searchEmp(empName, trId, tableId) {
 recipientInput.addEventListener('input', () => {
     const empName = recipientInput.value;
     if (!document.getElementById('searchRecTable')) {
-        createSearchTable('searchRecTable', recipientInput);
+        createSearchTable('searchRecTable', 'recipientForm');
     }
     searchEmp(empName, 'trRec', '#searchRecTable');
 });
+
 refererInput.addEventListener('input', () => {
     const empName = refererInput.value;
     if (!document.getElementById('searchRefTable')) {
-        createSearchTable('searchRefTable', refererInput);
+        createSearchTable('searchRefTable', 'refererForm');
     }
     searchEmp(empName, 'trRef', '#searchRefTable');
 });
 
- // 검색창 외부 클릭 시 검색창 숨기기
- document.addEventListener('click', (event) => {
+// 검색창 외부 클릭 시 검색창 숨기기
+document.addEventListener('click', (event) => {
     if (!event.target.closest('.searchTable') && !event.target.closest('.inputRecipient') && !event.target.closest('.inputReferer')) {
         document.querySelectorAll('.searchTable').forEach(table => {
             table.style.display = 'none';
@@ -167,30 +164,12 @@ function searchtrRecClick(empCode, empName) {
     recipientDiv.dataset.empName = empName;
     recipientDiv.textContent = empName;
     recipientDiv.appendChild(createDeleteButton(recipientDiv));
+    document.querySelector('.recipientForm').appendChild(recipientDiv);
 
-    const recipientForm = document.querySelector('.recipientForm');
-    const existingLabels = recipientForm.querySelectorAll('.nameLabel');
-
-    if (existingLabels.length > 0) {
-        // 기존 default-label 요소 뒤에 새 요소를 추가
-        const lastLabel = existingLabels[existingLabels.length - 1];
-        lastLabel.insertAdjacentElement('afterend', recipientDiv);
-    } else {
-        // default-label 요소가 없는 경우 맨 처음에 추가
-        recipientForm.appendChild(recipientDiv);
-    }
-
-    //document.querySelector('.recipientForm').appendChild(recipientDiv);
+    document.getElementById('recipientEmpCode').value = empCode;
+    document.getElementById('recipientEmpName').value = empName;
 }
 
-// 이메일 받는 사람 추가 함수
-function addRecipientEmail(empName) {
-    const recipientDiv = document.createElement('div');
-    recipientDiv.className = 'nameLabel putRecipient';
-    recipientDiv.textContent = empName;
-    recipientDiv.appendChild(createDeleteButton(recipientDiv));
-    recipientListContainer.appendChild(recipientDiv);
-}
 // 참조인 클릭시 
 function searchtrRefClick(empCode, empName) {
     const refererDiv = document.createElement('div');
@@ -202,27 +181,6 @@ function searchtrRefClick(empCode, empName) {
     document.querySelector('.refererForm').appendChild(refererDiv);
 }
 
- // 참조 입력에 스페이스나 엔터를 눌렀을 때
- refererInput.addEventListener('keydown', (event) => {
-    if (event.key === ' ' || event.key === 'Enter') {
-        event.preventDefault();
-        const empName = refererInput.value.trim();
-        if (empName) {
-            addRefererEmail(empName);
-            refererInput.value = '';
-        }
-    }
-});
-
-// 이메일 참조인 추가 함수
-function addRefererEmail(empName) {
-    const refererDiv = document.createElement('div');
-    refererDiv.className = 'nameLabel putReferer';
-    refererDiv.textContent = empName;
-    refererDiv.appendChild(createDeleteButton(refererDiv));
-    refererListContainer.appendChild(refererDiv);
-}
-
 // 삭제 버튼 생성 함수
 function createDeleteButton(parentDiv) {
     const deleteButton = document.createElement('span');
@@ -230,9 +188,6 @@ function createDeleteButton(parentDiv) {
     deleteButton.textContent = 'x';
     deleteButton.onclick = () => {
         parentDiv.remove();
-        // Hidden input 필드 값도 지우기
-        document.getElementById('recipientEmpCode').value = '';
-        document.getElementById('recipientEmpName').value = '';
     };
     return deleteButton;
 }

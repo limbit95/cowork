@@ -270,3 +270,37 @@ section.formArea #resultDiv {
     border: 2px solid var(--main-color);
     cursor: pointer;
 }
+
+/* 스크롤바 */ /* yoon 0626 추가 */
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+    width: 14px; /* 스크롤바 너비 */
+}
+
+::-webkit-scrollbar-track {
+    background: #e2e7ec /* 트랙 배경 */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #82A6CB; /* 스크롤바 색상 */
+    border-radius: 5px; /* 스크롤바 모서리 둥글게 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #E5F2FE; /* 스크롤바 호버 시 색상 */
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin; /* 스크롤바 너비 */
+    scrollbar-color: #82A6CB #e2e7ec; /* 스크롤바 색상 및 트랙 배경 */
+}
+
+/* IE, Edge (Old versions) */
+body {
+    -ms-overflow-style: none; /* 기본 스크롤바 스타일 제거 */
+}
+body::-webkit-scrollbar {
+    display: none; /* 기본 스크롤바 숨김 */
+}

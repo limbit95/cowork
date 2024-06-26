@@ -36,7 +36,7 @@ function selectTodo() {
     .then(todoList => {
         if (!todoList || todoList.length === 0) {
             const messageDiv = document.createElement("div");
-            messageDiv.className = notodomessage;
+            messageDiv.classList.add("notodomessage");
             messageDiv.innerText = "등록된 할 일이 없습니다.";
             todoContainer.appendChild(messageDiv);
         } else {

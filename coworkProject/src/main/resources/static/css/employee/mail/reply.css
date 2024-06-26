@@ -58,13 +58,13 @@
     width: 80px;
 }
 
-.recipientListContainer, .refererListContainer {
-    position: relative;
-    display: flex !important;
+.recipientListContainer,
+.refererListContainer {
+    display: flex;
     flex-wrap: wrap;
-    align-items: center !important;
+    align-items: center;
     padding: 5px;
-    width: 980px !important;
+    width: 980px;
 }
 
 .nameLabel {
@@ -73,32 +73,33 @@
     padding: 5px 10px;
     border-radius: 4px;
     background-color: #f9f9f9;
+    margin-right: 5px; /* 각 레이블 간 간격 조절 */
 }
 
 .recipientForm, .refererForm {
-    position: relative;
     display: flex;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     align-items: center;
     padding: 5px 5px 5px 10px;
     width: 97%; /* 가로 길이 넓게 설정 */
     border-bottom: 1px solid #ccc;
     height: auto;
     gap: 5px;
+    position: relative; /* 검색 테이블의 위치를 기준으로 설정 */
 }
+
 
 /* ************** 사원 검색 관련 **************** */
 .searchTable {
+    display: none; /* 초기에는 숨김 */
     position: absolute;
-    top: 100%; /* 인풋 창 바로 아래에 위치하게 설정 */
-    left: 0;
-    width: 900px !important;
-    background: white;
+    background-color: white;
     border: 1px solid #ccc;
-    max-height: 200px;
-    overflow-y: auto;
-    z-index: 1000;
-    display: none; /* 초기에는 숨김 상태 */
+    max-height: 200px; /* 최대 높이 설정 */
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 */
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    width: 100% !important; /* 부모 요소의 너비를 기준으로 설정 */
+    top: 110%;
 }
 
 .searchTable div {
@@ -117,6 +118,15 @@
     font-size: 8px;
     width: 100% !important;
     justify-content: space-around;
+}
+
+.searchRow {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.searchRow:hover {
+    background-color: #f0f0f0;
 }
 
 .searchTable .searchRow div {
