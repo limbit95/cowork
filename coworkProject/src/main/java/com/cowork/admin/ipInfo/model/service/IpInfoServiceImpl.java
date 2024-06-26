@@ -121,15 +121,17 @@ public class IpInfoServiceImpl implements IpInfoService {
 	@Override
 	public int updateIpInfo(IpInfo updateIpInfo) {
 		
-		// ip 중복 검사해야함
+		// ip 중복 검사해야함 공인 IP 사용으로 중복 검사 X
 		// 중복 ip 존재하면 count 됨
-		int count = mapper.duplicationIp(updateIpInfo);
+//		int count = mapper.duplicationIp(updateIpInfo);
+//		
+//		if(count > 0) {
+//			return -5;
+//		} else {
+//			return mapper.updateIpInfo(updateIpInfo);			
+//		}
 		
-		if(count > 0) {
-			return -5;
-		} else {
-			return mapper.updateIpInfo(updateIpInfo);			
-		}
+		return mapper.updateIpInfo(updateIpInfo);
 		
 	}
 
