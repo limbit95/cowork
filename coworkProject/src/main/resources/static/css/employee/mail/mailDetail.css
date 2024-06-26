@@ -1,11 +1,20 @@
 #detailTitle, #senderArea, 
-#recipientArea, #refererArea,
-#mailWriteDateArea,
-#refererList,
-#recipientList {
+#mailWriteDateArea {
     display: flex;
     align-items: center;
     height: 30px;
+}
+
+#recipientArea, #refererArea {
+    display: -webkit-box;
+    align-items: center;
+    min-height: 30px;
+    height: auto;
+    overflow-x: auto;
+}
+
+#refererList, #recipientList {
+    display: contents;
 }
 
 #detailTitle div, #senderArea div:first-child {
@@ -14,6 +23,7 @@
 
 #recipientName, #refererName, #senderName {
     margin-right: 5px;
+    align-content: center;
 }
 
 #senderMail, #recipientMail, #refererMail {
