@@ -73,30 +73,34 @@
 
         <!-----------------------------------------------   기안 목록  ------------------------------------------------------------------>
         <div class="draftList2">
-            <div class="default-line" th:each="draft : ${draftList}" th:object="${draft}">
-                <div class="keep">
-                    <i th:if="*{draftFlag == '7'}"  class="fa-solid fa-star"
-                        th:classappend="*{keepYn eq 'N' ? 'noStar':'yesStar'}"
-                        th:onclick="|location.href='@{draftKeepYn/{draftNo} (draftNo=*{draftNo}, keepYn=*{keepYn})}'|"
-                    ></i>
+            <th:block th:each="draft : ${draftList}" th:object="${draft}">
+                <div class="default-line" th:classappend="*{draftFlag != '7' ? 'coworkLogo' : ''}">
+                    <div class="keep">
+                        <img th:if="*{draftFlag != '7'}" src="/images/edsmLogo.png">
+                        <i th:if="*{draftFlag == '7'}"  class="fa-solid fa-star"
+                            th:classappend="*{keepYn eq 'N' ? 'noStar':'yesStar'}"
+                            th:onclick="|location.href='@{draftKeepYn/{draftNo} (draftNo=*{draftNo}, keepYn=*{keepYn})}'|"
+                        ></i>
+                    </div>
+                    <div class="draftDiv">
+                        <div class="draftImg"
+                            th:classappend="*{draftFlag eq '2' ? 'fa-solid fa-file-circle-plus' 
+                            : draftFlag eq '3' ? 'fa-regular fa-paste'
+                            : draftFlag eq '4' ? 'fa-regular fa-file-lines'
+                            : draftFlag eq '5' ? 'fa-regular fa-file-word'
+                            : draftFlag eq '6' ? 'fa-regular fa-file'
+                            : 'fa-solid fa-file-signature'}"></div>
+                        <div><label th:text="*{draftNm}">기안서</label></div>
+                    </div>
+                    <div class="draftLabel">
+                        <label th:text="*{draftTitle}">무슨 기안을 올릴까요 업무 기안서무슨 기안을 올릴까요</label>
+                    </div>
+                    <div class="draftBtn">
+                        <label th:onclick="|location.href='@{edsmRequest/{draftNo} (draftNo=*{draftNo})}'|">선택</label>
+                    </div>
                 </div>
-                <div class="draftDiv">
-                    <div class="draftImg"
-                        th:classappend="*{draftFlag eq '2' ? 'fa-solid fa-file-circle-plus' 
-                        : draftFlag eq '3' ? 'fa-regular fa-paste'
-                        : draftFlag eq '4' ? 'fa-regular fa-file-lines'
-                        : draftFlag eq '5' ? 'fa-regular fa-file-word'
-                        : draftFlag eq '6' ? 'fa-regular fa-file'
-                        : 'fa-solid fa-file-signature'}"></div>
-                    <div><label th:text="*{draftNm}">기안서</label></div>
-                </div>
-                <div class="draftLabel">
-                    <label th:text="*{draftTitle}">무슨 기안을 올릴까요 업무 기안서무슨 기안을 올릴까요</label>
-                </div>
-                <div class="draftBtn">
-                    <label th:onclick="|location.href='@{edsmRequest/{draftNo} (draftNo=*{draftNo})}'|">선택</label>
-                </div>
-            </div>
+            </th:block>
+            
 
             <!--<div class="default-line">
                 <div class="draftDiv">

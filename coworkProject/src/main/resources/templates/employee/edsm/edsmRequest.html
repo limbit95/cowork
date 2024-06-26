@@ -31,16 +31,20 @@
             <div class="ins-css insertForm approverForm">
                 <div><label>결재자</label></div>
                 <input class="default-line inputApprover" id="approver1" placeholder="하위 결재자" autocomplete='off'>
-                <input class="inputempCode" id="empCode1" hidden/>
+                
                 <!--<datalist id="approver1" th:each="employee : ${employeeList}" th:object="${employee}">
                     <option th:value="*{empFirstName}"></option>
                 </datalist>-->
                 <input class="default-line inputApprover" id="approver2" placeholder="중간 결재자" autocomplete='off' disabled>
-                <input class="inputempCode" id="empCode2" hidden/>
+                
                 <input class="default-line inputApprover" id="approver3" placeholder="최상위 결재자" autocomplete='off' disabled>
-                <input class="inputempCode" id="empCode3" hidden/>
+                
                 <!--<button class="default-btn glucose-btn">검색</button>-->
             </div>
+
+            <input class="inputempCode" id="empCode1" hidden/>
+            <input class="inputempCode" id="empCode2" hidden/>
+            <input class="inputempCode" id="empCode3" hidden/>
 
             <div class="searchTable displayNone searchApp">
                 <div class="searchTr trApp" th:each="employee : ${employeeList}" th:object="${employee}"
