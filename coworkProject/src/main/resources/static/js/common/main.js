@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(resp => resp.json())
         .then(data => {
-            console.log('fetch response data:', data);
+           // console.log('fetch response data:', data);
             displayResponse(data.response, data.imageUrls);
         })
         .catch(error => {

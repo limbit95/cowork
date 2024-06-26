@@ -36,7 +36,8 @@ public class WebConfig implements WebMvcConfigurer{
                         /* 비밀번호 찾기에서 FETCH 문 */
                         "/email/**",
                         /* 이 경로에 있는 모든 것들이 접근가능해야 함 */
-                        "/user/**"
+                        "/user/**",
+                        "/chatbot"
  
                 		); 
 
