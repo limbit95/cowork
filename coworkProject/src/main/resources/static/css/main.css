@@ -22,7 +22,6 @@ a {
     text-decoration-line: none !important;
 }
 
-
 /* ------------- Header 영역 ------------- */
 #headerMain {
     background-color: #426DA7;
@@ -76,7 +75,7 @@ a {
 
 footer {
     position: relative;
-    transform: translateY(7%) !important;
+    transform: translateY(0%) !important;
     bottom: 0px; 
 }
 
@@ -86,7 +85,7 @@ footer {
     align-items: center;
     justify-content: space-between;
     background-color: #E5F2FE;
-    height: 100px;
+  /*  height: 100px; */
     min-width: 1110px;
 }
 
