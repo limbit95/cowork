@@ -16,9 +16,10 @@
 
         <div class="title"><span>주소록</span></div>
 
-        <!-- <div class="mainBtnList">
-            <button class="default-btn glucose-btn" id="saveGroup">그룹 저장</button>
-        </div> -->
+        <div class="mainBtnList">
+            <!-- <button class="default-btn glucose-btn" id="saveGroup">그룹 저장</button> -->
+             <div></div>
+        </div>
 
         <main>
 
@@ -177,7 +178,7 @@
                     <th:block th:if="${comList}" th:each="emp : ${comList}" th:object="${emp}">
                         <th:block th:if="*{empDelFl} == 'N'">
                             <div class="employee">
-                                <div><input id="check" type="checkbox" class="mine"></div>
+                                <div><input id="check" type="checkbox" class="notMine"></div>
                                 <div class="info">
                                     <div>
                                         <span th:if="*{deptNm}" th:text="|*{deptNm} / *{teamNm}|">운영팀</span>
@@ -199,7 +200,7 @@
                     <th:block th:if="${deptList}" th:each="emp : ${deptList}" th:object="${emp}">
                         <th:block th:if="*{empDelFl} == 'N'">
                             <div class="employee">
-                                <div><input id="check" type="checkbox" class="mine"></div>
+                                <div><input id="check" type="checkbox" class="notMine"></div>
                                 <div class="info">
                                     <div>
                                         <span th:if="*{deptNm}" th:text="|*{deptNm} / *{teamNm}|">운영팀</span>
@@ -221,7 +222,7 @@
                     <th:block th:if="${teamList}" th:each="emp : ${teamList}" th:object="${emp}">
                         <th:block th:if="*{empDelFl} == 'N'">
                             <div class="employee">
-                                <div><input id="check" type="checkbox" class="mine"></div>
+                                <div><input id="check" type="checkbox" class="notMine"></div>
                                 <div class="info">
                                     <div>
                                         <span th:if="*{deptNm}" th:text="|*{deptNm} / *{teamNm}|">운영팀</span>

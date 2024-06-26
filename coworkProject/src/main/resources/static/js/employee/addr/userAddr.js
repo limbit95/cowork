@@ -809,7 +809,11 @@ if(saveGroup != null) {
             }
             
             alert("그룹이 저장되었습니다.");
-            location.href = templocation;
+            if(location.pathname == '/employee/addr/employeeDetailPage') {
+                location.href = templocation;
+                return;
+            }
+            location.href = '/employee/addr/comList';
         })
     });
 };

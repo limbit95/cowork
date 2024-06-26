@@ -92,7 +92,7 @@ section.container .type1 > :nth-child(2) {
     display: flex;
     justify-content: space-between;
     margin: 0;
-    width: 360px;
+    width: 200px;
 }
 section.container .type1 > :nth-child(2) > div {
     display: flex;
@@ -1017,7 +1017,7 @@ section.container .positionList {
 }
 
 
-/* 모달창7 */
+/* 모달창8 */
 .modal8 {
     display: none;
     justify-content: center;
@@ -1062,3 +1062,64 @@ section.container .positionList {
     justify-content: end;
 }
 
+
+/* 모달창9 */
+.modal9 {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-content9 {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 25px;
+    border: 1px solid #888;
+    width: 80%;
+    width: 500px;
+    height: 530px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    box-sizing: border-box;
+}
+.modal-content9 > :nth-child(1) {
+    margin: 0 0 5px;
+    font-size: 22px;
+    text-align: start;
+    line-height: 25px;
+    font-weight: bold;
+}
+#title {
+    font-size: 16px;
+    text-align: start;
+    line-height: 25px;
+    margin-top: 10px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+#sub {
+    font-size: 12px;
+    text-align: start;
+    line-height: 22px;
+    margin-left: 10px;
+}
+#btnDiv9 {
+    display: flex;
+    justify-content: end;
+}
+
+#info2 {
+    height: 420px;
+    overflow: auto;
+    overflow-x: hidden;
+    margin-bottom: 10px;
+}

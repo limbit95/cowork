@@ -455,3 +455,7 @@ section.container .detailBody {
     background-color: var(--main-color);
     color: white;
 }
+
+.mainBtnList > :nth-child(1) {
+    height: 30px;
+}
