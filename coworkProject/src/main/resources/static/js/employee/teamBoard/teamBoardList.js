@@ -49,7 +49,8 @@ function authorityList() {
         console.log("levelCnt : " + levelCnt);
         console.log("positionNo : " + positionNo);*/
 
-        if(positionNo == levelCnt) {
+        //if(positionNo == levelCnt) {
+        if(levelCnt > 0) {
             const btnDiv = document.createElement("div");
             btnDiv.classList.add('defaultBtn', 'listBtn', 'authorityBtn');
             

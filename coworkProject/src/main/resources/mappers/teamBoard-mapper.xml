@@ -257,6 +257,14 @@
 		)
 	</select>
 	
+	<!-- 로그인한 자 직급 확인 -->
+	<select id="loginPosition">
+		SELECT
+			COALESCE(POSITION_NO, 0)
+		FROM EMPLOYEE
+		WHERE EMP_CODE = #{empCode}
+	</select>
+	
 	<!-- 팀 권한 조회 -->
 	<select id="teamAuthorityList">
 		SELECT 

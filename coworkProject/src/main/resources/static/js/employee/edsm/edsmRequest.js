@@ -91,6 +91,22 @@ function inputChange(empFirstName, trId, tableId) {
             div.classList.add('searchTr', trId);
             div.setAttribute('onclick', "search" + trId + "Click(" + employee.empCode +", '" + employee.empFirstName + "')");
 
+            //if(trId == "trApp") {
+                for(let i=1; i<4; i++) {
+                    const empCode = document.querySelector('#empCode' + i).value;
+
+                    if(employee.empCode == empCode) {
+                        div.style.display = "none";
+                    }
+                }
+            //} else if(trId == "trRef") {
+                const empCode = document.querySelector('#empCode').value;
+
+                if(employee.empCode == empCode) {
+                    div.style.display = "none";
+                }
+            //}
+
             const empCodeDiv = document.createElement('div');
             empCodeDiv.hidden = true;
             empCodeDiv.innerText = employee.empCode;
