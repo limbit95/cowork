@@ -30,7 +30,8 @@
 	TO_DATE(#{surveyStartDate}, 'YYYY-MM-DD') , 
 	TO_DATE(#{surveyEndDate}, 'YYYY-MM-DD'),  
 	#{surveyEntireTargetFl}, 
-	0
+	0,
+	#{comNo}
 	)
 </insert>
 
@@ -76,6 +77,7 @@ FROM SURVEY S
 LEFT JOIN EMPLOYEE E ON S.EMP_CODE = E.EMP_CODE 
 WHERE S.SURVEY_ENTIRE_TARGET_FL = 'Y' 
 AND S.SURVEY_END_DATE + 1 >= SYSDATE
+AND S.COM_NO = #{comNo}
 
 </select>
 

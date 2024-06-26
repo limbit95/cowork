@@ -202,7 +202,6 @@ public class SurveyController {
         return surveyData;
    }
 	
-	
    @GetMapping("positionList")
    @ResponseBody
    public List<String> positionList(@SessionAttribute("loginEmp") Employee2 emp){	   
