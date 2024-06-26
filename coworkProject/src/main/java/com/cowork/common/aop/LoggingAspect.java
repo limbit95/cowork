@@ -73,6 +73,7 @@ public class LoggingAspect {
 	}
 	
 	// 클래스에 붙은 rollback 어노테이션
+	
 	@AfterThrowing(
 		pointcut = "execution(* *(..)) && @within(org.springframework.transaction.annotation.Transactional)",
 		throwing = "ex")
@@ -80,7 +81,7 @@ public class LoggingAspect {
 		log.info("*** 트랜잭션이 롤백됨 {} ***", jp.getSignature().getName());
 		log.error("[롤백 원인] : {}", ex.getMessage());
 	}
-
+	
 	private String getRemoteAddr(HttpServletRequest request) {
 		
 		String ip = null;
