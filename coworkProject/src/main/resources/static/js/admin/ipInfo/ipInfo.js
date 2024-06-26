@@ -23,12 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log(query);
 
-
         // 서버로 데이터 요청
         fetch("/ipInfo/selectIpInfo", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: query // 입력 값을 JSON으로 전송
+            body: query
         })
         .then(response => {
             if (!response.ok) {
@@ -58,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="secondResult">[${item.empNo}] ${item.fullName}</div>
                         <div class="thirdResult">
                             <div class="ipNo">${item.ip}</div>
-                            <input type="hidden" th:value="*{empCode}">
+                            <input type="hidden" value="${item.empCode}">
                             <div class="ipBtn">
                                 <button class="default-btn glucose-border-btn updateBtn">수정</button>
                                 <button class="default-btn deleteBtn">삭제</button>
@@ -76,11 +75,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 수정 버튼 클릭 이벤트 설정
+    // 버튼 이벤트 설정
     resultList.addEventListener('click', e => {
         const target = e.target;
 
-        // 수정 버튼인 경우
+        // 수정 버튼 클릭 시
         if (target.classList.contains('updateBtn')) {
             const resultContainer = target.closest('.resultContainer');
             if (resultContainer) {
@@ -111,86 +110,52 @@ document.addEventListener('DOMContentLoaded', () => {
                     cancelButton.classList.add('default-btn', 'glucose-border-btn', 'cancelBtn');
                     resultContainer.querySelector('.ipBtn').appendChild(cancelButton);
 
-                    // 삭제 버튼 삭제
-                    const deleteButton = resultContainer.querySelector('.deleteBtn');
-                    if (deleteButton) {
-                        deleteButton.remove();
-                    }
-
                     // 저장 버튼 이벤트 설정
-                    const saveBtn = document.querySelector(".saveBtn");
-
-                    if(saveBtn != null) {
+                    const saveBtn = resultContainer.querySelector(".saveBtn");
+                    if (saveBtn) {
                         saveBtn.addEventListener("click", () => {
-
-                            if (validateIPv4(inputField.value)) {
-                                console.log("inputField.value" + inputField.value);
-                                console.log('유효한 IPv4 주소입니다.');
-
-                                location.href = "/ipInfo/updateIpInfo?empCode=" + empCodeValue + "&ip=" + inputField.value;
-
+                            const updatedIpValue = inputField.value.trim();
+                            if (validateIPv4(updatedIpValue)) {
+                                console.log("유효한 IPv4 주소입니다.");
+                                // 여기에서 서버로의 저장 요청을 넣으세요
+                                location.href = `/ipInfo/updateIpInfo?empCode=${empCodeValue}&ip=${updatedIpValue}`;
                             } else {
                                 alert("유효하지 않은 IP 주소입니다.");
                                 return;
                             }
-
-
-                        })
+                        });
                     }
 
-                    // 취소 버튼 클릭 시 기존 div 로 돼있던 ip 주소 보여주고
-                    // 수정 삭제 버튼이 다시 보이게
-                    const cancelBtn = document.querySelector(".cancelBtn");
+                    // 취소 버튼 클릭 시
+                    cancelButton.addEventListener("click", () => {
+                        // ipNo 다시 보이게 하기
+                        ipNoDiv.style.display = 'block';
 
-                    if(cancelBtn != null) {
-                        cancelBtn.addEventListener("click", () => {
-                            if (resultContainer) {
-                                const ipNoDiv = resultContainer.querySelector('.ipNo');
-                                const inputField = resultContainer.querySelector('.updatedIpInput');
-                                if (ipNoDiv && inputField) {
-                                    // ipNo 다시 보이게 하기
-                                    ipNoDiv.style.display = 'block';
-                    
-                                    // input 태그 제거
-                                    inputField.remove();
-                    
-                                    // 버튼을 다시 '수정'으로 변경
-                                    const saveButton = resultContainer.querySelector('.saveBtn');
-                                    if (saveButton) {
-                                        saveButton.textContent = '수정';
-                                        saveButton.classList.remove('saveBtn');
-                                        saveButton.classList.add('updateBtn');
-                                    }
-                    
-                                    // 취소 버튼 제거
-                                    cancelBtn.remove();
-                    
-                                    // 삭제 버튼 다시 추가
-                                    const deleteButton = document.createElement('button');
-                                    deleteButton.textContent = '삭제';
-                                    deleteButton.classList.add('default-btn', 'deleteBtn');
-                                    resultContainer.querySelector('.ipBtn').appendChild(deleteButton);
-                                }
-                            }
-                        })
-                    }
+                        // input 태그 제거
+                        inputField.remove();
 
+                        // 버튼을 다시 '수정'으로 변경
+                        target.textContent = '수정';
+                        target.classList.remove('saveBtn');
+                        target.classList.add('updateBtn');
 
+                        // 취소 버튼 제거
+                        cancelButton.remove();
+                    });
                 }
             }
         }
 
-        // 삭제 버튼인 경우 (추가 구현)
+        // 삭제 버튼 클릭 시 (추가 구현)
         if (target.classList.contains('deleteBtn')) {
             const resultContainer = target.closest('.resultContainer');
             if (resultContainer) {
                 const empCodeInput = resultContainer.querySelector('input[type="hidden"]');
                 if (empCodeInput) {
                     const empCode = empCodeInput.value.trim();
-
-                    // 필요한 처리 로직을 추가하세요 (예: 삭제 요청 보내기 등)
-                    if(confirm("정말 삭제하시겠습니까?")) {
-                        location.href = "/ipInfo/deleteIpInfo?empCode=" + empCode;
+                    if (confirm("정말 삭제하시겠습니까?")) {
+                        // 여기에서 서버로의 삭제 요청을 넣으세요
+                        location.href = `/ipInfo/deleteIpInfo?empCode=${empCode}`;
                     } else {
                         location.href = "/ipInfo/ipInfoMain";
                     }
@@ -198,22 +163,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-});
 
-function validateIPv4(ip) {
-    const ipPattern = /^([0-9]{1,3}\.){3}[0-9]{1,3}$/;
+    // IPv4 주소 유효성 검사 함수
+    function validateIPv4(ip) {
+        const ipPattern = /^([0-9]{1,3}\.){3}[0-9]{1,3}$/;
 
-    if (!ipPattern.test(ip)) {
-        return false;
-    }
-
-    const octets = ip.split('.');
-    for (let i = 0; i < octets.length; i++) {
-        const octet = parseInt(octets[i]);
-        if (octet < 0 || octet > 255 || isNaN(octet)) {
+        if (!ipPattern.test(ip)) {
             return false;
         }
-    }
 
-    return true;
-}
+        const octets = ip.split('.');
+        for (let i = 0; i < octets.length; i++) {
+            const octet = parseInt(octets[i]);
+            if (octet < 0 || octet > 255 || isNaN(octet)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+});
