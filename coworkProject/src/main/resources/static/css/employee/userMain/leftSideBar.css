@@ -391,3 +391,6 @@ button.fc-next-button.fc-button.fc-button-primary {
     width: 35px;
     height: -2px;
 }
+.mainMove {
+    margin-top: 50px !important;
+}

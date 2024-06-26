@@ -72,7 +72,6 @@ function setEqualRowWidth() {
 /* 검색창 클릭 */
 function inputChange(empFirstName, trId, tableId) {
 
-
     fetch("/employee/edsm/edsmSerach?empFirstName=" + empFirstName, {
         method : "GET",
         headers : {"Content-Type" : "application/json"}
@@ -146,28 +145,41 @@ for(let i=1; i<=approverForm.childElementCount; i++) {
             const empFirstName = document.querySelector('#approver' + i).value;
 
             inputChange(empFirstName, 'trApp', '.searchApp');
+            
         });
 
         document.querySelector('#approver' + i).addEventListener('input', () => {
+
+            searchApp.classList.remove('displayNone');
+            searchApp.classList.add('displayTable');
+
+            searchRef.classList.remove('displayTable');
+            searchRef.classList.add('displayNone');
+
+            //.log("여기????" + i);
+
+            //console.log(document.querySelector('#approver' + i));
+
             const empFirstName = document.querySelector('#approver' + i).value;
+
+            //console.log(empFirstName.length + " 길이");
 
             // 기존에 등록한 empCode값 삭제
             document.querySelector('#empCode' + i).value = '';
-            
-            for(let x=(i+1); x<approverForm.childElementCount; x++) {
 
-                if(x < 4) {
-                    document.querySelector('#approver' + x).disabled = true;
-                    document.querySelector('#approver' + x).value = '';
+            for (let x=i+1; x <= 3; x++) {
+                const approverElement1 = document.querySelector('#approver' + x);
+                
+               if (approverElement1) {
+                    //console.log("x : " + x + " / i : " + i);
+                    //console.log("empFirstName : " + empFirstName);
+                    //console.log("empFirstName : " + approverElement.value);
+                    approverElement1.disabled = true;
+                    approverElement1.value = '';
                 }
-
-                console.log(document.querySelector('#approver' + x));
             }
 
             inputChange(empFirstName, 'trApp', '.searchApp');
-
-            
-            document.querySelector('#approver' + (i+1)).disabled = false;
 
         });
     }
@@ -175,7 +187,8 @@ for(let i=1; i<=approverForm.childElementCount; i++) {
 
 function searchtrAppClick(empCode, empNm) {
 
-    console.log("searchClick : " + searchClick + "/ empNm : " + empNm + " / empCode" + empCode); 
+    //console.log("searchClick : " + searchClick + "/ empNm : " + empNm + " / empCode" + empCode); 
+    
     document.querySelector('#approver' + searchClick).value = empNm;
     document.querySelector('#empCode' + searchClick).value = empCode;
 
@@ -214,12 +227,12 @@ document.querySelector('#referrer').addEventListener("click", () => {
 // 라벨 삭제
 function removeLabelClick(empCode) {
 
-    console.log(empCode + " 라벨 삭제")
+    //console.log(empCode + " 라벨 삭제")
 
     const input = document.querySelector('#empCode');
     const names = input.value.split(',').map(name => name.trim());
 
-    console.log(names);
+    //console.log(names);
 
     // empCode값 삭제
     const filteredNames = names.filter(name => name != empCode);
@@ -389,7 +402,7 @@ document.querySelector("#edsmRequest").addEventListener("click", () => {
     let approver = '';
 
     for(let i=1; i<=3; i++) {
-        console.log(i);
+        //console.log(i);
 
         const emp = document.querySelector('#empCode' + i).value;
 
