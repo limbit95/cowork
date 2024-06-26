@@ -47,39 +47,62 @@ organizationSelect.addEventListener('click', function(){
 	
 	makeChatButton.style.display = 'block';
 	
-	deptTeamContainer.innerHTML = '';
-	deptTeamContainer.style.display='block';
+	deptTeamContainer.innerHTML = ''; // 조직도 조회의 왼쪽 부분 비워줌
+	deptTeamContainer.style.display='block'; // 조직도 조회 왼쪽 부분 보여지게함.
 	
-    organizationSelectContainer.style.display = 'flex';
-    nameSelectContainer.style.display = 'none';
+    organizationSelectContainer.style.display = 'flex'; // 조직도 조회의 왼쪽 오른쪽 다 담고 있는 div 태그 flex 함. 
+    nameSelectContainer.style.display = 'none'; // 조직도 조회의 오른쪽 부분 안보여지게 함. 
 	
 	// 현재 로그인한 사원이 속한 회사의 부서와 팀을 모두 조회한다. 
 	fetch('/chat/getDeptAndTeam')
     .then(response => response.json())  
     .then(deptTeamList => {
-        console.log(deptTeamList);
-        deptTeamList.forEach(deptTeam => {
-			let newDiv = document.createElement('div');		
-			newDiv.classList.add('dept');
+		// 조회된 부서와 팀을 렌더링 해주는 코드. 
+        deptTeamList.forEach(deptTeam => { 
+			// div 태그 만듦.
+			let newDiv = document.createElement('div');	 
+				/* js 로 만들어진 newDiv 에 css 적용 */
+				newDiv.style.width = '100%';
+				newDiv.style.backgroundColor = 'white';
+				newDiv.style.display = 'flex';
+				newDiv.style.flexDirection = 'column';
 			
+			// div 태그 하나 더 만듦. 아이콘과 부서의 이름을 담을 div 태그임. 
 			let newIconAndDeptNm = document.createElement('div');
-			newIconAndDeptNm.style.display = 'flex';
-			newIconAndDeptNm.style.alignItems = 'center';
-			newIconAndDeptNm.style.marginLeft = '1vw';
+				/* css 적용 */
+				newIconAndDeptNm.style.display = 'flex';
+				newIconAndDeptNm.style.alignItems = 'center';
+				newIconAndDeptNm.style.marginLeft = '1vw';
 			
+			// i 태그 만듦. 부서 아이콘임. 
 			let newIcon = document.createElement('i');
-			newIcon.classList.add('fa-regular', 'fa-building');
-			newIconAndDeptNm.appendChild(newIcon);
-			newIcon.style.fontSize = '20px';
-						
-			let deptNmNode = document.createTextNode(deptTeam.deptNm);
+				/* css 적용 */
+				newIcon.classList.add('fa-regular', 'fa-building');
+				newIconAndDeptNm.appendChild(newIcon);
+				newIcon.style.fontSize = '20px';
+			
+			// 부서 이름을 담을 div 태그 
 			let deptNmDiv = document.createElement('div');
+			// 부서의 이름을 노드로. 
+			let deptNmNode = document.createTextNode(deptTeam.deptNm);
+			// 부서 이름 담을 div 태그에 부서이름을 추가함. 
 			deptNmDiv.appendChild(deptNmNode);
-			deptNmDiv.classList.add('deptNm');
+			/* css */
+				deptNmDiv.style.width = '100%';
+				deptNmDiv.style.paddingLeft = '0.3vw';
+				deptNmDiv.style.height = '3vh';
+				deptNmDiv.style.fontSize = '20px';
+				deptNmDiv.style.fontWeight = 'bold';
+				deptNmDiv.style.display = 'flex';
+				deptNmDiv.style.alignItems = 'center';						
+			
+			// "아이콘과 부서의 이름을 담을 div 태그"에 부서의 이름을 추가함. 
 			newIconAndDeptNm.appendChild(deptNmDiv);
 			
+			// "아이콘과 부서의 이름을 담을 div 태그"를 newDiv에 추가함. 
 			newDiv.appendChild(newIconAndDeptNm);
-						
+			
+			// 해당 부서에 
 			for(let i=0; i<deptTeam.teamList.length; i++){
 				
 				let teamDiv = document.createElement('div');
