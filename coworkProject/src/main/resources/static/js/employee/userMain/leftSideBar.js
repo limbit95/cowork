@@ -73,6 +73,7 @@ function employeeAuthority() {
 
             const adminMenu = document.createElement('a');
             adminMenu.href = "/adminMain";
+            adminMenu.classList.add('mainMove');
             adminMenu.innerText = "관리자 메뉴로 이동";
 
             surveyLink.after(adminMenu);

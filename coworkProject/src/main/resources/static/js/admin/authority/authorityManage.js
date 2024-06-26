@@ -197,13 +197,13 @@ document.querySelector('#findEmp').addEventListener("input", () => {
     
     empName = document.querySelector('#findEmp').value;
 
-    authorityManage(deptNo , teamNo, empName);
+    authorityManage(deptNo , teamNo, empName, 1);
 
 });
 
 
 /* 권한 등록 */
-document.querySelector('#saveGroup').addEventListener("click", () => {
+document.querySelector('#saveGroup1').addEventListener("click", () => {
 
     const authorityList = [];
             
