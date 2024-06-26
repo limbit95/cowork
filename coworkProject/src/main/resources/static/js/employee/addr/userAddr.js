@@ -11,7 +11,7 @@ if(findEmp != null) {
         if(location.pathname == '/employee/addr/comList' || location.pathname == '/employee/addr/deptList' || location.pathname == '/employee/addr/teamList' || location.pathname == '/employee/addr' || location.pathname == '/employee/addr/myGroup') {
             if(inputName.trim().length == 0) {
                 location.reload();
-                 return;
+                return;
             }
     
             fetch("/admin/addr/findEmp?name=" + inputName)
@@ -453,7 +453,6 @@ document.querySelectorAll('.li-hover').forEach(item => {
             location.href = '/employee/addr/myGroup?groupName=' + item.children[1].dataset.addrName;
         }
         if(className.includes('myAll')){
-            location.href = '/employee/addr';
         }
 
         // 회사 주소록

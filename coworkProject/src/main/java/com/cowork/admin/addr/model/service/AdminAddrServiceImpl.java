@@ -336,8 +336,17 @@ public class AdminAddrServiceImpl implements AdminAddrService {
 		return mapper.empInTeamIsEmpty(data);
 	}
 	
-	
-	
+	// 선택한 구성원 삭제
+	@Override
+	public int deleteEmployee(List<Map<String, Object>> data) {
+		int result = 0;
+		
+		for(int i = 0; i < data.size(); i++) {
+			result = mapper.deleteEmployee(data.get(i));
+		}
+		
+		return result;
+	}
 	
 	
 	
@@ -370,5 +379,5 @@ public class AdminAddrServiceImpl implements AdminAddrService {
    		}
         return key;
 	}
-	
+
 }

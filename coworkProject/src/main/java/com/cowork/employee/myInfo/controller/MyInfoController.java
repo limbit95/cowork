@@ -34,11 +34,15 @@ public class MyInfoController {
 
 	@GetMapping("myInfoUpdate")
 	public String myInfoUpdate(@SessionAttribute("loginEmp") Employee2 loginEmp, Model model) {
-		model.addAttribute("loginEmp", loginEmp);
+//		model.addAttribute("loginEmp", loginEmp);
+		
+		Employee2 emp = myInfoService.getEmp(loginEmp.getEmpCode());
+		model.addAttribute("loginEmp", emp);
+		
 		String address = loginEmp.getEmpAddress();
         // 문자열을 "^^^" 구분자로 분할
 		if(address != null) {
-	        String[] parts = address.split("\\^\\^\\^");
+	        String[] parts = address.split("\\^^^\\^^^\\^^^");
 	        model.addAttribute("postCode", parts[0]);
 	        model.addAttribute("dorojibun", parts[1]);
 	        model.addAttribute("detailAddr", parts[2]);
@@ -49,10 +53,12 @@ public class MyInfoController {
 	
 	@PostMapping("validateDuplicateEmpId")
 	@ResponseBody
-	public int validateDuplicateEmpId(@RequestBody Map<String, String> paramMap) {
-		String empId = paramMap.get("empId");
+	public int validateDuplicateEmpId(@RequestBody Map<String, String> paramMap,
+									  @SessionAttribute("loginEmp") Employee2 loginEmp) {
 		
-		int result = myInfoService.validateDuplicateEmpId(empId);		
+		paramMap.put("empCode", String.valueOf(loginEmp.getEmpCode()));
+		
+		int result = myInfoService.validateDuplicateEmpId(paramMap);		
 		
 		
 		return result; 

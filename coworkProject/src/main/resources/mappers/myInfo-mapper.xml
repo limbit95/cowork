@@ -5,6 +5,8 @@
 	<select id="validateDuplicateEmpId">
 		SELECT COUNT(*) FROM EMPLOYEE
 		WHERE EMP_ID = #{empId} 
+		AND EMP_CODE != #{empCode}
+		AND EMP_DEL_FL = 'N'
 	</select>
 	
 	<update id="updateProfileImg">
@@ -36,7 +38,11 @@
 		WHERE EMP_CODE = #{empCode}
 	</update>
 	
-	
+	<select id="getEmp">
+		SELECT EMP_LAST_NAME, EMP_FIRST_NAME, EMP_ID, EMP_EMAIL, EMP_BIRTH, PHONE, PROFILE_IMG
+		FROM EMPLOYEE
+		WHERE EMP_CODE = #{empCode}
+	</select>
 	
 	
 </mapper>

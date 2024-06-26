@@ -104,4 +104,10 @@ public interface AdminAddrService {
 	 */
 	int empInTeamIsEmpty(Map<String, Object> data);
 
+	/** 선택한 구성원 삭제
+	 * @param data
+	 * @return
+	 */
+	int deleteEmployee(List<Map<String, Object>> data);
+
 }

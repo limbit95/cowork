@@ -47,31 +47,25 @@ const checkObj = {
 
 let idCheckMessage = document.querySelector('#idCheckMessage');
 
-// 이름 유효성 검사 
-const regexName = /^.{1,7}$/;
-const regexSung = /^.{1,8}$/;
 
 let empName = document.querySelector('#empName');
-empName.addEventListener('input', function(){
-	let empNameValue = empName.value;
-    if (!regexName.test(empNameValue)) {
-        alert('이름은 1글자 이상 7글자 이하여야 합니다.');
+empName.addEventListener('input', e => {
+    if (e.target.value.trim().length == 0) {
+        alert('이름을 필수 입력 사항입니다.');
 		checkObj.empName = false;
         return;
-    } else{
-		checkObj.empName = true;
-	}
+    } 
+	checkObj.empName = true;
 });
 
 let empSung = document.querySelector('#empSung');
-empSung.addEventListener('input', function(){
-	let empSungValue = empSung.value;
-    if(!regexSung.test(empSungValue)){
+empSung.addEventListener('input', e => {
+    if (e.target.value.trim().length == 0) {
 		alert('성은 글자 이상 8글자 이하여야 합니다.');
 		checkObj.empSung = false;
-	} else{
-		checkObj.empName = true;
-	}
+        return;
+	} 
+    checkObj.empName = true;
 });
 
 // 아이디 유효성 검사 
@@ -303,7 +297,7 @@ updatePrivateInfo.addEventListener('click', function(){
     if(submitFlag){
 		let empName = document.querySelector('#empName').value;
 		let empSung = document.querySelector('#empSung').value;
-		let sleepyIdInput = document.querySelector('#sleepyIdInput').value;
+		let sleepyIdInput = document.querySelector('#sleepyIdInput').value; 
 		let empEmail = document.querySelector('#empEmail').value;
 		let empBirth = document.querySelector('#empBirth').value;
 		let phone = document.querySelector('#phone').value;
@@ -330,8 +324,12 @@ updatePrivateInfo.addEventListener('click', function(){
 		})
 		.then(resp => resp.text())
 		.then(result => {
-			alert('정보가 성공적으로 수정되었습니다.');
-			location.href='/myInfo/myInfoUpdate';
+            if(result > 0) {
+                alert('정보가 성공적으로 수정되었습니다.');
+                location.href='/myInfo/myInfoUpdate';
+                return;
+            }
+            alert('정보 수정 실패');
 		})
 
 		

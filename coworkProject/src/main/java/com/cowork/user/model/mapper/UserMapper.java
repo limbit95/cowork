@@ -172,6 +172,17 @@ public interface UserMapper {
 	 */
 	int registAuthority(Map<String, Object> map);
 
+	/** 등록한 회사에 기본 직책 레벨 부여
+	 * @param map
+	 * @return
+	 */
+	int registPosition(Map<String, Object> map);
+
+	/** 권한 관리 번호 가져오기
+	 * @return
+	 */
+	List<Integer> getAuthorityNo();
+
 
 
 

@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
 		} else { 
 			inputCompany.setComAddr(null); 
 		}
-		
+
 		int result = mapper.registCompanyInfo(inputCompany);
 		
 		if(result == 0) {
@@ -148,14 +148,14 @@ public class UserServiceImpl implements UserService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("comNo", comNo);
 		map.put("empCode", empCode);
-		
+
 		// 등록한 회사의 번호를 회원가입한 관리자에게 부여
 		result = mapper.registAdminCompany(map);
 		
 		if(result == 0) {
 			return 0;
 		}
-		
+
 		// 등록한 회사에 전자결재 기본 양식 부여
 		result = mapper.registDraft(map);
 		
@@ -163,15 +163,41 @@ public class UserServiceImpl implements UserService {
 			return -1;
 		}
 		
-		// 회원가입한 관리자에게 전체 권한 부여 
-		result = mapper.registAuthority(map);
+		// 권한 관리 번호 가져오기
+		List<Integer> authorityNo = mapper.getAuthorityNo();
 		
+		for(int i = 0; i < authorityNo.size(); i++) {
+			Map<String, Object> map3 = new HashMap<String, Object>();
+			map3.put("authorityNo", authorityNo.get(i));
+			map3.put("empCode", empCode);
+			// 회원가입한 관리자에게 전체 권한 부여 
+			result = mapper.registAuthority(map3);
+		}
+
 		if(result == 0) {
 			return -1;
 		}
+
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("positionNm", "대표");
+		map1.put("level", 1);
+		map1.put("comNo", comNo);
+		Map<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("positionNm", "사원");
+		map2.put("level", 2);
+		map2.put("comNo", comNo);
+
+		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+		data.add(map1);
+		data.add(map2);
+		
+		log.info("data : " + data);
+		
+		for(int i = 0; i < data.size(); i++) {
+			result = mapper.registPosition(data.get(i));
+		}
 		
 		// 등록한 회사에 기본 직책 레벨 부여
-//		return mapper.registPosition(map);
 		return result;
 	}
 
