@@ -1229,12 +1229,9 @@ var stompClient = null;
 // 연결 
 function connect(subscribeAddr2) { 
 	
-	
 	if (stompClient !== null && stompClient.connected) {
         stompClient.disconnect();
     }
-	
-	
 	
     var socket = new SockJS('/ws'); // SockJS 객체를 하나 만든다. 이때, 매개변수로 endPoint(클라이언트가 서버에 메세지를 보낼때 사용하는 경로의 접두사) 를 넣어줌. 
     stompClient = Stomp.over(socket); // Stomp 는 stomp.js 라이브러리에 의해 제공되는 객체로, 
@@ -1529,10 +1526,7 @@ function showMessage(message) {
 			let contentNode = document.createTextNode(message.content);
 			contentDiv.appendChild(contentNode); // 메세지 내용이 들어있는 div 태그 생성 
 		}	
-		
-		
-		
-		
+
 		
 		firstDiv.appendChild(profileDiv);
 		firstDiv.appendChild(nicknameDiv);
@@ -1700,6 +1694,11 @@ function showMessage(message) {
 		
 
     }
+    
+    
+
+
+
 
 
 /*

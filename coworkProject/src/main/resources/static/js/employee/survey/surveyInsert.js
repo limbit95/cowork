@@ -322,8 +322,6 @@ position.addEventListener('click', function(){
 	document.querySelector('#findEmp').style.border = '1.5px solid #BDD8F1';
 	document.querySelector('#entire').style.border = '1.5px solid #BDD8F1';
 
-
-	
 	fetch('/survey/positionList')
 	 .then(response => {
 
@@ -399,6 +397,10 @@ findEmpInput.addEventListener('input', function(){
 				
 				let empProfileImg = document.createElement('img');
 				empProfileImg.src =  emp.profileImg;
+				empProfileImg.style.width = '30px';
+				empProfileImg.style.height= '30px';
+				empProfileImg.style.borderRadius = '50%';
+				
 				empDiv.appendChild(empProfileImg);
 				
 				let empNicknameNode = document.createTextNode(emp.empLastName + emp.empFirstName);
@@ -637,7 +639,6 @@ forBottomEmptySpace.addEventListener('click', function(){
 			console.log(subjectiveQuestionTitle);
 			console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwww');
 			
-			alert(subjectiveQuestionTitle);
 			let subjectiveQuestionObj = {
 				'type': 'subjective',
 				'title': subjectiveQuestionTitle

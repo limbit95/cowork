@@ -111,10 +111,7 @@ public class SurveyServiceImpl implements SurveyService{
 			for(Integer Empcode2 : empCodeList) {
 				Map<String, Object> paramMap3 = new HashMap<>();
 				
-				log.debug("EmpCode2=={}", Empcode2);
-				log.debug("surveyNo=={}", surveyNo);
-				
-				paramMap3.put("Empcode2", Empcode2);
+				paramMap3.put("Empcode", Empcode2);
 				paramMap3.put("surveyNo", surveyNo);
 				surveyMapper.insertSurveyTarget(paramMap3);
 			}
@@ -125,7 +122,7 @@ public class SurveyServiceImpl implements SurveyService{
 
 			for(String empCode3 : empCodeList) {
 				Map<String, Object> paramMap4 = new HashMap<>();
-				paramMap4.put("empCode3", empCode3);
+				paramMap4.put("empCode", empCode3);
 				paramMap4.put("surveyNo", surveyNo);
 				surveyMapper.insertSurveyTarget(paramMap4);
 			}

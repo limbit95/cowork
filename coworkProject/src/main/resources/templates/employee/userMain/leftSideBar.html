@@ -40,13 +40,17 @@
 
 		<div style="width: 100%; display: flex; justify-content: flex-end; margin-right: 0.7vw; margin-bottom: 1.5vh; margin-top: 0.5vh;" >
 		<th:block th:if="${session.loginEmp.businessCardFl == 1}" style="width:20vw;">
-			<div id="templateDesignOne" style="
-			width: 15vw;
-			height: 130px;
-			display: flex; 
-			justify-content: center;
-			align-items: center;
-			">
+			<a
+			id="templateDesignOne" style="
+						width: 15vw;
+						height: 130px;
+						display: flex; 
+						justify-content: center;
+						align-items: center;
+						"
+			href="/myInfo/myInfoUpdate"
+			>
+
 				<div id="firstTemplateDesign"
 				style="
 				width: 12vw; 
@@ -129,16 +133,21 @@
 					</div>
 					<!-- ------------------- 첫번째 명함 끝 ---------------------- -->
 				</div>
-			</div>	
+			
+			</a>
 		</th:block>
 		<th:block th:if="${session.loginEmp.businessCardFl} == 2" style="width:20vw;">
-			<div id="templateDesignTwo" style="
-			width: 15vw;
-			height: 130px;
-			display: flex; 
-			justify-content: center;
-			align-items: center;
-			">
+			<a 
+			id="templateDesignTwo" style="
+						width: 15vw;
+						height: 130px;
+						display: flex; 
+						justify-content: center;
+						align-items: center;
+						"
+			href="/myInfo/myInfoUpdate"
+			>
+
 				<div id="secondTemplateDesign" style="
 				width: 12vw; 
 				height: 130px; 
@@ -218,16 +227,23 @@
 					</div>
 					<!-- ------------------- 두번째 명함 끝 ---------------------- -->
 				</div>
-			</div>
+			</a>
 		</th:block>
 		<th:block th:if="${session.loginEmp.businessCardFl} == 3">
-			<div id="templateDesignThree" style="
-			width: 15vw;
-			height: 130px;
-			display: flex; 
-			justify-content: center;
-			align-items: center;
-			">
+
+			<a
+			id="templateDesignThree" style="
+						width: 15vw;
+						height: 130px;
+						display: flex; 
+						justify-content: center;
+						align-items: center;
+						"
+			href="/myInfo/myInfoUpdate"
+			>
+				
+
+			
 				<div id="thirdTemplateDesign" style="
 					width: 12vw; 
 					height: 130px; 
@@ -313,7 +329,7 @@
 					</div>
 					<!-- ------------------- 세번째 명함 끝 ---------------------- -->
 				</div>
-			</div>
+			</a>
 		</th:block>
 		</div>
 		

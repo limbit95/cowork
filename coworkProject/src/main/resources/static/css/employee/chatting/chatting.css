@@ -778,7 +778,10 @@ body {
 	color: white;
 }
 
-
+#chattingsArea{
+    max-height: 400px; /* 원하는 최대 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤바 활성화 */
+}
 
 
 
