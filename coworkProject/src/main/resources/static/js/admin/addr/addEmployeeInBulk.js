@@ -1768,7 +1768,6 @@ dropZone.addEventListener('drop', (e) => {
 
         reader.readAsArrayBuffer(temp1);
 
-        check3 = true;
         document.querySelectorAll(".accordion-header")[2].style.color = 'rgba(0, 0, 0, 0.479)';
         document.getElementById('fileName').innerHTML = `${fileInput.files[0].name}<span id="xBtn" style="margin-left: 3px; ont-size: 14px; cursor: pointer; color: red;">&times;</span>`;
         document.querySelector("#next2").classList.remove('blur');
@@ -2565,6 +2564,90 @@ deleteBtn.addEventListener("click", e => {
         document.getElementById('fileName').textContent = '마우스로 파일을 끌어오거나 직접 선택해 주세요.';
         document.querySelector(".subBtnDiv").children[0].style.display = 'none';
     }
+
+    // ----------------------------------------------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------
+    // ID 인풋창 포커스 시
+    document.querySelectorAll(".empId").forEach((i) => {
+        i.children[0].addEventListener("focus", e => {
+            e.target.style.border = '2px solid black';
+        });
+    })
+
+    // ID 인풋창 입력 시
+    document.querySelectorAll(".empId").forEach((i, index1) => {
+        i.children[0].addEventListener("input", e => {
+            let inputId = e.target.value.trim();
+    
+            if (inputId.length === 0) {
+                e.target.style.color = 'red';
+                e.target.style.border = '2px solid red';
+                borderIsRed();
+                return;
+            }
+    
+            const regExp = /^[A-Za-z0-9]{4,20}$/;
+    
+            if (!regExp.test(inputId)) {
+                e.target.style.color = 'red';
+                e.target.style.border = '2px solid red';
+                borderIsRed();
+                return;
+            }
+    
+            let hasDuplicate = false;
+    
+            document.querySelectorAll(".empId").forEach((x, index2) => {
+                let inputId2;
+                if(x.children[0].tagName == "INPUT") {
+                    inputId2 = x.children[0].value.trim();
+                } else {
+                    inputId2 = x.children[0].innerText.trim();
+                }
+    
+                if (index1 !== index2 && inputId2 === inputId) {
+                    hasDuplicate = true;
+                }
+            });
+    
+            if (hasDuplicate) {
+                e.target.style.color = 'red';
+                e.target.style.border = '2px solid red';
+            } else {
+                fetch("/user/checkId?empId=" + inputId)
+                .then(resp => resp.text())
+                .then(result => {
+                    console.log(result)
+                    if (result > 0) {
+                        e.target.style.color = 'red';
+                        e.target.style.border = '2px solid red';
+                    } else {
+                        e.target.style.color = 'black';
+                        e.target.style.border = '2px solid black';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    e.target.style.color = 'red';
+                    e.target.style.border = '2px solid red';
+                });
+            }
+            borderIsRed();
+        });
+    });
+    
+    // // ID 인풋창 포커스 아웃 시
+    document.querySelectorAll(".empId").forEach((i, index1) => {
+        i.children[0].addEventListener("blur", e => {
+            if(e.target.style.color == 'red') {
+                e.target.style.border = '1px solid red';
+            } else {
+                e.target.style.border = '1px solid var(--gray-color)';
+            }
+        })
+    })
+
+
 })
 
 
