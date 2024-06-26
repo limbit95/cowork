@@ -69,7 +69,7 @@ public class TeamBoardServiceImpl implements TeamBoardService {
 		int authorityCnt = mapper.authorityCnt(paramMap);
 		
 		// 팀내에 최고 레벨
-		int levelCnt = mapper.levelCnt(paramMap);
+		int levelCnt = mapper.levelCnt(paramMap); 
 		
 		// 팀게시판 권한 조회
 		List<Employee2> teamAuthorityList = mapper.teamAuthorityList(paramMap);
