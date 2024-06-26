@@ -90,7 +90,7 @@
 /* ************** 사원 검색 관련 **************** */
 .searchTable {
     position: absolute;
-    top: 100%; /* 인풋 창 바로 아래에 위치하게 설정 */
+    top: 110%; /* 인풋 창 바로 아래에 위치하게 설정 */
     left: 0;
     width: 900px !important;
     background: white;
