@@ -332,6 +332,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                     tempTeamList = [];
                                 }
                             }
+                            
+                            if(tempDeptList.length == 0) {
+                                tempTeamList = [];
+                            }
 
                             // 0 : 엑셀에 작성한 ID가 DB에 없을 때
                             // 1 : 엑셀에 작성한 ID가 DB에 있을 때
@@ -433,13 +437,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                             `
                                         :
-                                            `
-                                                <div>
-                                                    <select class="default-line teamList">
-                                                        ${tempTeamList.map(item => `<option value="${item.teamNo}">${item.teamNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
-                                            `
+                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -523,13 +521,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                             `
                                         :
-                                            `
-                                                <div>
-                                                    <select class="default-line teamList">
-                                                        ${tempTeamList.map(item => `<option value="${item.teamNo}">${item.teamNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
-                                            `
+                                           `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -621,13 +613,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                             `
                                         :
-                                            `
-                                                <div>
-                                                    <select class="default-line teamList">
-                                                        ${tempTeamList.map(item => `<option value="${item.teamNo}">${item.teamNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
-                                            `
+                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -711,13 +697,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                             `
                                         :
-                                            `
-                                                <div>
-                                                    <select class="default-line teamList">
-                                                        ${tempTeamList.map(item => `<option value="${item.teamNo}">${item.teamNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
-                                            `
+                                           `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -806,7 +786,13 @@ document.addEventListener('DOMContentLoaded', function() {
                                 }
                             }
 
-
+                            if(deptList.length == 0) {
+                                document.querySelectorAll(".employee").forEach((i) => {
+                                    i.children[8].children[0].style.border = '1px solid var(--gray-color)';
+                                    i.children[9].children[0].style.border = '1px solid var(--gray-color)';
+                                    i.children[10].children[0].style.border = '1px solid var(--gray-color)';
+                                })
+                            }
 
 
 
@@ -2730,3 +2716,19 @@ function generateRandomString(length) {
     
     return result;
 }
+
+const menual = document.querySelector("#menual");
+const modal9 = document.querySelector(".modal9");
+const confirmBtn9 = document.querySelector("#confirmBtn9");
+
+menual.addEventListener("click", e => {
+    modal9.style.display = 'flex';
+})
+confirmBtn9.addEventListener("click", e => {
+    modal9.style.display = 'none';
+})
+window.addEventListener("keydown", e => {
+    if(e.key == 'Escape') {
+        modal9.style.display = 'none';
+    }
+})
