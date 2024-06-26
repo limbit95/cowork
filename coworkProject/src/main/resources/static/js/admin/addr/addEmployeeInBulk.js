@@ -1552,16 +1552,25 @@ document.addEventListener('DOMContentLoaded', function() {
                             
                         })
                     })
-
-
-
-
                     
                     checkBox();
                     
                 },
                 error: function(xhr, status, error) {
-                    if(status != null) {
+                    console.log(status)
+                    if(status == 'parsererror') {
+                        document.querySelector(".modal8").style.display = 'flex';
+                        fileInput.value = '';
+                        newFile = undefined;
+                        document.getElementById('fileName').textContent = '마우스로 파일을 끌어오거나 직접 선택해 주세요.';
+                        document.querySelector("#next2").classList.remove('sapphire-btn2');
+                        document.querySelector("#next2").classList.add('blur');
+                        check3 = false;
+                        document.querySelectorAll(".accordion-header")[2].style.color = 'rgba(0, 0, 0, 0.479)';
+                        document.querySelector("#confirmBtn8").addEventListener("click", e => { 
+                            document.querySelector(".modal8").style.display = 'none'; 
+                        })
+                    } else {
                         document.querySelector(".modal7").style.display = 'flex';
                         fileInput.value = '';
                         newFile = undefined;
