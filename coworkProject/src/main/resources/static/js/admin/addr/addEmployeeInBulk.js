@@ -691,7 +691,11 @@ document.addEventListener('DOMContentLoaded', function() {
                                             // 존재하는 직급명과 일치하지 않으면
                                             e.target.style.border = '1px solid red';
                                             let flag1 = true;
+                                            let count = 0;
                                             document.querySelectorAll(".employee").forEach((x) => {
+                                                if(!flag1) {
+                                                    return;
+                                                }
                                                 const style = x.children[1].children[0].style
                                                 const style1 = x.children[2].children[0].style
                                                 const style2 = x.children[3].children[0].style
@@ -706,16 +710,22 @@ document.addEventListener('DOMContentLoaded', function() {
                                                     style3.borderColor == 'red' || style4.borderColor == 'red' ||
                                                     style5.borderColor == 'red' || style6.borderColor == 'red' ||
                                                     style7.borderColor == 'red' || style8.borderColor)) {
-                                                        console.log('test')
                                                     flag1 = false;
                                                     document.querySelector("#addInBulk").classList.add("blur");
                                                     document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
                                                     return;
+                                                } 
+                                                if(x.children[0].children[0].checked == false) {
+                                                    count++;
                                                 }
                                             })
                                             if(flag1) {
                                                 document.querySelector("#addInBulk").classList.add("sapphire-btn2");
                                                 document.querySelector("#addInBulk").classList.remove("blur");
+                                            }
+                                            if(count == document.querySelectorAll(".employee").length) {
+                                                document.querySelector("#addInBulk").classList.add("blur");
+                                                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
                                             }
                                         }
 
