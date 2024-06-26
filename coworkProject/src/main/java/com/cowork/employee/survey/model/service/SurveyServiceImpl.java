@@ -111,7 +111,7 @@ public class SurveyServiceImpl implements SurveyService{
 			for(Integer Empcode2 : empCodeList) {
 				Map<String, Object> paramMap3 = new HashMap<>();
 				
-				paramMap3.put("Empcode", Empcode2);
+				paramMap3.put("empCode", Empcode2);
 				paramMap3.put("surveyNo", surveyNo);
 				surveyMapper.insertSurveyTarget(paramMap3);
 			}
