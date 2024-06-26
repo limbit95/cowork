@@ -35,6 +35,7 @@ public class Employee2 {
 	private String profileImg;
 	private String enrollDate;
 	private String inviteAuthKey;
+	private String empDelFl;
 	
 	private int comNo; // 회사 식별키
 	private String comNm; // 회사명

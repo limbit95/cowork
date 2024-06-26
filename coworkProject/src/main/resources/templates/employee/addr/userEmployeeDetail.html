@@ -41,15 +41,16 @@
                         
                         <div class="li-hover">
                             <i class="fa-solid fa-angle-down"></i>
-                            <div class="myAll">
+                            <div class="myAll" id="myAddr">
                                 <i class="fa-solid fa-user"></i>
                                 <span>개인 주소록</span>
                             </div>
+                            <button class="default-btn sapphire-btn" id="saveGroup">저장</button>
                         </div>
 
-                        <ul th:if="${session.groupList}">
+                        <ul th:if="${groupList}">
 
-                            <li class="favorite" th:each="group : ${session.groupList}">
+                            <li class="favorite" th:each="group : ${groupList}">
 
                                 <div class="li-hover">
                                     <i class="fa-solid fa-angle-down"></i>

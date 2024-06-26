@@ -268,6 +268,11 @@ section.container .selectGroup > select {
     flex-basis: 16.7%;
     margin-left: 5px;
 }
+.employeeList > :first-child > :nth-child(7) {
+    justify-content: start;
+    flex-basis: 5%;
+    margin-left: 5px;
+}
 
 /* 구성원 정보 */
 .right > .employeeList > .employee {
@@ -333,6 +338,13 @@ section.container .selectGroup > select {
 .employeeList > .employee > :nth-child(2) > :nth-child(5) {
     justify-content: start;
     flex-basis: 18%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.employeeList > .employee > :nth-child(2) > :nth-child(8) {
+    justify-content: start;
+    flex-basis: 6%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -432,7 +444,7 @@ section.container .detailBody {
     border: 1px solid #d9d9d9;
 }
 #saveGroup {
-    width: 50px;
+    width: 40px;
     font-size: 12px;
     text-align: center;
     padding: 5px;

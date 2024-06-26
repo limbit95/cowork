@@ -7,7 +7,7 @@
 		SELECT COUNT(*) 
 		FROM "EMPLOYEE"
 		WHERE EMP_ID = #{empId} 
-		AND EMP_DEL_FL = 'N'
+		AND EMP_DEL_FL != 'M'
 	</select>
 	
 	<!-- 회원가입(관리자용) -->

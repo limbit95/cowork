@@ -782,6 +782,8 @@ if(saveGroup != null) {
             }
         }
 
+        const templocation = location.pathname + location.search;
+
         fetch("/employee/addr/insertGroupList", {
             method : "post",
             headers : {"Content-Type" : "application/json"},
@@ -807,7 +809,7 @@ if(saveGroup != null) {
             }
             
             alert("그룹이 저장되었습니다.");
-            location.href = '/employee/addr/comList';
+            location.href = templocation;
         })
     });
 };

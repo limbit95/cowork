@@ -190,5 +190,17 @@ public interface AdminAddrMapper {
 	 */
 	int deleteEmployee(Map<String, Object> map);
 
+	/** 구성원 복구
+	 * @param data
+	 * @return
+	 */
+	int restore(Map<String, Object> data);
+
+	/** 구성원 영구 삭제
+	 * @param data
+	 * @return
+	 */
+	int permanentDeletion(Map<String, Object> data);
+
 
 }

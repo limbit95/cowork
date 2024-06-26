@@ -318,6 +318,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             let tempDeptNo;
                             // 엑셀에 작성한 부서가 DB의 부서 리스트에 있으면 해당하는 부서의 하위 팀 리스트만 담은 공간
                             let tempTeamList;
+                            let flag15 = true;
                             for(let x = 0; x < tempDeptList.length; x++) {
                                 if(tempDeptList[x].deptNm == i.부서) {
                                     tempDeptNm = tempDeptList[x].deptNm;
@@ -325,7 +326,11 @@ document.addEventListener('DOMContentLoaded', function() {
                                     tempDeptList.splice(x, 1)
                                     tempTeamList = teamList[x].slice();
                                     check200 = 1;
-                                } 
+                                    flag15 = false;
+                                }
+                                if(flag15) {
+                                    tempTeamList = [];
+                                }
                             }
 
                             // 0 : 엑셀에 작성한 ID가 DB에 없을 때
@@ -340,39 +345,19 @@ document.addEventListener('DOMContentLoaded', function() {
                                 }
                             })
                             
-                            // let flag6 = true;
-                            // let flag7 = true;
-                            // if(checkEmpId.length > 0) {
-                            //     checkEmpId.forEach((t) => {
-                            //         if(!flag7) {
-                            //             return;
-                            //         }
-                            //         if(i.ID == t) {
-                            //             check5 = 1;
-                            //             flag6 = false;
-                            //             flag7 = false;
-                            //         }
-                            //     })
-                            // }
-                            console.log(excelIdList)
-                            // if(flag6) {
-                                // DB에 중복 ID 없으면 이번엔 엑셀 파일 등록 ID들끼리 중복 검사
-                                console.log('주체 : ' + i.ID)
-                                excelIdList.forEach((y, index2) => {
-                                    // 자기 자신과는 비교하면 안됨
-                                    if(index1 == index2) {
-                                        return;
-                                    }
-                                    if(i.ID == y) {
-                                        console.log('비교할 객체 : ' + y)
-                                        checkEmpId.push(i.ID);
-                                        check5 = 1;
-                                        return;
-                                    }
-                                })
-                            // }
+                            // DB에 중복 ID 없으면 이번엔 엑셀 파일 등록 ID들끼리 중복 검사
+                            excelIdList.forEach((y, index2) => {
+                                // 자기 자신과는 비교하면 안됨
+                                if(index1 == index2) {
+                                    return;
+                                }
+                                if(i.ID == y) {
+                                    checkEmpId.push(i.ID);
+                                    check5 = 1;
+                                    return;
+                                }
+                            })
 
-                            console.log(check5)
                             if(check5 == 0) {
                                 const regExp = /^[A-Za-z0-9]{4,20}$/;
         
@@ -398,7 +383,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <div><span>${i.이메일 != "null" ? i.이메일 : ""}</span></div>
                                         <div class="empBirth"><span>${i.생일 != "null" ? i.생일 : ""}</span></div>
                                         ${i.부서 != "null" ? 
-
                                             `${deptList.length > 0 ? 
                                                 `
                                                     <div>
@@ -427,15 +411,35 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 }
                                             `
                                         }
-                                        ${deptList.length > 0 ?
+                                        ${deptList.length > 0 ? 
+                                            `${i.팀 != "null" ? 
+                                                `
+                                                    <div>
+                                                        <select class="default-line teamList">
+                                                            <option class="teamOpt" value="null" data-team-nm="${i.팀}">${i.팀}</option>
+                                                            ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                ` 
+                                            : 
+                                                `
+                                                    <div>
+                                                        <select class="default-line teamList">
+                                                            ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                `
+                                            }
+
+                                            `
+                                        :
                                             `
                                                 <div>
                                                     <select class="default-line teamList">
+                                                        ${tempTeamList.map(item => `<option value="${item.teamNo}">${item.teamNm}</option>`).join('')}
                                                     </select>
                                                 </div>
                                             `
-                                        :
-                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -488,7 +492,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                     <div>
                                                         <select class="default-line deptList">
                                                             <option class="deptOpt" value="null" >부서 선택</option>
-                                                            ${deptList.map(item => `<option  value="${item.deptNo}">${item.deptNm}</option>`).join('')}
+                                                            ${deptList.map(item => `<option value="${item.deptNo}">${item.deptNm}</option>`).join('')}
                                                         </select>
                                                     </div>
                                                 `
@@ -497,15 +501,35 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 }
                                             `
                                         }
-                                        ${deptList.length > 0 ?
+                                        ${deptList.length > 0 ? 
+                                            `${i.팀 != "null" ? 
+                                                `
+                                                    <div>
+                                                        <select class="default-line teamList">
+                                                            <option class="teamOpt" value="null" data-team-nm="${i.팀}">${i.팀}</option>
+                                                            ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                ` 
+                                            : 
+                                                `
+                                                    <div>
+                                                        <select class="default-line teamList">
+                                                            ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                `
+                                            }
+
+                                            `
+                                        :
                                             `
                                                 <div>
                                                     <select class="default-line teamList">
+                                                        ${tempTeamList.map(item => `<option value="${item.teamNo}">${item.teamNm}</option>`).join('')}
                                                     </select>
                                                 </div>
                                             `
-                                        :
-                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -575,15 +599,35 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 }
                                             `
                                         }
-                                        ${deptList.length > 0 ?
+                                        ${deptList.length > 0 ? 
+                                            `${i.팀 != "null" ? 
+                                                `
+                                                    <div>
+                                                        <select class="default-line teamList">
+                                                            <option class="teamOpt" value="null" data-team-nm="${i.팀}">${i.팀}</option>
+                                                            ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                ` 
+                                            : 
+                                                `
+                                                    <div>
+                                                        <select class="default-line teamList">
+                                                            ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                `
+                                            }
+
+                                            `
+                                        :
                                             `
                                                 <div>
                                                     <select class="default-line teamList">
+                                                        ${tempTeamList.map(item => `<option value="${item.teamNo}">${item.teamNm}</option>`).join('')}
                                                     </select>
                                                 </div>
                                             `
-                                        :
-                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -645,15 +689,35 @@ document.addEventListener('DOMContentLoaded', function() {
                                                 }
                                             `
                                         }
-                                        ${deptList.length > 0 ?
+                                        ${deptList.length > 0 ? 
+                                            `${i.팀 != "null" ? 
+                                                `
+                                                    <div>
+                                                        <select class="default-line teamList">
+                                                            <option class="teamOpt" value="null" data-team-nm="${i.팀}">${i.팀}</option>
+                                                            ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                ` 
+                                            : 
+                                                `
+                                                    <div>
+                                                        <select class="default-line teamList">
+                                                            ${tempTeamList.map(item => `<option  value="${item.teamNo}">${item.teamNm}</option>`).join('')}
+                                                        </select>
+                                                    </div>
+                                                `
+                                            }
+
+                                            `
+                                        :
                                             `
                                                 <div>
                                                     <select class="default-line teamList">
+                                                        ${tempTeamList.map(item => `<option value="${item.teamNo}">${item.teamNm}</option>`).join('')}
                                                     </select>
                                                 </div>
                                             `
-                                        :
-                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -704,23 +768,22 @@ document.addEventListener('DOMContentLoaded', function() {
                             // 엑셀 파일에서 작성한 부서명이 기존 DB의 부서 리스트에 있는 부서명이고
                             // 엑셀 파일에서 작성한 팀명이 앞서 작성한 부서 즉, DB에서 해당 부서의 하위 팀 리스트에 존재하지 않으면
                             // select 태그 border 빨간색으로 변경
-                            if(tempTeamList != null) {
-                                document.querySelectorAll(".teamOpt").forEach((x) => {
-                                    let check6 = false;
-                                    if(x.innerText.length > 0) {
-                                        tempTeamList.forEach((i) => {
-                                            if(i.teamNm == x.dataset.teamNm) {
-                                                x.parentElement.value = i.teamNo;
-                                                check6 = true;
-                                                return;
-                                            }
-                                        })
-                                        if(!check6) {
-                                            x.parentElement.style.border = '1px solid red';
+                            if(tempTeamList.length == 0) {
+                                document.querySelectorAll(".employee")[index1].children[9].children[0].style.border = '1px solid red';
+                            } else {
+                                const teamOpt = document.querySelectorAll(".employee")[index1].children[9].children[0].children[0];
+                                document.querySelectorAll(".teamOpt").forEach((x, index) => {
+                                    for(let i = 0; i < tempTeamList.length; i++) {
+                                        if(tempTeamList[i].teamNm == teamOpt.text) {
+                                            teamOpt.value = tempTeamList[i].teamNo;
+                                            break;  
+                                        } else {
+                                            teamOpt.parentElement.style.border = '1px solid red';
                                         }
                                     }
-                                })
+                                });
                             }
+                            
 
                             // 엑셀 파일에서 작성한 직급명이 기존 DB의 직급 리스트에 없는 직급명이면 
                             // select 태그의 border 빨간색으로 변경

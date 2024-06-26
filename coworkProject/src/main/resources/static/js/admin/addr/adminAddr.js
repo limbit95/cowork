@@ -268,12 +268,6 @@ document.querySelectorAll('.li-hover').forEach(item => {
         }
     });
 
-    if(location.pathname == '/admin/addr/employeeDetailPage') {
-        return;
-    }
-    if(location.pathname == '/admin/addr/employeeUpdate') {
-        return;
-    }
     item.addEventListener('contextmenu', event => {
         event.preventDefault();
         targetLi = item.parentElement;
@@ -641,18 +635,20 @@ if(deleteEmployee != null) {
             let flag10 = true;
 
             for(let i = 0; i < employee.length; i++) {
-                if(employee[i].children[0].children[0].checked == true) {
-                    if(flag10) {
-                        if(loginEmpCode == employee[i].children[1].children[5].value) {
-                            alert("자기 자신은 삭제할 수 없습니다.");
-                            flag10 = false;
-                            return;
-                        } 
-                        if(employee[i].children[1].children[6].value > 0) {
-                            alert("삭제 대상에 관리자가 포함되어있습니다. \n관리자는 권한 해제 후 삭제를 진행해주세요.");
-                            flag10 = false;
-                            return;
-                        } 
+                if(employee[i].children[1].getAttribute("class") == 'info') {
+                    if(employee[i].children[0].children[0].checked == true) {
+                        if(flag10) {
+                            if(loginEmpCode == employee[i].children[1].children[5].value) {
+                                alert("자기 자신은 삭제할 수 없습니다.");
+                                flag10 = false;
+                                return;
+                            } 
+                            if(employee[i].children[1].children[6].value > 0) {
+                                alert("삭제 대상에 관리자가 포함되어있습니다. \n관리자는 권한 해제 후 삭제를 진행해주세요.");
+                                flag10 = false;
+                                return;
+                            } 
+                        }
                     }
                 }
             }
@@ -662,13 +658,15 @@ if(deleteEmployee != null) {
 
             if(flag10) {
                 employee.forEach((i) => {
-                    if(i.children[0].children[0].checked == true) {
-                        deleteList.push(
-                            {
-                                "empCode" : i.children[1].children[5].value,
-                                "comNo" : comNo
-                            }
-                        );
+                    if(i.children[1].getAttribute("class") == 'info') {
+                        if(i.children[0].children[0].checked == true) {
+                            deleteList.push(
+                                {
+                                    "empCode" : i.children[1].children[5].value,
+                                    "comNo" : comNo
+                                }
+                            );
+                        }
                     }
                 })
             }
@@ -867,6 +865,8 @@ if(saveGroup != null) {
         }
 
         console.log(obj);
+
+        const templocation = location.pathname + location.search;
         
         fetch("/admin/addr/insertGroupList", {
             method : "post",
@@ -893,7 +893,7 @@ if(saveGroup != null) {
             }
             
             alert("그룹이 저장되었습니다.");
-            location.href = '/admin/addr';
+            location.href = templocation;
         })
     });
 };
@@ -1083,3 +1083,83 @@ if(addEmployeeInBulk != null) {
         location.href= '/admin/addInBulk';
     });
 };
+
+
+const restore = document.querySelectorAll("#restore");
+const permanentDeletion = document.querySelectorAll("#permanentDeletion");
+const deleteModal = document.querySelector("#deleteModal");
+
+const deleteBtn = document.querySelector("#deleteBtn");
+const cancelBtn = document.querySelector("#cancelBtn");
+
+if(restore != null) {
+    restore.forEach((i) => {
+        i.addEventListener("click", e => {
+            if(confirm("해당 구성원의 정보를 복구하시겠습니까?")){
+                const obj = {
+                    "empCode" : e.target.parentElement.previousElementSibling.previousElementSibling.value,
+                    "comNo" : comNo
+                }
+                
+                const templocation = location.pathname + location.search;
+        
+                fetch("/admin/addr/restore", {
+                    method : "post",
+                    headers : {"Content-Type" : "application/json"},
+                    body : JSON.stringify(obj)
+                })
+                .then(resp => resp.text())
+                .then(result => {
+                    if(result == 0){
+                        alert("복구 실패");
+                        return;
+                    }
+                    alert("해당 구성원의 정보가 복구되었습니다.");
+                    location.href = templocation;
+                })
+
+            }
+            
+        })
+    })
+}
+let empCode;
+if(permanentDeletion != null) {
+    permanentDeletion.forEach((i) => {
+        i.addEventListener("click", e => {
+            empCode = e.target.parentElement.previousElementSibling.previousElementSibling.value;
+            deleteModal.style.display = 'flex';
+        })
+    })
+}
+if(cancelBtn != null) {
+    cancelBtn.addEventListener("click", e => {
+        deleteModal.style.display = 'none';
+    })
+}
+
+if(deleteBtn != null) {
+    deleteBtn.addEventListener("click", e => {
+        const obj = {
+            "empCode" : empCode,
+            "comNo" : comNo
+        }
+        
+        const templocation = location.pathname + location.search;
+
+        fetch("/admin/addr/permanentDeletion", {
+            method : "post",
+            headers : {"Content-Type" : "application/json"},
+            body : JSON.stringify(obj)
+        })
+        .then(resp => resp.text())
+        .then(result => {
+            if(result == 0){
+                alert("영구 삭제 실패");
+                return;
+            }
+            alert("해당 구성원이 영구 삭제 되었습니다.");
+            location.href = templocation;
+        })
+    })
+}

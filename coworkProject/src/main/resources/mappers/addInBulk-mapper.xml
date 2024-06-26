@@ -34,7 +34,7 @@
 	<select id="getEmpIdList">
 		SELECT EMP_ID
 		FROM EMPLOYEE
-		WHERE EMP_DEL_FL = 'N'
+		WHERE EMP_DEL_FL != 'M'
 	</select>
 	
 	<!-- 팀이 존재하는지 확인 -->
