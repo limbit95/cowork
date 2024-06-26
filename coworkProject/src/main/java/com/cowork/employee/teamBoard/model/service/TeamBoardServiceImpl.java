@@ -66,13 +66,13 @@ public class TeamBoardServiceImpl implements TeamBoardService {
 		List<TeamBoard> teamBoardList = mapper.teamBoardList(paramMap, rowBounds);
 		
 		// 팀게시판 권한여부
-		int authorityCnt = mapper.authorityCnt(paramMap);
+		//int authorityCnt = mapper.authorityCnt(paramMap);
 		
 		// 팀내에 최고 레벨
-		int levelCnt = mapper.levelCnt(paramMap); 
+		//int levelCnt = mapper.levelCnt(paramMap); 
 		
 		// 팀게시판 권한 조회
-		List<Employee2> teamAuthorityList = mapper.teamAuthorityList(paramMap);
+		//List<Employee2> teamAuthorityList = mapper.teamAuthorityList(paramMap);
 		
 		Map<String, Object> map = new HashMap<>();
 		
@@ -90,7 +90,16 @@ public class TeamBoardServiceImpl implements TeamBoardService {
 		int authorityCnt = mapper.authorityCnt(paramMap);
 				
 		// 팀내에 최고 레벨
-		int levelCnt = mapper.levelCnt(paramMap);
+		int levelCnt = 0;
+		
+		int topLevel = mapper.levelCnt(paramMap);
+		
+		// 로그인한 자 직급 확인 : 자기 직급을 변경할 때 세션으로 할경우 직급 반영이 안됨
+		int loginPosition = mapper.loginPosition(paramMap);
+		
+		if(topLevel != 0 && loginPosition != 0) {
+			levelCnt = 1;
+		}
 				
 		// 팀게시판 권한 조회
 		List<Employee2> teamAuthorityList = mapper.teamAuthorityList(paramMap);

@@ -94,4 +94,10 @@ public interface TeamBoardMapper {
 	 */
 	List<Employee2> teamAuthorityList(Map<String, Object> paramMap);
 
+	/** 로그인한 사람 직급 확인
+	 * @param paramMap
+	 * @return
+	 */
+	int loginPosition(Map<String, Object> paramMap);
+
 }
