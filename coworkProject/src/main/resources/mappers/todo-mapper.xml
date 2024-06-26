@@ -68,7 +68,7 @@
         t.TODO_NO,
         t.TODO_TITLE,
         t.TODO_CONTENT,
-        TO_DATE(t.TODO_END_DATE),
+        TO_DATE(t.TODO_END_DATE) AS TODO_END_DATE,
         t.TODO_COMPLETE,
         request_emp.EMP_LAST_NAME || request_emp.EMP_FIRST_NAME AS requestEmp,
         (

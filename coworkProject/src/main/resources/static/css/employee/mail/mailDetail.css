@@ -10,7 +10,7 @@
     align-items: center;
     min-height: 30px;
     height: auto;
-    overflow-x: auto;
+    flex-wrap: wrap;
 }
 
 #refererList, #recipientList {

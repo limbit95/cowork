@@ -64,11 +64,11 @@ const refererListContainer = document.getElementById('refererListContainer');
 
 
 // 사원 검색 영역 생성 
-function createSearchTable(tableId, inputElement) {
+function createSearchTable(tableId, inputElement, formClass) {
     const searchTable = document.createElement('div');
     searchTable.className = 'searchTable';
     searchTable.id = tableId;
-    inputElement.parentElement.appendChild(searchTable); // 인풋 창 바로 아래에 검색 영역 추가
+    document.querySelector(`.${formClass}`).appendChild(searchTable); // formClass 아래에 검색 영역 추가
 }
 
 // 사원 검색 함수
@@ -116,14 +116,15 @@ function searchEmp(empName, trId, tableId) {
 recipientInput.addEventListener('input', () => {
     const empName = recipientInput.value;
     if (!document.getElementById('searchRecTable')) {
-        createSearchTable('searchRecTable', recipientInput);
+        createSearchTable('searchRecTable', recipientInput, 'recipientForm');
     }
     searchEmp(empName, 'trRec', '#searchRecTable');
 });
+
 refererInput.addEventListener('input', () => {
     const empName = refererInput.value;
     if (!document.getElementById('searchRefTable')) {
-        createSearchTable('searchRefTable', refererInput);
+        createSearchTable('searchRefTable', refererInput, 'refererForm');
     }
     searchEmp(empName, 'trRef', '#searchRefTable');
 });

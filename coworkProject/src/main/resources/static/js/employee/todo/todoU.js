@@ -232,6 +232,17 @@ function setMinDate() {
     });
 }
 
+function formatDate(dateString) {
+    if (!dateString) {
+        return ' ';
+    }
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
 function fetchInitialTodos() {
     const todoList = document.getElementById('todoList');
     const url = `/todo/todos?todoComplete=1`; // 진행 중인 할 일만 조회 
@@ -263,9 +274,25 @@ function fetchInitialTodos() {
                     const todoDiv = document.createElement('div');
                     todoDiv.className = 'todo';
                     todoDiv.setAttribute('data-todo-complete', todo.todoComplete);
+
+                    const todoEndDate = todo.todoEndDate;
+                    const endDate = formatDate(todoEndDate); 
+
+                    function isBeforeToday(endDate) {
+                        const today = new Date(); 
+                        today.setHours(0, 0, 0, 0); // 오늘의 날짜를 시간 부분 없이 설정
+                        if(endDate == null || endDate == "") {
+                            return ""; 
+                        }
+                        return today > endDate ? "기한 지남" : "";
+                    }
+        
+                    const overdueMessage = isBeforeToday(todoEndDate);
+
                     todoDiv.innerHTML = `
                         <div><input type="checkbox" class="todoCheckbox" data-todo-id="${todo.todoNo}"></div>
                         <div class="todoTitle" data-todo-id="${todo.todoNo}">${todo.todoTitle}</div>
+                        <div>`+ endDate +` ${overdueMessage}</div>
                         <div class="select" data-todo-id="${todo.todoNo}" data-todo-complete="${todo.todoComplete}">
                             <div class="selected" data-to-do-id="${todo.todoNo}">${todo.todoComplete == '1' ? '진행중' : '완료'}</div>
                             <ul class="optionList">
@@ -313,9 +340,11 @@ function fetchTodos(todoComplete, sortBy, filters = {}) {
                 const todoDiv = document.createElement('div');
                 todoDiv.className = 'todo';
                 todoDiv.setAttribute('data-todo-complete', todo.todoComplete);
+
                 todoDiv.innerHTML = `
                     <div><input type="checkbox" class="todoCheckbox" data-todo-id="${todo.todoNo}"></div>
-                    <div class="todoTitle" data-todo-id="${todo.todoNo}">${todo.todoTitle}</div>
+                    <div class="todoTitle sample" data-todo-id="${todo.todoNo}">${todo.todoTitle}</div>
+                    <div class="todoEndDate">${todo.todoEndDate}</div>
                     <div class="select" data-todo-id="${todo.todoNo}" data-todo-complete="${todo.todoComplete}">
                         <div class="selected" data-to-do-id="${todo.todoNo}">${todo.todoComplete == '1' ? '진행중' : '완료'}</div>
                         <ul class="optionList">
@@ -541,7 +570,7 @@ function applyTodoStyles(size) {
             });
             todo.querySelectorAll('div:nth-of-type(2)').forEach(element => {
                 element.style.marginLeft = '10px';
-                element.style.width = '77%';
+                element.style.width = '60%';
             });
 
         } else {
@@ -552,7 +581,7 @@ function applyTodoStyles(size) {
             });
             todo.querySelectorAll('div:nth-of-type(2)').forEach(element => {
                 element.style.marginLeft = '10px';
-                element.style.width = '84%';
+                element.style.width = '745px';
             });
         }
     });
