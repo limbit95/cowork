@@ -241,7 +241,7 @@ section.container .employeeList > :first-child > :nth-child(1) {
 }
 .employeeList > :first-child > :nth-child(5) {
     justify-content: start;
-    flex-basis: 23%;
+    flex-basis: 22%;
     margin-left: 10px;
 }
 .employeeList > :first-child > :nth-child(6) {
@@ -316,7 +316,7 @@ section.container .employeeList > .employee > :nth-child(2) > :nth-child(1) {
 }
 .employeeList > .employee > :nth-child(2) > :nth-child(4) {
     justify-content: start;
-    flex-basis: 24.5%;
+    flex-basis: 23.5%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -330,7 +330,7 @@ section.container .employeeList > .employee > :nth-child(2) > :nth-child(1) {
 }
 .employeeList > .employee > :nth-child(2) > :nth-child(8) {
     justify-content: start;
-    flex-basis: 9%;
+    flex-basis: 13%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

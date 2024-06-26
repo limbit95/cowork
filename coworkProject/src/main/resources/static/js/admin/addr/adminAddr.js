@@ -968,12 +968,12 @@ function hide2() {
     modal.style.display = 'none';
     testText[0].style.display = 'none';
     radio2[0].checked = false;
-    testText[1].style.display = 'none';
-    radio2[1].checked = false;
+    // testText[1].style.display = 'none';
+    // radio2[1].checked = false;
     radio2[0].nextElementSibling.style.color = 'black';
     radio2[0].nextElementSibling.style.fontWeight = 'normal';
-    radio2[1].nextElementSibling.style.color = 'black';
-    radio2[1].nextElementSibling.style.fontWeight = 'normal';
+    // radio2[1].nextElementSibling.style.color = 'black';
+    // radio2[1].nextElementSibling.style.fontWeight = 'normal';
 }
 
 if(addEmployee != null) {
@@ -992,12 +992,12 @@ if(document.getElementById('modal') != null) {
                 modal.style.display = 'none';
                 testText[0].style.display = 'none';
                 radio2[0].checked = false;
-                testText[1].style.display = 'none';
-                radio2[1].checked = false;
+                // testText[1].style.display = 'none';
+                // radio2[1].checked = false;
                 radio2[0].nextElementSibling.style.color = 'black';
                 radio2[0].nextElementSibling.style.fontWeight = 'normal';
-                radio2[1].nextElementSibling.style.color = 'black';
-                radio2[1].nextElementSibling.style.fontWeight = 'normal';
+                // radio2[1].nextElementSibling.style.color = 'black';
+                // radio2[1].nextElementSibling.style.fontWeight = 'normal';
             }
         }
     });
@@ -1007,8 +1007,8 @@ document.querySelectorAll('input[name="registration"]').forEach((radio) => {
     radio.addEventListener('change', (event) => {
         radio2[0].nextElementSibling.style.color = 'black';
         radio2[0].nextElementSibling.style.fontWeight = 'normal';
-        radio2[1].nextElementSibling.style.color = 'black';
-        radio2[1].nextElementSibling.style.fontWeight = 'normal';
+        // radio2[1].nextElementSibling.style.color = 'black';
+        // radio2[1].nextElementSibling.style.fontWeight = 'normal';
         document.querySelectorAll('.test-text').forEach((text) => {
             text.style.display = 'none';
         });
@@ -1032,12 +1032,12 @@ if(addEmployeecancel != null) {
         modal.style.display = 'none';
         testText[0].style.display = 'none';
         radio2[0].checked = false;
-        testText[1].style.display = 'none';
-        radio2[1].checked = false;
+        // testText[1].style.display = 'none';
+        // radio2[1].checked = false;
         radio2[0].nextElementSibling.style.color = 'black';
         radio2[0].nextElementSibling.style.fontWeight = 'normal';
-        radio2[1].nextElementSibling.style.color = 'black';
-        radio2[1].nextElementSibling.style.fontWeight = 'normal';
+        // radio2[1].nextElementSibling.style.color = 'black';
+        // radio2[1].nextElementSibling.style.fontWeight = 'normal';
     });
 };
 
@@ -1048,11 +1048,11 @@ if(addEmployeeconfirm != null) {
             alert("등록 유형을 선택해주세요.");
         }
         // 관리자가 등록
-        if(radio2[0].checked == true) {
-            hide2();
-        }
+        // if(radio2[1].checked == true) {
+        //     hide2();
+        // }
         // 구성원이 등록
-        if(radio2[1].checked == true) {
+        if(radio2[0].checked == true) {
             const width = 610;
             const height = 400;
             
@@ -1123,7 +1123,7 @@ if(restore != null) {
         })
     })
 }
-let empCode;
+let empCode1;
 if(permanentDeletion != null) {
     permanentDeletion.forEach((i) => {
         i.addEventListener("click", e => {
@@ -1141,7 +1141,7 @@ if(cancelBtn != null) {
 if(deleteBtn != null) {
     deleteBtn.addEventListener("click", e => {
         const obj = {
-            "empCode" : empCode,
+            "empCode" : empCode1,
             "comNo" : comNo
         }
         
