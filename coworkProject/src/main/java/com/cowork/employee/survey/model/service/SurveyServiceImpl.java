@@ -79,6 +79,11 @@ public class SurveyServiceImpl implements SurveyService{
 		paramMap.put("surveyStartDate", surveyStartDate);
 		paramMap.put("surveyEndDate", surveyEndDate);
 		paramMap.put("surveyEntireTargetFl", surveyEntireTargetFl);
+		// 회사 기본키 (COMPANY 테이블 기본키) 인 COM_NO 도 넣어준다. 
+		Integer comNo= emp.getComNo();
+		paramMap.put("comNo", comNo);
+		
+		
 		surveyMapper.insertSurvey(paramMap); 
 		
 		log.debug("survey.getPostion()====={}", surveyData.getPosition());		
@@ -88,8 +93,6 @@ public class SurveyServiceImpl implements SurveyService{
 		
 		if (surveyData.getPosition() != null) {
 			String position = surveyData.getPosition(); // 직급을 얻었다. 
-			// 회사 기본키를 얻어온다. 
-			Integer comNo = emp.getComNo();
 			
 			// 해당 회사의 해당 직급의 emp_code 를 List자료구조로 받아온다. 
 			Map<String, Object> paramMap2 = new HashMap<>();
@@ -232,9 +235,9 @@ public class SurveyServiceImpl implements SurveyService{
 		// 파이널 시간이 남으면, 기한이 지난 것도 보여줄 수 있는 별도 탭을 만든다. 
 		
 		Integer empCode = loginEmp.getEmpCode();
-		
+		Integer comNo = loginEmp.getComNo();		
 		// 전체 대상 설문 중 기한 안 지난것 
-		List<Survey> entireTargetSurveyList = surveyMapper.entireTargetSurvey(empCode);
+		List<Survey> entireTargetSurveyList = surveyMapper.entireTargetSurvey(comNo);
 		
 		// SURVEY_TARGET 에 행이 들어갔다는 건, 전체 대상 설문이 아니라는 거고, 
 		// 여기에 EMP_CODE 가 현재 로그인한 사원의 EMP_CODE 와 같은 행들의 SURVEY_NO 컬럼값을 가져오자 

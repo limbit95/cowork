@@ -33,7 +33,9 @@ public interface SurveyMapper {
 
 	void insertSurveyMultiple(Map<String, Object> paramMap6);
 
-	List<Survey> entireTargetSurvey(Integer empCode);
+	List<Survey> entireTargetSurvey(Integer comNo);
+
+
 	
 	List<Survey> receiveSurvey(Integer empCode);
 
@@ -51,7 +53,7 @@ public interface SurveyMapper {
 
 	Integer checkAlreadyWrite(Map<String, Object> paramMap);
 
-	Survey entireTargetSurvey(String surveyNo);
+	//Survey entireTargetSurvey(String surveyNo);
 
 	Survey getSurvey(String surveyNo);
 
