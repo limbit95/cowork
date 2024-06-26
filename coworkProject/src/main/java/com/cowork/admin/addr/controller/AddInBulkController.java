@@ -105,5 +105,16 @@ public class AddInBulkController {
 		return result;
 	}
 	
+	/** 팀이 존재하는지 확인
+	 * @param data
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("checkTeamNm")
+	public int checkTeamNm(@RequestBody Map<String, Object> data) {
+		log.info("data : " + data);
+		return service.checkTeamNm(data);
+	}
+	
 
 }

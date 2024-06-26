@@ -76,5 +76,11 @@ public class AddInBulkServiceImpl implements AddInBulkService{
 		return mapper.getEmpIdList(comNo);
 	}
 
+	// 팀이 존재하는지 확인
+	@Override
+	public int checkTeamNm(Map<String, Object> data) {
+		return mapper.checkTeamNm(data);
+	}
+
 
 }

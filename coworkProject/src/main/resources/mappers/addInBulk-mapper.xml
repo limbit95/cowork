@@ -37,4 +37,12 @@
 		WHERE EMP_DEL_FL = 'N'
 	</select>
 	
+	<!-- 팀이 존재하는지 확인 -->
+	<select id="checkTeamNm">
+		SELECT COUNT(*)
+		FROM TEAM
+		WHERE DEPT_NO = #{deptNo}
+		AND TEAM_NM = #{teamNm}
+	</select>
+	
 </mapper>
