@@ -255,12 +255,9 @@ if(checkBtn != null) {
                 // 팝업 창이 닫힐 때 부모 창으로 메시지 전송
                 window.addEventListener('beforeunload', sendMessageToParent);
             });
-
         }); 
-
     })
 }
-
 // 팝업 창으로부터의 메시지를 처리하는 함수
 function receiveMessage(event) {
     // event.origin을 사용하여 올바른 출처에서 메시지가 온 것인지 확인
@@ -268,20 +265,16 @@ function receiveMessage(event) {
         console.log('올바르지 않은 출처에서의 메시지를 무시합니다:', event.origin);
         return;
     }
-    
     // event.data에는 팝업 창에서 전송된 데이터가 들어있음
     console.log('부모 창에서 메시지를 받았습니다:', event.data);
-    
     // 여기서 전송된 데이터를 사용하여 추가적인 작업을 수행
     const registrationNum = document.querySelector("#registrationNum");
     registrationNum.value = event.data;
     document.querySelector(".fa-solid.fa-check").style.display = "block";
-
     if(registrationNum != null) {
         checkObj.licenseNo = true;
     }
 }
-
 // message 이벤트를 리스닝하여 팝업 창으로부터의 메시지를 받음
 window.addEventListener('message', receiveMessage);
 
