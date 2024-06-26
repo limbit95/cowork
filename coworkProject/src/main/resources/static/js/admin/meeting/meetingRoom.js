@@ -94,3 +94,18 @@ if (deleteXBtns != null) {
         });
     });
 }
+
+// 회의실 추가 버튼 클릭 시
+const nonePaddingBtn = document.querySelector('#nonePaddingBtn');
+
+nonePaddingBtn.addEventListener("click", e => {
+    const meetingRoomAddInput = document.querySelector("#meetingRoomAddInput");
+
+    let inputValue = meetingRoomAddInput.value;
+
+    if(inputValue.trim().length == 0) {
+        e.preventDefault();
+        alert("회의실명을 작성해주세요.");
+        return;
+    }
+})
