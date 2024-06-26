@@ -156,7 +156,10 @@
                         <div class="employee">
                             <div><input id="check" type="checkbox" class="mine"></div>
                             <div class="info">
-                                <div><span th:text="|*{deptNm} / *{teamNm}|">운영팀</span></div>
+                                <div>
+                                    <span th:if="*{deptNm}" th:text="|*{deptNm} / *{teamNm}|">운영팀</span>
+                                    <span th:unless="*{deptNm}"></span>
+                                </div>
                                 <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
                                 <div><span th:text="*{positionNm}">팀장</span></div>
                                 <div><span th:text="*{empEmail}">park@naver.com</span></div>
@@ -172,7 +175,10 @@
                         <div class="employee">
                             <div><input id="check" type="checkbox" class="notMine"></div>
                             <div class="info">
-                                <div><span th:text="|*{deptNm} / *{teamNm}|">운영팀</span></div>
+                                <div>
+                                    <span th:if="*{deptNm}" th:text="|*{deptNm} / *{teamNm}|">운영팀</span>
+                                    <span th:unless="*{deptNm}"></span>
+                                </div>
                                 <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
                                 <div><span th:text="*{positionNm}">팀장</span></div>
                                 <div><span th:text="*{empEmail}">park@naver.com</span></div>
@@ -187,7 +193,10 @@
                         <div class="employee">
                             <div><input id="check" type="checkbox" class="notMine"></div>
                             <div class="info">
-                                <div><span th:text="|*{deptNm} / *{teamNm}|">운영팀</span></div>
+                                <div>
+                                    <span th:if="*{deptNm}" th:text="|*{deptNm} / *{teamNm}|">운영팀</span>
+                                    <span th:unless="*{deptNm}"></span>
+                                </div>
                                 <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
                                 <div><span th:text="*{positionNm}">팀장</span></div>
                                 <div><span th:text="*{empEmail}">park@naver.com</span></div>

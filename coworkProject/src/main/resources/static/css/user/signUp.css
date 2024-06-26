@@ -182,6 +182,9 @@ textarea{
 #registrationNumArea {
     display: flex;
 }
+#registrationNum {
+    cursor: default;
+}
 #authBtn{
     margin-left: 35px;
 }

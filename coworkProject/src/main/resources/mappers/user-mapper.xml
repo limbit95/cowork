@@ -290,5 +290,20 @@
 			#{empCode}
 		)
 	</insert>
+	
+	<!-- 회원가입한 관리자에게 전체 권한 부여  -->
+	<select id="registAuthority">
+		INSERT INTO AUTHORITY_MEMBER
+		
+		<foreach collection="list"  
+			open="(" close=")" separator=" UNION ">
+			SELECT
+				NEXT_AUTHORITY_MEMBER()
+				,AUTHORITY_NO 
+				,EMP_CODE
+			FROM AUTHORITY
+			WHERE EMP_CODE = #{empCdoe}
+		</foreach>
+	</select>
   
 </mapper>

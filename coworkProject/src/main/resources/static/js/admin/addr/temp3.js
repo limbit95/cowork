@@ -339,37 +339,40 @@ document.addEventListener('DOMContentLoaded', function() {
                                     check5 = 1;
                                 }
                             })
-
-                            let flag6 = true;
-                            let flag7 = true;
-                            if(checkEmpId.length > 0) {
-                                checkEmpId.forEach((t) => {
-                                    if(!flag7) {
+                            
+                            // let flag6 = true;
+                            // let flag7 = true;
+                            // if(checkEmpId.length > 0) {
+                            //     checkEmpId.forEach((t) => {
+                            //         if(!flag7) {
+                            //             return;
+                            //         }
+                            //         if(i.ID == t) {
+                            //             check5 = 1;
+                            //             flag6 = false;
+                            //             flag7 = false;
+                            //         }
+                            //     })
+                            // }
+                            console.log(excelIdList)
+                            // if(flag6) {
+                                // DB에 중복 ID 없으면 이번엔 엑셀 파일 등록 ID들끼리 중복 검사
+                                console.log('주체 : ' + i.ID)
+                                excelIdList.forEach((y, index2) => {
+                                    // 자기 자신과는 비교하면 안됨
+                                    if(index1 == index2) {
                                         return;
                                     }
-                                    if(i.ID == t) {
+                                    if(i.ID == y) {
+                                        console.log('비교할 객체 : ' + y)
+                                        checkEmpId.push(i.ID);
                                         check5 = 1;
-                                        flag6 = false;
-                                        flag7 = false;
+                                        return;
                                     }
                                 })
-                            }
+                            // }
 
-                            if(flag6) {
-                                // DB에 중복 ID 없으면 이번엔 엑셀 파일 등록 ID들끼리 중복 검사
-                                if(check5 == 0) {
-                                    result.forEach((y, index2) => {
-                                        // 자기 자신과는 비교하면 안됨
-                                        if(index1 == index2) {
-                                            return;
-                                        }
-                                        if(i.ID == y.ID) {
-                                            checkEmpId.push(i.ID);
-                                        }
-                                    })
-                                }
-                            }
-
+                            console.log(check5)
                             if(check5 == 0) {
                                 const regExp = /^[A-Za-z0-9]{4,20}$/;
         
@@ -384,8 +387,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 employee.innerHTML = 
                                 `
                                     <div><input type="checkbox" class="check"></div>
-                                    ${i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
-                                    ${i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                    ${i.성.length > 0 && i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                    ${i.이름.length > 0 && i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
                                     ${`<div class="empId"><input type="text" value="${i.ID}" placeholder="미입력" maxlength="100" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
                                     ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20" style="border: 1px solid red;"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`}
                                     <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
@@ -448,12 +451,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
                             // check5 == 0 : 엑셀에 작성한 ID가 DB에 없거나 정규식에 맞으면
                             // check200 == 1 : 엑셀에 작성한 부서명이 DB에 있으면
-                            if(check5 == 0 || check200 == 1) {
+                            else if(check5 == 0 || check200 == 1) {
                                 employee.innerHTML = 
                                 `
                                     <div><input type="checkbox" class="check"></div>
-                                    ${i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
-                                    ${i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                    ${i.성.length > 0 && i.성 != "null" ? `<div><span>${i.성}</span></div>` : `<div><input class="empLastName" type="text" placeholder="미입력" maxlength="20" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
+                                    ${i.이름.length > 0 && i.이름 != "null" ? `<div><span>${i.이름}</span></div>` : `<div><input class="empFirstName" type="text" placeholder="미입력" maxlength="30" spellcheck="false" style="border: 1px solid red; color: red;"></div>`}
                                     ${`<div class="empId"><span>${i.ID}</span></div>`}
                                     ${admin.checked == true ? `<div><input class="empPw" type="password" placeholder="미입력" maxlength="20" style="border: 1px solid red;"></div>` : `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`}
                                     <div><span>${i.전화번호 != "null" ? i.전화번호 : ""}</span></div>
@@ -580,7 +583,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                         }
                                     }
                                 }
-                                // document.querySelectorAll(".inputpositionOpt").forEach((x) => {
                             }
 
 
@@ -625,31 +627,37 @@ document.addEventListener('DOMContentLoaded', function() {
                                             let flag1 = true;
                                         }
                                         let flag1 = true;
+                                        let anyChecked = false;
+                                
                                         document.querySelectorAll(".employee").forEach((x) => {
-                                            const style = x.children[1].children[0].style
-                                            const style1 = x.children[2].children[0].style
-                                            const style2 = x.children[3].children[0].style
-                                            const style3 = x.children[4].children[0].style
-                                            const style4 = x.children[7].children[0].style
-                                            const style5 = x.children[8].children[0].style
-                                            const style6 = x.children[9].children[0].style
-                                            const style7 = x.children[10].children[0].style
-                                            const style8 = x.children[14].children[0].style
-                                            if(x.children[0].children[0].checked == true && (style.borderColor == 'red' ||
-                                                style1.borderColor == 'red' || style2.borderColor == 'red' ||
-                                                style3.borderColor == 'red' || style4.borderColor == 'red' ||
-                                                style5.borderColor == 'red' || style6.borderColor == 'red' ||
-                                                style7.borderColor == 'red' || style8.borderColor)) {
-                                                    console.log('test')
-                                                flag1 = false;
-                                                document.querySelector("#addInBulk").classList.add("blur");
-                                                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                                return;
+                                            const style = x.children[1].children[0].style;
+                                            const style1 = x.children[2].children[0].style;
+                                            const style2 = x.children[3].children[0].style;
+                                            const style3 = x.children[4].children[0].style;
+                                            const style4 = x.children[7].children[0].style;
+                                            const style5 = x.children[8].children[0].style;
+                                            const style6 = x.children[9].children[0].style;
+                                            const style7 = x.children[10].children[0].style;
+                                            const style8 = x.children[14].children[0].style;
+                                
+                                            if (x.children[0].children[0].checked) {
+                                                anyChecked = true;
+                                                if (style.borderColor == 'red' ||
+                                                    style1.borderColor == 'red' || style2.borderColor == 'red' ||
+                                                    style3.borderColor == 'red' || style4.borderColor == 'red' ||
+                                                    style5.borderColor == 'red' || style6.borderColor == 'red' ||
+                                                    style7.borderColor == 'red' || style8.borderColor == 'red') {
+                                                    flag1 = false;
+                                                }
                                             }
-                                        })
-                                        if(flag1) {
+                                        });
+                                
+                                        if (flag1 && anyChecked) {
                                             document.querySelector("#addInBulk").classList.add("sapphire-btn2");
                                             document.querySelector("#addInBulk").classList.remove("blur");
+                                        } else {
+                                            document.querySelector("#addInBulk").classList.add("blur");
+                                            document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
                                         }
                                     })
                                 })
@@ -683,7 +691,11 @@ document.addEventListener('DOMContentLoaded', function() {
                                             // 존재하는 직급명과 일치하지 않으면
                                             e.target.style.border = '1px solid red';
                                             let flag1 = true;
+                                            let count = 0;
                                             document.querySelectorAll(".employee").forEach((x) => {
+                                                if(!flag1) {
+                                                    return;
+                                                }
                                                 const style = x.children[1].children[0].style
                                                 const style1 = x.children[2].children[0].style
                                                 const style2 = x.children[3].children[0].style
@@ -698,16 +710,22 @@ document.addEventListener('DOMContentLoaded', function() {
                                                     style3.borderColor == 'red' || style4.borderColor == 'red' ||
                                                     style5.borderColor == 'red' || style6.borderColor == 'red' ||
                                                     style7.borderColor == 'red' || style8.borderColor)) {
-                                                        console.log('test')
                                                     flag1 = false;
                                                     document.querySelector("#addInBulk").classList.add("blur");
                                                     document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
                                                     return;
+                                                } 
+                                                if(x.children[0].children[0].checked == false) {
+                                                    count++;
                                                 }
                                             })
                                             if(flag1) {
                                                 document.querySelector("#addInBulk").classList.add("sapphire-btn2");
                                                 document.querySelector("#addInBulk").classList.remove("blur");
+                                            }
+                                            if(count == document.querySelectorAll(".employee").length) {
+                                                document.querySelector("#addInBulk").classList.add("blur");
+                                                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
                                             }
                                         }
 
@@ -1046,21 +1064,22 @@ document.addEventListener('DOMContentLoaded', function() {
                                 e.target.style.border = '2px solid red';
                             } else {
                                 fetch("/user/checkId?empId=" + inputId)
-                                    .then(resp => resp.text())
-                                    .then(result => {
-                                        if (result > 0) {
-                                            e.target.style.color = 'red';
-                                            e.target.style.border = '2px solid red';
-                                        } else {
-                                            e.target.style.color = 'black';
-                                            e.target.style.border = '2px solid black';
-                                        }
-                                    })
-                                    .catch(error => {
-                                        console.error('Error:', error);
+                                .then(resp => resp.text())
+                                .then(result => {
+                                    console.log(result)
+                                    if (result > 0) {
                                         e.target.style.color = 'red';
                                         e.target.style.border = '2px solid red';
-                                    });
+                                    } else {
+                                        e.target.style.color = 'black';
+                                        e.target.style.border = '2px solid black';
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    e.target.style.color = 'red';
+                                    e.target.style.border = '2px solid red';
+                                });
                             }
                             borderIsRed();
                         });
@@ -2031,6 +2050,93 @@ document.querySelector("#confirmBtn5").addEventListener("click", e => {
     dataForMail.reverse();
     obj.reverse();
 
+
+
+    // ----------------------------------------------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------
+    // ID 인풋창 포커스 시
+    document.querySelectorAll(".empId").forEach((i) => {
+        i.children[0].addEventListener("focus", e => {
+            e.target.style.border = '2px solid black';
+        });
+    })
+
+    // ID 인풋창 입력 시
+    document.querySelectorAll(".empId").forEach((i, index1) => {
+        i.children[0].addEventListener("input", e => {
+            let inputId = e.target.value.trim();
+    
+            if (inputId.length === 0) {
+                e.target.style.color = 'red';
+                e.target.style.border = '2px solid red';
+                borderIsRed();
+                return;
+            }
+    
+            const regExp = /^[A-Za-z0-9]{4,20}$/;
+    
+            if (!regExp.test(inputId)) {
+                e.target.style.color = 'red';
+                e.target.style.border = '2px solid red';
+                borderIsRed();
+                return;
+            }
+    
+            let hasDuplicate = false;
+    
+            document.querySelectorAll(".empId").forEach((x, index2) => {
+                let inputId2;
+                if(x.children[0].tagName == "INPUT") {
+                    inputId2 = x.children[0].value.trim();
+                } else {
+                    inputId2 = x.children[0].innerText.trim();
+                }
+    
+                if (index1 !== index2 && inputId2 === inputId) {
+                    hasDuplicate = true;
+                }
+            });
+    
+            if (hasDuplicate) {
+                e.target.style.color = 'red';
+                e.target.style.border = '2px solid red';
+            } else {
+                fetch("/user/checkId?empId=" + inputId)
+                .then(resp => resp.text())
+                .then(result => {
+                    console.log(result)
+                    if (result > 0) {
+                        e.target.style.color = 'red';
+                        e.target.style.border = '2px solid red';
+                    } else {
+                        e.target.style.color = 'black';
+                        e.target.style.border = '2px solid black';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    e.target.style.color = 'red';
+                    e.target.style.border = '2px solid red';
+                });
+            }
+            borderIsRed();
+        });
+    });
+    
+    // // ID 인풋창 포커스 아웃 시
+    document.querySelectorAll(".empId").forEach((i, index1) => {
+        i.children[0].addEventListener("blur", e => {
+            if(e.target.style.color == 'red') {
+                e.target.style.border = '1px solid red';
+            } else {
+                e.target.style.border = '1px solid var(--gray-color)';
+            }
+        })
+    })
+
+
+
+
     // ----------------------------------------------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------------------------------------------
     // 일괄 추가하려는 구성원 DB에 저장
@@ -2046,6 +2152,10 @@ document.querySelector("#confirmBtn5").addEventListener("click", e => {
             alert("일괄 추가 실패");
             return;
         }
+
+        obj.forEach((i) => {
+            empList.push(i.empId);
+        })
 
         document.querySelector(".modal6").style.display = 'flex';
 
