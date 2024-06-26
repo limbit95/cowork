@@ -183,6 +183,10 @@ function adminMenu() {
             document.querySelector('#authorityMenu .dropbtn').classList.add('active'); // 클래스 추가
         }
 
+        if(homeUi == "company") { // 회사관리
+            document.querySelector('#authorityMenu .dropbtn').classList.add('active'); // 클래스 추가
+        }
+
         if(homeUi == "attendanceSub") { // 근태 내역 조회
             document.querySelector('#attendanceMenu .dropbtn').classList.add('active'); // 클래스 추가
             document.querySelector('#attendanceSub').style.fontWeight = 'bold';
