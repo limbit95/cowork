@@ -612,6 +612,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             document.querySelector(".modalUpdateBtn").classList.remove("modalModifyTempBtn");
 
                             alert("일정 수정 완료");
+                            location.href = "/calendar/myCalendar";
 
                         } else {
 
@@ -649,6 +650,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             document.querySelector(".modalUpdateBtn").classList.remove("modalModifyTempBtn");
 
                             alert("일정 수정 실패");
+                            location.href = "/calendar/myCalendar";
                         }
                     })
                 })
