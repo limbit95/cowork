@@ -66,7 +66,7 @@ public class AuthorityManageSeriveImpl implements AuthorityManageSerive {
 
 		for (Employee2 emp : authorityList) {
 		    int empCode = emp.getEmpCode();
-		    String attendance = emp.getAttendanceYn(); // 근태관리
+		   // String attendance = emp.getAttendanceYn(); // 근태관리
 		    String function = emp.getFunctionYn(); // 기능관리
 		    String teamBoard = emp.getTeamBoardYn(); // 팀게시판
 
@@ -78,7 +78,7 @@ public class AuthorityManageSeriveImpl implements AuthorityManageSerive {
 		        authorityD.setEmpCdoe(empCode);
 
 		        // 삭제 조건
-		        if ((authority.getAuthorityNo() == 1 && attendance.equals("false")) ||
+		        if (/*(authority.getAuthorityNo() == 1 && attendance.equals("false")) ||*/
 		            (authority.getAuthorityNo() == 2 && function.equals("false")) ||
 		            (authority.getAuthorityNo() == 3 && teamBoard.equals("false"))) {
 		        	
@@ -90,9 +90,9 @@ public class AuthorityManageSeriveImpl implements AuthorityManageSerive {
 		        }
 
 		        // 권한 상태 업데이트
-		        if (authority.getAuthorityNo() == 1 && attendance.equals("true")) {
+		       /* if (authority.getAuthorityNo() == 1 && attendance.equals("true")) {
 		            attendance = "Y";
-		        } else if (authority.getAuthorityNo() == 2 && function.equals("true")) {
+		        } else */if (authority.getAuthorityNo() == 2 && function.equals("true")) {
 		            function = "Y";
 		        } else if (authority.getAuthorityNo() == 3 && teamBoard.equals("true")) {
 		            teamBoard = "Y";
@@ -102,12 +102,12 @@ public class AuthorityManageSeriveImpl implements AuthorityManageSerive {
 		    }
 
 		    // 추가할 권한 설정
-		    if (attendance.equals("true") && authorityMember.stream().noneMatch(a -> a.getAuthorityMemberNo() == 1)) {
+		    /*if (attendance.equals("true") && authorityMember.stream().noneMatch(a -> a.getAuthorityMemberNo() == 1)) {
 		        AuthorityMember insert = new AuthorityMember();
 		        insert.setEmpCdoe(empCode);
 		        insert.setAuthorityNo(1);
 		        inputAuthorityI.add(insert);
-		    }
+		    }*/
 		    if (function.equals("true") && authorityMember.stream().noneMatch(a -> a.getAuthorityMemberNo() == 2)) {
 		        AuthorityMember insert = new AuthorityMember();
 		        insert.setEmpCdoe(empCode);

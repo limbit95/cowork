@@ -208,7 +208,7 @@ document.querySelector('#saveGroup1').addEventListener("click", () => {
     const authorityList = [];
             
     document.querySelectorAll('.tableBody .info').forEach(info => {
-        const attendanceYn = info.querySelector('#attendanceYn').checked;
+        //const attendanceYn = info.querySelector('#attendanceYn').checked;
         const functionYn = info.querySelector('#functionYn').checked;
         const teamBoardYn = info.querySelector('#teamBoardYn').checked;
 
@@ -216,7 +216,7 @@ document.querySelector('#saveGroup1').addEventListener("click", () => {
 
         authorityList.push({
             empCode,
-            attendanceYn,
+            //attendanceYn,
             functionYn,
             teamBoardYn
         });
