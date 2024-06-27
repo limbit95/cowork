@@ -1,75 +1,223 @@
-// document.querySelector('#attendanceSub').style.fontWeight = 'bold';
-// document.querySelector('#attendanceMenu .dropbtn').classList.add('active');
 
-// // 전체 체크박스
-// const wholeCheck = document.querySelector("#wholeCheck");
-// // 개별 체크박스
-// const check = document.querySelectorAll("#check");
+const findEmp = document.querySelector("#findEmp");
 
-// function anyCheckboxChecked() {
-//     for (let i = 0; i < check.length; i++) {
-//         if (check[i].checked == true) {
-//             return false;
-//         }
-//     }
-//     return true;
-// }
+if(findEmp != null) {
+    document.querySelector("#findEmp").focus();
+    findEmp.addEventListener("input", e => {
+        const inputName = e.target.value;
 
-// // 체크박스 클릭 시 나타나는 버튼들
-// const subBtnDiv = document.querySelector(".subBtnDiv");
+        if(location.pathname == '/admin/attendance/comList' || location.pathname == '/admin/attendance/deptList' || location.pathname == '/admin/attendance/teamList') {
+            if(inputName.trim().length == 0) {
+                location.reload();
+                return;
+            }
+    
+            fetch("/admin/attendance/findEmp?name=" + inputName)
+            .then(resp => resp.json())
+            .then(employeeList => {
+                const employeeListDiv = document.querySelector(".employeeList");
+                employeeListDiv.nextElementSibling.innerHTML = '';
+                if(employeeList.length > 10) {
+                    employeeListDiv.style.height = '100%';
+                } else {
+                    employeeListDiv.style.height = '545px';
+                }
+                employeeListDiv.innerHTML = 
+                `
+                    <div>
+                        <div><input id="wholeCheck" type="checkbox" class="mine"></div>
+                        <div>부서 / 팀</div>
+                        <div>이름</div>
+                        <div>직급</div>
+                        <div>이메일</div>
+                        <div>전화번호</div>
+                    </div>
+                `;
+    
+                employeeList.forEach((i) => {
+                    const div = document.createElement('div');
+                    div.classList.add("employee");
+                    div.innerHTML = 
+                    `
+                        <div><input id="check" type="checkbox" class="mine"></div>
+                        <div class="info">
+                            <div><span>${i.deptNm} / ${i.teamNm}</span></div>
+                            <div><span>${i.empLastName}${i.empFirstName}</span></div>
+                            <div><span>${i.positionNm}</span></div>
+                            <div><span>${i.empEmail}</span></div>
+                            <div><span>${i.phone}</span></div>
+                            <input hidden value="${i.empCode}" id="empCode">
+                        </div>
+                    `;
+                    employeeListDiv.append(div);
+                })
 
-// if(wholeCheck != null) {
-//     wholeCheck.addEventListener("change", e => {
-//         if(wholeCheck.checked == true){
-//             check.forEach((i) => {
-//                 i.checked = true;
-//             })
-//             subBtnDiv.children[0].style.display = "block"
-//             // subBtnDiv.children[1].style.display = "block"
-//             return;
-//         }
-//         if(wholeCheck.checked == false){
-//             check.forEach((i) => {
-//                 i.checked = false;
-//             })
-//             subBtnDiv.children[0].style.display = "none"
-//             // subBtnDiv.children[1].style.display = "none"
-//             return;
-//         }
-//     });
-// }
+                document.querySelectorAll(".info").forEach((i) => {
+                    i.addEventListener("click", e => {
+                        const obj = {
+                            "empCode" : i.children[5].value,
+                            "backPageLocation" : location.pathname + location.search
+                        }
+                
+                        fetch("/admin/attendance/employeeDetail", {
+                            method : "post",
+                            headers : {"Content-Type" : "application/json"},
+                            body : JSON.stringify(obj)
+                        })
+                        .then(resp => resp.text())
+                        .then(result => {
+                            if(result == "") {
+                                alert("사원 정보가 존재하지 않습니다.");
+                                return;
+                            }
+                            location.href = '/admin/attendance/employeeDetailPage';
+                        });
+                    })
+                });
+                
+                if(document.querySelector("#backPage") != null) {
+                    document.querySelector("#backPage").addEventListener("click", function () {
+                        location.href = backPageLocation;
+                    });
+                };
+    
+                function anyCheckboxChecked() {
+                    for (let i = 0; i < document.querySelectorAll("#check").length; i++) {
+                        if (document.querySelectorAll("#check")[i].checked == true) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+    
+                if(document.querySelector("#wholeCheck") != null) {
+                    document.querySelector("#wholeCheck").addEventListener("change", e => {
+                        if(document.querySelectorAll("#check")[0] != null){
+                            if(document.querySelectorAll("#check")[0].getAttribute("class") == "mine") {
+                                if(document.querySelectorAll("#check").length == 0){
+                                    return;
+                                }
+                                if(document.querySelector("#wholeCheck").checked == true){
+                                    document.querySelectorAll("#check").forEach((i) => {
+                                        i.checked = true;
+                                    })
+                                    subBtnDiv.children[0].style.display = "block"
+                                    return;
+                                }
+                                if(document.querySelector("#wholeCheck").checked == false){
+                                    document.querySelectorAll("#check").forEach((i) => {
+                                        i.checked = false;
+                                    })
+                                    subBtnDiv.children[0].style.display = "none"
+                                    return;
+                                }
+                            }
+                    
+                            if(document.querySelectorAll("#check")[0].getAttribute("class") == "notMine") {
+                                if(document.querySelectorAll("#check").length == 0){
+                                    return;
+                                }
+                                if(document.querySelector("#wholeCheck").checked == true){
+                                    document.querySelectorAll("#check").forEach((i) => {
+                                        i.checked = true;
+                                    })
+                                    if(selectGroup.style.display == 'block') {
+                                        return;
+                                    }
+                                    subBtnDiv.children[1].style.display = "block"
+                                    return;
+                                }
+                                if(document.querySelector("#wholeCheck").checked == false){
+                                    document.querySelectorAll("#check").forEach((i) => {
+                                        i.checked = false;
+                                    })
+                                    subBtnDiv.children[1].style.display = "none"
+                                    selectGroup.style.display = 'none';
+                                    return;
+                                }
+                            }
+                        }
+                    });
+                }
+                
+                if(document.querySelectorAll("#check") != null) {
+                    document.querySelectorAll("#check").forEach((i) => {
+                        i.addEventListener("change", e => {
+                            if(i.getAttribute("class") == "mine") {
+                                if(anyCheckboxChecked()){
+                                    subBtnDiv.children[0].style.display = "none"
+                                    document.querySelector("#wholeCheck").checked = false;
+                                    return;
+                                }
+                                if(document.querySelector("#wholeCheck").checked == true){return;}
+                                if(i.checked == true){
+                                    subBtnDiv.children[0].style.display = "block"
+                                    return;
+                                }
+                                if(anyCheckboxChecked()){
+                                    subBtnDiv.children[0].style.display = "none"
+                                }
+                            }
+                
+                            if(i.getAttribute("class") == "notMine") {
+                                if(anyCheckboxChecked()){
+                                    subBtnDiv.children[1].style.display = "none"
+                                    selectGroup.style.display = 'none';
+                                    document.querySelector("#wholeCheck").checked = false;
+                                    return;
+                                }
+                                if(document.querySelector("#wholeCheck").checked == true){return;}
+                                if(i.checked == true){
+                                    if(selectGroup.style.display == 'block') {
+                                        return;
+                                    }
+                                    subBtnDiv.children[1].style.display = "block"
+                                    return;
+                                }
+                                if(anyCheckboxChecked()){
+                                    subBtnDiv.children[1].style.display = "none"
+                                }
+                            }
+                        })
+                    })
+                }
+            })
+        }
 
-// if(check != null) {
-//     check.forEach((i) => {
-//         i.addEventListener("change", e => {
-//             if(anyCheckboxChecked()){
-//                 subBtnDiv.children[0].style.display = "none"
-//                 // subBtnDiv.children[1].style.display = "none"
-//                 wholeCheck.checked = false;
-//                 return;
-//             }
-//             if(wholeCheck.checked == true){return;}
-//             if(i.checked == true){
-//                 subBtnDiv.children[0].style.display = "block"
-//                 // subBtnDiv.children[1].style.display = "block"
-//                 return;
-//             }
-//             if(anyCheckboxChecked()){
-//                 subBtnDiv.children[0].style.display = "none"
-//                 // subBtnDiv.children[1].style.display = "none"
-//             }
-//         })
-//     })
-// }
+    })
+}
 
 
-
+// ---------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------
 // 주소록 그룹 아코디언 및 마우스 오른쪽 클릭 시 드롭다운 형성
 const downArrow = document.querySelector(".fa-angle-down");
+let sequence = 1;
 
 document.querySelectorAll('.li-hover').forEach(item => {
-    item.addEventListener('click', event => {
-        // console.log(item.children[0]);
+    // 개인 주소록 그룹 클릭 시 해당 그룹에 추가된 주소록 리스트 오른쪽 섹션에 보이기
+    item.children[1].addEventListener('click', event => {
+        const className = item.children[1].getAttribute("class");
+
+        // 그룹명 변경하는 주소록 클릭시 조회 방지
+        if(className == null || item.children[1].children[1].getAttribute("class") === "default-line openInput") {
+            return;
+        }
+
+        // 회사 주소록
+        if(className.includes('tim')){
+            console.log(item.children[1].dataset.teamNo);
+            location.href = '/admin/attendance/teamList?teamNo=' + item.children[1].dataset.teamNo;
+        }
+        if(className.includes('dept')){
+            console.log(item.children[1].dataset.deptNo);
+            location.href = '/admin/attendance/deptList?deptNo=' + item.children[1].dataset.deptNo;
+        }
+        if(className.includes('comp')){
+            location.href = '/admin/attendance/comList';
+        }
+        
     });
     item.children[0].addEventListener('click', event => {
         let nextUl = item.nextElementSibling;
@@ -82,11 +230,7 @@ document.querySelectorAll('.li-hover').forEach(item => {
         targetLi = item.parentElement;
         // 회사 주소록에만 보여질 드롭다운
         if(targetLi.classList.contains('company')){
-            addDeptgroup.style.display = 'none'; 
-            addTeamgroup.style.display = 'none'; 
-            groupNameChange.style.display = 'none'; 
-            deleteGroup.style.display = 'none';  
-            deleteGroup.style.display = 'addAll';  
+            event.preventDefault();
             return;
         }
         if(targetLi.classList.contains('department')){
@@ -104,43 +248,45 @@ document.querySelectorAll('.li-hover').forEach(item => {
         contextMenu.style.top = `${event.pageY}px`;
 
         const addDeptgroup = document.getElementById('addDeptgroup');
-        const addTeamgroup = document.getElementById('addTeamgroup');
         const groupNameChange = document.getElementById('groupNameChange');
         const deleteGroup = document.getElementById('deleteGroup');
-        const addAll = document.getElementById('addAll');
 
         // 개인 주소록에만 보여질 드롭다운
-        if(!targetLi.classList.contains('myAddr')){
-            addDeptgroup.style.display = 'none'; 
-            // addTeamgroup.style.display = 'block'; 
-            groupNameChange.style.display = 'block'; 
-            deleteGroup.style.display = 'block';  
-        }
         if(targetLi.classList.contains('myAddr')){
             addDeptgroup.style.display = 'block'; 
-            // addTeamgroup.style.display = 'none'; 
             groupNameChange.style.display = 'none'; 
             deleteGroup.style.display = 'none';  
         }
+        if(targetLi.classList.contains('favorite')){
+            addDeptgroup.style.display = 'none'; 
+            groupNameChange.style.display = 'block'; 
+            deleteGroup.style.display = 'block';  
+        }
 
         addDeptgroup.onclick = () => {
-            if (targetLi) { // Ensure targetLi is not a team
+            if (targetLi) {
+                targetLi.querySelectorAll(".favorite").forEach((i) => {
+                    if(i.children[0].children[1].children[1].innerText == '새로운 주소록' + sequence) {
+                        sequence++;
+                    }
+                })
                 let subUl = targetLi.querySelector('ul');
                 if (!subUl) {
                     subUl = document.createElement('ul');
                     targetLi.appendChild(subUl);
                 }
                 const newLi = document.createElement('li');
-                newLi.classList.add("department");
+                newLi.classList.add("favorite");
                 newLi.innerHTML = `
                     <div class="li-hover">
-                        <i class="fa-solid fa-angle-down"></i>
+                        <i class="fa-solid fa-angle-down"  style="color: #00000069;"></i>
                         <div>
-                            <i class="fa-solid fa-star"></i>
-                            <span>New Department</span>
+                            <i class="fa-solid fa-star" style="color: #00000069;"></i>
+                            <span id="addrName" style="color: #00000069;">새로운 주소록${sequence}</span>
                         </div>
                     </div>
                 `;
+                sequence++;
                 subUl.appendChild(newLi);
                 newLi.querySelector('.fa-angle-down').addEventListener('click', function(event) {
                     let nextUl = this.parentElement.nextElementSibling;
@@ -155,12 +301,12 @@ document.querySelectorAll('.li-hover').forEach(item => {
                     contextMenu.style.display = 'block';
                     contextMenu.style.left = `${event.pageX}px`;
                     contextMenu.style.top = `${event.pageY}px`;
+
+                    addDeptgroup.style.display = 'none'; 
+                    groupNameChange.style.display = 'block'; 
+                    deleteGroup.style.display = 'block'; 
                 });
             }
-            addDeptgroup.style.display = 'none'; 
-            addTeamgroup.style.display = 'block'; 
-            groupNameChange.style.display = 'block'; 
-            deleteGroup.style.display = 'block'; 
             contextMenu.style.display = 'none';
         };
 
@@ -207,7 +353,6 @@ document.querySelectorAll('.li-hover').forEach(item => {
         
         // "그룹명 변경"을 클릭했을 때의 동작
         groupNameChange.onclick = () => {
-            // Check if there is already an open input field
             const openInput = document.querySelector('.openInput');
             if (openInput) {
                 const span = document.createElement('span');
@@ -216,15 +361,15 @@ document.querySelectorAll('.li-hover').forEach(item => {
             }
 
             if (targetLi) {
-                const span = targetLi.querySelector('span'); // Get the span tag within the li
-                const groupName = span.textContent; // Get the current group name
+                const span = targetLi.querySelector('span');
+                const groupName = span.textContent;
                 var style = span.style;
-                var width = style.width;
-                console.log(width);
+                
                 // span 태그를 input 태그로 변경합니다.
                 const input = document.createElement('input');
                 input.classList.add("default-line", "openInput");
                 input.setAttribute("spellcheck", "false");
+                input.setAttribute("maxlength", "40");
                 input.style.fontFamily = 'NanumBarunGothic';
                 input.style.fontSize = '13px';
                 // input.style.width = "inherit";
@@ -233,27 +378,61 @@ document.querySelectorAll('.li-hover').forEach(item => {
                 input.type = 'text';
                 input.value = groupName;
 
-                span.parentNode.replaceChild(input, span); // Replace span with input
+                span.parentNode.replaceChild(input, span);
                 input.focus();
 
                 input.addEventListener('keydown', e => {
                     if (e.key === "Enter") {
-                        const newGroupName = input.value;
-                        input.parentNode.replaceChild(span, input); // Replace input with span
-                        span.textContent = newGroupName; // Set new group name
+                        let flag = true;
+                        document.querySelectorAll("#addrName").forEach((i) => {
+                            if(i.innerText === e.target.value){
+                                flag = false;
+                                return;
+                            }
+                        })
+                        if(!flag){
+                            alert("중복된 그룹명이 있습니다.");
+                        }
+                        if(flag){
+                            const newGroupName = input.value;
+                            input.parentNode.replaceChild(span, input);
+                            if(span.innerText != newGroupName) {
+                                targetLi.children[0].children[1].children[0].style.color = '#00000069';
+                                targetLi.children[0].children[1].children[1].style.color = '#00000069';
+                            }
+                            span.textContent = newGroupName;
+                        }
+
                     }
                     if (e.key === "Escape") {
-                        input.parentNode.replaceChild(span, input); // Replace input with span
+                        input.parentNode.replaceChild(span, input);
+                    }
+                });
+                document.addEventListener('click', function(event) {
+                    if (document.querySelector('#contextMenu').contains(event.target)) {
+                        return;
+                    }
+                    if(document.querySelector('.openInput') != null) {
+                        if (!document.querySelector('.openInput').contains(event.target)) {
+                            // const input = document.querySelector(".openInput");
+                            // const span = document.createElement('span');
+                            // span.innerText = input.value;
+                            // input.parentNode.replaceChild(span, input);
+                            input.parentNode.replaceChild(span, input);
+                        }
                     }
                 });
             }
+
             contextMenu.style.display = 'none'; // Hide the context menu
         };
 
 
         deleteGroup.onclick = () => {
-            if (targetLi) {
-                targetLi.remove();
+            if(confirm("선택한 그룹을 삭제하시면 해당 그룹에 등록된 정보는 전부 소실됩니다. 정말로 삭제하시겠습니까?")){
+                if (targetLi) {
+                    targetLi.remove();
+                }
             }
             contextMenu.style.display = 'none';
         };
@@ -274,43 +453,117 @@ window.addEventListener("click", function hideContextMenu(event) {
 });
 
 
+
+// ---------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------
 // 구성원 row 클릭 시
-const employee = document.querySelectorAll(".employee");
-
-// 구성원 정보 상세 조회
-const employeeDetail = document.querySelector(".employeeDetail");
+const info = document.querySelectorAll(".info");
 // 이전으로 돌아가기 버튼
 const backPage = document.querySelector("#backPage");
 
-function check() {
-    for (let i = 0; i < employee.length; i++) {
-        employee[i].style.backgroundColor = 'white';
-        employee[i].style.cursor = 'auto';
-    }
-}
-
-employee.forEach((i) => {
+info.forEach((i) => {
     i.addEventListener("click", e => {
-        if(i.style.cursor == 'pointer'){
-            location.href = "/admin/attendance/detail";
+        const obj = {
+            "empCode" : i.children[5].value,
+            "backPageLocation" : location.pathname + location.search
         }
-        check();
-        i.style.backgroundColor = 'var(--main4-color)';
-        i.style.cursor = 'pointer';
-    });
-    // 클릭 하는 순간 기존의 css hover 속성 사라짐
-    // i.addEventListener("mouseover", e => {
-    //     i.style.backgroundColor = 'var(--main4-color)';
-    // });
-    // i.addEventListener("mouseout", e => {
-    //     i.style.backgroundColor = 'white';
-    // });
-})
 
+        fetch("/employee/addr/employeeDetail", {
+            method : "post",
+            headers : {"Content-Type" : "application/json"},
+            body : JSON.stringify(obj)
+        })
+        .then(resp => resp.text())
+        .then(result => {
+            if(result == "") {
+                alert("사원 정보가 존재하지 않습니다.");
+                return;
+            }
+            location.href = '/employee/addr/employeeDetailPage';
+        });
+    })
+});
 
 if(backPage != null) {
     backPage.addEventListener("click", function () {
-        location.href = "/admin/attendance";
+        location.href = backPageLocation;
     });
-}
+};
+
+
+
+// ---------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------
+// 그룹 저장
+const saveGroup = document.querySelector("#saveGroup");
+const addrBookNo = document.querySelectorAll("#addrBookNo");
+
+if(saveGroup != null) {
+    saveGroup.addEventListener("click", e => {
+        document.querySelectorAll("#addrName").forEach((i, index) => {
+            document.querySelectorAll("#addrName").forEach((x, index) => {
+                if(i.index == x.index) {
+                    
+                } else{
+                    if(x.innerText == i.innerText) {
+                        alert("중복된 그룹명이 있습니다.");
+                        return;
+                    }
+                }
+            })
+        })
+
+        const groupList = [{"loginEmpCode" : loginEmpCode}];
+        for(let i = 0; i < document.querySelectorAll("#addrName").length; i++) {
+
+            if(addrBookNo[i] != undefined) {
+                groupList.push({ 
+                    "addrBookNo" : addrBookNo[i].value, 
+                    "addrName" : document.querySelectorAll("#addrName")[i].innerText 
+                });
+            } else {
+                groupList.push({ 
+                    "addrBookNo" : "null", 
+                    "addrName" : document.querySelectorAll("#addrName")[i].innerText, 
+                    "loginEmpCode" : loginEmpCode 
+                });
+            }
+        }
+
+        const templocation = location.pathname + location.search;
+
+        fetch("/employee/addr/insertGroupList", {
+            method : "post",
+            headers : {"Content-Type" : "application/json"},
+            body : JSON.stringify(groupList)
+        })
+        .then(resp => resp.text())
+        .then(result => {
+            if(result == -1){
+                alert("그룹이 없습니다. 새로운 그룹을 생성해주세요.");
+                return; 
+            }
+            if(result == -2){
+                alert("중복된 그룹명이 있습니다. 다른 이름으로 변경해주세요.");
+                return;
+            }
+            if(result == 2){
+                alert("그룹명 변경 실패");
+                return;
+            }
+            if(result == 3){
+                alert("그룹명 저장 실패");
+                return;
+            }
+            
+            alert("그룹이 저장되었습니다.");
+            if(location.pathname == '/employee/addr/employeeDetailPage') {
+                location.href = templocation;
+                return;
+            }
+            location.href = '/employee/addr/comList';
+        })
+    });
+};

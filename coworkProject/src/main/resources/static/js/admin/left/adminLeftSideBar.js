@@ -148,7 +148,7 @@ function authorityMenu() {
 
             for(let authority of authorityList) {
                 
-                if(authority.authorityNo == 1) attendanceFun(returnUserMain);
+                //if(authority.authorityNo == 1) attendanceFun(returnUserMain);
 
                 if(authority.authorityNo == 2) functionFun(returnUserMain);
             } 

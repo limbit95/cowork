@@ -57,22 +57,22 @@
                     <figcaption th:text="|${session.loginEmp.generalManager == 1 ? '화면들어가기' : '권한불충분'}  |">화면들어가기</figcaption>
                 </div>
 
-                <div class="rowDiv" id="attendanceDiv">
-                    <img src="/images/admin_attendanct.png">
+                <div class="rowDiv" id="functionDiv">
+                    <img src="/images/admin_function.png">
                     <div>
-                        <label class="title">근태관리</label>
+                        <label class="title">기능관리</label>
                         <div>
-                            직원들의 근태를 관리합니다. 
-                            출퇴근 시간을 기록하고 확인합니다.
+                            다양한 부가 기능을 관리합니다. 
+                            주소록, 공지사항, 결재문서관리, 회의실등록, IP 등록 기능을 포함합니다.
                         </div>
                     </div>
-                    <figcaption id="attendanceText">권한불충분</figcaption>
+                    <figcaption id="functionText">권한불충분</figcaption>
                 </div>
 
             </div>
 
             <!-- 세번째 행 -->
-            <div class="rowGroup rowGroup2">
+            <div class="rowGroup rowGroup2" style="display: none;">
 
                 <div class="rowDiv rowDiv2" id="functionDiv">
                     <img src="/images/admin_function.png">
