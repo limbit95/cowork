@@ -24,7 +24,7 @@
 * ### 최재준
 * ### 송지윤
 * ### 임성혁
-
+(#[팀게시판](#팀게시판), #[전자결재](#전자결재), #[권한관리](#권한관리))
 ---
 
 <br><br>
@@ -57,7 +57,7 @@
 
 # UI 및 기능
 # 박은별
-* ## 공지사항 (#[팀게시판](#팀게시판), #[전자결재](#전자결재), #[권한관리](#권한관리))
+* ## 공지사항 
 ![image](https://github.com/limbit95/cowork/assets/111622452/9a66df2a-8b82-478d-932b-085550ae8303)
 ![image](https://github.com/limbit95/cowork/assets/111622452/7d9bf789-ed0d-4113-a16b-2c22466c4a7a)
 ![image](https://github.com/limbit95/cowork/assets/111622452/b2b4f737-4066-42d7-a86e-3f6a6f66f539)
