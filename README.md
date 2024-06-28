@@ -38,14 +38,23 @@
   * ##### 4) [회사 정보 수정](#회사-정보-수정)
   * ##### 5) [IP관리](#IP관리)
 * ### 임성혁
-  * ##### 1) [주소록](#주소록)
-  * ##### 2) [로그인 및 회원가입](#로그인-및-회원가입)
-  * ##### 3) [아이디 및 비밀번호 찾기](#아이디-및-비밀번호-찾기)
----
+  * ##### 1) [사용자 주소록](#사용자-주소록)
+  * ##### 2) [관리자 주소록](#관리자-주소록)
+  * ##### 3) [로그인 및 회원가입](#로그인-및-회원가입)
+  * ##### 4) [아이디 및 비밀번호 찾기](#아이디-및-비밀번호-찾기)
+## 4. [트러블 슈팅](#트러블-슈팅)
+* ### 박은별
+* ### 정윤희
+* ### 최재준
+* ### 송지윤
+* ### 임성혁
 
 <br><br>
 
-# 프로젝트 소개 #[목차로 돌아가기](#프로젝트-목차)
+---
+
+# 프로젝트 소개 
+#### #[목차로 돌아가기](#프로젝트-목차)
 ![image](https://github.com/limbit95/cowork/assets/111622452/221e8100-8b8c-4e9f-9441-936feb5518b5)
 * ## 팀원 소개
 ![image](https://github.com/limbit95/cowork/assets/111622452/f17e0d32-062e-4029-8a71-58290fc503de)
@@ -58,7 +67,8 @@
 
 <br>
 
-# 프로젝트 기획 #[목차로 돌아가기](#프로젝트-목차)
+# 프로젝트 기획
+#### #[목차로 돌아가기](#프로젝트-목차)
 * ## 요구사항 정의서
 ![image](https://github.com/limbit95/cowork/assets/111622452/129fad25-3da9-4578-8117-fb274b0382cf)
 * ## DB모델링
@@ -193,12 +203,51 @@
 ---
 
 # 임성혁
-* ## 주소록
-#### #[로그인 및 회원가입](#로그인-및-회원가입), #[아이디 및 비밀번호 찾기](#아이디-및-비밀번호-찾기), #[목차로 돌아가기](#프로젝트-목차)
+* ## 사용자 주소록
+#### #[관리자 주소록](#관리자-주소록), #[로그인 및 회원가입](#로그인-및-회원가입), #[아이디 및 비밀번호 찾기](#아이디-및-비밀번호-찾기), #[목차로 돌아가기](#프로젝트-목차)
+![image](https://github.com/limbit95/cowork/assets/111622452/fb5db94a-0540-454c-8ba7-20ce417546ea)
+![image](https://github.com/limbit95/cowork/assets/111622452/fb5db94a-0540-454c-8ba7-20ce417546ea)
+![image](https://github.com/limbit95/cowork/assets/111622452/465afc16-9b86-4989-80d8-fc6e2632305b)
+![image](https://github.com/limbit95/cowork/assets/111622452/343b7b01-c71e-4ade-810d-679215a0a90b)
+![image](https://github.com/limbit95/cowork/assets/111622452/928369c3-7f21-4efa-81a8-864ae8dcfe78)
+![image](https://github.com/limbit95/cowork/assets/111622452/35057e83-14ed-46af-bff7-af32b503361c)
+![image](https://github.com/limbit95/cowork/assets/111622452/3cb94cb7-2087-438e-aea3-3d7e3315a29c)
+![image](https://github.com/limbit95/cowork/assets/111622452/fefe864f-4e71-40ff-9eb9-74ad75e79251)
+<br><br>
+* ## 관리자 주소록
+#### #[사용자 주소록](#사용자-주소록), #[로그인 및 회원가입](#로그인-및-회원가입), #[아이디 및 비밀번호 찾기](#아이디-및-비밀번호-찾기), #[목차로 돌아가기](#프로젝트-목차)
+![image](https://github.com/limbit95/cowork/assets/111622452/4e689986-69e9-4947-a4d5-d08f2c2691aa)
+![image](https://github.com/limbit95/cowork/assets/111622452/fc6fc764-3504-422f-803b-bc15c39776e5)
+![image](https://github.com/limbit95/cowork/assets/111622452/15d6cb12-93bb-4684-b2c5-12a28690fcea)
+![image](https://github.com/limbit95/cowork/assets/111622452/13df9897-bdb1-47cc-9dba-cdfbf92a9517)
+![image](https://github.com/limbit95/cowork/assets/111622452/bf4cc8be-a721-481d-a913-b9c2615c2762)
+![image](https://github.com/limbit95/cowork/assets/111622452/1ea1558b-9c09-4fe3-8dbc-aa0294467104)
+![image](https://github.com/limbit95/cowork/assets/111622452/96f1f0f3-416a-4f73-a659-1636c72076b6)
+![image](https://github.com/limbit95/cowork/assets/111622452/9705bc24-0954-44cb-a0fa-379fdd69f60e)
+![image](https://github.com/limbit95/cowork/assets/111622452/e9043730-d4ce-475a-a038-eb5c5aed0389)
+![image](https://github.com/limbit95/cowork/assets/111622452/6a60ddcd-f91a-47ac-b058-279225fd0b93)
+![image](https://github.com/limbit95/cowork/assets/111622452/3a5c58f6-bd4d-475d-8b0c-e20ee50a22f0)
+![image](https://github.com/limbit95/cowork/assets/111622452/e9d88f25-b062-4c4a-b59a-a54466c98ef5)
+![image](https://github.com/limbit95/cowork/assets/111622452/002e1dbf-8c4b-4ccc-afb2-f660d8f33bf4)
+![image](https://github.com/limbit95/cowork/assets/111622452/6a9cc05c-aebc-4533-b66b-de525fc3ba57)
+![image](https://github.com/limbit95/cowork/assets/111622452/1406aad9-684e-44ef-ac9f-7a2701ccee79)
 <br><br>
 * ## 로그인 및 회원가입
-#### #[주소록](#주소록), #[아이디 및 비밀번호 찾기](#아이디-및-비밀번호-찾기), #[목차로 돌아가기](#프로젝트-목차)
+#### #[사용자 주소록](#사용자-주소록), #[사용자 주소록](#사용자-주소록), #[아이디 및 비밀번호 찾기](#아이디-및-비밀번호-찾기), #[목차로 돌아가기](#프로젝트-목차)
+![image](https://github.com/limbit95/cowork/assets/111622452/f7595594-ed5d-48fd-b2ac-a7feaf9fb852)
+![image](https://github.com/limbit95/cowork/assets/111622452/3740d482-4152-4864-bff3-fab5c15686b2)
+![image](https://github.com/limbit95/cowork/assets/111622452/ee953e99-f71f-4f18-9846-ff4e2bd5fe47)
+![image](https://github.com/limbit95/cowork/assets/111622452/445d3c59-1ae5-443e-b0b8-964f1e5bb8c4)
 <br><br>
 * ## 아이디 및 비밀번호 찾기
-#### #[주소록](#주소록), #[로그인 및 회원가입](#로그인-및-회원가입), #[목차로 돌아가기](#프로젝트-목차)
+#### #[사용자 주소록](#사용자-주소록), #[사용자 주소록](#사용자-주소록), #[로그인 및 회원가입](#로그인-및-회원가입), #[목차로 돌아가기](#프로젝트-목차)
+![image](https://github.com/limbit95/cowork/assets/111622452/0123c698-12d5-4bc0-a175-6bc0a9a92072)
+![image](https://github.com/limbit95/cowork/assets/111622452/f7d74150-7e82-4670-9f98-dabebd565dbd)
+![image](https://github.com/limbit95/cowork/assets/111622452/5c4f98fe-7ec7-48d9-b8c9-3e2bb6fd6d42)
 <br><br>
+
+---
+
+# 트러블 슈팅
+#### #[목차로 돌아가기](#프로젝트-목차)
+## 
