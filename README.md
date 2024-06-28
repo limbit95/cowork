@@ -40,6 +40,7 @@
 ![image](https://github.com/limbit95/cowork/assets/111622452/e9d333a9-87d2-4087-ac5e-5c1bc0c0ac81)
 * ## 개발 담당 및 일정
 ![image](https://github.com/limbit95/cowork/assets/111622452/a8096ed8-b7b4-456a-9e90-6f3219553cf7)
+
 ---
 
 <br>
@@ -94,11 +95,11 @@
 
 # 정윤희
 * ## 메인 페이지
-#### #[할 일](#할-일), #[메일](#메일)
+#### #[할 일](#할-일), #[메일](#메일), #[목차로 돌아가기](#프로젝트-목차)
 ![image](https://github.com/limbit95/cowork/assets/111622452/8346bd39-d21a-4693-bfc2-b030fbfac46c)
 <br><br>
 * ## 할 일
-#### #[메인 페이지](#메인-페이지), #[메일](#메일)
+#### #[메인 페이지](#메인-페이지), #[메일](#메일), #[목차로 돌아가기](#프로젝트-목차)
 ![image](https://github.com/limbit95/cowork/assets/111622452/4a0b16b3-01df-4b40-a39e-3d10d7ab4dfc)
 ![image](https://github.com/limbit95/cowork/assets/111622452/bbf0b90a-0b16-41f4-a512-13e32526f1a9)
 ![image](https://github.com/limbit95/cowork/assets/111622452/ea268ee4-1625-46d9-87dc-40d5d7243d7e)
@@ -107,7 +108,7 @@
 ![image](https://github.com/limbit95/cowork/assets/111622452/81e83af7-ecb6-4323-a791-fa99cddd23de)
 <br><br>
 * ## 메일
-#### #[메인 페이지](#메인-페이지), #[할 일](#할-일)
+#### #[메인 페이지](#메인-페이지), #[할 일](#할-일), #[목차로 돌아가기](#프로젝트-목차)
 ![image](https://github.com/limbit95/cowork/assets/111622452/986710aa-4217-4861-8caa-1dfb63250fa4)
 ![image](https://github.com/limbit95/cowork/assets/111622452/22a40c18-51da-4ce9-9914-d02c19eca6c0)
 ![image](https://github.com/limbit95/cowork/assets/111622452/0ecbd0fa-b4fd-4fde-8770-48ea776c5a8b)
