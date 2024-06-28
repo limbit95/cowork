@@ -15,6 +15,7 @@
 * #### 2-3 [프로그램 구조](#프로그램-구조)
 * #### 2-4 [와이어 프레임 및 목업](#와이어-프레임-및-목업)
 ### 3. [UI 및 기능](#UI-및-기능)
+<br><br>
 ---
 
 # 프로젝트 소개
@@ -25,8 +26,9 @@
 ![image](https://github.com/limbit95/cowork/assets/111622452/e9d333a9-87d2-4087-ac5e-5c1bc0c0ac81)
 * ### 개발 담당 및 일정
 ![image](https://github.com/limbit95/cowork/assets/111622452/a8096ed8-b7b4-456a-9e90-6f3219553cf7)
-
 ---
+
+<br>
 
 # 프로젝트 기획
 * ### 요구사항 정의서
@@ -39,6 +41,8 @@
 ![image](https://github.com/limbit95/cowork/assets/111622452/fcfe433e-a7ba-49b3-a1ed-aee3790eb0b9)
 
 ---
+
+<br>
 
 # UI 및 기능
 * ### 요구사항 정의서
