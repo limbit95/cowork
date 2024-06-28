@@ -15,6 +15,14 @@
 * #### 3) [프로그램 구조](#프로그램-구조)
 * #### 4) [와이어 프레임 및 목업](#와이어-프레임-및-목업)
 ### 3. [UI 및 기능](#UI-및-기능)
+* #### 박은별
+  * #### 1) [공지사항](#공지사항)
+  * #### 2) [팀게시판](#팀게시판)
+  * #### 3) [전자결재](#전자결재)
+* #### 정윤희
+* #### 최재준
+* #### 송지윤
+* #### 임성혁
 
 ---
 
@@ -47,4 +55,16 @@
 <br>
 
 # UI 및 기능
-* ### 요구사항 정의서
+## 박은별
+* ### 공지사항
+![image](https://github.com/limbit95/cowork/assets/111622452/9a66df2a-8b82-478d-932b-085550ae8303)
+![image](https://github.com/limbit95/cowork/assets/111622452/7d9bf789-ed0d-4113-a16b-2c22466c4a7a)
+![image](https://github.com/limbit95/cowork/assets/111622452/b2b4f737-4066-42d7-a86e-3f6a6f66f539)
+* ### 팀게시판
+![image](https://github.com/limbit95/cowork/assets/111622452/04dcc548-b010-4a53-b266-3cb262b0d3e8)
+![image](https://github.com/limbit95/cowork/assets/111622452/360a04ce-da27-4f4e-a392-fc38abea25ce)
+![image](https://github.com/limbit95/cowork/assets/111622452/08dc478a-b0d9-4dd9-a28a-f21f7cd7f408)
+![image](https://github.com/limbit95/cowork/assets/111622452/e9b6a61d-5990-40ef-abc5-ba16c0b72672)
+![image](https://github.com/limbit95/cowork/assets/111622452/9152f178-0109-42a8-b8ab-42ca33b12928)
+* ### 전자결재
+![image](https://github.com/limbit95/cowork/assets/111622452/8acd8dff-0efc-4964-89e8-6373ed386909)
