@@ -21,6 +21,9 @@
   * ##### 3) [전자결재](#전자결재)
   * ##### 4) [권한관리](#권한관리)
 * ### 정윤희
+  * ##### 1) [메인 페이지](#메인-페이지)
+  * ##### 2) [할 일](#할-일)
+  * ##### 3) [메일](#메일)
 * ### 최재준
 * ### 송지윤
 * ### 임성혁
@@ -87,5 +90,43 @@
 ![image](https://github.com/limbit95/cowork/assets/111622452/9d107f3f-2710-46b4-91be-4889135fc7a0)
 
 ---
+<br><br>
+
+# 정윤희
+* ## 메인 페이지
+![image](https://github.com/limbit95/cowork/assets/111622452/8346bd39-d21a-4693-bfc2-b030fbfac46c)
+<br><br>
+* ## 할 일
+![image](https://github.com/limbit95/cowork/assets/111622452/4a0b16b3-01df-4b40-a39e-3d10d7ab4dfc)
+![image](https://github.com/limbit95/cowork/assets/111622452/bbf0b90a-0b16-41f4-a512-13e32526f1a9)
+![image](https://github.com/limbit95/cowork/assets/111622452/ea268ee4-1625-46d9-87dc-40d5d7243d7e)
+![image](https://github.com/limbit95/cowork/assets/111622452/86b5debc-695c-4877-9a4f-bd5af4c54d78)
+![image](https://github.com/limbit95/cowork/assets/111622452/0e24d4e1-dc19-4089-860c-f99d207595bd)
+![image](https://github.com/limbit95/cowork/assets/111622452/81e83af7-ecb6-4323-a791-fa99cddd23de)
+<br><br>
+* ## 메일
+![image](https://github.com/limbit95/cowork/assets/111622452/986710aa-4217-4861-8caa-1dfb63250fa4)
+![image](https://github.com/limbit95/cowork/assets/111622452/22a40c18-51da-4ce9-9914-d02c19eca6c0)
+![image](https://github.com/limbit95/cowork/assets/111622452/0ecbd0fa-b4fd-4fde-8770-48ea776c5a8b)
+![image](https://github.com/limbit95/cowork/assets/111622452/7a186352-9e55-4ee6-9743-160ef1b81867)
+![image](https://github.com/limbit95/cowork/assets/111622452/c5629fd6-a3a8-4ee9-9b4c-3816a9c295ae)
+![image](https://github.com/limbit95/cowork/assets/111622452/d1c9deff-2c7f-4bc4-b223-e4a134b0e6ca)
+![image](https://github.com/limbit95/cowork/assets/111622452/ef00abbb-fcab-49cf-bb23-3ff17560c5df)
+<br><br>
+
+---
+
+# 최재준
+
+
+---
+
+# 송지윤
+
+
+---
+
+# 임성혁
+
 
 
