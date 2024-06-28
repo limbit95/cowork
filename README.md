@@ -42,7 +42,7 @@
 <br>
 
 # 프로젝트 기획
-* ## 요구사항 정의서 [목차로 돌아가기](#프로젝트-목차)
+* ## 요구사항 정의서 [(목차로 돌아가기)](#프로젝트-목차)
 ![image](https://github.com/limbit95/cowork/assets/111622452/129fad25-3da9-4578-8117-fb274b0382cf)
 * ## DB모델링
 ![image](https://github.com/limbit95/cowork/assets/111622452/43d20377-915d-4099-8d44-af06f4049eab)
