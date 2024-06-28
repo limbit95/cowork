@@ -1,4 +1,4 @@
-<!-- 프로젝트 이미지 -->
+![image](https://github.com/limbit95/cowork/assets/111622452/40959ccc-fa99-480f-ab97-78a67cda9a11)<!-- 프로젝트 이미지 -->
 ![image](https://github.com/limbit95/cowork/assets/111622452/032e00da-7bd7-4eea-9e0f-f8de0ba539aa)
 ### [CoWork 사이트로 이동](http://coworkintranet.site)
 
@@ -43,11 +43,7 @@
   * ##### 3) [로그인 및 회원가입](#로그인-및-회원가입)
   * ##### 4) [아이디 및 비밀번호 찾기](#아이디-및-비밀번호-찾기)
 ## 4. [트러블 슈팅](#트러블-슈팅)
-* ### 박은별
-* ### 정윤희
-* ### 최재준
-* ### 송지윤
-* ### 임성혁
+## 5. [프로젝트 후기](#프로젝트-후기)
 
 <br><br>
 
@@ -206,7 +202,6 @@
 * ## 사용자 주소록
 #### #[관리자 주소록](#관리자-주소록), #[로그인 및 회원가입](#로그인-및-회원가입), #[아이디 및 비밀번호 찾기](#아이디-및-비밀번호-찾기), #[목차로 돌아가기](#프로젝트-목차)
 ![image](https://github.com/limbit95/cowork/assets/111622452/fb5db94a-0540-454c-8ba7-20ce417546ea)
-![image](https://github.com/limbit95/cowork/assets/111622452/fb5db94a-0540-454c-8ba7-20ce417546ea)
 ![image](https://github.com/limbit95/cowork/assets/111622452/465afc16-9b86-4989-80d8-fc6e2632305b)
 ![image](https://github.com/limbit95/cowork/assets/111622452/343b7b01-c71e-4ade-810d-679215a0a90b)
 ![image](https://github.com/limbit95/cowork/assets/111622452/928369c3-7f21-4efa-81a8-864ae8dcfe78)
@@ -250,4 +245,34 @@
 
 # 트러블 슈팅
 #### #[목차로 돌아가기](#프로젝트-목차)
-## 
+## 박은별
+![image](https://github.com/limbit95/cowork/assets/111622452/3b8038f9-3b3c-45d7-9900-ae88ff36bf9b)
+<br><br>
+
+---
+## 정윤희
+![image](https://github.com/limbit95/cowork/assets/111622452/7fbf3e56-3251-409d-a494-ac2f63d27c0e)
+<br><br>
+
+---
+## 최재준
+![image](https://github.com/limbit95/cowork/assets/111622452/9991e729-af22-410d-a6f4-bbefda2f1213)
+<br><br>
+
+---
+## 송지윤
+![image](https://github.com/limbit95/cowork/assets/111622452/c73f6e46-dc64-498e-bba5-1b414a9169c8)
+<br><br>
+
+---
+## 임성혁
+![image](https://github.com/limbit95/cowork/assets/111622452/0a1ad56b-881d-425d-9ab4-8be826a02866)
+![image](https://github.com/limbit95/cowork/assets/111622452/223382e0-e186-4e06-8b41-56ad82663f6a)
+![image](https://github.com/limbit95/cowork/assets/111622452/c1b1ac96-8f65-4814-931b-9c2b0b58834d)
+![image](https://github.com/limbit95/cowork/assets/111622452/7e9498c6-5e77-402d-9155-5cdd5bd2a966)
+<br><br>
+
+---
+# 프로젝트 후기
+#### #[목차로 돌아가기](#프로젝트-목차)
+![image](https://github.com/limbit95/cowork/assets/111622452/ceff1ca8-cd61-47f0-b662-4bb9c645308f)
