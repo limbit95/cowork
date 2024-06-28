@@ -14,8 +14,8 @@
 * #### 1-1 [요구사항 정의서](#요구사항-정의서)
 ---
 
-## 프로젝트 소개
-<!-- * ### 기획 의도 -->
+# 프로젝트 소개
+* ### 기획 의도
 ![image](https://github.com/limbit95/cowork/assets/111622452/221e8100-8b8c-4e9f-9441-936feb5518b5)
 * ### 팀원 소개
 ![image](https://github.com/limbit95/cowork/assets/111622452/0540e2ee-7393-425e-96b8-5f6a18b3253e)
