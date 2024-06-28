@@ -1,4 +1,4 @@
-![image](https://github.com/limbit95/cowork/assets/111622452/40959ccc-fa99-480f-ab97-78a67cda9a11)<!-- 프로젝트 이미지 -->
+<!-- 프로젝트 이미지 -->
 ![image](https://github.com/limbit95/cowork/assets/111622452/032e00da-7bd7-4eea-9e0f-f8de0ba539aa)
 ### [CoWork 사이트로 이동](http://coworkintranet.site)
 
