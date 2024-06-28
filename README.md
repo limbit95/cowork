@@ -24,7 +24,7 @@
 * ### 최재준
 * ### 송지윤
 * ### 임성혁
-
+[공지사항](#공지사항)
 ---
 
 <br><br>
@@ -57,19 +57,19 @@
 
 # UI 및 기능
 # 박은별
-* ## 공지사항 ([공지사항](#공지사항), [팀게시판](#팀게시판), [전자결재](#전자결재), [권한관리](#권한관리))
+* ## 공지사항 
 ![image](https://github.com/limbit95/cowork/assets/111622452/9a66df2a-8b82-478d-932b-085550ae8303)
 ![image](https://github.com/limbit95/cowork/assets/111622452/7d9bf789-ed0d-4113-a16b-2c22466c4a7a)
 ![image](https://github.com/limbit95/cowork/assets/111622452/b2b4f737-4066-42d7-a86e-3f6a6f66f539)
 <br><br>
-* ## 팀게시판 ([공지사항](#공지사항), [팀게시판](#팀게시판), [전자결재](#전자결재), [권한관리](#권한관리))
+* ## 팀게시판 
 ![image](https://github.com/limbit95/cowork/assets/111622452/04dcc548-b010-4a53-b266-3cb262b0d3e8)
 ![image](https://github.com/limbit95/cowork/assets/111622452/360a04ce-da27-4f4e-a392-fc38abea25ce)
 ![image](https://github.com/limbit95/cowork/assets/111622452/08dc478a-b0d9-4dd9-a28a-f21f7cd7f408)
 ![image](https://github.com/limbit95/cowork/assets/111622452/e9b6a61d-5990-40ef-abc5-ba16c0b72672)
 ![image](https://github.com/limbit95/cowork/assets/111622452/9152f178-0109-42a8-b8ab-42ca33b12928)
 <br><br>
-* ## 전자결재 ([공지사항](#공지사항), [팀게시판](#팀게시판), [전자결재](#전자결재), [권한관리](#권한관리))
+* ## 전자결재 
 ![image](https://github.com/limbit95/cowork/assets/111622452/8acd8dff-0efc-4964-89e8-6373ed386909)
 ![image](https://github.com/limbit95/cowork/assets/111622452/abb4acd4-5404-4ce2-8718-de4aeb6cbe49)
 ![image](https://github.com/limbit95/cowork/assets/111622452/7074569a-10af-4402-bce8-ac97bd8e06bb)
@@ -79,7 +79,7 @@
 ![image](https://github.com/limbit95/cowork/assets/111622452/6031114c-880c-4ef8-a0b5-fb2bc08085fe)
 ![image](https://github.com/limbit95/cowork/assets/111622452/d3772727-3ca2-4306-98a2-407d8a9091c1)
 <br><br>
-* ## 권한관리 ([공지사항](#공지사항), [팀게시판](#팀게시판), [전자결재](#전자결재), [권한관리](#권한관리))
+* ## 권한관리 
 ![image](https://github.com/limbit95/cowork/assets/111622452/9d107f3f-2710-46b4-91be-4889135fc7a0)
 
 ---
