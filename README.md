@@ -43,7 +43,6 @@
 
 # 프로젝트 기획
 * ## 요구사항 정의서
-(#[공지사항](#공지사항), #[팀게시판](#팀게시판), #[전자결재](#전자결재))
 ![image](https://github.com/limbit95/cowork/assets/111622452/129fad25-3da9-4578-8117-fb274b0382cf)
 * ## DB모델링
 ![image](https://github.com/limbit95/cowork/assets/111622452/43d20377-915d-4099-8d44-af06f4049eab)
@@ -59,6 +58,7 @@
 # UI 및 기능
 # 박은별
 * ## 공지사항
+* #### (#[공지사항](#공지사항), #[팀게시판](#팀게시판), #[전자결재](#전자결재))
 ![image](https://github.com/limbit95/cowork/assets/111622452/9a66df2a-8b82-478d-932b-085550ae8303)
 ![image](https://github.com/limbit95/cowork/assets/111622452/7d9bf789-ed0d-4113-a16b-2c22466c4a7a)
 ![image](https://github.com/limbit95/cowork/assets/111622452/b2b4f737-4066-42d7-a86e-3f6a6f66f539)
