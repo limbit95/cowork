@@ -24,14 +24,9 @@ main {
     border: 1px solid var(--main6-color);
     margin: 0 10%;
     border-radius: 5px;
-    margin-bottom: 50px;
     white-space: nowrap;
     overflow: hidden;
-}
-
-/* 개인 주소록 */
-.left > :nth-child(1) {
-    margin-bottom: 40px;
+    margin-top: 50px;
 }
 
 
@@ -151,6 +146,19 @@ main {
 
 
 
+/* 년 월 일 영역 */
+.right > :nth-child(2) {
+    display: flex;
+    height: 30px;
+    margin-bottom: 10px;
+}
+.right > :nth-child(2) button {
+    display: none;
+}
+.right > :nth-child(2) > :nth-child(1) {
+    margin-right: 10px;
+}
+
 section.container .year {
     width: 70px;
     height: 25px;
@@ -197,20 +205,6 @@ section.container .day {
 }
 
 
-/* 이동, 삭제 버튼 영역 */
-.right > :nth-child(2) {
-    display: flex;
-    height: 30px;
-    margin-bottom: 15px;
-}
-.right > :nth-child(2) button {
-    display: none;
-}
-.right > :nth-child(2) > :nth-child(1) {
-    margin-right: 10px;
-}
-
-
 /* 구성원 리스트 */
 .right > .employeeList {
     display: flex;
@@ -218,6 +212,7 @@ section.container .day {
     flex-direction: column;
     white-space: nowrap;
     overflow: hidden;
+    height: 500px;
 }
 .right > .employeeList > div {
     display: flex;
@@ -233,16 +228,13 @@ section.container .day {
     display: flex;
     margin-left: 5px;
 }
-section.container  .employeeList > :first-child > :nth-child(1) {  
-    margin-left: 10px;
-}
 .employeeList > :first-child > :nth-child(1) {  
     justify-content: start;
-    flex-basis: 13%;
+    flex-basis: 20%;
 }
 .employeeList > :first-child > :nth-child(2) {
     justify-content: start;
-    flex-basis: 12%;
+    flex-basis: 10%;
 }
 .employeeList > :first-child > :nth-child(3) {
     justify-content: start;
@@ -250,25 +242,28 @@ section.container  .employeeList > :first-child > :nth-child(1) {
 }
 .employeeList > :first-child > :nth-child(4) {
     justify-content: start;
-    flex-basis: 20%;
+    flex-basis: 16%;
 }
 .employeeList > :first-child > :nth-child(5) {
     justify-content: start;
-    flex-basis: 17%;
+    flex-basis: 8%;
 }
 .employeeList > :first-child > :nth-child(6) {
     justify-content: start;
-    flex-basis: 8%;
+    flex-basis: 20%;
 }
 .employeeList > :first-child > :nth-child(7) {
     justify-content: start;
-    flex-basis: 14%;
+    flex-basis: 11%;
 }
 
-
+* {
+    /* border: 1px solid green; */
+}
 
 /* 구성원 정보 */
 .right > .employeeList > .employee {
+    display: flex;
     height: 45px;
     border-bottom: 1px solid #d9d9d9;
     white-space: nowrap;
@@ -276,29 +271,28 @@ section.container  .employeeList > :first-child > :nth-child(1) {
 }
 .right > .employeeList > .employee:hover {
     background-color: var(--main4-color);
-    /* cursor: pointer; */
 }
 .right > .employeeList > .employee > div {
-    display: block;
+    display: flex;
     align-items: center;
     margin-left: 5px;
 }
-.right > .employeeList > .employee > div > span {
-    /* cursor: auto; */
-}
-section.container .employeeList > .employee > :nth-child(1) {
-    margin-left: 10px;
+.right > .employeeList > .employee > div span {
+    justify-content: start;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .employeeList > .employee > :nth-child(1) {
     justify-content: start;
-    flex-basis: 13%;
+    flex-basis: 20%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .employeeList > .employee > :nth-child(2) {
     justify-content: start;
-    flex-basis: 12%;
+    flex-basis: 10%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -312,28 +306,28 @@ section.container .employeeList > .employee > :nth-child(1) {
 }
 .employeeList > .employee > :nth-child(4) {
     justify-content: start;
-    flex-basis: 20%;
+    flex-basis: 16%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .employeeList > .employee > :nth-child(5) {
     justify-content: start;
-    flex-basis: 17%;
+    flex-basis: 8%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .employeeList > .employee > :nth-child(6) {
     justify-content: start;
-    flex-basis: 8%;
+    flex-basis: 20%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .employeeList > .employee > :nth-child(7) {
     justify-content: start;
-    flex-basis: 14%;
+    flex-basis: 11%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

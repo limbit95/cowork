@@ -175,7 +175,7 @@
                                     <div><span th:text="*{phone}">010-1234-1234</span></div>
                                     <input hidden th:value="*{empCode}" id="empCode">
                                     <input hidden th:value="*{managerType}" id="managerType">
-                                    <div><span th:if="*{managerType} > 0">관리자</span></div>
+                                    <div><span th:if="*{managerType} > 0 or *{generalManager} == 1">관리자</span></div>
                                 </div>
                             </div>
                         </th:block>
