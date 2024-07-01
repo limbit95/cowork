@@ -1,12 +1,12 @@
 /* 근태관리 메뉴 */
-/*function attendanceFun2() {
+function attendanceFun2() {
     
     const attendanceDiv = document.querySelector('#attendanceDiv');
     attendanceDiv.setAttribute('onclick', "location.href='/admin/attendance'");
 
     const attendanceText = document.querySelector('#attendanceText');
     attendanceText.innerText = "화면들어가기";
-}*/
+}
 
 /* 기능관리 메뉴 */
 function functionFun2() {
@@ -31,7 +31,7 @@ function authorityMenu2() {
 
                 //console.log(authority.authorityNo);
 
-                //if(authority.authorityNo == 1) attendanceFun2();
+                if(authority.authorityNo == 1) attendanceFun2();
 
                 if(authority.authorityNo == 2) functionFun2();
             } 
@@ -40,7 +40,7 @@ function authorityMenu2() {
             //console.log(manager);
             if(manager2 == 1) {
 
-               // attendanceFun2();
+               attendanceFun2();
 
                 functionFun2();
             }

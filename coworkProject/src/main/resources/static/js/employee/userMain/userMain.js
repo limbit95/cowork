@@ -1,18 +1,18 @@
-// const attdRegistBtn = document.querySelector("#attdRegistBtn");
+const attdRegistBtn = document.querySelector("#attdRegistBtn");
 
-// attdRegistBtn.addEventListener("click", e => {
-//     const width = 352;
-//     const height = 253;
+attdRegistBtn.addEventListener("click", e => {
+    const width = 352;
+    const height = 253;
 
-//     const screenWidth = window.screen.width;
-//     const screenHeight = window.screen.height;
+    const screenWidth = window.screen.width;
+    const screenHeight = window.screen.height;
 
-//     const left = (screenWidth / 2) - (width / 2);
-//     const top = (screenHeight / 2) - (height / 2);
+    const left = (screenWidth / 2) - (width / 2);
+    const top = (screenHeight / 2) - (height / 2);
 
-//     // const popup = window.open("http://localhost/userMain/attendanceRegist", "popup", `width=${width},height=${height},left=${left},top=${top}`);
-//     const popup = window.open("http://coworkintranet.site/userMain/attendanceRegist", "popup", `width=${width},height=${height},left=${left},top=${top}`);
-// });
+    const popup = window.open("http://localhost/userMain/attendanceRegist", "popup", `width=${width},height=${height},left=${left},top=${top}`);
+    // const popup = window.open("http://coworkintranet.site/userMain/attendanceRegist", "popup", `width=${width},height=${height},left=${left},top=${top}`);
+});
 
 
 const todoContainer = document.getElementById('todo');

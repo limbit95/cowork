@@ -1,4 +1,6 @@
 
+
+
 const findEmp = document.querySelector("#findEmp");
 
 if(findEmp != null) {
@@ -6,7 +8,7 @@ if(findEmp != null) {
     findEmp.addEventListener("input", e => {
         const inputName = e.target.value;
 
-        if(location.pathname == '/admin/attendance/comList' || location.pathname == '/admin/attendance/deptList' || location.pathname == '/admin/attendance/teamList') {
+        if(location.pathname == '/admin/attendance' || location.pathname == '/admin/attendance/deptList' || location.pathname == '/admin/attendance/teamList') {
             if(inputName.trim().length == 0) {
                 location.reload();
                 return;
@@ -24,32 +26,48 @@ if(findEmp != null) {
                 }
                 employeeListDiv.innerHTML = 
                 `
-                    <div>
-                        <div><input id="wholeCheck" type="checkbox" class="mine"></div>
-                        <div>부서 / 팀</div>
+                    <div class="head">
+                        <div>부서</div>
                         <div>이름</div>
                         <div>직급</div>
-                        <div>이메일</div>
                         <div>전화번호</div>
+                        <div>근태정보</div>
+                        <div>근태기록시간</div>
+                        <div>근태내역</div>
                     </div>
                 `;
     
                 employeeList.forEach((i) => {
-                    const div = document.createElement('div');
-                    div.classList.add("employee");
-                    div.innerHTML = 
-                    `
-                        <div><input id="check" type="checkbox" class="mine"></div>
-                        <div class="info">
-                            <div><span>${i.deptNm} / ${i.teamNm}</span></div>
+                    if(i.empDelFl == 'N') {
+                        const div = document.createElement('div');
+                        div.classList.add("employee");
+                        div.innerHTML = 
+                        `
+                            <div>
+                                ${i.deptNm != null ? `<span>${i.deptNm} / ${i.teamNm}</span>` : `<span></span>`}
+                            </div>
                             <div><span>${i.empLastName}${i.empFirstName}</span></div>
-                            <div><span>${i.positionNm}</span></div>
-                            <div><span>${i.empEmail}</span></div>
-                            <div><span>${i.phone}</span></div>
+                            <div>
+                                ${i.positionNm != null ? `<span>${i.positionNm}</span>` : `<span></span>`}
+                            </div>
+                            <div>
+                                ${i.phone != null ? `<span>${i.phone}</span>` : `<span></span>`}
+                            </div>
+                            <div><span>정상</span></div>
+                            <div>
+                                ${i.arrivalTime != null ? 
+                                    `
+                                        ${i.departureTime == null ? `<span>${i.arrivalTime}</span><pre> ~ </pre>` : `<span>${i.arrivalTime}</span><pre> ~ </pre><span>${i.departureTime}</span>`} 
+                                    ` 
+                                : 
+                                    `<span></span>`}
+                            </div>
+                            <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
                             <input hidden value="${i.empCode}" id="empCode">
-                        </div>
-                    `;
-                    employeeListDiv.append(div);
+                            <input hidden value="${i.managerType}" id="managerType">
+                        `;
+                        employeeListDiv.append(div);
+                    }
                 })
 
                 document.querySelectorAll(".info").forEach((i) => {
@@ -81,106 +99,6 @@ if(findEmp != null) {
                     });
                 };
     
-                function anyCheckboxChecked() {
-                    for (let i = 0; i < document.querySelectorAll("#check").length; i++) {
-                        if (document.querySelectorAll("#check")[i].checked == true) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-    
-                if(document.querySelector("#wholeCheck") != null) {
-                    document.querySelector("#wholeCheck").addEventListener("change", e => {
-                        if(document.querySelectorAll("#check")[0] != null){
-                            if(document.querySelectorAll("#check")[0].getAttribute("class") == "mine") {
-                                if(document.querySelectorAll("#check").length == 0){
-                                    return;
-                                }
-                                if(document.querySelector("#wholeCheck").checked == true){
-                                    document.querySelectorAll("#check").forEach((i) => {
-                                        i.checked = true;
-                                    })
-                                    subBtnDiv.children[0].style.display = "block"
-                                    return;
-                                }
-                                if(document.querySelector("#wholeCheck").checked == false){
-                                    document.querySelectorAll("#check").forEach((i) => {
-                                        i.checked = false;
-                                    })
-                                    subBtnDiv.children[0].style.display = "none"
-                                    return;
-                                }
-                            }
-                    
-                            if(document.querySelectorAll("#check")[0].getAttribute("class") == "notMine") {
-                                if(document.querySelectorAll("#check").length == 0){
-                                    return;
-                                }
-                                if(document.querySelector("#wholeCheck").checked == true){
-                                    document.querySelectorAll("#check").forEach((i) => {
-                                        i.checked = true;
-                                    })
-                                    if(selectGroup.style.display == 'block') {
-                                        return;
-                                    }
-                                    subBtnDiv.children[1].style.display = "block"
-                                    return;
-                                }
-                                if(document.querySelector("#wholeCheck").checked == false){
-                                    document.querySelectorAll("#check").forEach((i) => {
-                                        i.checked = false;
-                                    })
-                                    subBtnDiv.children[1].style.display = "none"
-                                    selectGroup.style.display = 'none';
-                                    return;
-                                }
-                            }
-                        }
-                    });
-                }
-                
-                if(document.querySelectorAll("#check") != null) {
-                    document.querySelectorAll("#check").forEach((i) => {
-                        i.addEventListener("change", e => {
-                            if(i.getAttribute("class") == "mine") {
-                                if(anyCheckboxChecked()){
-                                    subBtnDiv.children[0].style.display = "none"
-                                    document.querySelector("#wholeCheck").checked = false;
-                                    return;
-                                }
-                                if(document.querySelector("#wholeCheck").checked == true){return;}
-                                if(i.checked == true){
-                                    subBtnDiv.children[0].style.display = "block"
-                                    return;
-                                }
-                                if(anyCheckboxChecked()){
-                                    subBtnDiv.children[0].style.display = "none"
-                                }
-                            }
-                
-                            if(i.getAttribute("class") == "notMine") {
-                                if(anyCheckboxChecked()){
-                                    subBtnDiv.children[1].style.display = "none"
-                                    selectGroup.style.display = 'none';
-                                    document.querySelector("#wholeCheck").checked = false;
-                                    return;
-                                }
-                                if(document.querySelector("#wholeCheck").checked == true){return;}
-                                if(i.checked == true){
-                                    if(selectGroup.style.display == 'block') {
-                                        return;
-                                    }
-                                    subBtnDiv.children[1].style.display = "block"
-                                    return;
-                                }
-                                if(anyCheckboxChecked()){
-                                    subBtnDiv.children[1].style.display = "none"
-                                }
-                            }
-                        })
-                    })
-                }
             })
         }
 
@@ -188,7 +106,6 @@ if(findEmp != null) {
 }
 
 
-// ---------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------
 // 주소록 그룹 아코디언 및 마우스 오른쪽 클릭 시 드롭다운 형성
@@ -215,7 +132,7 @@ document.querySelectorAll('.li-hover').forEach(item => {
             location.href = '/admin/attendance/deptList?deptNo=' + item.children[1].dataset.deptNo;
         }
         if(className.includes('comp')){
-            location.href = '/admin/attendance/comList';
+            location.href = '/admin/attendance';
         }
         
     });
@@ -226,224 +143,6 @@ document.querySelectorAll('.li-hover').forEach(item => {
         }
     });
 
-    item.addEventListener('contextmenu', event => {
-        targetLi = item.parentElement;
-        // 회사 주소록에만 보여질 드롭다운
-        if(targetLi.classList.contains('company')){
-            event.preventDefault();
-            return;
-        }
-        if(targetLi.classList.contains('department')){
-            return;
-        }
-        if(targetLi.classList.contains('team')){
-            return;
-        }
-
-        event.preventDefault();
-
-        const contextMenu = document.getElementById('contextMenu');
-        contextMenu.style.display = 'block';
-        contextMenu.style.left = `${event.pageX}px`;
-        contextMenu.style.top = `${event.pageY}px`;
-
-        const addDeptgroup = document.getElementById('addDeptgroup');
-        const groupNameChange = document.getElementById('groupNameChange');
-        const deleteGroup = document.getElementById('deleteGroup');
-
-        // 개인 주소록에만 보여질 드롭다운
-        if(targetLi.classList.contains('myAddr')){
-            addDeptgroup.style.display = 'block'; 
-            groupNameChange.style.display = 'none'; 
-            deleteGroup.style.display = 'none';  
-        }
-        if(targetLi.classList.contains('favorite')){
-            addDeptgroup.style.display = 'none'; 
-            groupNameChange.style.display = 'block'; 
-            deleteGroup.style.display = 'block';  
-        }
-
-        addDeptgroup.onclick = () => {
-            if (targetLi) {
-                targetLi.querySelectorAll(".favorite").forEach((i) => {
-                    if(i.children[0].children[1].children[1].innerText == '새로운 주소록' + sequence) {
-                        sequence++;
-                    }
-                })
-                let subUl = targetLi.querySelector('ul');
-                if (!subUl) {
-                    subUl = document.createElement('ul');
-                    targetLi.appendChild(subUl);
-                }
-                const newLi = document.createElement('li');
-                newLi.classList.add("favorite");
-                newLi.innerHTML = `
-                    <div class="li-hover">
-                        <i class="fa-solid fa-angle-down"  style="color: #00000069;"></i>
-                        <div>
-                            <i class="fa-solid fa-star" style="color: #00000069;"></i>
-                            <span id="addrName" style="color: #00000069;">새로운 주소록${sequence}</span>
-                        </div>
-                    </div>
-                `;
-                sequence++;
-                subUl.appendChild(newLi);
-                newLi.querySelector('.fa-angle-down').addEventListener('click', function(event) {
-                    let nextUl = this.parentElement.nextElementSibling;
-                    if (nextUl && nextUl.tagName === 'UL') {
-                        nextUl.style.display = nextUl.style.display === 'none' ? 'block' : 'none';
-                    }
-                });
-                newLi.querySelector('.li-hover').addEventListener('contextmenu', function(event) {
-                    event.preventDefault();
-                    targetLi = this.closest('li');
-                    const contextMenu = document.getElementById('contextMenu');
-                    contextMenu.style.display = 'block';
-                    contextMenu.style.left = `${event.pageX}px`;
-                    contextMenu.style.top = `${event.pageY}px`;
-
-                    addDeptgroup.style.display = 'none'; 
-                    groupNameChange.style.display = 'block'; 
-                    deleteGroup.style.display = 'block'; 
-                });
-            }
-            contextMenu.style.display = 'none';
-        };
-
-        // addTeamgroup.onclick = () => {
-        //     if (targetLi) {
-        //         let subUl = targetLi.querySelector('ul');
-        //         if (!subUl) {
-        //             subUl = document.createElement('ul');
-        //             targetLi.appendChild(subUl);
-        //         }
-        //         const newLi = document.createElement('li');
-        //         newLi.classList.add("team");
-        //         newLi.innerHTML = `
-        //             <div class="li-hover">
-        //                 <i class="fa-solid fa-angle-down"></i>
-        //                 <div>
-        //                     <i class="fa-solid fa-people-group"></i>
-        //                     <span>New Team</span>
-        //                 </div>
-        //             </div>
-        //         `;
-        //         subUl.appendChild(newLi);
-        //         newLi.querySelector('.fa-angle-down').addEventListener('click', function(event) {
-        //             let nextUl = this.parentElement.nextElementSibling;
-        //             if (nextUl && nextUl.tagName === 'UL') {
-        //                 nextUl.style.display = nextUl.style.display === 'none' ? 'block' : 'none';
-        //             }
-        //         });
-        //         newLi.querySelector('.li-hover').addEventListener('contextmenu', function(event) {
-        //             event.preventDefault();
-        //             targetLi = this.closest('li');
-        //             const contextMenu = document.getElementById('contextMenu');
-        //             contextMenu.style.display = 'block';
-        //             contextMenu.style.left = `${event.pageX}px`;
-        //             contextMenu.style.top = `${event.pageY}px`;
-        //         });
-
-        //         // 여기서 부서 추가 메뉴를 숨깁니다.
-        //         // const addDeptgroup = document.getElementById('addDeptgroup');
-        //         addDeptgroup.style.display = 'none';
-        //     }
-        //     contextMenu.style.display = 'none';
-        // };
-        
-        // "그룹명 변경"을 클릭했을 때의 동작
-        groupNameChange.onclick = () => {
-            const openInput = document.querySelector('.openInput');
-            if (openInput) {
-                const span = document.createElement('span');
-                span.textContent = openInput.value;
-                openInput.parentNode.replaceChild(span, openInput);
-            }
-
-            if (targetLi) {
-                const span = targetLi.querySelector('span');
-                const groupName = span.textContent;
-                var style = span.style;
-                
-                // span 태그를 input 태그로 변경합니다.
-                const input = document.createElement('input');
-                input.classList.add("default-line", "openInput");
-                input.setAttribute("spellcheck", "false");
-                input.setAttribute("maxlength", "40");
-                input.style.fontFamily = 'NanumBarunGothic';
-                input.style.fontSize = '13px';
-                // input.style.width = "inherit";
-                input.style.height = "10px";
-                input.style.overflow = 'hidden';
-                input.type = 'text';
-                input.value = groupName;
-
-                span.parentNode.replaceChild(input, span);
-                input.focus();
-
-                input.addEventListener('keydown', e => {
-                    if (e.key === "Enter") {
-                        let flag = true;
-                        document.querySelectorAll("#addrName").forEach((i) => {
-                            if(i.innerText === e.target.value){
-                                flag = false;
-                                return;
-                            }
-                        })
-                        if(!flag){
-                            alert("중복된 그룹명이 있습니다.");
-                        }
-                        if(flag){
-                            const newGroupName = input.value;
-                            input.parentNode.replaceChild(span, input);
-                            if(span.innerText != newGroupName) {
-                                targetLi.children[0].children[1].children[0].style.color = '#00000069';
-                                targetLi.children[0].children[1].children[1].style.color = '#00000069';
-                            }
-                            span.textContent = newGroupName;
-                        }
-
-                    }
-                    if (e.key === "Escape") {
-                        input.parentNode.replaceChild(span, input);
-                    }
-                });
-                document.addEventListener('click', function(event) {
-                    if (document.querySelector('#contextMenu').contains(event.target)) {
-                        return;
-                    }
-                    if(document.querySelector('.openInput') != null) {
-                        if (!document.querySelector('.openInput').contains(event.target)) {
-                            // const input = document.querySelector(".openInput");
-                            // const span = document.createElement('span');
-                            // span.innerText = input.value;
-                            // input.parentNode.replaceChild(span, input);
-                            input.parentNode.replaceChild(span, input);
-                        }
-                    }
-                });
-            }
-
-            contextMenu.style.display = 'none'; // Hide the context menu
-        };
-
-
-        deleteGroup.onclick = () => {
-            if(confirm("선택한 그룹을 삭제하시면 해당 그룹에 등록된 정보는 전부 소실됩니다. 정말로 삭제하시겠습니까?")){
-                if (targetLi) {
-                    targetLi.remove();
-                }
-            }
-            contextMenu.style.display = 'none';
-        };
-
-        document.addEventListener('click', function hideContextMenu(event) {
-            if (!contextMenu.contains(event.target)) {
-                contextMenu.style.display = 'none';
-                document.removeEventListener('click', hideContextMenu);
-            }
-        });
-    });
 });
 window.addEventListener("click", function hideContextMenu(event) {
     if (!contextMenu.contains(event.target)) {
@@ -456,7 +155,6 @@ window.addEventListener("click", function hideContextMenu(event) {
 
 // ---------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------------
 // 구성원 row 클릭 시
 const info = document.querySelectorAll(".info");
 // 이전으로 돌아가기 버튼
@@ -495,75 +193,7 @@ if(backPage != null) {
 
 // ---------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------
-// 그룹 저장
-const saveGroup = document.querySelector("#saveGroup");
-const addrBookNo = document.querySelectorAll("#addrBookNo");
+const year = document.querySelector("#year");
+const month = document.querySelector("#month");
+const day = document.querySelector("#day");
 
-if(saveGroup != null) {
-    saveGroup.addEventListener("click", e => {
-        document.querySelectorAll("#addrName").forEach((i, index) => {
-            document.querySelectorAll("#addrName").forEach((x, index) => {
-                if(i.index == x.index) {
-                    
-                } else{
-                    if(x.innerText == i.innerText) {
-                        alert("중복된 그룹명이 있습니다.");
-                        return;
-                    }
-                }
-            })
-        })
-
-        const groupList = [{"loginEmpCode" : loginEmpCode}];
-        for(let i = 0; i < document.querySelectorAll("#addrName").length; i++) {
-
-            if(addrBookNo[i] != undefined) {
-                groupList.push({ 
-                    "addrBookNo" : addrBookNo[i].value, 
-                    "addrName" : document.querySelectorAll("#addrName")[i].innerText 
-                });
-            } else {
-                groupList.push({ 
-                    "addrBookNo" : "null", 
-                    "addrName" : document.querySelectorAll("#addrName")[i].innerText, 
-                    "loginEmpCode" : loginEmpCode 
-                });
-            }
-        }
-
-        const templocation = location.pathname + location.search;
-
-        fetch("/employee/addr/insertGroupList", {
-            method : "post",
-            headers : {"Content-Type" : "application/json"},
-            body : JSON.stringify(groupList)
-        })
-        .then(resp => resp.text())
-        .then(result => {
-            if(result == -1){
-                alert("그룹이 없습니다. 새로운 그룹을 생성해주세요.");
-                return; 
-            }
-            if(result == -2){
-                alert("중복된 그룹명이 있습니다. 다른 이름으로 변경해주세요.");
-                return;
-            }
-            if(result == 2){
-                alert("그룹명 변경 실패");
-                return;
-            }
-            if(result == 3){
-                alert("그룹명 저장 실패");
-                return;
-            }
-            
-            alert("그룹이 저장되었습니다.");
-            if(location.pathname == '/employee/addr/employeeDetailPage') {
-                location.href = templocation;
-                return;
-            }
-            location.href = '/employee/addr/comList';
-        })
-    });
-};

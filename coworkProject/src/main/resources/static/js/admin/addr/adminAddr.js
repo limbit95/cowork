@@ -204,6 +204,8 @@ if(wholeCheck != null) {
 if(check != null) {
     check.forEach((i) => {
         i.addEventListener("change", e => {
+            subBtnDiv.children[0].style.display = "block"
+            subBtnDiv.children[1].style.display = "block"
             if(anyCheckboxChecked2()){
                 wholeCheck.checked = true;
                 return;

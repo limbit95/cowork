@@ -11,7 +11,7 @@
     height: 35px;
     background-color: var(--main5-color);
     font-weight: bold;
-    padding-left: 33px !important;
+    padding-left: 15px !important;
 }
 
 .tableBody div {
@@ -31,7 +31,7 @@
 }
 
 .authorityW input {
-    margin-left: 15px !important;
+    margin-left: 25px !important;
 }
 
 .emailW {

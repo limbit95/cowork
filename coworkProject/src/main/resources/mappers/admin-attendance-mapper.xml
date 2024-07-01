@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.admin.attendance.model.mapper.AdminAttendanceMapper">
+	
+	<resultMap type="Department" id="dept_rm">
+		<!-- id 태그 : PK 역할을 하는 컬럼, 필드를 작성하는 태그 -->
+		<id property="deptNo" column="DEPT_NO"/>
+		
+		<!-- collection 태그
+			select로 조회된 결과를 컬렉션(List)에 담아
+			지정된 필드에 세팅
+			
+			property : List를 담을 DTO의 필드명 (ex : Board DTO 의 imageList)
+			select : 실행할 select의 id
+			column : 조회 결과 중 지정된 컬럼의 값을 파라미터로 전달
+			javaType : List(컬렉션)의 타입을 지정
+			ofType : List(컬렉션)의 제네릭(타입 제한) 지정
+		-->
+		
+		<!-- 해당 게시글 댓글 목록 조회 후 Board의 CommentList 필드에 저장 -->
+		<collection 
+			property="teamList"
+			select="getTeamList"
+			column="DEPT_NO"
+			javaType="java.util.ArrayList"
+			ofType="Team"
+		/>
+					
+	</resultMap>
+	
+	<!-- 회사 부서 조회 -->
+	<select id="selectComAddrList" resultMap="dept_rm">
+		SELECT D.DEPT_NM, D.DEPT_NO, D.COM_NO
+		FROM DEPARTMENT D
+		JOIN COMPANY C ON(C.COM_NO = D.COM_NO)
+		JOIN EMPLOYEE E ON(E.COM_NO = C.COM_NO)
+		WHERE E.EMP_CODE = #{empCode}
+		ORDER BY D.DEPT_NO ASC
+	</select>
+	
+	<!-- 회사 팀 조회 -->
+	<select id="getTeamList" resultType="Team">
+		SELECT TEAM_NM, TEAM_NO, DEPT_NO
+		FROM TEAM 
+		WHERE DEPT_NO = #{deptNo}
+		ORDER BY TEAM_NO ASC
+	</select>
+	
+	<!-- 회사별 전체 사원 리스트 조회 -->
+	<select id="selectComList">
+		SELECT E.EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_EMAIL, 
+		COM_NM, DEPT_NM, TEAM_NM, POSITION_NM, "LEVEL", EMP_DEL_FL, GENERAL_MANAGER,
+		(SELECT COUNT(*) FROM AUTHORITY_MEMBER WHERE EMP_CODE = E.EMP_CODE) "managerType",
+		TO_CHAR(ATTENDANCE_TIME, 'HH24:MI:SS') "arrivalTime", TO_CHAR(OFF_TIME, 'HH24:MI:SS') "departureTime"
+		FROM EMPLOYEE E
+		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
+		LEFT JOIN TEAM T USING(TEAM_NO)
+		LEFT JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		LEFT JOIN POSITION USING(POSITION_NO)
+		LEFT JOIN ATTENDENCE ATD ON(ATD.EMP_CODE = E.EMP_CODE)
+		WHERE E.COM_NO = #{comNo}
+		AND EMP_DEL_FL != 'M'
+		ORDER BY "LEVEL", D.DEPT_NO, TEAM_NO ASC
+	</select>
+	
+	<!-- 회사별 사원 수 조회 -->
+	<select id="getComListCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM EMPLOYEE
+		WHERE EMP_DEL_FL != 'M'
+		AND COM_NO = #{comNo}
+	</select>	
+	
+	<!-- 부서별 사원 수 조회 -->
+	<select id="getDeptListCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM EMPLOYEE E
+		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
+		JOIN TEAM T USING(TEAM_NO)
+		JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		WHERE EMP_DEL_FL != 'M'
+		AND E.COM_NO = #{comNo}
+		AND D.DEPT_NO = #{deptNo}
+	</select>	
+	
+	<!-- 부서별 사원 리스트 조회 -->
+	<select id="selectDeptList">
+		SELECT E.EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_EMAIL, 
+		COM_NM, DEPT_NM, TEAM_NM, POSITION_NM, "LEVEL", EMP_DEL_FL, GENERAL_MANAGER,
+		(SELECT COUNT(*) FROM AUTHORITY_MEMBER WHERE EMP_CODE = E.EMP_CODE) "managerType", 
+		TO_CHAR(ATTENDANCE_TIME, 'HH24:MI:SS') "arrivalTime", TO_CHAR(OFF_TIME, 'HH24:MI:SS') "departureTime"
+		FROM EMPLOYEE E
+		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
+		LEFT JOIN TEAM T USING(TEAM_NO)
+		LEFT JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		LEFT JOIN POSITION USING(POSITION_NO)
+		LEFT JOIN ATTENDENCE ATD ON(ATD.EMP_CODE = E.EMP_CODE)
+		WHERE E.COM_NO =  #{comNo}
+		AND D.DEPT_NO = #{deptNo}
+		AND EMP_DEL_FL != 'M'
+		ORDER BY "LEVEL", TEAM_NO, EMP_CODE ASC
+	</select>
+	
+	<!-- 팀별 사원 수 조회 -->
+	<select id="getTeamListCount">
+		SELECT COUNT(*)
+		FROM TEAM T
+		JOIN EMPLOYEE E ON(E.TEAM_NO = T.TEAM_NO)
+		JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		WHERE T.TEAM_NO = #{teamNo}
+		AND D.DEPT_NO = #{deptNo}
+		AND EMP_DEL_FL != 'M'
+	</select>
+	
+	<!-- 팀별 사원 리스트 조회 -->
+	<select id="selectTeamList">
+		SELECT E.EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_EMAIL, 
+		DEPT_NM, TEAM_NM, POSITION_NM, "LEVEL", EMP_DEL_FL, GENERAL_MANAGER,
+		(SELECT COUNT(*) FROM AUTHORITY_MEMBER WHERE EMP_CODE = E.EMP_CODE) "managerType",
+		TO_CHAR(ATTENDANCE_TIME, 'HH24:MI:SS') "arrivalTime", TO_CHAR(OFF_TIME, 'HH24:MI:SS') "departureTime"
+		FROM TEAM T
+		JOIN EMPLOYEE E ON(E.TEAM_NO = T.TEAM_NO)
+		LEFT JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		LEFT JOIN POSITION USING(POSITION_NO)
+		LEFT JOIN ATTENDENCE ATD ON(ATD.EMP_CODE = E.EMP_CODE)
+		WHERE T.TEAM_NO = #{teamNo}
+		AND D.DEPT_NO = #{deptNo}
+		AND E.COM_NO = #{comNo}
+		AND EMP_DEL_FL != 'M'
+		ORDER BY "LEVEL", EMP_CODE ASC
+	</select>
+	
+	<!-- 사원 찾기(이름으로) -->
+	<select id="findEmp">
+		SELECT E.EMP_CODE, EMP_LAST_NAME, EMP_FIRST_NAME, PHONE, EMP_EMAIL, 
+		COM_NM, DEPT_NM, TEAM_NM, POSITION_NM, "LEVEL", EMP_DEL_FL, GENERAL_MANAGER,
+		(SELECT COUNT(*) FROM AUTHORITY_MEMBER WHERE EMP_CODE = E.EMP_CODE) "managerType",
+		TO_CHAR(ATTENDANCE_TIME, 'HH24:MI:SS') "arrivalTime", TO_CHAR(OFF_TIME, 'HH24:MI:SS') "departureTime"
+		FROM EMPLOYEE E
+		JOIN COMPANY C ON(C.COM_NO = E.COM_NO)
+		LEFT JOIN TEAM T USING(TEAM_NO)
+		LEFT JOIN DEPARTMENT D ON(D.DEPT_NO = T.DEPT_NO)
+		LEFT JOIN POSITION USING(POSITION_NO)
+		LEFT JOIN ATTENDENCE ATD ON(ATD.EMP_CODE = E.EMP_CODE)
+		WHERE E.COM_NO = #{comNo}
+		AND E.EMP_LAST_NAME || E.EMP_FIRST_NAME LIKE '%${name}%'
+		ORDER BY "LEVEL", D.DEPT_NO, TEAM_NO ASC
+	</select>
+		
+</mapper>

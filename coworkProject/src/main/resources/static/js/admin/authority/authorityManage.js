@@ -86,7 +86,7 @@ function authorityManage(deptNo, teamNo, empName, cp) {
 
             div4.append(emailSapn);
 
-            /*const div5 = document.createElement('div');
+            const div5 = document.createElement('div');
             div5.classList.add('authorityW');
 
             const attendanceYn = document.createElement('input');
@@ -94,7 +94,7 @@ function authorityManage(deptNo, teamNo, empName, cp) {
             attendanceYn.type = "checkbox";
             if(authority.attendanceYn == 'Y') attendanceYn.checked = true;
 
-            div5.append(attendanceYn);*/
+            div5.append(attendanceYn);
 
             const div6 = document.createElement('div');
             div6.classList.add('authorityW');
@@ -116,7 +116,7 @@ function authorityManage(deptNo, teamNo, empName, cp) {
 
             div7.append(teamBoardYn);
 
-            info.append(div1, div2, div3, div4, div6, div7);
+            info.append(div1, div2, div3, div4, div5, div6, div7);
             tableBody.append(authorityForm);
 
         }
@@ -208,7 +208,7 @@ document.querySelector('#saveGroup1').addEventListener("click", () => {
     const authorityList = [];
             
     document.querySelectorAll('.tableBody .info').forEach(info => {
-        //const attendanceYn = info.querySelector('#attendanceYn').checked;
+        const attendanceYn = info.querySelector('#attendanceYn').checked;
         const functionYn = info.querySelector('#functionYn').checked;
         const teamBoardYn = info.querySelector('#teamBoardYn').checked;
 
@@ -216,7 +216,7 @@ document.querySelector('#saveGroup1').addEventListener("click", () => {
 
         authorityList.push({
             empCode,
-            //attendanceYn,
+            attendanceYn,
             functionYn,
             teamBoardYn
         });

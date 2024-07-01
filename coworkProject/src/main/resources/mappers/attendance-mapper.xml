@@ -13,7 +13,7 @@
 	<insert id="arrivalrecord">
 		INSERT INTO ATTENDENCE VALUES(
 			SEQ_ATTENDENCE.NEXTVAL,
-			SYSDATE,
+			CURRENT_TIMESTAMP,
 			NULL,
 			#{empCode},
 			NULL
@@ -30,7 +30,7 @@
 	<!-- 퇴근 기록 저장 -->
 	<insert id="departureRecord">
 		UPDATE ATTENDENCE SET
-		OFF_TIME = SYSDATE
+		OFF_TIME = CURRENT_TIMESTAMP
 		WHERE EMP_CODE = #{empCode}
 		AND TO_CHAR(ATTENDANCE_TIME, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</insert>

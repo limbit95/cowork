@@ -84,7 +84,6 @@ function attendanceFun(returnUserMain) {
     a3.innerText = "근태 기준 관리";
 
     dropdownContent.append(a1, a2, a3);
-    dropdownContent.append(a1);
 }
 
 /* 기능관리 메뉴 */
@@ -132,8 +131,6 @@ function functionFun(returnUserMain) {
     a5.innerText = "IP 관리";
 
     dropdownContent.append(a1, a2, a3, a4, a5);
-
-    adminMenu(); // 메뉴 클릭 이벤트
 }
    
 function authorityMenu() {
@@ -148,7 +145,7 @@ function authorityMenu() {
 
             for(let authority of authorityList) {
                 
-                //if(authority.authorityNo == 1) attendanceFun(returnUserMain);
+                if(authority.authorityNo == 1) attendanceFun(returnUserMain);
 
                 if(authority.authorityNo == 2) functionFun(returnUserMain);
             } 
@@ -162,6 +159,7 @@ function authorityMenu() {
                 functionFun(returnUserMain);
             }
         }
+        adminMenu()
     });
 }
 

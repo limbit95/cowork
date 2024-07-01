@@ -298,7 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div><span>사번</span></div>
                         </div>
                     `;
-                    // document.querySelector("[name='createType']");
+                    
                     const checkEmpId = [];
                     if(check4) {
                         result.forEach((i, index1) => {
@@ -331,6 +331,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                 if(flag15) {
                                     tempTeamList = [];
                                 }
+                            }
+                            
+                            if(tempDeptList.length == 0) {
+                                tempTeamList = [];
                             }
 
                             // 0 : 엑셀에 작성한 ID가 DB에 없을 때
@@ -433,13 +437,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                             `
                                         :
-                                            `
-                                                <div>
-                                                    <select class="default-line teamList">
-                                                        ${tempTeamList.map(item => `<option value="${item.teamNo}">${item.teamNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
-                                            `
+                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -523,13 +521,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                             `
                                         :
-                                            `
-                                                <div>
-                                                    <select class="default-line teamList">
-                                                        ${tempTeamList.map(item => `<option value="${item.teamNo}">${item.teamNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
-                                            `
+                                           `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -621,13 +613,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                             `
                                         :
-                                            `
-                                                <div>
-                                                    <select class="default-line teamList">
-                                                        ${tempTeamList.map(item => `<option value="${item.teamNo}">${item.teamNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
-                                            `
+                                            `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -711,13 +697,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                             `
                                         :
-                                            `
-                                                <div>
-                                                    <select class="default-line teamList">
-                                                        ${tempTeamList.map(item => `<option value="${item.teamNo}">${item.teamNm}</option>`).join('')}
-                                                    </select>
-                                                </div>
-                                            `
+                                           `<div style="width: 1px; margin: 0; padding: 0;"><span></span></div>`
                                         }
                                         ${positionList.length > 0 ?
                                             `
@@ -806,7 +786,13 @@ document.addEventListener('DOMContentLoaded', function() {
                                 }
                             }
 
-
+                            if(deptList.length == 0) {
+                                document.querySelectorAll(".employee").forEach((i) => {
+                                    i.children[8].children[0].style.border = '1px solid var(--gray-color)';
+                                    i.children[9].children[0].style.border = '1px solid var(--gray-color)';
+                                    i.children[10].children[0].style.border = '1px solid var(--gray-color)';
+                                })
+                            }
 
 
 
@@ -846,39 +832,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             // 존재하는 팀명과 일치하지 않으면
                                             e.target.style.border = '1px solid red';
                                         }
-                                        let flag1 = true;
-                                        let anyChecked = false;
-                                
-                                        document.querySelectorAll(".employee").forEach((x) => {
-                                            const style = x.children[1].children[0].style;
-                                            const style1 = x.children[2].children[0].style;
-                                            const style2 = x.children[3].children[0].style;
-                                            const style3 = x.children[4].children[0].style;
-                                            const style4 = x.children[7].children[0].style;
-                                            const style5 = x.children[8].children[0].style;
-                                            const style6 = x.children[9].children[0].style;
-                                            const style7 = x.children[10].children[0].style;
-                                            const style8 = x.children[14].children[0].style;
-                                
-                                            if (x.children[0].children[0].checked) {
-                                                anyChecked = true;
-                                                if (style.borderColor == 'red' ||
-                                                    style1.borderColor == 'red' || style2.borderColor == 'red' ||
-                                                    style3.borderColor == 'red' || style4.borderColor == 'red' ||
-                                                    style5.borderColor == 'red' || style6.borderColor == 'red' ||
-                                                    style7.borderColor == 'red' || style8.borderColor == 'red') {
-                                                    flag1 = false;
-                                                }
-                                            }
-                                        });
-                                
-                                        if (flag1 && anyChecked) {
-                                            document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-                                            document.querySelector("#addInBulk").classList.remove("blur");
-                                        } else {
-                                            document.querySelector("#addInBulk").classList.add("blur");
-                                            document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                        }
+                                        borderIsRed2();
                                     })
                                 })
                             }
@@ -911,40 +865,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             // 존재하는 직급명과 일치하지 않으면
                                             e.target.style.border = '1px solid red';
                                         }
-                                        let flag1 = true;
-                                        let anyChecked = false;
-                                
-                                        document.querySelectorAll(".employee").forEach((x) => {
-                                            const style = x.children[1].children[0].style;
-                                            const style1 = x.children[2].children[0].style;
-                                            const style2 = x.children[3].children[0].style;
-                                            const style3 = x.children[4].children[0].style;
-                                            const style4 = x.children[7].children[0].style;
-                                            const style5 = x.children[8].children[0].style;
-                                            const style6 = x.children[9].children[0].style;
-                                            const style7 = x.children[10].children[0].style;
-                                            const style8 = x.children[14].children[0].style;
-                                
-                                            if (x.children[0].children[0].checked) {
-                                                anyChecked = true;
-                                                if (style.borderColor == 'red' ||
-                                                    style1.borderColor == 'red' || style2.borderColor == 'red' ||
-                                                    style3.borderColor == 'red' || style4.borderColor == 'red' ||
-                                                    style5.borderColor == 'red' || style6.borderColor == 'red' ||
-                                                    style7.borderColor == 'red' || style8.borderColor == 'red') {
-                                                    flag1 = false;
-                                                }
-                                            }
-                                        });
-                                
-                                        if (flag1 && anyChecked) {
-                                            document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-                                            document.querySelector("#addInBulk").classList.remove("blur");
-                                        } else {
-                                            document.querySelector("#addInBulk").classList.add("blur");
-                                            document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                        }
-
+                                        borderIsRed2();
                                     })
                                 })
                             }
@@ -982,43 +903,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             } else {
                                 e.target.style.border = '1px solid var(--gray-color)';
                             }
-                            let flag1 = true;
-                            let count = 0;
-                            document.querySelectorAll(".employee").forEach((x) => {
-                                if(!flag1) {
-                                    return;
-                                }
-                                const style = x.children[1].children[0].style
-                                const style1 = x.children[2].children[0].style
-                                const style2 = x.children[3].children[0].style
-                                const style3 = x.children[4].children[0].style
-                                const style4 = x.children[7].children[0].style
-                                const style5 = x.children[8].children[0].style
-                                const style6 = x.children[9].children[0].style
-                                const style7 = x.children[10].children[0].style
-                                const style8 = x.children[14].children[0].style
-                                if(x.children[0].children[0].checked == true && (style.borderColor == 'red' ||
-                                    style1.borderColor == 'red' || style2.borderColor == 'red' ||
-                                    style3.borderColor == 'red' || style4.borderColor == 'red' ||
-                                    style5.borderColor == 'red' || style6.borderColor == 'red' ||
-                                    style7.borderColor == 'red' || style8.borderColor)) {
-                                    flag1 = false;
-                                    document.querySelector("#addInBulk").classList.add("blur");
-                                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                    return;
-                                } 
-                                if(x.children[0].children[0].checked == false) {
-                                    count++;
-                                }
-                            })
-                            if(flag1) {
-                                document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-                                document.querySelector("#addInBulk").classList.remove("blur");
-                            }
-                            if(count == document.querySelectorAll(".employee").length) {
-                                document.querySelector("#addInBulk").classList.add("blur");
-                                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                            }
+                            borderIsRed2();
                         });
                     })
                     // 성 인풋창 입력 시
@@ -1028,10 +913,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 e.target.value = '';
                                 e.target.style.color = 'red';
                                 e.target.style.border = '1px solid red';
+                                borderIsRed2();
                                 return;
                             }
                             e.target.style.color = 'black';
                             e.target.style.border = '2px solid black';
+                            borderIsRed2();
                         });
                     })
 
@@ -1050,43 +937,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             } else {
                                 e.target.style.border = '1px solid var(--gray-color)';
                             }
-                            let flag1 = true;
-                            let count = 0;
-                            document.querySelectorAll(".employee").forEach((x) => {
-                                if(!flag1) {
-                                    return;
-                                }
-                                const style = x.children[1].children[0].style
-                                const style1 = x.children[2].children[0].style
-                                const style2 = x.children[3].children[0].style
-                                const style3 = x.children[4].children[0].style
-                                const style4 = x.children[7].children[0].style
-                                const style5 = x.children[8].children[0].style
-                                const style6 = x.children[9].children[0].style
-                                const style7 = x.children[10].children[0].style
-                                const style8 = x.children[14].children[0].style
-                                if(x.children[0].children[0].checked == true && (style.borderColor == 'red' ||
-                                    style1.borderColor == 'red' || style2.borderColor == 'red' ||
-                                    style3.borderColor == 'red' || style4.borderColor == 'red' ||
-                                    style5.borderColor == 'red' || style6.borderColor == 'red' ||
-                                    style7.borderColor == 'red' || style8.borderColor)) {
-                                    flag1 = false;
-                                    document.querySelector("#addInBulk").classList.add("blur");
-                                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                    return;
-                                } 
-                                if(x.children[0].children[0].checked == false) {
-                                    count++;
-                                }
-                            })
-                            if(flag1) {
-                                document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-                                document.querySelector("#addInBulk").classList.remove("blur");
-                            }
-                            if(count == document.querySelectorAll(".employee").length) {
-                                document.querySelector("#addInBulk").classList.add("blur");
-                                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                            }
+                            borderIsRed2();
                         });
                     })
                     // 이름 인풋창 입력 시
@@ -1096,10 +947,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 e.target.value = '';
                                 e.target.style.color = 'red';
                                 e.target.style.border = '1px solid red';
+                                borderIsRed2();
                                 return;
                             }
                             e.target.style.color = 'black';
                             e.target.style.border = '2px solid black';
+                            borderIsRed2();
                         });
                     })
 
@@ -1160,39 +1013,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 } else {
                                     e.target.style.border = '1px solid var(--gray-color)';
                                 }
-                                let flag1 = true;
-                                let anyChecked = false;
-                            
-                                document.querySelectorAll(".employee").forEach((x) => {
-                                    const style = x.children[1].children[0].style;
-                                    const style1 = x.children[2].children[0].style;
-                                    const style2 = x.children[3].children[0].style;
-                                    const style3 = x.children[4].children[0].style;
-                                    const style4 = x.children[7].children[0].style;
-                                    const style5 = x.children[8].children[0].style;
-                                    const style6 = x.children[9].children[0].style;
-                                    const style7 = x.children[10].children[0].style;
-                                    const style8 = x.children[14].children[0].style;
-                            
-                                    if (x.children[0].children[0].checked) {
-                                        anyChecked = true;
-                                        if (style.borderColor == 'red' ||
-                                            style1.borderColor == 'red' || style2.borderColor == 'red' ||
-                                            style3.borderColor == 'red' || style4.borderColor == 'red' ||
-                                            style5.borderColor == 'red' || style6.borderColor == 'red' ||
-                                            style7.borderColor == 'red' || style8.borderColor == 'red') {
-                                            flag1 = false;
-                                        }
-                                    }
-                                });
-                            
-                                if (flag1 && anyChecked) {
-                                    document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-                                    document.querySelector("#addInBulk").classList.remove("blur");
-                                } else {
-                                    document.querySelector("#addInBulk").classList.add("blur");
-                                    document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                                }
+                                borderIsRed2();
                             });
                         })
 
@@ -1205,6 +1026,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     e.target.style.color = 'red';
                                     e.target.style.borderColor = 'red';
                                     e.target.style.border = '2px solid red';
+                                    borderIsRed2();
                                     return;
                                 }
                                 
@@ -1216,6 +1038,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     e.target.style.color = 'black';
                                     e.target.style.border = '2px solid black';
                                 }
+                                borderIsRed2();
                             });
                         })
                     }
@@ -1237,7 +1060,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             if (inputId.length === 0) {
                                 e.target.style.color = 'red';
                                 e.target.style.border = '2px solid red';
-                                borderIsRed();
+                                borderIsRed2();
                                 return;
                             }
                     
@@ -1246,7 +1069,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             if (!regExp.test(inputId)) {
                                 e.target.style.color = 'red';
                                 e.target.style.border = '2px solid red';
-                                borderIsRed();
+                                borderIsRed2();
                                 return;
                             }
                     
@@ -1280,6 +1103,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         e.target.style.color = 'black';
                                         e.target.style.border = '2px solid black';
                                     }
+                                    borderIsRed2();
                                 })
                                 .catch(error => {
                                     console.error('Error:', error);
@@ -1287,7 +1111,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                     e.target.style.border = '2px solid red';
                                 });
                             }
-                            borderIsRed();
                         });
                     });
                     
@@ -1299,6 +1122,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             } else {
                                 e.target.style.border = '1px solid var(--gray-color)';
                             }
+                            borderIsRed2();
                         })
                     })
 
@@ -1339,44 +1163,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         i.addEventListener("blur", e => {
                             if (e.target.style.color == 'red') {
                                 e.target.style.border = '1px solid red';
-                                borderIsRed();
+                                borderIsRed2();
                             } else {
                                 e.target.style.border = '1px solid var(--gray-color)';
                             }
-                    
-                            let flag1 = true;
-                            let anyChecked = false;
-                    
-                            document.querySelectorAll(".employee").forEach((x) => {
-                                const style = x.children[1].children[0].style;
-                                const style1 = x.children[2].children[0].style;
-                                const style2 = x.children[3].children[0].style;
-                                const style3 = x.children[4].children[0].style;
-                                const style4 = x.children[7].children[0].style;
-                                const style5 = x.children[8].children[0].style;
-                                const style6 = x.children[9].children[0].style;
-                                const style7 = x.children[10].children[0].style;
-                                const style8 = x.children[14].children[0].style;
-                    
-                                if (x.children[0].children[0].checked) {
-                                    anyChecked = true;
-                                    if (style.borderColor == 'red' ||
-                                        style1.borderColor == 'red' || style2.borderColor == 'red' ||
-                                        style3.borderColor == 'red' || style4.borderColor == 'red' ||
-                                        style5.borderColor == 'red' || style6.borderColor == 'red' ||
-                                        style7.borderColor == 'red' || style8.borderColor == 'red') {
-                                        flag1 = false;
-                                    }
-                                }
-                            });
-                    
-                            if (flag1 && anyChecked) {
-                                document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-                                document.querySelector("#addInBulk").classList.remove("blur");
-                            } else {
-                                document.querySelector("#addInBulk").classList.add("blur");
-                                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                            }
+                            borderIsRed2();
                         });
                     });
                                        
@@ -1392,21 +1183,21 @@ document.addEventListener('DOMContentLoaded', function() {
                                 i.value = '';
                                 i.style.color = 'red';
                                 i.style.border = '2px solid red';
-                                borderIsRed();
+                                borderIsRed2();
                                 return;
                             }
 
                             if(!regExp.test(i.value)) {
                                 i.style.color = 'red';
                                 i.style.border = '2px solid red';
-                                borderIsRed();
+                                borderIsRed2();
                                 return;
                             }
     
                             if(!validDate) {
                                 i.style.color = 'red';
                                 i.style.border = '2px solid red';
-                                borderIsRed();
+                                borderIsRed2();
                                 return;
                             }
 
@@ -1451,44 +1242,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         i.addEventListener("blur", e => {
                             if (e.target.style.color == 'red') {
                                 e.target.style.border = '1px solid red';
-                                borderIsRed();
                             } else {
                                 e.target.style.border = '1px solid var(--gray-color)';
                             }
-                    
-                            let flag1 = true;
-                            let anyChecked = false;
-                    
-                            document.querySelectorAll(".employee").forEach((x) => {
-                                const style = x.children[1].children[0].style;
-                                const style1 = x.children[2].children[0].style;
-                                const style2 = x.children[3].children[0].style;
-                                const style3 = x.children[4].children[0].style;
-                                const style4 = x.children[7].children[0].style;
-                                const style5 = x.children[8].children[0].style;
-                                const style6 = x.children[9].children[0].style;
-                                const style7 = x.children[10].children[0].style;
-                                const style8 = x.children[14].children[0].style;
-                    
-                                if (x.children[0].children[0].checked) {
-                                    anyChecked = true;
-                                    if (style.borderColor == 'red' ||
-                                        style1.borderColor == 'red' || style2.borderColor == 'red' ||
-                                        style3.borderColor == 'red' || style4.borderColor == 'red' ||
-                                        style5.borderColor == 'red' || style6.borderColor == 'red' ||
-                                        style7.borderColor == 'red' || style8.borderColor == 'red') {
-                                        flag1 = false;
-                                    }
-                                }
-                            });
-                    
-                            if (flag1 && anyChecked) {
-                                document.querySelector("#addInBulk").classList.add("sapphire-btn2");
-                                document.querySelector("#addInBulk").classList.remove("blur");
-                            } else {
-                                document.querySelector("#addInBulk").classList.add("blur");
-                                document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-                            }
+                            borderIsRed2();
                         });
                     });
                                        
@@ -1504,26 +1261,27 @@ document.addEventListener('DOMContentLoaded', function() {
                                 i.value = '';
                                 i.style.color = 'red';
                                 i.style.border = '2px solid red';
-                                borderIsRed();
+                                borderIsRed2();
                                 return;
                             }
 
                             if(!regExp.test(i.value)) {
                                 i.style.color = 'red';
                                 i.style.border = '2px solid red';
-                                borderIsRed();
+                                borderIsRed2();
                                 return;
                             }
     
                             if(!validDate) {
                                 i.style.color = 'red';
                                 i.style.border = '2px solid red';
-                                borderIsRed();
+                                borderIsRed2();
                                 return;
                             }
 
                             i.style.color = 'black';
                             i.style.border = '2px solid black';
+                            borderIsRed2();
                         })
                     })           
 
@@ -1782,7 +1540,6 @@ dropZone.addEventListener('drop', (e) => {
 
         reader.readAsArrayBuffer(temp1);
 
-        check3 = true;
         document.querySelectorAll(".accordion-header")[2].style.color = 'rgba(0, 0, 0, 0.479)';
         document.getElementById('fileName').innerHTML = `${fileInput.files[0].name}<span id="xBtn" style="margin-left: 3px; ont-size: 14px; cursor: pointer; color: red;">&times;</span>`;
         document.querySelector("#next2").classList.remove('blur');
@@ -2050,31 +1807,37 @@ function checkBox() {
 
 function borderIsRed2() {
     let flag1 = true;
+    let anyChecked = false;
+
     document.querySelectorAll(".employee").forEach((x) => {
-        const style = x.children[1].children[0].style
-        const style1 = x.children[2].children[0].style
-        const style2 = x.children[3].children[0].style
-        const style3 = x.children[4].children[0].style
-        const style4 = x.children[7].children[0].style
-        const style5 = x.children[8].children[0].style
-        const style6 = x.children[9].children[0].style
-        const style7 = x.children[10].children[0].style
-        const style8 = x.children[14].children[0].style
-        if(x.children[0].children[0].checked == true && (style.borderColor == 'red' ||
-            style1.borderColor == 'red' || style2.borderColor == 'red' ||
-            style3.borderColor == 'red' || style4.borderColor == 'red' ||
-            style5.borderColor == 'red' || style6.borderColor == 'red' ||
-            style7.borderColor == 'red' || style8.borderColor)) {
-                console.log('test')
-            flag1 = false;
-            document.querySelector("#addInBulk").classList.add("blur");
-            document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
-            return;
+        const style = x.children[1].children[0].style;
+        const style1 = x.children[2].children[0].style;
+        const style2 = x.children[3].children[0].style;
+        const style3 = x.children[4].children[0].style;
+        const style4 = x.children[7].children[0].style;
+        const style5 = x.children[8].children[0].style;
+        const style6 = x.children[9].children[0].style;
+        const style7 = x.children[10].children[0].style;
+        const style8 = x.children[14].children[0].style;
+
+        if (x.children[0].children[0].checked) {
+            anyChecked = true;
+            if (style.borderColor == 'red' ||
+                style1.borderColor == 'red' || style2.borderColor == 'red' ||
+                style3.borderColor == 'red' || style4.borderColor == 'red' ||
+                style5.borderColor == 'red' || style6.borderColor == 'red' ||
+                style7.borderColor == 'red' || style8.borderColor == 'red') {
+                flag1 = false;
+            }
         }
-    })
-    if(flag1) {
+    });
+
+    if (flag1 && anyChecked) {
         document.querySelector("#addInBulk").classList.add("sapphire-btn2");
         document.querySelector("#addInBulk").classList.remove("blur");
+    } else {
+        document.querySelector("#addInBulk").classList.add("blur");
+        document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
     }
 }
 
@@ -2265,8 +2028,6 @@ document.querySelector("#confirmBtn5").addEventListener("click", e => {
     dataForMail.reverse();
     obj.reverse();
 
-
-
     // ----------------------------------------------------------------------------------------------------------------------
     // ----------------------------------------------------------------------------------------------------------------------
     // ID 인풋창 포커스 시
@@ -2284,7 +2045,7 @@ document.querySelector("#confirmBtn5").addEventListener("click", e => {
             if (inputId.length === 0) {
                 e.target.style.color = 'red';
                 e.target.style.border = '2px solid red';
-                borderIsRed();
+                borderIsRed2();
                 return;
             }
     
@@ -2293,7 +2054,7 @@ document.querySelector("#confirmBtn5").addEventListener("click", e => {
             if (!regExp.test(inputId)) {
                 e.target.style.color = 'red';
                 e.target.style.border = '2px solid red';
-                borderIsRed();
+                borderIsRed2();
                 return;
             }
     
@@ -2327,6 +2088,7 @@ document.querySelector("#confirmBtn5").addEventListener("click", e => {
                         e.target.style.color = 'black';
                         e.target.style.border = '2px solid black';
                     }
+                    borderIsRed2();
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -2334,7 +2096,6 @@ document.querySelector("#confirmBtn5").addEventListener("click", e => {
                     e.target.style.border = '2px solid red';
                 });
             }
-            borderIsRed();
         });
     });
     
@@ -2346,6 +2107,7 @@ document.querySelector("#confirmBtn5").addEventListener("click", e => {
             } else {
                 e.target.style.border = '1px solid var(--gray-color)';
             }
+            borderIsRed2();
         })
     })
 
@@ -2429,7 +2191,7 @@ document.querySelector("#confirmBtn5").addEventListener("click", e => {
                         i.value = "";
                         document.querySelector("#confirmBtn6").classList.remove("sapphire-btn2");
                         document.querySelector("#confirmBtn6").classList.add("blur");
-                        borderIsRed2();
+                        borderIsRed3();
                         return;
                     }
                 
@@ -2440,13 +2202,13 @@ document.querySelector("#confirmBtn5").addEventListener("click", e => {
                         i.style.border = '1px solid red';
                         document.querySelector("#confirmBtn6").classList.remove("sapphire-btn2");
                         document.querySelector("#confirmBtn6").classList.add("blur");
-                        borderIsRed2();
+                        borderIsRed3();
                         return;
                     } 
                 
                     i.style.border = '1px solid var(--gray-color)';
                     i.nextElementSibling.innerText = "";
-                    borderIsRed2();
+                    borderIsRed3();
                 });
 
             })
@@ -2579,6 +2341,90 @@ deleteBtn.addEventListener("click", e => {
         document.getElementById('fileName').textContent = '마우스로 파일을 끌어오거나 직접 선택해 주세요.';
         document.querySelector(".subBtnDiv").children[0].style.display = 'none';
     }
+
+    // ----------------------------------------------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------
+    // ID 인풋창 포커스 시
+    document.querySelectorAll(".empId").forEach((i) => {
+        i.children[0].addEventListener("focus", e => {
+            e.target.style.border = '2px solid black';
+        });
+    })
+
+    // ID 인풋창 입력 시
+    document.querySelectorAll(".empId").forEach((i, index1) => {
+        i.children[0].addEventListener("input", e => {
+            let inputId = e.target.value.trim();
+    
+            if (inputId.length === 0) {
+                e.target.style.color = 'red';
+                e.target.style.border = '2px solid red';
+                borderIsRed2();
+                return;
+            }
+    
+            const regExp = /^[A-Za-z0-9]{4,20}$/;
+    
+            if (!regExp.test(inputId)) {
+                e.target.style.color = 'red';
+                e.target.style.border = '2px solid red';
+                borderIsRed2();
+                return;
+            }
+    
+            let hasDuplicate = false;
+    
+            document.querySelectorAll(".empId").forEach((x, index2) => {
+                let inputId2;
+                if(x.children[0].tagName == "INPUT") {
+                    inputId2 = x.children[0].value.trim();
+                } else {
+                    inputId2 = x.children[0].innerText.trim();
+                }
+    
+                if (index1 !== index2 && inputId2 === inputId) {
+                    hasDuplicate = true;
+                }
+            });
+    
+            if (hasDuplicate) {
+                e.target.style.color = 'red';
+                e.target.style.border = '2px solid red';
+            } else {
+                fetch("/user/checkId?empId=" + inputId)
+                .then(resp => resp.text())
+                .then(result => {
+                    if (result > 0) {
+                        e.target.style.color = 'red';
+                        e.target.style.border = '2px solid red';
+                    } else {
+                        e.target.style.color = 'black';
+                        e.target.style.border = '2px solid black';
+                    }
+                    borderIsRed2();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    e.target.style.color = 'red';
+                    e.target.style.border = '2px solid red';
+                });
+            }
+        });
+    });
+    
+    // // ID 인풋창 포커스 아웃 시
+    document.querySelectorAll(".empId").forEach((i, index1) => {
+        i.children[0].addEventListener("blur", e => {
+            if(e.target.style.color == 'red') {
+                e.target.style.border = '1px solid red';
+            } else {
+                e.target.style.border = '1px solid var(--gray-color)';
+            }
+            borderIsRed2();
+        })
+    })
+
+
 })
 
 
@@ -2683,7 +2529,7 @@ function checkBox2() {
 // ----------------------------------------------------------------------------------------------------------------------
 // 구성원 추가 완료 모달창에서 이메일 인풋창이 red인지 검사하는 함수
 
-function borderIsRed2() {
+function borderIsRed3() {
     const listContent = document.querySelector(".list-content");
 
     for(let x = 0; x < listContent.children.length; x++) {
@@ -2730,3 +2576,19 @@ function generateRandomString(length) {
     
     return result;
 }
+
+const menual = document.querySelector("#menual");
+const modal9 = document.querySelector(".modal9");
+const confirmBtn9 = document.querySelector("#confirmBtn9");
+
+menual.addEventListener("click", e => {
+    modal9.style.display = 'flex';
+})
+confirmBtn9.addEventListener("click", e => {
+    modal9.style.display = 'none';
+})
+window.addEventListener("keydown", e => {
+    if(e.key == 'Escape') {
+        modal9.style.display = 'none';
+    }
+})
