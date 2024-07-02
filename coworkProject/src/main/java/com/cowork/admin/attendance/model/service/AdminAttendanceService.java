@@ -17,9 +17,10 @@ public interface AdminAttendanceService {
 	/** 회사별 사원 리스트 조회
 	 * @param loginEmp
 	 * @param cp
+	 * @param date 
 	 * @return
 	 */
-	Map<String, Object> selectComList(Employee2 loginEmp, int cp);
+	Map<String, Object> selectComList(Employee2 loginEmp, int cp, String date);
 
 	/** 부서별 사원 리스트 조회
 	 * @param data

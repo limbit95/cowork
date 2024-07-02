@@ -1,6 +1,3 @@
-// document.querySelector('#fncMenu').classList.add('active');
-// document.querySelector('#addrSub').style.fontWeight = 'bold';
-
 // 사원 찾기
 const findEmp = document.querySelector("#findEmp");
 
@@ -233,8 +230,36 @@ if(check != null) {
         })
     })
 }
+// 함수 : 하위 목록의 상태를 로컬 저장소에 저장
+function saveState() {
+    const items = document.querySelectorAll('.dept');
+    const state = [];
+    items.forEach((item, index) => {
+        let nextUl = item.parentElement.nextElementSibling;
+        if (nextUl && nextUl.tagName === 'UL') {
+            state.push({
+                index: index,
+                isOpen: nextUl.style.display
+            });
+        }
+    });
+    localStorage.setItem('toggleState', JSON.stringify(state));
+}
 
+// 함수 : 하위 목록의 상태를 로컬 저장소에서 복원
+function loadState() {
+    const state = JSON.parse(localStorage.getItem('toggleState'));
+    if (!state) return;
 
+    state.forEach(item => {
+        const listItem = document.querySelectorAll('.dept')[item.index];
+        let nextUl = listItem.parentElement.nextElementSibling;
+        if (nextUl && nextUl.tagName === 'UL') {
+            nextUl.style.display = item.isOpen;
+        }
+    });
+}
+loadState();
 // ---------------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------------
@@ -243,7 +268,7 @@ const downArrow = document.querySelector(".fa-angle-down");
 let sequence = 1;
 let sequence2 = 1;
 
-document.querySelectorAll('.li-hover').forEach(item => {
+document.querySelectorAll('.li-hover').forEach((item, index) => {
     item.children[1].addEventListener('click', event => {
         const className = item.children[1].getAttribute("class");
 
@@ -267,7 +292,9 @@ document.querySelectorAll('.li-hover').forEach(item => {
         let nextUl = item.nextElementSibling;
         if (nextUl && nextUl.tagName === 'UL') {
             nextUl.style.display = nextUl.style.display === 'none' ? 'block' : 'none';
+            saveState();
         }
+
     });
 
     item.addEventListener('contextmenu', event => {
@@ -343,6 +370,7 @@ document.querySelectorAll('.li-hover').forEach(item => {
                     let nextUl = this.parentElement.nextElementSibling;
                     if (nextUl && nextUl.tagName === 'UL') {
                         nextUl.style.display = nextUl.style.display === 'none' ? 'block' : 'none';
+                        loadState();
                     }
                 });
                 newLi.querySelector('.li-hover').addEventListener('contextmenu', function(event) {
@@ -376,6 +404,8 @@ document.querySelectorAll('.li-hover').forEach(item => {
         };
 
         addTeamgroup.onclick = () => {
+            item.nextElementSibling.style.display = 'block';
+            saveState();
             if (targetLi) {
                 targetLi.querySelectorAll(".team").forEach((i) => {
                     if(i.children[0].children[1].children[1].innerText == 'New Team' + sequence2) {
@@ -404,6 +434,7 @@ document.querySelectorAll('.li-hover').forEach(item => {
                     let nextUl = this.parentElement.nextElementSibling;
                     if (nextUl && nextUl.tagName === 'UL') {
                         nextUl.style.display = nextUl.style.display === 'none' ? 'block' : 'none';
+                        loadState();
                     }
                 });
                 newLi.querySelector('.li-hover').addEventListener('contextmenu', function(event) {

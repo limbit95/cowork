@@ -24,11 +24,11 @@ public interface AdminAttendanceMapper {
 	int getComListCount(Employee2 loginEmp);
 
 	/** 회사별 사원 리스트 조회
-	 * @param loginEmp
+	 * @param data
 	 * @param rowBounds
 	 * @return
 	 */
-	List<Employee2> selectComList(Employee2 loginEmp, RowBounds rowBounds);
+	List<Employee2> selectComList(Map<String, Object> data, RowBounds rowBounds);
 
 	/** 부서별 사원 수 조회
 	 * @param data
