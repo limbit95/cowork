@@ -1,6 +1,3 @@
-
-
-
 const findEmp = document.querySelector("#findEmp");
 
 if(findEmp != null) {
@@ -105,7 +102,36 @@ if(findEmp != null) {
     })
 }
 
+// 함수 : 하위 목록의 상태를 로컬 저장소에 저장
+function saveState() {
+    const items = document.querySelectorAll('.dept');
+    const state = [];
+    items.forEach((item, index) => {
+        let nextUl = item.parentElement.nextElementSibling;
+        if (nextUl && nextUl.tagName === 'UL') {
+            state.push({
+                index: index,
+                isOpen: nextUl.style.display
+            });
+        }
+    });
+    localStorage.setItem('toggleState', JSON.stringify(state));
+}
 
+// 함수 : 하위 목록의 상태를 로컬 저장소에서 복원
+function loadState() {
+    const state = JSON.parse(localStorage.getItem('toggleState'));
+    if (!state) return;
+
+    state.forEach(item => {
+        const listItem = document.querySelectorAll('.dept')[item.index];
+        let nextUl = listItem.parentElement.nextElementSibling;
+        if (nextUl && nextUl.tagName === 'UL') {
+            nextUl.style.display = item.isOpen;
+        }
+    });
+}
+loadState();
 // ---------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------
 // 주소록 그룹 아코디언 및 마우스 오른쪽 클릭 시 드롭다운 형성
@@ -140,6 +166,7 @@ document.querySelectorAll('.li-hover').forEach(item => {
         let nextUl = item.nextElementSibling;
         if (nextUl && nextUl.tagName === 'UL') {
             nextUl.style.display = nextUl.style.display === 'none' ? 'block' : 'none';
+            saveState()
         }
     });
 

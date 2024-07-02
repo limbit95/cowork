@@ -1,5 +1,7 @@
 package com.cowork.admin.attendance.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -35,12 +37,20 @@ public class AdminAttendanceController {
 	@GetMapping("")
 	public String attendanceManager(HttpServletRequest request, 
 							        Model model, 
-							        @RequestParam(value="cp", required=false, defaultValue="1") int cp) {
+							        @RequestParam(value="cp", required=false, defaultValue="1") int cp,
+							        @RequestParam(value="date", required=false, defaultValue="null") String date) {
+		
+		if(date.equals("null")) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			date = sdf.format(new java.util.Date());
+		}
+		
+		log.info("date : " + date);
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
-		Map<String, Object> map = service.selectComList(loginEmp, cp);
+		Map<String, Object> map = service.selectComList(loginEmp, cp, date);
 		
 		model.addAttribute("pagination", map.get("pagination"));
 		model.addAttribute("comList", map.get("comList"));

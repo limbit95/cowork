@@ -35,7 +35,11 @@ public class AdminAttendanceServiceImpl implements AdminAttendanceService {
 
 	// 회사별 사원 리스트 조회
 	@Override
-	public Map<String, Object> selectComList(Employee2 loginEmp, int cp) {
+	public Map<String, Object> selectComList(Employee2 loginEmp, int cp, String date) {
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("comNo", loginEmp.getComNo());
+		data.put("date", date);
 		
 		// 회사 전체 사원 수 조회
 		int listCount = mapper.getComListCount(loginEmp);
@@ -46,7 +50,7 @@ public class AdminAttendanceServiceImpl implements AdminAttendanceService {
 		int offset = (cp - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		List<Employee2> comList = mapper.selectComList(loginEmp, rowBounds);
+		List<Employee2> comList = mapper.selectComList(data, rowBounds);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("pagination", pagination);
