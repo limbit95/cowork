@@ -136,7 +136,7 @@ if(authBtn != null) {
         
         // 팝업 창 열기
         // popup = window.open("http://localhost/user/registrationNumCheck", "popup", `width=${width},height=${height},left=${left},top=${top}`);
-        popup = window.open("http://coworkintranet.site/user/registrationNumCheck", "popup", `width=${width},height=${height},left=${left},top=${top}`);
+        popup = window.open("/user/registrationNumCheck", "popup", `width=${width},height=${height},left=${left},top=${top}`);
     })
 }
 

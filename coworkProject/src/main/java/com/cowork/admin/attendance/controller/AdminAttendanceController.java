@@ -103,6 +103,30 @@ public class AdminAttendanceController {
 	// -----------------------------------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------------------------
+	@GetMapping("comList")
+	public String comList(HttpServletRequest request, 
+							        Model model, 
+							        @RequestParam(value="cp", required=false, defaultValue="1") int cp,
+							        @RequestParam(value="date", required=false, defaultValue="null") String date) {
+		
+		if(date.equals("null")) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			date = sdf.format(new java.util.Date());
+		}
+		
+		log.info("date : " + date);
+		
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		Map<String, Object> map = service.selectComList(loginEmp, cp, date);
+		
+		model.addAttribute("pagination", map.get("pagination"));
+		model.addAttribute("comList", map.get("comList"));
+		
+		return "admin/attendance/attendanceManager";
+	}
+	
 	
 	/** 부서별 사원 리스트 조회
 	 * @param request
