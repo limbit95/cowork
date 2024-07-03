@@ -50,17 +50,32 @@ function getDate() {
 
   return `${year}-${month}-${day}`;
 }
-
-window.addEventListener("click", e => {
-  const test1 = getDateTime();
-  const test2 = getDate();
-  console.log(test1);
-  console.log(test2);
-})
-
 const arrivalButton = document.querySelector(".arrival-button");
 const departureButton = document.querySelector(".departure-button");
 const currentAttd = document.querySelector("#currentAttd");
+
+window.addEventListener("DOMContentLoaded", e => {
+  const date = getDate();
+
+  fetch("/employee/attendance/attendenceCheck?date=" + date)
+  .then(resp => resp.json())
+  .then(result => {
+    if(result.arrivalTime.length == 0) {
+      document.querySelector("#currentAttd").innerText = '출근전';
+    } 
+    if(result.arrivalTime.length > 0 && result.departureTime.length == 0) {
+      document.querySelector("#currentAttd").innerText = '출근';
+      document.querySelector("#arrival-time").innerText = result.arrivalTime;
+    }
+    if(result.arrivalTime.length > 0 && result.departureTime.length > 0) {
+      document.querySelector("#currentAttd").innerText = '퇴근';
+      document.querySelector("#arrival-time").innerText = result.arrivalTime;
+      document.querySelector("#departure-time").innerText = result.departureTime;
+    }
+
+
+  })
+})
 
 // ---------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------

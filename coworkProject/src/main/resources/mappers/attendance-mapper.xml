@@ -44,4 +44,11 @@
 		AND TO_CHAR(ATTENDANCE_TIME, 'YYYY-MM-DD') = '${date}'
 	</select>
 	
+	<select id="attendenceCheck">
+		SELECT TO_CHAR(ATTENDANCE_TIME, 'HH24:MI:SS') "arrivalTime", TO_CHAR(OFF_TIME, 'HH24:MI:SS') "departureTime"
+		FROM ATTENDENCE 
+		WHERE EMP_CODE = #{empCode}
+		AND TO_CHAR(ATTENDANCE_TIME, 'YYYY-MM-DD') = '${date}'
+	</select>
+	
 </mapper>
