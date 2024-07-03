@@ -41,7 +41,7 @@ public class AdminAttendanceController {
 							        @RequestParam(value="date", required=false, defaultValue="null") String date) {
 		
 		if(date.equals("null")) {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			date = sdf.format(new java.util.Date());
 		}
 		
@@ -114,11 +114,18 @@ public class AdminAttendanceController {
 	public String deptList(HttpServletRequest request, 
 					       Model model, 
 					       @RequestParam Map<String, Object> data, 
-					       @RequestParam(value="cp", required=false, defaultValue="1") int cp
-					       ) {
+					       @RequestParam(value="cp", required=false, defaultValue="1") int cp,
+					       @RequestParam(value="date", required=false, defaultValue="null") String date) {
+		
+		if(date.equals("null")) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			date = sdf.format(new java.util.Date());
+		}
+		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		data.put("comNo", loginEmp.getComNo());
+		data.put("date", date);
 		
 		Map<String, Object> selectDeptList = service.selectDeptList(data, cp);
 		
@@ -140,12 +147,18 @@ public class AdminAttendanceController {
 	public String teamList(HttpServletRequest request, 
 					       Model model, 
 					       @RequestParam Map<String, Object> data, 
-					       @RequestParam(value="cp", required=false, defaultValue="1") int cp
-					       ) {
+					       @RequestParam(value="cp", required=false, defaultValue="1") int cp,
+					       @RequestParam(value="date", required=false, defaultValue="null") String date) {
+		
+		if(date.equals("null")) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			date = sdf.format(new java.util.Date());
+		}
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		data.put("comNo", loginEmp.getComNo());
+		data.put("date", date);
 		
 		String[] arr = ((String)data.get("teamNo")).split("/");
 		data.put("deptNo", arr[0]);
