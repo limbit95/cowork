@@ -425,7 +425,7 @@ if(deleteToMyAddr != null) {
 };
 
 window.addEventListener("DOMContentLoaded", e => {
-    if(location.pathname == '/employee/addr') {
+    if(location.pathname + location.search == '/employee/addr') {
         document.querySelectorAll("#teamListUl").forEach((i) => {
             i.style.display = 'none';
         })

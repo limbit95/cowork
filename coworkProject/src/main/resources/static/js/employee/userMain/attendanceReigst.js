@@ -51,6 +51,11 @@ function getDate() {
   return `${year}-${month}-${day}`;
 }
 
+window.addEventListener("click", e => {
+  console.log(getDateTime());
+  console.log(getDate());
+})
+
 const arrivalButton = document.querySelector(".arrival-button");
 const departureButton = document.querySelector(".departure-button");
 const currentAttd = document.querySelector("#currentAttd");

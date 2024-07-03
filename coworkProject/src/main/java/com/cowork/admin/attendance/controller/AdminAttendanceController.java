@@ -44,8 +44,11 @@ public class AdminAttendanceController {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			date = sdf.format(new java.util.Date());
 		}
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String date2 = sdf2.format(new java.util.Date());
 		
 		log.info("date : " + date);
+		log.info("date : " + date2);
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");

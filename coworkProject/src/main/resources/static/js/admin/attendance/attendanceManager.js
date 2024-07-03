@@ -102,7 +102,7 @@ if(findEmp != null) {
     })
 }
 window.addEventListener("DOMContentLoaded", e => {
-    if(location.pathname == '/admin/attendance') {
+    if(location.pathname + location.search == '/admin/attendance') {
         document.querySelectorAll("#teamListUl").forEach((i) => {
             i.style.display = 'none';
         })
