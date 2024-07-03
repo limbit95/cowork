@@ -17,16 +17,7 @@
     <div id="entireContainer">
         <div id="emptySpace"></div>
         <!-- 왼쪽 첫번째 큰 컨테이너 시작  -->
-        <div id="makeChatContainer">
-            <!-- 맨 위 -->
-			<!-- 
-            <div id="searchDiv">
-                <div id="searchDivChild">
-                    <input type="text" placeholder="부서, 팀, 이름 을 입력해주세요" id="searchInput">
-                </div>
-            </div>
-			-->
-            
+        <div id="makeChatContainer">            
 			<!-- 조회하는 모달창 -->
 			<div id="selectModalContainer">
 				<div id="selectModalInner">
@@ -58,7 +49,6 @@
 						</div>
 
 					</div>
-					
 					<!-- 선택된 사원들이 보일 자리  -->
 					<div id="selectedEmps"></div>
 					
@@ -70,15 +60,10 @@
 
 				</div>
 			</div>
-			<!-- 조회하는 모달창 -->
-			
-			
-			
-			
-   
+			<!-- 조회하는 모달창 -->   
         </div>
         <!-- 왼쪽 첫번째 큰 컨테이너 끝 -->
-        
+       
         <div id="chattingRoomsContainer">
 			<button id="addEmpBtn" type="button">
 				<i class="fa-solid fa-plus" style="font-size: 20px; margin-bottom:3px;"></i>
@@ -95,11 +80,8 @@
         </div>
         
         <div id="chattingsContainer">
-			
             <div id="topAreaInChattingsContainer">
             </div>
-			
-
 			
             <ul id="chattingsArea">
             </ul>
@@ -128,13 +110,9 @@
 						</button>						
 					</div>	
 				</div>
-                
-                
-
             </div>
         </div>
     </div>
-
 
     <!-- 파일을 올리면, 띄워질 모달창 시작 -->
     <div id="backgroundGray"></div>
@@ -273,10 +251,6 @@
 		</div>
 	</div>
 	<!-- 번역될 언어 선택하는 모달창 끝-->
-	
-	
-	
-	
 
     <script th:inline="javascript">
         let empCode = /*[[${session.	loginEmp.empCode}]]*/ "test username";

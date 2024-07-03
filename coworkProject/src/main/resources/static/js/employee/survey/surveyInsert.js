@@ -1,11 +1,23 @@
-let makeMultipleQuestion = document.querySelector('#makeMultipleQuestion'); // 객관식 추가 버튼
-let makeSubjectiveQuestion = document.querySelector('#makeSubjectiveQuestion'); // 주관식 추가 버튼 
 
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@ 객관식, 주관식 문항 추가 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+
+/* --------------------------- 변수 정리 시작 ----------------------- */
+// 객관식 추가 버튼
+let makeMultipleQuestion = document.querySelector('#makeMultipleQuestion'); 
+// 주관식 추가 버튼
+let makeSubjectiveQuestion = document.querySelector('#makeSubjectiveQuestion'); 
+// 질문(객관식, 주관식) 이 추가될 자리 
 let questionArea = document.querySelector('#questionArea');
+// 질문의 개수를 세어줄 변수 
+let questionCount = 0; 
+// 문제들이 담겨질 배열 
+let questions = []; // ?
 
-let questionCount = 0; // 질문의 개수를 세어줌 
+let multipleOrder = 1; // ?
 
-/* 특정 태그 안에 들어있는 특정태그가 몇개인지 세주는 함수 */
+
+/* --------------------------- 함수 정리 시작 ----------------------- */
+// 특정 태그 안에 들어있는 특정태그가 몇개인지 세주는 함수 시작
 function countChildTags(parentElement, childTag) {
 	// 부모 요소가 존재하는지 확인
 	if (parentElement) {
@@ -19,217 +31,209 @@ function countChildTags(parentElement, childTag) {
     	return 0;
 	}
 }
-/* 특정 태그 안에 들어있는 특정태그가 몇개인지 세주는 함수 */
+// 특정 태그 안에 들어있는 특정태그가 몇개인지 세주는 함수 끝
 
-let questions = [];
-
-
+/* --------------------------- 객관식 문항 추가 버튼을 누르면 ----------------------- */  
 makeMultipleQuestion.addEventListener('click', function(){
 		
+	multipleOrder = 1;
+	
+	// 질문 개수 + 1 
+	questionCount++; 
+	
+	// 만약 이전 문제가 존재한다면, 데이터를 끄집어내서 obj 를 만들어서 questions 라는 배열에 담을 거임. 		   
+    if(questionArea && questionArea.lastElementChild){	
+		// 이전 문제가 존재한다면~ 
+		// 그 문제의 타입을 가져온다						
+		let questionType = questionArea.lastElementChild.children[0].children[0].innerText;
 		
-		multipleOrder = 1;
-	
-	       /*
-	       새로운 시도 시작
-	        */
-		   
-         	  /* 만약, 이전 요소가 존재한다면, 데이터를 끄집어내서 obj 를 만든 후 배열 안에 집어넣을거임. */
-            if(questionArea && questionArea.lastElementChild){							
-				let questionType = questionArea.lastElementChild.children[0].children[0].innerText;
-
-				if(questionType.trim() == 'multiple'){
-					// 객관식이라면, 어떻게 해야할까? 
-					// 일단 제목을 가져온다. 
-					// 그리고, 항목이 존재한다면 그 항목을 가져온다. 는 코드를 작성해주면 됨. 
-					
-					// 제목 가져오기 
-					let title  = questionArea.lastElementChild.children[0].children[1].children[1].value;
-					console.log("title!!!!!!=" +title);
-					
-					// 대제목, 항목 모두를 모아서 JSON 형태의 문자열을 담는 자바스크립트 배열안에 넣어야함. 
-					let options = [];
-					let optionArea = questionArea.lastElementChild.children[0].children[2].children[1];
-
-					let optionCount = countChildTags(optionArea, 'input');
-					
-				    for(let i=0; i<optionCount; i++){
-						if(optionArea && optionArea.lastElementChild){
-							let newDiv = optionArea.children[i];
-							let multipleQuestionInput = newDiv.children[1];
-							options.push(multipleQuestionInput.value);
-						}						
-					}
-					
-					// 현재, 객관식질문의 제목, 객관식 옵션(선택지) 를 얻어왔음. 
-					let multipleQuestionObj = {
-						'type': 'multiple',
-						'title': title,
-						'options': options
-					}
-					
-					questions.push(multipleQuestionObj);
-					
-				}else if(questionType.trim() == 'subjective'){
-					// 주관식이라면 어떻게 해야할까? 
-/*					let subjectiveQuestionTitle = questionArea.lastElementChild.children[0].children[1].value;*/
-					let subjectiveQuestionTitle = questionArea.lastElementChild.children[0].children[1].children[1].value;
-
-					
-					console.log('확인중');
-					console.log(subjectiveQuestionTitle);
-					console.log('확인중');
-					
-					let subjectiveQuestionObj = {
-						'type': 'subjective',
-						'title': subjectiveQuestionTitle
-					}
-					
-					questions.push(subjectiveQuestionObj);
-				} 
+		// 그 문제가 객관식이었다면 
+		if(questionType.trim() == 'multiple'){
+			
+			// 제목 가져오기 
+			let title  = questionArea.lastElementChild.children[0].children[1].children[1].value;
+			
+			// optionArea : 객관식 문항들이 들어가 있는 태그 
+			let optionArea = questionArea.lastElementChild.children[0].children[2].children[1];
+			// optionArea 안에 몇개의 input 태그가 들어있는지 체크 
+			let optionCount = countChildTags(optionArea, 'input');
+			
+			// options 라는 배열을 만듦. 
+			let options = [];
+			// input 태그의 개수만큼 for문 돌림 
+		    for(let i=0; i<optionCount; i++){
+				// 객관식 문항들을 꺼내서 options 라는 배열에 그 값(문제)을 담는다 
+				if(optionArea && optionArea.lastElementChild){
+					let newDiv = optionArea.children[i];
+					let multipleQuestionInput = newDiv.children[1];
+					options.push(multipleQuestionInput.value);
+				}						
 			}
-		   /* 
-		   새로운 시도 끝 
-		    */
-	
-	 		questionCount++; // 질문 개수 + 1 함.
-            
-            const questionDiv = document.createElement('div');
-            questionDiv.className = 'question'; // class 지정 
-            questionDiv.id = `question${questionCount}`; // id 지정 
-            questionDiv.innerHTML = 
-            `
-                <div class="multipleQuestionFullContainer">
-                
-                	<div style="display:none;">
-                		multiple
-                	</div>
-                
-	                <div class="questionTitleDivContainer">
-		                <span class="questionOrder">Q.</span>
-    		            <input type="text" class="questionText" placeholder="질문을 입력하세요">
-        		        <i class="fa-solid fa-x" onclick="removeQuestion(this)"></i>
-                	</div>
-               	 
-	                <div class="addOption">
-	                	
-	                	<div class="optionAddOrRemoveBtnDiv">
-		                	<button type="button" onclick="addOption(this)">
-		                		문항 추가
-		                	</button>
-		                	<button type="button" onclick="removeOption(this)">
-		                		문항 삭제 
-		                	</button>
-	                	</div>
-	                	
-	                	<div class="optionArea">
-	                	</div>
-	                </div>
-	                
-	           </div>
-            `;
-                        
-            questionArea.appendChild(questionDiv);
-            
-            
-})
-
-makeSubjectiveQuestion.addEventListener('click', function(){
-		 /*
-	       새로운 시도 시작
-	        */
-		   		   
-		   console.log('aaaaaaaaaaaaaaaaa');
-			console.log(questionArea.lastElementChild);
-		   console.log('aaaaaaaaaaaaaaaaa');
-		   
-         	  /* 만약, 이전 요소가 존재한다면, 데이터를 끄집어내서 obj 를 만든 후 배열 안에 집어넣을거임. */
-            if(questionArea && questionArea.lastElementChild && questionArea.lastElementChild != ''){
-				
-				console.dir("asjdhfjasdhfajsdgf"+questionArea.lastElementChild);
-								
-				let questionType = questionArea.lastElementChild.children[0].children[0].innerText;
-				
-				console.log(questionType.trim());
-				console.log(questionArea.lastElementChild);
-				
-				
-				if(questionType.trim() == 'multiple'){
-					// 객관식이라면, 어떻게 해야할까? 
-					// 일단 제목을 가져온다. 
-					// 그리고, 항목이 존재한다면 그 항목을 가져온다. 는 코드를 작성해주면 됨. 
 					
-					// 제목 가져오기 
-					let title  = questionArea.lastElementChild.children[0].children[1].children[1].value;
-					console.log("title!!!!!!=" +title);
-					
-
-					// 대제목, 항목 모두를 모아서 JSON 형태의 문자열을 담는 자바스크립트 배열안에 넣어야함. 
-					let options = [];
-					let optionArea = questionArea.lastElementChild.children[0].children[2].children[1];
-
-					let optionCount = countChildTags(optionArea, 'input');
-					
-				    for(let i=0; i<optionCount; i++){
-						if(optionArea && optionArea.lastElementChild){
-							let newDiv = optionArea.children[i];
-							let multipleQuestionInput = newDiv.children[1];
-							options.push(multipleQuestionInput.value);
-						}						
-					}
-					
-					// 현재, 객관식질문의 제목, 객관식 옵션(선택지) 를 얻어왔음. 
-					let multipleQuestionObj = {
-						'type': 'multiple',
-						'title': title,
-						'options': options
-					}
-					
-					questions.push(multipleQuestionObj);
-					
-					
-				}else if(questionType.trim() == 'subjective'){
-					// 주관식이라면 어떻게 해야할까? 
-					let subjectiveQuestionTitle = questionArea.lastElementChild.children[0].children[1].children[1].value;
-
-
-					let subjectiveQuestionObj = {
-						'type': 'subjective',
-						'title': subjectiveQuestionTitle
-					}
-					
-					questions.push(subjectiveQuestionObj);
-				} 
-				
-				
-
+			// 현재, 객관식질문의 "제목"", "객관식 옵션(선택지)" 를 얻어왔음. 
+			let multipleQuestionObj = {
+				'type': 'multiple',
+				'title': title,
+				'options': options
 			}
 			
-		   /* 
-		   새로운 시도 끝 
-		    */
-	
-	
-	 		questionCount++; // 질문 개수 + 1 함.            
-            const questionDiv = document.createElement('div');
-            questionDiv.className = 'question'; // class 지정 
-            questionDiv.id = `question${questionCount}`; // id 지정 
-            questionDiv.innerHTML = 
-            `
-                <div class="subjectiveQuestionFullContainer">
-                	<div style="display:none;">subjective</div>
+			questions.push(multipleQuestionObj);
+			
+		} else if(questionType.trim() == 'subjective'){
+			// 그 문제가 주관식이었다면 
+			let subjectiveQuestionTitle = questionArea.lastElementChild.children[0].children[1].children[1].value;
+			
+			let subjectiveQuestionObj = {
+				'type': 'subjective',
+				'title': subjectiveQuestionTitle
+			}
+			
+			questions.push(subjectiveQuestionObj);
+		} 
+	}
 
-	                <div class="subjectiveQuestion">
-		                <span class="questionOrder">Q. </span>
-    		            <input type="text" class="questionText" placeholder="질문을 입력해주세요.">
-        		        <i class="fa-solid fa-x" onclick="removeQuestion(this)"></i>
-                	</div>
-	           </div>
-            `;
+    
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'question'; // class 지정 
+    questionDiv.id = `question${questionCount}`; // id 지정. 최초라면, question1 이 id 값이 되겠지. 
+    questionDiv.innerHTML = 
+    `
+        <div class="multipleQuestionFullContainer">
+        
+        	<div style="display:none;">
+        		multiple
+        	</div>
+        
+            <div class="questionTitleDivContainer">
+                <span class="questionOrder">Q.</span>
+	            <input type="text" class="questionText" placeholder="질문을 입력하세요">
+		        <i class="fa-solid fa-x" onclick="removeQuestion(this)"></i>
+        	</div>
+       	 
+            <div class="addOption">
+            	
+            	<div class="optionAddOrRemoveBtnDiv">
+                	<button type="button" onclick="addOption(this)">
+                		문항 추가
+                	</button>
+                	<button type="button" onclick="removeOption(this)">
+                		문항 삭제 
+                	</button>
+            	</div>
+            	
+            	<div class="optionArea">
+            	</div>
+            </div>
             
-            questionArea.appendChild(questionDiv);
+       </div>
+    `;
+                
+    questionArea.appendChild(questionDiv);
 })
 
-let multipleOrder = 1;
+/* --------------------------- 주관식 문항 추가 버튼을 누르면 ----------------------- */  
+makeSubjectiveQuestion.addEventListener('click', function(){
+	
+	// 질문 개수 + 1 
+	questionCount++;            
+
+	// 만약 이전 문제가 존재한다면, 데이터를 끄집어내서 obj 를 만들어서 questions 라는 배열에 담을 거임. 		   
+    if(questionArea && questionArea.lastElementChild && questionArea.lastElementChild != ''){
+								
+		let questionType = questionArea.lastElementChild.children[0].children[0].innerText;
+
+		if(questionType.trim() == 'multiple'){			
+			// 객관식 
+			let title  = questionArea.lastElementChild.children[0].children[1].children[1].value;
+			let options = [];
+			let optionArea = questionArea.lastElementChild.children[0].children[2].children[1];
+			let optionCount = countChildTags(optionArea, 'input');
+			
+		    for(let i=0; i<optionCount; i++){
+				if(optionArea && optionArea.lastElementChild){
+					let newDiv = optionArea.children[i];
+					let multipleQuestionInput = newDiv.children[1];
+					options.push(multipleQuestionInput.value);
+				}						
+			}
+			
+			let multipleQuestionObj = {
+				'type': 'multiple',
+				'title': title,
+				'options': options
+			}
+			
+			questions.push(multipleQuestionObj);
+			
+			
+		}else if(questionType.trim() == 'subjective'){
+			// 주관식
+			let subjectiveQuestionTitle = questionArea.lastElementChild.children[0].children[1].children[1].value;
+
+			let subjectiveQuestionObj = {
+				'type': 'subjective',
+				'title': subjectiveQuestionTitle
+			}
+			
+			questions.push(subjectiveQuestionObj);
+		} 
+			
+	}
+
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'question'; // class 지정 
+    questionDiv.id = `question${questionCount}`; // id 지정 
+    questionDiv.innerHTML = 
+    `
+        <div class="subjectiveQuestionFullContainer">
+        	<div style="display:none;">subjective</div>
+
+            <div class="subjectiveQuestion">
+                <span class="questionOrder">Q. </span>
+	            <input type="text" class="questionText" placeholder="질문을 입력해주세요.">
+		        <i class="fa-solid fa-x" onclick="removeQuestion(this)"></i>
+        	</div>
+       </div>
+    `;
+    
+    questionArea.appendChild(questionDiv);
+})
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@ 객관식 문항 추가 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+function addOption(button){
+	
+	let newDiv = document.createElement('div');
+		/* css */
+		newDiv.style.display = 'flex';
+		newDiv.style.justifyContent = 'center';
+		newDiv.style.alignItems = 'center';
+		newDiv.style.backgroundColor = '#E5F2FE';
+		newDiv.style.paddingBottom = '5px';
+		
+	let numberDiv = document.createElement('div');
+		/* css */
+		numberDiv.style.marginRight = '1vw';
+			
+	let newIcon = document.createElement('i');
+		newIcon.classList.add('fa-solid', 'fa-angle-right');
+
+	numberDiv.appendChild(newIcon);
+	newDiv.appendChild(numberDiv);
+	
+	multipleOrder++;
+	
+	let multipleQuestionInput = document.createElement('input');
+	newDiv.appendChild(multipleQuestionInput);
+	multipleQuestionInput.style.width = '80%';
+	multipleQuestionInput.style.height = '4vh';
+    multipleQuestionInput.classList.add('forSelectInput'); // 특별한건 없고, 그냥 클래스 부여하고 이 클래스로 이 input 태그들을 모두 집으려고 부여한 클래스 
+    	
+    let optionArea = button.parentElement.nextElementSibling;
+	optionArea.appendChild(newDiv);	
+	
+}
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@ 객관식 문항 지우기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 
 function removeOption(button){
     let optionArea = button.parentElement.nextElementSibling;
@@ -240,75 +244,48 @@ function removeOption(button){
 	} else{
 		alert('삭제할 문항이 존재하지 않습니다.');
 	}
-}
-
-
-function addOption(button){
-	
-	let newDiv = document.createElement('div');
-	newDiv.style.display = 'flex';
-	newDiv.style.justifyContent = 'center';
-	newDiv.style.alignItems = 'center';
-	newDiv.style.backgroundColor = '#E5F2FE';
-	newDiv.style.paddingBottom = '5px';
-	let newIcon = document.createElement('i');
-	newIcon.classList.add('fa-solid', 'fa-angle-right');
-
-	let numberDiv = document.createElement('div');
-	numberDiv.appendChild(newIcon);
-	numberDiv.style.marginRight = '1vw';
-	
-	newDiv.appendChild(numberDiv);
-	multipleOrder++;
-	
-	let multipleQuestionInput = document.createElement('input');
-	newDiv.appendChild(multipleQuestionInput);
-	multipleQuestionInput.style.width = '80%';
-	multipleQuestionInput.style.height = '4vh';
-    multipleQuestionInput.classList.add('forSelectInput'); // 특별한건 없고, 그냥 클래스 부여하고 이 클래스로 이 input 태그들을 모두 집으려고 부여한 클래스 
-    
-
-	
-    let optionArea = button.parentElement.nextElementSibling;
-	optionArea.appendChild(newDiv);	
 	
 }
 
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@ (객관식, 주관식)문제 지우기  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 function removeQuestion(iTag){	
 	
-	
 	let dummyCode = iTag.parentElement.parentElement.parentElement;
-	dummyCode.remove();
-	console.log(dummyCode);
-	
+	dummyCode.remove();	
 	
 	questionCount--;
 	multipleOrder = 1;
 	
-		
 	// questions 에서 방금 삭제된 질문을 지워줘야해. 
 	let beDeletedTitle = iTag.previousElementSibling;
-
 	questions = questions.filter(question => question.title !== beDeletedTitle.value);
-	
 };
 
 
 
-/* ----------------설문의 대상 관련 js----------------- */
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@ 설문 대상 관련 js   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 
+/* --------------------------- 변수 정리 시작 ----------------------- */
+// 전체 
 let entire = document.querySelector('#entire');
+// 직급 
 let position = document.querySelector('#position');
+// 개별 
 let findEmp = document.querySelector('#findEmp');
+// 직급 조회시 직급을 보여줄 div 
 let positionArea = document.querySelector('#positionArea');
+// 개별 조회시 컨테이너  
 let empListArea = document.querySelector('#empListArea');
+// 조회된 사원들을 보여줄 div 
 let empListDiv = document.querySelector('#empList');
 
-
-
 let positionFlag = false;
+let findEmpFlag = false;
+let entireFlag = false;
 
 
+/* --------------------------- 직급 선택시 ----------------------- */
 position.addEventListener('click', function(){
 	
 	findEmpFlag = false; 
@@ -323,11 +300,10 @@ position.addEventListener('click', function(){
 	document.querySelector('#entire').style.border = '1.5px solid #BDD8F1';
 
 	fetch('/survey/positionList')
-	 .then(response => {
-
+	.then(response => {
 	    return response.json();
-	  })
-	  .then(data => {
+	})
+	.then(data => {
 		
 		let selectTag = document.createElement('select');
 		selectTag.id = "selectTag";
@@ -348,8 +324,7 @@ position.addEventListener('click', function(){
 	  .catch(error => console.error('There has been a problem with your fetch operation:', error));
 })
 
-let findEmpFlag = false;
-
+/* --------------------------- 개별 선택시 ----------------------- */
 document.querySelector('#findEmp').addEventListener('click', function(){
 	empListArea.style.display = 'flex';	
 	empListArea.style.flexDirection = 'column';
@@ -364,22 +339,14 @@ document.querySelector('#findEmp').addEventListener('click', function(){
 	document.querySelector('#entire').style.border = '1.5px solid #BDD8F1';
 })
 
-
-
 let empCodeList = [];
-
 let findEmpInput = document.querySelector('#findEmpInput');
-
+/* --------------------------- 개별 선택시 input 태그에 이름 입력시 ----------------------- */
 findEmpInput.addEventListener('input', function(){
-	
 
-	
-	
     if(this.value == ''){
 		return;
 	}
-	
-	
 	
 	fetch("/survey/empList", {
 		method : "POST",
@@ -394,69 +361,77 @@ findEmpInput.addEventListener('input', function(){
 		for(let emp of empList ){
 			
 				let empDiv= document.createElement('div');
+					/* css */
+					empDiv.style.display = 'flex';
+					empDiv.style.alignItems = 'center';
+					empDiv.style.width = '100%';
+					empDiv.style.height = '5vh';
+					empDiv.style.borderBottom = '0.1px solid #426DA7';
+					empDiv.style.cursor = 'pointer';
+					empDiv.classList.add('hoverBackgroundColor');
 				
 				let empProfileImg = document.createElement('img');
 				empProfileImg.src =  emp.profileImg;
-				empProfileImg.style.width = '30px';
-				empProfileImg.style.height= '30px';
-				empProfileImg.style.borderRadius = '50%';
+					/* css */
+					empProfileImg.style.width = '30px';
+					empProfileImg.style.height= '30px';
+					empProfileImg.style.borderRadius = '50%';
 				
 				empDiv.appendChild(empProfileImg);
 				
 				let empNicknameNode = document.createTextNode(emp.empLastName + emp.empFirstName);
 				let nicknameDiv = document.createElement('div');
+					/* css */
+					nicknameDiv.style.marginLeft = '5%';
 				nicknameDiv.appendChild(empNicknameNode);
 				empDiv.appendChild(nicknameDiv);
-				nicknameDiv.style.marginLeft = '5%';
+
 				
 				let teamNm = document.createTextNode(emp.teamNm);
 				let teamNameDiv = document.createElement('div');
+					/* css */
+					teamNameDiv.style.marginLeft = '5%';
 				teamNameDiv.appendChild(teamNm);
 				empDiv.appendChild(teamNameDiv);
-				teamNameDiv.style.marginLeft = '5%';
 
-				empDiv.style.display = 'flex';
-
-				empDiv.style.alignItems = 'center';
-				empDiv.style.width = '100%';
-				empDiv.style.height = '5vh';
-				empDiv.style.borderBottom = '0.1px solid #426DA7';
-				empDiv.style.cursor = 'pointer';
-				empDiv.classList.add('hoverBackgroundColor');
-				
 				empListDiv.appendChild(empDiv);				
 				
+				// 렌더링된 사원 div 태그를 클릭시 
 				empDiv.addEventListener('click', function(){
 						empListDiv.innerHTML = '';
 						
 						empCodeList.push(emp.empCode);
 						
 						let empNicknameDiv = this.children[1];
-						console.log(empNicknameDiv);
-					    empNicknameDiv.style.border = '1.5px solid #3667A6';
-					    empNicknameDiv.style.display = 'inline';
-					    empNicknameDiv.style.padding = '10px';
-					    empNicknameDiv.style.borderRadius = '5px';
+							/* css */
+						    empNicknameDiv.style.border = '1.5px solid #3667A6';
+						    empNicknameDiv.style.display = 'inline';
+						    empNicknameDiv.style.padding = '10px';
+						    empNicknameDiv.style.borderRadius = '5px';
+    					    empNicknameDiv.style.marginTop = '0.5vh';
+							empNicknameDiv.style.margin = '0px';
+							empNicknameDiv.style.marginRight = '10px';
 						
 						let selectedEmpList = document.querySelector('#selectedEmpList');
-						
+							/* css */
+							selectedEmpList.style.display = 'flex';
+							selectedEmpList.style.alignItem = 'center';
+
 						selectedEmpList.appendChild(empNicknameDiv);
-						empNicknameDiv.style.margin = '0px';
-						empNicknameDiv.style.marginRight = '10px';
-						
+
 						let deleteThisEmpCode = document.createElement('div');
+							/* css */
+							deleteThisEmpCode.style.marginLeft = '0.5vw';
+							deleteThisEmpCode.style.fontSize = '12px';
+							deleteThisEmpCode.style.cursor = 'pointer';
+
 						let xNode = document.createTextNode('X');
 						deleteThisEmpCode.appendChild(xNode);
-						deleteThisEmpCode.style.marginLeft = '0.5vw';
-					    empNicknameDiv.style.marginTop = '0.5vh';
-						deleteThisEmpCode.style.fontSize = '12px';
 						
 						empNicknameDiv.appendChild(deleteThisEmpCode);
-						selectedEmpList.style.display = 'flex';
-						selectedEmpList.style.alignItem = 'center';
 						empNicknameDiv.style.display = 'flex';
-						deleteThisEmpCode.style.cursor = 'pointer';
 						
+						// x버튼에 이벤트리스너 걸어두기 						
 						deleteThisEmpCode.addEventListener('click', function(){
 							
 							let index =  empCodeList.indexOf(emp.empCode);
@@ -468,36 +443,17 @@ findEmpInput.addEventListener('input', function(){
 														
 						})
 						
-						
-						
-						
 						empNicknameDiv.appendChild(deleteThisEmpCode);
-						
-					
-						
 				})
-				
-				
 		}		
 	})		
 })
 
-let entireFlag = false;
-
+/* --------------------------- 전체 선택시 ----------------------- */
 document.querySelector('#entire').addEventListener('click',  function(){
 	
-	console.log(questions);
-		
-	// 대상 중 전체를 누른 경우, 
-	// 1. 직급과 관련된 거 무효화 + 2. 개인과 관련된 거 무효화
-	
-	// 1. 직급과 관련된 거 무효화
 	positionFlag = false;
-
-	// 2. 개인과 관련된 거 무효화 
 	findEmpFlag = false;
-	
-	// 3. 전체와 관련된거 유효화 
 	entireFlag = true;
 
 	positionArea.style.display = 'none';	
@@ -506,49 +462,45 @@ document.querySelector('#entire').addEventListener('click',  function(){
 	document.querySelector('#position').style.border = '1.5px solid #BDD8F1';
 	document.querySelector('#findEmp').style.border = '1.5px solid #BDD8F1';
 	document.querySelector('#entire').style.border = '1.5px solid #426DA7';
-
-
-		
 })
 
 
 
-
-//-------------------------------------------------------------------------------
-// 서버에 데이터 보내주는 코드 
-
-
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@ 설문 insert   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
 let forBottomEmptySpace = document.querySelector('#forBottomEmptySpace');
 forBottomEmptySpace.addEventListener('click', function(){
-	// 이제 데이터들을 모두 싸잡아서 서버에 보내줘야함. 
+	// 대제목 
 	let surveyTitle = document.querySelector('#surveyTitle');
+	
+	// 질문들 영역 
 	let questionArea = document.querySelector('#questionArea');
 	
+	// 대제목 안썻을 경우 
 	if(surveyTitle.value == ''){
 		alert('설문의 제목을 입력해주세요');
 		surveyTitle.style.borderBottom = '1.5px solid coral';
 		return;
 	}
 	
-		// 날짜 값 가져오기
-	let surveyStartDate = document.querySelector('#surveyStartDate');
-	let surveyEndDate = document.querySelector('#surveyEndDate');
-	
-	
+	// 대상 선택 안했을 경우 
 	if(entireFlag == false && positionFlag == false && findEmpFlag == false){
 		alert('대상을 설정해주세요');
 		return;
 	}
 	
+	// 날짜 
+	let surveyStartDate = document.querySelector('#surveyStartDate');
+	let surveyEndDate = document.querySelector('#surveyEndDate');
+	// 시작일 선택 안한 경우 
 	if(surveyStartDate.value == ''){
 		alert('설문시작일을 입력해주세요');
 		surveyStartDate.style.border = '1px solid coral';
 		surveyStartDate.addEventListener('click', function(){
 			surveyStartDate.style.border = '1px solid #426DA7';
 		})
-	
 		return;
 	} 
+	// 종료일 선택 안한 경우 
 	if(surveyEndDate.value == ''){
 		alert('설문종료일을 입력해주세요');
 		surveyEndDate.style.border = '1px solid coral';
@@ -558,66 +510,55 @@ forBottomEmptySpace.addEventListener('click', function(){
 		return; 
 	}
 	
+	// 객관식이든 주관식이든 질문을 입력하지 않았을 경우 
 	let flag1 = true;
-
 	document.querySelectorAll('.questionText').forEach(questionInput => {
 		if(questionInput.value == ''){
 			flag1 = false;
 		}
-		
 	})	
 	if(flag1 == false){
 		alert('질문은 공백일 수 없습니다.');
 		return; 
 	}
 	
+	// 객관식 문항 입력 안했을 경우 
 	let flag2 = true;
 	document.querySelectorAll('.forSelectInput').forEach(forSelectInput => {
 		if(forSelectInput.value == ''){
 			flag2 = false; 
 		}
 	})
-	
 	if(flag2 == false){
-		alert('항목은 공백일 수 없습니다.');
+		alert('문항은 공백일 수 없습니다.');
 		return;
 	}
 	
-	
+	// 객관식이든 주관식이든 질문이 아예 하나도 없을 경우 
 	if(questionArea.children[0] == null){
 		alert('추가된 질문이 존재하지 않습니다. 질문을 추가해주세요.');
 		return;
 	}else{
-
+		// 객관식이든 주관식이든 질문이 존재한다. 
+		// 마지막 질문을 questions 배열에 담는다. 
 		let lastChild = questionArea.lastElementChild;
-		console.dir('lastpang' + lastChild);
-		console.log('lastpang' + lastChild.children[0]);
-		console.log(lastChild.children[0].children[0].innerText);
-		/* 여기까지는 옴 */
 		if(lastChild.children[0].children[0].innerText.trim() == 'multiple'){
 			// 객관식인 경우 
-			console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
 
 			let titleValue = lastChild.children[0].children[1].children[1].value;
 			
 			let optionArea = lastChild.children[0].children[2].children[1];
 			
 			let optionCount = countChildTags(optionArea, 'input');
-			
-			console.log(optionCount);
-			
+						
 			let options = [];
 			
 		    for(let i=0; i<optionCount; i++){
 				
 				if(optionArea && optionArea.lastElementChild){
-					
 					let newDiv = optionArea.children[i];
-					
 					let multipleQuestionInput = newDiv.children[1];
-					
 					options.push(multipleQuestionInput.value);
-					
 				}						
 				
 			}
@@ -636,8 +577,6 @@ forBottomEmptySpace.addEventListener('click', function(){
 		}else if(lastChild.children[0].children[0].innerText == 'subjective'){
 			// 주관식인 경우 
 			let subjectiveQuestionTitle = lastChild.children[0].children[1].children[1].value;
-			console.log(subjectiveQuestionTitle);
-			console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwww');
 			
 			let subjectiveQuestionObj = {
 				'type': 'subjective',
@@ -651,20 +590,10 @@ forBottomEmptySpace.addEventListener('click', function(){
 		
 	}
 
-	
-	
-/*	
-	document.querySelector('')
-	let multipleQuestionObj ={
-		type: ''
-	} 
-*/	
+	// surveyData 는 서버에 보낼 데이터
 	let surveyData;
-	
-
-	
 	if(entireFlag){
-		// 설문 데이터 생성
+		// 전체 대상 설문
     	surveyData = {
 			'entire': true,
 	        'title': surveyTitle.value,
@@ -673,14 +602,11 @@ forBottomEmptySpace.addEventListener('click', function(){
 	        'surveyEndDate': surveyEndDate.value
     	};
 		
-		
 	}else if(positionFlag){
-		
+		// 직급 대상 설문 
 		let positionInput = document.querySelector('#selectTag');
 		let positionValue = positionInput.value;
-		
 
-		
 		surveyData = {
 			'position': positionValue,
 	        'title': surveyTitle.value,
@@ -690,7 +616,7 @@ forBottomEmptySpace.addEventListener('click', function(){
     	};
 		
 	}else if (findEmpFlag){
-
+		// 개별 사원 선택 설문 
 		surveyData = {
 			'empCodeList': empCodeList,
 	        'title': surveyTitle.value,
@@ -700,14 +626,12 @@ forBottomEmptySpace.addEventListener('click', function(){
     	};
 		
 	}else{
+		// 셋다 아니라면, 대상 선택 안한 경우임. 
 		alert('대상을 선택해주세요');
 		return;	
 	}
-	
-	
-	console.log(surveyData);
-	
-
+		
+	// 서버에 데이터 보내기 
     fetch('/survey/insertSurvey', {
         method: 'POST',
         headers: {
@@ -727,8 +651,7 @@ forBottomEmptySpace.addEventListener('click', function(){
 
 
 
-/* ================================================================================= */
-
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@ 설문 제목 클릭시 borderBottom 변환   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */ 
 let surveyTitle = document.querySelector('#surveyTitle');
 surveyTitle.addEventListener('click', function(){
 	surveyTitle.style.borderBottom = '1px solid #426DA7';
@@ -736,6 +659,9 @@ surveyTitle.addEventListener('click', function(){
 surveyTitle.addEventListener('blur', function(){
 	surveyTitle.style.borderBottom = '1px solid lightgray';
 });
+
+
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@ 설문시작일을 오늘 이전 날짜 선택못하도록 + 설문 종료일이 설문 시작일보다 이전날짜가 되지 못하도록 함   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */ 
 
 setMinDate();
 /* date타입 input 태그가 오늘 이전 날짜는 선택하지 못하도록 함. */
@@ -748,6 +674,7 @@ function setMinDate() {
     var todayDate = year + '-' + month + '-' + day;
     dateInput.setAttribute('min', todayDate);
 }
+
 
 /* 설문 종료일이 설문 시작일보다 이전날짜가 되지 않도록 함  */
 document.getElementById('surveyStartDate').addEventListener('change', updateEndDateMin);
