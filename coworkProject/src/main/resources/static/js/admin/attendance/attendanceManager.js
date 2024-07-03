@@ -101,6 +101,22 @@ if(findEmp != null) {
 
     })
 }
+window.addEventListener("DOMContentLoaded", e => {
+    if(location.pathname == '/admin/attendance') {
+        const items = document.querySelectorAll('.dept');
+        const state = [];
+        items.forEach((item, index) => {
+            let nextUl = item.parentElement.nextElementSibling;
+            if (nextUl && nextUl.tagName === 'UL') {
+                state.push({
+                    index: index,
+                    isOpen: "none"
+                });
+            }
+        });
+        localStorage.setItem('toggleState', JSON.stringify(state));
+    }
+})
 
 // 함수 : 하위 목록의 상태를 로컬 저장소에 저장
 function saveState() {
@@ -158,7 +174,7 @@ document.querySelectorAll('.li-hover').forEach(item => {
             location.href = '/admin/attendance/deptList?deptNo=' + item.children[1].dataset.deptNo;
         }
         if(className.includes('comp')){
-            location.href = '/admin/attendance';
+            location.href = '/admin/attendance/comList';
         }
         
     });

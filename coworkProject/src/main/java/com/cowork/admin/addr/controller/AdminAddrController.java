@@ -77,27 +77,32 @@ public class AdminAddrController {
 	/** 회사별 사원 리스트 조회
 	 * @param request
 	 * @param model
-	 * @param map
 	 * @param cp
 	 * @return
 	 */
-//	@GetMapping("comList")
-//	public String comList(HttpServletRequest request, 
-//					      Model model, 
-//					      @RequestParam(value="cp", required=false, defaultValue="1") int cp
-//					      ) {
-//		
-//		HttpSession session = request.getSession();
-//		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
-//		
-//		Map<String, Object> map = service.selectComList(loginEmp, cp);
-//		
-//		model.addAttribute("pagination", map.get("pagination"));
-//		model.addAttribute("comList", map.get("comList"));
-//		
-//		return "admin/addr/addrBookManager";
-//	}
-	
+	@GetMapping("comList")
+	public String comList(HttpServletRequest request, 
+							    Model model,
+							    @RequestParam(value="cp", required=false, defaultValue="1") int cp) {
+
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		model.addAttribute("loginEmp", loginEmp);
+		
+		List<Department> comAddrList = service.selectComAddrList(loginEmp);
+		model.addAttribute("comAddrList", comAddrList);
+		
+		Map<String, Object> map = service.selectComList(loginEmp, cp);
+		model.addAttribute("pagination", map.get("pagination"));
+		model.addAttribute("comList", map.get("comList"));
+		
+		List<Map<String, Object>> positionList = service.getpositionList(loginEmp);
+		model.addAttribute("positionList", positionList);
+		
+		model.addAttribute("backPageLocation", "/admin/addr");
+		
+		return "admin/addr/addrBookManager";
+	}
 	/** 부서별 사원 리스트 조회
 	 * @param request
 	 * @param model

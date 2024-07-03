@@ -230,6 +230,23 @@ if(check != null) {
         })
     })
 }
+window.addEventListener("DOMContentLoaded", e => {
+    if(location.pathname == '/admin/addr') {
+        const items = document.querySelectorAll('.dept');
+        const state = [];
+        items.forEach((item, index) => {
+            let nextUl = item.parentElement.nextElementSibling;
+            if (nextUl && nextUl.tagName === 'UL') {
+                state.push({
+                    index: index,
+                    isOpen: "none"
+                });
+            }
+        });
+        localStorage.setItem('toggleState', JSON.stringify(state));
+    }
+})
+
 // 함수 : 하위 목록의 상태를 로컬 저장소에 저장
 function saveState() {
     const items = document.querySelectorAll('.dept');
@@ -284,7 +301,7 @@ document.querySelectorAll('.li-hover').forEach((item, index) => {
             location.href = '/admin/addr/deptList?deptNo=' + item.children[1].dataset.deptNo;
         }
         if(className.includes('comp')){
-            location.href = '/admin/addr';
+            location.href = '/admin/addr/comList';
         }
 
     });
@@ -1099,7 +1116,7 @@ if(addEmployeeconfirm != null) {
             
             // 팝업 창 열기
             // const popup = window.open("/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
-            const popup = window.open("http://coworkintranet.site/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
+            const popup = window.open("/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
             hide2();
         }
     });

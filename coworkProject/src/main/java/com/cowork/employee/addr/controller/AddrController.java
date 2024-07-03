@@ -43,13 +43,16 @@ public class AddrController {
 	 */
 	@GetMapping("")
 	public String addr(HttpServletRequest request, 
-					   Model model, 
-					   @RequestParam Map<String, Object> map, 
-					   @RequestParam(value="cp", required=false, defaultValue="1") int cp
-					   ) {
+				       Model model, 
+				       @RequestParam(value="cp", required=false, defaultValue="1") int cp) {
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		Map<String, Object> map = adminAddrService.selectComList(loginEmp, cp);
+		
+		model.addAttribute("pagination", map.get("pagination"));
+		model.addAttribute("comList", map.get("comList"));
 		
 		List<MyAddr> groupList = service.selectGroupList(loginEmp);
 		model.addAttribute("groupList", groupList);
