@@ -52,8 +52,10 @@ function getDate() {
 }
 
 window.addEventListener("click", e => {
-  console.log(getDateTime());
-  console.log(getDate());
+  const test1 = getDateTime();
+  const test2 = getDate();
+  console.log(test1);
+  console.log(test2);
 })
 
 const arrivalButton = document.querySelector(".arrival-button");
