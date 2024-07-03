@@ -41,7 +41,7 @@ public class AdminAttendanceController {
 							        @RequestParam(value="date", required=false, defaultValue="null") String date) {
 		
 		if(date.equals("null")) {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 			date = sdf.format(new java.util.Date());
 		}
 		

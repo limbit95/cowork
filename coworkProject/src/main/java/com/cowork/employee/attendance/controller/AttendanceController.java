@@ -1,10 +1,14 @@
 package com.cowork.employee.attendance.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -35,12 +39,17 @@ public class AttendanceController {
 	 */
 	@ResponseBody
 	@GetMapping("arrivalCheck")
-	public int arrivalCheck(HttpServletRequest request) {
+	public int arrivalCheck(HttpServletRequest request,
+							@RequestParam("date") String date) {
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
-		return service.arrivalCheck(loginEmp);
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("empCode", loginEmp.getEmpCode());
+		data.put("date", date);
+		
+		return service.arrivalCheck(data);
 	}
 	
 	/** 출근 기록 저장
@@ -50,24 +59,27 @@ public class AttendanceController {
 	@ResponseBody
 	@GetMapping("arrivalRecord")
 	public String arrivalrecord(HttpServletRequest request,
-								Model model) {
+								Model model,
+								@RequestParam("dateTime") String dateTime,
+								@RequestParam("date") String date) {
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
-		int result = service.arrivalrecord(loginEmp);
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("empCode", loginEmp.getEmpCode());
+		data.put("dateTime", dateTime);
+		data.put("date", date);
+		
+		int result = service.arrivalrecord(data);
 		
 		if(result == 0) {
 			return null;
 		}
 		
-		String arrivalTime = service.selectArrivalTime(loginEmp);
+		String arrivalTime = service.selectArrivalTime(data);
 		loginEmp.setArrivalTime(arrivalTime);
 		model.addAttribute("loginEmp", loginEmp);
-		
-		if(arrivalTime == null) {
-			return null;
-		}
 		
 		return arrivalTime;
 	}
@@ -77,12 +89,17 @@ public class AttendanceController {
 	 */
 	@ResponseBody
 	@GetMapping("departureCheck")
-	public String departureCheck(HttpServletRequest request) {
+	public String departureCheck(HttpServletRequest request,
+								 @RequestParam("date") String date) {
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
-		return service.selectDepartureTime(loginEmp);
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("empCode", loginEmp.getEmpCode());
+		data.put("date", date);
+		
+		return service.selectDepartureTime(data);
 	}
 	
 	/** 퇴근 기록 저장
@@ -92,24 +109,27 @@ public class AttendanceController {
 	@ResponseBody
 	@GetMapping("departureRecord")
 	public String departureRecord(HttpServletRequest request,
-								Model model) {
+								Model model,
+								@RequestParam("dateTime") String dateTime,
+								@RequestParam("date") String date) {
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
-		int result = service.departureRecord(loginEmp);
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("empCode", loginEmp.getEmpCode());
+		data.put("dateTime", dateTime);
+		data.put("date", date);
+		
+		int result = service.departureRecord(data);
 		
 		if(result == 0) {
 			return null;
 		}
 		
-		String departureTime = service.selectDepartureTime(loginEmp);
+		String departureTime = service.selectDepartureTime(data);
 		loginEmp.setDepartureTime(departureTime);
 		model.addAttribute("loginEmp", loginEmp);
-		
-		if(departureTime == null) {
-			return null;
-		}
 		
 		return departureTime;
 	}

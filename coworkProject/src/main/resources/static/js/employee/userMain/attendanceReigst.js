@@ -29,13 +29,27 @@ setInterval(updateTime, 1000);
 // 페이지 로드시 초기 시간 업데이트
 updateTime();
 
-var now = new Date();
-var year = now.getFullYear();
-var month = now.getMonth();
-var day = now.getUTCDay();
-var hours = now.getHours();
-var minutes = now.getMinutes();
-var seconds = now.getSeconds();
+function getDateTime() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  return `${year}${month}${day}${hours}${minutes}${seconds}`;
+}
+function getDate() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+
+  return `${year}${month}${day}`;
+}
 
 const arrivalButton = document.querySelector(".arrival-button");
 const departureButton = document.querySelector(".departure-button");
@@ -45,9 +59,11 @@ const currentAttd = document.querySelector("#currentAttd");
 // ---------------------------------------------------------------------------------------------------------
 // 출근
 arrivalButton.addEventListener("click", e => {
+  const dateTime = getDateTime();
+  const date = getDate();
 
   // 출근 기록 확인 비동기 요청
-  fetch("/employee/attendance/arrivalCheck")
+  fetch("/employee/attendance/arrivalCheck?date=" + date)
   .then(resp => resp.text())
   .then(async result => {
     if(result == 1) {
@@ -55,7 +71,7 @@ arrivalButton.addEventListener("click", e => {
       return;
     }
 
-    fetch("/employee/attendance/arrivalRecord")
+    fetch("/employee/attendance/arrivalRecord?dateTime=" + dateTime + "&date=" + date)
     .then(resp => resp.text())
     .then(result => {
       if(result == null) {
@@ -77,16 +93,18 @@ arrivalButton.addEventListener("click", e => {
 // ---------------------------------------------------------------------------------------------------------
 // 퇴근
 departureButton.addEventListener("click", e => {
+  const dateTime = getDateTime();
+  const date = getDate();
 
   // 출근 기록 확인 비동기 요청
-  fetch("/employee/attendance/departureCheck")
+  fetch("/employee/attendance/departureCheck?date=" + date)
   .then(resp => resp.text())
   .then(result => {
     if(result.length > 0) {
       alert("이미 퇴근하셨습니다.");
       return;
     }
-    fetch("/employee/attendance/arrivalCheck")
+    fetch("/employee/attendance/arrivalCheck?date=" + date)
     .then(resp => resp.text())
     .then(result => {
       if(result == 0) {
@@ -95,7 +113,7 @@ departureButton.addEventListener("click", e => {
       }
 
       
-      fetch("/employee/attendance/departureRecord")
+      fetch("/employee/attendance/departureRecord?dateTime=" + dateTime + "&date=" + date)
       .then(resp => resp.text())
       .then(result => {
         if(result == null) {
