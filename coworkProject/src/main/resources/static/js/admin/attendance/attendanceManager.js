@@ -103,6 +103,9 @@ if(findEmp != null) {
 }
 window.addEventListener("DOMContentLoaded", e => {
     if(location.pathname == '/admin/attendance') {
+        document.querySelectorAll("#teamListUl").forEach((i) => {
+            i.style.display = 'none';
+        })
         const items = document.querySelectorAll('.dept');
         const state = [];
         items.forEach((item, index) => {
