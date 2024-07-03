@@ -133,5 +133,25 @@ public class AttendanceController {
 		
 		return departureTime;
 	}
+	
+	/** 출퇴근 기록 불러오기
+	 * @param request
+	 * @param date
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("attendenceCheck")
+	public Map<String, Object> attendenceCheck(HttpServletRequest request,
+								 @RequestParam("date") String date) {
+		
+		HttpSession session = request.getSession();
+		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("empCode", loginEmp.getEmpCode());
+		data.put("date", date);
+		
+		return service.attendenceCheck(data);
+	}
 
 }

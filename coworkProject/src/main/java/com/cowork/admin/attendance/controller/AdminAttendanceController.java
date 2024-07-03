@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,16 +40,14 @@ public class AdminAttendanceController {
 							        Model model, 
 							        @RequestParam(value="cp", required=false, defaultValue="1") int cp,
 							        @RequestParam(value="date", required=false, defaultValue="null") String date) {
-		
+        
 		if(date.equals("null")) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			sdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
 			date = sdf.format(new java.util.Date());
 		}
-		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String date2 = sdf2.format(new java.util.Date());
 		
 		log.info("date : " + date);
-		log.info("date : " + date2);
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
@@ -114,10 +113,9 @@ public class AdminAttendanceController {
 		
 		if(date.equals("null")) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			sdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
 			date = sdf.format(new java.util.Date());
 		}
-		
-		log.info("date : " + date);
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
@@ -146,6 +144,7 @@ public class AdminAttendanceController {
 		
 		if(date.equals("null")) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			sdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
 			date = sdf.format(new java.util.Date());
 		}
 		

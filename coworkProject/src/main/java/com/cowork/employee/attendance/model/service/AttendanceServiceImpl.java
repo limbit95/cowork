@@ -49,4 +49,10 @@ public class AttendanceServiceImpl implements AttendanceService {
 		return mapper.selectDepartureTime(data);
 	}
 
+	// 출퇴근 기록 불러오기
+	@Override
+	public Map<String, Object> attendenceCheck(Map<String, Object> data) {
+		return mapper.attendenceCheck(data);
+	}
+
 }

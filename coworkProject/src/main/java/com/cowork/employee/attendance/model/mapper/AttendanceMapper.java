@@ -39,4 +39,10 @@ public interface AttendanceMapper {
 	 */
 	String selectDepartureTime(Map<String, Object> data);
 
+	/** 출퇴근 기록 불러오기
+	 * @param data
+	 * @return
+	 */
+	Map<String, Object> attendenceCheck(Map<String, Object> data);
+
 }
