@@ -231,7 +231,7 @@ if(check != null) {
     })
 }
 window.addEventListener("DOMContentLoaded", e => {
-    if(location.pathname == '/admin/addr') {
+    if(location.pathname + location.search == '/admin/addr') {
         document.querySelectorAll("#teamListUl").forEach((i) => {
             i.style.display = 'none';
         })
