@@ -7,6 +7,7 @@
 		SELECT MEETING_ROOM_NO, MEETING_ROOM_NM
 		FROM MEETING_ROOM
 		WHERE COM_NO = #{comNo}
+		AND MEETING_ROOM_DEL_FL = 'N'
 	</select>
 
 	<!-- 회의실 추가 -->
@@ -14,17 +15,20 @@
 		INSERT INTO MEETING_ROOM VALUES (
 			SEQ_MEETING_ROOM.NEXTVAL,
 			#{meetingRoomNm},
-			#{comNo}
+			#{comNo},
+			'N'
 		)
 	</insert>
 	
 	<!-- 회의실 삭제 -->
-	<delete id="meetingRoomDelete">
-		DELETE FROM MEETING_ROOM WHERE MEETING_ROOM_NO = #{meetingRoomNo} AND COM_NO = #{comNo}
-	</delete>
+	<update id="meetingRoomDelete">
+		UPDATE MEETING_ROOM SET MEETING_ROOM_DEL_FL = 'Y',
+			MEETING_ROOM_NM = '삭제된 회의실입니다.'
+		WHERE MEETING_ROOM_NO = #{meetingRoomNo} AND COM_NO = #{comNo}
+	</update>
 	
 	<!-- 회의실 수정 -->
 	<update id="updateMeetingRoom">
-		UPDATE MEETING_ROOM SET MEETING_ROOM_NM = #{meetingRoomNm} WHERE MEETING_ROOM_NO = #{meetingRoomNo}
+		UPDATE MEETING_ROOM SET MEETING_ROOM_NM = #{meetingRoomNm} WHERE MEETING_ROOM_NO = #{meetingRoomNo} AND MEETING_ROOM_DEL_FL = 'N'
 	</update>
 </mapper>
