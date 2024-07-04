@@ -2,6 +2,7 @@ package com.cowork.admin.attendance.controller;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -93,12 +94,24 @@ public class AdminAttendanceController {
 	@ResponseBody
 	@GetMapping("findEmp")
 	public List<Employee2> findEmp(HttpServletRequest request,
-							 @RequestParam("name") String name) {
+							 @RequestParam("name") String name,
+							 @RequestParam(value="date", required=false, defaultValue="null") String date) {
+		
+		if(date.equals("null")) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			sdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
+			date = sdf.format(new java.util.Date());
+		}
 
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
-		return service.findEmp(name, loginEmp);
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("name", name);
+		data.put("comNo", loginEmp.getComNo());
+		data.put("date", date);
+		
+		return service.findEmp(data);
 	}
 	
 	

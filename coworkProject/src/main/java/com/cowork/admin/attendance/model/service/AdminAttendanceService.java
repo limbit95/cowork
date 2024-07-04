@@ -12,7 +12,7 @@ public interface AdminAttendanceService {
 	 * @param loginEmp
 	 * @return
 	 */
-	List<Employee2> findEmp(String name, Employee2 loginEmp);
+	List<Employee2> findEmp(Map<String, Object> data);
 
 	/** 회사별 사원 리스트 조회
 	 * @param loginEmp

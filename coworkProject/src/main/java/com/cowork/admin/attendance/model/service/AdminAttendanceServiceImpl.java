@@ -25,11 +25,7 @@ public class AdminAttendanceServiceImpl implements AdminAttendanceService {
 
 	// 이름으로 사원 찾기
 	@Override
-	public List<Employee2> findEmp(String name, Employee2 loginEmp) {
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("name", name);
-		data.put("comNo", loginEmp.getComNo());
-		
+	public List<Employee2> findEmp(Map<String, Object> data) {
 		return mapper.findEmp(data);
 	}
 
