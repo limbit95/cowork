@@ -104,3 +104,34 @@ function showModal(todoTitle, requestEmp, inChargeEmp, todoWriteDate, todoEndDat
 }
 
 selectTodo();
+
+document.addEventListener('DOMContentLoaded', function() {
+
+console.log(companyAllCalendarList);
+
+    const showMain = companyAllCalendarList.map(event => ({
+        title : event.calendarTitle,
+        start : event.calendarStart,
+        end : event.calendarEnd,
+        color : event.calendarColor
+    }));
+
+    console.log(showMain);
+
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        selectable: true,
+        dayMaxEvents: true,
+        timeZone: 'UTC',
+        events: showMain,
+        eventDisplay:'block',
+        select: function(info) {
+            location.href = "/calendar/calendar";
+        },
+        eventClick: function(info) {
+            location.href = "/calendar/calendar";
+        }
+    });
+    calendar.render();
+});
