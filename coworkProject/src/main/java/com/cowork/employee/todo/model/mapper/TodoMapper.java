@@ -152,8 +152,16 @@ public interface TodoMapper {
 
 	int deleteTodoFile(int fileNo);
 
+	/** 수정시 담당자 삭제 
+	 * @param map
+	 * @return
+	 */
 	int deleteTodoManager(Map<String, Object> map);
 
+	/** 수정 시 파일 순서 업데이트 
+	 * @param updateFile
+	 * @return
+	 */
 	int fileOrderUpdate(TodoFile updateFile);
 
 	int deleteFiles(Map<String, Object> map);

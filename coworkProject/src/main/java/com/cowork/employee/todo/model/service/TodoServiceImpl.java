@@ -179,6 +179,7 @@ public class TodoServiceImpl implements TodoService{
 	            // 순서대로 삭제
 	            mapper.deleteTodoFiles(todoNos);
 	            mapper.deleteTodoManagers(todoNos);
+	            
 	            return mapper.deleteTodos(todoNos);
 	            
 	        } catch (Exception e) {
@@ -230,8 +231,9 @@ public class TodoServiceImpl implements TodoService{
 	// 담당자 여러명인 경우 조회 
 	@Override
 	public List<Map<String, Object>> getEmpList(int todoNo) {
+		
 	    List<Map<String, Object>> empList = mapper.getEmpList(todoNo);
-	    log.info("getEmpList 결과: " + empList);
+	    //log.info("getEmpList 결과: " + empList);
 	    return empList;
 	}
 
@@ -247,21 +249,23 @@ public class TodoServiceImpl implements TodoService{
 	    int result = mapper.todoUpdate(inputTodo);
 
 	    if (result == 0) {
-	        log.error("투두 업데이트 실패!!");
+	        log.error("투두 업데이트 실패했습니다.");
 	        return 0;
 	    }
 
 	    // 기존 담당자 가져오기
 	    List<Map<String, Object>> originInChargeEmpData = mapper.getEmpList(todoNo);
+	    
 	    if (originInChargeEmpData == null) {
 	        originInChargeEmpData = new ArrayList<>();
 	    }
 
-	    log.info("originInChargeEmpData: " + originInChargeEmpData);
+	    //log.info("originInChargeEmpData: " + originInChargeEmpData);
 	    
 	    List<String> originInChargeEmpList = new ArrayList<>();
+	    
 	    for (Map<String, Object> empData : originInChargeEmpData) {
-	    	log.info("empData: " + empData);
+	    	//log.info("empData: " + empData);
 	    	
 	    	if (empData.get("EMPCODE") != null) { // "empCode" 대신 "EMPCODE"로 수정
 	            originInChargeEmpList.add(empData.get("EMPCODE").toString());
@@ -283,7 +287,7 @@ public class TodoServiceImpl implements TodoService{
 	            Map<String, Object> map = new HashMap<>();
 	            map.put("todoNo", todoNo);
 	            map.put("inChargeEmp", emp);
-	            log.info("담당자 삭제: " + map);
+	            //log.info("담당자 삭제: " + map);
 
 	            result = mapper.deleteTodoManager(map);
 
@@ -300,7 +304,7 @@ public class TodoServiceImpl implements TodoService{
 	            Map<String, Object> map = new HashMap<>();
 	            map.put("todoNo", todoNo);
 	            map.put("inChargeEmp", emp);
-	            log.info("담당자 등록: " + map);
+	            //log.info("담당자 등록: " + map);
 
 	            result = mapper.insertTodoManagerList(map);
 
@@ -400,8 +404,11 @@ public class TodoServiceImpl implements TodoService{
 		List<Employee2> employeeList = new ArrayList<>(); 
 		
 		if(empName.equals("")) {
+			
 			employeeList = mapper.employeeSearch(comNo); 
+			
 		} else {
+			
 			Map<String, Object> map = new HashMap<>(); 
 			
 			map.put("empName", empName); 
@@ -417,6 +424,7 @@ public class TodoServiceImpl implements TodoService{
 	}
 
 
+	// 할 일 등록 
 	@Override
 	public int todoInsert(Todo inputTodo, List<MultipartFile> files, List<String> inChargeEmpList)
 			throws IllegalStateException, IOException {
@@ -428,27 +436,30 @@ public class TodoServiceImpl implements TodoService{
 	        return 0; 
 	    }
 
-	    log.info("투두 등록 완료 : " + result);
-	    log.info("투두 등록 완료 번호!! : " + inputTodo.getTodoNo());
+	   // log.info("투두 등록 완료 : " + result);
+	   // log.info("투두 등록 완료 번호!! : " + inputTodo.getTodoNo());
 
 	    int todoNo = inputTodo.getTodoNo();		
 	    int empCode = inputTodo.getEmpCode(); 
 	    String empName = mapper.getEmpName(empCode);
 	    
-	    log.info("empCode로 가져온 이름: " + empName);
-	    log.info("초기 inputTodo: " + inputTodo.toString());
+	   // log.info("empCode로 가져온 이름: " + empName);
+	   // log.info("초기 inputTodo: " + inputTodo.toString());
 	    
 	    // requestEmp 값이 비어 있는 경우
 	    if (inputTodo.getRequestEmp() == null || inputTodo.getRequestEmp().isEmpty()) {
+	    	
 	        inputTodo.setRequestEmp(empName);
-	        log.info("requestEmp 설정: " + inputTodo.getRequestEmp());
+	        //log.info("requestEmp 설정: " + inputTodo.getRequestEmp());
 	    }
 	    
-	    log.info("최종 inputTodo: " + inputTodo.toString());
+	    //log.info("최종 inputTodo: " + inputTodo.toString());
 
 	    // 담당자 등록
 	    if(inChargeEmpList != null && !inChargeEmpList.isEmpty()) {
+	    	
 	        for(String inChargeEmp : inChargeEmpList) {
+	        	
 	            if(inChargeEmp != null && !inChargeEmp.isEmpty()) {
 	                Map<String, Object> map = new HashMap<>(); 
 	                map.put("todoNo", todoNo); 
@@ -465,14 +476,16 @@ public class TodoServiceImpl implements TodoService{
 	            }
 	        }
 	    }	    
-	    log.info("투두 담당자 등록 완료 : " + result);
+	    //log.info("투두 담당자 등록 완료 : " + result);
 	    
 	    // 파일 업로드 처리
 	    List<TodoFile> uploadList = new ArrayList<>();
 	    
 	    if(files != null && !files.isEmpty()) {
-	    for(int i=0; i< files.size(); i++) {
-	        if(!files.get(i).isEmpty()) {
+	    	
+	    	for(int i=0; i< files.size(); i++) {
+	        
+	    		if(!files.get(i).isEmpty()) {
 	            String originalName = files.get(i).getOriginalFilename(); 
 	            String rename = Utility.fileRename(originalName); 
 	            TodoFile todoFile = TodoFile.builder()
@@ -485,25 +498,27 @@ public class TodoServiceImpl implements TodoService{
 	                                .build(); 
 	                                
 	            uploadList.add(todoFile); 
-	        }
-	    }
+	    	}
+	      }
 	    
 	    }
 	    
 	    if(uploadList.isEmpty()) {
-	        log.info("등록된 파일 없음!! : " + result);
+	        //log.info("등록된 파일 없음!! : " + result);
 	        return result; 
 	    }
 	    
-	    log.info("등록할 파일 리스트 : " + uploadList.size());
+	    //log.info("등록할 파일 리스트 : " + uploadList.size());
 	    result = mapper.insertUploadList(uploadList);
 	    
 	    if(result == uploadList.size()) {
+	    	
 	        for(TodoFile file : uploadList) {
 	            files.get(file.getFileOrder()).transferTo(new File(folderPath + file.getFileRename()));
 	        }
-	        log.info("투두 파일들 등록 완료!!");
+	        //log.info("투두 파일들 등록 완료!!");
 	    } else {
+	    	
 	        log.error("파일 등록 실패.. : " + uploadList.size() + ", !! 얻은 결과 !! : " + result);
 	        return 0; 
 	    }
@@ -513,6 +528,7 @@ public class TodoServiceImpl implements TodoService{
 	}
 
 
+	// 사용자 메인 할 일 목록 조회 
 	@Override
 	public List<Todo> userMainTodoList(int empCode) {
 		

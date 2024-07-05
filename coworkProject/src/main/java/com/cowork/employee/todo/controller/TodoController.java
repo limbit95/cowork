@@ -42,7 +42,7 @@ public class TodoController {
 	
 	/**
      * Todo List 조회
-     * @return
+     * @return employee/todo/todoList
      */
     @GetMapping("todoList")
     public String todoList(Model model, @SessionAttribute("loginEmp") Employee2 loginEmp) {
@@ -65,7 +65,7 @@ public class TodoController {
      * @param sortBy
      * @param todoQuery
      * @param loginEmp
-     * @return
+     * @return todo
      */
     @GetMapping("todos")
     @ResponseBody
@@ -78,12 +78,12 @@ public class TodoController {
 
         int empCode = loginEmp.getEmpCode();
 
-        log.info("Received parameters - todoComplete: " + todoComplete + ", inCharge: " + inCharge + ", "
-                + "request: " + request + ", sortBy: " + sortBy + ", todoQuery: " + todoQuery);
+       // log.info("Received parameters - todoComplete: " + todoComplete + ", inCharge: " + inCharge + ", "
+       //         + "request: " + request + ", sortBy: " + sortBy + ", todoQuery: " + todoQuery);
 
         // 검색어가 있는 경우
         if (todoQuery != null && !todoQuery.isEmpty()) {
-            log.info("Returning search results for query: " + todoQuery);
+            //log.info("Returning search results for query: " + todoQuery);
             return service.todoQueryList(todoQuery, empCode);
         }
 
@@ -307,6 +307,10 @@ public class TodoController {
 			
 		}
 		
+		/** 사용자 메인 할 일 목록 조회 
+		 * @param loginEmp
+		 * @return
+		 */
 		@GetMapping("userMainTodo")
 		@ResponseBody
 		public List<Todo> userMainTodoList(@SessionAttribute("loginEmp") Employee2 loginEmp) {

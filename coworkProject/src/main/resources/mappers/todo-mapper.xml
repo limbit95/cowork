@@ -343,11 +343,11 @@
         WHERE FILE_NO = #{fileNo}
     </delete>
 
-
+	<!-- 파일 수정 시 업로드 -->
     <insert id="updateUploadList" parameterType="list">
-    INSERT INTO TODO_FILE
-     <foreach collection="list" item="file" separator=",">
-            SELECT SEQ_TODO_FILE.NEXTVAL, #{file.fileOriginName}, #{file.fileRename}, #{file.filePath}, #{todoNo}, #{file.fileOrder} FROM DUAL
+	    INSERT INTO TODO_FILE
+	     <foreach collection="list" item="file" separator=",">
+	            SELECT SEQ_TODO_FILE.NEXTVAL, #{file.fileOriginName}, #{file.fileRename}, #{file.filePath}, #{todoNo}, #{file.fileOrder} FROM DUAL
 		</foreach>
     </insert>
     
@@ -359,11 +359,11 @@
 		AND TODO_NO = #{todoNo}
 	</update>
 	
-	<delete id="deleteFiles">
+<!-- 	<delete id="deleteFiles">
 		DELETE FROM TODO_FILE
 		WHERE FILE_ORDER IN(${deleteOrder})
 		AND TODO_NO = #{todoNo}
-	</delete>
+	</delete> -->
     
     <!-- 사원 검색 -->
 	<select id="employeeSearch">
@@ -452,11 +452,13 @@
 		    FROM TODO t
 		    LEFT JOIN EMPLOYEE e ON t.EMP_CODE = e.EMP_CODE
 		    WHERE t.EMP_CODE = #{empCode}
+		    AND t.TODO_COMPLETE = '1'
 		),
 		TODO_MANAGERS AS (
 		    SELECT
 		        tm.TODO_NO,
-		        LISTAGG(tmEmp.EMP_LAST_NAME || tmEmp.EMP_FIRST_NAME, ', ') WITHIN GROUP (ORDER BY tmEmp.EMP_LAST_NAME || tmEmp.EMP_FIRST_NAME) AS inChargeEmp
+		        LISTAGG(tmEmp.EMP_LAST_NAME || tmEmp.EMP_FIRST_NAME, ', ') 
+		        WITHIN GROUP (ORDER BY tmEmp.EMP_LAST_NAME || tmEmp.EMP_FIRST_NAME) AS inChargeEmp
 		    FROM TODO_MANAGER tm
 		    LEFT JOIN EMPLOYEE tmEmp ON tm.EMP_CODE = tmEmp.EMP_CODE
 		    GROUP BY tm.TODO_NO
