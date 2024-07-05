@@ -345,7 +345,7 @@ searchByDate.addEventListener("click", e => {
     const date = dateArr[0] + '-' + String(dateArr[1]).padStart(2, '0') + '-' + String(dateArr[2]).padStart(2, '0');
 
     if(location.pathname == '/admin/attendance') {
-        location.href = '/admin/attendance/comList?date=' + date;
+        location.href = '/admin/attendance/comList?cp=1&date=' + date;
     } else {
         let newSearch;
         if(location.search.includes('&date=')) {
