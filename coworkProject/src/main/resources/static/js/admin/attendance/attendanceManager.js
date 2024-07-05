@@ -234,6 +234,7 @@ window.addEventListener("DOMContentLoaded", e => {
                     option.innerHTML = `<option value="${i}">${i}</option>`;
                     day.append(option);
                 }
+                day.value = companyCreateDateArr[2];
             } else {
                 const lastDay = new Date(year.value, 1, 0).getDate();
                 for(let i = 1; i <= lastDay; i++) {
@@ -241,10 +242,10 @@ window.addEventListener("DOMContentLoaded", e => {
                     option.innerHTML = `<option value="${i}">${i}</option>`;
                     day.append(option);
                 }
+                day.value = dateArr[2];
             }
             year.value = dateArr[0];
             month.value = dateArr[1];
-            day.value = dateArr[2];
         } else { // 날짜 값은 바뀌었지만 검색 버튼을 누르지 않았을 경우
             localStorage.removeItem("selectDate");
             year.value = getYear();
