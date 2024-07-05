@@ -11,7 +11,7 @@ if(findEmp != null) {
                 return;
             }
     
-            fetch("/admin/attendance/findEmp?name=" + inputName)
+            fetch("/admin/attendance/findEmp?name=" + inputName + "&date=" + date)
             .then(resp => resp.json())
             .then(employeeList => {
                 const employeeListDiv = document.querySelector(".employeeList");
