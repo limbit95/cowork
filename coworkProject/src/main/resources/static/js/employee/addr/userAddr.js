@@ -314,6 +314,10 @@ const addToMyAddr = document.querySelector("#addToMyAddr");
 // 추가 버튼 클릭시 어느 주소록 그룹에 추가할지 선택할 수 있는 select 태그 노출
 if(addToMyAddr != null) {
     addToMyAddr.addEventListener("click", e => {
+        if(groupList.length == 0) {
+            alert("생성된 개인 주소록 그룹이 없습니다. 새로운 그룹을 생성해주세요.");
+            return;
+        }
         if(location.pathname == '/employee/addr/employeeDetailPage') {
             document.querySelector("#backPage").style.display = 'none';
         }
@@ -325,11 +329,16 @@ if(addToMyAddr != null) {
 // 저장
 if(saveMyAddr != null) {
     saveMyAddr.addEventListener("click", e => {
+        if(groupList.length == 0) {
+            alert("생성된 개인 주소록 그룹이 없습니다. 새로운 그룹을 생성해주세요.");
+            return;
+        }
+        
         const selectValue = document.querySelector("#selectValue");
 
         const obj = [];
 
-        if(location.pathname == '/employee/addr/comList' || location.pathname == '/employee/addr/deptList' || location.pathname == '/employee/addr/teamList') {
+        if(location.pathname == '/employee/addr' || location.pathname == '/employee/addr/comList' || location.pathname == '/employee/addr/deptList' || location.pathname == '/employee/addr/teamList') {
             check.forEach((i) => {
                 if(i.checked == true) {
                     obj.push({ "empCode" : i.parentElement.nextElementSibling.children[5].value, "loginEmpCode" : loginEmpCode, "selectValue" : selectValue.value })

@@ -36,4 +36,10 @@ public interface AdminAttendanceService {
 	 */
 	Map<String, Object> selectTeamList(Map<String, Object> data, int cp);
 
+	/** 회사 생성일 조회
+	 * @param loginEmp
+	 * @return
+	 */
+	String getCompanyCreateDate(Employee2 loginEmp);
+	
 }

@@ -33,7 +33,6 @@ public class AddrServiceImpl implements AddrService {
 	// 주소록 그룹에 속한 정보 리스트 조회
 	@Override
 	public Map<String, Object> selectAddrList(Map<String, Object> map, int cp) {
-		log.info("getGroupCode : " + map);
 		// 주소록 그룹 코드 조회
 		if(map.get("groupCode") == null) {
 			int groupCode = mapper.getGroupCode(map);

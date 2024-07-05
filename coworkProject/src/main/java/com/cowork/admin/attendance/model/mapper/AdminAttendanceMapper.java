@@ -56,6 +56,10 @@ public interface AdminAttendanceMapper {
 	 */
 	List<Employee2> selectTeamList(Map<String, Object> data, RowBounds rowBounds);
 
-	
+	/** 회사 생성일 조회
+	 * @param loginEmp
+	 * @return
+	 */
+	String getCompanyCreateDate(Employee2 loginEmp);
 	
 }
