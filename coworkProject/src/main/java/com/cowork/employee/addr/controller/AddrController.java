@@ -279,16 +279,9 @@ public class AddrController {
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
+		List<MyAddr> personalAddrList = service.selectGroupList(loginEmp);
+		
 		return service.addAddr(data);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

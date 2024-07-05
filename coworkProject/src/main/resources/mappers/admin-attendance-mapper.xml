@@ -150,5 +150,13 @@
 		AND E.EMP_LAST_NAME || E.EMP_FIRST_NAME LIKE '%${name}%'
 		ORDER BY "LEVEL", D.DEPT_NO, TEAM_NO ASC
 	</select>
+	
+	<!-- 회사 생성일 조회 -->
+	<select id="getCompanyCreateDate">
+		SELECT TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD')
+		FROM EMPLOYEE
+		WHERE COM_NO = #{comNo}
+		AND GENERAL_MANAGER = 1
+	</select>
 		
 </mapper>

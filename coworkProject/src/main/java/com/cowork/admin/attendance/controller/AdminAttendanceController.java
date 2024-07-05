@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.cowork.admin.addr.model.service.AdminAddrService;
@@ -29,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("admin/attendance")
-@SessionAttributes({"empDetail", "backPageLocation", "comAddrList", "loginEmp", "positionList"})
+@SessionAttributes({"empDetail", "backPageLocation", "comAddrList", "loginEmp", "positionList", "companyCreateDate"})
 public class AdminAttendanceController {
 	
 	private final AdminAttendanceService service;
@@ -54,9 +55,13 @@ public class AdminAttendanceController {
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
 		Map<String, Object> map = service.selectComList(loginEmp, cp, date);
-		
 		model.addAttribute("pagination", map.get("pagination"));
 		model.addAttribute("comList", map.get("comList"));
+		
+		String companyCreateDate = service.getCompanyCreateDate(loginEmp);
+		model.addAttribute("companyCreateDate", companyCreateDate);
+		
+		log.info("companyCreateDate : " + companyCreateDate);
 		
 		return "admin/attendance/attendanceManager";
 	}

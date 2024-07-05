@@ -87,65 +87,21 @@
                 <div>
                     <div class="default-line">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="search" placeholder="이름 검색" id="findEmp">
+                        <input type="search" placeholder="이름 검색" id="findEmp" autocomplete="off" spellcheck="false">
                     </div>
                 </div>
 
                 <div>
                     <!-- 연도 -->
-                    <select class="default-line year" name="" id="year">
-                        <option value="">2024</option>
-                    </select>
+                    <select class="default-line year" name="" id="year"></select>
                     
                     <!-- 월 -->
-                    <select class="default-line month" name="" id="month">
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                        <option value="">4</option>
-                        <option value="">5</option>
-                        <option value="">6</option>
-                        <option value="">7</option>
-                        <option value="">8</option>
-                        <option value="">9</option>
-                        <option value="">10</option>
-                        <option value="">11</option>
-                        <option value="">12</option>
-                    </select>
+                    <select class="default-line month" name="" id="month"></select>
                     
                     <!-- 일 -->
-                    <select class="default-line day" name="" id="day">
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                        <option value="">4</option>
-                        <option value="">5</option>
-                        <option value="">6</option>
-                        <option value="">7</option>
-                        <option value="">8</option>
-                        <option value="">9</option>
-                        <option value="">10</option>
-                        <option value="">11</option>
-                        <option value="">12</option>
-                        <option value="">13</option>
-                        <option value="">14</option>
-                        <option value="">15</option>
-                        <option value="">16</option>
-                        <option value="">17</option>
-                        <option value="">18</option>
-                        <option value="">19</option>
-                        <option value="">20</option>
-                        <option value="">21</option>
-                        <option value="">22</option>
-                        <option value="">23</option>
-                        <option value="">24</option>
-                        <option value="">25</option>
-                        <option value="">26</option>
-                        <option value="">27</option>
-                        <option value="">28</option>
-                        <option value="">29</option>
-                        <option value="">30</option>
-                    </select>
+                    <select class="default-line day" name="" id="day"></select>
+
+                    <button class="default-btn glucose-btn" id="searchByDate">검색</button>
                 </div>
                 
                 <!-- 구성원 목록 -->
@@ -161,19 +117,6 @@
                         <div>근태내역</div>
                     </div>
         
-                    <!-- <div class="body">
-    
-                        <div>운영팀</div>
-                        <div>임성혁</div>
-                        <div>대리</div>
-                        <div>010-1234-1234</div>
-                        <div>지각</div>
-                        <div>09:02 ~ 18:00</div>
-                        <div>08:57 ~ 18:00</div>
-                        <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
-        
-                    </div> -->
-
                     <!-- 회사별 조회 -->
                     <th:block th:if="${comList}" th:each="emp : ${comList}" th:object="${emp}">
                         <th:block th:if="*{empDelFl} == 'N'">
@@ -427,6 +370,7 @@
     <script th:inline="javascript">
         const loginEmpCode = /*[[${session.loginEmp.empCode}]]*/ "로그인 사원 식별키";
         const comNo = /*[[${session.loginEmp.comNo}]]*/ "회사 식별키";
+        const companyCreateDate = /*[[${session.companyCreateDate}]]*/ "회사 생성일";
     </script> 
 </body>
 </html>

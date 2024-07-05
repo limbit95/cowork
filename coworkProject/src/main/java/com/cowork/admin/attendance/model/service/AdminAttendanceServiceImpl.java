@@ -98,5 +98,11 @@ public class AdminAttendanceServiceImpl implements AdminAttendanceService {
 		
 		return map;
 	}
+	
+	// 회사 생성일 조회
+	@Override
+	public String getCompanyCreateDate(Employee2 loginEmp) {
+		return mapper.getCompanyCreateDate(loginEmp);
+	}
 
 }
