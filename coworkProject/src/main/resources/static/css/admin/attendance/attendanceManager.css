@@ -155,7 +155,7 @@ main {
 }
 .right > :nth-child(2) button {
     height: 25px;
-    width: 50px;
+    width: 45px;
     margin: 0;
     padding: 0;
 }
@@ -163,24 +163,27 @@ main {
     background-color: var(--main6-color);
     color: white;
 }
-.right > :nth-child(2) button:active {
-    background-color: white;
-    color: var(--main6-color);
+.right > :nth-child(2) > * {
+    margin-right: 5px;
 }
-.right > :nth-child(2) > :nth-child(1) {
-    margin-right: 10px;
+.right > :nth-child(2) select,
+.right > :nth-child(2) option {
+    font-size: 12px;
 }
 
 section.container .year {
-    width: 70px;
+    padding: 0 0 0 5px;
+    width: 60px;
     height: 25px;
 }
 section.container .month {
-    width: 55px;
+    padding: 0 0 0 5px;
+    width: 45px;
     height: 25px;
 }
 section.container .day {
-    width: 55px;
+    padding: 0 0 0 5px;
+    width: 45px;
     height: 25px;
 }
 
@@ -346,14 +349,6 @@ section.container .day {
 }
 
 
-#detailView:hover {
-    background-color: var(--main6-color);
-    color: white;
-}
-#detailView:active {
-    background-color: white;
-    color: var(--main6-color);
-}
 
 
 

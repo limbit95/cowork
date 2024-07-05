@@ -183,7 +183,7 @@ window.addEventListener("DOMContentLoaded", e => {
     }
 
     // 날짜별로 검색한 후 페이지네이션을 통해 페이지 이동시 검색했던 날짜 값 유지하기 위한 코드
-    if(location.pathname == '/admin/attendance') { // 페이지 네이션을 통한 페이지 이동이 아닐 경우
+    if(!location.search.includes('cp=')) { // 페이지 네이션을 통한 페이지 이동이 아닐 경우
         localStorage.removeItem("selectDate");
         // 현재 연도
         year.value = getYear();
@@ -195,17 +195,9 @@ window.addEventListener("DOMContentLoaded", e => {
         if(JSON.parse(localStorage.getItem("selectDate")) != null) {
             const dateArr = JSON.parse(localStorage.getItem("selectDate"));
 
-            year.value = dateArr[0];
-
             month.innerHTML = '';
             if(year.value == getYear()) {
                 for(let i = 1; i <= getMonth(); i++) {
-                    const option = document.createElement('option');
-                    option.innerHTML = `<option value="${i}">${i}</option>`;
-                    month.append(option);
-                }
-            } else if(year.value == companyCreateDateArr[0]) {
-                for(let i = companyCreateDateArr[1]; i <= 12; i++) {
                     const option = document.createElement('option');
                     option.innerHTML = `<option value="${i}">${i}</option>`;
                     month.append(option);
@@ -217,9 +209,8 @@ window.addEventListener("DOMContentLoaded", e => {
                     month.append(option);
                 }
             }
-            
-            month.value = dateArr[1];
         
+            const lastDay = new Date(year.value, 1, 0).getDate();
             day.innerHTML = '';
             if(year.value == getYear() && month.value == getMonth()) {
                 for(let i = 1; i <= getDay(); i++) {
@@ -227,21 +218,14 @@ window.addEventListener("DOMContentLoaded", e => {
                     option.innerHTML = `<option value="${i}">${i}</option>`;
                     day.append(option);
                 }
-            } else if(year.value == companyCreateDateArr[0] && month.value == companyCreateDateArr[1]) {
-                const lastDay = new Date(year.value, companyCreateDateArr[1], 0).getDate();
-                for(let i = companyCreateDateArr[2]; i <= lastDay; i++) {
-                    const option = document.createElement('option');
-                    option.innerHTML = `<option value="${i}">${i}</option>`;
-                    day.append(option);
-                }
             } else {
-                const lastDay = new Date(year.value, 1, 0).getDate();
                 for(let i = 1; i <= lastDay; i++) {
                     const option = document.createElement('option');
                     option.innerHTML = `<option value="${i}">${i}</option>`;
                     day.append(option);
                 }
             }
+
             year.value = dateArr[0];
             month.value = dateArr[1];
             day.value = dateArr[2];
@@ -320,7 +304,7 @@ month.addEventListener("change", e => {
             day.append(option);
         }
     }
-});
+})
 
 const searchByDate = document.querySelector("#searchByDate");
 
@@ -330,23 +314,6 @@ searchByDate.addEventListener("click", e => {
     dateArr[1] = month.value;
     dateArr[2] = day.value;
     localStorage.setItem("selectDate", JSON.stringify(dateArr));
-
-    console.log(location.pathname + location.search)
-
-    const date = dateArr[0] + '-' + String(dateArr[1]).padStart(2, '0') + '-' + String(dateArr[2]).padStart(2, '0');
-
-    if(location.pathname == '/admin/attendance') {
-        location.href = '/admin/attendance/comList?date=' + date;
-    } else {
-        let newSearch;
-        if(location.search.includes('&date=')) {
-            const index = location.search.indexOf('&date=')
-            newSearch = location.search.substr(0, index);
-            location.href = location.pathname + newSearch + '&date=' + date;
-            return;
-        }
-        location.href = location.pathname + location.search + '&date=' + date;
-    }
 });
 
 // 함수 : 하위 목록의 상태를 로컬 저장소에 저장
@@ -363,7 +330,7 @@ function saveState() {
         }
     });
     localStorage.setItem('toggleState', JSON.stringify(state));
-};
+}
 
 // 함수 : 하위 목록의 상태를 로컬 저장소에서 복원
 function loadState() {
@@ -377,7 +344,7 @@ function loadState() {
             nextUl.style.display = item.isOpen;
         }
     });
-};
+}
 loadState();
 // ---------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------
@@ -395,25 +362,17 @@ document.querySelectorAll('.li-hover').forEach(item => {
             return;
         }
 
-        const dateArr = JSON.parse(localStorage.getItem("selectDate"));
-        let date;
-        if(dateArr != null) {
-            date = dateArr[0] + '-' + String(dateArr[1]).padStart(2, '0') + '-' + String(dateArr[2]).padStart(2, '0');
-        } else {
-            date = getYear() + '-' + String(getMonth()).padStart(2, '0') + '-' + String(getDay()).padStart(2, '0');
-        }
-
         // 회사 주소록
         if(className.includes('tim')){
             console.log(item.children[1].dataset.teamNo);
-            location.href = '/admin/attendance/teamList?teamNo=' + item.children[1].dataset.teamNo + '&date=' + date;
+            location.href = '/admin/attendance/teamList?teamNo=' + item.children[1].dataset.teamNo;
         }
         if(className.includes('dept')){
             console.log(item.children[1].dataset.deptNo);
-            location.href = '/admin/attendance/deptList?deptNo=' + item.children[1].dataset.deptNo + '&date=' + date;
+            location.href = '/admin/attendance/deptList?deptNo=' + item.children[1].dataset.deptNo;
         }
         if(className.includes('comp')){
-            location.href = '/admin/attendance/comList?cp=1&date=' + date;
+            location.href = '/admin/attendance/comList';
         }
         
     });
