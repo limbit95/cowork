@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("admin/attendance")
-@SessionAttributes({"empDetail", "backPageLocation", "comAddrList", "loginEmp", "positionList", "companyCreateDate"})
+@SessionAttributes({"empDetail", "backPageLocation", "comAddrList", "loginEmp", "positionList", "companyCreateDate", "date"})
 public class AdminAttendanceController {
 	
 	private final AdminAttendanceService service;
@@ -42,7 +42,7 @@ public class AdminAttendanceController {
 							        Model model, 
 							        @RequestParam(value="cp", required=false, defaultValue="1") int cp,
 							        @RequestParam(value="date", required=false, defaultValue="null") String date) {
-        
+		
 		if(date.equals("null")) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			sdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
@@ -123,6 +123,13 @@ public class AdminAttendanceController {
 	// -----------------------------------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------------------------
 	// -----------------------------------------------------------------------------------------------------------
+	/** 회사별 사원 리스트 조회
+	 * @param request
+	 * @param model
+	 * @param cp
+	 * @param date
+	 * @return
+	 */
 	@GetMapping("comList")
 	public String comList(HttpServletRequest request, 
 							        Model model, 
@@ -142,6 +149,7 @@ public class AdminAttendanceController {
 		
 		model.addAttribute("pagination", map.get("pagination"));
 		model.addAttribute("comList", map.get("comList"));
+		model.addAttribute("date", date);
 		
 		return "admin/attendance/attendanceManager";
 	}
@@ -176,6 +184,7 @@ public class AdminAttendanceController {
 		model.addAttribute("pagination", selectDeptList.get("pagination"));
 		model.addAttribute("deptList", selectDeptList.get("deptList"));
 		model.addAttribute("deptNo", data.get("deptNo"));
+		model.addAttribute("date", date);
 
 		return "admin/attendance/attendanceManager";
 	}
@@ -213,6 +222,7 @@ public class AdminAttendanceController {
 		model.addAttribute("pagination", selectTeamList.get("pagination"));
 		model.addAttribute("teamList", selectTeamList.get("teamList"));
 		model.addAttribute("teamNo", data.get("deptNo") + "/" + data.get("teamNo"));
+		model.addAttribute("date", date);
 
 		return "admin/attendance/attendanceManager";
 	}
