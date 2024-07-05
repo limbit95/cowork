@@ -116,6 +116,7 @@ main {
 
 
 
+
 /* 주소록 그룹을 마우스 오른쪽 클릭 시 나타나는 드롭다운 */
 .dropdown-menu {
     position: absolute;
@@ -153,7 +154,18 @@ main {
     margin-bottom: 10px;
 }
 .right > :nth-child(2) button {
-    display: none;
+    height: 25px;
+    width: 50px;
+    margin: 0;
+    padding: 0;
+}
+.right > :nth-child(2) button:hover {
+    background-color: var(--main6-color);
+    color: white;
+}
+.right > :nth-child(2) button:active {
+    background-color: white;
+    color: var(--main6-color);
 }
 .right > :nth-child(2) > :nth-child(1) {
     margin-right: 10px;
@@ -331,6 +343,16 @@ section.container .day {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+
+#detailView:hover {
+    background-color: var(--main6-color);
+    color: white;
+}
+#detailView:active {
+    background-color: white;
+    color: var(--main6-color);
 }
 
 

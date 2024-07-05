@@ -10,7 +10,7 @@ attdRegistBtn.addEventListener("click", e => {
     const left = (screenWidth / 2) - (width / 2);
     const top = (screenHeight / 2) - (height / 2);
 
-    const popup = window.open("http://localhost/userMain/attendanceRegist", "popup", `width=${width},height=${height},left=${left},top=${top}`);
+    const popup = window.open("/userMain/attendanceRegist", "popup", `width=${width},height=${height},left=${left},top=${top}`);
     // const popup = window.open("http://coworkintranet.site/userMain/attendanceRegist", "popup", `width=${width},height=${height},left=${left},top=${top}`);
 });
 
@@ -104,3 +104,34 @@ function showModal(todoTitle, requestEmp, inChargeEmp, todoWriteDate, todoEndDat
 }
 
 selectTodo();
+
+document.addEventListener('DOMContentLoaded', function() {
+
+console.log(companyAllCalendarList);
+
+    const showMain = companyAllCalendarList.map(event => ({
+        title : event.calendarTitle,
+        start : event.calendarStart,
+        end : event.calendarEnd,
+        color : event.calendarColor
+    }));
+
+    console.log(showMain);
+
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        selectable: true,
+        dayMaxEvents: true,
+        timeZone: 'UTC',
+        events: showMain,
+        eventDisplay:'block',
+        select: function(info) {
+            location.href = "/calendar/calendar";
+        },
+        eventClick: function(info) {
+            location.href = "/calendar/calendar";
+        }
+    });
+    calendar.render();
+});

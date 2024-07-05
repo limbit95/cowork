@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -186,11 +187,21 @@ public class UserController {
 	 */
 	@GetMapping("login")
 	public String login(@RequestParam(value="empId", required=false) String empId,
-                      HttpServletRequest request, 
-                      Model model) {
-    
-    model.addAttribute("findEmpId", empId);
-		HttpSession session= request.getSession();
+                      	HttpServletRequest request, RedirectAttributes ra,
+                      	Model model) {
+		
+		
+		HttpSession session = request.getSession();
+		Employee2 currentLoginEmp = null;
+		if(session.getAttribute("loginEmp") != null) {
+			currentLoginEmp = (Employee2)session.getAttribute("loginEmp");
+		}
+		
+		if(currentLoginEmp != null) {
+			return "redirect:/userMain";
+		}
+		
+	    model.addAttribute("findEmpId", empId);
 		String needLoginMakeInInterceptor = (String)session.getAttribute("needLoginMakeInInterceptor");
 		model.addAttribute("needLoginMakeInInterceptor", needLoginMakeInInterceptor);
 		session.removeAttribute("needLoginMakeInInterceptor");
@@ -204,7 +215,7 @@ public class UserController {
 	@PostMapping("login")
 	public String login(Employee2 inputEmp,
 			 			RedirectAttributes ra,
-			 			Model model,
+			 			Model model, 
 			 			HttpServletRequest request) {
 		
 		Employee2 loginEmp = service.login(inputEmp);

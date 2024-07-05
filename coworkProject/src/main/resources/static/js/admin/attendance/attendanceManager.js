@@ -1,6 +1,3 @@
-
-
-
 const findEmp = document.querySelector("#findEmp");
 
 if(findEmp != null) {
@@ -8,7 +5,7 @@ if(findEmp != null) {
     findEmp.addEventListener("input", e => {
         const inputName = e.target.value;
 
-        if(location.pathname == '/admin/attendance' || location.pathname == '/admin/attendance/deptList' || location.pathname == '/admin/attendance/teamList') {
+        if(location.pathname == '/admin/attendance' || location.pathname == '/admin/attendance/comList' || location.pathname == '/admin/attendance/deptList' || location.pathname == '/admin/attendance/teamList') {
             if(inputName.trim().length == 0) {
                 location.reload();
                 return;
@@ -108,6 +105,233 @@ if(findEmp != null) {
 
 // ---------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------
+const year = document.querySelector("#year");
+const month = document.querySelector("#month");
+const day = document.querySelector("#day");
+
+function getYear() {
+    const now = new Date();
+    const year = now.getFullYear();
+    return year;
+}
+
+function getMonth() {
+    const now = new Date();
+    const month = String(now.getMonth() + 1);
+    return month;
+}
+
+function getDay() {
+    const now = new Date();
+    const day = String(now.getDate());
+    return day;
+}
+
+window.addEventListener("DOMContentLoaded", e => {
+    // 해당 페이지에 들어왔을 때 주소록 아코디언 초기화
+    if(location.pathname + location.search == '/admin/attendance') {
+        document.querySelectorAll("#teamListUl").forEach((i) => {
+            i.style.display = 'none';
+        })
+        const items = document.querySelectorAll('.dept');
+        const state = [];
+        items.forEach((item, index) => {
+            let nextUl = item.parentElement.nextElementSibling;
+            if (nextUl && nextUl.tagName === 'UL') {
+                state.push({
+                    index: index,
+                    isOpen: "none"
+                });
+            }
+        });
+        localStorage.setItem('toggleState', JSON.stringify(state));
+    }
+
+    // DB에서 가져온 회사 생성일 년월일로 배열 분리
+    let companyCreateDateArr = companyCreateDate.split("-");
+
+    // select 태그 안 option 태그 value로 넣을 때 필요없는 월과 일의 앞자리 0 제거 (ex: 01,02,03...)
+    for(let i = 1; i < companyCreateDateArr.length; i++) {
+        if(companyCreateDateArr[i][0] == '0') {
+            companyCreateDateArr[i] = companyCreateDateArr[i].replace("0", "");
+        }
+    }
+
+    year.innerHTML = '';
+    month.innerHTML = '';
+    day.innerHTML = '';
+
+    // 회사 생성년도부터 현재 연도까지만 출력
+    for(let i = companyCreateDateArr[0]; i <= getYear(); i++) {
+        const option = document.createElement('option');
+        option.innerHTML = `<option value="${i}">${i}</option>`;
+        year.append(option);
+    }
+    // 1월부터 현재 달까지만 출력
+    for(let i = 1; i <= getMonth(); i++) {
+        const option = document.createElement('option');
+        option.innerHTML = `<option value="${i}">${i}</option>`;
+        month.append(option);
+    }
+    // 1일부터 현재 날까지만 출력
+    for(let i = 1; i <= getDay(); i++) {
+        const option = document.createElement('option');
+        option.innerHTML = `<option value="${i}">${i}</option>`;
+        day.append(option);
+    }
+
+    // 날짜별로 검색한 후 페이지네이션을 통해 페이지 이동시 검색했던 날짜 값 유지하기 위한 코드
+    if(!location.search.includes('cp=')) { // 페이지 네이션을 통한 페이지 이동이 아닐 경우
+        localStorage.removeItem("selectDate");
+        // 현재 연도
+        year.value = getYear();
+        // 현재 월
+        month.value = getMonth();
+        // 현재 일
+        day.value = getDay();
+    } else { // 페이지 네이션을 통한 페이지 이동일 경우에만 검색할 때의 날짜 값을 유지한다.
+        if(JSON.parse(localStorage.getItem("selectDate")) != null) {
+            const dateArr = JSON.parse(localStorage.getItem("selectDate"));
+
+            month.innerHTML = '';
+            if(year.value == getYear()) {
+                for(let i = 1; i <= getMonth(); i++) {
+                    const option = document.createElement('option');
+                    option.innerHTML = `<option value="${i}">${i}</option>`;
+                    month.append(option);
+                }
+            } else {
+                for(let i = 1; i <= 12; i++) {
+                    const option = document.createElement('option');
+                    option.innerHTML = `<option value="${i}">${i}</option>`;
+                    month.append(option);
+                }
+            }
+        
+            const lastDay = new Date(year.value, 1, 0).getDate();
+            day.innerHTML = '';
+            if(year.value == getYear() && month.value == getMonth()) {
+                for(let i = 1; i <= getDay(); i++) {
+                    const option = document.createElement('option');
+                    option.innerHTML = `<option value="${i}">${i}</option>`;
+                    day.append(option);
+                }
+            } else {
+                for(let i = 1; i <= lastDay; i++) {
+                    const option = document.createElement('option');
+                    option.innerHTML = `<option value="${i}">${i}</option>`;
+                    day.append(option);
+                }
+            }
+
+            year.value = dateArr[0];
+            month.value = dateArr[1];
+            day.value = dateArr[2];
+        } else { // 날짜 값은 바뀌었지만 검색 버튼을 누르지 않았을 경우
+            localStorage.removeItem("selectDate");
+            year.value = getYear();
+            month.value = getMonth();
+            day.value = getDay();
+        }
+    }
+    console.log(JSON.parse(localStorage.getItem("selectDate")))
+})
+
+// 연도 변경 시 일어나는 이벤트
+year.addEventListener("change", e => {
+    month.innerHTML = '';
+    if(year.value == getYear()) {
+        for(let i = 1; i <= getMonth(); i++) {
+            const option = document.createElement('option');
+            option.innerHTML = `<option value="${i}">${i}</option>`;
+            month.append(option);
+        }
+    } else {
+        for(let i = 1; i <= 12; i++) {
+            const option = document.createElement('option');
+            option.innerHTML = `<option value="${i}">${i}</option>`;
+            month.append(option);
+        }
+    }
+
+    const lastDay = new Date(year.value, 1, 0).getDate();
+    day.innerHTML = '';
+    if(year.value == getYear() && month.value == getMonth()) {
+        for(let i = 1; i <= getDay(); i++) {
+            const option = document.createElement('option');
+            option.innerHTML = `<option value="${i}">${i}</option>`;
+            day.append(option);
+        }
+    } else {
+        for(let i = 1; i <= lastDay; i++) {
+            const option = document.createElement('option');
+            option.innerHTML = `<option value="${i}">${i}</option>`;
+            day.append(option);
+        }
+    }
+})
+
+// 월 변경 시 일어나는 이벤트
+month.addEventListener("change", e => {
+    const lastDay = new Date(year.value, month.value, 0).getDate();
+    day.innerHTML = '';
+    if(year.value == getYear() && month.value == getMonth()) {
+        for(let i = 1; i <= getDay(); i++) {
+            const option = document.createElement('option');
+            option.innerHTML = `<option value="${i}">${i}</option>`;
+            day.append(option);
+        }
+    } else {
+        for(let i = 1; i <= lastDay; i++) {
+            const option = document.createElement('option');
+            option.innerHTML = `<option value="${i}">${i}</option>`;
+            day.append(option);
+        }
+    }
+})
+
+const searchByDate = document.querySelector("#searchByDate");
+
+searchByDate.addEventListener("click", e => {
+    const dateArr = [];
+    dateArr[0] = year.value;
+    dateArr[1] = month.value;
+    dateArr[2] = day.value;
+    localStorage.setItem("selectDate", JSON.stringify(dateArr));
+});
+
+// 함수 : 하위 목록의 상태를 로컬 저장소에 저장
+function saveState() {
+    const items = document.querySelectorAll('.dept');
+    const state = [];
+    items.forEach((item, index) => {
+        let nextUl = item.parentElement.nextElementSibling;
+        if (nextUl && nextUl.tagName === 'UL') {
+            state.push({
+                index: index,
+                isOpen: nextUl.style.display
+            });
+        }
+    });
+    localStorage.setItem('toggleState', JSON.stringify(state));
+}
+
+// 함수 : 하위 목록의 상태를 로컬 저장소에서 복원
+function loadState() {
+    const state = JSON.parse(localStorage.getItem('toggleState'));
+    if (!state) return;
+
+    state.forEach(item => {
+        const listItem = document.querySelectorAll('.dept')[item.index];
+        let nextUl = listItem.parentElement.nextElementSibling;
+        if (nextUl && nextUl.tagName === 'UL') {
+            nextUl.style.display = item.isOpen;
+        }
+    });
+}
+loadState();
+// ---------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------
 // 주소록 그룹 아코디언 및 마우스 오른쪽 클릭 시 드롭다운 형성
 const downArrow = document.querySelector(".fa-angle-down");
 let sequence = 1;
@@ -132,7 +356,7 @@ document.querySelectorAll('.li-hover').forEach(item => {
             location.href = '/admin/attendance/deptList?deptNo=' + item.children[1].dataset.deptNo;
         }
         if(className.includes('comp')){
-            location.href = '/admin/attendance';
+            location.href = '/admin/attendance/comList';
         }
         
     });
@@ -140,6 +364,7 @@ document.querySelectorAll('.li-hover').forEach(item => {
         let nextUl = item.nextElementSibling;
         if (nextUl && nextUl.tagName === 'UL') {
             nextUl.style.display = nextUl.style.display === 'none' ? 'block' : 'none';
+            saveState()
         }
     });
 
@@ -188,12 +413,3 @@ if(backPage != null) {
         location.href = backPageLocation;
     });
 };
-
-
-
-// ---------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------
-const year = document.querySelector("#year");
-const month = document.querySelector("#month");
-const day = document.querySelector("#day");
-

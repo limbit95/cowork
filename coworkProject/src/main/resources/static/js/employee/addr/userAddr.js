@@ -304,7 +304,7 @@ if(check != null) {
         })
     })
 }
- 
+
 // ---------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------
@@ -314,6 +314,10 @@ const addToMyAddr = document.querySelector("#addToMyAddr");
 // 추가 버튼 클릭시 어느 주소록 그룹에 추가할지 선택할 수 있는 select 태그 노출
 if(addToMyAddr != null) {
     addToMyAddr.addEventListener("click", e => {
+        if(groupList.length == 0) {
+            alert("생성된 개인 주소록 그룹이 없습니다. 새로운 그룹을 생성해주세요.");
+            return;
+        }
         if(location.pathname == '/employee/addr/employeeDetailPage') {
             document.querySelector("#backPage").style.display = 'none';
         }
@@ -325,11 +329,16 @@ if(addToMyAddr != null) {
 // 저장
 if(saveMyAddr != null) {
     saveMyAddr.addEventListener("click", e => {
+        if(groupList.length == 0) {
+            alert("생성된 개인 주소록 그룹이 없습니다. 새로운 그룹을 생성해주세요.");
+            return;
+        }
+        
         const selectValue = document.querySelector("#selectValue");
 
         const obj = [];
 
-        if(location.pathname == '/employee/addr/comList' || location.pathname == '/employee/addr/deptList' || location.pathname == '/employee/addr/teamList') {
+        if(location.pathname == '/employee/addr' || location.pathname == '/employee/addr/comList' || location.pathname == '/employee/addr/deptList' || location.pathname == '/employee/addr/teamList') {
             check.forEach((i) => {
                 if(i.checked == true) {
                     obj.push({ "empCode" : i.parentElement.nextElementSibling.children[5].value, "loginEmpCode" : loginEmpCode, "selectValue" : selectValue.value })
@@ -424,13 +433,56 @@ if(deleteToMyAddr != null) {
     });
 };
 
+window.addEventListener("DOMContentLoaded", e => {
+    if(location.pathname + location.search == '/employee/addr') {
+        document.querySelectorAll("#teamListUl").forEach((i) => {
+            i.style.display = 'none';
+        })
+        const items = document.querySelectorAll('.dept');
+        const state = [];
+        items.forEach((item, index) => {
+            let nextUl = item.parentElement.nextElementSibling;
+            if (nextUl && nextUl.tagName === 'UL') {
+                state.push({
+                    index: index,
+                    isOpen: "none"
+                });
+            }
+        });
+        localStorage.setItem('toggleState', JSON.stringify(state));
+    }
+})
 
+// 함수 : 하위 목록의 상태를 로컬 저장소에 저장
+function saveState() {
+    const items = document.querySelectorAll('.dept');
+    const state = [];
+    items.forEach((item, index) => {
+        let nextUl = item.parentElement.nextElementSibling;
+        if (nextUl && nextUl.tagName === 'UL') {
+            state.push({
+                index: index,
+                isOpen: nextUl.style.display
+            });
+        }
+    });
+    localStorage.setItem('toggleState', JSON.stringify(state));
+}
 
+// 함수 : 하위 목록의 상태를 로컬 저장소에서 복원
+function loadState() {
+    const state = JSON.parse(localStorage.getItem('toggleState'));
+    if (!state) return;
 
-
-
-
-
+    state.forEach(item => {
+        const listItem = document.querySelectorAll('.dept')[item.index];
+        let nextUl = listItem.parentElement.nextElementSibling;
+        if (nextUl && nextUl.tagName === 'UL') {
+            nextUl.style.display = item.isOpen;
+        }
+    });
+}
+loadState();
 // ---------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------
@@ -473,6 +525,7 @@ document.querySelectorAll('.li-hover').forEach(item => {
         let nextUl = item.nextElementSibling;
         if (nextUl && nextUl.tagName === 'UL') {
             nextUl.style.display = nextUl.style.display === 'none' ? 'block' : 'none';
+            saveState();
         }
     });
 
@@ -480,7 +533,6 @@ document.querySelectorAll('.li-hover').forEach(item => {
         targetLi = item.parentElement;
         // 회사 주소록에만 보여질 드롭다운
         if(targetLi.classList.contains('company')){
-            event.preventDefault();
             return;
         }
         if(targetLi.classList.contains('department')){

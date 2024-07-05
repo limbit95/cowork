@@ -43,91 +43,58 @@ public class ChattingController {
 	private final SimpMessagingTemplate  messagingTemplate;
 	private final GPTService gptService;
 	
-	
 	@GetMapping("chat")
-	public String chattingWowns590(HttpServletRequest request) {
-//		Employee emp = new Employee();
-//		emp.setEmpCode(55);
-//		emp.setEmpId("limbit5");
-//		emp.setEmpFirstName("임");
-//		emp.setEmpLastName("성혁");
-//		emp.setComNo(10);		
-//		HttpSession session = request.getSession();
-//		session.setAttribute("loginEmp", emp);
+	public String chattingHome(HttpServletRequest request) {
 		return "employee/chatting/chatting";
 	}
 	
-	@GetMapping("chat/wowns5902")
-	public String chattingWowns5902(HttpServletRequest request) {
-		Employee emp = new Employee();
-		emp.setEmpCode(2);
-		emp.setEmpId("wowns5902");
-		emp.setEmpPw("123");
-		emp.setEmpFirstName("송");
-		emp.setEmpLastName("지윤");		
-		HttpSession session = request.getSession();
-		session.setAttribute("loginEmp", emp);
-		return "employee/chatting/chatting";
-	}	
 	
-	
-	/* 이름, 부서, 팀 조회으로 사원조회 */
-    @PostMapping("chat/empList")
+    /** 현재 로그인한 사원이 속한 회사의 부서와 팀을 모두 조회 
+     * @param loginEmp : 세션에 담아둔 로그인한 사원 
+     * @return
+     */
+    @GetMapping("chat/deptAndTeam")
+    @ResponseBody
+    public List<Department> getDeptAndTeam(@SessionAttribute("loginEmp") Employee2 loginEmp) {    	
+    	List<Department> deptTeamList = chatService.getDeptAndTeam(loginEmp);
+    	return deptTeamList;
+    }
+    
+    /** 팀에 소속된 사원들에 대한 리스트를 조회 
+     * @param teamNo : team 테이블 기본키 
+     * @param loginEmp : 세션에 담아둔 로그인한 사원 
+     * @return
+     */
+    @GetMapping("chat/teamEmps")
+    @ResponseBody
+    public List<Employee2> getTeamEmps (@RequestParam("teamNo") String teamNo, 
+    			@SessionAttribute("loginEmp") Employee2 loginEmp
+    		) {
+    	List<Employee2> empList = chatService.getTeamEmps(teamNo, loginEmp);
+    	return empList;
+    }
+    
+
+    /** 이름으로 사원들을 조회
+     * @param loginEmp
+     * @param paramMap
+     * @return
+     */
+    @GetMapping("chat/empList")
     @ResponseBody
     public List<Employee2> empList(@SessionAttribute("loginEmp") Employee2 loginEmp,
-    									@RequestBody Map<String, String> paramMap) {
-    	
-    	
-    	String inputData = paramMap.get("inputData");
-    	// db 에서 조회해오자. 
+    		@RequestParam("inputData") String inputData) {
     	List<Employee2> empList = chatService.empList(inputData, loginEmp);
     	return empList;    	
     }
-    
-    // 채팅방을 만드는 것 
-    @PostMapping("chat/makeChat")
-    @ResponseBody
-    public String makeChat(@RequestBody MakeChat makeChat, Model model) {
-    	
-    	
-    	
-    	List<String> empCodeList = makeChat.getEmpCodeList(); // 채팅방 구성원 
-    	String empCode = makeChat.getMakeEmpCode(); // 채팅방 만드는 놈
-    	
-    	log.debug("empCodeList", empCodeList);
-    	log.debug("empCode", empCode);
-    	
-        String subscribeAddr = chatService.makeChat(empCodeList, empCode);
-        
-        // 초대된 사용자들에게 실시간으로 새로운 채팅방 정보를 전달
-        // 만약 각 사용자가 이 실시간 전송을 들을 수 있는 귀가 있다면 되지 않을까?
-        // 그럼 그 실시간전송을 듣는 귀의 subscribe addr 은 뭐가 되어야 할까?
-        // 대충 생각해보면, /topic/ + 자신의 memberNo 인 subscribeaddr 을 가진 귀(connect) 가 있으면 되지 않을까?
-        
-        empCodeList.forEach(memberNo2 -> {
-            messagingTemplate.convertAndSend("/topic/newRoom/" + memberNo2, subscribeAddr);
-        });
-    	
-    	return subscribeAddr;
-    }
 	
-    @PostMapping("chat/getChattingRooms")
+    /** 채팅 메시지들을 List 자료구조로 가져옴 
+     * @return
+     */
+    @GetMapping("chat/chatMessage")
     @ResponseBody
-    public List<ChatRoom> getChattingRooms(@RequestBody Map<String, String> paramMap) {
-    	String empCode = paramMap.get("empCode");    	
-    	// 데이터베이스에서 뭘 가져와야 해? 
-    	// 이 멤버와 관련된 모든 채팅방들의 모음을 가져와서 List 자료구조에 담은 다음에 return 해줘야 함. 
-    	List<ChatRoom> roomList = chatService.getChattingRooms(empCode);
-    	for(ChatRoom room: roomList) {
-    		log.debug("room======={}", room);
-    	}
-    	return roomList;    	
-    }
-    
-    @PostMapping("chat/getChatMessage")
-    @ResponseBody
-    public List<ChatMessageMe> getChatMessage(@RequestBody Map<String, String> paramMap) {
-    	List<ChatMessageMe> messageList = chatService.getChatMessage(paramMap);
+    public List<ChatMessageMe> getChatMessage( @RequestParam("roomNo") String roomNo) {
+    	List<ChatMessageMe> messageList = chatService.getChatMessage(roomNo);
     	for(ChatMessageMe m : messageList) {
     		log.debug("asd={}",m);
     	}
@@ -135,17 +102,50 @@ public class ChattingController {
     	return messageList;
     	
     }
+
+    /** 채팅방을 만든다. 
+     * @param makeChat
+     * @param model
+     * @return
+     */
+    @PostMapping("chat/makeChat")
+    @ResponseBody
+    public String makeChat(@RequestBody MakeChat makeChat, Model model) {
+    	
+    	// 채팅방 구성원 
+    	List<String> empCodeList = makeChat.getEmpCodeList();
+    	// 채팅방 생성자 
+    	String empCode = makeChat.getMakeEmpCode();
+    	
+    	// 채팅방을 만든다. 
+        String subscribeAddr = chatService.makeChat(empCodeList, empCode);
+        
+        // 채팅방이 만들어지면 실시간으로 만들어진 채팅방 구성원들에게 채팅방이 만들어졌음을 알린다. 
+        empCodeList.forEach(memberNo2 -> {
+            messagingTemplate.convertAndSend("/topic/newRoom/" + memberNo2, subscribeAddr);
+        });
+    	
+    	return subscribeAddr;
+    }
     
-    // 채팅을 받는 메서드 
+    
+    /** 채팅방들을 가져오는 메서드 
+     * @param empCode
+     * @return
+     */
+    @GetMapping("chat/chattingRooms")
+    @ResponseBody
+    public List<ChatRoom> getChattingRooms(@RequestParam("empCode") String empCode) {
+    	List<ChatRoom> roomList = chatService.getChattingRooms(empCode);
+    	return roomList;    	
+    }
+
+    /** 채팅메세지를 저장하고, 뿌려주는 역할 
+     * @param chatMessage
+     */
     @MessageMapping("/chat.sendMessage")
     @ResponseBody
     public void sendMessage(@Payload ChatMessage chatMessage) {
-    	    	
-    	log.debug("컨트롤러까지는 무사히 도착!");
-    	log.debug("chatMessage=={}", chatMessage);
-    	log.debug("chatMessage.getSubscribeAddr()=={}", chatMessage.getSubscribeAddr());
-    	log.debug("targetLanguage=={}", chatMessage.getTargetLanguage()); // English
-    	log.debug("wantTranslateFlag=={}", chatMessage.getWantTranslateFlag()); // true
     	
     	String senderEmpCode= chatMessage.getSenderEmpCode();
     	String empNickname = chatMessage.getEmpNickname();
@@ -183,6 +183,15 @@ public class ChattingController {
     	messagingTemplate.convertAndSend(destination, chatMessage);
     }
     
+    /** 채팅메세지 중 파일을 저장하고 뿌려주는 역할 
+     * @param senderEmpCode
+     * @param empNickname
+     * @param file
+     * @param subscribeAddr
+     * @param roomNo
+     * @throws IllegalStateException
+     * @throws IOException
+     */
     @PostMapping("chat/upload")
     @ResponseBody
     public void handleFileUpload(@RequestParam("senderEmpCode") String senderEmpCode,
@@ -212,10 +221,14 @@ public class ChattingController {
     	// 파일 데이터를 Base64 문자열로 인코딩하여 JSON에 포함시킬 수 있습니다. 이는 파일 데이터를 텍스트 형식으로 변환하여 직렬화할 수 있도록 합니다.
     	
     	messagingTemplate.convertAndSend(destination, chatMessage);
-    	
 
     }
     
+    /** 채팅방 나가기 
+     * @param map
+     * @param loginEmp
+     * @return
+     */
     @PostMapping("chat/exitChatRoom")
     @ResponseBody
     public String exitChatRoom(@RequestBody Map<String,Object> map,
@@ -231,43 +244,11 @@ public class ChattingController {
     	}
 
     }
-    
-    @GetMapping("chat/loginBy58")
-    @ResponseBody
-    public String loginBy58(HttpServletRequest request) {
-		Employee2 emp = new Employee2();
-		emp.setEmpCode(58);
-		emp.setEmpId("admin2");
-		emp.setEmpFirstName("정");
-		emp.setEmpLastName("윤희");
-		emp.setComNo(10);		
-		HttpSession session = request.getSession();
-		session.setAttribute("loginEmp", emp);
-    	
-    	return "loginedBy58";
-    }
-    
-    
-    @GetMapping("chat/getDeptAndTeam")
-    @ResponseBody
-    public List<Department> getDeptAndTeam(@SessionAttribute("loginEmp") Employee2 loginEmp) {
-    	
-    	List<Department> deptTeamList = chatService.getDeptAndTeam(loginEmp);
-    	log.debug("deptTeamList=={}", deptTeamList);   	
-    	return deptTeamList;
-    	
-    }
-    @GetMapping("chat/getTeamEmps")
-    @ResponseBody
-    public List<Employee2> getTeamEmps (@RequestParam("teamNo") String teamNo, 
-    			@SessionAttribute("loginEmp") Employee2 loginEmp
-    		) {
-    	List<Employee2> empList = chatService.getTeamEmps(teamNo, loginEmp);
-    	
-    	
-    	return empList;
-    }
-    
+
+    /** 사원들, 사원들의 부서, 사원들의 팀 조회 
+     * @param request
+     * @return
+     */
     @PostMapping("survey/getEmpList")
     @ResponseBody
     public List<Employee2> getEmpList (@RequestBody Map<String, List<Integer>> request){
@@ -275,8 +256,6 @@ public class ChattingController {
     	List<Integer> empCodeList = request.get("tempEmpCodeList");
     	    	
     	List<Employee2> empList = chatService.getEmpList(empCodeList);
-    	
-    	
     	
     	return empList;
     }

@@ -175,11 +175,15 @@ body {
 }
 #deptTeamContainer{
 	flex-basis: 51%;
+	max-height: 300px; /* 원하는 최대 높이 설정 */
+	overflow-y: auto; /* 세로 스크롤바 활성화 */
 	
 }
 #empListBeRendered{
 	flex-basis: 51%;
 	background-color: white;
+	max-height: 300px; /* 원하는 최대 높이 설정 */
+	overflow-y: auto; /* 세로 스크롤바 활성화 */
 
 }
 .teamDiv{
@@ -203,14 +207,16 @@ body {
 }
 #beRenderedArea{
 	width: 50%; 
-	height: 200px;
+    max-height: 200px; /* 원하는 최대 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤바 활성화 */
 }
 
 
 
 #selectedEmps{
-		height: 80px;
-		margin-top: 5vh;
+	margin-top: 5vh;
+    max-height: 130px; /* 원하는 최대 높이 설정 */
+    overflow-y: auto; /* 세로 스크롤바 활성화 */
 }
 
 
@@ -463,6 +469,9 @@ body {
 	flex-direction: column;
 	align-items: center;
 	padding-top: 2vh;
+	
+	max-height: 300px; /* 원하는 최대 높이 설정 */
+	overflow-y: auto; /* 세로 스크롤바 활성화 */
 }
 
 
@@ -500,6 +509,8 @@ body {
 	transition: background-color 0.3s;
 	padding-right: 40px;
 	background-color: #E5F2FE;
+	max-height: 400px; /* 원하는 최대 높이 설정 */
+	overflow-y: auto; /* 세로 스크롤바 활성화 */
 }
 #chattingsArea > img {
     max-width: 100px;

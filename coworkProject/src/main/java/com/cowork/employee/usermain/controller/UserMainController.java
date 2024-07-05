@@ -42,6 +42,8 @@ public class UserMainController {
 		model.addAttribute("companyAllCalendarList", companyAllCalendarList);
 		model.addAttribute("noticeList", noticeList);
 
+		log.info("회사 전체 일정 == {}", companyAllCalendarList);
+		
 		return "employee/userMain/userMain";
 	}
 	

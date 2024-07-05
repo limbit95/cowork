@@ -1,5 +1,7 @@
 package com.cowork.employee.attendance.model.service;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,32 +21,38 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	// 출근 확인
 	@Override
-	public int arrivalCheck(Employee2 loginEmp) {
-		return mapper.arrivalCheck(loginEmp);
+	public int arrivalCheck(Map<String, Object> data) {
+		return mapper.arrivalCheck(data);
 	}
 
 	// 출근 기록 저장
 	@Override
-	public int arrivalrecord(Employee2 loginEmp) {
-		return mapper.arrivalrecord(loginEmp);
+	public int arrivalrecord(Map<String, Object> data) {
+		return mapper.arrivalrecord(data);
 	}
 
 	// 당일 출근 기록 조회
 	@Override
-	public String selectArrivalTime(Employee2 loginEmp) {
-		return mapper.selectArrivalTime(loginEmp);
+	public String selectArrivalTime(Map<String, Object> data) {
+		return mapper.selectArrivalTime(data);
 	}
 
 	// 퇴근 기록 저장
 	@Override
-	public int departureRecord(Employee2 loginEmp) {
-		return mapper.departureRecord(loginEmp);
+	public int departureRecord(Map<String, Object> data) {
+		return mapper.departureRecord(data);
 	}
 
 	// 당일 퇴근 기록 조회
 	@Override
-	public String selectDepartureTime(Employee2 loginEmp) {
-		return mapper.selectDepartureTime(loginEmp);
+	public String selectDepartureTime(Map<String, Object> data) {
+		return mapper.selectDepartureTime(data);
+	}
+
+	// 출퇴근 기록 불러오기
+	@Override
+	public Map<String, Object> attendenceCheck(Map<String, Object> data) {
+		return mapper.attendenceCheck(data);
 	}
 
 }

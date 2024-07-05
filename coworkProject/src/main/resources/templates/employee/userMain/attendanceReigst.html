@@ -12,17 +12,14 @@
 
     <div>
         <div id="current-time"></div>
-        <div id="currentAttd" th:if="${session.loginEmp.arrivalTime} == null">출근전</div>
-        <div id="currentAttd" th:if="${session.loginEmp.arrivalTime != null} and ${session.loginEmp.departureTime == null}">출근</div>
-        <div id="currentAttd" th:if="${session.loginEmp.arrivalTime != null} and ${session.loginEmp.departureTime != null}">퇴근</div>
+        <div id="currentAttd">출근전</div>
     </div>
 
     <div>
         <div>
             <div class="arrival-button"><i class="fa-solid fa-arrow-turn-down"></i></div>
             <div>출근하기</div>
-            <div id="arrival-time" th:if="${session.loginEmp.arrivalTime}" th:text="${session.loginEmp.arrivalTime}"></div>
-            <div id="arrival-time" th:unless="${session.loginEmp.arrivalTime}" >00:00:00</div>
+            <div id="arrival-time">00:00:00</div>
         </div>
 
         <div></div>
@@ -30,8 +27,7 @@
         <div>
             <div class="departure-button"><i class="fa-solid fa-arrow-turn-up"></i></div>
             <div>퇴근하기</div>
-            <div id="departure-time" th:if="${session.loginEmp.departureTime}" th:text="${session.loginEmp.departureTime}"></div>
-            <div id="departure-time" th:unless="${session.loginEmp.departureTime}" >00:00:00</div>
+            <div id="departure-time">00:00:00</div>
         </div>
     </div>
 

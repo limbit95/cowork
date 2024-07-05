@@ -12,14 +12,15 @@ public interface AdminAttendanceService {
 	 * @param loginEmp
 	 * @return
 	 */
-	List<Employee2> findEmp(String name, Employee2 loginEmp);
+	List<Employee2> findEmp(Map<String, Object> data);
 
 	/** 회사별 사원 리스트 조회
 	 * @param loginEmp
 	 * @param cp
+	 * @param date 
 	 * @return
 	 */
-	Map<String, Object> selectComList(Employee2 loginEmp, int cp);
+	Map<String, Object> selectComList(Employee2 loginEmp, int cp, String date);
 
 	/** 부서별 사원 리스트 조회
 	 * @param data
@@ -35,4 +36,10 @@ public interface AdminAttendanceService {
 	 */
 	Map<String, Object> selectTeamList(Map<String, Object> data, int cp);
 
+	/** 회사 생성일 조회
+	 * @param loginEmp
+	 * @return
+	 */
+	String getCompanyCreateDate(Employee2 loginEmp);
+	
 }

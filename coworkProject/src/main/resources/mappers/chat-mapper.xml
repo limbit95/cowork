@@ -2,111 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cowork.employee.chatting.model.mapper.ChatMapper"> 
 
-<select id="empList"> 
-    SELECT * 
-    FROM EMPLOYEE 
-    WHERE CONCAT(EMP_LAST_NAME, EMP_FIRST_NAME) LIKE '%' || #{inputData} || '%'
-    AND EMP_CODE != #{empCode}
-    AND COM_NO = #{comNo}
-</select>
-
-<insert id="makeChat" useGeneratedKeys="true" keyProperty="roomNo" keyColumn="ROOM_NO">
-	INSERT INTO CHAT_ROOM VALUES 
-	(SEQ_CHAT_ROOM.NEXTVAL, #{roomName}, SYSDATE, #{empCode})
-</insert>
-
-<select id="EmpNicknameDetail">
-	SELECT EMP_LAST_NAME || EMP_FIRST_NAME FROM EMPLOYEE 
-	WHERE EMP_CODE = #{invitedEmpNo}
-</select>
-
-<!-- 여기 -->
-<insert id="addParticipant">
-	INSERT INTO CHAT_PARTICIPANT 
-	VALUES 
-	(SEQ_CHAT_PARTICIPANT.NEXTVAL, SYSDATE, #{roomNo}, #{empCode}, 'N')
-</insert>
-
-	
-<insert id="addSubscribeAddr">
-	INSERT INTO SUBSCRIBE_ADDR VALUES 
-	(SEQ_SUBSCRIBE_ADDR.NEXTVAL, #{subAddr}, #{roomNo})
-</insert>
-
-
-<select id="getChattingRooms">
-	SELECT CR.*, SA.SUB_ADDR
-	FROM CHAT_PARTICIPANT CP                                                                           
-	LEFT JOIN CHAT_ROOM CR ON (CP.ROOM_NO = CR.ROOM_NO)                            
-	LEFT JOIN SUBSCRIBE_ADDR SA ON (CP.ROOM_NO = SA.ROOM_NO)                
-	WHERE CP.EMP_CODE = #{empCode}
-	AND CP.EXIT_FLAG = 'N'
-</select>
-
-
-<select id="getLastSentAt">
-    SELECT CONTENT, SENT_AT
-    FROM CHAT_MESSAGE
-    WHERE ROOM_NO = #{roomNo}
-    ORDER BY MESSAGE_NO DESC
-    FETCH FIRST 1 ROW ONLY
-</select>
-
-<select id="chatRoomEmpCodeList">
-	SELECT EMP_CODE 
-	FROM CHAT_PARTICIPANT
-	WHERE ROOM_NO = #{roomNo}
-</select>
-
-<select id="empDetail">
-	SELECT * FROM EMPLOYEE
-	WHERE EMP_CODE = #{empCode}
-</select>
-
-
-<select id="findFirstInvited">
-	SELECT E.EMP_LAST_NAME, E.EMP_FIRST_NAME, E.PROFILE_IMG
-	FROM CHAT_PARTICIPANT CP
-	LEFT JOIN EMPLOYEE E ON CP.EMP_CODE = E.EMP_CODE
-	WHERE CP.PARTICIPANT_NO = (
-	    SELECT MIN(CP2.PARTICIPANT_NO)
-	    FROM CHAT_PARTICIPANT CP2
-	    WHERE CP2.ROOM_NO = #{roomNo}
-	)
-</select>
-
-<select id="findAllMessageByRoomNo">
-	SELECT CM.*, E.EMP_LAST_NAME, E.EMP_FIRST_NAME, E.PROFILE_IMG 
-	FROM CHAT_MESSAGE CM
-	LEFT JOIN EMPLOYEE E ON (CM.SENDER_EMP_CODE = E.EMP_CODE)
-	WHERE ROOM_NO = #{roomNo}
-	ORDER BY MESSAGE_NO
-</select>
-
-<insert id="insertMessage">
-	INSERT INTO CHAT_MESSAGE 
-	VALUES (SEQ_CHAT_MESSAGE.NEXTVAL,#{roomNo}, #{senderEmpCode}, #{messageType}, #{content}, NULL, SYSDATE)
-</insert>
-
-<insert id="insertFileMessage">
-	INSERT INTO CHAT_MESSAGE 
-	VALUES (SEQ_CHAT_MESSAGE.NEXTVAL, #{roomNo}, #{senderEmpCode}, 2, NULL, #{filePath}, SYSDATE )
-</insert>
-
-<select id="DeptNameTeamNameDetail">
-	SELECT T.TEAM_NM, D.DEPT_NM 
-	FROM TEAM T 
-	LEFT JOIN DEPARTMENT D ON (T.DEPT_NO = D.DEPT_NO)  
-	WHERE TEAM_NO = #{teamNo}
-</select>
-
-<update id="exitChatRoom">
-	UPDATE CHAT_PARTICIPANT
-	SET EXIT_FLAG = 'Y'
-	WHERE ROOM_NO = #{currentRoomNo}
-	AND EMP_CODE = #{exitEmpCode}
-</update>
-
 <!-- 부서, 팀 가져오기 -->
 <resultMap type="Department" id="department_rm">
 	<id property="deptNo" column="DEPT_NO" />
@@ -118,7 +13,7 @@
 		ofType="Team"
 	/>
 </resultMap>
-
+<!-- 현재 로그인한 사원이 속한 회사의 부서와 팀을 모두 조회  -->
 <select id="getDeptAndTeam" resultMap="department_rm">
 	SELECT *
 	FROM DEPARTMENT 
@@ -131,14 +26,130 @@
 </select>
 <!-- 부서, 팀 가져오기 -->
 
+
+<!-- 팀에 소속된 사원들에 대한 리스트를 조회  -->
 <select id="getTeamEmps">
 	SELECT * FROM EMPLOYEE 
 	WHERE TEAM_NO = #{teamNo}
-	AND EMP_CODE != #{loginEmpCode}
+	AND EMP_CODE != #{loginEmpCode} 
 </select>
 
-	
-	
+<!-- 사원들의 부서이름, 팀이름을 조회 -->
+<select id="DeptNameTeamNameDetail">
+	SELECT T.TEAM_NM, D.DEPT_NM 
+	FROM TEAM T 
+	LEFT JOIN DEPARTMENT D ON (T.DEPT_NO = D.DEPT_NO)  
+	WHERE TEAM_NO = #{teamNo}
+</select>
+
+<!-- 이름으로 사원들을 조회 -->
+<select id="empList"> 
+    SELECT * 
+    FROM EMPLOYEE 
+    WHERE CONCAT(EMP_LAST_NAME, EMP_FIRST_NAME) LIKE '%' || #{inputData} || '%'
+    AND EMP_CODE != #{empCode}
+    AND COM_NO = #{comNo}
+</select>
+
+<!-- 특정 채팅방에 있는 모든 채팅메시지를 가져옴  -->
+<select id="findAllMessageByRoomNo">
+	SELECT CM.*, E.EMP_LAST_NAME, E.EMP_FIRST_NAME, E.PROFILE_IMG 
+	FROM CHAT_MESSAGE CM
+	LEFT JOIN EMPLOYEE E ON (CM.SENDER_EMP_CODE = E.EMP_CODE)
+	WHERE ROOM_NO = #{roomNo}
+	ORDER BY MESSAGE_NO
+</select>
+
+<!-- empCode 로 사원의 이름을 조회  -->
+<select id="EmpNicknameDetail">
+	SELECT EMP_LAST_NAME || EMP_FIRST_NAME FROM EMPLOYEE 
+	WHERE EMP_CODE = #{invitedEmpNo}
+</select>
+
+<!-- CHAT_ROOM 테이블에 행 삽입(채팅방을 만듦) -->
+<insert id="makeChat" useGeneratedKeys="true" keyProperty="roomNo" keyColumn="ROOM_NO">
+	INSERT INTO CHAT_ROOM VALUES 
+	(SEQ_CHAT_ROOM.NEXTVAL, #{roomName}, SYSDATE, #{empCode})
+</insert>
+
+<!-- CHAT_PARTICIPANT 테이블에 행 삽입(채팅 참여자 기록) -->
+<insert id="addParticipant">
+	INSERT INTO CHAT_PARTICIPANT 
+	VALUES 
+	(SEQ_CHAT_PARTICIPANT.NEXTVAL, SYSDATE, #{roomNo}, #{empCode}, 'N')
+</insert>
+
+<!-- 구독주소 삽입  -->
+<insert id="addSubscribeAddr">
+	INSERT INTO SUBSCRIBE_ADDR VALUES 
+	(SEQ_SUBSCRIBE_ADDR.NEXTVAL, #{subAddr}, #{roomNo})
+</insert>
+
+<!--  특정 empCode와 관련된 채팅방들 조회  -->
+<select id="getChattingRooms">
+	SELECT CR.*, SA.SUB_ADDR
+	FROM CHAT_PARTICIPANT CP                                                                           
+	LEFT JOIN CHAT_ROOM CR ON (CP.ROOM_NO = CR.ROOM_NO)                            
+	LEFT JOIN SUBSCRIBE_ADDR SA ON (CP.ROOM_NO = SA.ROOM_NO)                
+	WHERE CP.EMP_CODE = #{empCode}
+	AND CP.EXIT_FLAG = 'N'
+</select>
+
+<!-- 마지막 채팅 내용, 마지막 채팅시각 조회 -->
+<select id="getLastSentAt">
+    SELECT CONTENT, SENT_AT
+    FROM CHAT_MESSAGE
+    WHERE ROOM_NO = #{roomNo}
+    ORDER BY MESSAGE_NO DESC
+    FETCH FIRST 1 ROW ONLY
+</select>
+
+<!-- 특정 채팅방과 관련된 모든 사원들을 조회 -->
+<select id="chatRoomEmpCodeList">
+	SELECT EMP_CODE 
+	FROM CHAT_PARTICIPANT
+	WHERE ROOM_NO = #{roomNo}
+</select>
+
+<!-- 채팅 글 저장 -->
+<insert id="insertMessage">
+	INSERT INTO CHAT_MESSAGE 
+	VALUES (SEQ_CHAT_MESSAGE.NEXTVAL,#{roomNo}, #{senderEmpCode}, #{messageType}, #{content}, NULL, SYSDATE)
+</insert>
+
+<!-- 채팅메세지 중 파일을 저장하고 뿌려주는 역할  -->
+<insert id="insertFileMessage">
+	INSERT INTO CHAT_MESSAGE 
+	VALUES (SEQ_CHAT_MESSAGE.NEXTVAL, #{roomNo}, #{senderEmpCode}, 2, NULL, #{filePath}, SYSDATE )
+</insert>
+
+<!-- 채팅방 나가기 -->
+<update id="exitChatRoom">
+	UPDATE CHAT_PARTICIPANT
+	SET EXIT_FLAG = 'Y'
+	WHERE ROOM_NO = #{currentRoomNo}
+	AND EMP_CODE = #{exitEmpCode}
+</update>
+
+<!-- 사원 찾기 -->
+<select id="empDetail">
+	SELECT * FROM EMPLOYEE
+	WHERE EMP_CODE = #{empCode}
+</select>
+
+<!-- 
+<select id="findFirstInvited">
+	SELECT E.EMP_LAST_NAME, E.EMP_FIRST_NAME, E.PROFILE_IMG
+	FROM CHAT_PARTICIPANT CP
+	LEFT JOIN EMPLOYEE E ON CP.EMP_CODE = E.EMP_CODE
+	WHERE CP.PARTICIPANT_NO = (
+	    SELECT MIN(CP2.PARTICIPANT_NO)
+	    FROM CHAT_PARTICIPANT CP2
+	    WHERE CP2.ROOM_NO = #{roomNo}
+	)
+</select>
+-->
+
 </mapper>
 
 

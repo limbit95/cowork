@@ -6,14 +6,14 @@
 	<select id="arrivalCheck">
 		SELECT COUNT(*) FROM ATTENDENCE 
 		WHERE EMP_CODE = #{empCode}
-		AND TO_CHAR(ATTENDANCE_TIME, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		AND TO_CHAR(ATTENDANCE_TIME, 'YYYY-MM-DD') = '${date}'
 	</select>
 	
 	<!-- 출근 기록 저장 -->
 	<insert id="arrivalrecord">
 		INSERT INTO ATTENDENCE VALUES(
 			SEQ_ATTENDENCE.NEXTVAL,
-			CURRENT_TIMESTAMP,
+			TO_DATE('${dateTime}', 'YYYY-MM-DD HH24:MI:SS'),
 			NULL,
 			#{empCode},
 			NULL
@@ -22,24 +22,33 @@
 	
 	<!-- 당일 출근 기록 조회 -->
 	<select id="selectArrivalTime">
-		SELECT TO_CHAR(ATTENDANCE_TIME, 'HH24:MI:SS') FROM ATTENDENCE 
+		SELECT TO_CHAR(ATTENDANCE_TIME, 'HH24:MI:SS') "arrivalTime"
+		FROM ATTENDENCE 
 		WHERE EMP_CODE = #{empCode}
-		AND TO_CHAR(ATTENDANCE_TIME, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		AND TO_CHAR(ATTENDANCE_TIME, 'YYYY-MM-DD') = '${date}'
 	</select>
 	
 	<!-- 퇴근 기록 저장 -->
 	<insert id="departureRecord">
 		UPDATE ATTENDENCE SET
-		OFF_TIME = CURRENT_TIMESTAMP
+		OFF_TIME = TO_DATE('${dateTime}', 'YYYY-MM-DD HH24:MI:SS')
 		WHERE EMP_CODE = #{empCode}
-		AND TO_CHAR(ATTENDANCE_TIME, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		AND TO_CHAR(ATTENDANCE_TIME, 'YYYY-MM-DD') = '${date}'
 	</insert>
 	
 	<!-- 당일 퇴근 기록 조회 -->
 	<select id="selectDepartureTime">
-		SELECT TO_CHAR(OFF_TIME, 'HH24:MI:SS') FROM ATTENDENCE 
+		SELECT TO_CHAR(OFF_TIME, 'HH24:MI:SS') "departureTime"
+		FROM ATTENDENCE 
 		WHERE EMP_CODE = #{empCode}
-		AND TO_CHAR(OFF_TIME, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		AND TO_CHAR(ATTENDANCE_TIME, 'YYYY-MM-DD') = '${date}'
+	</select>
+	
+	<select id="attendenceCheck">
+		SELECT TO_CHAR(ATTENDANCE_TIME, 'HH24:MI:SS') "arrivalTime", TO_CHAR(OFF_TIME, 'HH24:MI:SS') "departureTime"
+		FROM ATTENDENCE 
+		WHERE EMP_CODE = #{empCode}
+		AND TO_CHAR(ATTENDANCE_TIME, 'YYYY-MM-DD') = '${date}'
 	</select>
 	
 </mapper>
