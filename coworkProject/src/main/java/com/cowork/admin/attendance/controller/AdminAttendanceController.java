@@ -61,7 +61,7 @@ public class AdminAttendanceController {
 		String companyCreateDate = service.getCompanyCreateDate(loginEmp);
 		model.addAttribute("companyCreateDate", companyCreateDate);
 		
-		log.info("companyCreateDate : " + companyCreateDate);
+		model.addAttribute("date", date);
 		
 		return "admin/attendance/attendanceManager";
 	}
@@ -136,12 +136,6 @@ public class AdminAttendanceController {
 							        @RequestParam(value="cp", required=false, defaultValue="1") int cp,
 							        @RequestParam(value="date", required=false, defaultValue="null") String date) {
 		
-		if(date.equals("null")) {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			sdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
-			date = sdf.format(new java.util.Date());
-		}
-		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
@@ -167,12 +161,6 @@ public class AdminAttendanceController {
 					       @RequestParam Map<String, Object> data, 
 					       @RequestParam(value="cp", required=false, defaultValue="1") int cp,
 					       @RequestParam(value="date", required=false, defaultValue="null") String date) {
-		
-		if(date.equals("null")) {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			sdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
-			date = sdf.format(new java.util.Date());
-		}
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
@@ -202,11 +190,6 @@ public class AdminAttendanceController {
 					       @RequestParam Map<String, Object> data, 
 					       @RequestParam(value="cp", required=false, defaultValue="1") int cp,
 					       @RequestParam(value="date", required=false, defaultValue="null") String date) {
-		
-		if(date.equals("null")) {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			date = sdf.format(new java.util.Date());
-		}
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
