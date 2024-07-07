@@ -6,7 +6,7 @@
     <title>관리자 - 근태관리</title>
 
     <th:block th:replace="~{common/common}"></th:block>
-    <link rel="stylesheet" href="/css/admin/attendance/attendanceManager.css">
+    <link rel="stylesheet" href="/css/admin/attendence/attendenceManager.css">
 </head>
 <body>
 
@@ -15,7 +15,11 @@
     <section class="container">
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
 
-        <div class="title"><span>근태 관리</span></div>
+        <div class="title"><span>근태 내역 조회</span></div>
+
+        <div>
+            <button class="default-btn glucose-btn" id="attendenceStandardManagement">근태 기준 관리</button>
+        </div>
 
         <main>
 
@@ -247,10 +251,10 @@
                         <ul class="pagination" th:if="${pagination}" th:object="${pagination}">
                             <th:block th:if="${comList.size()} > 0">
                                 <!-- 첫 페이지로 이동 -->
-                                <li><a th:href="@{/admin/attendance/comList(cp=1, date=${session.date})}">&lt;&lt;</a></li>
+                                <li><a th:href="@{/admin/attendence/comList(cp=1, date=${session.date})}">&lt;&lt;</a></li>
 
                                 <!-- 이전 목록 마지막 번호로 이동 -->
-                                <li><a th:href="@{/admin/attendance/comList(cp=*{prevPage}, date=${session.date})}">&lt;</a></li>
+                                <li><a th:href="@{/admin/attendence/comList(cp=*{prevPage}, date=${session.date})}">&lt;</a></li>
                                 
                                 <!-- 특정 페이지로 이동 -->
                                 <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
@@ -262,17 +266,17 @@
                                     
                                     <!-- 보고있지 않은 페이지 -->
                                     <li th:unless="${i} == *{currentPage}">
-                                        <a th:href="@{/admin/attendance/comList(cp=${i}, date=${session.date})}" 
+                                        <a th:href="@{/admin/attendence/comList(cp=${i}, date=${session.date})}" 
                                            th:text="${i}">2</a>
                                     </li>
             
                                 </th:block>
             
                                 <!-- 다음 목록 시작 번호로 이동 -->
-                                <li><a th:href="@{/admin/attendance/comList(cp=*{nextPage}, date=${session.date})}">&gt;</a></li>
+                                <li><a th:href="@{/admin/attendence/comList(cp=*{nextPage}, date=${session.date})}">&gt;</a></li>
             
                                 <!-- 끝 페이지로 이동 -->
-                                <li><a th:href="@{/admin/attendance/comList(cp=*{maxPage}, date=${session.date})}">&gt;&gt;</a></li>
+                                <li><a th:href="@{/admin/attendence/comList(cp=*{maxPage}, date=${session.date})}">&gt;&gt;</a></li>
                             </th:block>
                         </ul>
                     </th:block>
@@ -282,10 +286,10 @@
                         <ul class="pagination" th:if="${pagination}" th:object="${pagination}">
                             <th:block th:if="${deptList.size()} > 0">
                                 <!-- 첫 페이지로 이동 -->
-                                <li><a th:href="@{/admin/attendance/deptList(deptNo=${deptNo}, cp=1, date=${session.date})}">&lt;&lt;</a></li>
+                                <li><a th:href="@{/admin/attendence/deptList(deptNo=${deptNo}, cp=1, date=${session.date})}">&lt;&lt;</a></li>
             
                                 <!-- 이전 목록 마지막 번호로 이동 -->
-                                <li><a th:href="@{/admin/attendance/deptList(deptNo=${deptNo}, cp=*{prevPage}, date=${session.date})}">&lt;</a></li>
+                                <li><a th:href="@{/admin/attendence/deptList(deptNo=${deptNo}, cp=*{prevPage}, date=${session.date})}">&lt;</a></li>
             
                                 <!-- 특정 페이지로 이동 -->
                                 <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
@@ -297,17 +301,17 @@
                                     
                                     <!-- 보고있지 않은 페이지 -->
                                     <li th:unless="${i} == *{currentPage}">
-                                        <a th:href="@{/admin/attendance/deptList(deptNo=${deptNo}, cp=${i}, date=${session.date})}" 
+                                        <a th:href="@{/admin/attendence/deptList(deptNo=${deptNo}, cp=${i}, date=${session.date})}" 
                                            th:text="${i}">2</a>
                                     </li>
             
                                 </th:block>
             
                                 <!-- 다음 목록 시작 번호로 이동 -->
-                                <li><a th:href="@{/admin/attendance/deptList(deptNo=${deptNo}, cp=*{nextPage}, date=${session.date})}">&gt;</a></li>
+                                <li><a th:href="@{/admin/attendence/deptList(deptNo=${deptNo}, cp=*{nextPage}, date=${session.date})}">&gt;</a></li>
             
                                 <!-- 끝 페이지로 이동 -->
-                                <li><a th:href="@{/admin/attendance/deptList(deptNo=${deptNo}, cp=*{maxPage}, date=${session.date})}">&gt;&gt;</a></li>
+                                <li><a th:href="@{/admin/attendence/deptList(deptNo=${deptNo}, cp=*{maxPage}, date=${session.date})}">&gt;&gt;</a></li>
                             </th:block>
                         </ul>
                     </th:block>
@@ -317,10 +321,10 @@
                         <ul class="pagination" th:if="${pagination}" th:object="${pagination}">
                             <th:block th:if="${teamList.size()} > 0">
                                 <!-- 첫 페이지로 이동 -->
-                                <li><a th:href="@{/admin/attendance/teamList(teamNo=${teamNo}, cp=1, date=${session.date})}">&lt;&lt;</a></li>
+                                <li><a th:href="@{/admin/attendence/teamList(teamNo=${teamNo}, cp=1, date=${session.date})}">&lt;&lt;</a></li>
             
                                 <!-- 이전 목록 마지막 번호로 이동 -->
-                                <li><a th:href="@{/admin/attendance/teamList(teamNo=${teamNo}, cp=*{prevPage}, date=${session.date})}">&lt;</a></li>
+                                <li><a th:href="@{/admin/attendence/teamList(teamNo=${teamNo}, cp=*{prevPage}, date=${session.date})}">&lt;</a></li>
             
                                 <!-- 특정 페이지로 이동 -->
                                 <th:block th:each="i : *{#numbers.sequence(startPage, endPage)}">
@@ -332,17 +336,17 @@
                                     
                                     <!-- 보고있지 않은 페이지 -->
                                     <li th:unless="${i} == *{currentPage}">
-                                        <a th:href="@{/admin/attendance/teamList(teamNo=${teamNo}, cp=${i}, date=${session.date})}" 
+                                        <a th:href="@{/admin/attendence/teamList(teamNo=${teamNo}, cp=${i}, date=${session.date})}" 
                                            th:text="${i}">2</a>
                                     </li>
             
                                 </th:block>
             
                                 <!-- 다음 목록 시작 번호로 이동 -->
-                                <li><a th:href="@{/admin/attendance/teamList(teamNo=${teamNo}, cp=*{nextPage}, date=${session.date})}">&gt;</a></li>
+                                <li><a th:href="@{/admin/attendence/teamList(teamNo=${teamNo}, cp=*{nextPage}, date=${session.date})}">&gt;</a></li>
             
                                 <!-- 끝 페이지로 이동 -->
-                                <li><a th:href="@{/admin/attendance/teamList(teamNo=${teamNo}, cp=*{maxPage}, date=${session.date})}">&gt;&gt;</a></li>
+                                <li><a th:href="@{/admin/attendence/teamList(teamNo=${teamNo}, cp=*{maxPage}, date=${session.date})}">&gt;&gt;</a></li>
                             </th:block>
                         </ul>
                     </th:block>
@@ -366,7 +370,7 @@
         <div id="addAll">전부 추가</div>
     </div>
 
-    <script src="/js/admin/attendance/attendanceManager.js"></script>
+    <script src="/js/admin/attendence/attendenceManager.js"></script>
     <script th:inline="javascript">
         const loginEmpCode = /*[[${session.loginEmp.empCode}]]*/ "로그인 사원 식별키";
         const comNo = /*[[${session.loginEmp.comNo}]]*/ "회사 식별키";

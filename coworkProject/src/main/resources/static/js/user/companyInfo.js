@@ -123,8 +123,9 @@ if(authBtn != null) {
         document.querySelector("#registrationNum").value = '';
         document.querySelector(".fa-solid.fa-check").style.display = "none";
         checkObj.licenseNo = false;
-        const width = 280;
-        const height = 215;
+        const zoomLevel = window.devicePixelRatio;
+        const width = 280 * zoomLevel;
+        const height = 215 * zoomLevel;
         
         // 브라우저 창의 크기
         const screenWidth = window.screen.width;
@@ -135,7 +136,6 @@ if(authBtn != null) {
         const top = (screenHeight / 2) - (height / 2);
         
         // 팝업 창 열기
-        // popup = window.open("http://localhost/user/registrationNumCheck", "popup", `width=${width},height=${height},left=${left},top=${top}`);
         popup = window.open("/user/registrationNumCheck", "popup", `width=${width},height=${height},left=${left},top=${top}`);
     })
 }

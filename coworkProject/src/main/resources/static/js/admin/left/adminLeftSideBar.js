@@ -69,21 +69,16 @@ function attendanceFun(returnUserMain) {
     attendanceMenu.append(dropbtn, dropdownContent);
 
     const a1 = document.createElement('a');
-    a1.href = "/admin/attendance";
+    a1.href = "/admin/attendence";
     a1.id = "attendanceSub";
     a1.innerText = "근태 내역 조회";
 
     const a2 = document.createElement('a');
-    a2.href = "/admin/attendance/requestManager";
+    a2.href = "/admin/attendence/requestManager";
     a2.id = "requestManagerSub";
     a2.innerText = "근태 수정 요청 내역";
 
-    const a3 = document.createElement('a');
-    a3.href = "/admin/attendance/standardManagement";
-    a3.id = "attendanceSub1";
-    a3.innerText = "근태 기준 관리";
-
-    dropdownContent.append(a1, a2, a3);
+    dropdownContent.append(a1, a2);
 }
 
 /* 기능관리 메뉴 */

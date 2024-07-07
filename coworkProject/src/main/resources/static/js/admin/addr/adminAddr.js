@@ -1106,8 +1106,9 @@ if(addEmployeeconfirm != null) {
         // }
         // 구성원이 등록
         if(radio2[0].checked == true) {
-            const width = 610;
-            const height = 400;
+            const zoomLevel = window.devicePixelRatio;
+            const width = 610 * zoomLevel;
+            const height = 405 * zoomLevel;
             
             // 브라우저 창의 크기
             const screenWidth = window.screen.width;

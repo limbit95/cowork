@@ -23,15 +23,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("employee/attendance")
+@RequestMapping("employee/attendence")
 @SessionAttributes({"loginEmp"})
 public class AttendanceController {
 	
 	private final AttendanceService service;
 	
 	@GetMapping("list")
-	public String attendanceList() {
-		return "employee/attendance/attendanceList";
+	public String attendenceList() {
+		return "employee/attendence/attendenceList";
 	}
 	
 	/** 출근 확인 (DB에 해당 사용자의 출근이 찍혀있는지 확인)

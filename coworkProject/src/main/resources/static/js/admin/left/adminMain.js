@@ -2,7 +2,7 @@
 function attendanceFun2() {
     
     const attendanceDiv = document.querySelector('#attendanceDiv');
-    attendanceDiv.setAttribute('onclick', "location.href='/admin/attendance'");
+    attendanceDiv.setAttribute('onclick', "location.href='/admin/attendence'");
 
     const attendanceText = document.querySelector('#attendanceText');
     attendanceText.innerText = "화면들어가기";

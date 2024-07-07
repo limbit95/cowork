@@ -5,13 +5,13 @@ if(findEmp != null) {
     findEmp.addEventListener("input", e => {
         const inputName = e.target.value;
 
-        if(location.pathname == '/admin/attendance' || location.pathname == '/admin/attendance/comList' || location.pathname == '/admin/attendance/deptList' || location.pathname == '/admin/attendance/teamList') {
+        if(location.pathname == '/admin/attendence' || location.pathname == '/admin/attendence/comList' || location.pathname == '/admin/attendence/deptList' || location.pathname == '/admin/attendence/teamList') {
             if(inputName.trim().length == 0) {
                 location.reload();
                 return;
             }
     
-            fetch("/admin/attendance/findEmp?name=" + inputName + "&date=" + date)
+            fetch("/admin/attendence/findEmp?name=" + inputName + "&date=" + date)
             .then(resp => resp.json())
             .then(employeeList => {
                 const employeeListDiv = document.querySelector(".employeeList");
@@ -74,7 +74,7 @@ if(findEmp != null) {
                             "backPageLocation" : location.pathname + location.search
                         }
                 
-                        fetch("/admin/attendance/employeeDetail", {
+                        fetch("/admin/attendence/employeeDetail", {
                             method : "post",
                             headers : {"Content-Type" : "application/json"},
                             body : JSON.stringify(obj)
@@ -85,7 +85,7 @@ if(findEmp != null) {
                                 alert("사원 정보가 존재하지 않습니다.");
                                 return;
                             }
-                            location.href = '/admin/attendance/employeeDetailPage';
+                            location.href = '/admin/attendence/employeeDetailPage';
                         });
                     })
                 });
@@ -131,7 +131,7 @@ let companyCreateDateArr;
 
 window.addEventListener("DOMContentLoaded", e => {
     // 해당 페이지에 들어왔을 때 주소록 아코디언 초기화
-    if(location.pathname + location.search == '/admin/attendance') {
+    if(location.pathname + location.search == '/admin/attendence') {
         document.querySelectorAll("#teamListUl").forEach((i) => {
             i.style.display = 'none';
         })
@@ -183,7 +183,7 @@ window.addEventListener("DOMContentLoaded", e => {
     }
 
     // 날짜별로 검색한 후 페이지네이션을 통해 페이지 이동시 검색했던 날짜 값 유지하기 위한 코드
-    if(location.pathname == '/admin/attendance') { // 페이지 네이션을 통한 페이지 이동이 아닐 경우
+    if(location.pathname == '/admin/attendence') { // 페이지 네이션을 통한 페이지 이동이 아닐 경우
         localStorage.removeItem("selectDate");
         // 현재 연도
         year.value = getYear();
@@ -343,8 +343,8 @@ searchByDate.addEventListener("click", e => {
 
     const date = dateArr[0] + '-' + String(dateArr[1]).padStart(2, '0') + '-' + String(dateArr[2]).padStart(2, '0');
 
-    if(location.pathname == '/admin/attendance') {
-        location.href = '/admin/attendance/comList?cp=1&date=' + date;
+    if(location.pathname == '/admin/attendence') {
+        location.href = '/admin/attendence/comList?cp=1&date=' + date;
     } else {
         let newSearch;
         if(location.search.includes('&date=')) {
@@ -414,14 +414,14 @@ document.querySelectorAll('.li-hover').forEach(item => {
         // 회사 주소록
         if(className.includes('tim')){
             console.log(item.children[1].dataset.teamNo);
-            location.href = '/admin/attendance/teamList?teamNo=' + item.children[1].dataset.teamNo + '&date=' + date;
+            location.href = '/admin/attendence/teamList?teamNo=' + item.children[1].dataset.teamNo + '&date=' + date;
         }
         if(className.includes('dept')){
             console.log(item.children[1].dataset.deptNo);
-            location.href = '/admin/attendance/deptList?deptNo=' + item.children[1].dataset.deptNo + '&date=' + date;
+            location.href = '/admin/attendence/deptList?deptNo=' + item.children[1].dataset.deptNo + '&date=' + date;
         }
         if(className.includes('comp')){
-            location.href = '/admin/attendance/comList?cp=1&date=' + date;
+            location.href = '/admin/attendence/comList?cp=1&date=' + date;
         }
         
     });
@@ -440,3 +440,19 @@ window.addEventListener("click", function hideContextMenu(event) {
         document.removeEventListener('click', hideContextMenu);
     }
 });
+
+const attendenceStandardManagement = document.querySelector("#attendenceStandardManagement");
+
+attendenceStandardManagement.addEventListener('click', e => {
+    const zoomLevel = window.devicePixelRatio;
+    const width = 400 * zoomLevel;
+    const height = 300 * zoomLevel;
+
+    const screenWidth = window.screen.width;
+    const screenHeight = window.screen.height;
+
+    const left = (screenWidth / 2) - (width / 2);
+    const top = (screenHeight / 2) - (height / 2);
+
+    const popup = window.open("/admin/attendence/standardManagement", "popup", `width=${width}, height=${height}, left=${left}, top=${top}`)
+})

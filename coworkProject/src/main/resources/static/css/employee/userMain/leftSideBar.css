@@ -209,7 +209,7 @@ body {
     align-items: center; /*0624PEB*/
 
 }
-#attendanceRegisterBtn{
+#attendenceRegisterBtn{
 	display: flex; 
 	justify-content: flex-end;
 	margin-top: 10px; 
@@ -296,6 +296,11 @@ body {
 	font-size: 16px;
 	font-weight: bold;
 	height: 4.5vh;
+}
+
+/* 2024-07-07 성혁 */
+#mail{
+	height: 40px;
 }
 
 .active, .dropbtn:hover {
