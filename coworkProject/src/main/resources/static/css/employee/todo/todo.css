@@ -56,6 +56,10 @@ a:hover {
     padding: 5px;
 }
 
+.fileList li a:hover, .detailFileList li a:hover{
+    color: #82A6CB;
+}
+
 .fileList button, .detailFileList button {
     background-color: #82A6CB;
     border: none;
@@ -82,7 +86,6 @@ a:hover {
 #fileArea {
     align-items: center;
 }
-
 
 
 /* 검색 */

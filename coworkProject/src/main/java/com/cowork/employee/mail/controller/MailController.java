@@ -61,7 +61,7 @@ public class MailController {
 		
 		int empCode = loginEmp.getEmpCode(); 
 		paramMap.put("empCode", loginEmp.getEmpCode()); 
-		paramMap.put("comNo", loginEmp.getEmpNo()); 
+		paramMap.put("comNo", loginEmp.getComNo()); 
 		
 		// 전체 메일 개수 
 		//int mailCount = service.mailCount(empCode); 
@@ -77,10 +77,10 @@ public class MailController {
 		model.addAttribute("empCode", empCode); 
 		model.addAttribute("loginEmp", loginEmp);
 		
-		log.info("mailCount : " + map.get("mailCount"));
-		log.info("noReadCount : " + map.get("noReadCount"));
-		log.info("listCount : " + map.get("listCount"));
-		log.info("loginEmpCode : " + loginEmp.getEmpCode());
+		//log.info("mailCount : " + map.get("mailCount"));
+		//log.info("noReadCount : " + map.get("noReadCount"));
+		//log.info("listCount : " + map.get("listCount"));
+		//log.info("loginEmpCode : " + loginEmp.getEmpCode());
 		
 		return "employee/mail/mailList";
 	}
@@ -96,7 +96,7 @@ public class MailController {
 		
 		int empCode = loginEmp.getEmpCode(); 
 		paramMap.put("empCode", loginEmp.getEmpCode()); 
-		paramMap.put("comNo", loginEmp.getEmpNo()); 
+		paramMap.put("comNo", loginEmp.getComNo()); 
 		
 		// 전체 메일 개수 
 		//int inMailCount = service.inMailCount(empCode); 
@@ -112,9 +112,9 @@ public class MailController {
 		model.addAttribute("empCode", empCode); 
 		model.addAttribute("loginEmp", loginEmp);
 		
-		log.info("inMailCount : " + map.get("inMailCount"));
-		log.info("noReadCount : " + map.get("inMailNoReadCount"));
-		log.info("listCount : " + map.get("inListCount"));
+		//log.info("inMailCount : " + map.get("inMailCount"));
+		//log.info("noReadCount : " + map.get("inMailNoReadCount"));
+		//log.info("listCount : " + map.get("inListCount"));
 		
 		return "employee/mail/inbox";
 	}
@@ -130,7 +130,7 @@ public class MailController {
 		
 		int empCode = loginEmp.getEmpCode(); 
 		paramMap.put("empCode", loginEmp.getEmpCode()); 
-		paramMap.put("comNo", loginEmp.getEmpNo()); 
+		paramMap.put("comNo", loginEmp.getComNo()); 
 		
 		// 전체 메일 개수 
 		//Integer sentMailCount = service.sentMailCount(empCode); 
@@ -146,9 +146,9 @@ public class MailController {
 		model.addAttribute("empCode", empCode); 
 		model.addAttribute("loginEmp", loginEmp);
 		
-		log.info("sentMailCount : " +  map.get("sentMailCount"));
-		log.info("sentMailNoReadCount : " + map.get("sentMailNoReadCount"));
-		log.info("sentListCount : " + map.get("sentListCount"));
+		//log.info("sentMailCount : " +  map.get("sentMailCount"));
+		//log.info("sentMailNoReadCount : " + map.get("sentMailNoReadCount"));
+		//log.info("sentListCount : " + map.get("sentListCount"));
 		
 		return "employee/mail/sentbox";
 	}
@@ -164,7 +164,7 @@ public class MailController {
 		
 		int empCode = loginEmp.getEmpCode(); 
 		paramMap.put("empCode", loginEmp.getEmpCode()); 
-		paramMap.put("comNo", loginEmp.getEmpNo()); 
+		paramMap.put("comNo", loginEmp.getComNo()); 
 
 		Map<String, Object> map = service.outMailList(paramMap, cp); 
 		
@@ -174,7 +174,7 @@ public class MailController {
 		model.addAttribute("empCode", empCode); 
 		model.addAttribute("loginEmp", loginEmp);
 		
-		log.info("outListCount : " + map.get("outListCount"));
+		//log.info("outListCount : " + map.get("outListCount"));
 		
 		return "employee/mail/outbox";
 	}
@@ -190,7 +190,7 @@ public class MailController {
 		
 		int empCode = loginEmp.getEmpCode(); 
 		paramMap.put("empCode", loginEmp.getEmpCode()); 
-		paramMap.put("comNo", loginEmp.getEmpNo()); 
+		paramMap.put("comNo", loginEmp.getComNo()); 
 
 		Map<String, Object> map = service.binList(paramMap, cp); 
 		
@@ -236,8 +236,8 @@ public class MailController {
 		
 		mailContent = mailContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
 		
-		log.info("recipient : 배열인가요 :" + recipient); 
-		log.info("referer : 배열인가요 : " + referer); 
+		//log.info("recipient : 배열인가요 :" + recipient); 
+		//log.info("referer : 배열인가요 : " + referer); 
 		//log.info("파일 첨부리스트.... : " + files.toString()); 
 		//log.info("파일 첨부리스트.... : " + files.size()); 
 		
@@ -273,8 +273,10 @@ public class MailController {
 		String message; 
 		
 		if(map.get("mail") == null) {
+			
 			path = "redirect:/mailList";
 			ra.addFlashAttribute("message", "해당 메일 조회 실패했습니다.");
+			
 		} else {
 			path = "employee/mail/mailDetail";
 
@@ -345,9 +347,12 @@ public class MailController {
 	@ResponseBody
     @PostMapping("eliminate")
     public ResponseEntity<?> eliminateMails(@RequestBody Map<String, List<Integer>> request) {
+		
+		// mailNo 
         List<Integer> mailIds = request.get("mailIds");
         
         service.eliminateMails(mailIds);
+        
         return ResponseEntity.ok(Collections.singletonMap("success", true));
     }
 	
@@ -380,9 +385,9 @@ public class MailController {
 					model.addAttribute("sender", map.get("sender")); 
 					model.addAttribute("senderMail", map.get("senderMail")); 
 					model.addAttribute("senderEmpCode", map.get("senderEmpCode")); 
-					log.info("보낸 사람 : " + map.get("sender")); 
-					log.info("보낸 사람 메일 : " + map.get("senderMail")); 
-					log.info("보낸 사람 코드 : " + map.get("senderEmpCode")); 
+					//log.info("보낸 사람 : " + map.get("sender")); 
+					//log.info("보낸 사람 메일 : " + map.get("senderMail")); 
+					//log.info("보낸 사람 코드 : " + map.get("senderEmpCode")); 
 					
 					model.addAttribute("mail", map.get("mail")); 
 					model.addAttribute("fileList", map.get("fileList"));
@@ -417,8 +422,8 @@ public class MailController {
 	
 	mailContent = mailContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
 	
-	log.info("recipient : 배열인가요 :" + recipient); 
-	log.info("referer : 배열인가요 : " + referer); 
+	//log.info("recipient : 배열인가요 :" + recipient); 
+	//log.info("referer : 배열인가요 : " + referer); 
 	//log.info("파일 첨부리스트.... : " + files.toString()); 
 	//log.info("파일 첨부리스트.... : " + files.size()); 
 	
@@ -463,9 +468,9 @@ public class MailController {
 			model.addAttribute("sender", map.get("sender")); 
 			model.addAttribute("senderMail", map.get("senderMail")); 
 			model.addAttribute("senderEmpCode", map.get("senderEmpCode")); 
-			log.info("보낸 사람 : " + map.get("sender")); 
-			log.info("보낸 사람 메일 : " + map.get("senderMail")); 
-			log.info("보낸 사람 코드 : " + map.get("senderEmpCode")); 
+			//log.info("보낸 사람 : " + map.get("sender")); 
+			//log.info("보낸 사람 메일 : " + map.get("senderMail")); 
+			//log.info("보낸 사람 코드 : " + map.get("senderEmpCode")); 
 			
 			model.addAttribute("mail", map.get("mail")); 
 			model.addAttribute("fileList", map.get("fileList"));
@@ -506,33 +511,35 @@ public class MailController {
 							@RequestParam(value = "existingFiles", required = false) String existingFilesJson,
 							RedirectAttributes ra) throws IllegalStateException, IOException {
 		 
-		 List<MailFile> existingFiles = new ArrayList<>();
-	        if (existingFilesJson != null && !existingFilesJson.isEmpty()) {
-	            ObjectMapper objectMapper = new ObjectMapper();
-	            existingFiles = objectMapper.readValue(existingFilesJson, new TypeReference<List<MailFile>>() {});
-	        }
+		List<MailFile> existingFiles = new ArrayList<>();
+		
+        if (existingFilesJson != null && !existingFilesJson.isEmpty()) {
+        	
+            ObjectMapper objectMapper = new ObjectMapper();
+            existingFiles = objectMapper.readValue(existingFilesJson, new TypeReference<List<MailFile>>() {});
+        }
 				
 	
-	mailContent = mailContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
-	
-	log.info("recipient : 배열인가요 :" + recipient); 
-	log.info("referer : 배열인가요 : " + referer); 
-	//log.info("파일 첨부리스트.... : " + files.toString()); 
-	//log.info("파일 첨부리스트.... : " + files.size());
-	
-	int originMailNo = mailNo; 
-	
-	log.info("기존 메일 번호 : originMailNo");
-	
-	Mail inputMail = Mail.builder()
-				.mailTitle(mailTitle)
-				.mailContent(mailContent)
-				.empCode(loginEmp.getEmpCode())
-				.build(); 
-	
-	int result = service.forward(inputMail, files, recipient, referer, updateOrder, deleteOrder, mailNo, existingFiles);
-	
-	return result; 
+		mailContent = mailContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
+		
+		//log.info("recipient : 배열인가요 :" + recipient); 
+		//log.info("referer : 배열인가요 : " + referer); 
+		//log.info("파일 첨부리스트.... : " + files.toString()); 
+		//log.info("파일 첨부리스트.... : " + files.size());
+		
+		int originMailNo = mailNo; 
+		
+		//log.info("기존 메일 번호 : originMailNo");
+		
+		Mail inputMail = Mail.builder()
+					.mailTitle(mailTitle)
+					.mailContent(mailContent)
+					.empCode(loginEmp.getEmpCode())
+					.build(); 
+		
+		int result = service.forward(inputMail, files, recipient, referer, updateOrder, deleteOrder, mailNo, existingFiles);
+		
+		return result; 
 	
 	} 
 	
@@ -576,8 +583,8 @@ public class MailController {
 		//log.info("기존 파일 넘어오나요 : " + updateOrder); 	 
 		//log.info("파일 몇 개인가요 : " + files.size());
 		//log.info("existingFilesJson : " + existingFilesJson.length());
-		log.info("recipient : 배열인가요 :" + recipient); 
-		log.info("referer : 배열인가요 : " + referer); 
+		//log.info("recipient : 배열인가요 :" + recipient); 
+		//log.info("referer : 배열인가요 : " + referer); 
 		
 		Mail inputMail = Mail.builder()
 				.mailTitle(mailTitle)
@@ -603,27 +610,30 @@ public class MailController {
 								@SessionAttribute("loginEmp") Employee2 loginEmp,	
 								Model model ) {
 
-		Map<String, Object> map = service.mailDetail(mailNo); 
-		
-		String path;
-		
-		if(map.get("mail") == null) {
-		path = "redirect:/outbox";
-		
-		} else {
-		path = "employee/mail/outMailUpdate";
-		
-		Mail mail = (Mail) map.get("mail"); 
-		mail.setMailTitle( mail.getMailTitle()); 
-		mail.setMailContent(mail.getMailContent()); 
-		
-		model.addAttribute("mail", map.get("mail")); 
-		model.addAttribute("fileList", map.get("fileList"));
-		model.addAttribute("recipientList", map.get("recipientList")); 
-		model.addAttribute("refererList", map.get("refererList")); 
-		}
-		
-		return path; 
+			Map<String, Object> map = service.mailDetail(mailNo); 
+			
+			String path;
+			
+			if(map.get("mail") == null) {
+				
+			path = "redirect:/outbox";
+			
+			} else {
+				
+			path = "employee/mail/outMailUpdate";
+			
+			Mail mail = (Mail) map.get("mail"); 
+			mail.setMailTitle( mail.getMailTitle()); 
+			mail.setMailContent(mail.getMailContent()); 
+			
+			model.addAttribute("mail", map.get("mail")); 
+			model.addAttribute("fileList", map.get("fileList"));
+			model.addAttribute("recipientList", map.get("recipientList")); 
+			model.addAttribute("refererList", map.get("refererList")); 
+			
+			}
+			
+			return path; 
 		
 	}
 	
@@ -656,22 +666,22 @@ public class MailController {
 							@RequestParam(value="files", required=false) List<MultipartFile> files
 							) throws IllegalStateException, IOException {
 		
-		log.info("기존 파일 넘어오나요 : " + updateOrder); 	 
-		//log.info("파일 몇 개인가요 : " + files.size());
-		log.info("recipient : 배열인가요 :" + recipient); 
-		log.info("referer : 배열인가요 : " + referer); 
-		
-		Mail inputMail = new Mail(); 
-		mailContent = mailContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
-		
-		inputMail.setMailNo(mailNo); 
-		inputMail.setMailTitle(mailTitle); 
-		inputMail.setMailContent(mailContent); 
-		inputMail.setEmpCode(loginEmp.getEmpCode()); 
-		
-		int result = service.outUpdate(inputMail, files, recipient, referer, deleteOrder, updateOrder);
-		
-		return result; 
+			//log.info("기존 파일 넘어오나요 : " + updateOrder); 	 
+			//log.info("파일 몇 개인가요 : " + files.size());
+			//log.info("recipient : 배열인가요 :" + recipient); 
+			//log.info("referer : 배열인가요 : " + referer); 
+			
+			Mail inputMail = new Mail(); 
+			mailContent = mailContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
+			
+			inputMail.setMailNo(mailNo); 
+			inputMail.setMailTitle(mailTitle); 
+			inputMail.setMailContent(mailContent); 
+			inputMail.setEmpCode(loginEmp.getEmpCode()); 
+			
+			int result = service.outUpdate(inputMail, files, recipient, referer, deleteOrder, updateOrder);
+			
+			return result; 
 		
 	}
 	
@@ -706,24 +716,24 @@ public class MailController {
 							
 							) throws IllegalStateException, IOException {
 	
-	
-	log.info("기존 파일 넘어오나요 : " + updateOrder); 	 
-	//log.info("파일 몇 개인가요 : " + files.size());
-	log.info("recipient : 배열인가요 :" + recipient); 
-	log.info("referer : 배열인가요 : " + referer); 
-	
-	Mail inputMail = new Mail(); 
-	mailContent = mailContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
-	
-	inputMail.setMailNo(mailNo); 
-	inputMail.setMailTitle(mailTitle); 
-	inputMail.setMailContent(mailContent); 
-	inputMail.setEmpCode(loginEmp.getEmpCode()); 
-	
-	
-	int result = service.outSend(inputMail, files, recipient, referer, deleteOrder, updateOrder);
-	
-	return result; 
+		
+		//log.info("기존 파일 넘어오나요 : " + updateOrder); 	 
+		//log.info("파일 몇 개인가요 : " + files.size());
+		//log.info("recipient : 배열인가요 :" + recipient); 
+		//log.info("referer : 배열인가요 : " + referer); 
+		
+		Mail inputMail = new Mail(); 
+		mailContent = mailContent.replaceAll("<div\\s+align=\"\"\\s+style=\"\">|</div><p><br></p>", "");
+		
+		inputMail.setMailNo(mailNo); 
+		inputMail.setMailTitle(mailTitle); 
+		inputMail.setMailContent(mailContent); 
+		inputMail.setEmpCode(loginEmp.getEmpCode()); 
+		
+		
+		int result = service.outSend(inputMail, files, recipient, referer, deleteOrder, updateOrder);
+		
+		return result; 
 	
 	} 
 	
