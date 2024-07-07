@@ -17,8 +17,9 @@
         <div class="mailHeader">
             <div class="mailLabel">
                 <label>임시보관함</label>
-               <!-- <div><label class="cntLabel">0</label><label>/300</label></div>
-                <div><button class="default-btn glucose-btn">메일쓰기</button></div> -->
+               <!-- <div><label class="cntLabel">0</label><label>/300</label></div> -->
+                <div><button class="default-btn glucose-btn"
+                        th:onclick="location.href='/mail/mailInsert'">메일쓰기</button></div> 
             </div>
             <form th:action="@{outbox}" method="get" class="search" id="searchForm">
                 <select class="default-line" name="key" id="searchKey">

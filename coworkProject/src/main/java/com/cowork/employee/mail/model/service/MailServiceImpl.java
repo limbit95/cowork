@@ -54,7 +54,7 @@ public class MailServiceImpl implements MailService {
 	public Map<String, Object> mailList(Map<String, Object> paramMap, int cp) {
 		
 		int empCode = (int) paramMap.get("empCode"); 
-		log.info("empCode 넘어왔니? : " + empCode);
+		//log.info("empCode ? : " + empCode);
 		
 		Integer listCount = mapper.listCount(paramMap);				
 		Integer mailCount = mapper.mailCount(empCode); 				

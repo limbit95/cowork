@@ -21,7 +21,7 @@
                             <!--th:onclick="location.href='/mail/mailInsert'"-->
                 </div>
             </div>
-            <form class="search" id="searchForm" th:action="@{bin}" method="get">
+            <form th:action="@{bin}" method="get" class="search" id="searchForm">
                 <select class="default-line" name="key" id="searchKey">
                     <option value="1">제목</option>
                     <option value="2">내용</option>
@@ -31,24 +31,21 @@
                     <input type="text" name="mailQuery" id="SearchQuery" placeholder="검색">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </div>    
-        </form>   
+            </form>   
         </div>
 
         <!--- 테이블 --->
 
         <div class="board">
 
-            <div class="table-body">
+            <div class="boardHead">
                 <div class="checkDiv">
                     <input type="checkbox" id="checkAll">
                     <label class="delBtn" id="eliminateBtn">영구 삭제</label>
                 </div>
-                <div></div>
-                <div></div>
+                <div class="binHeadDiv2"></div>
                 <div class="menuDiv">
-                    <div class="sortByDate">
-                        <i class="fa-solid fa-clock"></i>
-                    </div>
+                    <i class="fa-solid fa-clock"></i>
                 </div>
             </div>
 
