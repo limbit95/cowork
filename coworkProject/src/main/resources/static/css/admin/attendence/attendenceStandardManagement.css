@@ -1,15 +1,112 @@
 * {
     box-sizing: border-box;
-    border: 1px solid green;
+    /* border: 1px solid green; */
     margin: 0;
     padding: 0;
+    font-size: 12px;
 }
 
 body {
-    padding: 50px;
+    padding: 20px 30px 20px 30px;
 }
 
-.currentAttendence {
+.settingTypeDiv {
     display: flex;
-    
+    justify-content: space-between;
+}
+
+.settingTypeDiv > div {
+    display: flex;
+}
+
+.settingTypeDiv label {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.dayOfWeekDiv {
+    display: flex;
+    margin-top: 15px;
+}
+.dayOfWeek {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 30px;
+    cursor: pointer;
+    border: 1px solid rgb(131, 131, 131);
+    color: black;
+}
+
+.startAndEnd {
+    display: flex;
+    margin-top: 15px;
+}
+.startAndEnd > * {
+    display: flex;
+    justify-content: center;
+    margin-right: 6px;
+}
+.work {
+    line-height: 22px;
+}
+.startAndEnd select {
+    border: 1px solid #c0c0c0;
+    border-radius: 5px;
+    width: 42px;
+    height: 23px;
+    padding: 0 0 0 3px;
+    color: rgba(0, 0, 0, 0.87);
+    outline: none;
+}
+
+hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 0.5px solid #d8d8d8;
+}
+
+.attendenceTimeCalc > :nth-child(1) {
+    font-weight: bold;
+}
+.attendenceTimeCalc > :nth-child(2),
+.attendenceTimeCalc > :nth-child(3) {
+    display: flex;
+    margin-top: 10px;
+}
+.attendenceTimeCalc input {
+    margin-right: 5px;
+}
+.info1 {
+    margin-top: 15px;
+    font-size: 10px;
+    line-height: 15px;
+}
+.info2 {
+    margin-top: 5px;
+    font-size: 10px;
+    line-height: 15px;
+}
+
+.btnDiv {
+    display: flex;
+    justify-content: end;
+    margin-top: 15px;
+}
+
+.btnDiv button {
+    background: #82A6CB;
+    color: white;
+    border: 2px solid #82A6CB;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 30px;
+    padding: 4px 10px 4px 10px;
+    margin-left: 10px;
+}
+.btnDiv button:hover {
+    background: white;
+    color: #82A6CB;
+    border: 2px solid #82A6CB;
 }
