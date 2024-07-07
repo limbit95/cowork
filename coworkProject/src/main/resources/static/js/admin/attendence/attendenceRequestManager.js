@@ -6,15 +6,15 @@ const approvalList = document.querySelector(".approvalList");
 const rejectList = document.querySelector(".rejectList");
 
 requestList.addEventListener("click", e => {
-  location.href = '/admin/attendance/requestManager';
+  location.href = '/admin/attendence/requestManager';
 })
 
 approvalList.addEventListener("click", e => {
-  location.href = '/admin/attendance/approvalManager';
+  location.href = '/admin/attendence/approvalManager';
 })
 
 rejectList.addEventListener("click", e => {
-  location.href = '/admin/attendance/rejectManager';
+  location.href = '/admin/attendence/rejectManager';
 })
 
 

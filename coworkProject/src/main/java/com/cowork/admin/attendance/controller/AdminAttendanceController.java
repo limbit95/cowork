@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("admin/attendance")
+@RequestMapping("admin/attendence")
 @SessionAttributes({"empDetail", "backPageLocation", "comAddrList", "loginEmp", "positionList", "companyCreateDate", "date"})
 public class AdminAttendanceController {
 	
@@ -38,7 +38,7 @@ public class AdminAttendanceController {
 	private final AdminAddrService adminAddrService;
 	
 	@GetMapping("")
-	public String attendanceManager(HttpServletRequest request, 
+	public String attendenceManager(HttpServletRequest request, 
 							        Model model, 
 							        @RequestParam(value="cp", required=false, defaultValue="1") int cp,
 							        @RequestParam(value="date", required=false, defaultValue="null") String date) {
@@ -63,32 +63,32 @@ public class AdminAttendanceController {
 		
 		model.addAttribute("date", date);
 		
-		return "admin/attendance/attendanceManager";
+		return "admin/attendence/attendenceManager";
 	}
 	
 	@GetMapping("detail")
-	public String attendanceDetail() {
-		return "admin/attendance/attendanceDetail";
+	public String attendenceDetail() {
+		return "admin/attendence/attendenceDetail";
 	}
 	
 	@GetMapping("requestManager")
-	public String attendanceRequestManager() {
-		return "admin/attendance/attendanceRequestManager";
+	public String attendenceRequestManager() {
+		return "admin/attendence/attendenceRequestManager";
 	}
 	
 	@GetMapping("approvalManager")
-	public String attendanceApprovalManager() {
-		return "admin/attendance/attendanceApprovalManager";
+	public String attendenceApprovalManager() {
+		return "admin/attendence/attendenceApprovalManager";
 	}
 	
 	@GetMapping("rejectManager")
-	public String attendanceRejectManager() {
-		return "admin/attendance/attendanceRejectManager";
+	public String attendenceRejectManager() {
+		return "admin/attendence/attendenceRejectManager";
 	}
 	
 	@GetMapping("standardManagement")
-	public String attendanceStandardManagement() {
-		return "admin/attendance/attendanceStandardManagement";
+	public String attendenceStandardManagement() {
+		return "admin/attendence/attendenceStandardManagement";
 	}
 
 	/** 사원 찾기 (이름으로)
@@ -145,7 +145,10 @@ public class AdminAttendanceController {
 		model.addAttribute("comList", map.get("comList"));
 		model.addAttribute("date", date);
 		
-		return "admin/attendance/attendanceManager";
+		String companyCreateDate = service.getCompanyCreateDate(loginEmp);
+		model.addAttribute("companyCreateDate", companyCreateDate);
+		
+		return "admin/attendence/attendenceManager";
 	}
 	
 	
@@ -173,8 +176,11 @@ public class AdminAttendanceController {
 		model.addAttribute("deptList", selectDeptList.get("deptList"));
 		model.addAttribute("deptNo", data.get("deptNo"));
 		model.addAttribute("date", date);
+		
+		String companyCreateDate = service.getCompanyCreateDate(loginEmp);
+		model.addAttribute("companyCreateDate", companyCreateDate);
 
-		return "admin/attendance/attendanceManager";
+		return "admin/attendence/attendenceManager";
 	}
 	
 	/** 팀별 사원 리스트 조회
@@ -206,8 +212,11 @@ public class AdminAttendanceController {
 		model.addAttribute("teamList", selectTeamList.get("teamList"));
 		model.addAttribute("teamNo", data.get("deptNo") + "/" + data.get("teamNo"));
 		model.addAttribute("date", date);
+		
+		String companyCreateDate = service.getCompanyCreateDate(loginEmp);
+		model.addAttribute("companyCreateDate", companyCreateDate);
 
-		return "admin/attendance/attendanceManager";
+		return "admin/attendence/attendenceManager";
 	}
 	
 }

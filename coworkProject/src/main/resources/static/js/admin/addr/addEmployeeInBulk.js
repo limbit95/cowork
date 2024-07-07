@@ -1,13 +1,6 @@
-// document.querySelector('#fncMenu').classList.add('active');
-// document.querySelector('#addrSub').style.fontWeight = 'bold';
-
 const deptList = [];
 const teamList = [];
 const excelIdList = [];
-
-
-
-
 
 window.addEventListener("load", e => {
     if(comAddrList != null) {
@@ -47,7 +40,6 @@ window.addEventListener("load", e => {
 //     console.log(teamList)
 //     console.log(positionList)
 // })
-
 
 // 새로운 방법의 파일 복사본
 let newFile;
@@ -261,9 +253,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     // 엑셀 파일의 아이디 리스트화
                     result.forEach((i) => {
-                        // if(i.ID == "") {
-                        //     return;
-                        // }
                         excelIdList.push(i.ID);
                     })
 
@@ -764,7 +753,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                     }
                                 });
                             }
-                            
 
                             // 엑셀 파일에서 작성한 직급명이 기존 DB의 직급 리스트에 없는 직급명이면 
                             // select 태그의 border 빨간색으로 변경
@@ -794,11 +782,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                     i.children[10].children[0].style.border = '1px solid var(--gray-color)';
                                 })
                             }
-
-
-
-
-
 
                             // 팀 select
                             if(i.팀 != null || tempTeamList != null) {
@@ -922,7 +905,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             borderIsRed2();
                         });
                     })
-
 
                     // 이름 인풋창 포커스 시
                     document.querySelectorAll(".empFirstName").forEach((i) => {
@@ -1464,7 +1446,6 @@ function isValidDate(inputDate) {
     return true;
 }
 
-
 const modal2 = document.getElementById("myModal2");
 const btn2 = document.getElementById("confirmBtn2");
 
@@ -1542,7 +1523,7 @@ dropZone.addEventListener('drop', (e) => {
         reader.readAsArrayBuffer(temp1);
 
         document.querySelectorAll(".accordion-header")[2].style.color = 'rgba(0, 0, 0, 0.479)';
-        document.getElementById('fileName').innerHTML = `${fileInput.files[0].name}<span id="xBtn" style="margin-left: 3px; ont-size: 14px; cursor: pointer; color: red;">&times;</span>`;
+        document.getElementById('fileName').innerHTML = `${fileInput.files[0].name}<span id="xBtn" style="margin-left: 3px; font-size: 14px; cursor: pointer; color: red;">&times;</span>`;
         document.querySelector("#next2").classList.remove('blur');
         document.querySelector("#next2").classList.add('sapphire-btn2');
 
@@ -1841,9 +1822,6 @@ function borderIsRed2() {
         document.querySelector("#addInBulk").classList.remove("sapphire-btn2");
     }
 }
-
-
-
 
 function borderIsRed() {
     const employeeList = document.querySelector(".employeeList");

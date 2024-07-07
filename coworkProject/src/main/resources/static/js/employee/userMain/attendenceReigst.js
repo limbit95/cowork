@@ -57,17 +57,17 @@ const currentAttd = document.querySelector("#currentAttd");
 window.addEventListener("DOMContentLoaded", e => {
   const date = getDate();
 
-  fetch("/employee/attendance/attendenceCheck?date=" + date)
+  fetch("/employee/attendence/attendenceCheck?date=" + date)
   .then(resp => resp.json())
   .then(result => {
-    if(result.arrivalTime.length == 0) {
+    if(result.arrivalTime == null) {
       document.querySelector("#currentAttd").innerText = '출근전';
     } 
-    if(result.arrivalTime.length > 0 && result.departureTime.length == 0) {
+    if(result.arrivalTime != null && result.departureTime == null) {
       document.querySelector("#currentAttd").innerText = '출근';
       document.querySelector("#arrival-time").innerText = result.arrivalTime;
     }
-    if(result.arrivalTime.length > 0 && result.departureTime.length > 0) {
+    if(result.arrivalTime != null && result.departureTime != null) {
       document.querySelector("#currentAttd").innerText = '퇴근';
       document.querySelector("#arrival-time").innerText = result.arrivalTime;
       document.querySelector("#departure-time").innerText = result.departureTime;
@@ -85,7 +85,7 @@ arrivalButton.addEventListener("click", e => {
   const date = getDate();
 
   // 출근 기록 확인 비동기 요청
-  fetch("/employee/attendance/arrivalCheck?date=" + date)
+  fetch("/employee/attendence/arrivalCheck?date=" + date)
   .then(resp => resp.text())
   .then(async result => {
     if(result == 1) {
@@ -93,7 +93,7 @@ arrivalButton.addEventListener("click", e => {
       return;
     }
 
-    fetch("/employee/attendance/arrivalRecord?dateTime=" + dateTime + "&date=" + date)
+    fetch("/employee/attendence/arrivalRecord?dateTime=" + dateTime + "&date=" + date)
     .then(resp => resp.text())
     .then(result => {
       if(result == null) {
@@ -119,14 +119,14 @@ departureButton.addEventListener("click", e => {
   const date = getDate();
 
   // 출근 기록 확인 비동기 요청
-  fetch("/employee/attendance/departureCheck?date=" + date)
+  fetch("/employee/attendence/departureCheck?date=" + date)
   .then(resp => resp.text())
   .then(result => {
     if(result.length > 0) {
       alert("이미 퇴근하셨습니다.");
       return;
     }
-    fetch("/employee/attendance/arrivalCheck?date=" + date)
+    fetch("/employee/attendence/arrivalCheck?date=" + date)
     .then(resp => resp.text())
     .then(result => {
       if(result == 0) {
@@ -135,7 +135,7 @@ departureButton.addEventListener("click", e => {
       }
 
       
-      fetch("/employee/attendance/departureRecord?dateTime=" + dateTime + "&date=" + date)
+      fetch("/employee/attendence/departureRecord?dateTime=" + dateTime + "&date=" + date)
       .then(resp => resp.text())
       .then(result => {
         if(result == null) {

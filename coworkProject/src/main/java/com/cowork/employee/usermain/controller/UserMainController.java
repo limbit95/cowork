@@ -50,10 +50,10 @@ public class UserMainController {
 	/** 출퇴근 등록 팝업창
 	 * @return
 	 */
-	@GetMapping("userMain/attendanceRegist")
+	@GetMapping("userMain/attendenceRegist")
 	public String attendanceRegist() {
 		
-		return "employee/userMain/attendanceReigst";
+		return "employee/userMain/attendenceReigst";
 	}
 
 	

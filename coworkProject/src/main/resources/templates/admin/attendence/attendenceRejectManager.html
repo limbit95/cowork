@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>관리자 - 근태수정 요청내역</title>
+    <title>관리자 - 근태수정 반려내역</title>
     
     <th:block th:replace="~{common/common}"></th:block>
-    <link rel="stylesheet" href="/css/admin/attendance/attendanceRequestManager.css">
+    <link rel="stylesheet" href="/css/admin/attendence/attendenceRejectManager.css">
 </head>
 <body>
     
@@ -15,7 +15,7 @@
     <section class="container">
         <!-----------------------------------------------   타이틀  ------------------------------------------------------------------>
 
-        <div class="title"><span>요청 내역</span></div>
+        <div class="title"><span>반려 내역</span></div>
 
         <main>
 
@@ -112,71 +112,6 @@
                     <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
     
                 </div>
-    
-                <div class="body">
-
-                    <div>운영팀</div>
-                    <div>임성혁</div>
-                    <div>대리</div>
-                    <div>010-1234-1234</div>
-                    <div>지각</div>
-                    <div>09:02 ~ 18:00</div>
-                    <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
-    
-                </div>
-                
-                <div class="body">
-
-                    <div>운영팀</div>
-                    <div>임성혁</div>
-                    <div>대리</div>
-                    <div>010-1234-1234</div>
-                    <div>지각</div>
-                    <div>09:02 ~ 18:00</div>
-                    <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
-    
-                </div>
-                
-                <div class="body">
-
-                    <div>운영팀</div>
-                    <div>임성혁</div>
-                    <div>대리</div>
-                    <div>010-1234-1234</div>
-                    <div>지각</div>
-                    <div>09:02 ~ 18:00</div>
-                    <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
-    
-                </div>
-                
-                <div class="body">
-
-                    <div>운영팀</div>
-                    <div>임성혁</div>
-                    <div>대리</div>
-                    <div>010-1234-1234</div>
-                    <div>지각</div>
-                    <div>09:02 ~ 18:00</div>
-                    <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
-    
-                </div>
-                
-                <div class="body">
-
-                    <div>운영팀</div>
-                    <div>임성혁</div>
-                    <div>대리</div>
-                    <div>010-1234-1234</div>
-                    <div>지각</div>
-                    <div>09:02 ~ 18:00</div>
-                    <div>08:57 ~ 18:00</div>
-                    <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
-    
-                </div>
 
             </div>
 
@@ -216,12 +151,12 @@
 
         </main>
         
-        <th:block th:replace="~{admin/attendance/requestDetail}"></th:block>
-        
+        <th:block th:replace="~{admin/attendence/rejectDetail}"></th:block>
+
     </section>
 
     <input class="homeUi" value="requestManagerSub" hidden/>
-    
-    <script src="/js/admin/attendance/attendanceRequestManager.js"></script>
+
+    <script src="/js/admin/attendence/attendenceRequestManager.js"></script>
 </body>
 </html>
