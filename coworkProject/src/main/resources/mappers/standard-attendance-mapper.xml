@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cowork.admin.attendance.model.mapper.StandardAttendenceMapper">
+		
+	<!-- 팝업창 로드 시 DB에 저장되어 있는 설정 타입 조회 후 화면에 보여주기 -->
+	<select id="getStandardAtd">
+		SELECT TO_CHAR(STANDARD_IN_TIME, 'HH24MI') "standardInTime", TO_CHAR(STANDARD_OFF_TIME, 'HH24MI') "standardOffTime", 
+		DAY_OF_WEEK, CALC_BY_IN_TIME, CALC_BY_OFF_TIME, SETTING_STATUS 
+		FROM STANDARD_ATD
+		WHERE COM_NO = #{comNo}
+	</select>
+	
+	<!-- 설정 안함 -->
+	<update id="offSet">
+		UPDATE STANDARD_ATD SET
+		SETTING_STATUS = '3'
+		WHERE COM_NO = #{comNo}
+	</update>
+	
+	<!-- 지정된 시간으로 설정 -->
+	<update id="setTime">
+		UPDATE STANDARD_ATD SET
+			STANDARD_IN_TIME = TO_DATE('${standardInTime}', 'HH24:MI'),
+			STANDARD_OFF_TIME = TO_DATE('${standardOffTime}', 'HH24:MI'),
+			DAY_OF_WEEK = #{dayOfWeek},
+			CALC_BY_IN_TIME = '${calcByInTime}',
+			CALC_BY_OFF_TIME = '${calcByOffTime}',
+			SETTING_STATUS = '1'
+		WHERE COM_NO = #{comNo}
+	</update>
+	
+		
+</mapper>

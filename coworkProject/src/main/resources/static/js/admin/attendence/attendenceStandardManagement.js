@@ -1,3 +1,14 @@
+const checkDayOfWeek = {
+    "MONDAY" : false,    
+    "TUESDAY" : false,    
+    "WEDNESDAY" : false,    
+    "THURSDAY" : false,    
+    "FRIDAY" : false,    
+    "SATURDAY" : false,    
+    "SUNDAY" : false    
+};
+
+
 const startHour = document.querySelector("#startHour");
 const startMinute = document.querySelector("#startMinute");
 const endHour = document.querySelector("#endHour");
@@ -81,12 +92,25 @@ const dayOfWeek = document.querySelectorAll(".dayOfWeek");
 
 dayOfWeek.forEach((i, index) => {
     i.addEventListener('click', e => {
-        console.log(getComputedStyle(i).color)
         if(getComputedStyle(i).color == 'rgb(0, 0, 0)') {
+            checkDayOfWeek[i.id] = true;
             i.style.border = '1.5px solid rgb(116 176 232)';
             i.style.color = 'rgb(116 176 232)';
             i.style.fontWeight = 'bold';
         } else {
+            let cnt = 0;
+            for(let i = 0; i < dayOfWeek.length; i++) {
+                if(checkDayOfWeek[dayOfWeek[i].id] == true) {
+                    cnt++;
+                }
+            }
+    
+            if(cnt == 1) {
+                alert("최소 하나 이상의 요일이 선택되어야 합니다.");
+                return;
+            }
+
+            checkDayOfWeek[i.id] = false;
             i.style.border = '1px solid rgb(131, 131, 131)';
             i.style.color = 'rgb(0, 0, 0)';
             i.style.fontWeight = 'normal';
@@ -98,15 +122,8 @@ document.querySelector("#close").addEventListener('click', e => {
     window.close();
 })
 
-document.querySelector("#setting").addEventListener('click', e => {
-    if(confirm("현재 설정을 저장하시겠습니까?")) {
-        
-    }
-})
-
 document.querySelectorAll("[name='settingType']").forEach((i) => {
     i.addEventListener("click", e => {
-        console.log(i.id);
         if(i.id == 'offSet') {
             document.querySelector(".settingArea").querySelectorAll("*").forEach((i) => {
                 i.style.color = 'rgb(0 0 0 / 15%)';
@@ -136,3 +153,107 @@ document.querySelectorAll("[name='settingType']").forEach((i) => {
         }
     })
 })
+
+window.addEventListener("DOMContentLoaded", e => {
+    if(stdAtd.settingStatus == 1) {
+        const dayOfWeekArr = Object.keys(stdAtd.dayOfWeekMap);
+        for(let i = 0; i < dayOfWeekArr.length; i++) {
+            if(stdAtd.dayOfWeekMap[dayOfWeekArr[i]] == true) {
+                checkDayOfWeek[dayOfWeekArr[i]] = true;
+                document.getElementById(dayOfWeekArr[i]).style.border = '1.5px solid rgb(116 176 232)';
+                document.getElementById(dayOfWeekArr[i]).style.color = 'rgb(116 176 232)';
+                document.getElementById(dayOfWeekArr[i]).style.fontWeight = 'bold';
+            }
+        }
+    }
+    if(stdAtd.settingStatus == 2) {
+
+    }
+    if(stdAtd.settingStatus == 3) {
+        document.querySelector(".settingArea").querySelectorAll("*").forEach((i) => {
+            i.style.color = 'rgb(0 0 0 / 15%)';
+            i.style.borderColor = 'rgb(0 0 0 / 15%)';
+            i.style.pointerEvents  = 'none';
+        })
+        document.querySelector("#offSet").checked = true;
+        const dayOfWeekArr = Object.keys(stdAtd.dayOfWeekMap);
+        for(let i = 0; i < dayOfWeekArr.length; i++) {
+            if(stdAtd.dayOfWeekMap[dayOfWeekArr[i]] == true) {
+                checkDayOfWeek[dayOfWeekArr[i]] = true;
+                document.getElementById(dayOfWeekArr[i]).style.border = '1.5px solid rgb(0 0 0 / 15%)';
+                document.getElementById(dayOfWeekArr[i]).style.fontWeight = 'bold';
+            }
+        }
+    }
+
+    if(stdAtd.calcByInTime == 'Y') {
+        document.querySelector("#calcByInTime").checked = true;
+    } else {
+        document.querySelector("#calcByInTime").checked = false;
+    }
+    if(stdAtd.calcByOffTime == 'Y') {
+        document.querySelector("#calcByOffTime").checked = true;
+    } else {
+        document.querySelector("#calcByOffTime").checked = false;
+    }
+
+    endHour.innerHTML = '';
+    for(let i = document.querySelector("#startHour").value = stdAtd.standardInTime.substr(0, 2); i <= 24; i++) {
+        const num = String(i).padStart(2, '0');
+        const option = document.createElement("option");
+        option.innerHTML = `<option value="${num}">${num}</option>`;
+        endHour.append(option);
+    }
+    
+    document.querySelector("#startHour").value = stdAtd.standardInTime.substr(0, 2);
+    document.querySelector("#startMinute").value = stdAtd.standardInTime.substr(2, 4);
+    document.querySelector("#endHour").value = stdAtd.standardOffTime.substr(0, 2);
+    document.querySelector("#endMinute").value = stdAtd.standardOffTime.substr(2, 4);
+})
+
+document.querySelector("#setting").addEventListener('click', e => {
+    if(confirm("현재 설정을 저장하시겠습니까?")) {
+        if(document.querySelector("#offSet").checked) {
+            fetch("/admin/standardAttendence/offSet")
+            .then(resp => resp.text())
+            .then(result => {
+                if(result == 0) {
+                    alert("설정 실패");
+                    return;
+                }
+                alert("설정이 저장되었습니다.");
+            })
+        }
+        if(document.querySelector("#setTime").checked) {
+            const obj = [
+                checkDayOfWeek,
+                {
+                    "standardInTime" : document.querySelector("#startHour").value + ':' + document.querySelector("#startMinute").value,
+                    "standardOffTime" : document.querySelector("#endHour").value + ':' + document.querySelector("#endMinute").value
+                },
+                {
+                    "calcByInTime" : document.querySelector("#calcByInTime").checked == true ? 'Y' : 'N',
+                    "calcByOffTime" : document.querySelector("#calcByOffTime").checked == true ? 'Y' : 'N'
+                }
+            ];
+
+            fetch("/admin/standardAttendence/setTime", {
+                method : 'POST',
+                headers : {"Content-Type" : "application/json"},
+                body : JSON.stringify(obj)
+            })
+            .then(resp => resp.json())
+            .then(stdAtd => {
+                if(stdAtd == null) {
+                    alert("설정 실패");
+                    return;
+                }
+                alert("설정이 저장되었습니다.");
+            })
+        }
+    }
+})
+
+// window.addEventListener('click', e => {
+//     console.log(checkDayOfWeek)
+// })

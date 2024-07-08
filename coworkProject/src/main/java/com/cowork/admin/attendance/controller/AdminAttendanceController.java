@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.cowork.admin.addr.model.service.AdminAddrService;
 import com.cowork.admin.attendance.model.service.AdminAttendanceService;
 import com.cowork.employee.addr.model.dto.MyAddr;
 import com.cowork.user.model.dto.Employee2;
@@ -34,8 +33,6 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminAttendanceController {
 	
 	private final AdminAttendanceService service;
-	
-	private final AdminAddrService adminAddrService;
 	
 	@GetMapping("")
 	public String attendenceManager(HttpServletRequest request, 
@@ -84,11 +81,6 @@ public class AdminAttendanceController {
 	@GetMapping("rejectManager")
 	public String attendenceRejectManager() {
 		return "admin/attendence/attendenceRejectManager";
-	}
-	
-	@GetMapping("standardManagement")
-	public String attendenceStandardManagement() {
-		return "admin/attendence/attendenceStandardManagement";
 	}
 
 	/** 사원 찾기 (이름으로)

@@ -11,28 +11,31 @@
 
     <div class="settingTypeDiv">
         <div>
-            <input type="radio" name="settingType" id="setTime" checked>
+            <input type="radio" name="settingType" id="setTime" th:if="${stdAtd.settingStatus != '1'}">
+            <input type="radio" name="settingType" id="setTime" th:if="${stdAtd.settingStatus == '1'}" checked>
             <label for="setTime"><div>지정된 시간으로 설정</div></label>
         </div>
         <div>
-            <input type="radio" name="settingType" id="selectTime">
+            <input type="radio" name="settingType" id="selectTime" th:if="${stdAtd.settingStatus != '2'}">
+            <input type="radio" name="settingType" id="selectTime" th:if="${stdAtd.settingStatus == '2'}" checked>
             <label for="selectTime"><div>선택적 근무시간으로 설정</div></label>
         </div>
         <div>
-            <input type="radio" name="settingType" id="offSet">
+            <input type="radio" name="settingType" id="offSet" th:if="${stdAtd.settingStatus != '3'}">
+            <input type="radio" name="settingType" id="offSet" th:if="${stdAtd.settingStatus == '3'}" checked>
             <label for="offSet"><div>설정 안함</div></label>
         </div>
     </div>
 
     <div class="settingArea">
         <div class="dayOfWeekDiv">
-            <div class="dayOfWeek" id="MONDAY" data-value="MONDAY">월</div>
-            <div class="dayOfWeek" id="TUESDAY" data-value="TUESDAY">화</div>
-            <div class="dayOfWeek" id="WEDNESDAY" data-value="WEDNESDAY">수</div>
-            <div class="dayOfWeek" id="THURSDAY" data-value="THURSDAY">목</div>
-            <div class="dayOfWeek" id="FRIDAY" data-value="FRIDAY">금</div>
-            <div class="dayOfWeek" id="SATURDAY" data-value="SATURDAY">토</div>
-            <div class="dayOfWeek" id="SUNDAY" data-value="SUNDAY">일</div>
+            <div class="dayOfWeek" id="MONDAY">월</div>
+            <div class="dayOfWeek" id="TUESDAY">화</div>
+            <div class="dayOfWeek" id="WEDNESDAY">수</div>
+            <div class="dayOfWeek" id="THURSDAY">목</div>
+            <div class="dayOfWeek" id="FRIDAY">금</div>
+            <div class="dayOfWeek" id="SATURDAY">토</div>
+            <div class="dayOfWeek" id="SUNDAY">일</div>
         </div>
     
         <div class="startAndEnd">
@@ -128,11 +131,11 @@
         <div class="attendenceTimeCalc">
             <div>근무시간 산정 기준 설정</div>
             <div>
-                <input type="checkbox">
+                <input type="checkbox" id="calcByInTime">
                 <div>조기 출근 시, 설정한 업무시작 시간 기준으로 근무시간 산정</div>
             </div>
             <div>
-                <input type="checkbox">
+                <input type="checkbox" id="calcByOffTime">
                 <div>늦은 퇴근 시, 설정한 업무종료 시간 기준으로 근무시간 산정</div>
             </div>
             <div class="info1">* 설정한 업무시작/업무종료 기준으로 근무시간 산정 시, 추가 근무를 하더라도 초과근무로 산정되지 않습니다.</div>
@@ -146,5 +149,8 @@
     </div>
 
     <script src="/js/admin/attendence/attendenceStandardManagement.js"></script>
+    <script th:inline="javascript">
+        const stdAtd = /*[[${stdAtd}]]*/ '설정 내용';
+    </script>
 </body>
 </html>
