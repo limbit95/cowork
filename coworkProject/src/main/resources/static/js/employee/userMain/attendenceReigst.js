@@ -55,7 +55,7 @@ const departureButton = document.querySelector(".departure-button");
 const currentAttd = document.querySelector("#currentAttd");
 
 window.addEventListener("DOMContentLoaded", e => {
-  
+
 })
 
 // ---------------------------------------------------------------------------------------------------------
@@ -88,21 +88,33 @@ arrivalButton.addEventListener("click", e => {
       attendenceStatus = '지각';
     }
 
-    fetch("/employee/attendence/arrivalRecord?dateTime=" + dateTime + "&date=" + date)
+    const obj = {
+      "dateTime" : dateTime,
+      "attendenceStatus" : attendenceStatus == '지각' ? attendenceStatus : null
+    };
+
+    fetch("/employee/attendence/arrivalRecord", {
+      method : 'POST',
+      headers : {"Content-Type" : "application/json"},
+      body : JSON.stringify(obj)
+    })
     .then(resp => resp.text())
     .then(result => {
-      if(result == null) {
+      if(result == 0) {
         alert("출근 실패");
         return;
       }
       alert("출근 완료");
 
-      document.getElementById("arrival-time").innerHTML = result;
-      currentAttd.innerHTML = attendenceStatus;
+      document.getElementById("arrival-time").innerHTML = dateTime.substring(8, 10) + ':' + dateTime.substring(10, 12) + ':' + dateTime.substring(12, 14);
+      if(attendenceStatus == '지각') {
+        currentAttd.innerHTML = '출근[' + attendenceStatus + ']';
+      } else {
+        currentAttd.innerHTML = attendenceStatus;
+      }
     })
 
   })
-  
 
 })
 
@@ -121,6 +133,45 @@ departureButton.addEventListener("click", e => {
       alert("이미 퇴근하셨습니다.");
       return;
     }
+
+
+
+    const startHour = parseInt(stdAtd.standardInTime.substr(0,2));
+    const startMinute = parseInt(stdAtd.standardInTime.substr(2,4));
+    const startTime = startHour * 60 + startMinute;
+
+    const currentTime2 = parseInt(dateTime.substring(8, 10)) * 60 + parseInt(dateTime.substring(10, 12));
+
+    let attendenceStatus2;
+
+    if(startTime >= currentTime2) {
+      attendenceStatus2 = '출근';
+    } else {
+      attendenceStatus2 = '지각';
+    }
+
+
+
+
+
+    const endHour = parseInt(stdAtd.standardOffTime.substr(0,2));
+    const endMinute = parseInt(stdAtd.standardOffTime.substr(2,4));
+    const endTime = endHour * 60 + endMinute;
+
+    const currentTime = parseInt(dateTime.substring(8, 10)) * 60 + parseInt(dateTime.substring(10, 12));
+
+    let attendenceStatus;
+
+    if(endTime <= currentTime) {
+      attendenceStatus = '퇴근';
+    } else {
+      if(attendenceStatus2 == '지각') {
+        attendenceStatus = ',조퇴';
+      } else {
+        attendenceStatus = '조퇴';
+      }
+    }
+
     fetch("/employee/attendence/arrivalCheck?date=" + date)
     .then(resp => resp.text())
     .then(result => {
@@ -129,18 +180,31 @@ departureButton.addEventListener("click", e => {
         return;
       }
 
+      const obj = {
+        "dateTime" : dateTime,
+        "date" : date,
+        "attendenceStatus" : attendenceStatus == '퇴근' ? null : attendenceStatus
+      };
       
-      fetch("/employee/attendence/departureRecord?dateTime=" + dateTime + "&date=" + date)
+      fetch("/employee/attendence/departureRecord", {
+        method : 'POST',
+        headers : {"Content-Type" : "application/json"},
+        body : JSON.stringify(obj)
+      })
       .then(resp => resp.text())
       .then(result => {
-        if(result == null) {
+        if(result == 0) {
           alert("퇴근 실패");
           return;
         }
 
         alert("퇴근 완료");
-        document.getElementById("departure-time").innerHTML = result;
-        currentAttd.innerHTML = '퇴근';
+        document.getElementById("departure-time").innerHTML = dateTime.substring(8, 10) + ':' + dateTime.substring(10, 12) + ':' + dateTime.substring(12, 14);
+        if(attendenceStatus == '조퇴' || attendenceStatus == ',조퇴') {
+          currentAttd.innerHTML = '퇴근[조퇴]';
+        } else {
+          currentAttd.innerHTML = attendenceStatus;
+        }
       })
 
     })

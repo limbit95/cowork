@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-@SessionAttributes({"companyAllCalendarList", "stdAtd", "todayIsAtd"})
+@SessionAttributes({"companyAllCalendarList", "stdAtd"})
 public class UserMainController {
 	
 	private final CalendarService cs;
