@@ -142,3 +142,7 @@
     padding-left: 10px;
     width: 438px !important;
 }
+
+#attendenceRegisterBtn {
+    height: 30px;
+}

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.cowork.admin.attendance.model.dto.StandardAttendence;
 import com.cowork.admin.attendance.model.service.AdminAttendanceService;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("admin/standardAttendence")
+@SessionAttributes({"stdAtd"})
 public class StandardAttendenceController {
 	
 	private final StandardAttendenceService service;

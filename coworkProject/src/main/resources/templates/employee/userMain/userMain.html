@@ -13,7 +13,7 @@
 	<th:block th:replace="~{employee/userMain/leftSideBar}"></th:block>
 	<div id="userMainFullContainer">
 		<div id="attendenceRegisterBtn">
-			<button class="default-btn sapphire-btn" id="attdRegistBtn" type="button">출퇴근 등록</button>	
+			<button class="default-btn sapphire-btn" id="attdRegistBtn" type="button" th:if="${stdAtd.settingStatus != '3'}">출퇴근 등록</button>	
 		</div>
 		<div class="uiMainForm">
 

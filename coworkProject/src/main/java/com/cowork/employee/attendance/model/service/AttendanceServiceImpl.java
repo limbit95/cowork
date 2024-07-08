@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cowork.employee.attendance.model.dto.TodayIsAttendence;
 import com.cowork.employee.attendance.model.mapper.AttendanceMapper;
 import com.cowork.user.model.dto.Employee2;
 
@@ -51,7 +52,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	// 출퇴근 기록 불러오기
 	@Override
-	public Map<String, Object> attendenceCheck(Map<String, Object> data) {
+	public TodayIsAttendence attendenceCheck(Map<String, Object> data) {
 		return mapper.attendenceCheck(data);
 	}
 

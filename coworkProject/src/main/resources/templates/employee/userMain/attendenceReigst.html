@@ -12,14 +12,17 @@
 
     <div>
         <div id="current-time"></div>
-        <div id="currentAttd">출근전</div>
+        <div id="currentAttd" th:if="${todayIsAtd.inTime == null}">출근전</div>
+        <div id="currentAttd" th:if="${todayIsAtd.inTime != null && todayIsAtd.offTime == null}">출근</div>
+        <div id="currentAttd" th:if="${todayIsAtd.inTime != null && todayIsAtd.offTime != null}">퇴근</div>
     </div>
 
     <div>
         <div>
             <div class="arrival-button"><i class="fa-solid fa-arrow-turn-down"></i></div>
             <div>출근하기</div>
-            <div id="arrival-time">00:00:00</div>
+            <div id="arrival-time" th:if="${todayIsAtd.inTime == null}">00:00:00</div>
+            <div id="arrival-time" th:if="${todayIsAtd.inTime != null}" th:text="${todayIsAtd.inTime}">00:00:00</div>
         </div>
 
         <div></div>
@@ -27,7 +30,8 @@
         <div>
             <div class="departure-button"><i class="fa-solid fa-arrow-turn-up"></i></div>
             <div>퇴근하기</div>
-            <div id="departure-time">00:00:00</div>
+            <div id="departure-time" th:if="${todayIsAtd.offTime == null}">00:00:00</div>
+            <div id="departure-time" th:if="${todayIsAtd.offTime != null}" th:text="${todayIsAtd.offTime}">00:00:00</div>
         </div>
     </div>
 
@@ -38,6 +42,7 @@
         const loginEmpCode = /*[[${session.loginEmp.empCode}]]*/ "로그인 사원 식별키";
         const comNo = /*[[${session.loginEmp.comNo}]]*/ "회사 식별키";
         const departureTime = /*[[${session.loginEmp.departureTime}]]*/ "회사 식별키";
+        const stdAtd = /*[[${session.stdAtd}]]*/ '근태 기준';
     </script>
 </body>
 </html>

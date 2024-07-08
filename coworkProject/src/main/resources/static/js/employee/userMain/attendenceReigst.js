@@ -55,26 +55,7 @@ const departureButton = document.querySelector(".departure-button");
 const currentAttd = document.querySelector("#currentAttd");
 
 window.addEventListener("DOMContentLoaded", e => {
-  const date = getDate();
-
-  fetch("/employee/attendence/attendenceCheck?date=" + date)
-  .then(resp => resp.json())
-  .then(result => {
-    if(result.arrivalTime == null) {
-      document.querySelector("#currentAttd").innerText = '출근전';
-    } 
-    if(result.arrivalTime != null && result.departureTime == null) {
-      document.querySelector("#currentAttd").innerText = '출근';
-      document.querySelector("#arrival-time").innerText = result.arrivalTime;
-    }
-    if(result.arrivalTime != null && result.departureTime != null) {
-      document.querySelector("#currentAttd").innerText = '퇴근';
-      document.querySelector("#arrival-time").innerText = result.arrivalTime;
-      document.querySelector("#departure-time").innerText = result.departureTime;
-    }
-
-
-  })
+  
 })
 
 // ---------------------------------------------------------------------------------------------------------
@@ -93,6 +74,20 @@ arrivalButton.addEventListener("click", e => {
       return;
     }
 
+    const startHour = parseInt(stdAtd.standardInTime.substr(0,2));
+    const startMinute = parseInt(stdAtd.standardInTime.substr(2,4));
+    const startTime = startHour * 60 + startMinute;
+
+    const currentTime = parseInt(dateTime.substring(8, 10)) * 60 + parseInt(dateTime.substring(10, 12));
+
+    let attendenceStatus;
+
+    if(startTime >= currentTime) {
+      attendenceStatus = '출근';
+    } else {
+      attendenceStatus = '지각';
+    }
+
     fetch("/employee/attendence/arrivalRecord?dateTime=" + dateTime + "&date=" + date)
     .then(resp => resp.text())
     .then(result => {
@@ -103,7 +98,7 @@ arrivalButton.addEventListener("click", e => {
       alert("출근 완료");
 
       document.getElementById("arrival-time").innerHTML = result;
-      currentAttd.innerHTML = '출근';
+      currentAttd.innerHTML = attendenceStatus;
     })
 
   })

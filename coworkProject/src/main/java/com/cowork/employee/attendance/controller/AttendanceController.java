@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.cowork.employee.attendance.model.dto.TodayIsAttendence;
 import com.cowork.employee.attendance.model.service.AttendanceService;
 import com.cowork.user.model.dto.Employee2;
 
@@ -134,24 +135,24 @@ public class AttendanceController {
 		return departureTime;
 	}
 	
-	/** 출퇴근 기록 불러오기
-	 * @param request
-	 * @param date
-	 * @return
-	 */
-	@ResponseBody
-	@GetMapping("attendenceCheck")
-	public Map<String, Object> attendenceCheck(HttpServletRequest request,
-								 @RequestParam("date") String date) {
-		
-		HttpSession session = request.getSession();
-		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
-		
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("empCode", loginEmp.getEmpCode());
-		data.put("date", date);
-		
-		return service.attendenceCheck(data);
-	}
+//	/** 출퇴근 기록 불러오기
+//	 * @param request
+//	 * @param date
+//	 * @return
+//	 */
+//	@ResponseBody
+//	@GetMapping("attendenceCheck")
+//	public TodayIsAttendence attendenceCheck(HttpServletRequest request,
+//								 @RequestParam("date") String date) {
+//		
+//		HttpSession session = request.getSession();
+//		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
+//		
+//		Map<String, Object> data = new HashMap<String, Object>();
+//		data.put("empCode", loginEmp.getEmpCode());
+//		data.put("date", date);
+//		
+//		return service.attendenceCheck(data);
+//	}
 
 }

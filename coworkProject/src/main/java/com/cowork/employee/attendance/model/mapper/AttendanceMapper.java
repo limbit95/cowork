@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.cowork.employee.attendance.model.dto.TodayIsAttendence;
 import com.cowork.user.model.dto.Employee2;
 
 @Mapper
@@ -43,6 +44,6 @@ public interface AttendanceMapper {
 	 * @param data
 	 * @return
 	 */
-	Map<String, Object> attendenceCheck(Map<String, Object> data);
+	TodayIsAttendence attendenceCheck(Map<String, Object> data);
 
 }
