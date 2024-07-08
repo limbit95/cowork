@@ -63,5 +63,6 @@ public class Employee2 {
 	// 06.22 최재준
 	private Integer businessCardFl;
 	
+	private String settingStatus;
 	
 }

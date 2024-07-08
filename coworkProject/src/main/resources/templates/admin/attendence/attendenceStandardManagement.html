@@ -150,7 +150,7 @@
 
     <script src="/js/admin/attendence/attendenceStandardManagement.js"></script>
     <script th:inline="javascript">
-        const stdAtd = /*[[${stdAtd}]]*/ '설정 내용';
+        const stdAtd = /*[[${session.stdAtd}]]*/ '설정 내용';
     </script>
 </body>
 </html>

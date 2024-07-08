@@ -2,6 +2,7 @@ package com.cowork.employee.attendance.model.service;
 
 import java.util.Map;
 
+import com.cowork.employee.attendance.model.dto.TodayIsAttendence;
 import com.cowork.user.model.dto.Employee2;
 
 public interface AttendanceService {
@@ -40,6 +41,6 @@ public interface AttendanceService {
 	 * @param data
 	 * @return
 	 */
-	Map<String, Object> attendenceCheck(Map<String, Object> data);
+	TodayIsAttendence attendenceCheck(Map<String, Object> data);
 
 }
