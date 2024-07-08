@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("employee/attendence")
-@SessionAttributes({"loginEmp"})
+@SessionAttributes({})
 public class AttendanceController {
 	
 	private final AttendanceService service;
@@ -58,31 +59,16 @@ public class AttendanceController {
 	 * @return
 	 */
 	@ResponseBody
-	@GetMapping("arrivalRecord")
-	public String arrivalrecord(HttpServletRequest request,
+	@PostMapping("arrivalRecord")
+	public int arrivalrecord(HttpServletRequest request,
 								Model model,
-								@RequestParam("dateTime") String dateTime,
-								@RequestParam("date") String date) {
+								@RequestBody Map<String, Object> data) {
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
-		
-		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("empCode", loginEmp.getEmpCode());
-		data.put("dateTime", dateTime);
-		data.put("date", date);
 		
-		int result = service.arrivalrecord(data);
-		
-		if(result == 0) {
-			return null;
-		}
-		
-		String arrivalTime = service.selectArrivalTime(data);
-		loginEmp.setArrivalTime(arrivalTime);
-		model.addAttribute("loginEmp", loginEmp);
-		
-		return arrivalTime;
+		return service.arrivalrecord(data);
 	}
 	
 	/** 퇴근 확인 (DB에 해당 사용자의 퇴근이 찍혀있는지 확인)
@@ -108,31 +94,17 @@ public class AttendanceController {
 	 * @return
 	 */
 	@ResponseBody
-	@GetMapping("departureRecord")
-	public String departureRecord(HttpServletRequest request,
+	@PostMapping("departureRecord")
+	public int departureRecord(HttpServletRequest request,
 								Model model,
-								@RequestParam("dateTime") String dateTime,
-								@RequestParam("date") String date) {
+								@RequestBody Map<String, Object> data) {
 		
 		HttpSession session = request.getSession();
 		Employee2 loginEmp = (Employee2)session.getAttribute("loginEmp");
 		
-		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("empCode", loginEmp.getEmpCode());
-		data.put("dateTime", dateTime);
-		data.put("date", date);
 		
-		int result = service.departureRecord(data);
-		
-		if(result == 0) {
-			return null;
-		}
-		
-		String departureTime = service.selectDepartureTime(data);
-		loginEmp.setDepartureTime(departureTime);
-		model.addAttribute("loginEmp", loginEmp);
-		
-		return departureTime;
+		return service.departureRecord(data);
 	}
 	
 //	/** 출퇴근 기록 불러오기
