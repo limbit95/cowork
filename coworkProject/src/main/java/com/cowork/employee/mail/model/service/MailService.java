@@ -180,7 +180,7 @@ public interface MailService {
 	int outSend(Mail inputMail, List<MultipartFile> files, String recipient, String referer, String deleteOrder,
 			String updateOrder) throws IllegalStateException, IOException;
 
-	/**
+	/** 전달하기 
 	 * @param inputMail
 	 * @param files
 	 * @param recipient
