@@ -130,7 +130,7 @@ public class MailServiceImpl implements MailService {
 	public Map<String, Object> sentMailList (Map<String, Object> paramMap, int cp) {
 		
 		int empCode = (int) paramMap.get("empCode"); 
-		log.info("empCode 넘어왔니? : " + empCode);
+		//log.info("empCode ? : " + empCode);
 		
 		Integer sentListCount = mapper.sentListCount(paramMap);				
 		Integer sentMailCount = mapper.sentMailCount(empCode); 				
@@ -178,7 +178,7 @@ public class MailServiceImpl implements MailService {
 	public Map<String, Object> inMailList (Map<String, Object> paramMap, int cp) {
 		
 		int empCode = (int) paramMap.get("empCode"); 
-		log.info("empCode 넘어왔니? : " + empCode);
+		//log.info("empCode ? : " + empCode);
 		
 		Integer inListCount = mapper.inListCount(paramMap);				
 		Integer inMailCount = mapper.inMailCount(empCode); 				
@@ -245,7 +245,7 @@ public class MailServiceImpl implements MailService {
 			employeeList = mapper.employeeListSearch(map); 
 		}
 		
-		log.info("empName : " + empName);
+		//log.info("empName : " + empName);
 		
 		return employeeList;
 	}
@@ -260,7 +260,7 @@ public class MailServiceImpl implements MailService {
 		
 		int mailNo = inputMail.getMailNo(); 
 		
-		log.info("mailNo 가져왔나요 : " + mailNo);
+		//log.info("mailNo 가져왔나요 : " + mailNo);
 		
 		List<Recipient> recipientList = new ArrayList<>(); 
 		
@@ -293,7 +293,7 @@ public class MailServiceImpl implements MailService {
 			}
 		}
 		
-		log.info("받은 사람 : " + recipientList);
+		//log.info("받은 사람 : " + recipientList);
 		
 		result = mapper.recipientList(recipientList); 
 		
@@ -366,7 +366,7 @@ public class MailServiceImpl implements MailService {
 	public Map<String, Object> outMailList(Map<String, Object> paramMap, int cp) {
 		
 		int empCode = (int) paramMap.get("empCode"); 
-		log.info("empCode : " + empCode);
+		//log.info("empCode : " + empCode);
 		
 		Integer outListCount = mapper.outListCount(paramMap);		
 		outListCount = outListCount  != null ? outListCount  : 0; 
@@ -393,7 +393,7 @@ public class MailServiceImpl implements MailService {
 	public Map<String, Object> binList(Map<String, Object> paramMap, int cp) {
 		
 		int empCode = (int) paramMap.get("empCode"); 
-		log.info("empCode : " + empCode);
+		//log.info("empCode : " + empCode);
 		
 		Integer binListCount = mapper.binListCount(paramMap);
 		binListCount = binListCount  != null ? binListCount  : 0; 
@@ -450,7 +450,7 @@ public class MailServiceImpl implements MailService {
 		
 		int mailNo = inputMail.getMailNo(); 
 		
-		log.info("mailNo: " + mailNo);
+		//log.info("mailNo: " + mailNo);
 		
 		List<Recipient> recipientList = new ArrayList<>(); 
 		
@@ -483,7 +483,7 @@ public class MailServiceImpl implements MailService {
 			}
 		}
 		
-		log.info("받은 사람 : " + recipientList);
+		//log.info("받은 사람 : " + recipientList);
 		
 		result = mapper.recipientList(recipientList); 
 		
@@ -691,7 +691,7 @@ public class MailServiceImpl implements MailService {
 		
 		int mailNo = inputMail.getMailNo(); 
 		
-		log.info("mailNo 가져왔나요 : " + mailNo);
+		//log.info("mailNo 가져왔나요 : " + mailNo);
 		
 		List<Recipient> recipientList = new ArrayList<>(); 
 		
@@ -724,7 +724,7 @@ public class MailServiceImpl implements MailService {
 			}
 		}
 		
-		log.info("받은 사람 : " + recipientList);
+		//log.info("받은 사람 : " + recipientList);
 		
 		result = mapper.recipientList(recipientList); 
 		
@@ -817,8 +817,8 @@ public class MailServiceImpl implements MailService {
 		
 		String[] recipientArr = recipient.split(",");
 		String[] refererArr = referer.split(",");
-		log.info("배열로 변경 : " + recipientArr.length);
-		log.info("배열로 변경 : " + refererArr.length);
+		//log.info("배열로 변경 : " + recipientArr.length);
+		//log.info("배열로 변경 : " + refererArr.length);
 
 		List<Recipient> originRecipient = mapper.getRecipients(mailNo);
 		List<Recipient> originReferer = mapper.getReferers(mailNo);
@@ -854,7 +854,7 @@ public class MailServiceImpl implements MailService {
 		toDelete.removeAll(recipientList);
 		toDelete.removeAll(refererList);
 		
-		log.info("toDelete : " + toDelete);
+		//log.info("toDelete : " + toDelete);
 
 		// 추가할 수신자와 참조자 찾기
 		List<Recipient> toAdd = new ArrayList<>(recipientList);
@@ -862,7 +862,7 @@ public class MailServiceImpl implements MailService {
 		toAdd.removeAll(originRecipient);
 		toAdd.removeAll(originReferer);
 		
-		log.info("toAdd : " + toAdd);
+		//log.info("toAdd : " + toAdd);
 
 		// 기존 수신자 및 참조자 삭제
 		for (Recipient recipients : toDelete) {
@@ -902,9 +902,9 @@ public class MailServiceImpl implements MailService {
 		        String[] updateArr = updateOrder.split(",");
 
 		        for (int i = 0; i < updateArr.length; i++) {
-		            log.info("i : " + i);
-		            log.info("updateArr[i] : " + updateArr[i]);
-		            log.info("mailNo : " + mailNo);
+		            //log.info("i : " + i);
+		            //log.info("updateArr[i] : " + updateArr[i]);
+		            //log.info("mailNo : " + mailNo);
 
 		            MailFile upFile = MailFile.builder()
 		                .fileOrder(i)  // 새로운 파일 순서
@@ -975,8 +975,8 @@ public class MailServiceImpl implements MailService {
 		
 		String[] recipientArr = recipient.split(",");
 		String[] refererArr = referer.split(",");
-		log.info("배열로 변경 : " + recipientArr.length);
-		log.info("배열로 변경 : " + refererArr.length);
+		//log.info("배열로 변경 : " + recipientArr.length);
+		//log.info("배열로 변경 : " + refererArr.length);
 
 		List<Recipient> originRecipient = mapper.getRecipients(mailNo);
 		List<Recipient> originReferer = mapper.getReferers(mailNo);
@@ -1012,7 +1012,7 @@ public class MailServiceImpl implements MailService {
 		toDelete.removeAll(recipientList);
 		toDelete.removeAll(refererList);
 		
-		log.info("toDelete : " + toDelete);
+		//log.info("toDelete : " + toDelete);
 
 		// 추가할 수신자와 참조자 찾기
 		List<Recipient> toAdd = new ArrayList<>(recipientList);
@@ -1020,7 +1020,7 @@ public class MailServiceImpl implements MailService {
 		toAdd.removeAll(originRecipient);
 		toAdd.removeAll(originReferer);
 		
-		log.info("toAdd : " + toAdd);
+		//log.info("toAdd : " + toAdd);
 
 		// 기존 수신자 및 참조자 삭제
 		for (Recipient recipients : toDelete) {
@@ -1063,9 +1063,9 @@ public class MailServiceImpl implements MailService {
 					
 					for(int i=0; i<updateArr.length; i++) {
 						
-						log.info("i : " + i);
-						log.info("updateArr[i] : " + updateArr[i]);
-						log.info("mailNo : " + mailNo);
+						//log.info("i : " + i);
+						//log.info("updateArr[i] : " + updateArr[i]);
+						//log.info("mailNo : " + mailNo);
 						MailFile upFile = MailFile.builder()
 								.fileOrder(i)
 								.mailNo(mailNo)
@@ -1136,7 +1136,7 @@ public class MailServiceImpl implements MailService {
 	public int forward(Mail inputMail, List<MultipartFile> files, String recipient, String referer, String updateOrder,
 			String deleteOrder, int originMailNo, List<MailFile> existingFiles) throws IllegalStateException, IOException {
 		
-		log.info("기존 메일 번호 : " + originMailNo);
+		//log.info("기존 메일 번호 : " + originMailNo);
 		
 		int result = mapper.sendMail(inputMail);
 		if (result == 0) return 0;
@@ -1174,7 +1174,7 @@ public class MailServiceImpl implements MailService {
 		    }
 		}
 		
-		log.info("받은 사람 : " + recipientList);
+		//log.info("받은 사람 : " + recipientList);
 		
 		result = mapper.recipientList(recipientList); 
 	
