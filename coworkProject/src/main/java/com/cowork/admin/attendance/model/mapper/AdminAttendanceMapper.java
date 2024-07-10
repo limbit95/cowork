@@ -61,5 +61,11 @@ public interface AdminAttendanceMapper {
 	 * @return
 	 */
 	String getCompanyCreateDate(Employee2 loginEmp);
+
+	String sysdate();
+	String currentDate ();
+	String sysTimeStamp ();
+	String currentTimeStamp ();
+	String localTimeStamp ();
 	
 }
