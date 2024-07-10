@@ -52,8 +52,9 @@ public class Employee2 {
 	private String empIp;
 	private int managerType;
 	
-	private String arrivalTime;
-	private String departureTime;
+	private String arrivalTime; // 출근 시간
+	private String departureTime; // 퇴근 시간
+	private String attendenceStatus; // 근태 정보
 	
 	// 06.21 PEB
 	private String attendanceYn; // 근태관리 권한
