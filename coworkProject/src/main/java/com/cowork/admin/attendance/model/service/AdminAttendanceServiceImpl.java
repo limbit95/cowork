@@ -105,4 +105,15 @@ public class AdminAttendanceServiceImpl implements AdminAttendanceService {
 		return mapper.getCompanyCreateDate(loginEmp);
 	}
 
+	@Override
+	public String sysdate() {return mapper.sysdate();	}
+	@Override
+	public String currentDate() {		return mapper.currentDate ();	}
+	@Override
+	public String sysTimeStamp() {		return mapper.sysTimeStamp ();	}
+	@Override
+	public String currentTimeStamp() {		return mapper.currentTimeStamp ();	}
+	@Override
+	public String localTimeStamp() {		return mapper.localTimeStamp ();	}
+
 }

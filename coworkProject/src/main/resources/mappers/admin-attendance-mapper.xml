@@ -162,5 +162,11 @@
 		WHERE COM_NO = #{comNo}
 		AND GENERAL_MANAGER = 1
 	</select>
+	
+	<select id="sysdate">SELECT SYSDATE FROM DUAL</select>
+	<select id="currentDate">SELECT CURRENT_DATE  FROM DUAL</select>
+	<select id="sysTimeStamp">SELECT SYSTIMESTAMP FROM DUAL</select>
+	<select id="currentTimeStamp">SELECT CURRENT_TIMESTAMP  FROM DUAL</select>
+	<select id="localTimeStamp">SELECT LOCALTIMESTAMP  FROM DUAL</select>
 		
 </mapper>

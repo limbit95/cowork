@@ -211,4 +211,22 @@ public class AdminAttendanceController {
 		return "admin/attendence/attendenceManager";
 	}
 	
+	@GetMapping("date")
+	public String test() {
+		
+		String sysdate = service.sysdate();
+		String currentDate = service.currentDate();
+		String sysTimeStamp = service.sysTimeStamp();
+		String currentTimeStamp = service.currentTimeStamp();
+		String localTimeStamp = service.localTimeStamp();
+		
+		log.info("sysdate : " + sysdate);
+		log.info("currentDate : " + currentDate);
+		log.info("sysTimeStamp : " + sysTimeStamp);
+		log.info("currentTimeStamp : " + currentTimeStamp);
+		log.info("localTimeStamp : " + localTimeStamp);
+		
+		return "redirect:/";
+	}
+	
 }
