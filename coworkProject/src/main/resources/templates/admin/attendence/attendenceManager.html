@@ -132,11 +132,18 @@
                                 <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
                                 <div><span th:text="*{positionNm}">팀장</span></div>
                                 <div><span th:text="*{phone}">010-1234-1234</span></div>
-                                <div><span>정상</span></div>
+                                <th:block th:if="*{attendenceStatus != null}">
+                                    <div><span th:text="*{attendenceStatus}"></span></div>
+                                </th:block>
+                                <th:block th:if="*{attendenceStatus == null}">
+                                    <div><span>정상</span></div>
+                                </th:block>
                                 <div>
                                     <span th:if="*{arrivalTime}" th:text="*{arrivalTime}"></span>
-                                    <pre th:if="*{arrivalTime}" > ~ </pre>
+                                    <span th:unless="*{arrivalTime}">00:00:00</span>
+                                    <pre> ~ </pre>
                                     <span th:if="*{departureTime}" th:text="*{departureTime}"></span>
+                                    <span th:unless="*{departureTime}">00:00:00</span>
                                 </div>
                                 <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
                                 <input hidden th:value="*{empCode}" id="empCode">
@@ -172,11 +179,18 @@
                                 <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
                                 <div><span th:text="*{positionNm}">팀장</span></div>
                                 <div><span th:text="*{phone}">010-1234-1234</span></div>
-                                <div><span>정상</span></div>
+                                <th:block th:if="*{attendenceStatus != null}">
+                                    <div><span th:text="*{attendenceStatus}"></span></div>
+                                </th:block>
+                                <th:block th:if="*{attendenceStatus == null}">
+                                    <div><span>정상</span></div>
+                                </th:block>
                                 <div>
                                     <span th:if="*{arrivalTime}" th:text="*{arrivalTime}"></span>
-                                    <pre th:if="*{arrivalTime}" > ~ </pre>
+                                    <span th:unless="*{arrivalTime}">00:00:00</span>
+                                    <pre> ~ </pre>
                                     <span th:if="*{departureTime}" th:text="*{departureTime}"></span>
+                                    <span th:unless="*{departureTime}">00:00:00</span>
                                 </div>
                                 <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
                                 <input hidden th:value="*{empCode}" id="empCode">
@@ -212,11 +226,18 @@
                                 <div><span th:text="|*{empLastName}*{empFirstName}|">박은별</span></div>
                                 <div><span th:text="*{positionNm}">팀장</span></div>
                                 <div><span th:text="*{phone}">010-1234-1234</span></div>
-                                <div><span>정상</span></div>
+                                <th:block th:if="*{attendenceStatus != null}">
+                                    <div><span th:text="*{attendenceStatus}"></span></div>
+                                </th:block>
+                                <th:block th:if="*{attendenceStatus == null}">
+                                    <div><span>정상</span></div>
+                                </th:block>
                                 <div>
                                     <span th:if="*{arrivalTime}" th:text="*{arrivalTime}"></span>
-                                    <pre th:if="*{arrivalTime}" > ~ </pre>
+                                    <span th:unless="*{arrivalTime}">00:00:00</span>
+                                    <pre> ~ </pre>
                                     <span th:if="*{departureTime}" th:text="*{departureTime}"></span>
+                                    <span th:unless="*{departureTime}">00:00:00</span>
                                 </div>
                                 <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
                                 <input hidden th:value="*{empCode}" id="empCode">

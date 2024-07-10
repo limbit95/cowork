@@ -50,7 +50,7 @@ if(findEmp != null) {
                             <div>
                                 ${i.phone != null ? `<span>${i.phone}</span>` : `<span></span>`}
                             </div>
-                            <div><span>정상</span></div>
+                                ${i.attendenceStatus != null ? `<div><span>${i.attendenceStatus}</span></div>` : `<div><span>정상</span></div>`}
                             <div>
                                 ${i.arrivalTime != null ? 
                                     `
