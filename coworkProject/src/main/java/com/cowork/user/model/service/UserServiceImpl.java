@@ -191,13 +191,11 @@ public class UserServiceImpl implements UserService {
 		data.add(map1);
 		data.add(map2);
 		
-		log.info("data : " + data);
-		
 		for(int i = 0; i < data.size(); i++) {
+			// 등록한 회사에 기본 직책 레벨 부여
 			result = mapper.registPosition(data.get(i));
 		}
 		
-		// 등록한 회사에 기본 직책 레벨 부여
 		return result;
 	}
 
@@ -216,7 +214,6 @@ public class UserServiceImpl implements UserService {
 		
 		int result = mapper.resetPw(inputEmp);
 		
-		log.info("test : awefafaewfawe");
 		if(result == 0) {
 			 return 0;
 		}

@@ -26,5 +26,18 @@ public interface StandardAttendenceService {
 	 * @return
 	 */
 	int setTime(Employee2 loginEmp, List<Map<String, Object>> data);
+	
+	/** 초기 설정 페이지에서의 설정 안함
+	 * @param loginEmp 
+	 * @return
+	 */
+	int initOffSet(Employee2 loginEmp);
+	
+	/** 초기 설정 페이지에서의 지정된 시간으로 설정
+	 * @param loginEmp
+	 * @param data 
+	 * @return
+	 */
+	int initSetTime(Employee2 loginEmp, List<Map<String, Object>> data);
 
 }

@@ -1,19 +1,20 @@
 const attdRegistBtn = document.querySelector("#attdRegistBtn");
 
-attdRegistBtn.addEventListener("click", e => {
-    const zoomLevel = window.devicePixelRatio;
-    const width = 352 * zoomLevel;
-    const height = 253 * zoomLevel;
-
-    const screenWidth = window.screen.width;
-    const screenHeight = window.screen.height;
-
-    const left = (screenWidth / 2) - (width / 2);
-    const top = (screenHeight / 2) - (height / 2);
-
-    const popup = window.open("/userMain/attendenceRegist", "popup", `width=${width},height=${height},left=${left},top=${top}`);
-});
-
+if(attdRegistBtn != null) {
+    attdRegistBtn.addEventListener("click", e => {
+        const zoomLevel = window.devicePixelRatio;
+        const width = 352 * zoomLevel;
+        const height = 253 * zoomLevel;
+    
+        const screenWidth = window.screen.width;
+        const screenHeight = window.screen.height;
+    
+        const left = (screenWidth / 2) - (width / 2);
+        const top = (screenHeight / 2) - (height / 2);
+    
+        const popup = window.open("/userMain/attendenceRegist", "popup", `width=${width},height=${height},left=${left},top=${top}`);
+    });
+}
 
 const todoContainer = document.getElementById('todo');
 
@@ -106,6 +107,11 @@ function showModal(todoTitle, requestEmp, inChargeEmp, todoWriteDate, todoEndDat
 selectTodo();
 
 document.addEventListener('DOMContentLoaded', function() {
+
+    // 주소록 아코디언 기억값
+    localStorage.removeItem("toggleState");
+    // 근태 관리 날짜 기억값
+    localStorage.removeItem("selectDate");
 
 console.log(companyAllCalendarList);
 

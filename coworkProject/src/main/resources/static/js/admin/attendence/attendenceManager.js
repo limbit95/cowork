@@ -454,5 +454,15 @@ attendenceStandardManagement.addEventListener('click', e => {
     const left = (screenWidth / 2) - (width / 2);
     const top = (screenHeight / 2) - (height / 2);
 
-    const popup = window.open("/admin/standardAttendence", "popup", `width=${width}, height=${height}, left=${left}, top=${top}`)
+    fetch("/admin/standardAttendence/getAttendenceStatus")
+    .then(resp => resp.text())
+    .then(result => {
+        if(result == null || result.length == 0) {
+            const popup = window.open("/admin/standardAttendence/init", "popup", `width=${width}, height=${height}, left=${left}, top=${top}`)
+            return;
+        }
+    
+        const popup = window.open("/admin/standardAttendence", "popup", `width=${width}, height=${height}, left=${left}, top=${top}`)
+    })
+
 })

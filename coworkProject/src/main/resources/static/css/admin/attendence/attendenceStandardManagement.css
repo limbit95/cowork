@@ -12,11 +12,18 @@ body {
 
 .settingTypeDiv {
     display: flex;
-    justify-content: space-between;
+    /* 선택적 근무시간으로 설정 옵션 추가 했을 때 적용할 css */
+    /* justify-content: space-between; */
+    justify-content: start;
 }
 
 .settingTypeDiv > div {
     display: flex;
+}
+
+/* 선택적 근무시간으로 설정 옵션 추가 했을 때 삭제할 css */
+.settingTypeDiv > :nth-child(2) {
+    margin-left: 15px;
 }
 
 .settingTypeDiv label {

@@ -30,16 +30,37 @@ public class StandardAttendenceController {
 	
 	private final StandardAttendenceService service;
 
+	/** 근태 기준 관리 팝업창
+	 * @param loginEmp
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("")
 	public String attendenceStandardManagement(@SessionAttribute("loginEmp") Employee2 loginEmp,
 			 								   Model model) {
 		
 		StandardAttendence stdAtd = service.getStandardAtd(loginEmp);
-		
 		model.addAttribute("stdAtd", stdAtd);
 		
 		return "admin/attendence/attendenceStandardManagement";
 	}
+	
+	/** 팝업창 열기 전에 근태 기준 관리 정보가 DB에 있는지 확인
+	 * @param loginEmp
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("getAttendenceStatus")
+	public StandardAttendence getAttendenceStatus(@SessionAttribute("loginEmp") Employee2 loginEmp,
+									  Model model) {
+		
+		StandardAttendence stdAtd = service.getStandardAtd(loginEmp);
+		
+		return stdAtd;
+	}
+	
+	
 	
 	/** 설정 안함
 	 * @param loginEmp
@@ -58,8 +79,51 @@ public class StandardAttendenceController {
 	@ResponseBody
 	@PostMapping("setTime")
 	public int setTime(@SessionAttribute("loginEmp") Employee2 loginEmp,
-									  @RequestBody List<Map<String, Object>> data) {
+					   @RequestBody List<Map<String, Object>> data) {
 		return service.setTime(loginEmp, data);
+	}
+	
+	/** 근태 기준 관리 초기 설정인 경우 초기 설정 페이지로 이동
+	 * @return
+	 */
+	@GetMapping("init")
+	public String attendenceStandardManagementInit() {
+		return "admin/attendence/attendenceStandardManagementInit";
+	}
+	
+	/** 설정 안함
+	 * @param loginEmp
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("init/offSet")
+	public int initOffSet(@SessionAttribute("loginEmp") Employee2 loginEmp,
+						  Model model) {
+		
+		int result = service.initOffSet(loginEmp);
+		
+		StandardAttendence stdAtd = service.getStandardAtd(loginEmp);
+		model.addAttribute("stdAtd", stdAtd);
+		
+		return result;
+	}
+	
+	/** 지정된 시간으로 설정
+	 * @param loginEmp
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("init/setTime")
+	public int initSetTime(@SessionAttribute("loginEmp") Employee2 loginEmp,
+						   @RequestBody List<Map<String, Object>> data,
+						   Model model) {
+		
+		int result = service.initSetTime(loginEmp, data);
+		
+		StandardAttendence stdAtd = service.getStandardAtd(loginEmp);
+		model.addAttribute("stdAtd", stdAtd);
+		
+		return result;
 	}
 	
 }

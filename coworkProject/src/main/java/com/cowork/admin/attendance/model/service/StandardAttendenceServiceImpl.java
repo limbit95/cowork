@@ -30,7 +30,13 @@ public class StandardAttendenceServiceImpl implements StandardAttendenceService 
 		
 		StandardAttendence stdAtd = mapper.getStandardAtd(loginEmp);
 		
-		stdAtd.MapTodayOfWeek(stdAtd.getDayOfWeek());
+		if(stdAtd == null) {
+			return null;
+		}
+		
+		if(stdAtd.getDayOfWeek() != null) {
+			stdAtd.MapTodayOfWeek(stdAtd.getDayOfWeek());
+		}
 		
 		return stdAtd;
 	}
@@ -63,6 +69,36 @@ public class StandardAttendenceServiceImpl implements StandardAttendenceService 
 		newData.put("comNo", loginEmp.getComNo());
 		
 		return mapper.setTime(newData);
+	}
+	
+	// 초기 설정 페이지에서의 설정 안함
+	@Override
+	public int initOffSet(Employee2 loginEmp) {
+		return mapper.initOffSet(loginEmp);
+	}
+	
+	// 초기 설정 페이지에서의 지정된 시간으로 설정
+	@Override
+	public int initSetTime(Employee2 loginEmp, List<Map<String, Object>> data) {
+		
+		String dayOfWeek = "";
+		
+		for(Entry<String, Object> entry : data.get(0).entrySet()) {
+			if((Boolean)entry.getValue() == true) {
+				dayOfWeek += entry.getKey() + ",";
+			}
+		}
+		dayOfWeek = dayOfWeek.substring(0, dayOfWeek.length() - 1);
+		
+		Map<String, Object> newData = new HashMap<String, Object>();
+		newData.put("dayOfWeek", dayOfWeek);
+		newData.put("standardInTime", data.get(1).get("standardInTime"));
+		newData.put("standardOffTime", data.get(1).get("standardOffTime"));
+		newData.put("calcByInTime", data.get(2).get("calcByInTime"));
+		newData.put("calcByOffTime", data.get(2).get("calcByOffTime"));
+		newData.put("comNo", loginEmp.getComNo());
+		
+		return mapper.initSetTime(newData);
 	}
 	
 }

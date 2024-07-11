@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@SessionAttributes({"loginEmp", "comAddrList", "positionList"})
+@SessionAttributes({"loginEmp", "comAddrList", "positionList", "stdAtd"})
 @RequestMapping("user")
 public class UserController {
 
