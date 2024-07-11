@@ -11,18 +11,15 @@
 
     <div class="settingTypeDiv">
         <div>
-            <input type="radio" name="settingType" id="setTime" th:if="${stdAtd.settingStatus != '1'}">
-            <input type="radio" name="settingType" id="setTime" th:if="${stdAtd.settingStatus == '1'}" checked>
+            <input type="radio" name="settingType" id="setTime">
             <label for="setTime"><div>지정된 시간으로 설정</div></label>
         </div>
         <!-- <div>
-            <input type="radio" name="settingType" id="selectTime" th:if="${stdAtd.settingStatus != '2'}">
-            <input type="radio" name="settingType" id="selectTime" th:if="${stdAtd.settingStatus == '2'}" checked>
+            <input type="radio" name="settingType" id="selectTime">
             <label for="selectTime"><div>선택적 근무시간으로 설정</div></label>
         </div> -->
         <div>
-            <input type="radio" name="settingType" id="offSet" th:if="${stdAtd.settingStatus != '3'}">
-            <input type="radio" name="settingType" id="offSet" th:if="${stdAtd.settingStatus == '3'}" checked>
+            <input type="radio" name="settingType" id="offSet">
             <label for="offSet"><div>설정 안함</div></label>
         </div>
     </div>
@@ -154,5 +151,6 @@
     <script th:inline="javascript">
         const stdAtd = /*[[${session.stdAtd}]]*/ '설정 내용';
     </script>
+    
 </body>
 </html>

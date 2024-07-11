@@ -26,5 +26,16 @@ public interface StandardAttendenceMapper {
 	 * @return
 	 */
 	int setTime(Map<String, Object> newData);
+	
+	/** 초기 설정 페이지에서의 설정 안함
+	 * @return
+	 */
+	int initOffSet(Employee2 loginEmp);
+	
+	/** 초기 설정 페이지에서의 지정된 시간으로 설정
+	 * @param loginEmp
+	 * @return
+	 */
+	int initSetTime(Map<String, Object> newData);
 
 }

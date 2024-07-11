@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cowork.admin.attendance.model.dto.StandardAttendence;
 import com.cowork.admin.attendance.model.service.StandardAttendenceService;
@@ -66,10 +67,16 @@ public class UserMainController {
 	 */
 	@GetMapping("userMain/attendenceRegist")
 	public String attendanceRegist(@SessionAttribute("loginEmp") Employee2 loginEmp,
-			   					   Model model) {
+			   					   Model model,
+			   					   RedirectAttributes ra) {
 		// 근태 기준 조회
 		StandardAttendence stdAtd = stdAtdService.getStandardAtd(loginEmp);
 		model.addAttribute("stdAtd", stdAtd);
+		
+		if(stdAtd.getSettingStatus().equals("3")) {
+			ra.addFlashAttribute("message", "잘못된 접근입니다.");
+			return "redirect:/";
+		}
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		sdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));

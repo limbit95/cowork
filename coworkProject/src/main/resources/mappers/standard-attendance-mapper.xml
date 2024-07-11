@@ -29,5 +29,33 @@
 		WHERE COM_NO = #{comNo}
 	</update>
 	
+	<!-- 초기 설정 페이지에서의 설정 안함 -->
+	<insert id="initOffSet">
+		INSERT INTO STANDARD_ATD VALUES(
+			SEQ_STANDARD_ATD.NEXTVAL,
+			#{comNo},
+			NULL,
+			NULL,
+			'MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY',
+			NULL,
+			NULL,
+			'3'
+		)
+	</insert>
+	
+	<!-- 초기 설정 페이지에서의 지정된 시간으로 설정 -->
+	<insert id="initSetTime">
+		INSERT INTO STANDARD_ATD VALUES(
+			SEQ_STANDARD_ATD.NEXTVAL,
+			#{comNo},
+			TO_DATE('${standardInTime}', 'HH24:MI'),
+			TO_DATE('${standardOffTime}', 'HH24:MI'),
+			#{dayOfWeek},
+			'${calcByInTime}',
+			'${calcByOffTime}',
+			'1'
+		)
+	</insert>
+	
 		
 </mapper>
