@@ -10,13 +10,15 @@
 }
 
 .settingTypeDiv {
-    position: relative;
-    background-color: white;
+    /* position: relative; */
+    /* background-color: white; */
     width: 220px;
+    z-index: 2;
     pointer-events: none;
 }
 
 .infoDiv {
+    position: absolute;
     width: 300px;
     padding: 10px;
     box-sizing: border-box;
@@ -28,7 +30,7 @@
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 .infoDiv:hover {
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    /* box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22); */
 }
 .infoDiv * {
     font-size: 11px;
@@ -40,11 +42,11 @@
     justify-content: end;
     margin-top: 5px;
 }
-.next {
+.move {
     font-size: 10px;
     cursor: pointer;
 }
-.next:hover {
+.move:hover {
     font-weight: bold;
 }
 .previous {
@@ -59,17 +61,45 @@
     font-size: 30px;
     color: white;
 }
+.accent {
+    font-weight: bold;
+    color: #426DA7;
+}
 
 #info1 {
     display: block;
-    margin-top: 15px;
-}
-#tri1 {
-    left: 53px;
-    top: 36px;
+    top: 50px;
 }
 
 #info2 {
     display: none;
-    margin-top: 15px;
+    top: 50px;
 }
+#tri2 {
+    left: 30px;
+    top: -15px;
+}
+
+#info3 {
+    display: none;
+    top: 50px;
+}
+#tri3 {
+    left: 180px;
+    top: -15px;
+}
+
+#info4 {
+    display: none;
+    top: 50px;
+}
+
+#info5, #info6 {
+    display: none;
+    top: 95px;
+}
+#tri5, #tri6 {
+    left: 140px;
+    top: -15px;
+}
+
