@@ -116,37 +116,6 @@ main {
 
 
 
-
-/* 주소록 그룹을 마우스 오른쪽 클릭 시 나타나는 드롭다운 */
-.dropdown-menu {
-    position: absolute;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    display: none;
-    z-index: 1000;
-    
-
-    -webkit-user-select:none;
-    -moz-user-select:none;
-    -ms-user-select:none;
-    user-select:none
-}
-.dropdown-menu > :nth-child(1) {
-    display: none;
-}
-.dropdown-menu div {
-    padding: 10px;
-    cursor: pointer;
-}
-.dropdown-menu div:hover {
-    background-color: var(--main4-color);
-    border-radius: 5px;
-}
-
-
-
 /* 년 월 일 영역 */
 .right > :nth-child(2) {
     display: flex;
@@ -160,8 +129,8 @@ main {
     padding: 0;
 }
 .right > :nth-child(2) button:hover {
-    background-color: var(--main6-color);
-    color: white;
+    /* background-color: var(--main6-color);
+    color: white; */
 }
 .right > :nth-child(2) > * {
     margin-right: 5px;
@@ -185,6 +154,9 @@ section.container .day {
     padding: 0 0 0 5px;
     width: 45px;
     height: 25px;
+}
+#searchByToday {
+    margin-left: 5px;
 }
 
 

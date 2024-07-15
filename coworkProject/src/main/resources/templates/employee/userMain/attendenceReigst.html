@@ -24,6 +24,7 @@
                 <div id="currentAttd">퇴근</div>
             </th:block>
             <th:block th:if="${todayIsAtd.inTime != null && todayIsAtd.offTime != null && todayIsAtd.attendenceStatus != null}">
+                <div id="currentAttd" th:unless="${#strings.contains(todayIsAtd.attendenceStatus, '조퇴')}">퇴근</div>
                 <div id="currentAttd" th:if="${#strings.contains(todayIsAtd.attendenceStatus, '조퇴')}">퇴근[조퇴]</div>
             </th:block>
         </th:block>
