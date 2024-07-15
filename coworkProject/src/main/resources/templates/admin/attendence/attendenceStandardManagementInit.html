@@ -6,6 +6,7 @@
     <title>근태 기준 관리</title>
 
     <link rel="stylesheet" href="/css/admin/attendence/attendenceStandardManagement.css">
+    <link rel="stylesheet" href="/css/admin/attendence/attendenceStandardManagementInit.css">
 </head>
 <body>
 
@@ -147,10 +148,42 @@
         <button class="default-btn sapphire-btn" id="close">닫기</button>
     </div>
 
+    <div class="blurBackground">
+        <div class="settingTypeDiv">
+            <div>
+                <input type="radio" name="settingType" id="setTime">
+                <label for="setTime"><div>지정된 시간으로 설정</div></label>
+            </div>
+            <!-- <div>
+                <input type="radio" name="settingType" id="selectTime">
+                <label for="selectTime"><div>선택적 근무시간으로 설정</div></label>
+            </div> -->
+            <div>
+                <input type="radio" name="settingType" id="offSet">
+                <label for="offSet"><div>설정 안함</div></label>
+            </div>
+        </div>
+
+        <div class="infoDiv" id="info1">
+            <i class="fa-solid fa-caret-up" id="tri1"></i>
+            안녕하세요! 근태 기준 관리 설정은 처음이신가요? 사용하시기 전에 설명 먼저 진행해드리겠습니다.
+            <div class="page"><span><span class="next">다음</span> (1/15)</span></div>
+        </div>
+        <div class="infoDiv" id="info2">
+            <i class="fa-solid fa-caret-up" id="tri1"></i>
+            출퇴근 기능이 필요하다면 <span style="font-weight: bold;">[지정된 시간으로 설정]</span>을 클릭, 
+            필요없다면 <span style="font-weight: bold;">[설정 안함]</span>을 클릭한 뒤 
+            하단 오른쪽에 있는 저장 버튼을 누르면 해당 설정이 적용됩니다.
+            <div class="page"><span><span class="previous">이전</span> / <span class="next">다음</span> (2/15)</span></div>
+        </div>
+    </div>
+
     <script src="/js/admin/attendence/attendenceStandardManagement.js"></script>
+    <script src="/js/admin/attendence/attendenceStandardManagementInit.js"></script>
     <script th:inline="javascript">
         const stdAtd = /*[[${session.stdAtd}]]*/ '설정 내용';
     </script>
+    <script src="https://kit.fontawesome.com/4a8589de03.js" crossorigin="anonymous"></script>
     
 </body>
 </html>

@@ -330,17 +330,19 @@ month.addEventListener("change", e => {
     }
 });
 
+// 선택한 날짜로 근태 조회 
 const searchByDate = document.querySelector("#searchByDate");
 
 searchByDate.addEventListener("click", e => {
+    // 부서, 팀 또는 해당 부서, 팀 내부에서 페이지네이션으로 페이지 이동 시 
+    // 검색했던 날짜 기억하고 유지하기 위한 데이터 저장 -> 로컬 스토리지 활용
     const dateArr = [];
     dateArr[0] = year.value;
     dateArr[1] = month.value;
     dateArr[2] = day.value;
     localStorage.setItem("selectDate", JSON.stringify(dateArr));
 
-    console.log(location.pathname + location.search)
-
+    // 콤보박스의 날짜 DB에서 비교하기 위해 YYYY-MM-DD 형식으로 문자열 재구성
     const date = dateArr[0] + '-' + String(dateArr[1]).padStart(2, '0') + '-' + String(dateArr[2]).padStart(2, '0');
 
     if(location.pathname == '/admin/attendence') {
@@ -356,6 +358,36 @@ searchByDate.addEventListener("click", e => {
         location.href = location.pathname + location.search + '&date=' + date;
     }
 });
+
+// 오늘 버튼 클릭 시 오늘 날짜 기준으로 바로 검색
+const searchByToday = document.querySelector("#searchByToday");
+
+searchByToday.addEventListener("click", e => {
+    year.value = getYear();
+    month.value = getMonth();
+    day.value = getDay();
+
+    const dateArr = [];
+    dateArr[0] = year.value;
+    dateArr[1] = month.value;
+    dateArr[2] = day.value;
+    localStorage.setItem("selectDate", JSON.stringify(dateArr));
+
+    const date = dateArr[0] + '-' + String(dateArr[1]).padStart(2, '0') + '-' + String(dateArr[2]).padStart(2, '0');
+
+    if(location.pathname == '/admin/attendence') {
+        location.href = '/admin/attendence/comList?cp=1&date=' + date;
+    } else {
+        let newSearch;
+        if(location.search.includes('&date=')) {
+            const index = location.search.indexOf('&date=')
+            newSearch = location.search.substr(0, index);
+            location.href = location.pathname + newSearch + '&date=' + date;
+            return;
+        }
+        location.href = location.pathname + location.search + '&date=' + date;
+    }
+})
 
 // 함수 : 하위 목록의 상태를 로컬 저장소에 저장
 function saveState() {
@@ -387,6 +419,8 @@ function loadState() {
     });
 };
 loadState();
+
+
 // ---------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------
 // 주소록 그룹 아코디언 및 마우스 오른쪽 클릭 시 드롭다운 형성
