@@ -480,7 +480,7 @@ const attendenceStandardManagement = document.querySelector("#attendenceStandard
 attendenceStandardManagement.addEventListener('click', e => {
     const zoomLevel = window.devicePixelRatio;
     const width = 450 * zoomLevel;
-    const height = 360 * zoomLevel;
+    const height = 390 * zoomLevel;
 
     const screenWidth = window.screen.width;
     const screenHeight = window.screen.height;

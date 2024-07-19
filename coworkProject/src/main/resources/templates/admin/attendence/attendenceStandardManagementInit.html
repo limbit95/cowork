@@ -36,6 +36,17 @@
             <div class="dayOfWeek" id="SUNDAY">일</div>
         </div>
     
+        <div class="dayOfNextWeekDiv">
+            <div>현재 적용 요일</div><span>:</span>
+            <div class="dayOfNextWeek" id="MONDAY2">월</div>
+            <div class="dayOfNextWeek" id="TUESDAY2">화</div>
+            <div class="dayOfNextWeek" id="WEDNESDAY2">수</div>
+            <div class="dayOfNextWeek" id="THURSDAY2">목</div>
+            <div class="dayOfNextWeek" id="FRIDAY2">금</div>
+            <div class="dayOfNextWeek" id="SATURDAY2">토</div>
+            <div class="dayOfNextWeek" id="SUNDAY2">일</div>
+        </div>
+        
         <div class="startAndEnd">
             <div class="work">업무시작</div>
             <select id="startHour">
@@ -185,9 +196,9 @@
         
         <div class="infoDiv" id="info6">
             <i class="fa-solid fa-caret-up" id="tri6"></i>
-            혼동없이 올바른 근태 관리를 위해 해당 기능은 매주 일요일에만 변경사항 적용이 되며, 일요일 이외의 날짜에 변경 시 즉시 적용되지 않으며
-            적용한 설정값은 일요일에 자동으로 적용이 됩니다. <br>
-            물론, 미리 적용한 설정값을 일요일 당일에 변경하시면 최근 변경한 설정값으로 적용이 됩니다.
+            혼동없이 올바른 근태 관리를 위해 일요일 12~24시 사이에만 요일 변경이 가능하며, 
+            이외 날짜에 변경한 요일은 즉시 적용되지 않고, 일요일 12~24시 사이 자동 적용이 됩니다. <br>
+            물론, 미리 적용한 설정값이 있더라도 일요일 당일에 변경하면 방금 변경한 설정값으로 적용이 됩니다.
             <div class="page"><span><span class="move">이전</span> / <span class="move">다음</span> (6/15)</span></div>
         </div>
     </div>

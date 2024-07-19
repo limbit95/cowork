@@ -40,4 +40,15 @@ public interface StandardAttendenceService {
 	 */
 	int initSetTime(Employee2 loginEmp, List<Map<String, Object>> data);
 
+	/** 서비스 내 존재하는 회사별 근태 기준 요일 조회
+	 * @return
+	 */
+	List<StandardAttendence> selectAllDayOfWeek();
+
+	/** 근태 기준 요일 변경(일요일 기점으로 자동 일괄 변경)
+	 * @param standardAttendence
+	 * @return
+	 */
+	int updateDayOfWeek(StandardAttendence standardAttendence);
+
 }
