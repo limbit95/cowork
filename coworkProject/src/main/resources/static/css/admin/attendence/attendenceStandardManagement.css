@@ -34,6 +34,10 @@ body {
 .dayOfWeekDiv {
     display: flex;
     margin-top: 15px;
+    -webkit-user-select: none; /* Chrome, Safari, Opera */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Internet Explorer/Edge */
+    user-select: none;         
 }
 .dayOfWeek {
     display: flex;
@@ -44,6 +48,34 @@ body {
     cursor: pointer;
     border: 1px solid rgb(131, 131, 131);
     color: black;
+}
+
+.dayOfNextWeekDiv {
+    display: flex;
+    margin-top: 15px;
+    -webkit-user-select: none; /* Chrome, Safari, Opera */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Internet Explorer/Edge */
+    user-select: none;         
+}
+.dayOfNextWeekDiv > :nth-child(1){
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+}
+.dayOfNextWeekDiv > :nth-child(2){
+    margin-right: 5px;
+}
+.dayOfNextWeek {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    cursor: default;
+    border: 1px solid rgb(131, 131, 131);
+    color: black;
+    font-size: 9px;
 }
 
 .startAndEnd {

@@ -22,27 +22,32 @@ public class StandardAttendence {
 	private int comNo;
 	private String standardInTime;
 	private String standardOffTime;
-	private String dayOfWeek;
+	private String dayOfWeek; // 현재 적용된 근태 기준 요일
+	private String dayOfNextWeek; // 다음에 적용될 근태 기준 요일(일요일에 일괄 적용)
 	private String calcByInTime;
 	private String calcByOffTime;
 	private String settingStatus;
 	
 	private Map<String, Boolean> dayOfWeekMap = new HashMap<String, Boolean>();
+	private Map<String, Boolean> dayOfNextWeekMap = new HashMap<String, Boolean>();
 	
-	public void MapTodayOfWeek(String dayOfWeek) {
-		this.dayOfWeekMap.put("MONDAY", false);
-		this.dayOfWeekMap.put("TUESDAY", false);
-		this.dayOfWeekMap.put("WEDNESDAY", false);
-		this.dayOfWeekMap.put("THURSDAY", false);
-		this.dayOfWeekMap.put("FRIDAY", false);
-		this.dayOfWeekMap.put("SATURDAY", false);
-		this.dayOfWeekMap.put("SUNDAY", false);
+	public Map<String, Boolean> MapTodayOfWeek(String dayOfWeek) {
+		Map<String, Boolean> temp = new HashMap<String, Boolean>();
+		temp.put("MONDAY", false);
+		temp.put("TUESDAY", false);
+		temp.put("WEDNESDAY", false);
+		temp.put("THURSDAY", false);
+		temp.put("FRIDAY", false);
+		temp.put("SATURDAY", false);
+		temp.put("SUNDAY", false);
 		
 		String[] dayOfWeekArr = dayOfWeek.split(",");
 		
 		for(int i = 0; i < dayOfWeekArr.length; i++) {
-			this.dayOfWeekMap.put(dayOfWeekArr[i], true);
+			temp.put(dayOfWeekArr[i], true);
 		}
+		
+		return temp;
 	}
 	
 }

@@ -101,8 +101,8 @@ window.addEventListener("keydown", e => {
                     y.style.pointerEvents = 'none';
                 })
             }
-            console.log('previous : ' + numStr)
-            console.log('current : ' + num)
+            // console.log('previous : ' + numStr)
+            // console.log('current : ' + num)
 
             if(parseInt(num) > 0 && parseInt(num) < 7 && num != null) {
                 document.getElementById(name+num).style.display = 'block';

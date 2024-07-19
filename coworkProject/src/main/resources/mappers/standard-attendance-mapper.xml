@@ -5,7 +5,7 @@
 	<!-- 팝업창 로드 시 DB에 저장되어 있는 설정 타입 조회 후 화면에 보여주기 -->
 	<select id="getStandardAtd">
 		SELECT TO_CHAR(STANDARD_IN_TIME, 'HH24MI') "standardInTime", TO_CHAR(STANDARD_OFF_TIME, 'HH24MI') "standardOffTime", 
-		DAY_OF_WEEK, CALC_BY_IN_TIME, CALC_BY_OFF_TIME, SETTING_STATUS 
+		DAY_OF_WEEK, CALC_BY_IN_TIME, CALC_BY_OFF_TIME, SETTING_STATUS, DAY_OF_NEXT_WEEK
 		FROM STANDARD_ATD
 		WHERE COM_NO = #{comNo}
 	</select>
@@ -22,7 +22,7 @@
 		UPDATE STANDARD_ATD SET
 			STANDARD_IN_TIME = TO_DATE('${standardInTime}', 'HH24:MI'),
 			STANDARD_OFF_TIME = TO_DATE('${standardOffTime}', 'HH24:MI'),
-			DAY_OF_WEEK = #{dayOfWeek},
+			DAY_OF_NEXT_WEEK = #{dayOfWeek},
 			CALC_BY_IN_TIME = '${calcByInTime}',
 			CALC_BY_OFF_TIME = '${calcByOffTime}',
 			SETTING_STATUS = '1'
@@ -36,10 +36,11 @@
 			#{comNo},
 			NULL,
 			NULL,
-			'MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY',
 			NULL,
 			NULL,
-			'3'
+			NULL,
+			'3',
+			NULL
 		)
 	</insert>
 	
@@ -53,9 +54,24 @@
 			#{dayOfWeek},
 			'${calcByInTime}',
 			'${calcByOffTime}',
-			'1'
+			'1',
+			#{dayOfWeek}
 		)
 	</insert>
 	
+	<!-- 서비스 내 존재하는 회사별 근태 기준 요일 조회 -->
+	<select id="selectAllDayOfWeek">
+		SELECT COM_NO, DAY_OF_NEXT_WEEK
+		FROM STANDARD_ATD
+		WHERE DAY_OF_WEEK IS NOT NULL
+		AND DAY_OF_NEXT_WEEK IS NOT NULL
+	</select>	
+	
+	<!-- 근태 기준 요일 변경(일요일 기점으로 자동 일괄 변경) -->
+	<update id="updateDayOfWeek">
+		UPDATE STANDARD_ATD SET
+			DAY_OF_WEEK = #{dayOfNextWeek}
+		WHERE COM_NO = #{comNo}
+	</update>
 		
 </mapper>

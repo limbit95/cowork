@@ -35,7 +35,8 @@ public class StandardAttendenceServiceImpl implements StandardAttendenceService 
 		}
 		
 		if(stdAtd.getDayOfWeek() != null) {
-			stdAtd.MapTodayOfWeek(stdAtd.getDayOfWeek());
+			stdAtd.setDayOfWeekMap(stdAtd.MapTodayOfWeek(stdAtd.getDayOfWeek()));
+			stdAtd.setDayOfNextWeekMap(stdAtd.MapTodayOfWeek(stdAtd.getDayOfNextWeek()));
 		}
 		
 		return stdAtd;
@@ -99,6 +100,18 @@ public class StandardAttendenceServiceImpl implements StandardAttendenceService 
 		newData.put("comNo", loginEmp.getComNo());
 		
 		return mapper.initSetTime(newData);
+	}
+
+	// 서비스 내 존재하는 회사별 근태 기준 요일 조회
+	@Override
+	public List<StandardAttendence> selectAllDayOfWeek() {
+		return mapper.selectAllDayOfWeek();
+	}
+
+	// 근태 기준 요일 변경(일요일 기점으로 자동 일괄 변경)
+	@Override
+	public int updateDayOfWeek(StandardAttendence standardAttendence) {
+		return mapper.updateDayOfWeek(standardAttendence);
 	}
 	
 }

@@ -151,7 +151,11 @@ document.querySelectorAll("[name='settingType']").forEach((i) => {
                         x.style.borderColor = 'rgb(131 131 131)';
                     }
                 })
-                console.log(stdAtd.dayOfWeek)
+                document.querySelectorAll(".dayOfNextWeek").forEach((x) => {
+                    if(getComputedStyle(x).fontWeight == '400') {
+                        x.style.borderColor = 'rgb(131 131 131)';
+                    }
+                })
             } else {
                 checkDayOfWeek.MONDAY = true;
                 checkDayOfWeek.TUESDAY = true;
@@ -180,9 +184,19 @@ window.addEventListener("DOMContentLoaded", e => {
             for(let i = 0; i < dayOfWeekArr.length; i++) {
                 if(stdAtd.dayOfWeekMap[dayOfWeekArr[i]] == true) {
                     checkDayOfWeek[dayOfWeekArr[i]] = true;
-                    document.getElementById(dayOfWeekArr[i]).style.border = '1.5px solid rgb(116 176 232)';
-                    document.getElementById(dayOfWeekArr[i]).style.color = 'rgb(116 176 232)';
-                    document.getElementById(dayOfWeekArr[i]).style.fontWeight = 'bold';
+                    document.getElementById(dayOfWeekArr[i]+'2').style.border = '1.5px solid rgb(116 176 232)';
+                    document.getElementById(dayOfWeekArr[i]+'2').style.color = 'rgb(116 176 232)';
+                    document.getElementById(dayOfWeekArr[i]+'2').style.fontWeight = 'bold';
+                }
+            }
+
+            const dayOfNextWeekArr = Object.keys(stdAtd.dayOfNextWeekMap);
+            for(let i = 0; i < dayOfNextWeekArr.length; i++) {
+                if(stdAtd.dayOfNextWeekMap[dayOfNextWeekArr[i]] == true) {
+                    checkDayOfWeek[dayOfNextWeekArr[i]] = true;
+                    document.getElementById(dayOfNextWeekArr[i]).style.border = '1.5px solid rgb(116 176 232)';
+                    document.getElementById(dayOfNextWeekArr[i]).style.color = 'rgb(116 176 232)';
+                    document.getElementById(dayOfNextWeekArr[i]).style.fontWeight = 'bold';
                 }
             }
         }
@@ -290,6 +304,25 @@ document.querySelector("#setting").addEventListener('click', e => {
                         return;
                     }
                     alert("설정이 저장되었습니다.");
+                    const dayOfWeekArr = Object.keys(stdAtd.dayOfWeekMap);
+                    for(let i = 0; i < dayOfWeekArr.length; i++) {
+                        if(stdAtd.dayOfWeekMap[dayOfWeekArr[i]] == true) {
+                            checkDayOfWeek[dayOfWeekArr[i]] = true;
+                            document.getElementById(dayOfWeekArr[i]+'2').style.border = '1.5px solid rgb(116 176 232)';
+                            document.getElementById(dayOfWeekArr[i]+'2').style.color = 'rgb(116 176 232)';
+                            document.getElementById(dayOfWeekArr[i]+'2').style.fontWeight = 'bold';
+                        }
+                    }
+        
+                    const dayOfNextWeekArr = Object.keys(stdAtd.dayOfNextWeekMap);
+                    for(let i = 0; i < dayOfNextWeekArr.length; i++) {
+                        if(stdAtd.dayOfNextWeekMap[dayOfNextWeekArr[i]] == true) {
+                            checkDayOfWeek[dayOfNextWeekArr[i]] = true;
+                            document.getElementById(dayOfNextWeekArr[i]).style.border = '1.5px solid rgb(116 176 232)';
+                            document.getElementById(dayOfNextWeekArr[i]).style.color = 'rgb(116 176 232)';
+                            document.getElementById(dayOfNextWeekArr[i]).style.fontWeight = 'bold';
+                        }
+                    }
                 })
             }
         }
