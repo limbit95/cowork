@@ -183,6 +183,7 @@ window.addEventListener("keydown", e => {
 
 document.querySelector(".infoClose").addEventListener('click', e => {
     document.querySelector(".blurBackground").style.display = 'none';
+    document.querySelector("#setTime").checked = true;
     localStorage.setItem("infoAllRead", true);
 })
 
@@ -196,6 +197,7 @@ document.addEventListener("DOMContentLoaded", e => {
             x.style.zIndex = '';
             x.style.pointerEvents = '';
         })
+        document.querySelector("#setTime").checked = true;
     }
 })
 

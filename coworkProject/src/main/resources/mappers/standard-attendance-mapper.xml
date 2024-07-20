@@ -48,7 +48,7 @@
 	<insert id="initSetTime">
 		INSERT INTO STANDARD_ATD VALUES(
 			SEQ_STANDARD_ATD.NEXTVAL,
-			#{comNo},
+			#{comNo}, 
 			TO_DATE('${standardInTime}', 'HH24:MI'),
 			TO_DATE('${standardOffTime}', 'HH24:MI'),
 			#{dayOfWeek},
