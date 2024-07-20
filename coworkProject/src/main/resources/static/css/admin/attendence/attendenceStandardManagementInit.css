@@ -14,7 +14,6 @@
     /* background-color: white; */
     width: 220px;
     z-index: 2;
-    pointer-events: none;
 }
 
 .infoDiv {
@@ -42,18 +41,11 @@
     justify-content: end;
     margin-top: 5px;
 }
-.move {
+.move, .infoClose {
     font-size: 10px;
     cursor: pointer;
 }
-.move:hover {
-    font-weight: bold;
-}
-.previous {
-    font-size: 10px;
-    cursor: pointer;
-}
-.previous:hover {
+.move:hover, .infoClose:hover {
     font-weight: bold;
 }
 .fa-solid {
@@ -94,12 +86,43 @@
     top: 50px;
 }
 
-#info5, #info6 {
+#info5, #info6, #info7 {
     display: none;
     top: 95px;
 }
-#tri5, #tri6 {
+#tri5, #tri6, #tri7 {
     left: 140px;
     top: -15px;
 }
 
+#info8, #info9 {
+    display: none;
+    top: 130px;
+}
+#tri8, #tri9 {
+    left: 154px;
+    top: -15px;
+}
+
+#info10 {
+    display: none;
+    top: 167px;
+}
+#tri10 {
+    left: 65px;
+    top: -15px;
+}
+
+#info11 {
+    display: none;
+    top: 260px;
+}
+#tri11 {
+    left: 140px;
+    top: -15px;
+}
+
+#info12 {
+    display: none;
+    top: 260px;
+}

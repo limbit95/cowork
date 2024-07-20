@@ -8,7 +8,7 @@ document.querySelectorAll(".move").forEach((i) => {
         })
 
         const name = e.target.parentElement.parentElement.parentElement.id.substring(0,4);
-        const numStr = e.target.parentElement.parentElement.parentElement.id.substring(4,5);
+        const numStr = e.target.parentElement.parentElement.parentElement.id.substring(4,e.target.parentElement.parentElement.parentElement.id.length);
         e.target.parentElement.parentElement.parentElement.style.display = 'none';
         
         let num;
@@ -33,13 +33,49 @@ document.querySelectorAll(".move").forEach((i) => {
         }
         if(parseInt(num) == 4) {
         }
-        if(parseInt(num) == 5 || parseInt(num) == 6) {
+        if(parseInt(num) == 5 || parseInt(num) == 6 || parseInt(num) == 7) {
             document.querySelectorAll(".dayOfWeek").forEach((y) => {
                 y.style.backgroundColor = 'white';
                 y.style.position = 'relative';
                 y.style.zIndex = '2';
                 y.style.pointerEvents = 'none';
             })
+        }
+        if(parseInt(num) == 8 || parseInt(num) == 9) {
+            document.querySelectorAll(".dayOfNextWeek").forEach((y) => {
+                y.style.backgroundColor = 'white';
+                y.style.position = 'relative';
+                y.style.zIndex = '2';
+                y.style.pointerEvents = 'none';
+            })
+        }
+        if(parseInt(num) == 10) {
+            document.querySelector("#startHour").style.backgroundColor = 'white';
+            document.querySelector("#startHour").style.position = 'relative';
+            document.querySelector("#startHour").style.zIndex = '2';
+            document.querySelector("#startHour").style.pointerEvents = 'none';
+            document.querySelector("#startMinute").style.backgroundColor = 'white';
+            document.querySelector("#startMinute").style.position = 'relative';
+            document.querySelector("#startMinute").style.zIndex = '2';
+            document.querySelector("#startMinute").style.pointerEvents = 'none';
+            document.querySelector("#endHour").style.backgroundColor = 'white';
+            document.querySelector("#endHour").style.position = 'relative';
+            document.querySelector("#endHour").style.zIndex = '2';
+            document.querySelector("#endHour").style.pointerEvents = 'none';
+            document.querySelector("#endMinute").style.backgroundColor = 'white';
+            document.querySelector("#endMinute").style.position = 'relative';
+            document.querySelector("#endMinute").style.zIndex = '2';
+            document.querySelector("#endMinute").style.pointerEvents = 'none';
+        }
+        if(parseInt(num) == 11) {
+            document.querySelector("#calcByInTime").nextElementSibling.style.backgroundColor = 'white';
+            document.querySelector("#calcByInTime").nextElementSibling.style.position = 'relative';
+            document.querySelector("#calcByInTime").nextElementSibling.style.zIndex = '2';
+            document.querySelector("#calcByInTime").nextElementSibling.style.pointerEvents = 'none';
+            document.querySelector("#calcByOffTime").nextElementSibling.style.backgroundColor = 'white';
+            document.querySelector("#calcByOffTime").nextElementSibling.style.position = 'relative';
+            document.querySelector("#calcByOffTime").nextElementSibling.style.zIndex = '2';
+            document.querySelector("#calcByOffTime").nextElementSibling.style.pointerEvents = 'none';
         }
 
         document.getElementById(name+num).style.display = 'block';
@@ -55,9 +91,9 @@ window.addEventListener("keydown", e => {
             document.querySelectorAll(".infoDiv").forEach((h) => {
                 if(getComputedStyle(h).display == 'block') {
                     name = h.id.substring(0,4);
-                    numStr = h.id.substring(4,5);
-                    if(parseInt(numStr) > 0 && parseInt(numStr) < 7) {
-                        if(parseInt(numStr) == 1 && e.key == 'ArrowLeft' || parseInt(numStr) == 6 && e.key == 'ArrowRight') {
+                    numStr = h.id.substring(4,h.id.length);
+                    if(parseInt(numStr) > 0 && parseInt(numStr) < 13) {
+                        if(parseInt(numStr) == 1 && e.key == 'ArrowLeft' || parseInt(numStr) == 12 && e.key == 'ArrowRight') {
                             return;
                         }
                         document.querySelectorAll("*").forEach((x) => {
@@ -72,7 +108,7 @@ window.addEventListener("keydown", e => {
             })
 
             let num;
-            if(e.key == 'ArrowRight' && parseInt(numStr) < 6) {
+            if(e.key == 'ArrowRight' && parseInt(numStr) < 13) {
                 num = parseInt(numStr) + 1;
             }
             if(e.key == 'ArrowLeft' && parseInt(numStr) > 1) {
@@ -93,7 +129,7 @@ window.addEventListener("keydown", e => {
             }
             if(parseInt(num) == 4) {
             }
-            if(parseInt(num) == 5 || parseInt(num) == 6) {
+            if(parseInt(num) == 5 || parseInt(num) == 6 || parseInt(num) == 7) {
                 document.querySelectorAll(".dayOfWeek").forEach((y) => {
                     y.style.backgroundColor = 'white';
                     y.style.position = 'relative';
@@ -101,12 +137,65 @@ window.addEventListener("keydown", e => {
                     y.style.pointerEvents = 'none';
                 })
             }
-            // console.log('previous : ' + numStr)
-            // console.log('current : ' + num)
+            if(parseInt(num) == 8 || parseInt(num) == 9) {
+                document.querySelectorAll(".dayOfNextWeek").forEach((y) => {
+                    y.style.backgroundColor = 'white';
+                    y.style.position = 'relative';
+                    y.style.zIndex = '2';
+                    y.style.pointerEvents = 'none';
+                })
+            }
+            if(parseInt(num) == 10) {
+                document.querySelector("#startHour").style.backgroundColor = 'white';
+                document.querySelector("#startHour").style.position = 'relative';
+                document.querySelector("#startHour").style.zIndex = '2';
+                document.querySelector("#startHour").style.pointerEvents = 'none';
+                document.querySelector("#startMinute").style.backgroundColor = 'white';
+                document.querySelector("#startMinute").style.position = 'relative';
+                document.querySelector("#startMinute").style.zIndex = '2';
+                document.querySelector("#startMinute").style.pointerEvents = 'none';
+                document.querySelector("#endHour").style.backgroundColor = 'white';
+                document.querySelector("#endHour").style.position = 'relative';
+                document.querySelector("#endHour").style.zIndex = '2';
+                document.querySelector("#endHour").style.pointerEvents = 'none';
+                document.querySelector("#endMinute").style.backgroundColor = 'white';
+                document.querySelector("#endMinute").style.position = 'relative';
+                document.querySelector("#endMinute").style.zIndex = '2';
+                document.querySelector("#endMinute").style.pointerEvents = 'none';
+            }
+            if(parseInt(num) == 11) {
+                document.querySelector("#calcByInTime").nextElementSibling.style.backgroundColor = 'white';
+                document.querySelector("#calcByInTime").nextElementSibling.style.position = 'relative';
+                document.querySelector("#calcByInTime").nextElementSibling.style.zIndex = '2';
+                document.querySelector("#calcByInTime").nextElementSibling.style.pointerEvents = 'none';
+                document.querySelector("#calcByOffTime").nextElementSibling.style.backgroundColor = 'white';
+                document.querySelector("#calcByOffTime").nextElementSibling.style.position = 'relative';
+                document.querySelector("#calcByOffTime").nextElementSibling.style.zIndex = '2';
+                document.querySelector("#calcByOffTime").nextElementSibling.style.pointerEvents = 'none';
+            }
 
-            if(parseInt(num) > 0 && parseInt(num) < 7 && num != null) {
+            if(parseInt(num) > 0 && parseInt(num) < 13 && num != null) {
                 document.getElementById(name+num).style.display = 'block';
             }
         }
     }
 })
+
+document.querySelector(".infoClose").addEventListener('click', e => {
+    document.querySelector(".blurBackground").style.display = 'none';
+    localStorage.setItem("infoAllRead", true);
+})
+
+document.addEventListener("DOMContentLoaded", e => {
+    const infoAllRead = localStorage.getItem("infoAllRead");
+    if(infoAllRead == "true") {
+        document.querySelector(".blurBackground").style.display = 'none';
+        document.querySelectorAll("*").forEach((x) => {
+            x.style.backgroundColor = '';
+            x.style.position = '';
+            x.style.zIndex = '';
+            x.style.pointerEvents = '';
+        })
+    }
+})
+
