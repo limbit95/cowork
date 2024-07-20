@@ -145,7 +145,35 @@ document.querySelectorAll("[name='settingType']").forEach((i) => {
                     i.style.border = '0.5px solid #d8d8d8';
                 }
             })
-            if(stdAtd.dayOfWeek != null) {
+            if(location.pathname == '/admin/standardAttendence') {
+                if(stdAtd.dayOfWeek != null) {
+                    document.querySelectorAll(".dayOfWeek").forEach((x) => {
+                        if(getComputedStyle(x).fontWeight == '400') {
+                            x.style.borderColor = 'rgb(131 131 131)';
+                        }
+                    })
+                    document.querySelectorAll(".dayOfNextWeek").forEach((x) => {
+                        if(getComputedStyle(x).fontWeight == '400') {
+                            x.style.borderColor = 'rgb(131 131 131)';
+                        }
+                    })
+                } else {
+                    checkDayOfWeek.MONDAY = true;
+                    checkDayOfWeek.TUESDAY = true;
+                    checkDayOfWeek.WEDNESDAY = true;
+                    checkDayOfWeek.THURSDAY = true;
+                    checkDayOfWeek.FRIDAY = true;
+            
+                    const dayOfWeekArr = Object.keys(checkDayOfWeek);
+                    for(let i = 0; i < dayOfWeekArr.length; i++) {
+                        if(checkDayOfWeek[dayOfWeekArr[i]] == true) {
+                            document.getElementById(dayOfWeekArr[i]).style.border = '1.5px solid rgb(116 176 232)';
+                            document.getElementById(dayOfWeekArr[i]).style.color = 'rgb(116 176 232)';
+                            document.getElementById(dayOfWeekArr[i]).style.fontWeight = 'bold';
+                        }
+                    }
+                }
+            } else {
                 document.querySelectorAll(".dayOfWeek").forEach((x) => {
                     if(getComputedStyle(x).fontWeight == '400') {
                         x.style.borderColor = 'rgb(131 131 131)';
@@ -156,23 +184,7 @@ document.querySelectorAll("[name='settingType']").forEach((i) => {
                         x.style.borderColor = 'rgb(131 131 131)';
                     }
                 })
-            } else {
-                checkDayOfWeek.MONDAY = true;
-                checkDayOfWeek.TUESDAY = true;
-                checkDayOfWeek.WEDNESDAY = true;
-                checkDayOfWeek.THURSDAY = true;
-                checkDayOfWeek.FRIDAY = true;
-        
-                const dayOfWeekArr = Object.keys(checkDayOfWeek);
-                for(let i = 0; i < dayOfWeekArr.length; i++) {
-                    if(checkDayOfWeek[dayOfWeekArr[i]] == true) {
-                        document.getElementById(dayOfWeekArr[i]).style.border = '1.5px solid rgb(116 176 232)';
-                        document.getElementById(dayOfWeekArr[i]).style.color = 'rgb(116 176 232)';
-                        document.getElementById(dayOfWeekArr[i]).style.fontWeight = 'bold';
-                    }
-                }
             }
-
         }
     })
 })

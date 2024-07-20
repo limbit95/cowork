@@ -112,6 +112,8 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.removeItem("toggleState");
     // 근태 관리 날짜 기억값
     localStorage.removeItem("selectDate");
+    // 근태 기준 관리 설명창 기억값
+    localStorage.removeItem("infoAllRead");
 
 console.log(companyAllCalendarList);
 
