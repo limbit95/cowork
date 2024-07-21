@@ -294,7 +294,7 @@ year.addEventListener("change", e => {
             day.append(option);
         }
     } else {
-        const lastDay = new Date(year.value, 1, 0).getDate();
+        const lastDay = new Date(year.value, month.value, 0).getDate();
         for(let i = 1; i <= lastDay; i++) {
             const option = document.createElement('option');
             option.innerHTML = `<option value="${i}">${i}</option>`;
@@ -320,8 +320,9 @@ month.addEventListener("change", e => {
             option.innerHTML = `<option value="${i}">${i}</option>`;
             day.append(option);
         }
-    } else {
-        const lastDay = new Date(year.value, 1, 0).getDate();
+    } 
+    else {
+        const lastDay = new Date(year.value, month.value, 0).getDate();
         for(let i = 1; i <= lastDay; i++) {
             const option = document.createElement('option');
             option.innerHTML = `<option value="${i}">${i}</option>`;
