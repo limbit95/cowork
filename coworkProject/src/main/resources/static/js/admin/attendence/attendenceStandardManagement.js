@@ -242,20 +242,23 @@ window.addEventListener("DOMContentLoaded", e => {
         } else {
             document.querySelector("#calcByOffTime").checked = false;
         }
-    
+        
         if(stdAtd.standardInTime != null) {
             endHour.innerHTML = '';
-            for(let i = document.querySelector("#startHour").value = stdAtd.standardInTime.substr(0, 2); i <= 24; i++) {
+            for(let i = document.querySelector("#startHour").value = stdAtd.nextStdInTime.substr(0, 2); i <= 24; i++) {
                 const num = String(i).padStart(2, '0');
                 const option = document.createElement("option");
                 option.innerHTML = `<option value="${num}">${num}</option>`;
                 endHour.append(option);
             }
             
-            document.querySelector("#startHour").value = stdAtd.standardInTime.substr(0, 2);
-            document.querySelector("#startMinute").value = stdAtd.standardInTime.substr(2, 4);
-            document.querySelector("#endHour").value = stdAtd.standardOffTime.substr(0, 2);
-            document.querySelector("#endMinute").value = stdAtd.standardOffTime.substr(2, 4);
+            document.querySelector("#startHour").value = stdAtd.nextStdInTime.substr(0, 2);
+            document.querySelector("#startMinute").value = stdAtd.nextStdInTime.substr(2, 4);
+            document.querySelector("#endHour").value = stdAtd.nextStdOffTime.substr(0, 2);
+            document.querySelector("#endMinute").value = stdAtd.nextStdOffTime.substr(2, 4);
+            
+            document.querySelector("#startTime").innerHTML = stdAtd.standardInTime;
+            document.querySelector("#endTime").innerHTML = stdAtd.standardOffTime;
         }
     }
 
@@ -295,8 +298,8 @@ document.querySelector("#setting").addEventListener('click', e => {
                 const obj = [
                     checkDayOfWeek,
                     {
-                        "standardInTime" : document.querySelector("#startHour").value + ':' + document.querySelector("#startMinute").value,
-                        "standardOffTime" : document.querySelector("#endHour").value + ':' + document.querySelector("#endMinute").value
+                        "nextStdInTime" : document.querySelector("#startHour").value + ':' + document.querySelector("#startMinute").value,
+                        "nextStdOffTime" : document.querySelector("#endHour").value + ':' + document.querySelector("#endMinute").value
                     },
                     {
                         "calcByInTime" : document.querySelector("#calcByInTime").checked == true ? 'Y' : 'N',
@@ -358,8 +361,8 @@ document.querySelector("#setting").addEventListener('click', e => {
                 const obj = [
                     checkDayOfWeek,
                     {
-                        "standardInTime" : document.querySelector("#startHour").value + ':' + document.querySelector("#startMinute").value,
-                        "standardOffTime" : document.querySelector("#endHour").value + ':' + document.querySelector("#endMinute").value
+                        "nextStdInTime" : document.querySelector("#startHour").value + ':' + document.querySelector("#startMinute").value,
+                        "nextStdOffTime" : document.querySelector("#endHour").value + ':' + document.querySelector("#endMinute").value
                     },
                     {
                         "calcByInTime" : document.querySelector("#calcByInTime").checked == true ? 'Y' : 'N',

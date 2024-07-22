@@ -57,7 +57,7 @@ if(findEmp != null) {
                                         ${i.departureTime == null ? `<span>${i.arrivalTime}</span><pre> ~ </pre>` : `<span>${i.arrivalTime}</span><pre> ~ </pre><span>${i.departureTime}</span>`} 
                                     ` 
                                 : 
-                                    `<span></span>`}
+                                    `<span>00:00:00 ~ 00:00:00</span>`}
                             </div>
                             <div><button class="default-btn glucose-btn" id="detailView">조회</button></div>
                             <input hidden value="${i.empCode}" id="empCode">
@@ -284,7 +284,7 @@ year.addEventListener("change", e => {
         for(let i = 1; i <= getDay(); i++) {
             const option = document.createElement('option');
             option.innerHTML = `<option value="${i}">${i}</option>`;
-            day.append(option);
+            day.append(option);  
         }
     } else if(year.value == companyCreateDateArr[0] && month.value == companyCreateDateArr[1]) {
         const lastDay = new Date(year.value, companyCreateDateArr[1], 0).getDate();

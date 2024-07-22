@@ -18,7 +18,7 @@ public class AttendenceScheduling {
 
 	private final StandardAttendenceService service;
 	
-	@Scheduled(cron = "0 59 11,23 * * Sun")
+	@Scheduled(cron = "0 0 0 * * Mon")
 	public void dayOfWeekScheduling() {
 		List<StandardAttendence> listMap = service.selectAllDayOfWeek();
 		log.info("데이터 : " + listMap);

@@ -18,7 +18,7 @@
 
 .infoDiv {
     position: absolute;
-    width: 300px;
+    width: 350px;
     padding: 10px;
     box-sizing: border-box;
     background-color: white;
@@ -113,16 +113,11 @@
     top: -15px;
 }
 
-#info11 {
+#info11, #info12 {
     display: none;
     top: 260px;
 }
 #tri11 {
     left: 140px;
     top: -15px;
-}
-
-#info12 {
-    display: none;
-    top: 260px;
 }

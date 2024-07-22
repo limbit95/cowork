@@ -63,8 +63,8 @@ public class StandardAttendenceServiceImpl implements StandardAttendenceService 
 		
 		Map<String, Object> newData = new HashMap<String, Object>();
 		newData.put("dayOfWeek", dayOfWeek);
-		newData.put("standardInTime", data.get(1).get("standardInTime"));
-		newData.put("standardOffTime", data.get(1).get("standardOffTime"));
+		newData.put("nextStdInTime", data.get(1).get("nextStdInTime"));
+		newData.put("nextStdOffTime", data.get(1).get("nextStdOffTime"));
 		newData.put("calcByInTime", data.get(2).get("calcByInTime"));
 		newData.put("calcByOffTime", data.get(2).get("calcByOffTime"));
 		newData.put("comNo", loginEmp.getComNo());
