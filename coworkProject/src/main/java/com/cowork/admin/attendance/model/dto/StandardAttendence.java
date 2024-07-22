@@ -27,6 +27,8 @@ public class StandardAttendence {
 	private String calcByInTime;
 	private String calcByOffTime;
 	private String settingStatus;
+	private String nextStdInTime;
+	private String nextStdOffTime;
 	
 	private Map<String, Boolean> dayOfWeekMap = new HashMap<String, Boolean>();
 	private Map<String, Boolean> dayOfNextWeekMap = new HashMap<String, Boolean>();

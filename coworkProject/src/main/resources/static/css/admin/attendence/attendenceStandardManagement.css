@@ -52,7 +52,7 @@ body {
 
 .dayOfNextWeekDiv {
     display: flex;
-    margin-top: 15px;
+    margin-top: 10px;
     -webkit-user-select: none; /* Chrome, Safari, Opera */
     -moz-user-select: none;    /* Firefox */
     -ms-user-select: none;     /* Internet Explorer/Edge */
@@ -78,9 +78,13 @@ body {
     font-size: 9px;
 }
 
+.workTime {
+    margin-left: 10px;
+}
+
 .startAndEnd {
     display: flex;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 .startAndEnd > * {
     display: flex;

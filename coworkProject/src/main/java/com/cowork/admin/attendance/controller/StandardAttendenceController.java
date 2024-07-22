@@ -78,9 +78,20 @@ public class StandardAttendenceController {
 	 */
 	@ResponseBody
 	@PostMapping("setTime")
-	public int setTime(@SessionAttribute("loginEmp") Employee2 loginEmp,
-					   @RequestBody List<Map<String, Object>> data) {
-		return service.setTime(loginEmp, data);
+	public StandardAttendence setTime(@SessionAttribute("loginEmp") Employee2 loginEmp,
+					   @RequestBody List<Map<String, Object>> data,
+					   Model model) {
+		
+		int result = service.setTime(loginEmp, data);
+		
+		if(result == 0) {
+			return null;
+		}
+		
+		StandardAttendence stdAtd = service.getStandardAtd(loginEmp);
+		model.addAttribute("stdAtd", stdAtd);
+		
+		return stdAtd;
 	}
 	
 	/** 근태 기준 관리 초기 설정인 경우 초기 설정 페이지로 이동
