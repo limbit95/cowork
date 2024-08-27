@@ -1031,10 +1031,25 @@ function hide2() {
 
 if(addEmployee != null) {
     addEmployee.addEventListener("click", e => {
-        modal.style.display = 'block';
-        const rect = event.target.getBoundingClientRect();
-        modal.style.top = rect.bottom + 5 + 'px';
-        modal.style.left = rect.left + 'px';
+        // modal.style.display = 'block';
+        // const rect = event.target.getBoundingClientRect();
+        // modal.style.top = rect.bottom + 5 + 'px';
+        // modal.style.left = rect.left + 'px';
+
+        const zoomLevel = window.devicePixelRatio;
+        const width = 610 * zoomLevel;
+        const height = 405 * zoomLevel;
+        
+        // 브라우저 창의 크기
+        const screenWidth = window.screen.width;
+        const screenHeight = window.screen.height;
+        
+        // 팝업 창의 위치 계산 (가운데 정렬)
+        const left = (screenWidth / 2) - (width / 2);
+        const top = (screenHeight / 2) - (height / 2);
+        
+        // 팝업 창 열기
+        const popup = window.open("/admin/addr/inviteEmployee", "popup", `width=${width},height=${height},left=${left},top=${top}`);
     });
 };
 

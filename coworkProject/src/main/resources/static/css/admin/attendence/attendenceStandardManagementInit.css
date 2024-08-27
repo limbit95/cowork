@@ -97,27 +97,55 @@
 
 #info8, #info9 {
     display: none;
-    top: 130px;
+    top: 155px;
 }
 #tri8, #tri9 {
     left: 154px;
     top: -15px;
 }
 
-#info10 {
+#info10, #info11 {
     display: none;
-    top: 167px;
+    top: 125px;
 }
-#tri10 {
+#tri10, #tri11 {
     left: 65px;
     top: -15px;
 }
 
-#info11, #info12 {
+#info12 {
     display: none;
-    top: 260px;
+    width: 250px;
+    top: 155px;
+    left: 180px;
 }
-#tri11 {
+#tri12 {
+    left: 131px;
+    top: -15px;
+}
+
+#info13, #info14 {
+    display: none;
+    top: 245px;
+}
+#tri13 {
     left: 140px;
     top: -15px;
+}
+
+#questionDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.fa-question {
+    color: #d9d9d9;
+    left: 260px;
+    font-size: 12px;
+    border-radius: 50px;
+    border: 1px solid #d9d9d9;
+    width: 15px;
+    height: 15px;
+    text-align: center;
 }
