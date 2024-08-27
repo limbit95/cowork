@@ -2450,7 +2450,7 @@ function checkBox2() {
                         count = document.querySelectorAll(".check2").length;
                         document.querySelector(".selectCount").innerText = count;
                     })
-                    borderIsRed2();
+                    borderIsRed3();
                     return;
                 }
                 if(wholeCheck.checked == false) {
@@ -2472,7 +2472,7 @@ function checkBox2() {
         check.forEach((i) => {
             i.addEventListener("change", e => {
 
-                borderIsRed2();
+                borderIsRed3();
 
                 if(i.checked == false) {
                     count--;
