@@ -49,7 +49,7 @@ document.querySelectorAll(".move").forEach((i) => {
                 y.style.pointerEvents = 'none';
             })
         }
-        if(parseInt(num) == 10) {
+        if(parseInt(num) == 10 || parseInt(num) == 11) {
             document.querySelector("#startHour").style.backgroundColor = 'white';
             document.querySelector("#startHour").style.position = 'relative';
             document.querySelector("#startHour").style.zIndex = '2';
@@ -67,7 +67,14 @@ document.querySelectorAll(".move").forEach((i) => {
             document.querySelector("#endMinute").style.zIndex = '2';
             document.querySelector("#endMinute").style.pointerEvents = 'none';
         }
-        if(parseInt(num) == 11) {
+        if(parseInt(num) == 12) {
+            document.querySelector(".workTime").style.backgroundColor = 'white';
+            document.querySelector(".workTime").style.position = 'relative';
+            document.querySelector(".workTime").style.zIndex = '2';
+            document.querySelector(".workTime").style.pointerEvents = 'none';
+
+        }
+        if(parseInt(num) == 13) {
             document.querySelector("#calcByInTime").nextElementSibling.style.backgroundColor = 'white';
             document.querySelector("#calcByInTime").nextElementSibling.style.position = 'relative';
             document.querySelector("#calcByInTime").nextElementSibling.style.zIndex = '2';
@@ -92,8 +99,8 @@ window.addEventListener("keydown", e => {
                 if(getComputedStyle(h).display == 'block') {
                     name = h.id.substring(0,4);
                     numStr = h.id.substring(4,h.id.length);
-                    if(parseInt(numStr) > 0 && parseInt(numStr) < 13) {
-                        if(parseInt(numStr) == 1 && e.key == 'ArrowLeft' || parseInt(numStr) == 12 && e.key == 'ArrowRight') {
+                    if(parseInt(numStr) > 0 && parseInt(numStr) < 15) {
+                        if(parseInt(numStr) == 1 && e.key == 'ArrowLeft' || parseInt(numStr) == 14 && e.key == 'ArrowRight') {
                             return;
                         }
                         document.querySelectorAll("*").forEach((x) => {
@@ -108,7 +115,7 @@ window.addEventListener("keydown", e => {
             })
 
             let num;
-            if(e.key == 'ArrowRight' && parseInt(numStr) < 13) {
+            if(e.key == 'ArrowRight' && parseInt(numStr) < 15) {
                 num = parseInt(numStr) + 1;
             }
             if(e.key == 'ArrowLeft' && parseInt(numStr) > 1) {
@@ -145,7 +152,7 @@ window.addEventListener("keydown", e => {
                     y.style.pointerEvents = 'none';
                 })
             }
-            if(parseInt(num) == 10) {
+            if(parseInt(num) == 10 || parseInt(num) == 11) {
                 document.querySelector("#startHour").style.backgroundColor = 'white';
                 document.querySelector("#startHour").style.position = 'relative';
                 document.querySelector("#startHour").style.zIndex = '2';
@@ -163,7 +170,14 @@ window.addEventListener("keydown", e => {
                 document.querySelector("#endMinute").style.zIndex = '2';
                 document.querySelector("#endMinute").style.pointerEvents = 'none';
             }
-            if(parseInt(num) == 11) {
+            if(parseInt(num) == 12) {
+                document.querySelector(".workTime").style.backgroundColor = 'white';
+                document.querySelector(".workTime").style.position = 'relative';
+                document.querySelector(".workTime").style.zIndex = '2';
+                document.querySelector(".workTime").style.pointerEvents = 'none';
+
+            }
+            if(parseInt(num) == 13) {
                 document.querySelector("#calcByInTime").nextElementSibling.style.backgroundColor = 'white';
                 document.querySelector("#calcByInTime").nextElementSibling.style.position = 'relative';
                 document.querySelector("#calcByInTime").nextElementSibling.style.zIndex = '2';
@@ -174,7 +188,7 @@ window.addEventListener("keydown", e => {
                 document.querySelector("#calcByOffTime").nextElementSibling.style.pointerEvents = 'none';
             }
 
-            if(parseInt(num) > 0 && parseInt(num) < 13 && num != null) {
+            if(parseInt(num) > 0 && parseInt(num) < 15 && num != null) {
                 document.getElementById(name+num).style.display = 'block';
             }
         }

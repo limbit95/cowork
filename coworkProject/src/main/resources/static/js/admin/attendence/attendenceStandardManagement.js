@@ -361,8 +361,8 @@ document.querySelector("#setting").addEventListener('click', e => {
                 const obj = [
                     checkDayOfWeek,
                     {
-                        "nextStdInTime" : document.querySelector("#startHour").value + ':' + document.querySelector("#startMinute").value,
-                        "nextStdOffTime" : document.querySelector("#endHour").value + ':' + document.querySelector("#endMinute").value
+                        "standardInTime" : document.querySelector("#startHour").value + ':' + document.querySelector("#startMinute").value,
+                        "standardOffTime" : document.querySelector("#endHour").value + ':' + document.querySelector("#endMinute").value
                     },
                     {
                         "calcByInTime" : document.querySelector("#calcByInTime").checked == true ? 'Y' : 'N',
