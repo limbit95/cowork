@@ -63,12 +63,12 @@ public class AddInBulkController {
 	@PostMapping("excelUpload")
 	public List<Map<String, Object>> excel(@RequestParam("excel") MultipartFile excel) throws Exception {
 		
-		log.info("excel : " + excel);
+//		log.info("excel : " + excel);
 
 		// 엑셀 파일의 사원 정보를 읽어 리스트 자료 구조에 담는 코드
 		List<Map<String, Object>> excelList = service.readExcel(excel);
 		
-		log.info("excelList : " + excelList);
+//		log.info("excelList : " + excelList);
 		
 		return excelList;
 	}
@@ -81,7 +81,7 @@ public class AddInBulkController {
 	@PostMapping("regist")
 	public int regist(@RequestBody List<Map<String, Object>> data) {
 		
-		log.info("구성원 정보 리스트 : " + data);
+//		log.info("구성원 정보 리스트 : " + data);
 		
 		return service.regist(data);
 	}
@@ -94,7 +94,7 @@ public class AddInBulkController {
 	@PostMapping("sendMail")
 	public int sendMail(@RequestBody List<Map<String, Object>> data) {
 		
-		log.info("메일로 보낼 구성원 정보 : " + data);
+//		log.info("메일로 보낼 구성원 정보 : " + data);
 		
 		int result = 0;
 		
